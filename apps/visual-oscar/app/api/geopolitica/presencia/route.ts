@@ -73,19 +73,19 @@ const COUNTRY_MENTIONS: Record<string, string> = {
   // Vecindad
   marruecos: 'Marruecos', argelia: 'Argelia', francia: 'Francia', alemania: 'Alemania',
   rusia: 'Rusia', ucrania: 'Ucrania', china: 'China', israel: 'Israel', irán: 'Irán', iran: 'Irán',
-  'estados unidos': 'Estados Unidos', 'ee.uu.': 'Estados Unidos', portugal: 'Portugal', italia: 'Italia',
-  'reino unido': 'Reino Unido', méxico: 'México', mexico: 'México', brasil: 'Brasil',
+ 'estados unidos': 'Estados Unidos', 'ee.uu.': 'Estados Unidos', portugal: 'Portugal', italia: 'Italia',
+ 'reino unido': 'Reino Unido', méxico: 'México', mexico: 'México', brasil: 'Brasil',
   argentina: 'Argentina', chile: 'Chile', colombia: 'Colombia', mauritania: 'Mauritania', senegal: 'Senegal',
   // Nuevos
   perú: 'Perú', peru: 'Perú', ecuador: 'Ecuador', uruguay: 'Uruguay', bolivia: 'Bolivia',
   cuba: 'Cuba', venezuela: 'Venezuela', canadá: 'Canadá', canada: 'Canadá',
-  'países bajos': 'Países Bajos', 'paises bajos': 'Países Bajos', holanda: 'Países Bajos',
+ 'países bajos': 'Países Bajos', 'paises bajos': 'Países Bajos', holanda: 'Países Bajos',
   bélgica: 'Bélgica', belgica: 'Bélgica', polonia: 'Polonia', suecia: 'Suecia',
   suiza: 'Suiza', grecia: 'Grecia', egipto: 'Egipto', túnez: 'Túnez', tunez: 'Túnez',
   libia: 'Libia', sudáfrica: 'Sudáfrica', sudafrica: 'Sudáfrica', nigeria: 'Nigeria',
   mali: 'Mali', japón: 'Japón', japon: 'Japón', 'corea del sur': 'Corea del Sur',
   india: 'India', australia: 'Australia', turquía: 'Turquía', turquia: 'Turquía',
-  'arabia saudí': 'Arabia Saudí', 'arabia saudi': 'Arabia Saudí',
+ 'arabia saudí': 'Arabia Saudí', 'arabia saudi': 'Arabia Saudí',
 }
 
 export async function GET() {

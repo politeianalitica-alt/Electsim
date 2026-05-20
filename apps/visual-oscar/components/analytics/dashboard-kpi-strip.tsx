@@ -12,7 +12,7 @@ const TONE_COLORS: Record<KpiTile["tone"], string> = {
 
 export function DashboardKpiStrip({ kpis }: { kpis: KpiTile[] }) {
   return (
-    <div
+ <div
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${Math.min(kpis.length, 4)}, 1fr)`,
@@ -20,7 +20,7 @@ export function DashboardKpiStrip({ kpis }: { kpis: KpiTile[] }) {
       }}
     >
       {kpis.map(k => (
-        <div
+ <div
           key={k.key}
           style={{
             background: WS.surface,
@@ -29,7 +29,7 @@ export function DashboardKpiStrip({ kpis }: { kpis: KpiTile[] }) {
             padding: "12px 14px",
           }}
         >
-          <div
+ <div
             style={{
               fontSize: 24,
               fontWeight: 700,
@@ -39,8 +39,8 @@ export function DashboardKpiStrip({ kpis }: { kpis: KpiTile[] }) {
             }}
           >
             {k.value.toLocaleString("es-ES")}
-          </div>
-          <div
+ </div>
+ <div
             style={{
               fontSize: 10.5,
               color: WS.ink3,
@@ -51,12 +51,12 @@ export function DashboardKpiStrip({ kpis }: { kpis: KpiTile[] }) {
             }}
           >
             {k.label}
-          </div>
+ </div>
           {k.hint && (
-            <div style={{ fontSize: 11, color: WS.ink2, marginTop: 4 }}>{k.hint}</div>
+ <div style={{ fontSize: 11, color: WS.ink2, marginTop: 4 }}>{k.hint}</div>
           )}
-        </div>
+ </div>
       ))}
-    </div>
+ </div>
   );
 }

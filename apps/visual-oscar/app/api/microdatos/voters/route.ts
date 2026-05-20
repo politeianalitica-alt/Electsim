@@ -16,7 +16,7 @@ export const maxDuration = 30
 interface VoterProfile {
   partido: string
   total: number  // % nacional
-  porEdad:    Record<string, number>  // % por franja de edad
+  porEdad:    Record<string, number> // % por franja de edad
   porGenero:  Record<string, number>
   porHabitat: Record<string, number>
   porClase:   Record<string, number>

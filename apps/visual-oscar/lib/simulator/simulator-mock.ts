@@ -49,8 +49,8 @@ export function buildMockSimulation(scenario: string, workspaceId: string): Deci
     counterMoves,
     recommendation: "Avanzar con cautela. Activar canal bilateral con Junts antes del movimiento público. Tener Q&A defensivo listo para las 24h siguientes.",
     riskFlags: [
-      "Cobertura adversa concentrada en una sola cabecera puede desencadenar cascada.",
-      "Junts puede usar el movimiento como excusa para forzar reapertura de la agenda.",
+ "Cobertura adversa concentrada en una sola cabecera puede desencadenar cascada.",
+ "Junts puede usar el movimiento como excusa para forzar reapertura de la agenda.",
     ],
   };
 }

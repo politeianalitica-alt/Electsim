@@ -40,14 +40,14 @@ export function AlertsProvider({ children }: { children: ReactNode }) {
     // Browser notification for crítico
     if (alert.severidad === 'critico' && typeof window !== 'undefined' && 'Notification' in window) {
       if (Notification.permission === 'granted') {
-        new Notification(`🚨 ALERTA CRÍTICA: ${alert.titulo}`, {
+        new Notification(` ALERTA CRÍTICA: ${alert.titulo}`, {
           body: alert.descripcion,
           icon: '/favicon.ico',
         })
       } else if (Notification.permission !== 'denied') {
         Notification.requestPermission().then(perm => {
           if (perm === 'granted') {
-            new Notification(`🚨 ALERTA CRÍTICA: ${alert.titulo}`, {
+            new Notification(` ALERTA CRÍTICA: ${alert.titulo}`, {
               body: alert.descripcion,
             })
           }
@@ -69,9 +69,9 @@ export function AlertsProvider({ children }: { children: ReactNode }) {
   const unreadCount = alerts.filter(a => !a.leida).length
 
   return (
-    <AlertsContext.Provider value={{ alerts, unreadCount, pushAlert, markAsRead, markAllRead, clearAlerts }}>
+ <AlertsContext.Provider value={{ alerts, unreadCount, pushAlert, markAsRead, markAllRead, clearAlerts }}>
       {children}
-    </AlertsContext.Provider>
+ </AlertsContext.Provider>
   )
 }
 

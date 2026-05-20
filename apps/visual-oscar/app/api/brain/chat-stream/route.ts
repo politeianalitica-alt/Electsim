@@ -41,7 +41,7 @@ async function* proxyBackendStream(body: object): AsyncGenerator<string> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+ 'Content-Type': 'application/json',
       Accept: 'text/event-stream',
       ...(apiKey ? { 'X-API-Key': apiKey } : {}),
     },
@@ -221,10 +221,10 @@ export async function POST(req: NextRequest) {
 
   return new Response(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
+ 'Content-Type': 'text/event-stream',
+ 'Cache-Control': 'no-cache, no-transform',
       Connection: 'keep-alive',
-      'X-Accel-Buffering': 'no',
+ 'X-Accel-Buffering': 'no',
     },
   })
 }

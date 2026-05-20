@@ -34,11 +34,11 @@ export interface NewsItem {
 }
 
 export const NEWS_TONE_META: Record<NewsTone, { label: string; color: string; bg: string; ring: string }> = {
-  'positivo':     { label: 'POSITIVO',     color: '#15803D', bg: 'rgba(22,163,74,0.10)',  ring: 'rgba(22,163,74,0.45)' },
-  'favorable':    { label: 'FAVORABLE',    color: '#16A34A', bg: 'rgba(22,163,74,0.07)',  ring: 'rgba(22,163,74,0.30)' },
-  'neutro':       { label: 'NEUTRO',       color: '#6E6E73', bg: 'rgba(110,110,115,0.06)', ring: 'rgba(110,110,115,0.30)' },
-  'desfavorable': { label: 'DESFAVORABLE', color: '#DC2626', bg: 'rgba(220,38,38,0.07)',  ring: 'rgba(220,38,38,0.30)' },
-  'negativo':     { label: 'NEGATIVO',     color: '#B91C1C', bg: 'rgba(185,28,28,0.10)',  ring: 'rgba(185,28,28,0.45)' },
+ 'positivo':     { label: 'POSITIVO',     color: '#15803D', bg: 'rgba(22,163,74,0.10)',  ring: 'rgba(22,163,74,0.45)' },
+ 'favorable':    { label: 'FAVORABLE',    color: '#16A34A', bg: 'rgba(22,163,74,0.07)',  ring: 'rgba(22,163,74,0.30)' },
+ 'neutro':       { label: 'NEUTRO',       color: '#6E6E73', bg: 'rgba(110,110,115,0.06)', ring: 'rgba(110,110,115,0.30)' },
+ 'desfavorable': { label: 'DESFAVORABLE', color: '#DC2626', bg: 'rgba(220,38,38,0.07)',  ring: 'rgba(220,38,38,0.30)' },
+ 'negativo':     { label: 'NEGATIVO',     color: '#B91C1C', bg: 'rgba(185,28,28,0.10)',  ring: 'rgba(185,28,28,0.45)' },
 }
 
 export function sentimentToTone(s: number): NewsTone {
@@ -64,7 +64,7 @@ export default function NewsCard({ item, compact = false, onOpen }: NewsCardProp
   const sentLabel = (item.sentiment > 0 ? '+' : '') + item.sentiment.toFixed(2)
 
   return (
-    <article style={{
+ <article style={{
       display: 'grid',
       gridTemplateColumns: '6px 110px 1fr auto',
       gap: 14,
@@ -77,31 +77,31 @@ export default function NewsCard({ item, compact = false, onOpen }: NewsCardProp
       overflow: 'hidden',
     }}>
       {/* Barra de color (izquierda) */}
-      <div style={{ background: m.color, height: '100%' }}/>
+ <div style={{ background: m.color, height: '100%' }}/>
 
       {/* Columna 2: badge tonalidad + medio */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
-        <span style={{
+ <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+ <span style={{
           fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
           color: '#fff', background: m.color,
           padding: '3px 8px', borderRadius: 999,
           display: 'inline-flex', alignItems: 'center', gap: 5,
         }}>
           {m.label}
-        </span>
-        <span style={{
+ </span>
+ <span style={{
           fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em',
           textTransform: 'uppercase', maxWidth: 104,
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
           {item.source}
-        </span>
-      </div>
+ </span>
+ </div>
 
       {/* Columna 3: titular + meta */}
-      <div style={{ minWidth: 0 }}>
+ <div style={{ minWidth: 0 }}>
         {item.url ? (
-          <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
+ <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
             display: 'block', margin: 0,
             fontFamily: 'var(--font-display)',
             fontSize: compact ? 13.5 : 15, fontWeight: 600,
@@ -112,36 +112,36 @@ export default function NewsCard({ item, compact = false, onOpen }: NewsCardProp
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#1d1d1f' }}
           >
             {item.title}
-            <span style={{ marginLeft: 6, color: '#0071e3', fontSize: 11.5 }}>↗</span>
-          </a>
+ <span style={{ marginLeft: 6, color: '#0071e3', fontSize: 11.5 }}>↗</span>
+ </a>
         ) : (
-          <h3 style={{
+ <h3 style={{
             margin: 0, fontFamily: 'var(--font-display)',
             fontSize: compact ? 13.5 : 15, fontWeight: 600,
             letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.3,
           }}>{item.title}</h3>
         )}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 5 }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 5 }}>
           {item.parties && (
-            <span style={{ fontSize: 11.5, color: '#3a3a3d', fontWeight: 500 }}>
+ <span style={{ fontSize: 11.5, color: '#3a3a3d', fontWeight: 500 }}>
               {item.parties}
-            </span>
+ </span>
           )}
-          <span style={{ fontSize: 11, color: '#6e6e73' }}>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>
             Relevancia <span style={{ fontWeight: 700, color: '#3a3a3d' }}>{relPct}%</span>
-            <span style={{ margin: '0 6px', color: '#d2d2d7' }}>·</span>
+ <span style={{ margin: '0 6px', color: '#d2d2d7' }}>·</span>
             Sentimiento <span style={{ fontWeight: 700, color: m.color }}>{sentLabel}</span>
             {item.ts && <>
-              <span style={{ margin: '0 6px', color: '#d2d2d7' }}>·</span>
-              <span style={{ fontWeight: 600 }}>{item.ts}</span>
-            </>}
-          </span>
-        </div>
-      </div>
+ <span style={{ margin: '0 6px', color: '#d2d2d7' }}>·</span>
+ <span style={{ fontWeight: 600 }}>{item.ts}</span>
+ </>}
+ </span>
+ </div>
+ </div>
 
       {/* Columna 4: CTA */}
       {item.url && (
-        <a
+ <a
           href={item.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -162,8 +162,8 @@ export default function NewsCard({ item, compact = false, onOpen }: NewsCardProp
           }}
         >
           Abrir →
-        </a>
+ </a>
       )}
-    </article>
+ </article>
   )
 }

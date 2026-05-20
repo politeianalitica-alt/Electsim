@@ -63,7 +63,7 @@ export async function GET() {
           ccaa: result.data.ccaa ?? [],
           series: result.data.series ?? [],
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )

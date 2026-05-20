@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   } catch {
     const body = await req.json().catch(() => ({}))
     return NextResponse.json({
-      id:        `dash-${Date.now().toString(36)}`,
+      id: `dash-${Date.now().toString(36)}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       widgets:   [],
@@ -38,15 +38,15 @@ function getMockDashboards() {
   const now = new Date().toISOString()
   return [
     {
-      id:           'dash-1',
-      name:         'Monitor Electoral 2024',
-      description:  'Seguimiento en tiempo real de resultados electorales y tendencias demoscópicas',
-      visibility:   'team',
+      id: 'dash-1',
+      name: 'Monitor Electoral 2024',
+      description: 'Seguimiento en tiempo real de resultados electorales y tendencias demoscópicas',
+      visibility: 'team',
       isTemplate:   false,
       viewCount:    1_482,
       tags:         ['electoral', 'generales', '2024'],
       updatedAt:    now,
-      createdAt:    '2025-01-15T10:00:00Z',
+      createdAt: '2025-01-15T10:00:00Z',
       refreshIntervalSeconds: 300,
       widgets: [
         { id: 'w1', type: 'kpi',            layout: { i: 'w1', x: 0, y: 0, w: 3, h: 2 }, config: { title: 'Censo electoral', valueField: 'censo', kpiAggregation: 'sum', unit: ' votantes', datasetId: 'ds-1', kpiComparePct: false } },
@@ -57,30 +57,30 @@ function getMockDashboards() {
       ],
     },
     {
-      id:           'dash-2',
-      name:         'Radar Ibex35 — Sector público',
-      description:  'Contratos públicos adjudicados a empresas del Ibex35 por sector y año',
-      visibility:   'private',
+      id: 'dash-2',
+      name: 'Radar Ibex35 — Sector público',
+      description: 'Contratos públicos adjudicados a empresas del Ibex35 por sector y año',
+      visibility: 'private',
       isTemplate:   false,
       viewCount:    234,
       tags:         ['ibex35', 'contratos'],
       updatedAt:    now,
-      createdAt:    '2025-03-10T09:00:00Z',
+      createdAt: '2025-03-10T09:00:00Z',
       widgets: [
         { id: 'w6', type: 'kpi', layout: { i: 'w6', x: 0, y: 0, w: 3, h: 2 }, config: { title: 'Importe total', valueField: 'importe', kpiAggregation: 'sum', unit: ' M€', datasetId: 'ds-3', kpiComparePct: true } },
         { id: 'w7', type: 'bar', layout: { i: 'w7', x: 3, y: 0, w: 9, h: 4 }, config: { title: 'Contratos por empresa', xField: 'empresa', yField: 'importe', sortField: 'importe', sortDir: 'desc', limit: 10, datasetId: 'ds-3' } },
       ],
     },
     {
-      id:           'dash-tpl',
-      name:         'Plantilla: Análisis de campaña',
-      description:  'Plantilla base para seguimiento de campaña electoral',
-      visibility:   'team',
+      id: 'dash-tpl',
+      name: 'Plantilla: Análisis de campaña',
+      description: 'Plantilla base para seguimiento de campaña electoral',
+      visibility: 'team',
       isTemplate:   true,
       viewCount:    89,
       tags:         ['plantilla', 'campaña'],
       updatedAt:    now,
-      createdAt:    '2025-02-01T08:00:00Z',
+      createdAt: '2025-02-01T08:00:00Z',
       widgets:      [],
     },
   ]

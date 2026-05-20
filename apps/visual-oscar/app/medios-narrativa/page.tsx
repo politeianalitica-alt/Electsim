@@ -85,12 +85,12 @@ const INITIAL_MEDIOS: Medio[] = [
 ]
 
 const TIPO_COLOR: Record<TipoMedio, string> = {
-  'Prensa':   '#5B21B6',
-  'Digital':  '#0F766E',
-  'TV':       '#DC2626',
-  'Radio':    '#F97316',
-  'Agencias': '#6e6e73',
-  'Revista':  '#0EA5E9',
+ 'Prensa': '#5B21B6',
+ 'Digital': '#0F766E',
+ 'TV': '#DC2626',
+ 'Radio': '#F97316',
+ 'Agencias': '#6e6e73',
+ 'Revista': '#0EA5E9',
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -128,13 +128,13 @@ export default function MediosNarrativaPage() {
 
   // Catálogo dinámico desde /api/medios (219 medios reales) · auto-refresh 5min
   const { data, source, updatedAt, refresh } = useApi<MediosResponse>(
-    '/api/medios',
+ '/api/medios',
     { refreshInterval: 300_000 }
   )
 
   // Pulso de prensa · 8 noticias agregadas con sentiment y relevancia · 60s refresh
   const { data: pulseData } = useApi<{ news_pulse?: NewsPulseItem[] }>(
-    '/api/dashboard/home',
+ '/api/dashboard/home',
     { refreshInterval: 60_000 }
   )
   const newsPulse: NewsPulseItem[] = (pulseData?.news_pulse ?? []).slice(0, 8)
@@ -185,86 +185,86 @@ export default function MediosNarrativaPage() {
   const yToPx = (alcance: number) => H - 30 - (Math.min(alcance, 10) / 10) * (H - 60)
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-body)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+ <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-body)', color:'#1d1d1f' }}>
+ <AppHeader/>
+ <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
 
         {/* Hero */}
-        <section style={{
+ <section style={{
           background:'linear-gradient(135deg,#7C2D92 0%,#3B0764 100%)',
           borderRadius:22, padding:'30px 38px', marginBottom:18, color:'#fff',
           display:'grid', gridTemplateColumns:'1.7fr 1fr', gap:32, alignItems:'center',
         }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
-              <span>NARRATIVA PÚBLICA · {counts.total} MEDIOS DE COMUNICACIÓN</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:30, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
+ <div>
+ <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+ <span>NARRATIVA PÚBLICA · {counts.total} MEDIOS DE COMUNICACIÓN</span>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+ </p>
+ <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:30, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
               {counts.total} medios <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.75)' }}>cubriendo prensa, TV, radio y digital</em>
-            </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
+ </h1>
+ <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
               Catálogo completo · 17 CCAA + nacional · {data?.stats.con_rss || 0} con RSS para ingestión en tiempo real · {data?.stats.audiencia_total_M ? data.stats.audiencia_total_M.toFixed(1) : '…'}M usuarios mensuales agregados
-            </p>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6 }}>
-            <MiniK label="PRENSA"   n={counts.byTipo['Prensa']   || 0}/>
-            <MiniK label="DIGITAL"  n={counts.byTipo['Digital']  || 0}/>
-            <MiniK label="TV"       n={counts.byTipo['TV']       || 0}/>
-            <MiniK label="RADIO"    n={counts.byTipo['Radio']    || 0}/>
-            <MiniK label="AGENC."   n={counts.byTipo['Agencias'] || 0}/>
-            <MiniK label="REVISTA"  n={counts.byTipo['Revista']  || 0}/>
-          </div>
-        </section>
+ </p>
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6 }}>
+ <MiniK label="PRENSA" n={counts.byTipo['Prensa']   || 0}/>
+ <MiniK label="DIGITAL" n={counts.byTipo['Digital']  || 0}/>
+ <MiniK label="TV" n={counts.byTipo['TV']       || 0}/>
+ <MiniK label="RADIO" n={counts.byTipo['Radio']    || 0}/>
+ <MiniK label="AGENC." n={counts.byTipo['Agencias'] || 0}/>
+ <MiniK label="REVISTA" n={counts.byTipo['Revista']  || 0}/>
+ </div>
+ </section>
 
         {/* Pulso de prensa · misma visual que las alertas de inicio */}
-        <section style={{ marginBottom: 18 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: 0, letterSpacing: '-0.012em', color: '#1d1d1f' }}>
+ <section style={{ marginBottom: 18 }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: 0, letterSpacing: '-0.012em', color: '#1d1d1f' }}>
                 Pulso de prensa
-              </h2>
+ </h2>
               {newsPulse.length > 0 && (
-                <span style={{
+ <span style={{
                   fontSize: 10.5, padding: '2px 8px', borderRadius: 999,
                   background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
                 }}>{newsPulse.length} noticias</span>
               )}
-              <span style={{ fontSize: 10.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
+ <span style={{ fontSize: 10.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Últimas 48h · agregador RSS
-              </span>
-            </div>
-            <button onClick={() => router.push('/medios-narrativa#feed')} style={{
+ </span>
+ </div>
+ <button onClick={() => router.push('/medios-narrativa#feed')} style={{
               display: 'inline-flex', alignItems: 'center', gap: 4,
               background: '#0071e3', color: '#fff',
               fontSize: 11.5, fontWeight: 600, padding: '5px 12px',
               borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
             }}>
               Ver feed completo
-              <span style={{ fontSize: 13, lineHeight: 1 }}>→</span>
-            </button>
-          </div>
+ <span style={{ fontSize: 13, lineHeight: 1 }}>→</span>
+ </button>
+ </div>
           {newsPulse.length === 0 ? (
-            <div style={{ padding: '20px', textAlign: 'center', color: '#6e6e73', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+ <div style={{ padding: '20px', textAlign: 'center', color: '#6e6e73', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
               Sin noticias en el agregador en este momento.
-            </div>
+ </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {newsPulse.map(n => <NewsPulseCard key={n.id} item={n} compact/>)}
-            </div>
+ </div>
           )}
-          <AlertKeyframes/>
-        </section>
+ <AlertKeyframes/>
+ </section>
 
         {/* Filtros */}
-        <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
-          <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Tipo:</span>
-          <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
+ <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
+ <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Tipo:</span>
+ <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
             {TIPOS_FIL.map(t => {
               const active = filterTipo === t
               const c = t !== 'Todos' ? TIPO_COLOR[t as TipoMedio] : '#1d1d1f'
               return (
-                <button key={t} onClick={()=>setFilterTipo(t)} style={{
+ <button key={t} onClick={()=>setFilterTipo(t)} style={{
                   background: active ? '#fff' : 'transparent',
                   color: active ? c : '#6e6e73',
                   border:'none', borderRadius:999, padding:'5px 12px',
@@ -274,33 +274,33 @@ export default function MediosNarrativaPage() {
                 }}>
                   {t !== 'Todos' && <span style={{ width:7, height:7, borderRadius:'50%', background:TIPO_COLOR[t as TipoMedio] }}/>}
                   {t}
-                </button>
+ </button>
               )
             })}
-          </div>
-          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{visibles.length} medios visibles · burbuja = alcance</span>
-        </div>
+ </div>
+ <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{visibles.length} medios visibles · burbuja = alcance</span>
+ </div>
 
         {/* Cuadrante + panel detalle */}
-        <section style={{ display:'grid', gridTemplateColumns:'1fr 320px', gap:14, marginBottom:14 }}>
+ <section style={{ display:'grid', gridTemplateColumns:'1fr 320px', gap:14, marginBottom:14 }}>
 
           {/* Cuadrante */}
-          <div style={{
+ <div style={{
             background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:16,
             boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
           }}>
-            <svg viewBox={`0 0 ${W} ${H}`} style={{ width:'100%', height:'auto', display:'block' }}>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width:'100%', height:'auto', display:'block' }}>
               {/* Fondo cuadrantes */}
-              <rect x={0}   y={0} width={W/2} height={H} fill="#FAFAFB"/>
-              <rect x={W/2} y={0} width={W/2} height={H} fill="#F5F5F7"/>
+ <rect x={0}   y={0} width={W/2} height={H} fill="#FAFAFB"/>
+ <rect x={W/2} y={0} width={W/2} height={H} fill="#F5F5F7"/>
               {/* Eje vertical (centro político) */}
-              <line x1={W/2} y1={20} x2={W/2} y2={H-20} stroke="#1d1d1f" strokeWidth="1" strokeDasharray="3 4" opacity="0.4"/>
+ <line x1={W/2} y1={20} x2={W/2} y2={H-20} stroke="#1d1d1f" strokeWidth="1" strokeDasharray="3 4" opacity="0.4"/>
               {/* Línea base alcance 0 */}
-              <line x1={20}  y1={H-30} x2={W-20} y2={H-30} stroke="#1d1d1f" strokeWidth="1" opacity="0.15"/>
+ <line x1={20}  y1={H-30} x2={W-20} y2={H-30} stroke="#1d1d1f" strokeWidth="1" opacity="0.15"/>
               {/* Etiquetas ejes */}
-              <text x={28}   y={H-12} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em">IZQUIERDA</text>
-              <text x={W-28} y={H-12} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">DERECHA</text>
-              <text x={W-28} y={28}   fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">+ALCANCE</text>
+ <text x={28}   y={H-12} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em">IZQUIERDA</text>
+ <text x={W-28} y={H-12} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">DERECHA</text>
+ <text x={W-28} y={28}   fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">+ALCANCE</text>
 
               {/* Burbujas */}
               {visibles.map(m => {
@@ -309,184 +309,184 @@ export default function MediosNarrativaPage() {
                 const r = 8 + Math.min(m.alcance, 10) * 2.5  // 8..33
                 const c = TIPO_COLOR[m.tipo]
                 return (
-                  <g key={m.id} style={{ cursor:'pointer' }}
+ <g key={m.id} style={{ cursor:'pointer' }}
                      onMouseEnter={()=>setHovered(m.id)}
                      onMouseLeave={()=>setHovered(null)}
                      onClick={()=>setPinned(pinned === m.id ? null : m.id)}>
-                    <circle cx={xToPx(m.ejeX)} cy={yToPx(m.alcance)} r={r}
+ <circle cx={xToPx(m.ejeX)} cy={yToPx(m.alcance)} r={r}
                             fill={c} opacity={dim ? 0.18 : 0.82}
                             stroke={isFocus ? '#1d1d1f' : 'rgba(255,255,255,0.5)'}
                             strokeWidth={isFocus ? 2 : 1.5}
                             style={{ transition:'opacity 200ms' }}/>
                     {(r >= 16 || isFocus) && (
-                      <text x={xToPx(m.ejeX)} y={yToPx(m.alcance) - r - 4} textAnchor="middle"
+ <text x={xToPx(m.ejeX)} y={yToPx(m.alcance) - r - 4} textAnchor="middle"
                             fontSize="10.5" fontWeight="700" fill="#1d1d1f"
                             opacity={dim ? 0.5 : 1} style={{ pointerEvents:'none' }}>
                         {m.nombre}
-                      </text>
+ </text>
                     )}
-                  </g>
+ </g>
                 )
               })}
-            </svg>
+ </svg>
             {/* Leyenda tipos */}
-            <div style={{ display:'flex', gap:14, marginTop:8, paddingTop:8, borderTop:'1px solid #ECECEF', flexWrap:'wrap' }}>
+ <div style={{ display:'flex', gap:14, marginTop:8, paddingTop:8, borderTop:'1px solid #ECECEF', flexWrap:'wrap' }}>
               {(Object.keys(TIPO_COLOR) as TipoMedio[]).map(t => (
-                <span key={t} style={{ display:'inline-flex', alignItems:'center', gap:5, fontSize:11, color:'#3a3a3d' }}>
-                  <span style={{ width:9, height:9, borderRadius:'50%', background:TIPO_COLOR[t] }}/>
+ <span key={t} style={{ display:'inline-flex', alignItems:'center', gap:5, fontSize:11, color:'#3a3a3d' }}>
+ <span style={{ width:9, height:9, borderRadius:'50%', background:TIPO_COLOR[t] }}/>
                   {t}
-                </span>
+ </span>
               ))}
-            </div>
-          </div>
+ </div>
+ </div>
 
           {/* Panel detalle */}
-          <aside style={{
+ <aside style={{
             background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 18px 14px',
             position:'sticky', top:60,
           }}>
             {focusedM ? (
-              <>
-                <div style={{ marginBottom:12 }}>
-                  <div style={{ fontSize:9.5, color:TIPO_COLOR[focusedM.tipo], fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{focusedM.tipo}</div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.15 }}>{focusedM.nombre}</div>
-                  <div style={{ fontSize:11.5, color:'#6e6e73', marginTop:2 }}>Grupo: <strong style={{color:'#1d1d1f'}}>{focusedM.grupo}</strong></div>
-                </div>
+ <>
+ <div style={{ marginBottom:12 }}>
+ <div style={{ fontSize:9.5, color:TIPO_COLOR[focusedM.tipo], fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{focusedM.tipo}</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.15 }}>{focusedM.nombre}</div>
+ <div style={{ fontSize:11.5, color:'#6e6e73', marginTop:2 }}>Grupo: <strong style={{color:'#1d1d1f'}}>{focusedM.grupo}</strong></div>
+ </div>
 
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:10 }}>
-                  <Box label="Alcance" value={`${focusedM.alcance.toFixed(1)} M`} color={TIPO_COLOR[focusedM.tipo]}/>
-                  <Box label="Cuota tipo" value={`${focusedM.share.toFixed(1)}%`} color={TIPO_COLOR[focusedM.tipo]}/>
-                </div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:10 }}>
+ <Box label="Alcance" value={`${focusedM.alcance.toFixed(1)} M`} color={TIPO_COLOR[focusedM.tipo]}/>
+ <Box label="Cuota tipo" value={`${focusedM.share.toFixed(1)}%`} color={TIPO_COLOR[focusedM.tipo]}/>
+ </div>
 
-                <div style={{ marginBottom:10 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Sesgo ideológico</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: focusedM.ejeX < 0 ? '#E1322D' : focusedM.ejeX > 0 ? '#1F4E8C' : '#6e6e73' }}>
+ <div style={{ marginBottom:10 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
+ <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Sesgo ideológico</span>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: focusedM.ejeX < 0 ? '#E1322D' : focusedM.ejeX > 0 ? '#1F4E8C' : '#6e6e73' }}>
                       {focusedM.ejeX > 0 ? '+' : ''}{focusedM.ejeX}
-                    </span>
-                  </div>
-                  <div style={{ position:'relative', height:6, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
-                    <div style={{ position:'absolute', left:'50%', top:-2, bottom:-2, width:1, background:'#1d1d1f', opacity:0.4 }}/>
-                    <div style={{
+ </span>
+ </div>
+ <div style={{ position:'relative', height:6, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
+ <div style={{ position:'absolute', left:'50%', top:-2, bottom:-2, width:1, background:'#1d1d1f', opacity:0.4 }}/>
+ <div style={{
                       position:'absolute', top:0, bottom:0,
                       left: focusedM.ejeX < 0 ? `${50 + (focusedM.ejeX/2)}%` : '50%',
                       width: `${Math.abs(focusedM.ejeX)/2}%`,
                       background: focusedM.ejeX < 0 ? '#E1322D' : '#1F4E8C',
                       borderRadius:3,
                     }}/>
-                  </div>
-                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:10, color:'#86868b', marginTop:3 }}>
-                    <span>−100 izq</span><span>0</span><span>+100 dcha</span>
-                  </div>
-                </div>
+ </div>
+ <div style={{ display:'flex', justifyContent:'space-between', fontSize:10, color:'#86868b', marginTop:3 }}>
+ <span>−100 izq</span><span>0</span><span>+100 dcha</span>
+ </div>
+ </div>
 
-                <div style={{ marginBottom:8 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Tono sobre Gobierno</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: focusedM.tono >= 0 ? '#16A34A' : '#DC2626' }}>
+ <div style={{ marginBottom:8 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
+ <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Tono sobre Gobierno</span>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: focusedM.tono >= 0 ? '#16A34A' : '#DC2626' }}>
                       {focusedM.tono > 0 ? '+' : ''}{focusedM.tono.toFixed(2)}
-                    </span>
-                  </div>
-                  <div style={{ position:'relative', height:6, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
-                    <div style={{ position:'absolute', left:'50%', top:-2, bottom:-2, width:1, background:'#1d1d1f', opacity:0.4 }}/>
-                    <div style={{
+ </span>
+ </div>
+ <div style={{ position:'relative', height:6, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
+ <div style={{ position:'absolute', left:'50%', top:-2, bottom:-2, width:1, background:'#1d1d1f', opacity:0.4 }}/>
+ <div style={{
                       position:'absolute', top:0, bottom:0,
                       left: focusedM.tono < 0 ? `${50 + (focusedM.tono * 50)}%` : '50%',
                       width: `${Math.abs(focusedM.tono) * 50}%`,
                       background: focusedM.tono >= 0 ? '#16A34A' : '#DC2626',
                       borderRadius:3,
                     }}/>
-                  </div>
-                </div>
+ </div>
+ </div>
 
-                <div style={{ marginTop:12, fontSize:11, color:'#86868b', textAlign:'right' }}>
+ <div style={{ marginTop:12, fontSize:11, color:'#86868b', textAlign:'right' }}>
                   {pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa para fijar'}
-                </div>
-              </>
+ </div>
+ </>
             ) : (
-              <>
-                <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Mapa de medios</div>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:17, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', marginBottom:10 }}>Pasa el cursor</div>
-                <p style={{ fontSize:12.5, color:'#3a3a3d', lineHeight:1.5, margin:'0 0 12px' }}>
+ <>
+ <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Mapa de medios</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:17, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', marginBottom:10 }}>Pasa el cursor</div>
+ <p style={{ fontSize:12.5, color:'#3a3a3d', lineHeight:1.5, margin:'0 0 12px' }}>
                   Cada burbuja representa un medio. Eje horizontal: sesgo ideológico estimado. Eje vertical: alcance.
-                </p>
-                <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px' }}>
-                  <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:4 }}>Tono medio agregado</div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color: counts.tonoMedio >= 0 ? '#16A34A' : '#DC2626' }}>
+ </p>
+ <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px' }}>
+ <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:4 }}>Tono medio agregado</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color: counts.tonoMedio >= 0 ? '#16A34A' : '#DC2626' }}>
                     {counts.tonoMedio > 0 ? '+' : ''}{counts.tonoMedio}
-                  </div>
-                  <div style={{ fontSize:11, color:'#6e6e73', marginTop:2 }}>sobre el Gobierno · 27 medios</div>
-                </div>
-              </>
+ </div>
+ <div style={{ fontSize:11, color:'#6e6e73', marginTop:2 }}>sobre el Gobierno · 27 medios</div>
+ </div>
+ </>
             )}
-          </aside>
-        </section>
+ </aside>
+ </section>
 
         {/* Narrativas dominantes */}
-        <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', marginBottom:14 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
-            <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Narrativas dominantes esta semana</h2>
-            <span style={{ fontSize:11, color:'#6e6e73' }}>{NARRATIVAS.length} temas trackeados · análisis NLP automático</span>
-          </div>
-          <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', marginBottom:14 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+ <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Narrativas dominantes esta semana</h2>
+ <span style={{ fontSize:11, color:'#6e6e73' }}>{NARRATIVAS.length} temas trackeados · análisis NLP automático</span>
+ </div>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
             {[...NARRATIVAS].sort((a,b)=>b.menciones-a.menciones).map(n => {
               const tonoColor = n.tono >= 0 ? '#16A34A' : '#DC2626'
               return (
-                <div key={n.tema} style={{
+ <div key={n.tema} style={{
                   display:'grid', gridTemplateColumns:'80px 1fr 110px 100px 1fr', gap:14, alignItems:'center',
                   padding:'10px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
                 }}>
-                  <span style={{
+ <span style={{
                     fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
                     padding:'3px 7px', borderRadius:6, textAlign:'center',
                     background:'#1d1d1f', color:'#fff',
                   }}>{n.tag}</span>
-                  <div>
-                    <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{n.tema}</div>
-                    <div style={{ fontSize:10.5, color:'#6e6e73', marginTop:3 }}>
+ <div>
+ <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{n.tema}</div>
+ <div style={{ fontSize:10.5, color:'#6e6e73', marginTop:3 }}>
                       Top medios: <strong style={{ color:'#3a3a3d' }}>{n.topMedios.slice(0,3).join(' · ')}</strong>
-                    </div>
-                  </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{n.menciones.toFixed(1)}<span style={{ fontSize:11, color:'#6e6e73' }}> K</span></div>
-                    <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>menciones</div>
-                  </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontSize:13, fontWeight:700, color: n.variacion > 0 ? '#16A34A' : '#DC2626' }}>
+ </div>
+ </div>
+ <div style={{ textAlign:'right' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{n.menciones.toFixed(1)}<span style={{ fontSize:11, color:'#6e6e73' }}> K</span></div>
+ <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>menciones</div>
+ </div>
+ <div style={{ textAlign:'right' }}>
+ <div style={{ fontSize:13, fontWeight:700, color: n.variacion > 0 ? '#16A34A' : '#DC2626' }}>
                       {n.variacion > 0 ? '▲' : '▼'} {Math.abs(n.variacion)}%
-                    </div>
-                    <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>vs sem ant.</div>
-                  </div>
-                  <div>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3 }}>
-                      <span style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Tono</span>
-                      <span style={{ fontSize:11, fontWeight:700, color:tonoColor }}>{n.tono > 0 ? '+' : ''}{n.tono.toFixed(2)}</span>
-                    </div>
-                    <div style={{ position:'relative', height:5, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
-                      <div style={{ position:'absolute', left:'50%', top:-1, bottom:-1, width:1, background:'#1d1d1f', opacity:0.4 }}/>
-                      <div style={{
+ </div>
+ <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>vs sem ant.</div>
+ </div>
+ <div>
+ <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3 }}>
+ <span style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Tono</span>
+ <span style={{ fontSize:11, fontWeight:700, color:tonoColor }}>{n.tono > 0 ? '+' : ''}{n.tono.toFixed(2)}</span>
+ </div>
+ <div style={{ position:'relative', height:5, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
+ <div style={{ position:'absolute', left:'50%', top:-1, bottom:-1, width:1, background:'#1d1d1f', opacity:0.4 }}/>
+ <div style={{
                         position:'absolute', top:0, bottom:0,
                         left: n.tono < 0 ? `${50 + (n.tono*50)}%` : '50%',
                         width: `${Math.abs(n.tono)*50}%`,
                         background:tonoColor, borderRadius:3,
                       }}/>
-                    </div>
-                  </div>
-                </div>
+ </div>
+ </div>
+ </div>
               )
             })}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {/* Tabla rápida de medios */}
-        <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-          <h2 style={{ margin:'0 0 14px', fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Listado completo · {visibles.length} medios</h2>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:8 }}>
+ <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
+ <h2 style={{ margin:'0 0 14px', fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Listado completo · {visibles.length} medios</h2>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:8 }}>
             {[...visibles].sort((a,b)=>b.alcance-a.alcance).map(m => {
               // URL pública del medio: 1) campo web, 2) heurística por id como fallback
               const href = m.web || `https://www.${m.id.replace(/-/g, '')}.com`
               return (
-                <a key={m.id}
+ <a key={m.id}
                    href={href}
                    target="_blank"
                    rel="noopener noreferrer"
@@ -501,48 +501,48 @@ export default function MediosNarrativaPage() {
                    onMouseOver={(e)=>{ e.currentTarget.style.background='#fff'; e.currentTarget.style.borderColor=TIPO_COLOR[m.tipo]+'55'; e.currentTarget.style.transform='translateY(-1px)'; e.currentTarget.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)' }}
                    onMouseOut={(e)=>{ e.currentTarget.style.background='#FAFAFB'; e.currentTarget.style.borderColor='#ECECEF'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
                 >
-                  <span style={{ width:10, height:10, borderRadius:'50%', background:TIPO_COLOR[m.tipo] }}/>
-                  <div style={{ minWidth:0 }}>
-                    <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre} <span style={{ fontSize:10, color:'#9CA3AF', fontWeight:400 }}>↗</span></div>
-                    <div style={{ fontSize:10.5, color:'#6e6e73' }}>{m.tipo} · {m.grupo}</div>
-                  </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{m.alcance.toFixed(1)}M</div>
-                    <div style={{ fontSize:10, color: m.tono >= 0 ? '#16A34A' : '#DC2626', fontWeight:700, marginTop:2 }}>tono {m.tono > 0 ? '+' : ''}{m.tono.toFixed(2)}</div>
-                  </div>
-                </a>
+ <span style={{ width:10, height:10, borderRadius:'50%', background:TIPO_COLOR[m.tipo] }}/>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre} <span style={{ fontSize:10, color:'#9CA3AF', fontWeight:400 }}>↗</span></div>
+ <div style={{ fontSize:10.5, color:'#6e6e73' }}>{m.tipo} · {m.grupo}</div>
+ </div>
+ <div style={{ textAlign:'right' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{m.alcance.toFixed(1)}M</div>
+ <div style={{ fontSize:10, color: m.tono >= 0 ? '#16A34A' : '#DC2626', fontWeight:700, marginTop:2 }}>tono {m.tono > 0 ? '+' : ''}{m.tono.toFixed(2)}</div>
+ </div>
+ </a>
               )
             })}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {/* Source Health detalle */}
-        <div style={{ marginTop: 18 }}><SourceHealthDetail/></div>
+ <div style={{ marginTop: 18 }}><SourceHealthDetail/></div>
 
         {/* Narrativas activas con ciclo de vida 3-step */}
-        <NarrativeLifecycle/>
-      </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+ <NarrativeLifecycle/>
+ </main>
+ <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Narrativa Pública · Medios y Narrativa · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }
 
 // Helpers
 function MiniK({ label, n }: { label:string, n:number }) {
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, lineHeight:1, color:'#fff' }}>{n}</div>
-      <div style={{ fontSize:8.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:3 }}>{label}</div>
-    </div>
+ <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, lineHeight:1, color:'#fff' }}>{n}</div>
+ <div style={{ fontSize:8.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:3 }}>{label}</div>
+ </div>
   )
 }
 function Box({ label, value, color }: { label:string, value:string, color:string }) {
   return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
-      <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>{label}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, color, marginTop:1 }}>{value}</div>
-    </div>
+ <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
+ <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>{label}</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, color, marginTop:1 }}>{value}</div>
+ </div>
   )
 }

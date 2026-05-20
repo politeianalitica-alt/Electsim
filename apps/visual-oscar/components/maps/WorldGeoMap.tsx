@@ -23,72 +23,72 @@ interface WorldGeoMapProps {
 // ── ISO mapping ────────────────────────────────────────────────────────────
 // World GeoJSON uses country names only. We map them to ISO2 for our data.
 const NAME_TO_ISO2: Record<string, string> = {
-  'Russia': 'RU', 'Russian Federation': 'RU',
-  'Ukraine': 'UA',
-  'Israel': 'IL',
-  'Palestine': 'PS', 'Palestinian Territories': 'PS',
-  'Iran': 'IR', 'Iran, Islamic Republic of': 'IR',
-  'China': 'CN', "People's Republic of China": 'CN',
-  'United States': 'US', 'United States of America': 'US', 'USA': 'US',
-  'Morocco': 'MA',
-  'Algeria': 'DZ',
-  'Turkey': 'TR',
-  'Venezuela': 'VE',
-  'United Kingdom': 'GB',
-  'France': 'FR',
-  'Germany': 'DE',
-  'Italy': 'IT',
-  'Spain': 'ES',
-  'Portugal': 'PT',
-  'North Korea': 'KP', 'Democratic People\'s Republic of Korea': 'KP',
-  'South Korea': 'KR', 'Republic of Korea': 'KR',
-  'Syria': 'SY', 'Syrian Arab Republic': 'SY',
-  'Lebanon': 'LB',
-  'Egypt': 'EG',
-  'Mexico': 'MX',
-  'Argentina': 'AR',
-  'Brazil': 'BR',
-  'India': 'IN',
-  'Pakistan': 'PK',
-  'Saudi Arabia': 'SA',
-  'Libya': 'LY',
-  'Sudan': 'SD',
-  'Mali': 'ML',
-  'Niger': 'NE',
-  'Chad': 'TD',
-  'Ethiopia': 'ET',
-  'Somalia': 'SO',
-  'Afghanistan': 'AF',
-  'Iraq': 'IQ',
-  'Yemen': 'YE',
-  'Myanmar': 'MM',
-  'Japan': 'JP',
-  'Taiwan': 'TW',
-  'Cuba': 'CU',
-  'Colombia': 'CO',
-  'Peru': 'PE',
-  'Chile': 'CL',
-  'Nigeria': 'NG',
-  'South Africa': 'ZA',
-  'Kenya': 'KE',
-  'Australia': 'AU',
-  'Canada': 'CA',
-  'Belarus': 'BY',
-  'Poland': 'PL',
-  'Belgium': 'BE',
-  'Netherlands': 'NL',
-  'Switzerland': 'CH',
-  'Greece': 'GR',
-  'Sweden': 'SE',
-  'Norway': 'NO',
-  'Finland': 'FI',
-  'Denmark': 'DK',
-  'Austria': 'AT',
-  'Ireland': 'IE',
-  'Hungary': 'HU',
-  'Romania': 'RO',
-  'Czech Republic': 'CZ', 'Czechia': 'CZ',
-  'Slovakia': 'SK',
+ 'Russia': 'RU', 'Russian Federation': 'RU',
+ 'Ukraine': 'UA',
+ 'Israel': 'IL',
+ 'Palestine': 'PS', 'Palestinian Territories': 'PS',
+ 'Iran': 'IR', 'Iran, Islamic Republic of': 'IR',
+ 'China': 'CN', "People's Republic of China": 'CN',
+ 'United States': 'US', 'United States of America': 'US', 'USA': 'US',
+ 'Morocco': 'MA',
+ 'Algeria': 'DZ',
+ 'Turkey': 'TR',
+ 'Venezuela': 'VE',
+ 'United Kingdom': 'GB',
+ 'France': 'FR',
+ 'Germany': 'DE',
+ 'Italy': 'IT',
+ 'Spain': 'ES',
+ 'Portugal': 'PT',
+ 'North Korea': 'KP', 'Democratic People\'s Republic of Korea': 'KP',
+ 'South Korea': 'KR', 'Republic of Korea': 'KR',
+ 'Syria': 'SY', 'Syrian Arab Republic': 'SY',
+ 'Lebanon': 'LB',
+ 'Egypt': 'EG',
+ 'Mexico': 'MX',
+ 'Argentina': 'AR',
+ 'Brazil': 'BR',
+ 'India': 'IN',
+ 'Pakistan': 'PK',
+ 'Saudi Arabia': 'SA',
+ 'Libya': 'LY',
+ 'Sudan': 'SD',
+ 'Mali': 'ML',
+ 'Niger': 'NE',
+ 'Chad': 'TD',
+ 'Ethiopia': 'ET',
+ 'Somalia': 'SO',
+ 'Afghanistan': 'AF',
+ 'Iraq': 'IQ',
+ 'Yemen': 'YE',
+ 'Myanmar': 'MM',
+ 'Japan': 'JP',
+ 'Taiwan': 'TW',
+ 'Cuba': 'CU',
+ 'Colombia': 'CO',
+ 'Peru': 'PE',
+ 'Chile': 'CL',
+ 'Nigeria': 'NG',
+ 'South Africa': 'ZA',
+ 'Kenya': 'KE',
+ 'Australia': 'AU',
+ 'Canada': 'CA',
+ 'Belarus': 'BY',
+ 'Poland': 'PL',
+ 'Belgium': 'BE',
+ 'Netherlands': 'NL',
+ 'Switzerland': 'CH',
+ 'Greece': 'GR',
+ 'Sweden': 'SE',
+ 'Norway': 'NO',
+ 'Finland': 'FI',
+ 'Denmark': 'DK',
+ 'Austria': 'AT',
+ 'Ireland': 'IE',
+ 'Hungary': 'HU',
+ 'Romania': 'RO',
+ 'Czech Republic': 'CZ', 'Czechia': 'CZ',
+ 'Slovakia': 'SK',
 }
 
 function riskColor(r: number): string {
@@ -163,17 +163,17 @@ export default function WorldGeoMap({
   }
 
   return (
-    <div style={{ position: 'relative' }}>
-      <svg
+ <div style={{ position: 'relative' }}>
+ <svg
         viewBox={`0 0 ${SVG_W} ${SVG_H}`}
         style={{ width: '100%', display: 'block', background: 'linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%)' }}
         onMouseLeave={() => setHover(null)}
       >
-        <defs>
-          <pattern id="dots-pattern" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse">
-            <circle cx="1.5" cy="1.5" r="0.4" fill="#cbd5e1" />
-          </pattern>
-        </defs>
+ <defs>
+ <pattern id="dots-pattern" x="0" y="0" width="3" height="3" patternUnits="userSpaceOnUse">
+ <circle cx="1.5" cy="1.5" r="0.4" fill="#cbd5e1" />
+ </pattern>
+ </defs>
 
         {/* Country polygons coloured by risk */}
         {geojson.features.map((feat, idx) => {
@@ -188,7 +188,7 @@ export default function WorldGeoMap({
             : '#e2e8f0'
 
           return (
-            <path
+ <path
               key={`c-${idx}`}
               d={d}
               fill={fill}
@@ -224,10 +224,10 @@ export default function WorldGeoMap({
           const c = pathFn.centroid(sp as never)
           if (!c || isNaN(c[0])) return null
           return (
-            <g pointerEvents="none">
-              <circle cx={c[0]} cy={c[1]} r={6} fill="#1F4E8C" stroke="white" strokeWidth={2} />
-              <text x={c[0]} y={c[1] - 12} textAnchor="middle" fontSize={9} fontWeight={800} fill="#1F4E8C">ESP</text>
-            </g>
+ <g pointerEvents="none">
+ <circle cx={c[0]} cy={c[1]} r={6} fill="#1F4E8C" stroke="white" strokeWidth={2} />
+ <text x={c[0]} y={c[1] - 12} textAnchor="middle" fontSize={9} fontWeight={800} fill="#1F4E8C">ESP</text>
+ </g>
           )
         })()}
 
@@ -241,20 +241,20 @@ export default function WorldGeoMap({
           if (!c || isNaN(c[0])) return null
           const radius = Math.max(5, Math.min(18, item.risk / 5))
           return (
-            <g key={`bubble-${iso}`} pointerEvents="none">
-              <circle cx={c[0]} cy={c[1]} r={radius + 3} fill={riskColor(item.risk)} opacity={0.15} />
-              <circle cx={c[0]} cy={c[1]} r={radius} fill={riskColor(item.risk)} stroke="white" strokeWidth={1.2} opacity={0.92} />
+ <g key={`bubble-${iso}`} pointerEvents="none">
+ <circle cx={c[0]} cy={c[1]} r={radius + 3} fill={riskColor(item.risk)} opacity={0.15} />
+ <circle cx={c[0]} cy={c[1]} r={radius} fill={riskColor(item.risk)} stroke="white" strokeWidth={1.2} opacity={0.92} />
               {radius >= 10 && (
-                <text x={c[0]} y={c[1] + 3} textAnchor="middle" fontSize={7.5} fontWeight={800} fill="white">{iso}</text>
+ <text x={c[0]} y={c[1] + 3} textAnchor="middle" fontSize={7.5} fontWeight={800} fill="white">{iso}</text>
               )}
-            </g>
+ </g>
           )
         })}
-      </svg>
+ </svg>
 
       {/* Tooltip */}
       {hover && (
-        <div
+ <div
           style={{
             position: 'absolute',
             left: hover.x + 14,
@@ -270,35 +270,35 @@ export default function WorldGeoMap({
             maxWidth: 280,
           }}
         >
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
+ <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
             {hover.name}
-            <span style={{ marginLeft: 6, fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>{hover.iso}</span>
-          </div>
+ <span style={{ marginLeft: 6, fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>{hover.iso}</span>
+ </div>
           {hover.data ? (
-            <>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 22, fontWeight: 900, color: riskColor(hover.data.risk) }}>{hover.data.risk}</span>
-                <span style={{ fontSize: 9, fontWeight: 800, color: riskColor(hover.data.risk), textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+ <>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+ <span style={{ fontSize: 22, fontWeight: 900, color: riskColor(hover.data.risk) }}>{hover.data.risk}</span>
+ <span style={{ fontSize: 9, fontWeight: 800, color: riskColor(hover.data.risk), textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                   {hover.data.risk >= 70 ? 'CRÍTICO' : hover.data.risk >= 50 ? 'ELEVADO' : hover.data.risk >= 30 ? 'MODERADO' : 'BAJO'}
-                </span>
-              </div>
+ </span>
+ </div>
               {hover.data.n_articles_30d != null && (
-                <div style={{ fontSize: 10, color: '#64748b' }}>{hover.data.n_articles_30d} artículos · 30 días</div>
+ <div style={{ fontSize: 10, color: '#64748b' }}>{hover.data.n_articles_30d} artículos · 30 días</div>
               )}
               {hover.data.avg_sentiment != null && (
-                <div style={{ fontSize: 10, color: '#64748b' }}>
+ <div style={{ fontSize: 10, color: '#64748b' }}>
                   Sentimiento: <strong style={{ color: hover.data.avg_sentiment < -0.1 ? '#dc2626' : '#22c55e' }}>{hover.data.avg_sentiment.toFixed(2)}</strong>
-                </div>
+ </div>
               )}
               {!hover.data.has_data && (
-                <div style={{ fontSize: 9, color: '#94a3b8', marginTop: 4, fontStyle: 'italic' }}>Riesgo estructural · sin cobertura reciente</div>
+ <div style={{ fontSize: 9, color: '#94a3b8', marginTop: 4, fontStyle: 'italic' }}>Riesgo estructural · sin cobertura reciente</div>
               )}
-            </>
+ </>
           ) : (
-            <div style={{ fontSize: 10, color: '#94a3b8' }}>Sin datos de riesgo</div>
+ <div style={{ fontSize: 10, color: '#94a3b8' }}>Sin datos de riesgo</div>
           )}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }

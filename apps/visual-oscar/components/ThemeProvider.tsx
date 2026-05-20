@@ -44,9 +44,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <ThemeContext.Provider value={NOOP_CONTEXT}>
+ <ThemeContext.Provider value={NOOP_CONTEXT}>
       {children}
-    </ThemeContext.Provider>
+ </ThemeContext.Provider>
   );
 }
 

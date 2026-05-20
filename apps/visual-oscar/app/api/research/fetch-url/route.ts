@@ -24,8 +24,8 @@ export async function POST(req: NextRequest) {
     const parsed = new URL(url);
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; Politeia/1.0)",
-        "Accept": "text/html,application/xhtml+xml",
+ "User-Agent": "Mozilla/5.0 (compatible; Politeia/1.0)",
+ "Accept": "text/html,application/xhtml+xml",
       },
       // 8s timeout vía AbortController
       signal: AbortSignal.timeout(8000),

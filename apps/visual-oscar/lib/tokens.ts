@@ -2,19 +2,19 @@
 // Synced with styles/tokens.css — do not edit values without updating CSS too.
 
 export const PARTY_COLORS: Record<string, string> = {
-  PSOE:   '#e11931',
-  PP:     '#199fe6',
-  VOX:    '#63be21',
-  SUMAR:  '#e1007f',
-  ERC:    '#f2a900',
-  JUNTS:  '#00356a',
-  BILDU:  '#45a8a8',
-  PNV:    '#007a3d',
-  CC:     '#f5a623',
-  CS:     '#f96700',
-  'NA+':  '#0057a8',
-  BNG:    '#6cbcc8',
-  OTROS:  '#8e8e93',
+  PSOE: '#e11931',
+  PP: '#199fe6',
+  VOX: '#63be21',
+  SUMAR: '#e1007f',
+  ERC: '#f2a900',
+  JUNTS: '#00356a',
+  BILDU: '#45a8a8',
+  PNV: '#007a3d',
+  CC: '#f5a623',
+  CS: '#f96700',
+ 'NA+': '#0057a8',
+  BNG: '#6cbcc8',
+  OTROS: '#8e8e93',
 } as const;
 
 export type PartyKey = keyof typeof PARTY_COLORS;

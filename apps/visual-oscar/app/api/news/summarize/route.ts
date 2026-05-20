@@ -68,10 +68,10 @@ async function llmSummary(req: NextRequest, params: { title: string; source: str
   const baseUrl = `${proto}://${host}`
 
   const prompt = [
-    `Eres un analista político español. Resume la siguiente noticia en 3-4 frases claras y neutrales en español. No añadas opinión, solo hechos.`,
-    ``,
-    `Medio: ${params.source}`,
-    `Titular: ${params.title}`,
+ `Eres un analista político español. Resume la siguiente noticia en 3-4 frases claras y neutrales en español. No añadas opinión, solo hechos.`,
+ ``,
+ `Medio: ${params.source}`,
+ `Titular: ${params.title}`,
     params.description ? `Resumen original: ${params.description}` : '',
   ].filter(Boolean).join('\n')
 
@@ -79,7 +79,7 @@ async function llmSummary(req: NextRequest, params: { title: string; source: str
     const r = await fetch(`${baseUrl}/api/brain/chat`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+ 'Content-Type': 'application/json',
         cookie: req.headers.get('cookie') || '',
       },
       body: JSON.stringify({

@@ -37,9 +37,9 @@ const FALLBACK_BRIEFING: MorningBriefing = {
   legislative_updates: [],
   electoral_snapshot: { itpe: 52.3, top_parties: { PP: 33.2, PSOE: 28.5, VOX: 11.3 }, trend: 'up' },
   three_questions: [
-    '¿Mantendrá el PP el liderazgo si la narrativa de vivienda erosiona su electorado urbano?',
-    '¿Activará el PSOE una iniciativa fiscal antes del cierre del semestre?',
-    '¿Qué impacto tiene el bloqueo de Junts en la coalición de investidura a 12 meses?',
+ '¿Mantendrá el PP el liderazgo si la narrativa de vivienda erosiona su electorado urbano?',
+ '¿Activará el PSOE una iniciativa fiscal antes del cierre del semestre?',
+ '¿Qué impacto tiene el bloqueo de Junts en la coalición de investidura a 12 meses?',
   ],
   analyst_note: 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.',
   mode: 'demo',
@@ -51,7 +51,7 @@ export async function GET(req: Request) {
 
   // Backend real ElectSim FastAPI · politeia_v3.py
   const real = await fromBackend<MorningBriefing>(
-    `/api/briefings/morning?workspace_id=${encodeURIComponent(workspace)}`
+ `/api/briefings/morning?workspace_id=${encodeURIComponent(workspace)}`
   )
   if (real && real.executive_summary) {
     return NextResponse.json(withMeta(real, 'backend'))

@@ -53,7 +53,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
   })
 
   return (
-    <Ctx.Provider value={{
+ <Ctx.Provider value={{
       notifications,
       unreadCount,
       isLoading,
@@ -63,7 +63,7 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
       refetch,
     }}>
       {children}
-    </Ctx.Provider>
+ </Ctx.Provider>
   )
 }
 

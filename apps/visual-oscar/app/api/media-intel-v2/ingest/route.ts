@@ -7,7 +7,7 @@ export const maxDuration = 300
 
 export async function POST() {
   const r = await callBackend(
-    `/api/media-intel/ingest`,
+ `/api/media-intel/ingest`,
     { method: 'POST', cache: 'no-store' },
   )
   if (r.data !== null && r.data !== undefined) {
@@ -15,7 +15,7 @@ export async function POST() {
   }
   return NextResponse.json(withMeta(
     { ok: false },
-    'mock',
+ 'mock',
     { warnings: r.error ? [`backend_unreachable:${r.error}`] : ['ingest_failed'],
       latency_ms: r.latency_ms },
   ))

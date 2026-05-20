@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
   const limit = Number(searchParams.get('limit') ?? 20)
 
   const real = await fromBackend<IniciativaLegislativa[] | { data?: IniciativaLegislativa[] }>(
-    `/api/legislativo/monitor?limit=${limit}`
+ `/api/legislativo/monitor?limit=${limit}`
   )
 
   if (Array.isArray(real) && real.length > 0) {

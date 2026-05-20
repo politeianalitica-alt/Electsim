@@ -441,14 +441,14 @@ export function cpvDivLabel(code: string): string {
 
 // ─── Catálogos para filtros UI ─────────────────────────────
 export const TIPOS_CONTRATO = [
-  'Serveis', 'Obres', 'Subministrament', 'Mixt', 'Concessió',
-  'Concessió de serveis', 'Patrimonial', 'Privat', 'Altres',
+ 'Serveis', 'Obres', 'Subministrament', 'Mixt', 'Concessió',
+ 'Concessió de serveis', 'Patrimonial', 'Privat', 'Altres',
 ] as const
 
 export const PROCEDIMIENTOS = [
-  'Obert', 'Contracte menor', 'Restringit',
-  'Negociat amb publicitat', 'Negociat sense publicitat',
-  'Acord marc', 'Diàleg competitiu', 'Associació per la innovació', 'Altres',
+ 'Obert', 'Contracte menor', 'Restringit',
+ 'Negociat amb publicitat', 'Negociat sense publicitat',
+ 'Acord marc', 'Diàleg competitiu', 'Associació per la innovació', 'Altres',
 ] as const
 
 // CCAA — para forward compatibility cuando añadamos más fuentes

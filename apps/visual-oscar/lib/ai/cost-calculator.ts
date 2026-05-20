@@ -18,19 +18,19 @@ interface PricePerMillionTokens {
 
 const PRICING: Record<string, PricePerMillionTokens> = {
   // Claude pricing oficial (https://www.anthropic.com/pricing)
-  "claude-sonnet-4-5-20250929": {
+ "claude-sonnet-4-5-20250929": {
     input: 3,
     output: 15,
     cacheRead: 0.3,
     cacheWrite: 3.75,
   },
-  "claude-haiku-4-5-20251001": {
+ "claude-haiku-4-5-20251001": {
     input: 1,
     output: 5,
     cacheRead: 0.1,
     cacheWrite: 1.25,
   },
-  "claude-opus-4-5-20251001": {
+ "claude-opus-4-5-20251001": {
     input: 15,
     output: 75,
     cacheRead: 1.5,

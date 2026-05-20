@@ -60,7 +60,7 @@ function normalizeTipo(raw: string): string {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchCongresoTipo(tipo: string): Promise<any[]> {
   const url = new URL(
-    'https://www.congreso.es/es/busqueda-de-iniciativas'
+ 'https://www.congreso.es/es/busqueda-de-iniciativas'
   )
   url.searchParams.set('p_p_id', 'iniciativas')
   url.searchParams.set('p_p_lifecycle', '2')
@@ -75,9 +75,9 @@ async function fetchCongresoTipo(tipo: string): Promise<any[]> {
     const res = await fetch(url.toString(), {
       signal: controller.signal,
       headers: {
-        'Accept': 'application/json, text/javascript, */*',
-        'User-Agent': 'Mozilla/5.0 (compatible; ElectSim/1.0)',
-        'Referer': 'https://www.congreso.es/es/busqueda-de-iniciativas',
+ 'Accept': 'application/json, text/javascript, */*',
+ 'User-Agent': 'Mozilla/5.0 (compatible; ElectSim/1.0)',
+ 'Referer': 'https://www.congreso.es/es/busqueda-de-iniciativas',
       },
       cache: 'no-store',
     })

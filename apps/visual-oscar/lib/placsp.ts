@@ -21,9 +21,9 @@ const placspAgent = new Agent({
 // Feeds principales · suelen rotar nombre con sufijo _YYYYMMDD_HHMMSS
 // Estos son los "head" que apuntan al más reciente.
 export const PLACSP_FEEDS = {
-  licitaciones:    'https://contrataciondelestado.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3.atom',
+  licitaciones: 'https://contrataciondelestado.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3.atom',
   // Adjudicaciones tiene URL distinta · si no responde, se omite
-  adjudicaciones:  'https://contrataciondelestado.es/sindicacion/sindicacion_644/adjudicacionesPerfilesContratanteCompleto3.atom',
+  adjudicaciones: 'https://contrataciondelestado.es/sindicacion/sindicacion_644/adjudicacionesPerfilesContratanteCompleto3.atom',
 } as const
 
 export type PlacspTipo = 'licitacion' | 'adjudicacion'
@@ -52,13 +52,13 @@ interface FetchResult {
 }
 
 const ESTADO_LABELS: Record<string, string> = {
-  PUB:  'Publicada',
-  RES:  'Resuelta',
-  ADJ:  'Adjudicada',
-  EV:   'Evaluación',
+  PUB: 'Publicada',
+  RES: 'Resuelta',
+  ADJ: 'Adjudicada',
+  EV: 'Evaluación',
   ANUL: 'Anulada',
-  PRE:  'Preadjudicada',
-  PER:  'Pendiente Resolución',
+  PRE: 'Preadjudicada',
+  PER: 'Pendiente Resolución',
   CREA: 'Creada',
   DESI: 'Desierta',
   FORM: 'Formalizada',
@@ -217,8 +217,8 @@ export async function fetchPlacspMultiPage(
         signal: controller.signal,
         dispatcher: placspAgent,
         headers: {
-          'Accept': 'application/atom+xml, application/xml, */*',
-          'User-Agent': 'PoliteiaAnalitica/1.0',
+ 'Accept': 'application/atom+xml, application/xml, */*',
+ 'User-Agent': 'PoliteiaAnalitica/1.0',
         },
       })
       if (!res.ok) {

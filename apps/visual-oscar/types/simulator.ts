@@ -24,7 +24,7 @@ export interface DecisionSimulation {
   workspaceId:  string;
   scenario:     string;          // pregunta original del usuario
   generatedAt:  string;
-  source:       "ollama" | "anthropic" | "mock";
+  source: "ollama" | "anthropic" | "mock";
   context:      string;          // contexto recogido del workspace (resumen)
   outcomes:     DecisionOutcome[];
   counterMoves: CounterMove[];

@@ -42,88 +42,88 @@ interface CrisisSignal {
 
 // ─── mapeos ───────────────────────────────────────────────────────────────
 const TIPO_MAP: Record<SignalType, TipoCrisis> = {
-  ciberataque:    'Tecnológica',
+  ciberataque: 'Tecnológica',
   desinformacion: 'Mediática',
-  parlamentario:  'Política',
-  diplomatico:    'Diplomática',
-  conflicto:      'Política',
-  social:         'Social',
-  sismo:          'Climática',
-  economico:      'Económica',
-  energia:        'Energética',
+  parlamentario: 'Política',
+  diplomatico: 'Diplomática',
+  conflicto: 'Política',
+  social: 'Social',
+  sismo: 'Climática',
+  economico: 'Económica',
+  energia: 'Energética',
 }
 
 const SEV_MAP: Record<SignalSeverity, Severidad> = {
   CRITICO: 'CRÍTICA',
-  ALTO:    'ALTA',
-  MEDIO:   'MEDIA',
-  BAJO:    'BAJA',
+  ALTO: 'ALTA',
+  MEDIO: 'MEDIA',
+  BAJO: 'BAJA',
 }
 
 const TIPO_LABEL: Record<SignalType, string> = {
-  ciberataque:    'Ciberseguridad nacional',
+  ciberataque: 'Ciberseguridad nacional',
   desinformacion: 'Operación de desinformación',
-  parlamentario:  'Tensión parlamentaria',
-  diplomatico:    'Crisis diplomática',
-  conflicto:      'Conflicto geopolítico',
-  social:         'Movilización social',
-  sismo:          'Emergencia sísmica',
-  economico:      'Crisis económica',
-  energia:        'Riesgo energético',
+  parlamentario: 'Tensión parlamentaria',
+  diplomatico: 'Crisis diplomática',
+  conflicto: 'Conflicto geopolítico',
+  social: 'Movilización social',
+  sismo: 'Emergencia sísmica',
+  economico: 'Crisis económica',
+  energia: 'Riesgo energético',
 }
 
 // Stakeholders por tipo · neutros que aplican a la mayoría de crisis de ese ámbito
 const STAKEHOLDERS_BY_TIPO: Record<SignalType, Stakeholder[]> = {
   ciberataque: [
-    { nombre: 'INCIBE',                 rol: 'Centro de respuesta nacional',  posicion: 'aliado'  },
-    { nombre: 'CCN-CERT',               rol: 'Coordinación CNI',              posicion: 'aliado'  },
-    { nombre: 'Min. Transformación Digital', rol: 'Política pública',         posicion: 'aliado'  },
+    { nombre: 'INCIBE',                 rol: 'Centro de respuesta nacional',  posicion: 'aliado' },
+    { nombre: 'CCN-CERT',               rol: 'Coordinación CNI',              posicion: 'aliado' },
+    { nombre: 'Min. Transformación Digital', rol: 'Política pública',         posicion: 'aliado' },
     { nombre: 'Sector privado afectado',rol: 'Empresas víctimas',             posicion: 'opositor'},
   ],
   desinformacion: [
-    { nombre: 'Maldita.es',             rol: 'Verificación periodística',     posicion: 'aliado'  },
-    { nombre: 'Newtral',                rol: 'Fact-checking',                  posicion: 'aliado'  },
+    { nombre: 'Maldita.es',             rol: 'Verificación periodística',     posicion: 'aliado' },
+    { nombre: 'Newtral',                rol: 'Fact-checking',                  posicion: 'aliado' },
     { nombre: 'Secretaría Estado Comunicación', rol: 'Respuesta institucional', posicion: 'neutral'},
     { nombre: 'Plataformas (Meta · X)', rol: 'Distribución',                  posicion: 'opositor'},
   ],
   parlamentario: [
     { nombre: 'Congreso de los Diputados', rol: 'Cámara baja',                posicion: 'neutral' },
-    { nombre: 'Gobierno',               rol: 'Ejecutivo',                      posicion: 'aliado'  },
+    { nombre: 'Gobierno',               rol: 'Ejecutivo',                      posicion: 'aliado' },
     { nombre: 'Oposición PP-Vox',       rol: 'Bloque opositor',                posicion: 'opositor'},
     { nombre: 'Socios investidura',     rol: 'PNV · ERC · Junts · Bildu',     posicion: 'neutral' },
   ],
   diplomatico: [
-    { nombre: 'Min. Asuntos Exteriores · Albares', rol: 'Cartera líder',      posicion: 'aliado'  },
-    { nombre: 'Moncloa',                rol: 'Coordinación',                   posicion: 'aliado'  },
-    { nombre: 'Comisión Europea',       rol: 'Marco UE',                       posicion: 'aliado'  },
+    { nombre: 'Min. Asuntos Exteriores · Albares', rol: 'Cartera líder',      posicion: 'aliado' },
+    { nombre: 'Moncloa',                rol: 'Coordinación',                   posicion: 'aliado' },
+    { nombre: 'Comisión Europea',       rol: 'Marco UE',                       posicion: 'aliado' },
     { nombre: 'País contraparte',       rol: 'Actor externo',                  posicion: 'opositor'},
   ],
   conflicto: [
-    { nombre: 'Min. Defensa · Robles',  rol: 'Seguridad nacional',             posicion: 'aliado'  },
-    { nombre: 'OTAN',                   rol: 'Marco multilateral',             posicion: 'aliado'  },
-    { nombre: 'Min. Asuntos Exteriores',rol: 'Diplomacia',                     posicion: 'aliado'  },
+    { nombre: 'Min. Defensa · Robles',  rol: 'Seguridad nacional',             posicion: 'aliado' },
+    { nombre: 'OTAN',                   rol: 'Marco multilateral',             posicion: 'aliado' },
+    { nombre: 'Min. Asuntos Exteriores',rol: 'Diplomacia',                     posicion: 'aliado' },
   ],
   social: [
-    { nombre: 'Min. Interior · Marlaska', rol: 'Seguridad ciudadana',          posicion: 'aliado'  },
+    { nombre: 'Min. Interior · Marlaska', rol: 'Seguridad ciudadana',          posicion: 'aliado' },
     { nombre: 'Sindicatos · CCOO / UGT', rol: 'Movilización laboral',          posicion: 'opositor'},
     { nombre: 'Plataformas civiles',    rol: 'Sociedad organizada',            posicion: 'opositor'},
   ],
   sismo: [
-    { nombre: 'IGN',                    rol: 'Instituto Geográfico Nacional',  posicion: 'aliado'  },
-    { nombre: 'UME',                    rol: 'Unidad Militar Emergencias',     posicion: 'aliado'  },
-    { nombre: 'Protección Civil',       rol: 'Coordinación CCAA',              posicion: 'aliado'  },
+    { nombre: 'IGN',                    rol: 'Instituto Geográfico Nacional',  posicion: 'aliado' },
+    { nombre: 'UME',                    rol: 'Unidad Militar Emergencias',     posicion: 'aliado' },
+    { nombre: 'Protección Civil',       rol: 'Coordinación CCAA',              posicion: 'aliado' },
   ],
   economico: [
-    { nombre: 'Min. Economía · Cuerpo', rol: 'Política económica',             posicion: 'aliado'  },
-    { nombre: 'Min. Hacienda · Montero',rol: 'Política fiscal',                posicion: 'aliado'  },
+    { nombre: 'Min. Economía · Cuerpo', rol: 'Política económica',             posicion: 'aliado' },
+    { nombre: 'Min. Hacienda · Montero',rol: 'Política fiscal',                posicion: 'aliado' },
     { nombre: 'Banco de España',        rol: 'Supervisión monetaria',          posicion: 'neutral' },
     { nombre: 'CEOE',                   rol: 'Patronal',                       posicion: 'neutral' },
   ],
   energia: [
     { nombre: 'Min. Transición Ecológica · Aagesen', rol: 'Política energética', posicion: 'aliado' },
-    { nombre: 'Red Eléctrica',          rol: 'Operador del sistema',           posicion: 'aliado'  },
-    { nombre: 'Enagás',                 rol: 'Operador gasista',               posicion: 'aliado'  },
-    { nombre: 'Comisión Europea',       rol: 'Marco UE energético',            posicion: 'aliado'  },
+    { nombre: 'Red Eléctrica',          rol: 'Operador del sistema',           posicion: 'aliado' },
+    { nombre: 'Enagás',                 rol: 'Operador gasista',               posicion: 'aliado' },
+    { nombre: 'Comisión Europea',       rol: 'Marco UE energético',            posicion: 'aliado' },
   ],
 }
 
@@ -144,10 +144,10 @@ const RIESGOS_BY_TIPO: Record<SignalType, string[]> = {
 function accionesGenericas(sev: SignalSeverity, fase: Fase): Accion[] {
   const isHigh = sev === 'CRITICO' || sev === 'ALTO'
   const base: Accion[] = [
-    { accion: 'Convocar comité de crisis interministerial',     responsable: 'Gabinete Presidencia', plazo: '24h',  estado: isHigh ? 'En curso'    : 'Pendiente' },
-    { accion: 'Activar protocolo de comunicación coordinada',   responsable: 'Sec. Estado Comunicación', plazo: '48h', estado: isHigh ? 'En curso'    : 'Pendiente' },
+    { accion: 'Convocar comité de crisis interministerial',     responsable: 'Gabinete Presidencia', plazo: '24h',  estado: isHigh ? 'En curso' : 'Pendiente' },
+    { accion: 'Activar protocolo de comunicación coordinada',   responsable: 'Sec. Estado Comunicación', plazo: '48h', estado: isHigh ? 'En curso' : 'Pendiente' },
     { accion: 'Sesión informativa al Congreso',                 responsable: 'Min. Presidencia',     plazo: '7 días', estado: fase === 'Activa' || fase === 'Contención' ? 'En curso' : 'Pendiente' },
-    { accion: 'Coordinación con CCAA afectadas',                responsable: 'Política Territorial', plazo: '3 días', estado: isHigh ? 'En curso'    : 'Pendiente' },
+    { accion: 'Coordinación con CCAA afectadas',                responsable: 'Política Territorial', plazo: '3 días', estado: isHigh ? 'En curso' : 'Pendiente' },
   ]
   return base
 }

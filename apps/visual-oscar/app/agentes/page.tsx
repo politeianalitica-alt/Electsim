@@ -10,26 +10,26 @@ type Categoria = 'gobierno' | 'oposicion' | 'parlamento' | 'autonomico' | 'munic
 type ActorBase = { nombre: string; partido: string; cargo: string; cat: Categoria }
 
 const PARTY_COLOR: Record<string, string> = {
-  'PSOE':'#E1322D', 'PSC':'#E1322D', 'PSC-PSOE':'#E1322D',
-  'PP':'#1F4E8C',
-  'VOX':'#5BA02E',
-  'Sumar':'#D43F8D',
-  'Junts':'#1FA89B', 'JxCat':'#1FA89B',
-  'ERC':'#E8A030',
-  'EH Bildu':'#3F7A3A',
-  'PNV':'#7DB94B', 'EAJ-PNV':'#7DB94B',
-  'BNG':'#5BB3D9',
-  'CC':'#F2C43A',
-  'UPN':'#0E7D8C',
-  'Compromís':'#FF8200',
-  'Podemos':'#6C2C5E',
-  'Independiente':'#6e6e73',
-  'Casa Real':'#7C3AED',
-  'CGPJ':'#7C3AED', 'TC':'#7C3AED', 'TS':'#7C3AED', 'Fiscalía':'#7C3AED',
-  'BdE':'#0F766E', 'BEI':'#0F766E',
-  'CEOE':'#0E7490', 'CEPYME':'#0E7490', 'ATA':'#0E7490',
-  'CCOO':'#A02525', 'UGT':'#A02525',
-  'Medios':'#525258',
+ 'PSOE':'#E1322D', 'PSC':'#E1322D', 'PSC-PSOE':'#E1322D',
+ 'PP':'#1F4E8C',
+ 'VOX':'#5BA02E',
+ 'Sumar':'#D43F8D',
+ 'Junts':'#1FA89B', 'JxCat':'#1FA89B',
+ 'ERC':'#E8A030',
+ 'EH Bildu':'#3F7A3A',
+ 'PNV':'#7DB94B', 'EAJ-PNV':'#7DB94B',
+ 'BNG':'#5BB3D9',
+ 'CC':'#F2C43A',
+ 'UPN':'#0E7D8C',
+ 'Compromís':'#FF8200',
+ 'Podemos':'#6C2C5E',
+ 'Independiente':'#6e6e73',
+ 'Casa Real':'#7C3AED',
+ 'CGPJ':'#7C3AED', 'TC':'#7C3AED', 'TS':'#7C3AED', 'Fiscalía':'#7C3AED',
+ 'BdE':'#0F766E', 'BEI':'#0F766E',
+ 'CEOE':'#0E7490', 'CEPYME':'#0E7490', 'ATA':'#0E7490',
+ 'CCOO':'#A02525', 'UGT':'#A02525',
+ 'Medios':'#525258',
 }
 
 const ACTORES: ActorBase[] = [
@@ -274,16 +274,16 @@ export default function AgentesPage() {
   const ag = FULL[sel]
 
   return (
-    <div style={{ minHeight:'100vh', background:'#fbfbfd', color:'#1d1d1f', fontFamily:'var(--font-body,system-ui)' }}>
-      <AppHeader/>
-      <div style={{ maxWidth:1400, margin:'0 auto', padding:'20px 24px 40px' }}>
+ <div style={{ minHeight:'100vh', background:'#fbfbfd', color:'#1d1d1f', fontFamily:'var(--font-body,system-ui)' }}>
+ <AppHeader/>
+ <div style={{ maxWidth:1400, margin:'0 auto', padding:'20px 24px 40px' }}>
 
-        <div style={{ display:'grid', gridTemplateColumns:'320px 1fr', gap:18 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'320px 1fr', gap:18 }}>
 
           {/* ───── Sidebar searchable ───── */}
-          <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
             {/* Buscador */}
-            <input
+ <input
               type="text"
               placeholder="Buscar entre 100 actores…"
               value={query}
@@ -295,11 +295,11 @@ export default function AgentesPage() {
               }}
             />
             {/* Filtro por categoría */}
-            <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+ <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
               {CATS.map(c => {
                 const active = filterCat === c
                 return (
-                  <button key={c} onClick={() => setCat(c)} style={{
+ <button key={c} onClick={() => setCat(c)} style={{
                     background: active ? '#1F4E8C' : '#fff',
                     color: active ? '#fff' : '#3a3a3d',
                     border: '1px solid '+(active ? '#1F4E8C' : '#ECECEF'),
@@ -309,126 +309,126 @@ export default function AgentesPage() {
                   }}>{c === 'Todos' ? 'Todos' : CAT_LABEL[c as Categoria]}</button>
                 )
               })}
-            </div>
-            <div style={{ fontSize:11, color:'#6e6e73', padding:'2px 4px' }}>{list.length} de {FULL.length} actores</div>
+ </div>
+ <div style={{ fontSize:11, color:'#6e6e73', padding:'2px 4px' }}>{list.length} de {FULL.length} actores</div>
 
             {/* Lista scrollable */}
-            <div style={{ display:'flex', flexDirection:'column', gap:5, maxHeight:'72vh', overflowY:'auto', paddingRight:4 }}>
+ <div style={{ display:'flex', flexDirection:'column', gap:5, maxHeight:'72vh', overflowY:'auto', paddingRight:4 }}>
               {list.map(a => {
                 const active = sel === a.idx
                 return (
-                  <button key={a.nombre} onClick={() => setSel(a.idx)} style={{
+ <button key={a.nombre} onClick={() => setSel(a.idx)} style={{
                     display:'flex', alignItems:'center', gap:10, padding:'8px 12px',
                     borderRadius:12, border:`1px solid ${active ? a.c : '#ECECEF'}`,
                     background: active ? `${a.c}10` : '#fff', cursor:'pointer', textAlign:'left',
                     transition:'all 0.15s',
                   }}>
-                    <div style={{
+ <div style={{
                       width:30, height:30, borderRadius:'50%', background:a.c,
                       display:'flex', alignItems:'center', justifyContent:'center',
                       color:'#fff', fontWeight:700, fontSize:11, flexShrink:0,
                     }}>{a.nombre.split(' ').filter((_, j) => j > 0).map(w => w[0]).join('').slice(0, 2)}</div>
-                    <div style={{ flex:1, minWidth:0 }}>
-                      <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{a.nombre}</div>
-                      <div style={{ fontSize:10.5, color:a.c, fontWeight:600, marginTop:1 }}>{a.partido}</div>
-                    </div>
-                    <div style={{ fontSize:14, fontWeight:700, color:a.c, flexShrink:0 }}>{a.val}</div>
-                  </button>
+ <div style={{ flex:1, minWidth:0 }}>
+ <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{a.nombre}</div>
+ <div style={{ fontSize:10.5, color:a.c, fontWeight:600, marginTop:1 }}>{a.partido}</div>
+ </div>
+ <div style={{ fontSize:14, fontWeight:700, color:a.c, flexShrink:0 }}>{a.val}</div>
+ </button>
                 )
               })}
               {list.length === 0 && (
-                <div style={{ padding:18, textAlign:'center', color:'#6e6e73', fontSize:12, background:'#fff', border:'1px solid #ECECEF', borderRadius:10 }}>
+ <div style={{ padding:18, textAlign:'center', color:'#6e6e73', fontSize:12, background:'#fff', border:'1px solid #ECECEF', borderRadius:10 }}>
                   Sin resultados.
-                </div>
+ </div>
               )}
-            </div>
-          </div>
+ </div>
+ </div>
 
           {/* ───── Detalle ───── */}
-          <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+ <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
 
             {/* Header del actor */}
-            <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:22, padding:'24px 28px' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16, gap:18 }}>
-                <div style={{ display:'flex', gap:16, alignItems:'center', minWidth:0 }}>
-                  <div style={{
+ <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:22, padding:'24px 28px' }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16, gap:18 }}>
+ <div style={{ display:'flex', gap:16, alignItems:'center', minWidth:0 }}>
+ <div style={{
                     width:60, height:60, borderRadius:'50%', background:ag.c,
                     display:'flex', alignItems:'center', justifyContent:'center',
                     color:'#fff', fontWeight:700, fontSize:18, flexShrink:0, fontFamily:'var(--font-display)',
                   }}>{ag.nombre.split(' ').filter((_, j) => j > 0).map(w => w[0]).join('').slice(0, 2)}</div>
-                  <div style={{ minWidth:0 }}>
-                    <div style={{ fontSize:10.5, fontWeight:700, color:ag.c, letterSpacing:'0.1em', marginBottom:3, textTransform:'uppercase' }}>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:10.5, fontWeight:700, color:ag.c, letterSpacing:'0.1em', marginBottom:3, textTransform:'uppercase' }}>
                       {ag.partido} · {CAT_LABEL[ag.cat]}
-                    </div>
-                    <h2 style={{ margin:0, fontSize:24, fontWeight:700, letterSpacing:'-0.018em', fontFamily:'var(--font-display)' }}>{ag.nombre}</h2>
-                    <div style={{ fontSize:13, color:'#3a3a3d', marginTop:4 }}>{ag.cargo}</div>
-                  </div>
-                </div>
-                <div style={{ textAlign:'right', flexShrink:0 }}>
-                  <div style={{ fontSize:42, fontWeight:700, fontFamily:'var(--font-display)', letterSpacing:'-0.04em', color:ag.c, lineHeight:1 }}>
+ </div>
+ <h2 style={{ margin:0, fontSize:24, fontWeight:700, letterSpacing:'-0.018em', fontFamily:'var(--font-display)' }}>{ag.nombre}</h2>
+ <div style={{ fontSize:13, color:'#3a3a3d', marginTop:4 }}>{ag.cargo}</div>
+ </div>
+ </div>
+ <div style={{ textAlign:'right', flexShrink:0 }}>
+ <div style={{ fontSize:42, fontWeight:700, fontFamily:'var(--font-display)', letterSpacing:'-0.04em', color:ag.c, lineHeight:1 }}>
                     {ag.val}<span style={{ fontSize:18, color:'#6e6e73' }}>/10</span>
-                  </div>
-                  <div style={{ fontSize:11, color: ag.delta >= 0 ? '#16A34A' : '#DC2626', fontWeight:600, marginTop:3 }}>
+ </div>
+ <div style={{ fontSize:11, color: ag.delta >= 0 ? '#16A34A' : '#DC2626', fontWeight:600, marginTop:3 }}>
                     {ag.delta >= 0 ? '▲' : '▼'} {Math.abs(ag.delta)} vs mes anterior
-                  </div>
-                </div>
-              </div>
-              <div style={{ marginBottom:6, fontSize:12, color:'#6e6e73' }}>Influencia parlamentaria/sectorial</div>
-              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-                <div style={{ flex:1, height:6, background:'#f5f5f7', borderRadius:3 }}>
-                  <div style={{ width:`${ag.inf}%`, height:6, borderRadius:3, background:ag.c, transition:'width 280ms' }}/>
-                </div>
-                <span style={{ fontSize:14, fontWeight:700, color:ag.c }}>{ag.inf}/100</span>
-              </div>
-            </div>
+ </div>
+ </div>
+ </div>
+ <div style={{ marginBottom:6, fontSize:12, color:'#6e6e73' }}>Influencia parlamentaria/sectorial</div>
+ <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+ <div style={{ flex:1, height:6, background:'#f5f5f7', borderRadius:3 }}>
+ <div style={{ width:`${ag.inf}%`, height:6, borderRadius:3, background:ag.c, transition:'width 280ms' }}/>
+ </div>
+ <span style={{ fontSize:14, fontWeight:700, color:ag.c }}>{ag.inf}/100</span>
+ </div>
+ </div>
 
             {/* Fortalezas y debilidades */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
-              <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:'#16A34A', letterSpacing:'0.08em', marginBottom:10, textTransform:'uppercase' }}>Fortalezas</div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+ <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
+ <div style={{ fontSize:11, fontWeight:700, color:'#16A34A', letterSpacing:'0.08em', marginBottom:10, textTransform:'uppercase' }}>Fortalezas</div>
                 {ag.forts.map(f => (
-                  <div key={f} style={{ fontSize:12.5, color:'#3a3a3d', display:'flex', gap:8, marginBottom:6, lineHeight:1.5 }}>
-                    <span style={{ color:'#16A34A', flexShrink:0, fontWeight:700 }}>+</span>{f}
-                  </div>
+ <div key={f} style={{ fontSize:12.5, color:'#3a3a3d', display:'flex', gap:8, marginBottom:6, lineHeight:1.5 }}>
+ <span style={{ color:'#16A34A', flexShrink:0, fontWeight:700 }}>+</span>{f}
+ </div>
                 ))}
-              </div>
-              <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:'#DC2626', letterSpacing:'0.08em', marginBottom:10, textTransform:'uppercase' }}>Debilidades</div>
+ </div>
+ <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
+ <div style={{ fontSize:11, fontWeight:700, color:'#DC2626', letterSpacing:'0.08em', marginBottom:10, textTransform:'uppercase' }}>Debilidades</div>
                 {ag.debs.map(d => (
-                  <div key={d} style={{ fontSize:12.5, color:'#3a3a3d', display:'flex', gap:8, marginBottom:6, lineHeight:1.5 }}>
-                    <span style={{ color:'#DC2626', flexShrink:0, fontWeight:700 }}>−</span>{d}
-                  </div>
+ <div key={d} style={{ fontSize:12.5, color:'#3a3a3d', display:'flex', gap:8, marginBottom:6, lineHeight:1.5 }}>
+ <span style={{ color:'#DC2626', flexShrink:0, fontWeight:700 }}>−</span>{d}
+ </div>
                 ))}
-              </div>
-            </div>
+ </div>
+ </div>
 
             {/* Eventos y redes */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
-              <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:'#6e6e73', letterSpacing:'0.08em', marginBottom:10, textTransform:'uppercase' }}>Eventos recientes</div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+ <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
+ <div style={{ fontSize:11, fontWeight:700, color:'#6e6e73', letterSpacing:'0.08em', marginBottom:10, textTransform:'uppercase' }}>Eventos recientes</div>
                 {ag.evs.map(e => (
-                  <div key={e} style={{ fontSize:12.5, color:'#3a3a3d', display:'flex', gap:8, marginBottom:6, lineHeight:1.5 }}>
-                    <span style={{ color:ag.c, flexShrink:0, fontWeight:700 }}>→</span>{e}
-                  </div>
+ <div key={e} style={{ fontSize:12.5, color:'#3a3a3d', display:'flex', gap:8, marginBottom:6, lineHeight:1.5 }}>
+ <span style={{ color:ag.c, flexShrink:0, fontWeight:700 }}>→</span>{e}
+ </div>
                 ))}
-              </div>
-              <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:'#6e6e73', letterSpacing:'0.08em', marginBottom:14, textTransform:'uppercase' }}>Redes sociales</div>
+ </div>
+ <div style={{ background:'#fff', border:'1px solid #e8e8ed', borderRadius:18, padding:'18px 22px' }}>
+ <div style={{ fontSize:11, fontWeight:700, color:'#6e6e73', letterSpacing:'0.08em', marginBottom:14, textTransform:'uppercase' }}>Redes sociales</div>
                 {[
                   { l:'Seguidores estimados', v:ag.seg.f, c:ag.c },
                   { l:'Engagement medio',     v:ag.seg.eng, c:ag.c },
                   { l:'Sentimiento neto',     v:`${ag.seg.tono >= 0 ? '+' : ''}${ag.seg.tono}`, c: ag.seg.tono >= 0 ? '#16A34A' : '#DC2626' },
                 ].map(x => (
-                  <div key={x.l} style={{ display:'flex', justifyContent:'space-between', marginBottom:10 }}>
-                    <span style={{ fontSize:12, color:'#6e6e73' }}>{x.l}</span>
-                    <span style={{ fontSize:13, fontWeight:700, color:x.c }}>{x.v}</span>
-                  </div>
+ <div key={x.l} style={{ display:'flex', justifyContent:'space-between', marginBottom:10 }}>
+ <span style={{ fontSize:12, color:'#6e6e73' }}>{x.l}</span>
+ <span style={{ fontSize:13, fontWeight:700, color:x.c }}>{x.v}</span>
+ </div>
                 ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
   )
 }

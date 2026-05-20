@@ -11,7 +11,7 @@ export async function POST(
   const id = decodeURIComponent(params.id)
   const user = req.nextUrl.searchParams.get('user') || 'ui'
   const r = await callBackend<{ ok: boolean; row_id: number }>(
-    `/api/risk-v2/alerts/${encodeURIComponent(id)}/ack?user=${encodeURIComponent(user)}`,
+ `/api/risk-v2/alerts/${encodeURIComponent(id)}/ack?user=${encodeURIComponent(user)}`,
     { method: 'POST', cache: 'no-store' },
   )
   if (r.data) {
@@ -19,7 +19,7 @@ export async function POST(
   }
   return NextResponse.json(withMeta(
     { ok: false, row_id: Number(id) },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['ack_failed'],
       latency_ms: r.latency_ms,

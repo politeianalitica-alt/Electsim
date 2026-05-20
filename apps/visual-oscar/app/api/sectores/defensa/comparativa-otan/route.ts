@@ -28,7 +28,7 @@ export async function GET() {
   const year = new Date().getFullYear() - 1
   const data = await getCrossCountry(
     PAISES.map(p => p.iso3),
-    'MS.MIL.XPND.GD.ZS',
+ 'MS.MIL.XPND.GD.ZS',
     year,
   )
   const items = PAISES.map(p => {

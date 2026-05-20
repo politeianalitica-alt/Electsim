@@ -26,25 +26,25 @@ export const SimulationPayloadSchema = z.object({
 
 export const SIM_SCHEMA_HINT = `Devuelve ÚNICAMENTE JSON con esta forma:
 {
-  "outcomes": [
+ "outcomes": [
     {
-      "id": "base",
-      "label": "Escenario base",
-      "probability": 50,
-      "likelihood": "moderate",
-      "narrative": "2-3 frases describiendo cómo se desarrollaría",
-      "impactPublic":   -10 a +50,
-      "impactInternal": -10 a +50,
-      "signals": ["señal temprana 1", "señal temprana 2"]
+ "id": "base",
+ "label": "Escenario base",
+ "probability": 50,
+ "likelihood": "moderate",
+ "narrative": "2-3 frases describiendo cómo se desarrollaría",
+ "impactPublic":   -10 a +50,
+ "impactInternal": -10 a +50,
+ "signals": ["señal temprana 1", "señal temprana 2"]
     },
     { "id": "optimo",  ... "label": "Escenario óptimo",  ... },
     { "id": "adverso", ... "label": "Escenario adverso", ... }
   ],
-  "counterMoves": [
+ "counterMoves": [
     { "actor": "Oposición", "move": "...", "rationale": "..." }
   ],
-  "recommendation": "Recomendación operativa 2-3 frases",
-  "riskFlags": ["bandera roja 1", "bandera roja 2"]
+ "recommendation": "Recomendación operativa 2-3 frases",
+ "riskFlags": ["bandera roja 1", "bandera roja 2"]
 }
 Reglas: SIEMPRE 3 escenarios (base/óptimo/adverso). Probabilidades suman aprox 100.
 Español, sin emojis, sin markdown, sin texto fuera del JSON.`;

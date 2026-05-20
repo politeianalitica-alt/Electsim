@@ -389,7 +389,7 @@ export default function PartidosPage() {
 
   // Verificación contra backend ElectSim · refresh 5min
   const { data: backendData, source, updatedAt, refresh } = useApi<BackendPartiesResponse>(
-    '/api/market/parties',
+ '/api/market/parties',
     { refreshInterval: 300_000 }
   )
   const backendParties = backendData?.parties || []
@@ -423,35 +423,35 @@ export default function PartidosPage() {
   }, [])
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+ <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+ <AppHeader/>
+ <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
 
         {/* ───── Hero ───── */}
-        <section style={{
+ <section style={{
           background:'linear-gradient(135deg,#1F4E8C 0%,#0d1b2e 100%)',
           borderRadius:18, padding:'28px 36px', marginBottom:18, color:'#fff',
           display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
         }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
-              <span>INTELIGENCIA POLÍTICA · PARTIDOS Y GRUPOS</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
+ <div>
+ <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+ <span>INTELIGENCIA POLÍTICA · PARTIDOS Y GRUPOS</span>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+ </p>
+ <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
               Quién es quién en el sistema español <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>de partidos</em>
-            </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
+ </h1>
+ <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
               {totals.partidos} partidos · {GRUPOS.length} grupos parlamentarios · {backendParties.length > 0 ? <><strong style={{ color:'#10b981' }}>{backendParties.length} verificados contra backend ElectSim</strong> · </> : null}seguimiento de líderes, escaños, sondeos y posición ideológica.
-            </p>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
-            <HeroKPI label="Partidos" value={String(totals.partidos)}/>
-            <HeroKPI label="Σ Congreso" value={String(totals.congreso)}/>
-            <HeroKPI label="Govs. CCAA" value={String(totals.ccaa)}/>
-            <HeroKPI label="Eurodip." value={String(totals.europa)}/>
-          </div>
-        </section>
+ </p>
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
+ <HeroKPI label="Partidos" value={String(totals.partidos)}/>
+ <HeroKPI label="Σ Congreso" value={String(totals.congreso)}/>
+ <HeroKPI label="Govs. CCAA" value={String(totals.ccaa)}/>
+ <HeroKPI label="Eurodip." value={String(totals.europa)}/>
+ </div>
+ </section>
 
         {/* ═════════════════════════════════════════════════════════════════
             CUADRANTE 2D · POSICIONAMIENTO IDEOLÓGICO VERIFICADO
@@ -460,90 +460,90 @@ export default function PartidosPage() {
             Eje Y: política social    (-1 progre · +1 conserv)
             ═════════════════════════════════════════════════════════════════ */}
         {backendParties.length > 0 && (
-          <section style={{
+ <section style={{
             background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
             padding:'22px 28px', marginBottom:18, boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
           }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
-              <div>
-                <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#10b981', textTransform:'uppercase', margin:'0 0 4px' }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
+ <div>
+ <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#10b981', textTransform:'uppercase', margin:'0 0 4px' }}>
                   CUADRANTE 2D · BACKEND ELECTSIM <span style={{ color:'#6e6e73' }}>· {backendParties.length} partidos verificados</span>
-                </p>
-                <h2 style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.018em', margin:0, color:'#1d1d1f' }}>
+ </p>
+ <h2 style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.018em', margin:0, color:'#1d1d1f' }}>
                   Posición ideológica oficial · datos del backend
-                </h2>
-                <p style={{ fontSize:11.5, color:'#6e6e73', margin:'4px 0 0', lineHeight:1.45 }}>
+ </h2>
+ <p style={{ fontSize:11.5, color:'#6e6e73', margin:'4px 0 0', lineHeight:1.45 }}>
                   Eje X: economía (izquierda ←→ derecha) · Eje Y: social (progresista ↑↓ conservador) ·
                   los partidos cuyo slug coincide muestran un punto verde de verificación
-                </p>
-              </div>
-            </div>
+ </p>
+ </div>
+ </div>
 
-            <div style={{ position:'relative', width:'100%', maxWidth:560, height:380, margin:'0 auto', background:'#fafafa', border:'1px solid #ECECEF', borderRadius:12 }}>
+ <div style={{ position:'relative', width:'100%', maxWidth:560, height:380, margin:'0 auto', background:'#fafafa', border:'1px solid #ECECEF', borderRadius:12 }}>
               {/* Ejes */}
-              <div style={{ position:'absolute', left:'50%', top:0, bottom:0, width:1, background:'#ECECEF' }}/>
-              <div style={{ position:'absolute', top:'50%', left:0, right:0, height:1, background:'#ECECEF' }}/>
+ <div style={{ position:'absolute', left:'50%', top:0, bottom:0, width:1, background:'#ECECEF' }}/>
+ <div style={{ position:'absolute', top:'50%', left:0, right:0, height:1, background:'#ECECEF' }}/>
 
               {/* Etiquetas de cuadrantes */}
-              <span style={{ position:'absolute', top:6, left:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em' }}>↑ CONSERV. — IZQ. ECON.</span>
-              <span style={{ position:'absolute', top:6, right:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em', textAlign:'right' }}>↑ CONSERV. — DCHA. ECON.</span>
-              <span style={{ position:'absolute', bottom:6, left:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em' }}>↓ PROGRES. — IZQ. ECON.</span>
-              <span style={{ position:'absolute', bottom:6, right:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em', textAlign:'right' }}>↓ PROGRES. — DCHA. ECON.</span>
+ <span style={{ position:'absolute', top:6, left:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em' }}>↑ CONSERV. — IZQ. ECON.</span>
+ <span style={{ position:'absolute', top:6, right:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em', textAlign:'right' }}>↑ CONSERV. — DCHA. ECON.</span>
+ <span style={{ position:'absolute', bottom:6, left:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em' }}>↓ PROGRES. — IZQ. ECON.</span>
+ <span style={{ position:'absolute', bottom:6, right:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em', textAlign:'right' }}>↓ PROGRES. — DCHA. ECON.</span>
 
               {/* Puntos · convertimos -1..+1 a 0..100% */}
               {backendParties.map(p => {
                 const x = (p.ideology_axes.economic + 1) / 2 * 100  // 0-100%
                 const y = (p.ideology_axes.social + 1) / 2 * 100    // 0-100% (invertido: +1 social = arriba)
                 return (
-                  <div key={p.slug} style={{
+ <div key={p.slug} style={{
                     position:'absolute', left:`${x}%`, top:`${100-y}%`,
                     transform:'translate(-50%, -50%)',
                     display:'flex', alignItems:'center', gap:5,
                   }}>
-                    <span style={{
+ <span style={{
                       width:14, height:14, borderRadius:'50%', background:p.color_hex,
                       border:'2px solid #fff', boxShadow:'0 1px 3px rgba(0,0,0,0.20)',
                     }}/>
-                    <span style={{
+ <span style={{
                       fontSize:11, fontWeight:700, color:p.color_hex,
                       background:'rgba(255,255,255,0.92)', padding:'1px 5px', borderRadius:4,
                       border:`1px solid ${p.color_hex}30`, whiteSpace:'nowrap',
                     }}>{p.slug.toUpperCase()}</span>
-                  </div>
+ </div>
                 )
               })}
-            </div>
+ </div>
 
             {/* Tabla resumen al lado */}
-            <div style={{ marginTop:16, display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:8 }}>
+ <div style={{ marginTop:16, display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:8 }}>
               {backendParties.map(p => {
                 const localMatch = PARTIDOS.find(lp => lp.id === p.slug || lp.siglas.toLowerCase() === p.slug)
                 const verified = !!localMatch
                 return (
-                  <div key={p.slug} style={{
+ <div key={p.slug} style={{
                     padding:'10px 12px', background:'#fafafa', borderRadius:10,
                     border:'1px solid #ECECEF', borderLeft:`3px solid ${p.color_hex}`,
                     display:'flex', alignItems:'center', justifyContent:'space-between', gap:8,
                   }}>
-                    <div style={{ minWidth:0 }}>
-                      <div style={{ fontSize:12, fontWeight:700, color:'#1d1d1f' }}>{p.slug.toUpperCase()}</div>
-                      <div style={{ fontSize:10.5, color:'#6e6e73', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.name}</div>
-                    </div>
-                    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:1 }}>
-                      <span style={{ fontSize:10, color:'#6e6e73' }}>eco {p.ideology_axes.economic > 0 ? '+' : ''}{p.ideology_axes.economic.toFixed(2)}</span>
-                      <span style={{ fontSize:10, color:'#6e6e73' }}>soc {p.ideology_axes.social > 0 ? '+' : ''}{p.ideology_axes.social.toFixed(2)}</span>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:12, fontWeight:700, color:'#1d1d1f' }}>{p.slug.toUpperCase()}</div>
+ <div style={{ fontSize:10.5, color:'#6e6e73', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.name}</div>
+ </div>
+ <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:1 }}>
+ <span style={{ fontSize:10, color:'#6e6e73' }}>eco {p.ideology_axes.economic > 0 ? '+' : ''}{p.ideology_axes.economic.toFixed(2)}</span>
+ <span style={{ fontSize:10, color:'#6e6e73' }}>soc {p.ideology_axes.social > 0 ? '+' : ''}{p.ideology_axes.social.toFixed(2)}</span>
                       {verified && <span style={{ fontSize:9, fontWeight:700, color:'#10b981', marginTop:2 }}> MATCH</span>}
-                    </div>
-                  </div>
+ </div>
+ </div>
                 )
               })}
-            </div>
-          </section>
+ </div>
+ </section>
         )}
 
         {/* ───── Tabs ───── */}
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
-          <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
+ <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
             {([
               { k:'partidos', label:'Partidos',                 count: PARTIDOS.length },
               { k:'grupos',   label:'Grupos parlamentarios',   count: GRUPOS.length },
@@ -551,7 +551,7 @@ export default function PartidosPage() {
             ] as const).map(t => {
               const active = tab === t.k
               return (
-                <button key={t.k} onClick={() => setTab(t.k)} style={{
+ <button key={t.k} onClick={() => setTab(t.k)} style={{
                   background: active ? '#fff' : 'transparent',
                   color: active ? '#1d1d1f' : '#6e6e73',
                   border:'none', borderRadius:999, padding:'7px 16px',
@@ -559,18 +559,18 @@ export default function PartidosPage() {
                   fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
                 }}>
                   {t.label} <span style={{ marginLeft:5, color: active ? '#1F4E8C' : '#6e6e73', fontWeight:700, fontSize:10.5 }}>{t.count}</span>
-                </button>
+ </button>
               )
             })}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* ───── Tab Partidos ───── */}
         {tab === 'partidos' && (
-          <>
+ <>
             {/* Filtros */}
-            <div style={{ display:'flex', gap:12, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
-              <input
+ <div style={{ display:'flex', gap:12, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
+ <input
                 type="text" value={query} onChange={e => setQuery(e.target.value)}
                 placeholder={`Buscar entre ${PARTIDOS.length} partidos…`}
                 style={{
@@ -580,12 +580,12 @@ export default function PartidosPage() {
                   fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
                 }}
               />
-              <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Familia:</span>
-              <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, flexWrap:'wrap' }}>
+ <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Familia:</span>
+ <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, flexWrap:'wrap' }}>
                 {FAMILIAS.map(f => {
                   const active = filterFamilia === f
                   return (
-                    <button key={f} onClick={() => setFilterFamilia(f)} style={{
+ <button key={f} onClick={() => setFilterFamilia(f)} style={{
                       background: active ? '#fff' : 'transparent',
                       color: active ? '#1d1d1f' : '#6e6e73',
                       border:'none', borderRadius:999, padding:'4px 10px',
@@ -594,62 +594,62 @@ export default function PartidosPage() {
                     }}>{f}</button>
                   )
                 })}
-              </div>
-              <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginLeft:4 }}>Orden:</span>
-              <select value={orderBy} onChange={e => setOrderBy(e.target.value as typeof orderBy)} style={{
+ </div>
+ <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginLeft:4 }}>Orden:</span>
+ <select value={orderBy} onChange={e => setOrderBy(e.target.value as typeof orderBy)} style={{
                 padding:'5px 30px 5px 12px', borderRadius:999, border:'1px solid #ECECEF', background:'#fff',
                 fontSize:11.5, fontFamily:'inherit', cursor:'pointer', appearance:'none',
                 backgroundImage:'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' viewBox=\'0 0 10 10\'%3E%3Cpath d=\'M2 4l3 3 3-3\' stroke=\'%236e6e73\' stroke-width=\'1.5\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")',
                 backgroundRepeat:'no-repeat', backgroundPosition:'right 9px center',
               }}>
-                <option value="congreso">Escaños Congreso</option>
-                <option value="intencion">Intención de voto</option>
-                <option value="fundacion">Fundación</option>
-              </select>
-              <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} partidos visibles</span>
-            </div>
+ <option value="congreso">Escaños Congreso</option>
+ <option value="intencion">Intención de voto</option>
+ <option value="fundacion">Fundación</option>
+ </select>
+ <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} partidos visibles</span>
+ </div>
 
             {/* Cards de partidos */}
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(440px,1fr))', gap:12 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(440px,1fr))', gap:12 }}>
               {filtered.map(p => <PartidoCard key={p.id} p={p}/>)}
               {filtered.length === 0 && (
-                <div style={{ gridColumn:'1/-1', padding:30, textAlign:'center', color:'#6e6e73', fontSize:13, background:'#fff', borderRadius:14, border:'1px solid #ECECEF' }}>
+ <div style={{ gridColumn:'1/-1', padding:30, textAlign:'center', color:'#6e6e73', fontSize:13, background:'#fff', borderRadius:14, border:'1px solid #ECECEF' }}>
                   Sin coincidencias.
-                </div>
+ </div>
               )}
-            </div>
-          </>
+ </div>
+ </>
         )}
 
         {/* ───── Tab Grupos parlamentarios ───── */}
         {tab === 'grupos' && (
-          <>
-            <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', marginBottom:14 }}>
-              <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.014em' }}>Composición del Congreso · 350 escaños</h3>
-              <p style={{ margin:'0 0 22px', fontSize:11.5, color:'#6e6e73' }}>Distribución de los 8 grupos parlamentarios. Mayoría absoluta = 176 · investidura efectiva 23J: 179 SÍ.</p>
-              <BarraComposicion grupos={GRUPOS}/>
-            </div>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:12 }}>
+ <>
+ <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', marginBottom:14 }}>
+ <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.014em' }}>Composición del Congreso · 350 escaños</h3>
+ <p style={{ margin:'0 0 22px', fontSize:11.5, color:'#6e6e73' }}>Distribución de los 8 grupos parlamentarios. Mayoría absoluta = 176 · investidura efectiva 23J: 179 SÍ.</p>
+ <BarraComposicion grupos={GRUPOS}/>
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:12 }}>
               {GRUPOS.map(g => <GrupoCard key={g.id} g={g}/>)}
-            </div>
-          </>
+ </div>
+ </>
         )}
 
         {/* ───── Tab Tabla comparativa ───── */}
         {tab === 'tabla' && (
-          <div style={{
+ <div style={{
             background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
             boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden',
           }}>
-            <div style={{ overflowX:'auto' }}>
-              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:1100 }}>
-                <thead>
-                  <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
+ <div style={{ overflowX:'auto' }}>
+ <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:1100 }}>
+ <thead>
+ <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
                     {[
-                      { l:'Partido',     a:'left'  },
-                      { l:'Familia',     a:'left'  },
+                      { l:'Partido',     a:'left' },
+                      { l:'Familia',     a:'left' },
                       { l:'Fundac.',     a:'right' },
-                      { l:'Líder',       a:'left'  },
+                      { l:'Líder',       a:'left' },
                       { l:'Congreso',    a:'right' },
                       { l:'Senado',      a:'right' },
                       { l:'Europa',      a:'right' },
@@ -657,57 +657,57 @@ export default function PartidosPage() {
                       { l:'%2023',       a:'right' },
                       { l:'Intenc.',     a:'right' },
                       { l:'Δ30d',        a:'right' },
-                      { l:'Tendencia',   a:'left'  },
+                      { l:'Tendencia',   a:'left' },
                     ].map(h => (
-                      <th key={h.l} style={{
+ <th key={h.l} style={{
                         textAlign:h.a as 'left'|'right',
                         padding:'10px 12px',
                         fontSize:9.5, fontWeight:700, color:'#6e6e73',
                         letterSpacing:'0.06em', textTransform:'uppercase',
                       }}>{h.l}</th>
                     ))}
-                  </tr>
-                </thead>
-                <tbody>
+ </tr>
+ </thead>
+ <tbody>
                   {[...PARTIDOS].sort((a,b) => b.congreso - a.congreso).map((p, i) => (
-                    <tr key={p.id} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                      <td style={{ padding:'9px 12px' }}>
-                        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                          <span style={{ width:11, height:11, borderRadius:3, background:p.color, flexShrink:0, display:'inline-block' }}/>
-                          <div style={{ minWidth:0 }}>
-                            <div style={{ fontWeight:700, color:'#1d1d1f' }}>{p.siglas}</div>
-                            <div style={{ fontSize:10, color:'#86868b', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth:200 }}>{p.nombre}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td style={{ padding:'9px 12px', color:'#3a3a3d', fontSize:11 }}>{p.familia}</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', color:'#3a3a3d' }}>{p.fundacion}</td>
-                      <td style={{ padding:'9px 12px', color:'#1d1d1f', fontSize:11.5, fontWeight:600 }}>{p.presidente}</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:700, color:p.color }}>{p.congreso}</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', color:'#3a3a3d' }}>{p.senado}</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', color:'#3a3a3d' }}>{p.europa}</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', color:'#3a3a3d' }}>{p.ccaa}</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600 }}>{p.voto2023}%</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:p.color }}>{p.intencion}%</td>
-                      <td style={{ padding:'9px 12px', textAlign:'right', fontWeight:700, color: p.delta30d > 0 ? '#16A34A' : p.delta30d < 0 ? '#DC2626' : '#6e6e73' }}>
+ <tr key={p.id} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
+ <td style={{ padding:'9px 12px' }}>
+ <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+ <span style={{ width:11, height:11, borderRadius:3, background:p.color, flexShrink:0, display:'inline-block' }}/>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontWeight:700, color:'#1d1d1f' }}>{p.siglas}</div>
+ <div style={{ fontSize:10, color:'#86868b', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth:200 }}>{p.nombre}</div>
+ </div>
+ </div>
+ </td>
+ <td style={{ padding:'9px 12px', color:'#3a3a3d', fontSize:11 }}>{p.familia}</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', color:'#3a3a3d' }}>{p.fundacion}</td>
+ <td style={{ padding:'9px 12px', color:'#1d1d1f', fontSize:11.5, fontWeight:600 }}>{p.presidente}</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:700, color:p.color }}>{p.congreso}</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', color:'#3a3a3d' }}>{p.senado}</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', color:'#3a3a3d' }}>{p.europa}</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', color:'#3a3a3d' }}>{p.ccaa}</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600 }}>{p.voto2023}%</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:p.color }}>{p.intencion}%</td>
+ <td style={{ padding:'9px 12px', textAlign:'right', fontWeight:700, color: p.delta30d > 0 ? '#16A34A' : p.delta30d < 0 ? '#DC2626' : '#6e6e73' }}>
                         {p.delta30d > 0 ? '▲' : p.delta30d < 0 ? '▼' : '→'} {Math.abs(p.delta30d).toFixed(1)}
-                      </td>
-                      <td style={{ padding:'9px 12px', minWidth:120 }}>
-                        <Sparkline data={p.votoSerie} color={p.color} h={26}/>
-                      </td>
-                    </tr>
+ </td>
+ <td style={{ padding:'9px 12px', minWidth:120 }}>
+ <Sparkline data={p.votoSerie} color={p.color} h={26}/>
+ </td>
+ </tr>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+ </tbody>
+ </table>
+ </div>
+ </div>
         )}
 
-      </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+ </main>
+ <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Partidos y Grupos · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }
 
@@ -716,51 +716,51 @@ export default function PartidosPage() {
 // ─────────────────────────────────────────────────────────────────────────
 function PartidoCard({ p }: { p: Partido }) {
   return (
-    <article style={{
+ <article style={{
       background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
       boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden',
       display:'flex', flexDirection:'column',
     }}>
-      <header style={{
+ <header style={{
         display:'grid', gridTemplateColumns:'auto 1fr auto', gap:14, alignItems:'center',
         padding:'14px 16px',
         background:`linear-gradient(135deg, ${p.color}10, ${p.color}03)`,
         borderBottom:`2px solid ${p.color}`,
       }}>
-        <div style={{
+ <div style={{
           width:54, height:54, borderRadius:12,
           background:p.color, color:'#fff',
           display:'flex', alignItems:'center', justifyContent:'center',
           fontFamily:'var(--font-display)', fontWeight:800, fontSize:18, letterSpacing:'-0.01em',
           flexShrink:0, boxShadow:`0 2px 6px ${p.color}50`,
         }}>{p.siglas.length <= 4 ? p.siglas : p.siglas.slice(0,4)}</div>
-        <div style={{ minWidth:0 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3, flexWrap:'wrap' }}>
-            <span style={{
+ <div style={{ minWidth:0 }}>
+ <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3, flexWrap:'wrap' }}>
+ <span style={{
               fontSize:9, fontWeight:800, letterSpacing:'0.08em',
               padding:'2px 7px', borderRadius:4,
               background:p.color, color:'#fff',
             }}>{p.familia.toUpperCase()}</span>
-            <span style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em' }}>· {p.ambito.toUpperCase()} · DESDE {p.fundacion}</span>
-          </div>
-          <h3 style={{ margin:'0 0 2px', fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.2 }}>
+ <span style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em' }}>· {p.ambito.toUpperCase()} · DESDE {p.fundacion}</span>
+ </div>
+ <h3 style={{ margin:'0 0 2px', fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.2 }}>
             {p.nombre}
-          </h3>
-          <p style={{ margin:0, fontSize:11, color:'#3a3a3d' }}>
-            <strong>{p.presidente}</strong> · {p.secretario}
-          </p>
-        </div>
-        <div style={{ textAlign:'right', flexShrink:0 }}>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color:p.color, letterSpacing:'-0.022em', lineHeight:1 }}>{p.intencion}<span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>%</span></div>
-          <div style={{ fontSize:9.5, fontWeight:700, color: p.delta30d > 0 ? '#16A34A' : p.delta30d < 0 ? '#DC2626' : '#6e6e73', marginTop:1 }}>
+ </h3>
+ <p style={{ margin:0, fontSize:11, color:'#3a3a3d' }}>
+ <strong>{p.presidente}</strong> · {p.secretario}
+ </p>
+ </div>
+ <div style={{ textAlign:'right', flexShrink:0 }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color:p.color, letterSpacing:'-0.022em', lineHeight:1 }}>{p.intencion}<span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>%</span></div>
+ <div style={{ fontSize:9.5, fontWeight:700, color: p.delta30d > 0 ? '#16A34A' : p.delta30d < 0 ? '#DC2626' : '#6e6e73', marginTop:1 }}>
             {p.delta30d > 0 ? '▲' : p.delta30d < 0 ? '▼' : '→'} {Math.abs(p.delta30d).toFixed(1)} · 30d
-          </div>
-        </div>
-      </header>
+ </div>
+ </div>
+ </header>
 
-      <div style={{ padding:'14px 16px' }}>
+ <div style={{ padding:'14px 16px' }}>
         {/* Representación */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6, marginBottom:12 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6, marginBottom:12 }}>
           {[
             { l:'Congreso',  v:p.congreso,   c:p.color },
             { l:'Senado',    v:p.senado,     c:'#3a3a3d' },
@@ -768,70 +768,70 @@ function PartidoCard({ p }: { p: Partido }) {
             { l:'Govs CCAA', v:p.ccaa,       c:'#3a3a3d' },
             { l:'Alc. >100k',v:p.alcaldias,  c:'#3a3a3d' },
           ].map(k => (
-            <div key={k.l} style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:8, padding:'7px 4px', textAlign:'center' }}>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color:k.c, lineHeight:1 }}>{k.v}</div>
-              <div style={{ fontSize:8.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', marginTop:3 }}>{k.l}</div>
-            </div>
+ <div key={k.l} style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:8, padding:'7px 4px', textAlign:'center' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color:k.c, lineHeight:1 }}>{k.v}</div>
+ <div style={{ fontSize:8.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', marginTop:3 }}>{k.l}</div>
+ </div>
           ))}
-        </div>
+ </div>
 
         {/* Eje ideológico */}
-        <div style={{ marginBottom:12 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
-            <span style={{ fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Eje izquierda · derecha</span>
-            <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, color:p.color }}>{p.ideologia > 0 ? `+${p.ideologia}` : p.ideologia}</span>
-          </div>
-          <EjePosicion value={p.ideologia} color={p.color}/>
-        </div>
+ <div style={{ marginBottom:12 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
+ <span style={{ fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Eje izquierda · derecha</span>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, color:p.color }}>{p.ideologia > 0 ? `+${p.ideologia}` : p.ideologia}</span>
+ </div>
+ <EjePosicion value={p.ideologia} color={p.color}/>
+ </div>
 
         {/* Tendencia + grupo UE */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 }}>
-          <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
-            <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Voto generales (últimas 6)</div>
-            <Sparkline data={p.votoSerie} color={p.color} h={28}/>
-            <div style={{ display:'flex', justifyContent:'space-between', marginTop:3, fontSize:9, color:'#86868b', fontWeight:600 }}>
-              <span>2008</span><span>2023</span>
-            </div>
-          </div>
-          <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
-            <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Grupo UE</div>
-            <div style={{ fontSize:11.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{p.grupoUE}</div>
-            <div style={{ marginTop:5, display:'flex', gap:8, fontSize:10, color:'#6e6e73' }}>
-              <span>{p.afiliados}K afiliados</span>
-            </div>
-          </div>
-        </div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 }}>
+ <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
+ <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Voto generales (últimas 6)</div>
+ <Sparkline data={p.votoSerie} color={p.color} h={28}/>
+ <div style={{ display:'flex', justifyContent:'space-between', marginTop:3, fontSize:9, color:'#86868b', fontWeight:600 }}>
+ <span>2008</span><span>2023</span>
+ </div>
+ </div>
+ <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
+ <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Grupo UE</div>
+ <div style={{ fontSize:11.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{p.grupoUE}</div>
+ <div style={{ marginTop:5, display:'flex', gap:8, fontSize:10, color:'#6e6e73' }}>
+ <span>{p.afiliados}K afiliados</span>
+ </div>
+ </div>
+ </div>
 
         {/* Fortalezas y debilidades */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-          <div>
-            <div style={{ fontSize:9, fontWeight:700, color:'#16A34A', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Fortalezas</div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+ <div>
+ <div style={{ fontSize:9, fontWeight:700, color:'#16A34A', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Fortalezas</div>
             {p.fortalezas.map(f => (
-              <div key={f} style={{ fontSize:10.5, color:'#3a3a3d', display:'flex', gap:5, marginBottom:3, lineHeight:1.4 }}>
-                <span style={{ color:'#16A34A', fontWeight:700, flexShrink:0 }}>+</span>{f}
-              </div>
+ <div key={f} style={{ fontSize:10.5, color:'#3a3a3d', display:'flex', gap:5, marginBottom:3, lineHeight:1.4 }}>
+ <span style={{ color:'#16A34A', fontWeight:700, flexShrink:0 }}>+</span>{f}
+ </div>
             ))}
-          </div>
-          <div>
-            <div style={{ fontSize:9, fontWeight:700, color:'#DC2626', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Debilidades</div>
+ </div>
+ <div>
+ <div style={{ fontSize:9, fontWeight:700, color:'#DC2626', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Debilidades</div>
             {p.debilidades.map(d => (
-              <div key={d} style={{ fontSize:10.5, color:'#3a3a3d', display:'flex', gap:5, marginBottom:3, lineHeight:1.4 }}>
-                <span style={{ color:'#DC2626', fontWeight:700, flexShrink:0 }}>−</span>{d}
-              </div>
+ <div key={d} style={{ fontSize:10.5, color:'#3a3a3d', display:'flex', gap:5, marginBottom:3, lineHeight:1.4 }}>
+ <span style={{ color:'#DC2626', fontWeight:700, flexShrink:0 }}>−</span>{d}
+ </div>
             ))}
-          </div>
-        </div>
-      </div>
+ </div>
+ </div>
+ </div>
 
-      <footer style={{
+ <footer style={{
         background:'#FAFAFB', borderTop:'1px solid #ECECEF',
         padding:'8px 14px', display:'flex', justifyContent:'space-between', alignItems:'center', gap:8,
         fontSize:10.5, color:'#6e6e73',
       }}>
-        <span><strong style={{ color:'#1d1d1f' }}>{p.web}</strong></span>
-        <span>{p.twitter}</span>
-      </footer>
-    </article>
+ <span><strong style={{ color:'#1d1d1f' }}>{p.web}</strong></span>
+ <span>{p.twitter}</span>
+ </footer>
+ </article>
   )
 }
 
@@ -846,63 +846,63 @@ function GrupoCard({ g }: { g: GrupoParlamentario }) {
   }
   const pm = POS_META[g.posicion]
   return (
-    <article style={{
+ <article style={{
       background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
       boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden',
     }}>
-      <div style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:14, alignItems:'center', padding:'14px 16px', borderBottom:`2px solid ${g.color}` }}>
-        <div style={{
+ <div style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:14, alignItems:'center', padding:'14px 16px', borderBottom:`2px solid ${g.color}` }}>
+ <div style={{
           width:50, height:50, borderRadius:'50%',
           background:g.color, color:'#fff',
           display:'flex', alignItems:'center', justifyContent:'center',
           fontFamily:'var(--font-display)', fontWeight:800, fontSize:14, flexShrink:0,
           boxShadow:`0 2px 6px ${g.color}50`,
         }}>{g.escanos}</div>
-        <div style={{ minWidth:0 }}>
-          <div style={{ display:'flex', gap:6, marginBottom:4, flexWrap:'wrap' }}>
-            <span style={{
+ <div style={{ minWidth:0 }}>
+ <div style={{ display:'flex', gap:6, marginBottom:4, flexWrap:'wrap' }}>
+ <span style={{
               fontSize:9, fontWeight:800, letterSpacing:'0.08em',
               padding:'2px 7px', borderRadius:4,
               background:pm.color, color:'#fff',
             }}>{pm.label}</span>
-          </div>
-          <h3 style={{ margin:'0 0 2px', fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, letterSpacing:'-0.012em', color:'#1d1d1f' }}>{g.nombre}</h3>
-          <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{g.escanos} escaños · {Math.round((g.escanos/350)*100)}% del Congreso</p>
-        </div>
-      </div>
-      <div style={{ padding:'14px 16px' }}>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 }}>
-          <div>
-            <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>Presidente del grupo</div>
-            <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f' }}>{g.presidente}</div>
-          </div>
-          <div>
-            <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>Portavoz</div>
-            <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f' }}>{g.portavoz}</div>
-          </div>
-        </div>
-        <div style={{ marginBottom:12 }}>
-          <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:5 }}>Disciplina de voto</div>
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ flex:1, height:7, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-              <div style={{ width:`${g.disciplina}%`, height:'100%', background:g.color, borderRadius:3 }}/>
-            </div>
-            <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:g.color }}>{g.disciplina}%</span>
-          </div>
-        </div>
-        <div>
-          <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:5 }}>Partidos integrantes</div>
-          <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
+ </div>
+ <h3 style={{ margin:'0 0 2px', fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, letterSpacing:'-0.012em', color:'#1d1d1f' }}>{g.nombre}</h3>
+ <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{g.escanos} escaños · {Math.round((g.escanos/350)*100)}% del Congreso</p>
+ </div>
+ </div>
+ <div style={{ padding:'14px 16px' }}>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 }}>
+ <div>
+ <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>Presidente del grupo</div>
+ <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f' }}>{g.presidente}</div>
+ </div>
+ <div>
+ <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>Portavoz</div>
+ <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f' }}>{g.portavoz}</div>
+ </div>
+ </div>
+ <div style={{ marginBottom:12 }}>
+ <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:5 }}>Disciplina de voto</div>
+ <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+ <div style={{ flex:1, height:7, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
+ <div style={{ width:`${g.disciplina}%`, height:'100%', background:g.color, borderRadius:3 }}/>
+ </div>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:g.color }}>{g.disciplina}%</span>
+ </div>
+ </div>
+ <div>
+ <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:5 }}>Partidos integrantes</div>
+ <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
             {g.partidos.map(p => (
-              <span key={p} style={{
+ <span key={p} style={{
                 fontSize:10.5, fontWeight:600, padding:'3px 9px', borderRadius:999,
                 background:`${g.color}15`, color:g.color, border:`1px solid ${g.color}40`,
               }}>{p}</span>
             ))}
-          </div>
-        </div>
-      </div>
-    </article>
+ </div>
+ </div>
+ </div>
+ </article>
   )
 }
 
@@ -916,37 +916,37 @@ function BarraComposicion({ grupos }: { grupos: GrupoParlamentario[] }) {
   const segments = sorted.map(g => ({ ...g, pctW: (g.escanos / total) * 100 }))
   const majX = (176 / total) * 100
   return (
-    <div>
-      <div style={{ position:'relative', height:34, background:'#F5F5F7', borderRadius:8, overflow:'hidden', display:'flex' }}>
+ <div>
+ <div style={{ position:'relative', height:34, background:'#F5F5F7', borderRadius:8, overflow:'hidden', display:'flex' }}>
         {segments.map((g, i) => (
-          <div key={g.id} style={{
+ <div key={g.id} style={{
             width:`${g.pctW}%`, height:'100%', background:g.color,
             display:'flex', alignItems:'center', justifyContent:'center',
             color:'#fff', fontFamily:'var(--font-display)', fontWeight:700, fontSize:11,
             borderRight: i < segments.length - 1 ? '1px solid rgba(255,255,255,0.3)' : 'none',
           }} title={`${g.nombre} · ${g.escanos}`}>
             {g.pctW > 6 ? g.escanos : ''}
-          </div>
+ </div>
         ))}
-        <div style={{
+ <div style={{
           position:'absolute', left:`${majX}%`, top:-3, bottom:-3, width:2,
           background:'#1d1d1f', borderRadius:1,
         }}/>
-        <div style={{
+ <div style={{
           position:'absolute', left:`${majX}%`, top:-18, transform:'translateX(-50%)',
           fontSize:9, fontWeight:800, color:'#1d1d1f', letterSpacing:'0.06em', whiteSpace:'nowrap',
         }}>176 · MAYORÍA</div>
-      </div>
-      <div style={{ display:'flex', flexWrap:'wrap', gap:10, marginTop:10 }}>
+ </div>
+ <div style={{ display:'flex', flexWrap:'wrap', gap:10, marginTop:10 }}>
         {sorted.map(g => (
-          <div key={g.id} style={{ display:'inline-flex', alignItems:'center', gap:6, fontSize:11 }}>
-            <span style={{ width:10, height:10, borderRadius:2, background:g.color, display:'inline-block' }}/>
-            <span style={{ color:'#1d1d1f', fontWeight:600 }}>{g.nombre.replace('GP ', '')}</span>
-            <span style={{ color:'#6e6e73', fontFamily:'var(--font-display)', fontWeight:700 }}>{g.escanos}</span>
-          </div>
+ <div key={g.id} style={{ display:'inline-flex', alignItems:'center', gap:6, fontSize:11 }}>
+ <span style={{ width:10, height:10, borderRadius:2, background:g.color, display:'inline-block' }}/>
+ <span style={{ color:'#1d1d1f', fontWeight:600 }}>{g.nombre.replace('GP ', '')}</span>
+ <span style={{ color:'#6e6e73', fontFamily:'var(--font-display)', fontWeight:700 }}>{g.escanos}</span>
+ </div>
         ))}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
 
@@ -955,23 +955,23 @@ function BarraComposicion({ grupos }: { grupos: GrupoParlamentario[] }) {
 // ─────────────────────────────────────────────────────────────────────────
 function HeroKPI({ label, value }: { label:string, value:string }) {
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
-      <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:4, color:'#fff' }}>{label}</div>
-    </div>
+ <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
+ <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:4, color:'#fff' }}>{label}</div>
+ </div>
   )
 }
 
 function EjePosicion({ value, color }: { value: number, color: string }) {
   const pct = ((value + 100) / 200) * 100
   return (
-    <div style={{ position:'relative', height:8, background:'linear-gradient(90deg, #DC2626 0%, #F5F5F7 50%, #1F4E8C 100%)', borderRadius:4, opacity:0.18 }}>
-      <div style={{
+ <div style={{ position:'relative', height:8, background:'linear-gradient(90deg, #DC2626 0%, #F5F5F7 50%, #1F4E8C 100%)', borderRadius:4, opacity:0.18 }}>
+ <div style={{
         position:'absolute', left:`${pct}%`, top:-4, transform:'translateX(-50%)',
         width:16, height:16, borderRadius:'50%', background:color, border:'2px solid #fff',
         boxShadow:`0 0 0 2px ${color}50, 0 1px 3px rgba(0,0,0,0.1)`,
       }}/>
-    </div>
+ </div>
   )
 }
 
@@ -986,10 +986,10 @@ function Sparkline({ data, color, h = 30 }: { data: number[], color: string, h?:
   }).join(' ')
   const area = `0,${h} ${pts} ${w},${h}`
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} style={{ width:'100%', height:h, display:'block' }} preserveAspectRatio="none">
-      <polyline points={area} fill={`${color}20`} stroke="none"/>
-      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
-      <circle cx={w} cy={h - 4 - ((data[data.length - 1] - min) / range) * (h - 8)} r="2" fill={color}/>
-    </svg>
+ <svg viewBox={`0 0 ${w} ${h}`} style={{ width:'100%', height:h, display:'block' }} preserveAspectRatio="none">
+ <polyline points={area} fill={`${color}20`} stroke="none"/>
+ <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
+ <circle cx={w} cy={h - 4 - ((data[data.length - 1] - min) / range) * (h - 8)} r="2" fill={color}/>
+ </svg>
   )
 }

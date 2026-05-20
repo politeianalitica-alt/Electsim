@@ -120,10 +120,10 @@ async function fetchRSSPortada(nombre: string, url: string): Promise<TrendItem[]
 
 // Google News RSS — more reliable from Vercel IPs than direct media scraping
 const RSS_FEEDS: Record<string, string> = {
-  'Google Noticias ES':    'https://news.google.com/rss?hl=es&gl=ES&ceid=ES:es',
-  'Google Política ES':    'https://news.google.com/rss/search?q=pol%C3%ADtica+espa%C3%B1a&hl=es&gl=ES&ceid=ES:es',
-  'Google Economía ES':    'https://news.google.com/rss/search?q=econom%C3%ADa+espa%C3%B1a&hl=es&gl=ES&ceid=ES:es',
-  'Google Internacional':  'https://news.google.com/rss/search?q=geopolítica&hl=es&gl=ES&ceid=ES:es',
+ 'Google Noticias ES': 'https://news.google.com/rss?hl=es&gl=ES&ceid=ES:es',
+ 'Google Política ES': 'https://news.google.com/rss/search?q=pol%C3%ADtica+espa%C3%B1a&hl=es&gl=ES&ceid=ES:es',
+ 'Google Economía ES': 'https://news.google.com/rss/search?q=econom%C3%ADa+espa%C3%B1a&hl=es&gl=ES&ceid=ES:es',
+ 'Google Internacional': 'https://news.google.com/rss/search?q=geopolítica&hl=es&gl=ES&ceid=ES:es',
 }
 
 export async function GET() {

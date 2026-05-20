@@ -21,31 +21,31 @@ export interface PesoCasa {
 }
 
 export const PESOS_CASAS: Record<string, PesoCasa> = {
-  'Sigma Dos':           { casa: 'Sigma Dos',           peso_calidad: 0.95, muestra_tipica: 1200, cliente_principal: 'El Mundo',     metodologia: 'CATI',  notas: 'Alta precisión histórica · tracking semanal' },
-  '40dB':                { casa: '40dB',                peso_calidad: 0.92, muestra_tipica: 1600, cliente_principal: 'El País / Cadena SER', metodologia: 'CAWI', notas: 'Panel grande · muestreo robusto' },
-  'GAD3':                { casa: 'GAD3',                peso_calidad: 0.90, muestra_tipica: 1000, cliente_principal: 'ABC',           metodologia: 'CATI',  notas: 'Histórico sólido · sesgo conservador detectado' },
-  'NC Report':           { casa: 'NC Report',           peso_calidad: 0.85, muestra_tipica: 1000, cliente_principal: 'La Razón',       metodologia: 'mixed', notas: 'Muestra panel + CATI' },
-  'Sociométrica':        { casa: 'Sociométrica',        peso_calidad: 0.88, muestra_tipica: 1500, cliente_principal: 'El Español',      metodologia: 'CAWI'  },
-  'Metroscopia':         { casa: 'Metroscopia',         peso_calidad: 0.86, muestra_tipica: 2000, cliente_principal: 'Henneo · 20 minutos', metodologia: 'mixed', notas: 'Histórico de gran prestigio' },
-  'IMOP Insights':       { casa: 'IMOP Insights',       peso_calidad: 0.84, muestra_tipica: 1200, cliente_principal: 'El Confidencial',  metodologia: 'CAWI'  },
-  'SocioMétrica':        { casa: 'SocioMétrica',        peso_calidad: 0.84, muestra_tipica: 1500, cliente_principal: 'El Español',       metodologia: 'CAWI'  },
-  'Celeste-Tel':         { casa: 'Celeste-Tel',         peso_calidad: 0.78, muestra_tipica: 800,  cliente_principal: 'eldiario.es',     metodologia: 'CATI'  },
-  'Invymark':            { casa: 'Invymark',            peso_calidad: 0.76, muestra_tipica: 800,  cliente_principal: 'La Sexta',         metodologia: 'CAWI'  },
-  'Gesop':               { casa: 'Gesop',               peso_calidad: 0.82, muestra_tipica: 1000, cliente_principal: 'El Periódico',     metodologia: 'CATI'  },
-  'Simple Lógica':       { casa: 'Simple Lógica',       peso_calidad: 0.74, muestra_tipica: 800,  cliente_principal: 'Independiente',    metodologia: 'CAWI'  },
-  'DYM':                 { casa: 'DYM',                 peso_calidad: 0.78, muestra_tipica: 1000, cliente_principal: 'Multiple',         metodologia: 'mixed' },
-  'MyWord':              { casa: 'MyWord',              peso_calidad: 0.72, muestra_tipica: 800,  cliente_principal: 'Cadena SER',       metodologia: 'CATI'  },
-  'Demoscopia y Servicios': { casa: 'Demoscopia y Servicios', peso_calidad: 0.70, muestra_tipica: 600, cliente_principal: 'Diversos', metodologia: 'CATI' },
-  'CIS':                 { casa: 'CIS',                 peso_calidad: 0.65, muestra_tipica: 4000, cliente_principal: 'Ministerio Presidencia', metodologia: 'face2face', notas: 'Gran muestra · sesgo PSOE detectado en cocina' },
-  'TNS Demoscopia':      { casa: 'TNS Demoscopia',      peso_calidad: 0.78, muestra_tipica: 1200, cliente_principal: 'Diversos', metodologia: 'mixed' },
-  'Sondaxe':             { casa: 'Sondaxe',             peso_calidad: 0.74, muestra_tipica: 1000, cliente_principal: 'La Voz Galicia', metodologia: 'CATI', notas: 'Especialista Galicia' },
-  'Netquest':            { casa: 'Netquest',            peso_calidad: 0.72, muestra_tipica: 1500, cliente_principal: 'Diversos', metodologia: 'CAWI' },
-  'Redondo & Asociados': { casa: 'Redondo & Asociados', peso_calidad: 0.70, muestra_tipica: 800,  cliente_principal: 'Diversos', metodologia: 'CATI' },
-  'Hamalgama Métrica':   { casa: 'Hamalgama Métrica',   peso_calidad: 0.62, muestra_tipica: 600,  cliente_principal: 'Diversos', metodologia: 'CATI' },
-  'IBES':                { casa: 'IBES',                peso_calidad: 0.60, muestra_tipica: 600,  cliente_principal: 'Diversos', metodologia: 'CAWI' },
-  'GIPEyOP UV':          { casa: 'GIPEyOP UV',          peso_calidad: 0.68, muestra_tipica: 800,  cliente_principal: 'Univ. Valencia', metodologia: 'CAWI', notas: 'Universitario académico' },
-  'Estudio de Sociología': { casa: 'Estudio de Sociología', peso_calidad: 0.66, muestra_tipica: 800, cliente_principal: 'Diversos', metodologia: 'mixed' },
-  'SyM Consulting':      { casa: 'SyM Consulting',      peso_calidad: 0.64, muestra_tipica: 800,  cliente_principal: 'Diversos', metodologia: 'CAWI' },
+ 'Sigma Dos':           { casa: 'Sigma Dos',           peso_calidad: 0.95, muestra_tipica: 1200, cliente_principal: 'El Mundo',     metodologia: 'CATI',  notas: 'Alta precisión histórica · tracking semanal' },
+ '40dB':                { casa: '40dB',                peso_calidad: 0.92, muestra_tipica: 1600, cliente_principal: 'El País / Cadena SER', metodologia: 'CAWI', notas: 'Panel grande · muestreo robusto' },
+ 'GAD3':                { casa: 'GAD3',                peso_calidad: 0.90, muestra_tipica: 1000, cliente_principal: 'ABC',           metodologia: 'CATI',  notas: 'Histórico sólido · sesgo conservador detectado' },
+ 'NC Report':           { casa: 'NC Report',           peso_calidad: 0.85, muestra_tipica: 1000, cliente_principal: 'La Razón',       metodologia: 'mixed', notas: 'Muestra panel + CATI' },
+ 'Sociométrica':        { casa: 'Sociométrica',        peso_calidad: 0.88, muestra_tipica: 1500, cliente_principal: 'El Español',      metodologia: 'CAWI' },
+ 'Metroscopia':         { casa: 'Metroscopia',         peso_calidad: 0.86, muestra_tipica: 2000, cliente_principal: 'Henneo · 20 minutos', metodologia: 'mixed', notas: 'Histórico de gran prestigio' },
+ 'IMOP Insights':       { casa: 'IMOP Insights',       peso_calidad: 0.84, muestra_tipica: 1200, cliente_principal: 'El Confidencial',  metodologia: 'CAWI' },
+ 'SocioMétrica':        { casa: 'SocioMétrica',        peso_calidad: 0.84, muestra_tipica: 1500, cliente_principal: 'El Español',       metodologia: 'CAWI' },
+ 'Celeste-Tel':         { casa: 'Celeste-Tel',         peso_calidad: 0.78, muestra_tipica: 800,  cliente_principal: 'eldiario.es',     metodologia: 'CATI' },
+ 'Invymark':            { casa: 'Invymark',            peso_calidad: 0.76, muestra_tipica: 800,  cliente_principal: 'La Sexta',         metodologia: 'CAWI' },
+ 'Gesop':               { casa: 'Gesop',               peso_calidad: 0.82, muestra_tipica: 1000, cliente_principal: 'El Periódico',     metodologia: 'CATI' },
+ 'Simple Lógica':       { casa: 'Simple Lógica',       peso_calidad: 0.74, muestra_tipica: 800,  cliente_principal: 'Independiente',    metodologia: 'CAWI' },
+ 'DYM':                 { casa: 'DYM',                 peso_calidad: 0.78, muestra_tipica: 1000, cliente_principal: 'Multiple',         metodologia: 'mixed' },
+ 'MyWord':              { casa: 'MyWord',              peso_calidad: 0.72, muestra_tipica: 800,  cliente_principal: 'Cadena SER',       metodologia: 'CATI' },
+ 'Demoscopia y Servicios': { casa: 'Demoscopia y Servicios', peso_calidad: 0.70, muestra_tipica: 600, cliente_principal: 'Diversos', metodologia: 'CATI' },
+ 'CIS':                 { casa: 'CIS',                 peso_calidad: 0.65, muestra_tipica: 4000, cliente_principal: 'Ministerio Presidencia', metodologia: 'face2face', notas: 'Gran muestra · sesgo PSOE detectado en cocina' },
+ 'TNS Demoscopia':      { casa: 'TNS Demoscopia',      peso_calidad: 0.78, muestra_tipica: 1200, cliente_principal: 'Diversos', metodologia: 'mixed' },
+ 'Sondaxe':             { casa: 'Sondaxe',             peso_calidad: 0.74, muestra_tipica: 1000, cliente_principal: 'La Voz Galicia', metodologia: 'CATI', notas: 'Especialista Galicia' },
+ 'Netquest':            { casa: 'Netquest',            peso_calidad: 0.72, muestra_tipica: 1500, cliente_principal: 'Diversos', metodologia: 'CAWI' },
+ 'Redondo & Asociados': { casa: 'Redondo & Asociados', peso_calidad: 0.70, muestra_tipica: 800,  cliente_principal: 'Diversos', metodologia: 'CATI' },
+ 'Hamalgama Métrica':   { casa: 'Hamalgama Métrica',   peso_calidad: 0.62, muestra_tipica: 600,  cliente_principal: 'Diversos', metodologia: 'CATI' },
+ 'IBES':                { casa: 'IBES',                peso_calidad: 0.60, muestra_tipica: 600,  cliente_principal: 'Diversos', metodologia: 'CAWI' },
+ 'GIPEyOP UV':          { casa: 'GIPEyOP UV',          peso_calidad: 0.68, muestra_tipica: 800,  cliente_principal: 'Univ. Valencia', metodologia: 'CAWI', notas: 'Universitario académico' },
+ 'Estudio de Sociología': { casa: 'Estudio de Sociología', peso_calidad: 0.66, muestra_tipica: 800, cliente_principal: 'Diversos', metodologia: 'mixed' },
+ 'SyM Consulting':      { casa: 'SyM Consulting',      peso_calidad: 0.64, muestra_tipica: 800,  cliente_principal: 'Diversos', metodologia: 'CAWI' },
 }
 
 /** Devuelve el peso de una casa (default 0.65 si no está catalogada) */
@@ -145,7 +145,7 @@ export interface SondeoCifras {
   metodo: 'CATI' | 'CAWI' | 'mixed' | 'face2face' | 'panel'
   tipo: 'general' | 'autonomica' | 'municipal' | 'europea'
   ambito: string
-  partidos: Record<string, number>  // siglas → % intención
+  partidos: Record<string, number> // siglas → % intención
   link?: string                 // link al post original
 }
 

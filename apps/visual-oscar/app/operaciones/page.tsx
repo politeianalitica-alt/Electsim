@@ -51,9 +51,9 @@ function Sparkline({ data, color, width=92, height=24 }: { data: number[], color
   const min = Math.min(...data), max = Math.max(...data), rng = max - min || 1
   const pts = data.map((v, i) => `${(i/(data.length-1))*width},${height - ((v-min)/rng)*height}`).join(' ')
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display:'block' }}>
-      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+ <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display:'block' }}>
+ <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+ </svg>
   )
 }
 
@@ -94,148 +94,148 @@ export default function OperacionesPage() {
   const fmtDate = now ? now.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' }) : ''
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-body)', color:'#1d1d1f' }}>
-      <AppHeader/>
+ <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-body)', color:'#1d1d1f' }}>
+ <AppHeader/>
 
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+ <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
 
         {/* ───── COMMAND BAR (reloj + estado) ───── */}
-        <section style={{
+ <section style={{
           background:'#fff', border:'1px solid #ECECEF',
           borderRadius:18, padding:'20px 28px', marginBottom:18,
           boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
           display:'grid', gridTemplateColumns:'1fr auto auto auto', gap:32, alignItems:'center',
         }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', color:'#16A34A', margin:'0 0 4px', display:'inline-flex', alignItems:'center', gap:8 }}>
-              <span style={{ width:7, height:7, borderRadius:'50%', background:'#16A34A', boxShadow:'0 0 8px rgba(22,163,74,0.6)', animation:'opPulse 1.6s ease-in-out infinite' }}/>
+ <div>
+ <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', color:'#16A34A', margin:'0 0 4px', display:'inline-flex', alignItems:'center', gap:8 }}>
+ <span style={{ width:7, height:7, borderRadius:'50%', background:'#16A34A', boxShadow:'0 0 8px rgba(22,163,74,0.6)', animation:'opPulse 1.6s ease-in-out infinite' }}/>
               SISTEMA OPERATIVO · MONITORIZACIÓN ACTIVA
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.018em', margin:0, color:'#1d1d1f' }}>
+ </p>
+ <h1 style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.018em', margin:0, color:'#1d1d1f' }}>
               Centro de Operaciones
-            </h1>
-            <p style={{ fontSize:12, color:'#6e6e73', margin:'3px 0 0', textTransform:'capitalize' }}>{fmtDate}</p>
-          </div>
-          <Stat label="Hora · Madrid" value={fmtTime} mono accent="#1d1d1f"/>
-          <Stat label="Alertas críticas" value="2" accent="#7F1D1D" pulse/>
-          <Stat label="Próxima votación" value={countdown} mono accent="#5B21B6"/>
-        </section>
+ </h1>
+ <p style={{ fontSize:12, color:'#6e6e73', margin:'3px 0 0', textTransform:'capitalize' }}>{fmtDate}</p>
+ </div>
+ <Stat label="Hora · Madrid" value={fmtTime} mono accent="#1d1d1f"/>
+ <Stat label="Alertas críticas" value="2" accent="#7F1D1D" pulse/>
+ <Stat label="Próxima votación" value={countdown} mono accent="#5B21B6"/>
+ </section>
 
         {/* ───── KPIS MERCADOS ───── */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, marginBottom:18 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, marginBottom:18 }}>
           {MARKETS.map(m => {
             const isUp = m.dir === 'up'
             return (
-              <div key={m.label} style={{
+ <div key={m.label} style={{
                 background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'14px 16px',
                 boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
                 display:'grid', gridTemplateColumns:'1fr auto', gap:14, alignItems:'center',
               }}>
-                <div>
-                  <div style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600, letterSpacing:'0.04em', textTransform:'uppercase' }}>{m.label}</div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, letterSpacing:'-0.018em', color:'#1d1d1f', lineHeight:1.1 }}>{m.value}</div>
-                  <div style={{ fontSize:11, color: isUp ? '#DC2626' : '#16A34A', marginTop:1, fontWeight:600 }}>
+ <div>
+ <div style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600, letterSpacing:'0.04em', textTransform:'uppercase' }}>{m.label}</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, letterSpacing:'-0.018em', color:'#1d1d1f', lineHeight:1.1 }}>{m.value}</div>
+ <div style={{ fontSize:11, color: isUp ? '#DC2626' : '#16A34A', marginTop:1, fontWeight:600 }}>
                     {isUp ? '▲' : '▼'} {Math.abs(m.delta)}{typeof m.delta === 'number' && Number.isInteger(m.delta) ? ' pb' : ''}
-                  </div>
-                </div>
-                <Sparkline data={m.spark} color={isUp ? '#DC2626' : '#16A34A'}/>
-              </div>
+ </div>
+ </div>
+ <Sparkline data={m.spark} color={isUp ? '#DC2626' : '#16A34A'}/>
+ </div>
             )
           })}
-        </div>
+ </div>
 
         {/* ───── GRID PRINCIPAL ───── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr 1fr', gap:14, marginBottom:14 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr 1fr', gap:14, marginBottom:14 }}>
 
           {/* Feed eventos en vivo */}
-          <Card title="Feed de eventos · en vivo" extra={<LiveDot/>}>
-            <div style={{ display:'flex', flexDirection:'column', gap:1, maxHeight:380, overflowY:'auto' }}>
+ <Card title="Feed de eventos · en vivo" extra={<LiveDot/>}>
+ <div style={{ display:'flex', flexDirection:'column', gap:1, maxHeight:380, overflowY:'auto' }}>
               {FEED.map((e,i) => (
-                <div key={i} style={{
+ <div key={i} style={{
                   display:'grid', gridTemplateColumns:'48px 92px 1fr', gap:10, alignItems:'center',
                   padding:'9px 4px', borderBottom:i<FEED.length-1 ? '1px solid #ECECEF' : 'none',
                 }}>
-                  <span style={{ fontFamily:'ui-monospace,monospace', fontSize:11, color:'#6e6e73', fontWeight:600 }}>{e.t}</span>
-                  <span style={{
+ <span style={{ fontFamily:'ui-monospace,monospace', fontSize:11, color:'#6e6e73', fontWeight:600 }}>{e.t}</span>
+ <span style={{
                     fontSize:9.5, fontWeight:800, letterSpacing:'0.08em',
                     padding:'2px 7px', borderRadius:999, background:`${e.c}15`, color:e.c,
                     border:`1px solid ${e.c}40`, textAlign:'center', whiteSpace:'nowrap',
                   }}>{e.tag}</span>
-                  <span style={{ fontSize:12, color:'#1d1d1f', lineHeight:1.4 }}>{e.txt}</span>
-                </div>
+ <span style={{ fontSize:12, color:'#1d1d1f', lineHeight:1.4 }}>{e.txt}</span>
+ </div>
               ))}
-            </div>
-          </Card>
+ </div>
+ </Card>
 
           {/* Próxima votación */}
-          <Card title="Próxima votación · Congreso" extra={<Pill text="ALTO" color="#DC2626"/>}>
-            <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-              <div>
-                <div style={{ fontSize:11, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:600, marginBottom:4 }}>Ley</div>
-                <div style={{ fontSize:14, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{PROXIMA_VOTACION.ley}</div>
-              </div>
-              <div style={{
+ <Card title="Próxima votación · Congreso" extra={<Pill text="ALTO" color="#DC2626"/>}>
+ <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+ <div>
+ <div style={{ fontSize:11, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:600, marginBottom:4 }}>Ley</div>
+ <div style={{ fontSize:14, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{PROXIMA_VOTACION.ley}</div>
+ </div>
+ <div style={{
                 background:'linear-gradient(135deg,#5B21B6 0%,#2E1065 100%)', borderRadius:12, padding:'18px 16px', textAlign:'center', color:'#fff',
               }}>
-                <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, marginBottom:4 }}>FALTAN</div>
-                <div style={{ fontFamily:'ui-monospace,monospace', fontSize:32, fontWeight:700, letterSpacing:'0.02em', color:'#fff' }}>{countdown}</div>
-              </div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-                <Box label="Predicción" value={PROXIMA_VOTACION.prediccion}/>
-                <Box label="Riesgo" value={PROXIMA_VOTACION.riesgo} valueColor="#DC2626"/>
-              </div>
-              <Link href="/congreso" style={{ fontSize:11.5, color:'#5B21B6', textDecoration:'none', fontWeight:600, textAlign:'right' }}>Abrir simulador →</Link>
-            </div>
-          </Card>
+ <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, marginBottom:4 }}>FALTAN</div>
+ <div style={{ fontFamily:'ui-monospace,monospace', fontSize:32, fontWeight:700, letterSpacing:'0.02em', color:'#fff' }}>{countdown}</div>
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+ <Box label="Predicción" value={PROXIMA_VOTACION.prediccion}/>
+ <Box label="Riesgo" value={PROXIMA_VOTACION.riesgo} valueColor="#DC2626"/>
+ </div>
+ <Link href="/congreso" style={{ fontSize:11.5, color:'#5B21B6', textDecoration:'none', fontWeight:600, textAlign:'right' }}>Abrir simulador →</Link>
+ </div>
+ </Card>
 
           {/* Estado servicios */}
-          <Card title="Estado de servicios" extra={<span style={{ fontSize:10.5, color:'#16A34A', fontWeight:600 }}>{SERVICES.filter(s=>s.status==='ok').length}/{SERVICES.length} OK</span>}>
-            <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <Card title="Estado de servicios" extra={<span style={{ fontSize:10.5, color:'#16A34A', fontWeight:600 }}>{SERVICES.filter(s=>s.status==='ok').length}/{SERVICES.length} OK</span>}>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
               {SERVICES.map(s => {
                 const c = s.status === 'ok' ? '#16A34A' : s.status === 'warn' ? '#EAB308' : '#DC2626'
                 return (
-                  <div key={s.name} style={{ display:'grid', gridTemplateColumns:'12px 1fr auto', gap:10, alignItems:'center' }}>
-                    <span style={{ width:8, height:8, borderRadius:'50%', background:c, boxShadow:`0 0 6px ${c}66` }}/>
-                    <span style={{ fontSize:12, color:'#1d1d1f' }}>{s.name}</span>
-                    <span style={{ fontFamily:'ui-monospace,monospace', fontSize:11, color:'#6e6e73', fontWeight:600 }}>{s.latency} ms</span>
-                  </div>
+ <div key={s.name} style={{ display:'grid', gridTemplateColumns:'12px 1fr auto', gap:10, alignItems:'center' }}>
+ <span style={{ width:8, height:8, borderRadius:'50%', background:c, boxShadow:`0 0 6px ${c}66` }}/>
+ <span style={{ fontSize:12, color:'#1d1d1f' }}>{s.name}</span>
+ <span style={{ fontFamily:'ui-monospace,monospace', fontSize:11, color:'#6e6e73', fontWeight:600 }}>{s.latency} ms</span>
+ </div>
                 )
               })}
-            </div>
-          </Card>
-        </div>
+ </div>
+ </Card>
+ </div>
 
         {/* ───── ATAJOS ───── */}
-        <Card title="Atajos rápidos">
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+ <Card title="Atajos rápidos">
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
             {[
               { label:'Ver alertas',         to:'/alertas',     hint:'2 críticas activas',   c:'#7F1D1D' },
               { label:'Mapa Provincial',     to:'/mapa',        hint:'52 circunscripciones', c:'#1F4E8C' },
               { label:'Simulador votación',  to:'/congreso',    hint:'Ley 4/2026 mañana',    c:'#5B21B6' },
               { label:'Agente IA',           to:'/agente-ia',   hint:'Pregunta sobre los datos', c:'#0F766E' },
             ].map(a => (
-              <Link key={a.to} href={a.to} style={{
+ <Link key={a.to} href={a.to} style={{
                 display:'block', textDecoration:'none', color:'inherit',
                 background:`linear-gradient(135deg,${a.c} 0%,${a.c}aa 100%)`,
                 borderRadius:12, padding:'16px 18px',
                 transition:'transform 160ms',
               }}>
-                <div style={{ fontSize:13, fontWeight:600, color:'#fff', marginBottom:3 }}>{a.label} →</div>
-                <div style={{ fontSize:11, color:'rgba(255,255,255,0.7)' }}>{a.hint}</div>
-              </Link>
+ <div style={{ fontSize:13, fontWeight:600, color:'#fff', marginBottom:3 }}>{a.label} →</div>
+ <div style={{ fontSize:11, color:'rgba(255,255,255,0.7)' }}>{a.hint}</div>
+ </Link>
             ))}
-          </div>
-        </Card>
+ </div>
+ </Card>
 
-        <style>{`
+ <style>{`
           @keyframes opPulse { 0%,100% { opacity:1; } 50% { opacity:0.45; } }
-        `}</style>
-      </main>
+ `}</style>
+ </main>
 
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+ <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Sala de Control · Centro de Operaciones · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }
 
@@ -244,50 +244,50 @@ export default function OperacionesPage() {
 // ─────────────────────────────────────────────────────────────────────────
 function Stat({ label, value, mono, accent='#1d1d1f', pulse }: { label:string, value:string, mono?:boolean, accent?:string, pulse?:boolean }) {
   return (
-    <div style={{ textAlign:'right', borderLeft:'1px solid #ECECEF', paddingLeft:24 }}>
-      <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', color:'#6e6e73' }}>{label}</div>
-      <div style={{
+ <div style={{ textAlign:'right', borderLeft:'1px solid #ECECEF', paddingLeft:24 }}>
+ <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', color:'#6e6e73' }}>{label}</div>
+ <div style={{
         fontFamily: mono ? 'ui-monospace,monospace' : 'var(--font-display)',
         fontSize: mono ? 22 : 26, fontWeight:700, letterSpacing: mono ? '0.02em' : '-0.018em',
         color: accent, lineHeight:1.1, marginTop:3,
         animation: pulse ? 'opPulse 1.4s ease-in-out infinite' : undefined,
       }}>{value}</div>
-    </div>
+ </div>
   )
 }
 
 function Card({ title, extra, children }: { title:string, extra?:React.ReactNode, children:React.ReactNode }) {
   return (
-    <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'16px 18px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
-        <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>{title}</h2>
+ <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'16px 18px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
+ <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>{title}</h2>
         {extra}
-      </div>
+ </div>
       {children}
-    </section>
+ </section>
   )
 }
 
 function LiveDot() {
   return (
-    <span style={{ display:'inline-flex', alignItems:'center', gap:6, fontSize:10.5, color:'#16A34A', fontWeight:600 }}>
-      <span style={{ width:6, height:6, borderRadius:'50%', background:'#16A34A', boxShadow:'0 0 6px rgba(22,163,74,0.6)', animation:'opPulse 1.4s ease-in-out infinite' }}/>
+ <span style={{ display:'inline-flex', alignItems:'center', gap:6, fontSize:10.5, color:'#16A34A', fontWeight:600 }}>
+ <span style={{ width:6, height:6, borderRadius:'50%', background:'#16A34A', boxShadow:'0 0 6px rgba(22,163,74,0.6)', animation:'opPulse 1.4s ease-in-out infinite' }}/>
       LIVE
-    </span>
+ </span>
   )
 }
 
 function Pill({ text, color }: { text:string, color:string }) {
   return (
-    <span style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.1em', padding:'2px 8px', borderRadius:999, background:`${color}15`, color, border:`1px solid ${color}40` }}>{text}</span>
+ <span style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.1em', padding:'2px 8px', borderRadius:999, background:`${color}15`, color, border:`1px solid ${color}40` }}>{text}</span>
   )
 }
 
 function Box({ label, value, valueColor='#1d1d1f' }: { label:string, value:string, valueColor?:string }) {
   return (
-    <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 12px' }}>
-      <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:700 }}>{label}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:valueColor, marginTop:2 }}>{value}</div>
-    </div>
+ <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 12px' }}>
+ <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:700 }}>{label}</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:valueColor, marginTop:2 }}>{value}</div>
+ </div>
   )
 }

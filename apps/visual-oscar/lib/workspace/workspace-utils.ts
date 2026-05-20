@@ -8,32 +8,32 @@
 
 export const WS = {
   // Superficies (claras, sutilmente jerárquicas)
-  bg:           "#fbfbfd",
-  surface:      "#ffffff",
-  surface2:     "#f5f5f7",
-  surface3:     "#eceef2",
+  bg: "#fbfbfd",
+  surface: "#ffffff",
+  surface2: "#f5f5f7",
+  surface3: "#eceef2",
 
   // Hairlines
-  border:       "#d2d2d7",
+  border: "#d2d2d7",
   borderStrong: "#b0b0b8",
 
   // Tinta (texto)
-  ink:          "#1d1d1f",
-  ink2:         "#3a3a3d",
-  ink3:         "#6e6e73",
+  ink: "#1d1d1f",
+  ink2: "#3a3a3d",
+  ink3: "#6e6e73",
 
   // Accent (Apple system blue)
-  accent:       "#0071e3",
-  accentHover:  "#0077ed",
+  accent: "#0071e3",
+  accentHover: "#0077ed",
   accentSubtle: "rgba(0,113,227,0.10)",
 
   // Semánticos
-  success:      "#2d8a39",
-  successSub:   "rgba(45,138,57,0.10)",
-  danger:       "#c42c2c",
-  dangerSub:    "rgba(196,44,44,0.10)",
-  warn:         "#d97706",
-  warnSub:      "rgba(217,119,6,0.10)",
+  success: "#2d8a39",
+  successSub: "rgba(45,138,57,0.10)",
+  danger: "#c42c2c",
+  dangerSub: "rgba(196,44,44,0.10)",
+  warn: "#d97706",
+  warnSub: "rgba(217,119,6,0.10)",
 
   // Geometría
   sidebarW:     220,
@@ -43,8 +43,8 @@ export const WS = {
   radius:       12,
 
   // Tipografía
-  font:         "'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif",
-  fontDisplay:  "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif",
+  font: "'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif",
+  fontDisplay: "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif",
 } as const;
 
 export function priorityColor(priority: string): string {

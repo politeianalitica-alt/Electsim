@@ -325,21 +325,21 @@ export default function MapaProvincias({
   const focusedParty = focusedWinner ? PARTIES[focusedWinner] : null
 
   return (
-    <div style={{ background: '#fff', borderRadius: 20, padding: '22px 26px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 14, flexWrap: 'wrap' }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>Mapa de provincias</h2>
-          <p style={{ fontSize: 12, color: '#6e6e73', margin: '4px 0 0' }}>
+ <div style={{ background: '#fff', borderRadius: 20, padding: '22px 26px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 14, flexWrap: 'wrap' }}>
+ <div>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>Mapa de provincias</h2>
+ <p style={{ fontSize: 12, color: '#6e6e73', margin: '4px 0 0' }}>
             52 circunscripciones · {view === 'winner' ? 'color = partido más votado' : 'color = tamaño en escaños'}
-          </p>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ </p>
+ </div>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+ <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
               {([{k:'estimacion',label:'Est. 2026'},{k:'g2023',label:'Generales 2023'}] as const).map(o => {
                 const active = dataset === o.k
                 return (
-                  <button key={o.k} onClick={() => { setDataset(o.k); setPinned(null); setHover(null) }} style={{
+ <button key={o.k} onClick={() => { setDataset(o.k); setPinned(null); setHover(null) }} style={{
                     background: active ? '#fff' : 'transparent',
                     color: active ? '#1d1d1f' : '#6e6e73',
                     border: 'none', borderRadius: 999, padding: '5px 11px',
@@ -349,8 +349,8 @@ export default function MapaProvincias({
                   }}>{o.label}</button>
                 )
               })}
-            </div>
-            <select
+ </div>
+ <select
               value={HISTORIC_KEYS.includes(dataset) ? dataset : ''}
               onChange={e => { if (e.target.value) { setDataset(e.target.value); setPinned(null); setHover(null) } }}
               style={{
@@ -362,15 +362,15 @@ export default function MapaProvincias({
                 backgroundImage:'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' viewBox=\'0 0 10 10\'%3E%3Cpath d=\'M2 4l3 3 3-3\' stroke=\'%236e6e73\' stroke-width=\'1.5\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")',
                 backgroundRepeat: 'no-repeat', backgroundPosition: 'right 9px center',
               }}>
-              <option value="">Históricas…</option>
+ <option value="">Históricas…</option>
               {HISTORIC_OPTIONS.map(o => <option key={o.k} value={o.k}>{o.label}</option>)}
-            </select>
-          </div>
-          <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ </select>
+ </div>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
             {VIEWS.map(o => {
               const active = view === o.k
               return (
-                <button key={o.k} onClick={() => setView(o.k)} style={{
+ <button key={o.k} onClick={() => setView(o.k)} style={{
                   background: active ? '#fff' : 'transparent',
                   color: active ? '#1d1d1f' : '#6e6e73',
                   border: 'none', borderRadius: 999, padding: '5px 11px',
@@ -380,13 +380,13 @@ export default function MapaProvincias({
                 }}>{o.label}</button>
               )
             })}
-          </div>
-        </div>
-      </div>
+ </div>
+ </div>
+ </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 280px', gap: 22, alignItems: 'start' }}>
-        <div>
-          <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+ <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '1fr 280px', gap: 22, alignItems: 'start' }}>
+ <div>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
             {PROVINCES.map(p => {
               const x = p.col * (cellSize + cellGap)
               const y = p.row * (cellSize + cellGap)
@@ -395,12 +395,12 @@ export default function MapaProvincias({
               const isFocus = focused === p.id
               const dim = focused && focused !== p.id
               return (
-                <g key={p.id}
+ <g key={p.id}
                    onMouseEnter={() => setHover(p.id)}
                    onMouseLeave={() => setHover(null)}
                    onClick={() => setPinned(pinned === p.id ? null : p.id)}
                    style={{ cursor: 'pointer' }}>
-                  <rect
+ <rect
                     x={x} y={y} width={cellSize} height={cellSize}
                     rx="8"
                     fill={cellColor}
@@ -409,30 +409,30 @@ export default function MapaProvincias({
                     strokeWidth="2"
                     style={{ transition: 'opacity 180ms, fill 200ms' }}
                   />
-                  <text x={x + cellSize / 2} y={y + cellSize / 2 - (compact ? 2 : 5)} textAnchor="middle"
+ <text x={x + cellSize / 2} y={y + cellSize / 2 - (compact ? 2 : 5)} textAnchor="middle"
                         fill="#fff" fontSize={compact ? 5.5 : (p.seats >= 12 ? 10 : 9)} fontWeight="600"
                         opacity={dim ? 0.6 : 0.92} style={{ pointerEvents: 'none' }}
                         textLength={cellSize - 4} lengthAdjust="spacingAndGlyphs">
                     {compact ? (p.name.length > 14 ? p.name.slice(0, 13) + '…' : p.name) : (p.name.length > 10 ? p.name.slice(0, 8) + '…' : p.name)}
-                  </text>
-                  <text x={x + cellSize / 2} y={y + cellSize / 2 + (compact ? 8 : 11)} textAnchor="middle"
+ </text>
+ <text x={x + cellSize / 2} y={y + cellSize / 2 + (compact ? 8 : 11)} textAnchor="middle"
                         fill="#fff" fontFamily="var(--font-display)" fontSize={compact ? 9 : 14} fontWeight="700"
                         opacity={dim ? 0.6 : 1} style={{ pointerEvents: 'none' }}>
                     {p.seats}
-                  </text>
-                </g>
+ </text>
+ </g>
               )
             })}
-          </svg>
+ </svg>
 
           {/* Panel de detalle en modo compact (visible al hacer click) */}
           {compact && (() => {
             const prov = focusedProv
             if (!prov) {
               return (
-                <div style={{ marginTop: 12, padding: '10px 14px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #ECECEF', fontSize: 11.5, color: '#6e6e73', textAlign: 'center' }}>
+ <div style={{ marginTop: 12, padding: '10px 14px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #ECECEF', fontSize: 11.5, color: '#6e6e73', textAlign: 'center' }}>
                   Pulsa una provincia para ver su distribución de escaños
-                </div>
+ </div>
               )
             }
             const w = winners[prov.id]
@@ -442,56 +442,56 @@ export default function MapaProvincias({
               ? (Object.entries(breakdown) as Array<[PartyId, number]>).sort((a, b) => b[1] - a[1])
               : null
             return (
-              <div style={{ marginTop: 12, padding: '12px 14px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #ECECEF' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: breakdownEntries ? 10 : 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f' }}>{prov.name}</span>
-                    <span style={{ fontSize: 11, color: '#6e6e73' }}>· {prov.seats} escaños</span>
-                  </div>
+ <div style={{ marginTop: 12, padding: '12px 14px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #ECECEF' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: breakdownEntries ? 10 : 0 }}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f' }}>{prov.name}</span>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>· {prov.seats} escaños</span>
+ </div>
                   {wParty && w && (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6e6e73' }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6e6e73' }}>
                       Ganador:
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: wParty.color }}>{partyName(dataset, w)}</span>
-                    </span>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: wParty.color }}>{partyName(dataset, w)}</span>
+ </span>
                   )}
-                </div>
+ </div>
                 {breakdownEntries ? (
-                  <>
-                    <div style={{ display: 'flex', height: 8, borderRadius: 999, overflow: 'hidden', marginBottom: 8 }}>
+ <>
+ <div style={{ display: 'flex', height: 8, borderRadius: 999, overflow: 'hidden', marginBottom: 8 }}>
                       {breakdownEntries.map(([pid, n]) => (
-                        <div key={pid} style={{ width: `${(n / prov.seats) * 100}%`, background: PARTIES[pid].color }}/>
+ <div key={pid} style={{ width: `${(n / prov.seats) * 100}%`, background: PARTIES[pid].color }}/>
                       ))}
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 12px' }}>
+ </div>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 12px' }}>
                       {breakdownEntries.map(([pid, n]) => (
-                        <span key={pid} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11.5 }}>
-                          <span style={{ width: 9, height: 9, borderRadius: 2, background: PARTIES[pid].color }}/>
-                          <span style={{ fontWeight: 600, color: '#3a3a3d' }}>{partyName(dataset, pid)}</span>
-                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: '#1d1d1f' }}>{n}</span>
-                        </span>
+ <span key={pid} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11.5 }}>
+ <span style={{ width: 9, height: 9, borderRadius: 2, background: PARTIES[pid].color }}/>
+ <span style={{ fontWeight: 600, color: '#3a3a3d' }}>{partyName(dataset, pid)}</span>
+ <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: '#1d1d1f' }}>{n}</span>
+ </span>
                       ))}
-                    </div>
-                    <div style={{ marginTop: 8, fontSize: 10.5, color: '#86868b', textAlign: 'right' }}>
+ </div>
+ <div style={{ marginTop: 8, fontSize: 10.5, color: '#86868b', textAlign: 'right' }}>
                       {pinned === prov.id ? 'Pulsa otra vez para soltar' : 'Pulsa para fijar'}
-                    </div>
-                  </>
+ </div>
+ </>
                 ) : (
-                  <div style={{ fontSize: 11, color: '#86868b', marginTop: 6 }}>
+ <div style={{ fontSize: 11, color: '#86868b', marginTop: 6 }}>
                     Sin reparto disponible.
-                  </div>
+ </div>
                 )}
-              </div>
+ </div>
             )
           })()}
 
           {/* Leyenda dinámica según vista */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 10px', marginTop: 14, paddingTop: 12, borderTop: '1px solid #ECECEF' }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 10px', marginTop: 14, paddingTop: 12, borderTop: '1px solid #ECECEF' }}>
             {view === 'winner' && winnersOrdered.map(p => (
-              <span key={p.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#3a3a3d' }}>
-                <span style={{ width: 11, height: 11, borderRadius: 3, background: p.color }}/>
-                <span style={{ fontWeight: 600 }}>{partyName(dataset, p.id)}</span>
-                <span style={{ color: '#6e6e73' }}>· {p.n} esc · {Object.values(winners).filter(w => w === p.id).length} prov.</span>
-              </span>
+ <span key={p.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#3a3a3d' }}>
+ <span style={{ width: 11, height: 11, borderRadius: 3, background: p.color }}/>
+ <span style={{ fontWeight: 600 }}>{partyName(dataset, p.id)}</span>
+ <span style={{ color: '#6e6e73' }}>· {p.n} esc · {Object.values(winners).filter(w => w === p.id).length} prov.</span>
+ </span>
             ))}
             {view === 'tamano' && (
               [
@@ -500,55 +500,55 @@ export default function MapaProvincias({
                 { c:'#86868b', label:'5-9 esc' },
                 { c:'#C0C0C5', label:'< 5 esc' },
               ].map(t => (
-                <span key={t.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#3a3a3d' }}>
-                  <span style={{ width: 11, height: 11, borderRadius: 3, background: t.c }}/>
-                  <span style={{ fontWeight: 500 }}>{t.label}</span>
-                </span>
+ <span key={t.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#3a3a3d' }}>
+ <span style={{ width: 11, height: 11, borderRadius: 3, background: t.c }}/>
+ <span style={{ fontWeight: 500 }}>{t.label}</span>
+ </span>
               ))
             )}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* Side panel detalle */}
         {!compact && <aside style={{ background: '#FAFAFB', borderRadius: 14, padding: '18px 18px 16px', border: '1px solid #ECECEF', position: 'sticky', top: 60 }}>
           {focusedProv && focusedParty ? (
-            <>
-              <div style={{ fontSize: 11, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Provincia</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.018em', color: '#1d1d1f', marginBottom: 12 }}>{focusedProv.name}</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
-                <div style={{ background: '#fff', borderRadius: 10, padding: '10px 12px', border: '1px solid #ECECEF' }}>
-                  <div style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 600 }}>Escaños</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#1d1d1f' }}>{focusedProv.seats}</div>
-                </div>
-                <div style={{ background: '#fff', borderRadius: 10, padding: '10px 12px', border: '1px solid #ECECEF' }}>
-                  <div style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 600 }}>Ganador</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: focusedParty.color, marginTop: 2 }}>{focusedWinner ? partyName(dataset, focusedWinner) : focusedParty.name}</div>
-                </div>
-              </div>
-              <div style={{ fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
+ <>
+ <div style={{ fontSize: 11, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Provincia</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.018em', color: '#1d1d1f', marginBottom: 12 }}>{focusedProv.name}</div>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+ <div style={{ background: '#fff', borderRadius: 10, padding: '10px 12px', border: '1px solid #ECECEF' }}>
+ <div style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 600 }}>Escaños</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#1d1d1f' }}>{focusedProv.seats}</div>
+ </div>
+ <div style={{ background: '#fff', borderRadius: 10, padding: '10px 12px', border: '1px solid #ECECEF' }}>
+ <div style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 600 }}>Ganador</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: focusedParty.color, marginTop: 2 }}>{focusedWinner ? partyName(dataset, focusedWinner) : focusedParty.name}</div>
+ </div>
+ </div>
+ <div style={{ fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
                 {pinned ? 'Provincia fijada. Pulsa de nuevo para soltar.' : 'Pasa el cursor sobre otra provincia o pulsa para fijarla.'}
-              </div>
-            </>
+ </div>
+ </>
           ) : (
-            <>
-              <div style={{ fontSize: 11, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Resumen</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.018em', color: '#1d1d1f', marginBottom: 12 }}>{dataset === 'estimacion' ? 'Estimación 2026' : dataset === 'g2023' ? 'Generales 2023' : (HISTORIC_OPTIONS.find(o => o.k === dataset)?.label ?? dataset)}</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
+ <>
+ <div style={{ fontSize: 11, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Resumen</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.018em', color: '#1d1d1f', marginBottom: 12 }}>{dataset === 'estimacion' ? 'Estimación 2026' : dataset === 'g2023' ? 'Generales 2023' : (HISTORIC_OPTIONS.find(o => o.k === dataset)?.label ?? dataset)}</div>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
                 {winnersOrdered.slice(0, 5).map(p => (
-                  <div key={p.id} style={{ display: 'grid', gridTemplateColumns: '14px 1fr auto', gap: 10, alignItems: 'center' }}>
-                    <span style={{ width: 11, height: 11, borderRadius: 3, background: p.color }}/>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#3a3a3d' }}>{partyName(dataset, p.id)}</span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{p.n}</span>
-                  </div>
+ <div key={p.id} style={{ display: 'grid', gridTemplateColumns: '14px 1fr auto', gap: 10, alignItems: 'center' }}>
+ <span style={{ width: 11, height: 11, borderRadius: 3, background: p.color }}/>
+ <span style={{ fontSize: 12, fontWeight: 600, color: '#3a3a3d' }}>{partyName(dataset, p.id)}</span>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{p.n}</span>
+ </div>
                 ))}
-              </div>
-              <div style={{ fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
+ </div>
+ <div style={{ fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
                 Pasa el cursor sobre cualquier provincia para ver su detalle.
-              </div>
-            </>
+ </div>
+ </>
           )}
-        </aside>}
-      </div>
-    </div>
+ </aside>}
+ </div>
+ </div>
   )
 }

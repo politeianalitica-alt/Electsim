@@ -101,45 +101,45 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
   })() : null
 
   return (
-    <section style={{
+ <section style={{
       display: 'grid',
       gridTemplateColumns: showSidePanel ? '8fr 4fr' : '1fr',
       gap: 18,
     }}>
       {/* Filtros + grafo */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
         padding: '24px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         position: 'relative', overflow: 'hidden',
       }}>
         {/* Filtros */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-          <FilterBtn active={filter === 'all'} onClick={() => setFilter('all')}>Todas las relaciones</FilterBtn>
-          <FilterBtn active={filter === 'pos'} onClick={() => setFilter('pos')} accent="#16A34A">Solo alianzas</FilterBtn>
-          <FilterBtn active={filter === 'neg'} onClick={() => setFilter('neg')} accent="#DC2626">Solo conflictos</FilterBtn>
-          <span style={{ flex: 1 }}/>
-          <button onClick={() => setShowLabels(s => !s)} style={btnGhost}>
+ <div style={{ display: 'flex', gap: 8, marginBottom: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+ <FilterBtn active={filter === 'all'} onClick={() => setFilter('all')}>Todas las relaciones</FilterBtn>
+ <FilterBtn active={filter === 'pos'} onClick={() => setFilter('pos')} accent="#16A34A">Solo alianzas</FilterBtn>
+ <FilterBtn active={filter === 'neg'} onClick={() => setFilter('neg')} accent="#DC2626">Solo conflictos</FilterBtn>
+ <span style={{ flex: 1 }}/>
+ <button onClick={() => setShowLabels(s => !s)} style={btnGhost}>
             {showLabels ? 'Ocultar etiquetas' : 'Mostrar etiquetas'}
-          </button>
+ </button>
           {focus && (
-            <button onClick={() => setFocus(null)} style={btnPrimary}>✕ Quitar foco</button>
+ <button onClick={() => setFocus(null)} style={btnPrimary}> Quitar foco</button>
           )}
-        </div>
+ </div>
 
-        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
-          <defs>
-            <radialGradient id="grafoBgGrad" cx="50%" cy="50%" r="55%">
-              <stop offset="0%" stopColor="#f5f5f7" stopOpacity="0.7"/>
-              <stop offset="100%" stopColor="#f5f5f7" stopOpacity="0"/>
-            </radialGradient>
-          </defs>
-          <circle cx={cx} cy={cy} r="260" fill="url(#grafoBgGrad)"/>
-          <circle cx={cx} cy={cy} r="260" fill="none" stroke="#e8e8ed" strokeDasharray="3 5"/>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+ <defs>
+ <radialGradient id="grafoBgGrad" cx="50%" cy="50%" r="55%">
+ <stop offset="0%" stopColor="#f5f5f7" stopOpacity="0.7"/>
+ <stop offset="100%" stopColor="#f5f5f7" stopOpacity="0"/>
+ </radialGradient>
+ </defs>
+ <circle cx={cx} cy={cy} r="260" fill="url(#grafoBgGrad)"/>
+ <circle cx={cx} cy={cy} r="260" fill="none" stroke="#e8e8ed" strokeDasharray="3 5"/>
 
           {/* Eje IZQ/DER */}
-          <line x1={cx - 260} y1={cy} x2={cx + 260} y2={cy} stroke="#e8e8ed" strokeDasharray="2 4"/>
-          <text x={cx - 270} y={cy + 4} textAnchor="end" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">IZQ.</text>
-          <text x={cx + 270} y={cy + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">DER.</text>
+ <line x1={cx - 260} y1={cy} x2={cx + 260} y2={cy} stroke="#e8e8ed" strokeDasharray="2 4"/>
+ <text x={cx - 270} y={cy + 4} textAnchor="end" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">IZQ.</text>
+ <text x={cx + 270} y={cy + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">DER.</text>
 
           {/* Edges (arcos curvados hacia fuera del centro) */}
           {visibleLinks.map((l, i) => {
@@ -156,8 +156,8 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
             const width = Math.max(1.2, (Math.abs(l.val) / 100) * 6)
             const dash = l.val < 0 ? '5 5' : ''
             return (
-              <g key={i}>
-                <path
+ <g key={i}>
+ <path
                   d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
                   fill="none"
                   stroke={stroke}
@@ -167,7 +167,7 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
                   strokeLinecap="round"
                 />
                 {showLabels && focus && (l.a === focus || l.b === focus) && (
-                  <text
+ <text
                     x={cmx} y={cmy - 4}
                     textAnchor="middle"
                     fontSize="9.5"
@@ -176,9 +176,9 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
                     style={{ paintOrder: 'stroke', stroke: '#fff', strokeWidth: 3 }}
                   >
                     {l.label}
-                  </text>
+ </text>
                 )}
-              </g>
+ </g>
             )
           })}
 
@@ -191,20 +191,20 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
             const dim = !!focus && focus !== p.id && !visibleLinks.some(l => l.a === p.id || l.b === p.id)
             const r = 18 + Math.sqrt(p.seats) * 1.8
             return (
-              <g
+ <g
                 key={p.id}
                 style={{ cursor: 'pointer' }}
                 onClick={() => setFocus(focus === p.id ? null : p.id)}
               >
                 {isFocus && <circle cx={x} cy={y} r={r + 8} fill={p.color} opacity="0.15"/>}
-                <circle
+ <circle
                   cx={x} cy={y} r={r}
                   fill={p.color}
                   opacity={dim ? 0.25 : 1}
                   stroke={isFocus ? '#1d1d1f' : '#fff'}
                   strokeWidth={2.5}
                 />
-                <text
+ <text
                   x={x} y={y - 2}
                   textAnchor="middle"
                   fill="#fff"
@@ -215,8 +215,8 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
                   opacity={dim ? 0.4 : 1}
                 >
                   {p.id === 'bildu' ? 'Bildu' : p.name}
-                </text>
-                <text
+ </text>
+ <text
                   x={x} y={y + 12}
                   textAnchor="middle"
                   fill="#fff"
@@ -226,23 +226,23 @@ export default function GrafoRelacionesPartidos({ parties, links, positions, sho
                   opacity={dim ? 0.35 : 0.85}
                 >
                   {p.seats}
-                </text>
-              </g>
+ </text>
+ </g>
             )
           })}
-        </svg>
-      </div>
+ </svg>
+ </div>
 
       {/* Panel lateral · leyenda o foco */}
       {showSidePanel && (
-        <div style={{
+ <div style={{
           background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
           padding: '22px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}>
           {focusStats ? <FocusPanel stats={focusStats} parties={parties}/> : <LegendPanel parties={parties}/>}
-        </div>
+ </div>
       )}
-    </section>
+ </section>
   )
 }
 
@@ -260,7 +260,7 @@ const btnPrimary: React.CSSProperties = {
 
 function FilterBtn({ active, onClick, accent, children }: { active: boolean; onClick: () => void; accent?: string; children: React.ReactNode }) {
   return (
-    <button onClick={onClick} style={{
+ <button onClick={onClick} style={{
       background: active ? '#1d1d1f' : '#fff',
       color: active ? '#fff' : (accent || '#3a3a3d'),
       border: active ? '1px solid #1d1d1f' : '1px solid #d2d2d7',
@@ -270,62 +270,62 @@ function FilterBtn({ active, onClick, accent, children }: { active: boolean; onC
     }}>
       {accent && !active && <span style={{ width: 8, height: 8, borderRadius: 999, background: accent }}/>}
       {children}
-    </button>
+ </button>
   )
 }
 
 function FocusPanel({ stats, parties }: { stats: { p: GrafoParty; links: { otherId: string; val: number; label: string }[] }; parties: GrafoParty[] }) {
   const partyOf = (id: string) => parties.find(p => p.id === id)
   return (
-    <>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-        <span style={{ width: 12, height: 12, borderRadius: 999, background: stats.p.color, flexShrink: 0 }}/>
-        <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>Foco</p>
-      </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 600, letterSpacing: '-0.024em', margin: '4px 0 4px' }}>
+ <>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+ <span style={{ width: 12, height: 12, borderRadius: 999, background: stats.p.color, flexShrink: 0 }}/>
+ <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>Foco</p>
+ </div>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 600, letterSpacing: '-0.024em', margin: '4px 0 4px' }}>
         {stats.p.name}
-      </h2>
-      <p style={{ fontSize: 12.5, color: '#515154', margin: '0 0 18px' }}>
+ </h2>
+ <p style={{ fontSize: 12.5, color: '#515154', margin: '0 0 18px' }}>
         {stats.p.seats} escaños · {stats.links.length} relaciones
-      </p>
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 10px' }}>
+ </p>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 10px' }}>
         Afinidad bilateral
-      </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ </p>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {stats.links.map(l => {
           const other = partyOf(l.otherId)
           if (!other) return null
           const pct = (Math.abs(l.val) / 100) * 50
           const pos = l.val >= 0
           return (
-            <div key={l.otherId}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 3, gap: 8 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, minWidth: 0 }}>
-                  <span style={{ width: 8, height: 8, borderRadius: 999, background: other.color, flexShrink: 0 }}/>
-                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{other.name}</span>
-                </span>
-                <span style={{
+ <div key={l.otherId}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 3, gap: 8 }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, minWidth: 0 }}>
+ <span style={{ width: 8, height: 8, borderRadius: 999, background: other.color, flexShrink: 0 }}/>
+ <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{other.name}</span>
+ </span>
+ <span style={{
                   fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600,
                   letterSpacing: '-0.012em', color: pos ? '#16A34A' : '#DC2626', whiteSpace: 'nowrap',
                 }}>
                   {pos ? '+' : ''}{l.val}
-                </span>
-              </div>
-              <div style={{ position: 'relative', height: 4, background: '#f5f5f7', borderRadius: 999 }}>
-                <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: '#6e6e73', opacity: 0.4 }}/>
-                <div style={{
+ </span>
+ </div>
+ <div style={{ position: 'relative', height: 4, background: '#f5f5f7', borderRadius: 999 }}>
+ <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: '#6e6e73', opacity: 0.4 }}/>
+ <div style={{
                   position: 'absolute', top: 0, bottom: 0,
                   left: pos ? '50%' : `${50 - pct}%`,
                   width: `${pct}%`,
                   background: pos ? '#16A34A' : '#DC2626',
                   borderRadius: 999,
                 }}/>
-              </div>
-            </div>
+ </div>
+ </div>
           )
         })}
-      </div>
-    </>
+ </div>
+ </>
   )
 }
 
@@ -339,65 +339,65 @@ function LegendPanel({ parties }: { parties: GrafoParty[] }) {
   const centroParties = parties.filter(p => p.block === 'centro').map(p => p.name)
 
   return (
-    <>
-      <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 6px' }}>Leyenda</p>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.022em', margin: '0 0 18px' }}>
+ <>
+ <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 6px' }}>Leyenda</p>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.022em', margin: '0 0 18px' }}>
         Cómo leer el grafo
-      </h2>
+ </h2>
 
-      <LegendRow>
-        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#16A34A" strokeWidth="4" strokeLinecap="round"/></svg>
-        <div>
-          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Alianza fuerte</div>
-          <div style={{ fontSize: 11, color: '#6e6e73' }}>+60 a +100 · coalición o apoyo estable</div>
-        </div>
-      </LegendRow>
+ <LegendRow>
+ <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#16A34A" strokeWidth="4" strokeLinecap="round"/></svg>
+ <div>
+ <div style={{ fontSize: 12.5, fontWeight: 500 }}>Alianza fuerte</div>
+ <div style={{ fontSize: 11, color: '#6e6e73' }}>+60 a +100 · coalición o apoyo estable</div>
+ </div>
+ </LegendRow>
 
-      <LegendRow>
-        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round"/></svg>
-        <div>
-          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Diálogo</div>
-          <div style={{ fontSize: 11, color: '#6e6e73' }}>+1 a +59 · acuerdos puntuales</div>
-        </div>
-      </LegendRow>
+ <LegendRow>
+ <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round"/></svg>
+ <div>
+ <div style={{ fontSize: 12.5, fontWeight: 500 }}>Diálogo</div>
+ <div style={{ fontSize: 11, color: '#6e6e73' }}>+1 a +59 · acuerdos puntuales</div>
+ </div>
+ </LegendRow>
 
-      <LegendRow>
-        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#DC2626" strokeWidth="3" strokeDasharray="5 5" strokeLinecap="round"/></svg>
-        <div>
-          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Conflicto</div>
-          <div style={{ fontSize: 11, color: '#6e6e73' }}>−1 a −100 · veto o confrontación</div>
-        </div>
-      </LegendRow>
+ <LegendRow>
+ <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#DC2626" strokeWidth="3" strokeDasharray="5 5" strokeLinecap="round"/></svg>
+ <div>
+ <div style={{ fontSize: 12.5, fontWeight: 500 }}>Conflicto</div>
+ <div style={{ fontSize: 11, color: '#6e6e73' }}>−1 a −100 · veto o confrontación</div>
+ </div>
+ </LegendRow>
 
-      <div style={{ height: 1, background: '#e8e8ed', margin: '18px 0' }}/>
+ <div style={{ height: 1, background: '#e8e8ed', margin: '18px 0' }}/>
 
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 10px' }}>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 10px' }}>
         Bloques principales
-      </p>
-      {izq > 0 && <BlockRow color="#E1322D" name="Bloque progresista"  seats={izq}    parties={izqParties}/>}
-      {der > 0 && <BlockRow color="#1F4E8C" name="Bloque conservador"  seats={der}    parties={derParties}/>}
-      {centro > 0 && <BlockRow color="#1FA89B" name="Independientes"   seats={centro} parties={centroParties}/>}
-    </>
+ </p>
+      {izq > 0 && <BlockRow color="#E1322D" name="Bloque progresista" seats={izq}    parties={izqParties}/>}
+      {der > 0 && <BlockRow color="#1F4E8C" name="Bloque conservador" seats={der}    parties={derParties}/>}
+      {centro > 0 && <BlockRow color="#1FA89B" name="Independientes" seats={centro} parties={centroParties}/>}
+ </>
   )
 }
 
 function LegendRow({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>{children}</div>
+ <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>{children}</div>
   )
 }
 
 function BlockRow({ color, name, seats, parties }: { color: string; name: string; seats: number; parties: string[] }) {
   return (
-    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 10 }}>
-      <span style={{ width: 3, alignSelf: 'stretch', background: color, borderRadius: 999, flexShrink: 0, minHeight: 32 }}/>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
-          <span style={{ fontSize: 12.5, fontWeight: 600, letterSpacing: '-0.005em' }}>{name}</span>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.018em' }}>{seats}</span>
-        </div>
-        <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 1 }}>{parties.join(' · ')}</div>
-      </div>
-    </div>
+ <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 10 }}>
+ <span style={{ width: 3, alignSelf: 'stretch', background: color, borderRadius: 999, flexShrink: 0, minHeight: 32 }}/>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
+ <span style={{ fontSize: 12.5, fontWeight: 600, letterSpacing: '-0.005em' }}>{name}</span>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.018em' }}>{seats}</span>
+ </div>
+ <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 1 }}>{parties.join(' · ')}</div>
+ </div>
+ </div>
   )
 }

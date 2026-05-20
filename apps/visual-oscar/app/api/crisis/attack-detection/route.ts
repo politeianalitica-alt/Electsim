@@ -144,7 +144,7 @@ async function fetchPhysicalThreats(): Promise<{ threats: PhysicalThreat[]; scor
 
   // Sismos
   const raw = await safeFetch(
-    'https://www.seismicportal.eu/fdsnws/event/1/query?format=json&limit=5&minmagnitude=3.0&minlatitude=35.0&maxlatitude=44.5&minlongitude=-10.0&maxlongitude=5.0&orderby=time',
+ 'https://www.seismicportal.eu/fdsnws/event/1/query?format=json&limit=5&minmagnitude=3.0&minlatitude=35.0&maxlatitude=44.5&minlongitude=-10.0&maxlongitude=5.0&orderby=time',
     6000
   )
   if (raw) {

@@ -15,7 +15,7 @@ const getBackend = () =>
   process.env.BACKEND_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.POLITEIA_API_URL ||
-  ''
+ ''
 const getTimeout = () => Number(process.env.BACKEND_TIMEOUT_MS || 8000)
 const getApiKey = () => process.env.BACKEND_API_KEY || ''
 
@@ -49,7 +49,7 @@ export async function callBackend<T = unknown>(
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
   const headers: Record<string, string> = {
     Accept: 'application/json',
-    'Content-Type': 'application/json',
+ 'Content-Type': 'application/json',
     ...(init.headers as Record<string, string> | undefined),
   }
   if (API_KEY) headers['X-API-Key'] = API_KEY

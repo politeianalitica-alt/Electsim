@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const granularidad = req.nextUrl.searchParams.get('granularidad') || 'hour'
   const ideologia = req.nextUrl.searchParams.get('ideologia') || ''
   const r = await callBackend(
-    `/api/media-intel/sentimiento?horas=${encodeURIComponent(horas)}&granularidad=${encodeURIComponent(granularidad)}&ideologia=${encodeURIComponent(ideologia)}`,
+ `/api/media-intel/sentimiento?horas=${encodeURIComponent(horas)}&granularidad=${encodeURIComponent(granularidad)}&ideologia=${encodeURIComponent(ideologia)}`,
     { cache: 'no-store' },
   )
   if (r.data !== null && r.data !== undefined) {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     [],
-    'mock',
+ 'mock',
     { warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms },
   ))

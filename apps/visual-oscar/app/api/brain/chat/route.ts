@@ -366,7 +366,7 @@ export async function POST(req: NextRequest) {
       ts: new Date().toISOString(),
       warnings: [
         backendWarning ? `backend_unavailable:${backendWarning}` : 'backend_no_reply',
-        'ollama_unreachable',
+ 'ollama_unreachable',
       ],
     },
   })

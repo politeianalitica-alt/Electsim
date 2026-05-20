@@ -205,11 +205,11 @@ export const APOYOS: Apoyo[] = [
 ]
 
 export const HITOS: Hito[] = [
-  { fecha:'16/11/2023', titulo:'Investidura de Pedro Sánchez',          detalle:'179 SÍ / 171 NO · pacto con Junts y resto del bloque',          tipo:'Acuerdo',  resultado:'aprobado'  },
-  { fecha:'30/05/2024', titulo:'Ley de Amnistía',                        detalle:'BOE-A-2024-11008 · convalidación parcial por TC pendiente',     tipo:'Ley',      resultado:'aprobado'  },
-  { fecha:'26/07/2024', titulo:'Reforma del CGPJ',                       detalle:'Renovación tras 5 años de bloqueo · pacto PP-PSOE',             tipo:'Acuerdo',  resultado:'aprobado'  },
-  { fecha:'07/11/2024', titulo:'Crisis post-DANA en Valencia',           detalle:'+220 fallecidos · gestión Mazón cuestionada · ayudas RDL',     tipo:'Crisis',   resultado:'aprobado'  },
-  { fecha:'20/11/2024', titulo:'Reorganización ministerial',             detalle:'Aagesen sustituye a Ribera · Óscar López a Función Pública',   tipo:'Acuerdo',  resultado:'aprobado'  },
+  { fecha:'16/11/2023', titulo:'Investidura de Pedro Sánchez',          detalle:'179 SÍ / 171 NO · pacto con Junts y resto del bloque',          tipo:'Acuerdo',  resultado:'aprobado' },
+  { fecha:'30/05/2024', titulo:'Ley de Amnistía',                        detalle:'BOE-A-2024-11008 · convalidación parcial por TC pendiente',     tipo:'Ley',      resultado:'aprobado' },
+  { fecha:'26/07/2024', titulo:'Reforma del CGPJ',                       detalle:'Renovación tras 5 años de bloqueo · pacto PP-PSOE',             tipo:'Acuerdo',  resultado:'aprobado' },
+  { fecha:'07/11/2024', titulo:'Crisis post-DANA en Valencia',           detalle:'+220 fallecidos · gestión Mazón cuestionada · ayudas RDL',     tipo:'Crisis',   resultado:'aprobado' },
+  { fecha:'20/11/2024', titulo:'Reorganización ministerial',             detalle:'Aagesen sustituye a Ribera · Óscar López a Función Pública',   tipo:'Acuerdo',  resultado:'aprobado' },
   { fecha:'18/12/2024', titulo:'Ley antitabaco · proyecto en marcha',    detalle:'Limita fumar terrazas y aumenta espacios libres de humo',       tipo:'Ley',      resultado:'pendiente' },
   { fecha:'31/01/2025', titulo:'Decreto Ómnibus rechazado',              detalle:'Junts retira apoyo · Gobierno repesca paquete por separado',    tipo:'RDL',      resultado:'rechazado' },
   { fecha:'22/04/2025', titulo:'Reducción jornada 37,5h',                detalle:'Trabajo aprueba en CMin · pendiente trámite Congreso',          tipo:'Ley',      resultado:'pendiente' },

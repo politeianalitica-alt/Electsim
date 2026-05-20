@@ -28,23 +28,23 @@ export type Severidad = 'CRÍTICA' | 'ALTA' | 'MEDIA' | 'BAJA'
 export type Fase = 'Detectado' | 'Confirmado' | 'Escalando' | 'Pico' | 'Decayendo' | 'Cerrado'
 
 export const VECTOR_META: Record<Vector, { color: string; icon: string; desc: string }> = {
-  'Mediático':     { color: '#7C3AED', icon: '◧', desc: 'Cobertura coordinada negativa · editoriales · televisión' },
-  'Digital':       { color: '#0EA5E9', icon: '◐', desc: 'Bots · trolls · brigading · DDoS · fake reviews' },
-  'Institucional': { color: '#1F4E8C', icon: '◑', desc: 'Denuncias judiciales · expedientes · inspecciones AEAT/CNMV' },
-  'Regulatorio':   { color: '#0F766E', icon: '◔', desc: 'Cambios normativos hostiles · enmiendas · directivas UE' },
-  'Económico':     { color: '#D97706', icon: '◕', desc: 'Boicots · divestments · presión accionistas · proveedores' },
-  'Físico':        { color: '#DC2626', icon: '●', desc: 'Protestas dirigidas · pintadas · acoso público' },
+ 'Mediático':     { color: '#7C3AED', icon: '◧', desc: 'Cobertura coordinada negativa · editoriales · televisión' },
+ 'Digital':       { color: '#0EA5E9', icon: '◐', desc: 'Bots · trolls · brigading · DDoS · fake reviews' },
+ 'Institucional': { color: '#1F4E8C', icon: '◑', desc: 'Denuncias judiciales · expedientes · inspecciones AEAT/CNMV' },
+ 'Regulatorio':   { color: '#0F766E', icon: '◔', desc: 'Cambios normativos hostiles · enmiendas · directivas UE' },
+ 'Económico':     { color: '#D97706', icon: '◕', desc: 'Boicots · divestments · presión accionistas · proveedores' },
+ 'Físico':        { color: '#DC2626', icon: '●', desc: 'Protestas dirigidas · pintadas · acoso público' },
 }
 export const SEV_COLOR: Record<Severidad, string> = {
-  'CRÍTICA': '#7C2D12', 'ALTA': '#DC2626', 'MEDIA': '#F59E0B', 'BAJA': '#0EA5E9',
+ 'CRÍTICA': '#7C2D12', 'ALTA': '#DC2626', 'MEDIA': '#F59E0B', 'BAJA': '#0EA5E9',
 }
 export const FASE_META: Record<Fase, { color: string; pct: number }> = {
-  'Detectado':  { color: '#0EA5E9', pct: 12 },
-  'Confirmado': { color: '#3B82F6', pct: 28 },
-  'Escalando':  { color: '#F97316', pct: 50 },
-  'Pico':       { color: '#DC2626', pct: 70 },
-  'Decayendo':  { color: '#16A34A', pct: 88 },
-  'Cerrado':    { color: '#525258', pct: 100 },
+ 'Detectado':  { color: '#0EA5E9', pct: 12 },
+ 'Confirmado': { color: '#3B82F6', pct: 28 },
+ 'Escalando':  { color: '#F97316', pct: 50 },
+ 'Pico':       { color: '#DC2626', pct: 70 },
+ 'Decayendo':  { color: '#16A34A', pct: 88 },
+ 'Cerrado':    { color: '#525258', pct: 100 },
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────
@@ -235,12 +235,12 @@ function buildHeatmap() {
   const vectors: Vector[] = ['Mediático', 'Digital', 'Institucional', 'Regulatorio', 'Económico', 'Físico']
   // Patrones plausibles: digital pico mid-week, mediático constante, institucional al final
   const baseline: Record<Vector, number[]> = {
-    'Mediático':     [3, 4, 5, 6, 8, 7, 9],
-    'Digital':       [2, 5, 8, 12, 14, 11, 9],
-    'Institucional': [1, 1, 2, 2, 3, 4, 6],
-    'Regulatorio':   [0, 1, 1, 2, 1, 2, 3],
-    'Económico':     [1, 2, 3, 4, 5, 4, 4],
-    'Físico':        [0, 0, 1, 2, 1, 2, 3],
+ 'Mediático':     [3, 4, 5, 6, 8, 7, 9],
+ 'Digital':       [2, 5, 8, 12, 14, 11, 9],
+ 'Institucional': [1, 1, 2, 2, 3, 4, 6],
+ 'Regulatorio':   [0, 1, 1, 2, 1, 2, 3],
+ 'Económico':     [1, 2, 3, 4, 5, 4, 4],
+ 'Físico':        [0, 0, 1, 2, 1, 2, 3],
   }
   return {
     days,
@@ -281,39 +281,39 @@ const PLAYBOOKS = [
   {
     severidad: 'CRÍTICA' as Severidad, sla: '≤ 2h',
     pasos: [
-      'Activar Comité de Crisis (CEO, COMs, Legal, Security)',
-      'Cerrar canal de comunicación oficial unificado',
-      'Briefing portavoces con líneas de mensajes en ≤ 60min',
-      'Respuesta documental verificable en ≤ 2h',
-      'Monitorización cada 15 min con escalada automática',
-      'Documentar todo para post-mortem y posibles acciones legales',
+ 'Activar Comité de Crisis (CEO, COMs, Legal, Security)',
+ 'Cerrar canal de comunicación oficial unificado',
+ 'Briefing portavoces con líneas de mensajes en ≤ 60min',
+ 'Respuesta documental verificable en ≤ 2h',
+ 'Monitorización cada 15 min con escalada automática',
+ 'Documentar todo para post-mortem y posibles acciones legales',
     ],
   },
   {
     severidad: 'ALTA' as Severidad, sla: '≤ 6h',
     pasos: [
-      'Notificar al equipo de respuesta · activar War Room',
-      'Cuantificar alcance y estimar trayectoria 24h',
-      'Preparar respuesta proporcional · evitar sobrerreacción',
-      'Coordinación con asesoría jurídica si procede',
-      'Seguimiento cada 30 min · briefings horarios al núcleo',
+ 'Notificar al equipo de respuesta · activar War Room',
+ 'Cuantificar alcance y estimar trayectoria 24h',
+ 'Preparar respuesta proporcional · evitar sobrerreacción',
+ 'Coordinación con asesoría jurídica si procede',
+ 'Seguimiento cada 30 min · briefings horarios al núcleo',
     ],
   },
   {
     severidad: 'MEDIA' as Severidad, sla: '≤ 24h',
     pasos: [
-      'Análisis de viabilidad de escalada · decisión actuar / observar',
-      'Si actuar: respuesta breve y firme · sin amplificar el ataque',
-      'Si observar: monitor continuo · disparadores de escalada definidos',
-      'Documentar en sistema · alimentar ML de detección futura',
+ 'Análisis de viabilidad de escalada · decisión actuar / observar',
+ 'Si actuar: respuesta breve y firme · sin amplificar el ataque',
+ 'Si observar: monitor continuo · disparadores de escalada definidos',
+ 'Documentar en sistema · alimentar ML de detección futura',
     ],
   },
   {
     severidad: 'BAJA' as Severidad, sla: '24-72h',
     pasos: [
-      'Monitor estándar · sin acción inmediata',
-      'Revisión semanal con resto de señales',
-      'Etiquetado para análisis de patrones',
+ 'Monitor estándar · sin acción inmediata',
+ 'Revisión semanal con resto de señales',
+ 'Etiquetado para análisis de patrones',
     ],
   },
 ]

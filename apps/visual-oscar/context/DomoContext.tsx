@@ -36,7 +36,7 @@ export function DomoProvider({ children }: { children: ReactNode }) {
   const clearGlobalFilters = useCallback(() => setGlobalFilters([]), [])
 
   return (
-    <DomoContext.Provider
+ <DomoContext.Provider
       value={{
         activeSource, setActiveSource,
         activeDataset, setActiveDataset,
@@ -46,7 +46,7 @@ export function DomoProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </DomoContext.Provider>
+ </DomoContext.Provider>
   )
 }
 

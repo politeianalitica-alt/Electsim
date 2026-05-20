@@ -31,7 +31,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   try {
     const body = await req.json()
     const res  = await fetch(`${BACKEND}/api/estudio/fuentes/${params.id}`, {
-      method:  'PUT',
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(body),
     })

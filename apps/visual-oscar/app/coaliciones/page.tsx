@@ -34,7 +34,7 @@ const COMPAT: Record<string,Record<string,number>> = {
   PNV:       {PP: 0, PSOE:+1,VOX:-2, Sumar:0,Junts:0, ERC:0, 'EH Bildu':-1},
   Junts:     {PP:-1, PSOE: 0,VOX:-2, Sumar:-1,PNV:0, ERC:+1,'EH Bildu': 0},
   ERC:       {PP:-2, PSOE:+1,VOX:-2, Sumar:+1,PNV:0, Junts:+1,'EH Bildu':+1},
-  'EH Bildu':{PP:-2, PSOE:+1,VOX:-2, Sumar:+2,PNV:-1,Junts:0, ERC:+1},
+ 'EH Bildu':{PP:-2, PSOE:+1,VOX:-2, Sumar:+2,PNV:-1,Junts:0, ERC:+1},
 }
 const FORTALEZA=[
   {s:'PP',v:85,c:'#009FDB'},{s:'PSOE',v:80,c:'#E30613'},{s:'PNV',v:78,c:'#007A3D'},
@@ -82,142 +82,142 @@ export default function CoalicionesPage(){
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
   return(
-    <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
-      <AppHeader/>
-      <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
-        <section style={{background:'linear-gradient(135deg,#134e4a 0%,#042f2e 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
-          <div>
-            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Análisis de Coaliciones · 8 partidos</p>
-            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>Derecha lidera con <em style={{fontWeight:300}}>mayoría exacta</em></h1>
-            <p style={{fontSize:13,opacity:0.65,margin:0}}>5 escenarios · Matriz de compatibilidad · Perfiles negociadores</p>
-          </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,flexShrink:0}}>
+ <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
+ <AppHeader/>
+ <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
+ <section style={{background:'linear-gradient(135deg,#134e4a 0%,#042f2e 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
+ <div>
+ <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Análisis de Coaliciones · 8 partidos</p>
+ <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>Derecha lidera con <em style={{fontWeight:300}}>mayoría exacta</em></h1>
+ <p style={{fontSize:13,opacity:0.65,margin:0}}>5 escenarios · Matriz de compatibilidad · Perfiles negociadores</p>
+ </div>
+ <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,flexShrink:0}}>
             {[{l:'P(Derecha)',v:'38%',c:'#5eead4'},{l:'P(Izquierda)',v:'18%',c:'#f87171'},{l:'P(Bloqueo)',v:'22%',c:'#d1d5db'}].map(k=>(
-              <div key={k.l} style={{textAlign:'center'}}>
-                <div style={{fontFamily:'var(--font-display)',fontSize:36,fontWeight:700,color:k.c,lineHeight:1}}>{k.v}</div>
-                <div style={{fontSize:11,opacity:0.6,marginTop:3}}>{k.l}</div>
-              </div>
+ <div key={k.l} style={{textAlign:'center'}}>
+ <div style={{fontFamily:'var(--font-display)',fontSize:36,fontWeight:700,color:k.c,lineHeight:1}}>{k.v}</div>
+ <div style={{fontSize:11,opacity:0.6,marginTop:3}}>{k.l}</div>
+ </div>
             ))}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {/* Tab bar */}
-        <div style={{ display: 'flex', gap: 4, padding: 5, background: '#fff', border: '1px solid #e8e8ed', borderRadius: 999, marginBottom: 18, width: 'fit-content', overflowX: 'auto', maxWidth: '100%' }}>
+ <div style={{ display: 'flex', gap: 4, padding: 5, background: '#fff', border: '1px solid #e8e8ed', borderRadius: 999, marginBottom: 18, width: 'fit-content', overflowX: 'auto', maxWidth: '100%' }}>
           {HUB_TABS.map(t => (
-            <button key={t.v} onClick={() => setTab(t.v)} style={{
+ <button key={t.v} onClick={() => setTab(t.v)} style={{
               padding: '7px 16px', borderRadius: 999, border: 'none',
               background: tab === t.v ? '#1d1d1f' : 'transparent',
               color: tab === t.v ? '#fff' : '#6e6e73',
               fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
             }}>{t.l}</button>
           ))}
-        </div>
+ </div>
 
         {tab === 'resumen' && (<>
-        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
-          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Escenarios de coalición</h2>
-          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Escenarios de coalición</h2>
+ <div style={{display:'flex',flexDirection:'column',gap:10}}>
             {ESCENARIOS_COA.map((e,i)=>(
-              <div key={i} style={{padding:'14px 18px',borderRadius:14,background:'var(--bg-soft)',border:'1px solid var(--hairline)',display:'grid',gridTemplateColumns:'1fr 80px 150px',gap:16,alignItems:'center'}}>
-                <div>
-                  <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
-                    <span style={{fontSize:13,fontWeight:600}}>{e.nombre}</span>
-                    <span style={{fontSize:9.5,fontWeight:700,padding:'2px 7px',borderRadius:999,background:e.viable?'#16A34A':'var(--hairline)',color:e.viable?'#fff':'var(--ink-4)'}}>{e.viable?'VIABLE':'INVIABLE'}</span>
-                  </div>
-                  <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+ <div key={i} style={{padding:'14px 18px',borderRadius:14,background:'var(--bg-soft)',border:'1px solid var(--hairline)',display:'grid',gridTemplateColumns:'1fr 80px 150px',gap:16,alignItems:'center'}}>
+ <div>
+ <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+ <span style={{fontSize:13,fontWeight:600}}>{e.nombre}</span>
+ <span style={{fontSize:9.5,fontWeight:700,padding:'2px 7px',borderRadius:999,background:e.viable?'#16A34A':'var(--hairline)',color:e.viable?'#fff':'var(--ink-4)'}}>{e.viable?'VIABLE':'INVIABLE'}</span>
+ </div>
+ <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
                     {e.partidos.map(p=><span key={p.s} style={{fontSize:11,fontWeight:600,padding:'2px 7px',borderRadius:999,background:`${p.c}18`,color:p.c,border:`1px solid ${p.c}3a`}}>{p.s}</span>)}
                     {e.partidos.length===0&&<span style={{fontSize:11,color:'var(--ink-4)'}}>Sin coalición posible</span>}
-                  </div>
-                </div>
-                <div style={{textAlign:'center'}}>
-                  <div style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700}}>{e.seats||'—'}</div>
-                  <div style={{fontSize:10.5,color:'var(--ink-4)'}}>escaños</div>
-                </div>
-                <div>
-                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
-                    <span style={{fontSize:10.5,color:'var(--ink-4)'}}>Probabilidad</span>
-                    <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{e.prob}%</span>
-                  </div>
-                  <div style={{height:7,background:'var(--hairline)',borderRadius:999,overflow:'hidden'}}>
-                    <div style={{width:`${e.prob}%`,height:'100%',background:e.viable?'#16A34A':'#9E9E9E',borderRadius:999}}/>
-                  </div>
-                </div>
-              </div>
+ </div>
+ </div>
+ <div style={{textAlign:'center'}}>
+ <div style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700}}>{e.seats||'—'}</div>
+ <div style={{fontSize:10.5,color:'var(--ink-4)'}}>escaños</div>
+ </div>
+ <div>
+ <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+ <span style={{fontSize:10.5,color:'var(--ink-4)'}}>Probabilidad</span>
+ <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{e.prob}%</span>
+ </div>
+ <div style={{height:7,background:'var(--hairline)',borderRadius:999,overflow:'hidden'}}>
+ <div style={{width:`${e.prob}%`,height:'100%',background:e.viable?'#16A34A':'#9E9E9E',borderRadius:999}}/>
+ </div>
+ </div>
+ </div>
             ))}
-          </div>
-        </div>
+ </div>
+ </div>
 
-        <div style={{display:'grid',gridTemplateColumns:'7fr 5fr',gap:18,marginBottom:20}}>
-          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Matriz de compatibilidad</h2>
-            <div style={{overflowX:'auto'}}>
-              <table style={{borderCollapse:'collapse',fontSize:11.5,width:'100%'}}>
-                <thead><tr>
-                  <th style={{padding:'6px 8px',width:72}}/>
+ <div style={{display:'grid',gridTemplateColumns:'7fr 5fr',gap:18,marginBottom:20}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Matriz de compatibilidad</h2>
+ <div style={{overflowX:'auto'}}>
+ <table style={{borderCollapse:'collapse',fontSize:11.5,width:'100%'}}>
+ <thead><tr>
+ <th style={{padding:'6px 8px',width:72}}/>
                   {PARTIES_KEY.map(p=><th key={p} style={{padding:'6px 8px',fontWeight:700,color:COLORS[p],textAlign:'center',fontSize:11}}>{p}</th>)}
-                </tr></thead>
-                <tbody>
+ </tr></thead>
+ <tbody>
                   {PARTIES_KEY.map(row=>(
-                    <tr key={row}>
-                      <td style={{padding:'4px 8px',fontWeight:700,color:COLORS[row],fontSize:11}}>{row}</td>
+ <tr key={row}>
+ <td style={{padding:'4px 8px',fontWeight:700,color:COLORS[row],fontSize:11}}>{row}</td>
                       {PARTIES_KEY.map(col=>{
                         if(row===col) return <td key={col} style={{padding:'4px',textAlign:'center'}}><div style={{width:40,height:30,borderRadius:6,background:'var(--hairline)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--ink-4)',fontSize:12}}>—</div></td>
                         const v=COMPAT[row]?.[col]??0
                         const {bg,tx}=cColor(v)
                         return(
-                          <td key={col} style={{padding:'4px',textAlign:'center'}}>
-                            <div style={{width:40,height:30,borderRadius:6,background:bg,display:'flex',alignItems:'center',justifyContent:'center',color:tx,fontWeight:700,fontSize:13}}>
+ <td key={col} style={{padding:'4px',textAlign:'center'}}>
+ <div style={{width:40,height:30,borderRadius:6,background:bg,display:'flex',alignItems:'center',justifyContent:'center',color:tx,fontWeight:700,fontSize:13}}>
                               {v>0?'+':''}{v}
-                            </div>
-                          </td>
+ </div>
+ </td>
                         )
                       })}
-                    </tr>
+ </tr>
                   ))}
-                </tbody>
-              </table>
-            </div>
-            <div style={{display:'flex',gap:10,marginTop:12,flexWrap:'wrap',fontSize:10.5,color:'var(--ink-3)'}}>
+ </tbody>
+ </table>
+ </div>
+ <div style={{display:'flex',gap:10,marginTop:12,flexWrap:'wrap',fontSize:10.5,color:'var(--ink-3)'}}>
               {[{v:'+2',bg:'#166534',tx:'#dcfce7',l:'Muy compatible'},{v:'+1',bg:'rgba(22,163,74,0.2)',tx:'#16a34a',l:'Compatible'},{v:'0',bg:'var(--bg-soft)',tx:'var(--ink-4)',l:'Neutral'},{v:'−1',bg:'rgba(220,38,38,0.14)',tx:'#dc2626',l:'Incompatible'},{v:'−2',bg:'#7f1d1d',tx:'#fee2e2',l:'Muy incompatible'}].map(l=>(
-                <span key={l.v} style={{display:'inline-flex',alignItems:'center',gap:5}}>
-                  <span style={{width:20,height:16,borderRadius:3,background:l.bg,color:l.tx,display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:9.5,fontWeight:700}}>{l.v}</span>
+ <span key={l.v} style={{display:'inline-flex',alignItems:'center',gap:5}}>
+ <span style={{width:20,height:16,borderRadius:3,background:l.bg,color:l.tx,display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:9.5,fontWeight:700}}>{l.v}</span>
                   {l.l}
-                </span>
+ </span>
               ))}
-            </div>
-          </div>
+ </div>
+ </div>
 
-          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Fuerza negociadora</h2>
-            <div style={{display:'flex',flexDirection:'column',gap:10}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Fuerza negociadora</h2>
+ <div style={{display:'flex',flexDirection:'column',gap:10}}>
               {FORTALEZA.map(p=>(
-                <div key={p.s}>
-                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
-                    <span style={{fontSize:12,fontWeight:600,color:p.c}}>{p.s}</span>
-                    <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{p.v}/100</span>
-                  </div>
-                  <div style={{height:10,background:'var(--bg-soft)',borderRadius:999,overflow:'hidden'}}>
-                    <div style={{width:`${p.v}%`,height:'100%',background:p.c,borderRadius:999}}/>
-                  </div>
-                </div>
+ <div key={p.s}>
+ <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+ <span style={{fontSize:12,fontWeight:600,color:p.c}}>{p.s}</span>
+ <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{p.v}/100</span>
+ </div>
+ <div style={{height:10,background:'var(--bg-soft)',borderRadius:999,overflow:'hidden'}}>
+ <div style={{width:`${p.v}%`,height:'100%',background:p.c,borderRadius:999}}/>
+ </div>
+ </div>
               ))}
-            </div>
-          </div>
-        </div>
+ </div>
+ </div>
+ </div>
 
-        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Perfiles negociadores</h2>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Perfiles negociadores</h2>
+ <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}}>
             {PERFILES.map(p=>(
-              <div key={p.s} style={{padding:'14px 16px',borderRadius:14,background:'var(--bg-soft)',border:`1px solid ${p.c}28`}}>
-                <div style={{fontSize:14,fontWeight:700,color:p.c,marginBottom:8}}>{p.s}</div>
-                <div style={{fontSize:11.5,color:'var(--ink-2)',marginBottom:8,lineHeight:1.4}}><strong>Objetivo:</strong> {p.obj}</div>
-                <div style={{fontSize:11,color:'#DC2626',lineHeight:1.4}}><strong>Líneas rojas:</strong> {p.rojas}</div>
-              </div>
+ <div key={p.s} style={{padding:'14px 16px',borderRadius:14,background:'var(--bg-soft)',border:`1px solid ${p.c}28`}}>
+ <div style={{fontSize:14,fontWeight:700,color:p.c,marginBottom:8}}>{p.s}</div>
+ <div style={{fontSize:11.5,color:'var(--ink-2)',marginBottom:8,lineHeight:1.4}}><strong>Objetivo:</strong> {p.obj}</div>
+ <div style={{fontSize:11,color:'#DC2626',lineHeight:1.4}}><strong>Líneas rojas:</strong> {p.rojas}</div>
+ </div>
             ))}
-          </div>
-        </div>
-        </>)}
+ </div>
+ </div>
+ </>)}
 
         {tab === 'propensity' && <PropensityPanel/>}
         {tab === 'adversario' && <AdversarioPanel/>}
@@ -227,10 +227,10 @@ export default function CoalicionesPage(){
         {tab === 'mercado' && <MarketPanel/>}
         {tab === 'ontologia' && <OntologyPanel/>}
 
-      </main>
-      <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
+ </main>
+ <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
         Estimación en vivo · sondeos publicados + D'Hondt provincial · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }

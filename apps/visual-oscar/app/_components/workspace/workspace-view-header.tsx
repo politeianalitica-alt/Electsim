@@ -36,7 +36,7 @@ export function WorkspaceViewHeader({
   actions,
 }: WorkspaceViewHeaderProps) {
   return (
-    <header
+ <header
       style={{
         display: "flex",
         alignItems: "flex-start",
@@ -45,8 +45,8 @@ export function WorkspaceViewHeader({
         gap: 16,
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 14, minWidth: 0, flex: 1 }}>
-        <div
+ <div style={{ display: "flex", alignItems: "flex-start", gap: 14, minWidth: 0, flex: 1 }}>
+ <div
           style={{
             width: 36,
             height: 36,
@@ -59,11 +59,11 @@ export function WorkspaceViewHeader({
             marginTop: 4,
           }}
         >
-          <ViewIcon view={view} size={17} color={WS.accent} />
-        </div>
-        <div style={{ minWidth: 0, flex: 1 }}>
+ <ViewIcon view={view} size={17} color={WS.accent} />
+ </div>
+ <div style={{ minWidth: 0, flex: 1 }}>
           {eyebrow && (
-            <span
+ <span
               style={{
                 display: "block",
                 fontSize: 10,
@@ -75,10 +75,10 @@ export function WorkspaceViewHeader({
               }}
             >
               {eyebrow}
-            </span>
+ </span>
           )}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <h1
+ <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+ <h1
               style={{
                 fontFamily: WS.fontDisplay,
                 fontSize: 28,
@@ -90,9 +90,9 @@ export function WorkspaceViewHeader({
               }}
             >
               {title}
-            </h1>
+ </h1>
             {badge && (
-              <span
+ <span
                 style={{
                   fontSize: 10.5,
                   fontWeight: 600,
@@ -105,11 +105,11 @@ export function WorkspaceViewHeader({
                 }}
               >
                 {badge}
-              </span>
+ </span>
             )}
-          </div>
+ </div>
           {description && (
-            <p
+ <p
               style={{
                 margin: 0,
                 fontSize: 13,
@@ -120,15 +120,15 @@ export function WorkspaceViewHeader({
               }}
             >
               {description}
-            </p>
+ </p>
           )}
-        </div>
-      </div>
+ </div>
+ </div>
       {actions && (
-        <div style={{ display: "flex", gap: 8, flexShrink: 0, alignItems: "center" }}>
+ <div style={{ display: "flex", gap: 8, flexShrink: 0, alignItems: "center" }}>
           {actions}
-        </div>
+ </div>
       )}
-    </header>
+ </header>
   );
 }

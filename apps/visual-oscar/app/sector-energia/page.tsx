@@ -117,51 +117,51 @@ export default function SectorEnergiaPage() {
   }, [])
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+ <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+ <AppHeader/>
+ <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
         {/* ───── HERO con KPIs en vivo ───── */}
-        <section style={{
+ <section style={{
           background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
           borderRadius:18, padding:'28px 36px', marginBottom:18, color:'#fff',
           display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:32, alignItems:'center',
         }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', opacity:0.8, textTransform:'uppercase', margin:'0 0 8px' }}>
+ <div>
+ <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', opacity:0.8, textTransform:'uppercase', margin:'0 0 8px' }}>
               SECTORIAL · ENERGÍA & UTILITIES · DATOS REE EN VIVO
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 10px', lineHeight:1.05 }}>
+ </p>
+ <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 10px', lineHeight:1.05 }}>
               Sistema eléctrico español <em style={{ fontWeight:300, fontStyle:'italic', opacity:0.75 }}>en tiempo real</em>
-            </h1>
-            <p style={{ fontSize:13.5, opacity:0.8, margin:0, lineHeight:1.5 }}>
+ </h1>
+ <p style={{ fontSize:13.5, opacity:0.8, margin:0, lineHeight:1.5 }}>
               Demanda · mix de generación · precios mayoristas · balance mensual · intercambios internacionales · emisiones CO2.
               Datos oficiales de Red Eléctrica de España actualizados cada 5 minutos.
-            </p>
+ </p>
             {updatedAt && (
-              <div style={{ marginTop:14, display:'flex', gap:10, alignItems:'center', fontSize:11, opacity:0.7 }}>
-                <span style={{ width:6, height:6, borderRadius:'50%', background:'#86EFAC', boxShadow:'0 0 8px #86EFAC' }}/>
+ <div style={{ marginTop:14, display:'flex', gap:10, alignItems:'center', fontSize:11, opacity:0.7 }}>
+ <span style={{ width:6, height:6, borderRadius:'50%', background:'#86EFAC', boxShadow:'0 0 8px #86EFAC' }}/>
                 Última actualización · {updatedAt.toLocaleTimeString('es-ES')} ·
                 {resumen?.fetch_ms ? ` ${resumen.fetch_ms} ms` : ''}
-                <button onClick={refresh} style={{
+ <button onClick={refresh} style={{
                   marginLeft:8, fontSize:10.5, padding:'4px 12px', borderRadius:999,
                   border:'1px solid rgba(255,255,255,0.35)', background:'transparent', color:'#fff',
                   cursor:'pointer', fontFamily:'inherit',
                 }}>↻ Actualizar</button>
-              </div>
+ </div>
             )}
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8 }}>
-            <HeroKPI label="Demanda peninsular" value={resumen?.kpis.demanda_actual_mw} unit="MW" accent="#86EFAC"
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8 }}>
+ <HeroKPI label="Demanda peninsular" value={resumen?.kpis.demanda_actual_mw} unit="MW" accent="#86EFAC"
               sub={resumen?.kpis.demanda_datetime ? new Date(resumen.kpis.demanda_datetime).toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' }) : ''}/>
-            <HeroKPI label="Mix renovable" value={resumen?.kpis.mix_renovable_pct} unit="%" accent="#7DD3FC"/>
-            <HeroKPI label="PVPC" value={resumen?.kpis.precio_pvpc_eur} unit="€/MWh" accent="#FCD34D"/>
-            <HeroKPI label="Emisiones" value={resumen?.kpis.emisiones_co2_g} unit="g/kWh" accent="#FCA5A5"/>
-          </div>
-        </section>
+ <HeroKPI label="Mix renovable" value={resumen?.kpis.mix_renovable_pct} unit="%" accent="#7DD3FC"/>
+ <HeroKPI label="PVPC" value={resumen?.kpis.precio_pvpc_eur} unit="€/MWh" accent="#FCD34D"/>
+ <HeroKPI label="Emisiones" value={resumen?.kpis.emisiones_co2_g} unit="g/kWh" accent="#FCA5A5"/>
+ </div>
+ </section>
 
         {/* ───── ROW 1: Mix de generación + Precio mercado ───── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
+ <Panel
             title="Mix de generación · últimos 7 días"
             subtitle={mix
               ? `${(mix.total_mwh / 1_000_000).toFixed(2)} TWh · ${mix.renovable_pct ?? 0}% renovable · ${mix.items.length} tecnologías`
@@ -171,39 +171,39 @@ export default function SectorEnergiaPage() {
             sourceTooltip="Abrir visor REE · Generación"
           >
             {mix && <MixDonut items={mix.items} renovablePct={mix.renovable_pct} totalTwh={mix.total_mwh / 1_000_000}/>}
-          </Panel>
-          <Panel
+ </Panel>
+ <Panel
             title="Precio del mercado eléctrico · últimas 24-48 h"
             subtitle="PVPC vs Mercado SPOT"
             sourceUrl={reeUrl('mercados')}
             sourceTooltip="Abrir visor REE · Mercados"
           >
             {precio && <PriceLineChart series={precio.series}/>}
-          </Panel>
-        </div>
+ </Panel>
+ </div>
 
         {/* ───── ROW 2: Demanda peninsular + Intercambios internacionales ───── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel
+ <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
+ <Panel
             title="Demanda peninsular · real vs prevista"
             subtitle={demanda?.series[0]?.last_value ? `${demanda.series[0].last_value.toLocaleString('es-ES')} MW ahora · pico ${demanda.series[0].max.toLocaleString('es-ES')} MW` : 'Cargando…'}
             sourceUrl={reeUrl('demanda')}
             sourceTooltip="Abrir visor REE · Demanda"
           >
             {demanda && <DemandLineChart series={demanda.series}/>}
-          </Panel>
-          <Panel
+ </Panel>
+ <Panel
             title="Intercambios internacionales · 14 días"
             subtitle="Saldo (importación + / exportación −)"
             sourceUrl={reeUrl('intercambios')}
             sourceTooltip="Abrir visor REE · Intercambios"
           >
             {intercambios && <IntercambiosBar series={intercambios.series}/>}
-          </Panel>
-        </div>
+ </Panel>
+ </div>
 
         {/* ───── ROW 3: Balance mensual ───── */}
-        <Panel
+ <Panel
           title="Balance eléctrico mensual · últimos 12 meses"
           subtitle="Generación renovable vs no renovable · GWh"
           marginBottom
@@ -211,45 +211,45 @@ export default function SectorEnergiaPage() {
           sourceTooltip="Abrir visor REE · Balance"
         >
           {balance && <BalanceStacked balance={balance.balance}/>}
-        </Panel>
+ </Panel>
 
         {/* ───── ROW 4: Emisiones CO2 + Top empresas ───── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:14, marginBottom:14 }}>
-          <Panel
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:14, marginBottom:14 }}>
+ <Panel
             title="Emisiones CO2 · últimos 14 días"
             subtitle="g CO2 / kWh por tecnología no renovable"
             sourceUrl={reeUrl('generacion')}
             sourceTooltip="Abrir visor REE · Generación"
           >
             {emisiones && <EmisionesList series={emisiones.series}/>}
-          </Panel>
-          <Panel title="Empresas líderes del sector" subtitle={`${EMPRESAS_ENERGIA.length} compañías · IBEX 35 + selectivos`}>
-            <EmpresasGrid/>
-          </Panel>
-        </div>
+ </Panel>
+ <Panel title="Empresas líderes del sector" subtitle={`${EMPRESAS_ENERGIA.length} compañías · IBEX 35 + selectivos`}>
+ <EmpresasGrid/>
+ </Panel>
+ </div>
 
         {/* ───── ROW 5: Reguladores + Licitaciones del sector ───── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Reguladores y operadores" subtitle="Marco institucional del sector">
-            <RegLista/>
-          </Panel>
-          <Panel title="Licitaciones del sector" subtitle="CPV 09 · Combustibles, electricidad, energía">
-            <LicitacionesShortcut/>
-          </Panel>
-        </div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
+ <Panel title="Reguladores y operadores" subtitle="Marco institucional del sector">
+ <RegLista/>
+ </Panel>
+ <Panel title="Licitaciones del sector" subtitle="CPV 09 · Combustibles, electricidad, energía">
+ <LicitacionesShortcut/>
+ </Panel>
+ </div>
 
         {/* ───── ROW 6: Áreas temáticas ───── */}
-        <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
-          <AreasTematicas/>
-        </Panel>
+ <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
+ <AreasTematicas/>
+ </Panel>
 
         {loading && (
-          <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>
+ <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>
             Cargando datos REE…
-          </div>
+ </div>
         )}
-      </main>
-    </div>
+ </main>
+ </div>
   )
 }
 
@@ -258,18 +258,18 @@ export default function SectorEnergiaPage() {
 function HeroKPI({ label, value, unit, accent, sub }: { label: string; value: number | null | undefined; unit: string; accent: string; sub?: string }) {
   const display = value == null ? '—' : value.toLocaleString('es-ES', { maximumFractionDigits: 2 })
   return (
-    <div style={{
+ <div style={{
       background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)',
       borderRadius:12, padding:'12px 14px',
     }}>
-      <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.1em', textTransform:'uppercase', opacity:0.72, marginBottom:4 }}>
+ <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.1em', textTransform:'uppercase', opacity:0.72, marginBottom:4 }}>
         {label}
-      </div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.02em', color: accent }}>
+ </div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.02em', color: accent }}>
         {display}<span style={{ fontSize:11, fontWeight:600, marginLeft:5, opacity:0.85 }}>{unit}</span>
-      </div>
+ </div>
       {sub && <div style={{ fontSize:10, opacity:0.6, marginTop:2 }}>{sub}</div>}
-    </div>
+ </div>
   )
 }
 
@@ -291,15 +291,15 @@ function MixDonut({ items, renovablePct, totalTwh }: {
   const renovItems = sorted.filter(i => i.bucket === 'Renovable')
   const noRenovItems = sorted.filter(i => i.bucket === 'No-Renovable')
   return (
-    <div style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:18, alignItems:'center' }}>
-      <svg width={radius * 2 + stroke} height={radius * 2 + stroke} viewBox={`0 0 ${radius * 2 + stroke} ${radius * 2 + stroke}`}>
-        <g transform={`translate(${radius + stroke / 2},${radius + stroke / 2}) rotate(-90)`}>
+ <div style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:18, alignItems:'center' }}>
+ <svg width={radius * 2 + stroke} height={radius * 2 + stroke} viewBox={`0 0 ${radius * 2 + stroke} ${radius * 2 + stroke}`}>
+ <g transform={`translate(${radius + stroke / 2},${radius + stroke / 2}) rotate(-90)`}>
           {sorted.map((it) => {
             const len = (it.pct / 100) * circ
             const offset = -acum
             acum += len
             return (
-              <circle
+ <circle
                 key={it.tecnologia}
                 r={radius} fill="none"
                 stroke={it.color || '#9CA3AF'}
@@ -308,56 +308,56 @@ function MixDonut({ items, renovablePct, totalTwh }: {
                 strokeDashoffset={offset}
                 style={{ cursor:'pointer' }}
               >
-                <title>{it.tecnologia} ({it.bucket || 'Otro'}): {it.pct.toFixed(2)}% · {it.total_mwh.toLocaleString('es-ES')} MWh</title>
-              </circle>
+ <title>{it.tecnologia} ({it.bucket || 'Otro'}): {it.pct.toFixed(2)}% · {it.total_mwh.toLocaleString('es-ES')} MWh</title>
+ </circle>
             )
           })}
-        </g>
-        <text x="50%" y="44%" textAnchor="middle" style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, fill:'#1d1d1f' }}>
+ </g>
+ <text x="50%" y="44%" textAnchor="middle" style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, fill:'#1d1d1f' }}>
           {(totalTwh ?? items.reduce((a, i) => a + i.total_mwh, 0) / 1_000_000).toFixed(2)}
-        </text>
-        <text x="50%" y="52%" textAnchor="middle" style={{ fontSize:10, fill:'#6e6e73', fontWeight:600 }}>TWh · 7 días</text>
+ </text>
+ <text x="50%" y="52%" textAnchor="middle" style={{ fontSize:10, fill:'#6e6e73', fontWeight:600 }}>TWh · 7 días</text>
         {renovablePct != null && (
-          <text x="50%" y="64%" textAnchor="middle" style={{ fontSize:11, fill:'#16A34A', fontWeight:700, fontFamily:'var(--font-display)' }}>
+ <text x="50%" y="64%" textAnchor="middle" style={{ fontSize:11, fill:'#16A34A', fontWeight:700, fontFamily:'var(--font-display)' }}>
             {renovablePct.toFixed(1)}% renovable
-          </text>
+ </text>
         )}
-      </svg>
-      <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:10.5 }}>
+ </svg>
+ <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:10.5 }}>
         {renovItems.length > 0 && (
-          <>
-            <li style={{ marginBottom:4 }}>
-              <strong style={{ color:'#16A34A', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:800 }}>
+ <>
+ <li style={{ marginBottom:4 }}>
+ <strong style={{ color:'#16A34A', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:800 }}>
                 Renovables · {renovItems.reduce((s, i) => s + i.pct, 0).toFixed(1)}%
-              </strong>
-            </li>
+ </strong>
+ </li>
             {renovItems.map(it => (
-              <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
-                <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
-                <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
-                <span style={{ color:'#16A34A', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
-              </li>
+ <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
+ <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
+ <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
+ <span style={{ color:'#16A34A', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
+ </li>
             ))}
-          </>
+ </>
         )}
         {noRenovItems.length > 0 && (
-          <>
-            <li style={{ margin:'8px 0 4px' }}>
-              <strong style={{ color:'#DC2626', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:800 }}>
+ <>
+ <li style={{ margin:'8px 0 4px' }}>
+ <strong style={{ color:'#DC2626', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:800 }}>
                 No renovables · {noRenovItems.reduce((s, i) => s + i.pct, 0).toFixed(1)}%
-              </strong>
-            </li>
+ </strong>
+ </li>
             {noRenovItems.map(it => (
-              <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
-                <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
-                <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
-                <span style={{ color:'#525258', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
-              </li>
+ <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
+ <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
+ <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
+ <span style={{ color:'#525258', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
+ </li>
             ))}
-          </>
+ </>
         )}
-      </ul>
-    </div>
+ </ul>
+ </div>
   )
 }
 
@@ -370,10 +370,10 @@ function PriceLineChart({ series }: { series: Array<{ title: string; color?: str
   const range = max - min || 1
   const W = 520, H = 160, P = 8
   return (
-    <div>
-      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:'block' }}>
+ <div>
+ <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:'block' }}>
         {[0, 0.25, 0.5, 0.75, 1].map(g => (
-          <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7" strokeWidth={1}/>
+ <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7" strokeWidth={1}/>
         ))}
         {series.slice(0, 3).map(s => {
           if (!s.points.length) return null
@@ -388,23 +388,23 @@ function PriceLineChart({ series }: { series: Array<{ title: string; color?: str
           const x = P + (i / (s.points.length - 1)) * (W - 2 * P)
           const y = P + (1 - (p.v - min) / range) * (H - 2 * P)
           return (
-            <circle key={`${s.title}-${i}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
-              <title>{s.title} · {p.t}: {p.v.toFixed(2)} €/MWh</title>
-            </circle>
+ <circle key={`${s.title}-${i}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+ <title>{s.title} · {p.t}: {p.v.toFixed(2)} €/MWh</title>
+ </circle>
           )
         }))}
-      </svg>
-      <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:14, flexWrap:'wrap' }}>
+ </svg>
+ <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:14, flexWrap:'wrap' }}>
         {series.slice(0, 3).map(s => (
-          <li key={s.title} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11 }}>
-            <span style={{ width:8, height:8, borderRadius:2, background: s.color || '#1F4E8C' }}/>
-            <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
-            <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>{s.last_value?.toFixed(2) ?? '—'} €/MWh</span>
-            <span style={{ color:'#86868b' }}>· media {s.avg.toFixed(0)}</span>
-          </li>
+ <li key={s.title} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11 }}>
+ <span style={{ width:8, height:8, borderRadius:2, background: s.color || '#1F4E8C' }}/>
+ <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
+ <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>{s.last_value?.toFixed(2) ?? '—'} €/MWh</span>
+ <span style={{ color:'#86868b' }}>· media {s.avg.toFixed(0)}</span>
+ </li>
         ))}
-      </ul>
-    </div>
+ </ul>
+ </div>
   )
 }
 
@@ -417,10 +417,10 @@ function DemandLineChart({ series }: { series: Array<{ title: string; color?: st
   const range = max - min || 1
   const W = 700, H = 200, P = 10
   return (
-    <div>
-      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:'block' }}>
+ <div>
+ <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:'block' }}>
         {[0, 0.25, 0.5, 0.75, 1].map(g => (
-          <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7" strokeWidth={1}/>
+ <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7" strokeWidth={1}/>
         ))}
         {series.slice(0, 3).map(s => {
           if (!s.points.length) return null
@@ -436,55 +436,55 @@ function DemandLineChart({ series }: { series: Array<{ title: string; color?: st
           const x = P + (i / (s.points.length - 1)) * (W - 2 * P)
           const y = P + (1 - (p.v - min) / range) * (H - 2 * P)
           return (
-            <circle key={`${s.title}-${i}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
-              <title>{s.title} · {p.t}: {p.v.toLocaleString('es-ES')} MW</title>
-            </circle>
+ <circle key={`${s.title}-${i}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+ <title>{s.title} · {p.t}: {p.v.toLocaleString('es-ES')} MW</title>
+ </circle>
           )
         }))}
-      </svg>
-      <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:14, flexWrap:'wrap' }}>
+ </svg>
+ <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:14, flexWrap:'wrap' }}>
         {series.slice(0, 3).map(s => (
-          <li key={s.title} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11 }}>
-            <span style={{ width:14, height:2, background: s.color || '#1F4E8C' }}/>
-            <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
-            <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>
+ <li key={s.title} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11 }}>
+ <span style={{ width:14, height:2, background: s.color || '#1F4E8C' }}/>
+ <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
+ <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>
               {s.last_value?.toLocaleString('es-ES') ?? '—'} MW
-            </span>
-          </li>
+ </span>
+ </li>
         ))}
-      </ul>
-    </div>
+ </ul>
+ </div>
   )
 }
 
 function IntercambiosBar({ series }: { series: Array<{ title: string; color?: string; saldo_total_mwh: number }> }) {
   const max = Math.max(1, ...series.map(s => Math.abs(s.saldo_total_mwh)))
   return (
-    <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:10 }}>
+ <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:10 }}>
       {series.map(s => {
         const positive = s.saldo_total_mwh >= 0
         return (
-          <li key={s.title} title={`${s.title}: ${(s.saldo_total_mwh / 1000).toFixed(2)} GWh ${positive ? '(importación)' : '(exportación)'}`} style={{ cursor:'help' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, marginBottom:3 }}>
-              <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
-              <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color: positive ? '#16A34A' : '#DC2626' }}>
+ <li key={s.title} title={`${s.title}: ${(s.saldo_total_mwh / 1000).toFixed(2)} GWh ${positive ? '(importación)' : '(exportación)'}`} style={{ cursor:'help' }}>
+ <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, marginBottom:3 }}>
+ <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
+ <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color: positive ? '#16A34A' : '#DC2626' }}>
                 {(s.saldo_total_mwh / 1000).toFixed(1)} GWh
-              </span>
-            </div>
-            <div style={{ display:'flex', alignItems:'center' }}>
-              <div style={{ flex:1, height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden', display:'flex' }}>
-                <div style={{
+ </span>
+ </div>
+ <div style={{ display:'flex', alignItems:'center' }}>
+ <div style={{ flex:1, height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden', display:'flex' }}>
+ <div style={{
                   marginLeft: positive ? '50%' : `${50 - (Math.abs(s.saldo_total_mwh) / max) * 50}%`,
                   width: `${(Math.abs(s.saldo_total_mwh) / max) * 50}%`,
                   height:'100%',
                   background: positive ? '#16A34A' : '#DC2626',
                 }}/>
-              </div>
-            </div>
-          </li>
+ </div>
+ </div>
+ </li>
         )
       })}
-    </ul>
+ </ul>
   )
 }
 
@@ -504,108 +504,108 @@ function BalanceStacked({ balance }: { balance: Array<{ title: string; color?: s
   const maxTotal = Math.max(1, ...Object.values(totalsPorMes))
 
   return (
-    <div>
-      <svg width="100%" viewBox={`0 0 ${W} ${H + 30}`} style={{ display:'block' }}>
+ <div>
+ <svg width="100%" viewBox={`0 0 ${W} ${H + 30}`} style={{ display:'block' }}>
         {meses.map((m, i) => {
           let acumY = H - P
           return (
-            <g key={m}>
+ <g key={m}>
               {balance.map(s => {
                 const v = s.points.find(p => p.t === m)?.v || 0
                 if (v <= 0) return null
                 const h = (v / maxTotal) * (H - 2 * P)
                 acumY -= h
                 return (
-                  <rect key={s.title}
+ <rect key={s.title}
                     x={P + i * colW + 2}
                     y={acumY}
                     width={colW - 4}
                     height={h}
                     fill={s.color || '#9CA3AF'}>
-                    <title>{s.title}: {v.toLocaleString('es-ES')} GWh</title>
-                  </rect>
+ <title>{s.title}: {v.toLocaleString('es-ES')} GWh</title>
+ </rect>
                 )
               })}
-              <text x={P + i * colW + colW / 2} y={H + 14} textAnchor="middle" style={{ fontSize:9, fill:'#86868b' }}>
+ <text x={P + i * colW + colW / 2} y={H + 14} textAnchor="middle" style={{ fontSize:9, fill:'#86868b' }}>
                 {m.slice(2)}
-              </text>
-            </g>
+ </text>
+ </g>
           )
         })}
-      </svg>
-      <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:12, flexWrap:'wrap' }}>
+ </svg>
+ <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:12, flexWrap:'wrap' }}>
         {balance.slice(0, 10).map(s => (
-          <li key={s.title} style={{ display:'flex', alignItems:'center', gap:6, fontSize:10.5 }}>
-            <span style={{ width:8, height:8, borderRadius:2, background: s.color || '#9CA3AF' }}/>
-            <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
-            <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>{(s.total_gwh / 1000).toFixed(1)} TWh</span>
-          </li>
+ <li key={s.title} style={{ display:'flex', alignItems:'center', gap:6, fontSize:10.5 }}>
+ <span style={{ width:8, height:8, borderRadius:2, background: s.color || '#9CA3AF' }}/>
+ <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
+ <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>{(s.total_gwh / 1000).toFixed(1)} TWh</span>
+ </li>
         ))}
-      </ul>
-    </div>
+ </ul>
+ </div>
   )
 }
 
 function EmisionesList({ series }: { series: Array<{ title: string; color?: string; last_value?: number; avg: number }> }) {
   const max = Math.max(1, ...series.map(s => Math.abs(s.avg)))
   return (
-    <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:9 }}>
+ <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:9 }}>
       {series.slice(0, 8).map(s => (
-        <li key={s.title} title={`${s.title}: ${s.avg.toFixed(1)} g CO2/kWh emisiones medias · último ${s.last_value?.toFixed(1) ?? '—'} g/kWh`} style={{ cursor:'help' }}>
-          <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, marginBottom:3 }}>
-            <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
-            <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#DC2626' }}>{s.avg.toFixed(0)} g/kWh</span>
-          </div>
-          <div style={{ height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-            <div style={{ width:`${(Math.abs(s.avg) / max) * 100}%`, height:'100%', background: s.color || '#DC2626' }}/>
-          </div>
-        </li>
+ <li key={s.title} title={`${s.title}: ${s.avg.toFixed(1)} g CO2/kWh emisiones medias · último ${s.last_value?.toFixed(1) ?? '—'} g/kWh`} style={{ cursor:'help' }}>
+ <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, marginBottom:3 }}>
+ <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
+ <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#DC2626' }}>{s.avg.toFixed(0)} g/kWh</span>
+ </div>
+ <div style={{ height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
+ <div style={{ width:`${(Math.abs(s.avg) / max) * 100}%`, height:'100%', background: s.color || '#DC2626' }}/>
+ </div>
+ </li>
       ))}
-    </ul>
+ </ul>
   )
 }
 
 function EmpresasGrid() {
   return (
-    <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:10 }}>
+ <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:10 }}>
       {EMPRESAS_ENERGIA.map(e => (
-        <li key={e.ticker}>
-          <a href={e.web} target="_blank" rel="noreferrer" style={{
+ <li key={e.ticker}>
+ <a href={e.web} target="_blank" rel="noreferrer" style={{
             display:'block', padding:'10px 12px', background:'#FAFAFA', borderRadius:10,
             border:'1px solid #ECECEF', textDecoration:'none', color:'inherit',
           }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:6 }}>
-              <span style={{ fontWeight:700, fontFamily:'var(--font-display)', fontSize:13.5, color:'#1d1d1f' }}>{e.nombre}</span>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:6 }}>
+ <span style={{ fontWeight:700, fontFamily:'var(--font-display)', fontSize:13.5, color:'#1d1d1f' }}>{e.nombre}</span>
               {e.ibex && <span style={{ fontSize:8.5, fontWeight:800, padding:'2px 6px', borderRadius:4, background:'#FCD34D', color:'#92400E' }}>IBEX 35</span>}
-            </div>
-            <div style={{ fontSize:10, color:'#86868b', fontFamily:'monospace', marginTop:2 }}>{e.ticker} · {e.capitalizacion_b}b€</div>
-            <div style={{ fontSize:11, color:'#3a3a3d', marginTop:4, lineHeight:1.4 }}>{e.descripcion}</div>
-            <div style={{ fontSize:9.5, color:'#16A34A', fontWeight:700, marginTop:5, letterSpacing:'0.04em', textTransform:'uppercase' }}>{e.segmento}</div>
-          </a>
-        </li>
+ </div>
+ <div style={{ fontSize:10, color:'#86868b', fontFamily:'monospace', marginTop:2 }}>{e.ticker} · {e.capitalizacion_b}b€</div>
+ <div style={{ fontSize:11, color:'#3a3a3d', marginTop:4, lineHeight:1.4 }}>{e.descripcion}</div>
+ <div style={{ fontSize:9.5, color:'#16A34A', fontWeight:700, marginTop:5, letterSpacing:'0.04em', textTransform:'uppercase' }}>{e.segmento}</div>
+ </a>
+ </li>
       ))}
-    </ul>
+ </ul>
   )
 }
 
 function RegLista() {
   return (
-    <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:8 }}>
+ <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:8 }}>
       {REGULADORES_ENERGIA.map(r => (
-        <li key={r.nombre}>
-          <a href={r.web} target="_blank" rel="noreferrer" style={{
+ <li key={r.nombre}>
+ <a href={r.web} target="_blank" rel="noreferrer" style={{
             display:'block', padding:'10px 12px', background:'#FAFAFA', borderRadius:10,
             border:'1px solid #ECECEF', textDecoration:'none', color:'inherit',
           }}>
-            <div style={{ display:'flex', justifyContent:'space-between', gap:6, alignItems:'baseline' }}>
-              <span style={{ fontWeight:700, fontSize:12.5, color:'#1d1d1f' }}>{r.nombre}</span>
-              <span style={{ fontSize:10, color:'#86868b' }}>{r.full}</span>
-            </div>
-            <div style={{ fontSize:11, color:'#3a3a3d', marginTop:4, lineHeight:1.4 }}>{r.competencias}</div>
-          </a>
-        </li>
+ <div style={{ display:'flex', justifyContent:'space-between', gap:6, alignItems:'baseline' }}>
+ <span style={{ fontWeight:700, fontSize:12.5, color:'#1d1d1f' }}>{r.nombre}</span>
+ <span style={{ fontSize:10, color:'#86868b' }}>{r.full}</span>
+ </div>
+ <div style={{ fontSize:11, color:'#3a3a3d', marginTop:4, lineHeight:1.4 }}>{r.competencias}</div>
+ </a>
+ </li>
       ))}
-    </ul>
+ </ul>
   )
 }
 
@@ -626,34 +626,34 @@ function LicitacionesShortcut() {
       })
   }, [])
   return (
-    <div>
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:10 }}>
-        <span style={{ fontSize:11, color:'#6e6e73' }}>Últimos contratos publicados</span>
-        <Link href="/licitaciones?cpv_div=09" style={{ fontSize:11, color:'#1F4E8C', textDecoration:'none', fontWeight:600 }}>
+ <div>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:10 }}>
+ <span style={{ fontSize:11, color:'#6e6e73' }}>Últimos contratos publicados</span>
+ <Link href="/licitaciones?cpv_div=09" style={{ fontSize:11, color:'#1F4E8C', textDecoration:'none', fontWeight:600 }}>
           Ver buscador {count != null && `· ${count.toLocaleString('es-ES')} en total ›`}
-        </Link>
-      </div>
-      <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:8 }}>
+ </Link>
+ </div>
+ <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:8 }}>
         {items.length === 0 && <li style={{ fontSize:11, color:'#86868b' }}>Cargando…</li>}
         {items.map(it => (
-          <li key={it.id} style={{ padding:'8px 10px', background:'#FAFAFA', borderRadius:8, border:'1px solid #ECECEF' }}>
-            <a href={it.url || '#'} target="_blank" rel="noreferrer" style={{ color:'inherit', textDecoration:'none' }}>
-              <div style={{ fontSize:11.5, color:'#1d1d1f', fontWeight:600, lineHeight:1.4 }}>
+ <li key={it.id} style={{ padding:'8px 10px', background:'#FAFAFA', borderRadius:8, border:'1px solid #ECECEF' }}>
+ <a href={it.url || '#'} target="_blank" rel="noreferrer" style={{ color:'inherit', textDecoration:'none' }}>
+ <div style={{ fontSize:11.5, color:'#1d1d1f', fontWeight:600, lineHeight:1.4 }}>
                 {it.objeto.length > 90 ? it.objeto.slice(0, 89) + '…' : it.objeto}
-              </div>
-              <div style={{ display:'flex', justifyContent:'space-between', marginTop:3, fontSize:10.5 }}>
-                <span style={{ color:'#86868b' }}>{it.organo}</span>
+ </div>
+ <div style={{ display:'flex', justifyContent:'space-between', marginTop:3, fontSize:10.5 }}>
+ <span style={{ color:'#86868b' }}>{it.organo}</span>
                 {it.importe ? (
-                  <span style={{ fontFamily:'var(--font-display)', color:'#1F4E8C', fontWeight:700 }}>
+ <span style={{ fontFamily:'var(--font-display)', color:'#1F4E8C', fontWeight:700 }}>
                     {(it.importe / 1_000_000).toFixed(2)}M €
-                  </span>
+ </span>
                 ) : <span style={{ color:'#86868b' }}>{it.fecha_publicacion}</span>}
-              </div>
-            </a>
-          </li>
+ </div>
+ </a>
+ </li>
         ))}
-      </ul>
-    </div>
+ </ul>
+ </div>
   )
 }
 
@@ -669,16 +669,16 @@ function AreasTematicas() {
     { titulo: 'Gas natural', desc: 'Enagás · GNL Sagunto · Argelia · diversificación post-Rusia', color:'#0F766E' },
   ]
   return (
-    <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+ <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
       {areas.map(a => (
-        <li key={a.titulo} style={{
+ <li key={a.titulo} style={{
           padding:'12px 14px', background:'#FAFAFA', borderRadius:10, border:'1px solid #ECECEF',
           borderTop:`3px solid ${a.color}`,
         }}>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', letterSpacing:'-0.01em' }}>{a.titulo}</div>
-          <div style={{ fontSize:11, color:'#3a3a3d', marginTop:5, lineHeight:1.4 }}>{a.desc}</div>
-        </li>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', letterSpacing:'-0.01em' }}>{a.titulo}</div>
+ <div style={{ fontSize:11, color:'#3a3a3d', marginTop:5, lineHeight:1.4 }}>{a.desc}</div>
+ </li>
       ))}
-    </ul>
+ </ul>
   )
 }

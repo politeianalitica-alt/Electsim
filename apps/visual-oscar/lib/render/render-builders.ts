@@ -86,7 +86,7 @@ export function projectToSpec(project: Project, workspace?: string): PdfDocSpec 
     blocks,
     meta: {
       estado:     project.status,
-      progreso:   `${overallProgress(project.tasks ?? [])}%`,
+      progreso: `${overallProgress(project.tasks ?? [])}%`,
       inicio:     new Date(project.startDate).toLocaleDateString("es-ES"),
       fin:        new Date(project.endDate).toLocaleDateString("es-ES"),
       tareas:     String(project.tasks?.length ?? 0),

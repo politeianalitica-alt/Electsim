@@ -47,7 +47,7 @@ export async function GET() {
           apoyos: result.data.apoyos ?? [],
           hitos: result.data.hitos ?? [],
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -63,7 +63,7 @@ export async function GET() {
         apoyos: APOYOS,
         hitos: HITOS,
       },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`]

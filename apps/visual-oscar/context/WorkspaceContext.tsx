@@ -88,11 +88,11 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const setContextItems   = useCallback((items: AgentContextItem[]) => dispatch({ type: "SET_CONTEXT_ITEMS", items }), []);
 
   return (
-    <WorkspaceContext.Provider
+ <WorkspaceContext.Provider
       value={{ ...state, openTab, closeTab, setActiveTab, toggleAgent, openCommandPalette, closeCommandPalette, setContextItems }}
     >
       {children}
-    </WorkspaceContext.Provider>
+ </WorkspaceContext.Provider>
   );
 }
 

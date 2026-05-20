@@ -17,16 +17,16 @@ export default function MapLegend({ scale, min, max, unit = '', steps = 6 }: Pro
   const fmt = (n: number) => Math.round(n).toLocaleString('es-ES')
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-      <span style={{ fontSize: 10, color: '#6e6e73' }}>{fmt(min)}</span>
-      <div
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
+ <span style={{ fontSize: 10, color: '#6e6e73' }}>{fmt(min)}</span>
+ <div
         role="img"
         aria-label={`Escala: ${fmt(min)}–${fmt(max)}${unit ? ' ' + unit : ''}`}
         style={{ flex: 1, height: 8, borderRadius: 4, background: gradient, border: '1px solid rgba(0,0,0,0.06)' }}
       />
-      <span style={{ fontSize: 10, color: '#6e6e73' }}>
+ <span style={{ fontSize: 10, color: '#6e6e73' }}>
         {fmt(max)}{unit ? ` ${unit}` : ''}
-      </span>
-    </div>
+ </span>
+ </div>
   )
 }

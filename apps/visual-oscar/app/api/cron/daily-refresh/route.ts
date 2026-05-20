@@ -22,21 +22,21 @@ async function warmRoute(path: string): Promise<{ path: string; ok: boolean; ms:
 const ROUTES_TO_WARM = [
   // ELECTORAL · agregador Wikipedia + D'Hondt provincial
   // Estos endpoints recalculan estimación con sondeos publicados ayer.
-  '/api/electoral/encuestas?ambito=general&limit=30',
-  '/api/electoral/estimacion',
-  '/api/electoral/provincial',
-  '/api/analytics/nowcast',
-  '/api/mapa/dataset',
+ '/api/electoral/encuestas?ambito=general&limit=30',
+ '/api/electoral/estimacion',
+ '/api/electoral/provincial',
+ '/api/analytics/nowcast',
+ '/api/mapa/dataset',
   // RESTO
-  '/api/trends',
-  '/api/crisis/signals',
-  '/api/crisis/clusters',
-  '/api/crisis/attack-detection',
-  '/api/dashboard/home',
-  '/api/risk/composite',
-  '/api/risk/timeseries',
-  '/api/legislativo/feed',
-  '/api/news/feed',
+ '/api/trends',
+ '/api/crisis/signals',
+ '/api/crisis/clusters',
+ '/api/crisis/attack-detection',
+ '/api/dashboard/home',
+ '/api/risk/composite',
+ '/api/risk/timeseries',
+ '/api/legislativo/feed',
+ '/api/news/feed',
 ]
 
 export async function GET(req: Request) {

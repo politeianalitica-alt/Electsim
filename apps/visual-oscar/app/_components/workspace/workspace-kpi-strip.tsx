@@ -24,37 +24,37 @@ export function WorkspaceKpiStrip({ workspace, extra = [] }: WorkspaceKpiStripPr
   ];
 
   return (
-    <div style={{
+ <div style={{
       display: "grid",
       gridTemplateColumns: `repeat(${items.length}, 1fr)`,
       gap: 12,
       marginBottom: 28,
     }}>
       {items.map((kpi, i) => (
-        <div key={i} style={{
+ <div key={i} style={{
           background: WS.surface,
           border: `1px solid ${WS.border}`,
           borderRadius: 12,
           padding: "14px 16px",
         }}>
-          <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 8 }}>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 8 }}>
             {kpi.label}
-          </div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-            <span style={{ fontSize: 28, fontWeight: 700, color: kpi.color ?? WS.ink, letterSpacing: "-0.04em", lineHeight: 1 }}>
+ </div>
+ <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+ <span style={{ fontSize: 28, fontWeight: 700, color: kpi.color ?? WS.ink, letterSpacing: "-0.04em", lineHeight: 1 }}>
               {kpi.value}
-            </span>
+ </span>
             {kpi.delta !== undefined && (
-              <span style={{ fontSize: 11, color: kpi.delta >= 0 ? WS.success : WS.danger, fontWeight: 600 }}>
+ <span style={{ fontSize: 11, color: kpi.delta >= 0 ? WS.success : WS.danger, fontWeight: 600 }}>
                 {kpi.delta >= 0 ? "+" : ""}{kpi.delta}
-              </span>
+ </span>
             )}
-          </div>
+ </div>
           {kpi.sub && (
-            <div style={{ fontSize: 11, color: WS.ink3, marginTop: 4 }}>{kpi.sub}</div>
+ <div style={{ fontSize: 11, color: WS.ink3, marginTop: 4 }}>{kpi.sub}</div>
           )}
-        </div>
+ </div>
       ))}
-    </div>
+ </div>
   );
 }

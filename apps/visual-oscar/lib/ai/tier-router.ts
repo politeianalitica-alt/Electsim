@@ -13,30 +13,30 @@ import type { AiTier } from "./anthropic-client";
 
 const SONNET_TRIGGERS = [
   // Análisis estratégico
-  "analiza", "análisis", "analiza", "evalúa", "evaluación",
-  "estrategia", "estratégico", "implicación", "consecuencia",
-  "impacto", "perspectiva", "escenario", "futuro",
+ "analiza", "análisis", "analiza", "evalúa", "evaluación",
+ "estrategia", "estratégico", "implicación", "consecuencia",
+ "impacto", "perspectiva", "escenario", "futuro",
   // Comparativas profundas
-  "compáralo", "compárame", "diferencia entre", "compara",
+ "compáralo", "compárame", "diferencia entre", "compara",
   // Triggers de profundidad (mismos que el system prompt)
-  "detalle", "profundiza", "explícame", "explica", "amplía",
-  "desglosa", "desglose",
+ "detalle", "profundiza", "explícame", "explica", "amplía",
+ "desglosa", "desglose",
   // Razonamiento multi-paso
-  "por qué", "cómo se explica", "qué pasaría si", "qué pasaria si",
-  "cuáles son las causas", "qué efecto", "implicacion", "implicaciones",
+ "por qué", "cómo se explica", "qué pasaría si", "qué pasaria si",
+ "cuáles son las causas", "qué efecto", "implicacion", "implicaciones",
   // Productos largos
-  "informe", "memo", "briefing completo", "redacta", "escribe",
-  // ⚠ Preguntas que requieren MÚLTIPLES tools encadenados → Sonnet
+ "informe", "memo", "briefing completo", "redacta", "escribe",
+  //  Preguntas que requieren MÚLTIPLES tools encadenados → Sonnet
   // mucho más fiable que Haiku en tool use complejo
-  "boe", "norma", "normas", "decreto", "ley", "leyes", "legislativ",
-  "tramitación", "tramitacion", "sumario", "publicación", "publicacion",
+ "boe", "norma", "normas", "decreto", "ley", "leyes", "legislativ",
+ "tramitación", "tramitacion", "sumario", "publicación", "publicacion",
 ];
 
 const HAIKU_PREFERRED = [
   // Preguntas factuales cortas
-  "qué es", "quién es", "cuándo", "cuánto", "dónde",
-  "cómo va", "cómo está", "última", "actual",
-  "hola", "gracias", "ok", "vale",
+ "qué es", "quién es", "cuándo", "cuánto", "dónde",
+ "cómo va", "cómo está", "última", "actual",
+ "hola", "gracias", "ok", "vale",
 ];
 
 export function chooseTier(userMessage: string): AiTier {

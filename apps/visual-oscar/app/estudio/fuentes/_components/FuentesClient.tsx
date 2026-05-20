@@ -59,128 +59,128 @@ export default function FuentesClient() {
   const totalRecords = sources.reduce((acc, s) => acc + (s.totalRecords ?? 0), 0)
 
   return (
-    <div className={styles.root}>
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Fuentes de Datos</h1>
-          <p className={styles.subtitle}>
+ <div className={styles.root}>
+ <div className={styles.header}>
+ <div>
+ <h1 className={styles.title}>Fuentes de Datos</h1>
+ <p className={styles.subtitle}>
             Gestiona las conexiones de datos ingestados por la plataforma
-          </p>
-        </div>
-        <button className={styles.btnPrimary} onClick={() => setDrawerOpen(true)}>
+ </p>
+ </div>
+ <button className={styles.btnPrimary} onClick={() => setDrawerOpen(true)}>
           + Nueva conexión
-        </button>
-      </div>
+ </button>
+ </div>
 
-      <div className={styles.kpiStrip}>
+ <div className={styles.kpiStrip}>
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} style={{ height: 72, borderRadius: 12 }} />
+ <Skeleton key={i} style={{ height: 72, borderRadius: 12 }} />
           ))
         ) : (
-          <>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue}>{sources.length}</span>
-              <span className={styles.kpiLabel}>Total fuentes</span>
-            </div>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue} style={{ color: 'var(--color-success,#22c55e)' }}>
+ <>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue}>{sources.length}</span>
+ <span className={styles.kpiLabel}>Total fuentes</span>
+ </div>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue} style={{ color: 'var(--color-success,#22c55e)' }}>
                 {connected}
-              </span>
-              <span className={styles.kpiLabel}>Conectadas</span>
-            </div>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue} style={{ color: errors > 0 ? 'var(--color-danger,#ef4444)' : undefined }}>
+ </span>
+ <span className={styles.kpiLabel}>Conectadas</span>
+ </div>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue} style={{ color: errors > 0 ? 'var(--color-danger,#ef4444)' : undefined }}>
                 {errors}
-              </span>
-              <span className={styles.kpiLabel}>Con error</span>
-            </div>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue}>{formatNumber(totalRecords)}</span>
-              <span className={styles.kpiLabel}>Registros totales</span>
-            </div>
-          </>
+ </span>
+ <span className={styles.kpiLabel}>Con error</span>
+ </div>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue}>{formatNumber(totalRecords)}</span>
+ <span className={styles.kpiLabel}>Registros totales</span>
+ </div>
+ </>
         )}
-      </div>
+ </div>
 
-      <div className={styles.filters}>
-        <input
+ <div className={styles.filters}>
+ <input
           type="search"
           placeholder="Buscar fuente…"
           value={search}
           onChange={e => setSearch(e.target.value)}
           className={styles.searchInput}
         />
-        <div className={styles.filterGroup}>
+ <div className={styles.filterGroup}>
           {STATUS_FILTERS.map(f => (
-            <button
+ <button
               key={f.value}
               onClick={() => setStatusFilter(f.value)}
               className={`${styles.filterBtn} ${statusFilter === f.value ? styles.filterActive : ''}`}
             >
               {f.label}
-            </button>
+ </button>
           ))}
-        </div>
-        <select
+ </div>
+ <select
           value={typeFilter}
           onChange={e => setTypeFilter(e.target.value as ConnectorType | 'all')}
           className={styles.select}
         >
-          <option value="all">Todos los tipos</option>
+ <option value="all">Todos los tipos</option>
           {Object.entries(CONNECTOR_CATEGORIES).map(([cat, types]) => (
-            <optgroup key={cat} label={cat}>
+ <optgroup key={cat} label={cat}>
               {types.map(t => (
-                <option key={t} value={t}>
+ <option key={t} value={t}>
                   {CONNECTOR_ICONS[t]} · {CONNECTOR_LABELS[t]}
-                </option>
+ </option>
               ))}
-            </optgroup>
+ </optgroup>
           ))}
-        </select>
-        <button onClick={() => refetch()} className={styles.btnSecondary} title="Refrescar">
+ </select>
+ <button onClick={() => refetch()} className={styles.btnSecondary} title="Refrescar">
           ↻
-        </button>
-      </div>
+ </button>
+ </div>
 
       {isLoading && (
-        <div className={styles.grid}>
+ <div className={styles.grid}>
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} style={{ height: 160, borderRadius: 14 }} />
+ <Skeleton key={i} style={{ height: 160, borderRadius: 14 }} />
           ))}
-        </div>
+ </div>
       )}
 
       {isError && (
-        <div className={styles.emptyState}>
-          <span style={{ fontSize: '1.75rem', color: 'var(--color-danger,#ef4444)' }}>!</span>
-          <p>No se pudieron cargar las fuentes. El backend puede estar desconectado.</p>
-          <button onClick={() => refetch()} className={styles.btnSecondary}>
+ <div className={styles.emptyState}>
+ <span style={{ fontSize: '1.75rem', color: 'var(--color-danger,#ef4444)' }}>!</span>
+ <p>No se pudieron cargar las fuentes. El backend puede estar desconectado.</p>
+ <button onClick={() => refetch()} className={styles.btnSecondary}>
             Reintentar
-          </button>
-        </div>
+ </button>
+ </div>
       )}
 
       {!isLoading && !isError && filtered.length === 0 && (
-        <div className={styles.emptyState}>
-          <span style={{ fontSize: '2rem', opacity: 0.4 }}>⇡</span>
-          <p>
+ <div className={styles.emptyState}>
+ <span style={{ fontSize: '2rem', opacity: 0.4 }}>⇡</span>
+ <p>
             {sources.length === 0
               ? 'Todavía no hay fuentes configuradas.'
               : 'Ninguna fuente coincide con los filtros.'}
-          </p>
+ </p>
           {sources.length === 0 && (
-            <button className={styles.btnPrimary} onClick={() => setDrawerOpen(true)}>
+ <button className={styles.btnPrimary} onClick={() => setDrawerOpen(true)}>
               Crear primera conexión
-            </button>
+ </button>
           )}
-        </div>
+ </div>
       )}
 
       {!isLoading && !isError && filtered.length > 0 && (
-        <div className={styles.grid}>
+ <div className={styles.grid}>
           {filtered.map(source => (
-            <ConnectorCard
+ <ConnectorCard
               key={source.id}
               source={source}
               onSync={() => syncMutation.mutate(source.id)}
@@ -192,11 +192,11 @@ export default function FuentesClient() {
               isSyncing={syncMutation.isPending && syncMutation.variables === source.id}
             />
           ))}
-        </div>
+ </div>
       )}
 
       {drawerOpen && (
-        <NuevaFuenteDrawer
+ <NuevaFuenteDrawer
           onClose={() => setDrawerOpen(false)}
           onSuccess={() => {
             setDrawerOpen(false)
@@ -204,6 +204,6 @@ export default function FuentesClient() {
           }}
         />
       )}
-    </div>
+ </div>
   )
 }

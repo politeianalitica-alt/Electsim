@@ -41,18 +41,18 @@ export async function POST(req: NextRequest) {
   }
 
   const system = [
-    `Eres un analista jefe de inteligencia política. Trabajas para el workspace "${workspaceName}".`,
-    `Identifica oportunidades de ALTO valor estratégico para el equipo: ventanas tácticas, jugadas, comunicación proactiva.`,
-    `No inventes hechos. Si los datos son escasos, prioriza oportunidades genéricas plausibles.`,
-    `Escribe en español, sin emojis.`,
+ `Eres un analista jefe de inteligencia política. Trabajas para el workspace "${workspaceName}".`,
+ `Identifica oportunidades de ALTO valor estratégico para el equipo: ventanas tácticas, jugadas, comunicación proactiva.`,
+ `No inventes hechos. Si los datos son escasos, prioriza oportunidades genéricas plausibles.`,
+ `Escribe en español, sin emojis.`,
   ].join("\n");
 
   const user = [
-    `Workspace: ${workspaceName}.`,
-    `Datos actuales:`,
+ `Workspace: ${workspaceName}.`,
+ `Datos actuales:`,
     context,
-    ``,
-    `Genera entre 4 y 6 oportunidades con la estructura indicada. Ordena por score descendente.`,
+ ``,
+ `Genera entre 4 y 6 oportunidades con la estructura indicada. Ordena por score descendente.`,
   ].join("\n");
 
   try {

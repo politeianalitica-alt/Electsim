@@ -9,23 +9,23 @@ import { useHotkeys } from "@/lib/terminal/use-hotkeys";
 const STORAGE_KEY = (ws: string) => `politeia:inbox:status:${ws}`;
 
 const SOURCE_LABEL: Record<InboxSource, string> = {
-  rss:           "RSS",
-  boe:           "BOE",
+  rss: "RSS",
+  boe: "BOE",
   google_alerts: "Alerts",
-  twitter:       "X",
-  newsletter:    "News",
-  agent:         "Agente",
-  manual:        "Manual",
+  twitter: "X",
+  newsletter: "News",
+  agent: "Agente",
+  manual: "Manual",
 };
 
 const SOURCE_COLOR: Record<InboxSource, string> = {
-  rss:           "#0071e3",
-  boe:           "#7e57c2",
+  rss: "#0071e3",
+  boe: "#7e57c2",
   google_alerts: "#26a69a",
-  twitter:       "#1d9bf0",
-  newsletter:    "#d97706",
-  agent:         "#2d8a39",
-  manual:        "#6e6e73",
+  twitter: "#1d9bf0",
+  newsletter: "#d97706",
+  agent: "#2d8a39",
+  manual: "#6e6e73",
 };
 
 export function InboxView({ workspaceId }: { workspaceId: string }) {
@@ -114,18 +114,18 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
 
   // ─── Render ────────────────────────────────────────────────────────
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 14, minHeight: "calc(100vh - 200px)" }}>
+ <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 14, minHeight: "calc(100vh - 200px)" }}>
       {/* Lista */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+ <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 
         {/* Filtros */}
-        <div style={{
+ <div style={{
           display: "grid",
           gridTemplateColumns: "1fr auto",
           gap: 10,
           alignItems: "center",
         }}>
-          <input
+ <input
             data-inbox-search
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -141,27 +141,27 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
               outline: "none",
             }}
           />
-          <div style={{ display: "flex", gap: 5, alignItems: "center", fontSize: 11 }}>
+ <div style={{ display: "flex", gap: 5, alignItems: "center", fontSize: 11 }}>
             {(["unread", "read", "archived", "actioned", "all"] as const).map(s => (
-              <FilterChip key={s} active={filterStatus === s} onClick={() => setFilterStatus(s)}>
+ <FilterChip key={s} active={filterStatus === s} onClick={() => setFilterStatus(s)}>
                 {s === "all" ? "Todo" : labelStatus(s)} {s !== "all" && counts[s] !== undefined && <span style={{ opacity: .65 }}>· {counts[s]}</span>}
-              </FilterChip>
+ </FilterChip>
             ))}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* Sources strip */}
-        <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-          <FilterChip active={filterSource === "all"} onClick={() => setFilterSource("all")}>Todas</FilterChip>
+ <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+ <FilterChip active={filterSource === "all"} onClick={() => setFilterSource("all")}>Todas</FilterChip>
           {(Object.keys(SOURCE_LABEL) as InboxSource[]).map(s => (
-            <FilterChip key={s} active={filterSource === s} onClick={() => setFilterSource(s)}>
+ <FilterChip key={s} active={filterSource === s} onClick={() => setFilterSource(s)}>
               {SOURCE_LABEL[s]}
-            </FilterChip>
+ </FilterChip>
           ))}
-        </div>
+ </div>
 
         {/* Items */}
-        <div
+ <div
           ref={itemsContainerRef}
           style={{
             display: "flex",
@@ -172,7 +172,7 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
           }}
         >
           {filtered.map(it => (
-            <InboxRow
+ <InboxRow
               key={it.id}
               item={it}
               isSelected={selected?.id === it.id}
@@ -180,19 +180,19 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
             />
           ))}
           {filtered.length === 0 && (
-            <div style={{
+ <div style={{
               padding: 32, color: WS.ink3, fontSize: 13,
               textAlign: "center", background: WS.surface,
               border: `1px dashed ${WS.border}`, borderRadius: 12,
             }}>
               Sin items para los filtros actuales.
-            </div>
+ </div>
           )}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Detalle */}
-      <div style={{
+ <div style={{
         position: "sticky",
         top: 0,
         background: WS.surface,
@@ -206,68 +206,68 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
         gap: 12,
       }}>
         {selected ? (
-          <>
-            <div style={{ fontSize: 10.5, color: WS.ink3, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+ <>
+ <div style={{ fontSize: 10.5, color: WS.ink3, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>
               {selected.origin} · {SOURCE_LABEL[selected.source]}
-            </div>
-            <h2 style={{ fontSize: 17, lineHeight: 1.3, color: WS.ink, fontWeight: 700, margin: 0 }}>
+ </div>
+ <h2 style={{ fontSize: 17, lineHeight: 1.3, color: WS.ink, fontWeight: 700, margin: 0 }}>
               {selected.title}
-            </h2>
-            <p style={{ fontSize: 13.5, color: WS.ink2, margin: 0, lineHeight: 1.55 }}>
+ </h2>
+ <p style={{ fontSize: 13.5, color: WS.ink2, margin: 0, lineHeight: 1.55 }}>
               {selected.excerpt}
-            </p>
+ </p>
 
             {/* Score visual */}
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ fontSize: 30, fontWeight: 700, color: WS.accent, letterSpacing: "-0.04em", lineHeight: 1 }}>
+ <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+ <div style={{ fontSize: 30, fontWeight: 700, color: WS.accent, letterSpacing: "-0.04em", lineHeight: 1 }}>
                 {selected.score}
-              </div>
-              <div style={{ flex: 1, height: 6, background: WS.surface2, borderRadius: 99, overflow: "hidden" }}>
-                <div style={{ width: `${selected.score}%`, height: "100%", background: WS.accent }} />
-              </div>
-              <div style={{ fontSize: 10, color: WS.ink3, textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.06em" }}>
+ </div>
+ <div style={{ flex: 1, height: 6, background: WS.surface2, borderRadius: 99, overflow: "hidden" }}>
+ <div style={{ width: `${selected.score}%`, height: "100%", background: WS.accent }} />
+ </div>
+ <div style={{ fontSize: 10, color: WS.ink3, textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.06em" }}>
                 Score
-              </div>
-            </div>
+ </div>
+ </div>
 
             {selected.entities.length > 0 && (
-              <div>
-                <Section title="Entidades">
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+ <div>
+ <Section title="Entidades">
+ <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                     {selected.entities.map(e => (
-                      <span key={e.id} style={{
+ <span key={e.id} style={{
                         fontSize: 11, padding: "3px 9px", borderRadius: 99,
                         background: WS.surface2, color: WS.ink, border: `1px solid ${WS.border}`,
                       }}>
-                        <span style={{ color: WS.ink3, marginRight: 4, fontSize: 10 }}>{e.type}</span>
+ <span style={{ color: WS.ink3, marginRight: 4, fontSize: 10 }}>{e.type}</span>
                         {e.name}
-                      </span>
+ </span>
                     ))}
-                  </div>
-                </Section>
-              </div>
+ </div>
+ </Section>
+ </div>
             )}
 
             {selected.tags.length > 0 && (
-              <Section title="Tags">
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+ <Section title="Tags">
+ <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                   {selected.tags.map(t => (
-                    <span key={t} style={{ fontSize: 10.5, color: WS.ink3, background: WS.surface2, padding: "2px 7px", borderRadius: 99 }}>
+ <span key={t} style={{ fontSize: 10.5, color: WS.ink3, background: WS.surface2, padding: "2px 7px", borderRadius: 99 }}>
                       #{t}
-                    </span>
+ </span>
                   ))}
-                </div>
-              </Section>
+ </div>
+ </Section>
             )}
 
-            <Section title="Acciones rápidas">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                <ActionBtn label="Crear issue (C)" primary onClick={() => setStatus(selected.id, "actioned")} />
-                <ActionBtn label="Notebook (N)" onClick={() => setStatus(selected.id, "actioned")} />
-                <ActionBtn label="Canvas (Shift+K)" onClick={() => setStatus(selected.id, "actioned")} />
-                <ActionBtn label="Archivar (A)" onClick={() => setStatus(selected.id, "archived")} />
+ <Section title="Acciones rápidas">
+ <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+ <ActionBtn label="Crear issue (C)" primary onClick={() => setStatus(selected.id, "actioned")} />
+ <ActionBtn label="Notebook (N)" onClick={() => setStatus(selected.id, "actioned")} />
+ <ActionBtn label="Canvas (Shift+K)" onClick={() => setStatus(selected.id, "actioned")} />
+ <ActionBtn label="Archivar (A)" onClick={() => setStatus(selected.id, "archived")} />
                 {selected.url && (
-                  <a
+ <a
                     href={selected.url}
                     target="_blank"
                     rel="noreferrer"
@@ -287,20 +287,20 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
                     }}
                   >
                     Abrir fuente original ↗
-                  </a>
+ </a>
                 )}
-              </div>
-            </Section>
+ </div>
+ </Section>
 
-            <div style={{ fontSize: 10.5, color: WS.ink3 }}>
+ <div style={{ fontSize: 10.5, color: WS.ink3 }}>
               Recibido {new Date(selected.receivedAt).toLocaleString("es-ES")}
-            </div>
-          </>
+ </div>
+ </>
         ) : (
-          <div style={{ color: WS.ink3, fontSize: 13 }}>Selecciona un item para verlo aquí.</div>
+ <div style={{ color: WS.ink3, fontSize: 13 }}>Selecciona un item para verlo aquí.</div>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }
 
@@ -315,7 +315,7 @@ function InboxRow({
 }) {
   const opacity = item.status === "archived" ? 0.5 : 1;
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         textAlign: "left",
@@ -332,13 +332,13 @@ function InboxRow({
         alignItems: "start",
       }}
     >
-      <div style={{
+ <div style={{
         fontSize: 19, fontWeight: 700, color: WS.accent,
         letterSpacing: "-0.04em", textAlign: "center",
       }}>{item.score}</div>
-      <div style={{ minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4 }}>
-          <span style={{
+ <div style={{ minWidth: 0 }}>
+ <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4 }}>
+ <span style={{
             fontSize: 9.5,
             fontWeight: 700,
             color: SOURCE_COLOR[item.source],
@@ -349,27 +349,27 @@ function InboxRow({
             textTransform: "uppercase",
           }}>
             {SOURCE_LABEL[item.source]}
-          </span>
-          <span style={{ fontSize: 11, color: WS.ink3 }}>{item.origin}</span>
+ </span>
+ <span style={{ fontSize: 11, color: WS.ink3 }}>{item.origin}</span>
           {item.status === "unread" && <span style={{ width: 6, height: 6, borderRadius: 99, background: WS.accent, marginLeft: "auto" }} />}
-        </div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, lineHeight: 1.35, marginBottom: 2 }}>
+ </div>
+ <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, lineHeight: 1.35, marginBottom: 2 }}>
           {item.title}
-        </div>
-        <div style={{ fontSize: 11.5, color: WS.ink3, lineHeight: 1.4, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+ </div>
+ <div style={{ fontSize: 11.5, color: WS.ink3, lineHeight: 1.4, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
           {item.excerpt}
-        </div>
-      </div>
-      <div style={{ fontSize: 10.5, color: WS.ink3, textAlign: "right" }}>
+ </div>
+ </div>
+ <div style={{ fontSize: 10.5, color: WS.ink3, textAlign: "right" }}>
         {relativeTime(item.receivedAt)}
-      </div>
-    </button>
+ </div>
+ </button>
   );
 }
 
 function FilterChip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         padding: "4px 10px",
@@ -384,24 +384,24 @@ function FilterChip({ active, onClick, children }: { active: boolean; onClick: (
       }}
     >
       {children}
-    </button>
+ </button>
   );
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div>
-      <div style={{ fontSize: 10, color: WS.ink3, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>
+ <div>
+ <div style={{ fontSize: 10, color: WS.ink3, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>
         {title}
-      </div>
+ </div>
       {children}
-    </div>
+ </div>
   );
 }
 
 function ActionBtn({ label, onClick, primary }: { label: string; onClick: () => void; primary?: boolean }) {
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         padding: "7px 10px",
@@ -416,7 +416,7 @@ function ActionBtn({ label, onClick, primary }: { label: string; onClick: () => 
       }}
     >
       {label}
-    </button>
+ </button>
   );
 }
 

@@ -33,7 +33,7 @@ export default function BriefingExports() {
 
   // Briefing real desde el backend ElectSim · cache 5 min
   const { data: briefing } = useApi<MorningBriefing>(
-    '/api/briefings/morning?workspace_id=default',
+ '/api/briefings/morning?workspace_id=default',
     { refreshInterval: 300_000 }
   )
 
@@ -148,7 +148,7 @@ export default function BriefingExports() {
   const hasBriefing = !!briefing?.executive_summary
 
   return (
-    <section style={{
+ <section style={{
       background: '#fff',
       border: '1px solid #ECECEF',
       borderRadius: 14,
@@ -156,138 +156,138 @@ export default function BriefingExports() {
       marginBottom: 18,
       boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+ <span style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: 26, height: 26, borderRadius: 8,
             background: 'linear-gradient(135deg,#0F1F3D 0%,#5B21B6 100%)',
             color: '#fff', fontSize: 13, fontWeight: 700,
           }}>↓</span>
-          <div>
-            <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600, letterSpacing: '-0.01em', color: '#1d1d1f' }}>
+ <div>
+ <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600, letterSpacing: '-0.01em', color: '#1d1d1f' }}>
               Llévatelo contigo
-            </h3>
-            <p style={{ margin: '2px 0 0', fontSize: 10.5, color: '#86868b', letterSpacing: '0.02em' }}>
+ </h3>
+ <p style={{ margin: '2px 0 0', fontSize: 10.5, color: '#86868b', letterSpacing: '0.02em' }}>
               Descarga el briefing en PDF o escúchalo en audio
-            </p>
-          </div>
-        </div>
+ </p>
+ </div>
+ </div>
         {state.error && (
-          <span style={{ fontSize: 11, color: '#DC2626', background: '#FEF2F2', padding: '4px 10px', borderRadius: 6, border: '1px solid #FECACA' }}>
+ <span style={{ fontSize: 11, color: '#DC2626', background: '#FEF2F2', padding: '4px 10px', borderRadius: 6, border: '1px solid #FECACA' }}>
             {state.error}
-          </span>
+ </span>
         )}
-      </div>
+ </div>
 
       {/* Botonera principal */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
 
         {/* Informe ejecutivo */}
-        <button
+ <button
           onClick={() => downloadPdf('informe')}
           disabled={!hasBriefing || state.downloading !== null}
           title="Informe ejecutivo completo · 2-3 páginas con alertas, narrativas, snapshot electoral y preguntas"
           style={btnPrimary(state.downloading === 'informe', !hasBriefing)}
         >
-          <span style={iconStyle('#0071e3')}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="9" y1="13" x2="15" y2="13"/>
-              <line x1="9" y1="17" x2="15" y2="17"/>
-            </svg>
-          </span>
-          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
-            <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.2 }}>
+ <span style={iconStyle('#0071e3')}>
+ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+ <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+ <polyline points="14 2 14 8 20 8"/>
+ <line x1="9" y1="13" x2="15" y2="13"/>
+ <line x1="9" y1="17" x2="15" y2="17"/>
+ </svg>
+ </span>
+ <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+ <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.2 }}>
               {state.downloading === 'informe' ? 'Generando…' : 'Informe ejecutivo'}
-            </span>
-            <span style={{ fontSize: 10, color: '#86868b' }}>PDF · 2-3 páginas</span>
-          </span>
-        </button>
+ </span>
+ <span style={{ fontSize: 10, color: '#86868b' }}>PDF · 2-3 páginas</span>
+ </span>
+ </button>
 
         {/* Nota informativa */}
-        <button
+ <button
           onClick={() => downloadPdf('nota')}
           disabled={!hasBriefing || state.downloading !== null}
           title="Nota informativa breve · 1 página con resumen ejecutivo y alertas críticas"
           style={btnPrimary(state.downloading === 'nota', !hasBriefing)}
         >
-          <span style={iconStyle('#7C3AED')}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="12" y1="18" x2="12" y2="12"/>
-              <line x1="9" y1="15" x2="15" y2="15"/>
-            </svg>
-          </span>
-          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
-            <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.2 }}>
+ <span style={iconStyle('#7C3AED')}>
+ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+ <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+ <polyline points="14 2 14 8 20 8"/>
+ <line x1="12" y1="18" x2="12" y2="12"/>
+ <line x1="9" y1="15" x2="15" y2="15"/>
+ </svg>
+ </span>
+ <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+ <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.2 }}>
               {state.downloading === 'nota' ? 'Generando…' : 'Nota informativa'}
-            </span>
-            <span style={{ fontSize: 10, color: '#86868b' }}>PDF · 1 página breve</span>
-          </span>
-        </button>
+ </span>
+ <span style={{ fontSize: 10, color: '#86868b' }}>PDF · 1 página breve</span>
+ </span>
+ </button>
 
         {/* Audio TTS */}
         {!speaking ? (
-          <button
+ <button
             onClick={startSpeaking}
             disabled={!hasBriefing}
             title="Escucha el briefing narrado por el navegador · sin coste"
             style={btnPrimary(false, !hasBriefing)}
           >
-            <span style={iconStyle('#10b981')}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-              </svg>
-            </span>
-            <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
-              <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.2 }}>Escuchar briefing</span>
-              <span style={{ fontSize: 10, color: '#86868b' }}>Audio · narración en español</span>
-            </span>
-          </button>
+ <span style={iconStyle('#10b981')}>
+ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+ <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+ <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+ <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+ </svg>
+ </span>
+ <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+ <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.2 }}>Escuchar briefing</span>
+ <span style={{ fontSize: 10, color: '#86868b' }}>Audio · narración en español</span>
+ </span>
+ </button>
         ) : (
           // Reproductor activo
-          <div style={{
+ <div style={{
             display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px',
             background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 10,
           }}>
-            <button
+ <button
               onClick={togglePause}
               title={paused ? 'Reanudar' : 'Pausar'}
               style={iconBtn('#10b981')}
             >
               {paused ? (
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               ) : (
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
               )}
-            </button>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 11.5, fontWeight: 600, color: '#065F46' }}>
+ </button>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 11.5, fontWeight: 600, color: '#065F46' }}>
                 {paused ? 'En pausa' : 'Narrando briefing…'}
-              </div>
-              <div style={{ height: 3, background: '#BBF7D0', borderRadius: 999, overflow: 'hidden', marginTop: 4 }}>
-                <div style={{
+ </div>
+ <div style={{ height: 3, background: '#BBF7D0', borderRadius: 999, overflow: 'hidden', marginTop: 4 }}>
+ <div style={{
                   height: '100%', background: '#10b981', width: `${progress}%`,
                   transition: 'width 200ms linear',
                 }}/>
-              </div>
-            </div>
-            <button
+ </div>
+ </div>
+ <button
               onClick={stopSpeaking}
               title="Detener"
               style={iconBtn('#DC2626')}
             >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12"/></svg>
-            </button>
-          </div>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12"/></svg>
+ </button>
+ </div>
         )}
-      </div>
-    </section>
+ </div>
+ </section>
   )
 }
 

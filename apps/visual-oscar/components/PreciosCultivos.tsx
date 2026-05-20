@@ -27,7 +27,7 @@ interface Cultivo {
   descripcion: string
   variedades: Variedad[]
   lonjas: Lonja[]
-  series: Record<string, Record<string, Array<{ t: string; v: number }>>>  // variedad → lonja → puntos
+  series: Record<string, Record<string, Array<{ t: string; v: number }>>> // variedad → lonja → puntos
 }
 interface DataResp {
   cultivos: Cultivo[]
@@ -38,18 +38,18 @@ interface DataResp {
 }
 
 const CULTIVO_COLORS: Record<string, string> = {
-  cereales:     '#D4A24F',
+  cereales: '#D4A24F',
   aceite_oliva: '#5C8A3A',
-  vino:         '#7C2D12',
-  almendra:     '#A78BFA',
-  citricos:     '#F97316',
-  hortalizas:   '#16A34A',
-  patata:       '#92400E',
-  legumbres:    '#0F766E',
+  vino: '#7C2D12',
+  almendra: '#A78BFA',
+  citricos: '#F97316',
+  hortalizas: '#16A34A',
+  patata: '#92400E',
+  legumbres: '#0F766E',
   frutos_secos: '#854D0E',
-  porcino:      '#FBA8B8',
-  vacuno:       '#991B1B',
-  ovino:        '#94A3B8',
+  porcino: '#FBA8B8',
+  vacuno: '#991B1B',
+  ovino: '#94A3B8',
 }
 
 export default function PreciosCultivos() {
@@ -115,18 +115,18 @@ export default function PreciosCultivos() {
   })()
 
   return (
-    <div>
+ <div>
       {/* Selector de CULTIVO */}
-      <div style={{ marginBottom: 14 }}>
-        <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
+ <div style={{ marginBottom: 14 }}>
+ <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
           Cultivo / Producto
-        </div>
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+ </div>
+ <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {data.cultivos.map(c => {
             const isActive = c.id === cultivoId
             const color = CULTIVO_COLORS[c.id] || '#6e6e73'
             return (
-              <button key={c.id}
+ <button key={c.id}
                 onClick={() => setCultivoId(c.id)}
                 title={c.descripcion}
                 style={{
@@ -139,7 +139,7 @@ export default function PreciosCultivos() {
                   fontFamily: 'inherit', letterSpacing: '-0.005em',
                   transition: 'background 120ms, border-color 120ms',
                 }}>
-                <span style={{
+ <span style={{
                   width: 18, height: 18, borderRadius: '50%',
                   background: isActive ? 'rgba(255,255,255,0.2)' : `${color}14`,
                   color: isActive ? '#fff' : color,
@@ -147,33 +147,33 @@ export default function PreciosCultivos() {
                   fontSize: 10, fontWeight: 800, flexShrink: 0,
                 }}>{c.icon}</span>
                 {c.label}
-              </button>
+ </button>
             )
           })}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Descripción del cultivo activo */}
-      <div style={{
+ <div style={{
         padding: '8px 12px', background: `${accent}10`,
         borderLeft: `3px solid ${accent}`, borderRadius: 6, marginBottom: 14,
         fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.4,
       }}>
         {cultivo.descripcion}
-      </div>
+ </div>
 
       {/* Selectores de VARIEDAD + LONJA · grid 2 cols */}
-      <div style={{ display: 'grid', gridTemplateColumns: muestraLonjas ? '1fr 1fr' : '1fr', gap: 12, marginBottom: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: muestraLonjas ? '1fr 1fr' : '1fr', gap: 12, marginBottom: 14 }}>
         {/* Variedad */}
-        <div>
-          <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
+ <div>
+ <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
             Variedad · {cultivo.variedades.length} disponibles
-          </div>
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+ </div>
+ <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
             {cultivo.variedades.map(v => {
               const isActive = v.id === variedadId
               return (
-                <button key={v.id}
+ <button key={v.id}
                   onClick={() => setVariedadId(v.id)}
                   style={{
                     padding: '5px 11px', borderRadius: 999,
@@ -185,20 +185,20 @@ export default function PreciosCultivos() {
                   }}>{v.label}</button>
               )
             })}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* Lonja (solo si hay >1) */}
         {muestraLonjas && (
-          <div>
-            <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
+ <div>
+ <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
               Lonja · {cultivo.lonjas.length} disponibles
-            </div>
-            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+ </div>
+ <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
               {cultivo.lonjas.map(l => {
                 const isActive = l.id === lonjaId
                 return (
-                  <button key={l.id}
+ <button key={l.id}
                     onClick={() => setLonjaId(l.id)}
                     title={l.ubicacion}
                     style={{
@@ -211,30 +211,30 @@ export default function PreciosCultivos() {
                     }}>{l.label}</button>
                 )
               })}
-            </div>
-          </div>
+ </div>
+ </div>
         )}
-      </div>
+ </div>
 
       {/* KPIs strip */}
       {kpis && variedad && lonja && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 12 }}>
-          <KpiCard label="Precio último" value={fmtPrecio(kpis.ult, variedad.unidad)} unit={variedad.unidad} accent={accent}/>
-          <KpiCard label="Var. mensual" value={`${kpis.varMes >= 0 ? '+' : ''}${kpis.varMes.toFixed(1)}`} unit="%"
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 12 }}>
+ <KpiCard label="Precio último" value={fmtPrecio(kpis.ult, variedad.unidad)} unit={variedad.unidad} accent={accent}/>
+ <KpiCard label="Var. mensual" value={`${kpis.varMes >= 0 ? '+' : ''}${kpis.varMes.toFixed(1)}`} unit="%"
             accent={kpis.varMes >= 0 ? '#16A34A' : '#DC2626'}/>
-          <KpiCard label="Var. anual" value={`${kpis.varAnual >= 0 ? '+' : ''}${kpis.varAnual.toFixed(1)}`} unit="%"
+ <KpiCard label="Var. anual" value={`${kpis.varAnual >= 0 ? '+' : ''}${kpis.varAnual.toFixed(1)}`} unit="%"
             accent={kpis.varAnual >= 0 ? '#16A34A' : '#DC2626'}/>
-          <KpiCard label="Máximo 12m" value={fmtPrecio(kpis.max, variedad.unidad)} unit={variedad.unidad} accent="#86868b"/>
-          <KpiCard label="Mínimo 12m" value={fmtPrecio(kpis.min, variedad.unidad)} unit={variedad.unidad} accent="#86868b"/>
-        </div>
+ <KpiCard label="Máximo 12m" value={fmtPrecio(kpis.max, variedad.unidad)} unit={variedad.unidad} accent="#86868b"/>
+ <KpiCard label="Mínimo 12m" value={fmtPrecio(kpis.min, variedad.unidad)} unit={variedad.unidad} accent="#86868b"/>
+ </div>
       )}
 
       {/* Gráfica */}
       {serie.length > 0 && variedad && lonja && (
-        <PrecioChart serie={serie} accent={accent} unidad={variedad.unidad}
+ <PrecioChart serie={serie} accent={accent} unidad={variedad.unidad}
           variedadLabel={variedad.label} lonjaLabel={lonja.label}/>
       )}
-    </div>
+ </div>
   )
 }
 
@@ -246,20 +246,20 @@ function fmtPrecio(v: number, unidad: string): string {
 
 function KpiCard({ label, value, unit, accent }: { label: string; value: string; unit: string; accent: string }) {
   return (
-    <div style={{
+ <div style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 10,
       padding: '10px 12px', borderLeft: `3px solid ${accent}`,
     }}>
-      <div style={{ fontSize: 9, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 3 }}>
+ <div style={{ fontSize: 9, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 3 }}>
         {label}
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, letterSpacing: '-0.018em', color: accent, lineHeight: 1 }}>
+ </div>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, letterSpacing: '-0.018em', color: accent, lineHeight: 1 }}>
           {value}
-        </span>
-        <span style={{ fontSize: 9.5, color: '#86868b', fontWeight: 600 }}>{unit}</span>
-      </div>
-    </div>
+ </span>
+ <span style={{ fontSize: 9.5, color: '#86868b', fontWeight: 600 }}>{unit}</span>
+ </div>
+ </div>
   )
 }
 
@@ -291,45 +291,45 @@ function PrecioChart({ serie, accent, unidad, variedadLabel, lonjaLabel }: {
   const yTicks = [0, 0.25, 0.5, 0.75, 1].map(t => min + t * range)
 
   return (
-    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, padding: '14px 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8, flexWrap: 'wrap', gap: 6 }}>
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
+ <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, padding: '14px 16px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8, flexWrap: 'wrap', gap: 6 }}>
+ <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
           {variedadLabel} · {lonjaLabel}
-        </h3>
-        <span style={{ fontSize: 10.5, color: '#86868b' }}>
+ </h3>
+ <span style={{ fontSize: 10.5, color: '#86868b' }}>
           Serie mensual · {serie.length} observaciones · {unidad}
-        </span>
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
-        <defs>
-          <linearGradient id={`grad-${accent}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={accent} stopOpacity={0.25}/>
-            <stop offset="100%" stopColor={accent} stopOpacity={0}/>
-          </linearGradient>
-        </defs>
+ </span>
+ </div>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+ <defs>
+ <linearGradient id={`grad-${accent}`} x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0%" stopColor={accent} stopOpacity={0.25}/>
+ <stop offset="100%" stopColor={accent} stopOpacity={0}/>
+ </linearGradient>
+ </defs>
         {/* Y grid */}
         {yTicks.map((t, i) => {
           const y = P + (1 - (t - min) / range) * (H - 2 * P)
           return (
-            <g key={i}>
-              <line x1={P} y1={y} x2={W - P} y2={y} stroke="#ECECEF" strokeDasharray={i === 0 ? '' : '2 4'}/>
-              <text x={P - 8} y={y + 3} textAnchor="end" fontSize={10} fill="#86868b">
+ <g key={i}>
+ <line x1={P} y1={y} x2={W - P} y2={y} stroke="#ECECEF" strokeDasharray={i === 0 ? '' : '2 4'}/>
+ <text x={P - 8} y={y + 3} textAnchor="end" fontSize={10} fill="#86868b">
                 {t.toLocaleString('es-ES', { maximumFractionDigits: unidad.includes('Tm') || unidad.includes('Hl') ? 0 : 2 })}
-              </text>
-            </g>
+ </text>
+ </g>
           )
         })}
         {/* Área + línea */}
-        <path d={fillD} fill={`url(#grad-${accent})`}/>
-        <path d={pathD} fill="none" stroke={accent} strokeWidth={2.5} strokeLinejoin="round"/>
+ <path d={fillD} fill={`url(#grad-${accent})`}/>
+ <path d={pathD} fill="none" stroke={accent} strokeWidth={2.5} strokeLinejoin="round"/>
         {/* Dots con tooltip */}
         {serie.map((p, i) => {
           const [x, y] = xy(i, p.v)
           return (
-            <g key={i}>
-              <circle cx={x} cy={y} r={3.5} fill={accent} stroke="#fff" strokeWidth={1.5}/>
-              <title>{p.t} · {fmtPrecio(p.v, unidad)} {unidad}</title>
-            </g>
+ <g key={i}>
+ <circle cx={x} cy={y} r={3.5} fill={accent} stroke="#fff" strokeWidth={1.5}/>
+ <title>{p.t} · {fmtPrecio(p.v, unidad)} {unidad}</title>
+ </g>
           )
         })}
         {/* X labels (cada 2 meses) */}
@@ -337,17 +337,17 @@ function PrecioChart({ serie, accent, unidad, variedadLabel, lonjaLabel }: {
           const i = serie.findIndex(s => s.t === p.t)
           const [x] = xy(i, p.v)
           return (
-            <text key={p.t} x={x} y={H - P + 18} textAnchor="middle" fontSize={10} fill="#86868b">
+ <text key={p.t} x={x} y={H - P + 18} textAnchor="middle" fontSize={10} fill="#86868b">
               {fmtMes(p.t)}
-            </text>
+ </text>
           )
         })}
         {/* Última etiqueta destacada */}
-        <text x={lastXY[0]} y={lastXY[1] - 12} textAnchor="middle" fontSize={11} fontWeight={700} fill={accent}>
+ <text x={lastXY[0]} y={lastXY[1] - 12} textAnchor="middle" fontSize={11} fontWeight={700} fill={accent}>
           {fmtPrecio(serie[serie.length - 1].v, unidad)}
-        </text>
-      </svg>
-    </div>
+ </text>
+ </svg>
+ </div>
   )
 }
 

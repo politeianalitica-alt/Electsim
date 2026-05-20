@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const draft = (await req.json()) as EvidenciaDraft
     const fuente = MOCK_FUENTES.find(f => f.id === draft.fuente_id) ?? MOCK_FUENTES[0]
     return createInDomain(
-      '/api/intelligence/evidencias',
+ '/api/intelligence/evidencias',
       {
         title: draft.titulo,
         summary: draft.resumen,

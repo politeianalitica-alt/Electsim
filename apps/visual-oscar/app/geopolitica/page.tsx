@@ -12,10 +12,10 @@ const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 // Mapeo nivel geopolítico → meta visual (igual estilo que /alertas)
 type NivelGeo = 'CRITICO' | 'ALTO' | 'MEDIO' | 'BAJO'
 const NIVEL_META: Record<NivelGeo, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
-  'CRITICO': { label: 'CRÍTICA', color: '#7F1D1D', bg: 'rgba(127,29,29,0.16)',  ring: 'rgba(127,29,29,0.7)',  pulse: true },
-  'ALTO':    { label: 'ALTA',    color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)' },
-  'MEDIO':   { label: 'MEDIA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)' },
-  'BAJO':    { label: 'BAJA',    color: '#EAB308', bg: 'rgba(234,179,8,0.10)',  ring: 'rgba(234,179,8,0.45)' },
+ 'CRITICO': { label: 'CRÍTICA', color: '#7F1D1D', bg: 'rgba(127,29,29,0.16)',  ring: 'rgba(127,29,29,0.7)',  pulse: true },
+ 'ALTO':    { label: 'ALTA',    color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)' },
+ 'MEDIO':   { label: 'MEDIA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)' },
+ 'BAJO':    { label: 'BAJA',    color: '#EAB308', bg: 'rgba(234,179,8,0.10)',  ring: 'rgba(234,179,8,0.45)' },
 }
 function catColor(c: string) {
   if (c === 'diplomatica') return '#1F4E8C'
@@ -39,34 +39,34 @@ function fmtDate(iso: string) {
 // Banderas emoji por código ISO-3 (44+ países curados)
 const ISO_TO_FLAG: Record<string, string> = {
   // Vecindad y Magreb
-  MAR: '🇲🇦', DZA: '🇩🇿', PRT: '🇵🇹', MRT: '🇲🇷', SEN: '🇸🇳',
-  TUN: '🇹🇳', LBY: '🇱🇾', EGY: '🇪🇬', MLI: '🇲🇱',
+  MAR: '', DZA: '', PRT: '', MRT: '', SEN: '',
+  TUN: '', LBY: '', EGY: '', MLI: '',
   // Europa
-  FRA: '🇫🇷', DEU: '🇩🇪', ITA: '🇮🇹', GBR: '🇬🇧', NLD: '🇳🇱',
-  BEL: '🇧🇪', POL: '🇵🇱', SWE: '🇸🇪', CHE: '🇨🇭', GRC: '🇬🇷',
+  FRA: '', DEU: '', ITA: '', GBR: '', NLD: '',
+  BEL: '', POL: '', SWE: '', CHE: '', GRC: '',
   // América
-  USA: '🇺🇸', CAN: '🇨🇦', MEX: '🇲🇽', BRA: '🇧🇷', ARG: '🇦🇷',
-  CHL: '🇨🇱', COL: '🇨🇴', PER: '🇵🇪', ECU: '🇪🇨', URY: '🇺🇾',
-  BOL: '🇧🇴', CUB: '🇨🇺', VEN: '🇻🇪',
+  USA: '', CAN: '', MEX: '', BRA: '', ARG: '',
+  CHL: '', COL: '', PER: '', ECU: '', URY: '',
+  BOL: '', CUB: '', VEN: '',
   // Asia-Pacífico
-  CHN: '🇨🇳', JPN: '🇯🇵', KOR: '🇰🇷', IND: '🇮🇳', AUS: '🇦🇺',
+  CHN: '', JPN: '', KOR: '', IND: '', AUS: '',
   // Oriente Medio
-  ISR: '🇮🇱', IRN: '🇮🇷', TUR: '🇹🇷', SAU: '🇸🇦',
-  GAZ: '🇵🇸', PSE: '🇵🇸',
+  ISR: '', IRN: '', TUR: '', SAU: '',
+  GAZ: '', PSE: '',
   // Conflicto
-  RUS: '🇷🇺', UKR: '🇺🇦',
+  RUS: '', UKR: '',
   // África subsahariana
-  ZAF: '🇿🇦', NGA: '🇳🇬',
+  ZAF: '', NGA: '',
 }
 function flagFromIso(iso: string): string {
-  return ISO_TO_FLAG[iso] || '🌐'
+  return ISO_TO_FLAG[iso] || ''
 }
 
 // CountryBadge — bandera + código ISO en círculo coloreado por categoría
 // Combina la identificación visual rápida (bandera) con un look pulido
 function CountryBadge({ iso, size = 44, color = '#1F4E8C' }: { iso: string; size?: number; color?: string }) {
   return (
-    <span style={{
+ <span style={{
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: size, height: size, borderRadius: '50%',
       background: `linear-gradient(135deg,${color} 0%,${color}dd 100%)`,
@@ -74,8 +74,8 @@ function CountryBadge({ iso, size = 44, color = '#1F4E8C' }: { iso: string; size
       boxShadow: `0 1px 3px ${color}40`,
       border: '2px solid #fff',
     }}>
-      <span style={{ fontSize: size * 0.62, lineHeight: 1 }}>{flagFromIso(iso)}</span>
-    </span>
+ <span style={{ fontSize: size * 0.62, lineHeight: 1 }}>{flagFromIso(iso)}</span>
+ </span>
   )
 }
 
@@ -85,7 +85,7 @@ const PAIS_TO_ISO: Record<string, string> = {
   Túnez: 'TUN', Libia: 'LBY', Egipto: 'EGY', Mali: 'MLI',
   Francia: 'FRA', Alemania: 'DEU', Italia: 'ITA', 'Reino Unido': 'GBR', 'Países Bajos': 'NLD',
   Bélgica: 'BEL', Polonia: 'POL', Suecia: 'SWE', Suiza: 'CHE', Grecia: 'GRC',
-  'Estados Unidos': 'USA', Canadá: 'CAN', México: 'MEX', Brasil: 'BRA', Argentina: 'ARG',
+ 'Estados Unidos': 'USA', Canadá: 'CAN', México: 'MEX', Brasil: 'BRA', Argentina: 'ARG',
   Chile: 'CHL', Colombia: 'COL', Perú: 'PER', Ecuador: 'ECU', Uruguay: 'URY',
   Bolivia: 'BOL', Cuba: 'CUB', Venezuela: 'VEN',
   China: 'CHN', Japón: 'JPN', 'Corea del Sur': 'KOR', India: 'IND', Australia: 'AUS',
@@ -125,21 +125,21 @@ function continentFromIso(iso: string): string {
 // Orden de los continentes en el selector (más relevante para España primero)
 const CONTINENT_ORDER = ['Europa', 'África', 'América', 'Oriente Medio', 'Eurasia', 'Asia-Pacífico', 'Otros']
 const CONTINENT_COLOR: Record<string, string> = {
-  'Europa':         '#1F4E8C',
-  'África':         '#7C3AED',
-  'América':        '#0F766E',
-  'Oriente Medio':  '#DC2626',
-  'Eurasia':        '#6e6e73',
-  'Asia-Pacífico':  '#F97316',
-  'Otros':          '#9CA3AF',
+ 'Europa': '#1F4E8C',
+ 'África': '#7C3AED',
+ 'América': '#0F766E',
+ 'Oriente Medio': '#DC2626',
+ 'Eurasia': '#6e6e73',
+ 'Asia-Pacífico': '#F97316',
+ 'Otros': '#9CA3AF',
 }
 
 // Mapeo de dimension/sector → meta visual (para Impacto España, estilo Alertas)
 const DIM_META: Record<string, { label: string; color: string; bg: string; ring: string }> = {
-  seguridad:    { label: 'SEGURIDAD',   color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)'  },
+  seguridad:    { label: 'SEGURIDAD',   color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)' },
   economica:    { label: 'ECONÓMICA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)' },
-  energetica:   { label: 'ENERGÉTICA',  color: '#EAB308', bg: 'rgba(234,179,8,0.12)',  ring: 'rgba(234,179,8,0.55)'  },
-  diplomatica:  { label: 'DIPLOMÁTICA', color: '#1F4E8C', bg: 'rgba(31,78,140,0.08)',  ring: 'rgba(31,78,140,0.45)'  },
+  energetica:   { label: 'ENERGÉTICA',  color: '#EAB308', bg: 'rgba(234,179,8,0.12)',  ring: 'rgba(234,179,8,0.55)' },
+  diplomatica:  { label: 'DIPLOMÁTICA', color: '#1F4E8C', bg: 'rgba(31,78,140,0.08)',  ring: 'rgba(31,78,140,0.45)' },
   social:       { label: 'SOCIAL',      color: '#0F766E', bg: 'rgba(15,118,110,0.08)', ring: 'rgba(15,118,110,0.45)' },
 }
 function dimMeta(dim: string) {
@@ -214,12 +214,12 @@ function urgMeta(u: number) {
 // TabBar estilo pill (consistente con Panel Ejecutivo)
 function TabBar({ items, active, onChange }: { items: string[]; active: number; onChange: (i: number) => void }) {
   return (
-    <div style={{
+ <div style={{
       display: 'inline-flex', background: '#F5F5F7', borderRadius: 999,
       padding: 4, marginBottom: 18, overflowX: 'auto', maxWidth: '100%',
     }}>
       {items.map((t, i) => (
-        <button
+ <button
           key={t}
           onClick={() => onChange(i)}
           style={{
@@ -234,44 +234,44 @@ function TabBar({ items, active, onChange }: { items: string[]; active: number; 
           }}
         >
           {t}
-        </button>
+ </button>
       ))}
-    </div>
+ </div>
   )
 }
 
 // KPI card Apple-Newsroom · acent color en valor + sub
 function KPICard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
   return (
-    <div style={{
+ <div style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 16,
       padding: '16px 18px 14px', position: 'relative', overflow: 'hidden',
       boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
-      <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.10em',
+ <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
+ <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.10em',
                      color: '#6e6e73', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
                      letterSpacing: '-0.024em', lineHeight: 1, color: '#1d1d1f',
                      fontVariantNumeric: 'tabular-nums' }}>{value}</div>
       {sub && <div style={{ fontSize: 11.5, color: '#6e6e73', marginTop: 6 }}>{sub}</div>}
-    </div>
+ </div>
   )
 }
 
 // HeroKPI · pequeño KPI translúcido para encajar sobre gradients del hero
 function HeroKPI({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{
+ <div style={{
       textAlign: 'center', padding: '10px 8px', borderRadius: 12,
       background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)',
     }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
                      lineHeight: 1, color: '#fff', letterSpacing: '-0.018em',
                      fontVariantNumeric: 'tabular-nums' }}>{value}</div>
-      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
                      opacity: 0.75, marginTop: 5, textTransform: 'uppercase', color: '#fff' }}>{label}</div>
-    </div>
+ </div>
   )
 }
 
@@ -284,104 +284,104 @@ function DafoModal({ pais, iso, onClose, extra }: {
 }) {
   const dafo: CountryDafo | null = COUNTRY_DAFO[pais] || null
   if (!dafo) return (
-    <div onClick={onClose} style={modalOverlay}>
-      <div onClick={(e) => e.stopPropagation()} style={{ ...modalBox, maxWidth: 480, padding: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-          <CountryBadge iso={iso} size={36} color="#1F4E8C"/>
-          <p style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>{pais}</p>
-        </div>
-        <p style={{ fontSize: 14, color: '#1d1d1f', margin: 0 }}>
+ <div onClick={onClose} style={modalOverlay}>
+ <div onClick={(e) => e.stopPropagation()} style={{ ...modalBox, maxWidth: 480, padding: 32 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+ <CountryBadge iso={iso} size={36} color="#1F4E8C"/>
+ <p style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>{pais}</p>
+ </div>
+ <p style={{ fontSize: 14, color: '#1d1d1f', margin: 0 }}>
           DAFO no disponible todavía para este país. Estamos trabajando en ampliar la cobertura.
-        </p>
-        <button onClick={onClose} style={modalCloseBtn}>Cerrar</button>
-      </div>
-    </div>
+ </p>
+ <button onClick={onClose} style={modalCloseBtn}>Cerrar</button>
+ </div>
+ </div>
   )
   const sections: Array<{ key: keyof Pick<CountryDafo, 'debilidades' | 'amenazas' | 'fortalezas' | 'oportunidades'>; label: string; short: string; color: string; bg: string }> = [
-    { key: 'debilidades',   label: 'Debilidades',   short: 'D', color: '#DC2626', bg: 'rgba(220,38,38,0.06)'  },
-    { key: 'amenazas',      label: 'Amenazas',      short: 'A', color: '#EA580C', bg: 'rgba(234,88,12,0.06)'  },
+    { key: 'debilidades',   label: 'Debilidades',   short: 'D', color: '#DC2626', bg: 'rgba(220,38,38,0.06)' },
+    { key: 'amenazas',      label: 'Amenazas',      short: 'A', color: '#EA580C', bg: 'rgba(234,88,12,0.06)' },
     { key: 'fortalezas',    label: 'Fortalezas',    short: 'F', color: '#0F766E', bg: 'rgba(15,118,110,0.06)' },
-    { key: 'oportunidades', label: 'Oportunidades', short: 'O', color: '#1F4E8C', bg: 'rgba(31,78,140,0.06)'  },
+    { key: 'oportunidades', label: 'Oportunidades', short: 'O', color: '#1F4E8C', bg: 'rgba(31,78,140,0.06)' },
   ]
   return (
-    <div onClick={onClose} style={modalOverlay}>
-      <div onClick={(e) => e.stopPropagation()} style={modalBox}>
+ <div onClick={onClose} style={modalOverlay}>
+ <div onClick={(e) => e.stopPropagation()} style={modalBox}>
         {/* Header */}
-        <div style={{
+ <div style={{
           padding: '24px 28px 18px', borderBottom: '1px solid #ECECEF',
           background: 'linear-gradient(135deg,#0E7490 0%,#134E4A 100%)', color: '#fff',
           borderRadius: '20px 20px 0 0',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
-            <span style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
+ <span style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               width: 60, height: 60, borderRadius: '50%',
               background: 'rgba(255,255,255,0.18)',
               border: '2px solid rgba(255,255,255,0.30)',
               flexShrink: 0, lineHeight: 1,
             }}>
-              <span style={{ fontSize: 36, lineHeight: 1 }}>{flagFromIso(iso)}</span>
-            </span>
-            <div>
-              <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75, textTransform: 'uppercase', margin: '0 0 4px' }}>DAFO · Relación bilateral con España</p>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', margin: 0, lineHeight: 1.1 }}>{dafo.pais}</h3>
-            </div>
-            <button onClick={onClose} aria-label="Cerrar" style={{
+ <span style={{ fontSize: 36, lineHeight: 1 }}>{flagFromIso(iso)}</span>
+ </span>
+ <div>
+ <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75, textTransform: 'uppercase', margin: '0 0 4px' }}>DAFO · Relación bilateral con España</p>
+ <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', margin: 0, lineHeight: 1.1 }}>{dafo.pais}</h3>
+ </div>
+ <button onClick={onClose} aria-label="Cerrar" style={{
               marginLeft: 'auto', background: 'rgba(255,255,255,0.16)', border: '1px solid rgba(255,255,255,0.25)',
               color: '#fff', borderRadius: '50%', width: 32, height: 32, fontSize: 16, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}>×</button>
-          </div>
-          <p style={{ fontSize: 13, opacity: 0.85, margin: '6px 0 0', lineHeight: 1.5, maxWidth: 720 }}>{dafo.resumen}</p>
+ </div>
+ <p style={{ fontSize: 13, opacity: 0.85, margin: '6px 0 0', lineHeight: 1.5, maxWidth: 720 }}>{dafo.resumen}</p>
           {(extra?.score !== undefined || extra?.intensidad !== undefined) && (
-            <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
+ <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
               {extra?.score !== undefined && (
-                <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: 0.85 }}>
+ <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: 0.85 }}>
                   Riesgo: <strong style={{ fontFamily: 'var(--font-display)', fontSize: 14 }}>{extra.score.toFixed(1)}/10</strong>
-                </span>
+ </span>
               )}
               {extra?.intensidad !== undefined && (
-                <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: 0.85 }}>
+ <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: 0.85 }}>
                   Presencia ES: <strong style={{ fontFamily: 'var(--font-display)', fontSize: 14 }}>{extra.intensidad}/100</strong>
-                </span>
+ </span>
               )}
               {extra?.categoria && (
-                <span style={{ fontSize: 10.5, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
+ <span style={{ fontSize: 10.5, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
                                 background: 'rgba(255,255,255,0.18)', color: '#fff', textTransform: 'capitalize' }}>{extra.categoria}</span>
               )}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
         {/* Body — DAFO grid 2×2 */}
-        <div style={{
+ <div style={{
           padding: 24, display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14,
           maxHeight: '60vh', overflowY: 'auto',
         }}>
           {sections.map((s) => (
-            <div key={s.key} style={{
+ <div key={s.key} style={{
               border: `1px solid ${s.color}30`, borderRadius: 14,
               padding: '14px 16px', background: s.bg,
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                <span style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+ <span style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   width: 22, height: 22, borderRadius: 6,
                   background: s.color, color: '#fff',
                   fontFamily: 'var(--font-display)', fontWeight: 700,
                   fontSize: 12, lineHeight: 1, flexShrink: 0,
                 }}>{s.short}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: s.color, letterSpacing: '-0.012em' }}>{s.label}</span>
-              </div>
-              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, lineHeight: 1.55, color: '#1d1d1f' }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: s.color, letterSpacing: '-0.012em' }}>{s.label}</span>
+ </div>
+ <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, lineHeight: 1.55, color: '#1d1d1f' }}>
                 {dafo[s.key].map((item, i) => (
-                  <li key={i} style={{ marginBottom: 5 }}>{item}</li>
+ <li key={i} style={{ marginBottom: 5 }}>{item}</li>
                 ))}
-              </ul>
-            </div>
+ </ul>
+ </div>
           ))}
-        </div>
-      </div>
-    </div>
+ </div>
+ </div>
+ </div>
   )
 }
 
@@ -532,49 +532,49 @@ export default function GeopoliticaPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
-      <AppHeader />
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
+ <AppHeader />
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* ───── Hero ───── */}
-        <section style={{
+ <section style={{
           background: 'linear-gradient(135deg,#0E7490 0%,#134E4A 100%)',
           borderRadius: 18, padding: '28px 36px', marginBottom: 18, color: '#fff',
           display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 32, alignItems: 'center',
         }}>
-          <div>
-            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
+ <div>
+ <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
                         textTransform: 'uppercase', margin: '0 0 8px',
                         display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-              <span>CONTEXTO ESTRATÉGICO · GEOPOLÍTICA Y RRII</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700,
+ <span>CONTEXTO ESTRATÉGICO · GEOPOLÍTICA Y RRII</span>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
+ </p>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700,
                           letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
               España en el <em style={{ fontWeight: 300, fontStyle: 'italic',
                                           color: 'rgba(255,255,255,0.75)' }}>tablero global.</em>
-            </h1>
-            <p style={{ fontSize: 13, opacity: 0.75, margin: 0, lineHeight: 1.5 }}>
+ </h1>
+ <p style={{ fontSize: 13, opacity: 0.75, margin: 0, lineHeight: 1.5 }}>
               Riesgo geopolítico, OSINT, alertas internacionales, impactos sobre la agenda doméstica
               y presencia española en el exterior. Datos derivados de medios internacionales y feeds
               oficiales en tiempo real.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
-            <HeroKPI label="OSINT 24h"   value={String(geoStats.osint_24h)}/>
-            <HeroKPI label="Alertas"     value={String(geoStats.alertas_activas)}/>
-            <HeroKPI label="Países"      value={String(geoStats.paises_monitorizados)}/>
-          </div>
-        </section>
+ </p>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
+ <HeroKPI label="OSINT 24h" value={String(geoStats.osint_24h)}/>
+ <HeroKPI label="Alertas" value={String(geoStats.alertas_activas)}/>
+ <HeroKPI label="Países" value={String(geoStats.paises_monitorizados)}/>
+ </div>
+ </section>
 
         {/* ───── KPI strip ───── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
           {kpiCards.map((k) => (
-            <KPICard key={k.label} label={k.label} value={k.value} accent={k.accent} sub={k.sub}/>
+ <KPICard key={k.label} label={k.label} value={k.value} accent={k.accent} sub={k.sub}/>
           ))}
-        </div>
+ </div>
 
-        <TabBar
+ <TabBar
           items={['Teatro Global', 'OSINT', 'Alertas', 'Impacto España', 'Presencia Española', 'Análisis Politeia']}
           active={tab}
           onChange={setTab}
@@ -608,7 +608,7 @@ export default function GeopoliticaPage() {
             const catC = catColor(r.categoria)
             const hasDafo = !!COUNTRY_DAFO[r.pais]
             return (
-              <button
+ <button
                 key={r.iso}
                 onClick={() => setDafoOpen({ pais: r.pais, iso: r.iso, extra: { score: r.score, categoria: r.categoria } })}
                 title={hasDafo ? `Ver DAFO de ${r.pais} sobre la relación con España` : 'Más detalles'}
@@ -622,81 +622,81 @@ export default function GeopoliticaPage() {
                 onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
               >
-                <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+ <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
                 {hasDafo && (
-                  <span style={{
+ <span style={{
                     position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
                     letterSpacing: '0.08em', color: catC, background: `${catC}14`,
                     padding: '2px 6px', borderRadius: 4,
                   }}>DAFO →</span>
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                  <CountryBadge iso={r.iso} size={44} color={catC}/>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+ <CountryBadge iso={r.iso} size={44} color={catC}/>
+ <div style={{ minWidth: 0, flex: 1 }}>
+ <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
                       letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
                     }}>{r.pais}</div>
-                    <span style={{
+ <span style={{
                       display: 'inline-block', marginTop: 4,
                       padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
                       color: catC, fontSize: 10.5, fontWeight: 600,
                       letterSpacing: '0.04em', textTransform: 'capitalize',
                     }}>{r.categoria}</span>
-                  </div>
-                </div>
+ </div>
+ </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
-                  <div style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
+ <div style={{
                     width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
                     background: `conic-gradient(${sevColor} ${r.score * 36}deg, #f5f5f7 0)`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     position: 'relative',
                   }}>
-                    <div style={{
+ <div style={{
                       width: 44, height: 44, borderRadius: '50%', background: '#fff',
                       display: 'flex', flexDirection: 'column', alignItems: 'center',
                       justifyContent: 'center', position: 'relative',
                     }}>
-                      <span style={{
+ <span style={{
                         fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
                         color: sevColor, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
                       }}>{r.score.toFixed(1)}</span>
-                      <span style={{ fontSize: 8, color: '#9CA3AF', letterSpacing: '0.06em' }}>/10</span>
-                    </div>
-                  </div>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{
+ <span style={{ fontSize: 8, color: '#9CA3AF', letterSpacing: '0.06em' }}>/10</span>
+ </div>
+ </div>
+ <div style={{ minWidth: 0, flex: 1 }}>
+ <div style={{
                       fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
                       color: '#6e6e73', textTransform: 'uppercase', marginBottom: 2,
                     }}>Riesgo geopolítico</div>
-                    <div style={{
+ <div style={{
                       fontSize: 12, fontWeight: 600, color: sevColor, marginBottom: 4,
                     }}>{sevLabel}</div>
-                  </div>
-                </div>
+ </div>
+ </div>
 
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Interés España</span>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{r.interes_espana.toFixed(1)}</span>
-                  </div>
-                  <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
-                    <div style={{
+ <div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+ <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Interés España</span>
+ <span style={{ fontSize: 12, fontWeight: 700, color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{r.interes_espana.toFixed(1)}</span>
+ </div>
+ <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
+ <div style={{
                       width: `${(r.interes_espana / 10) * 100}%`, height: 5,
                       background: 'linear-gradient(90deg,#1F4E8C,#0F766E)',
                     }}/>
-                  </div>
-                </div>
-              </button>
+ </div>
+ </div>
+ </button>
             )
           }
 
           return (
-          <div>
-            <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
-              <Plot
+ <div>
+ <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
+ <Plot
                 data={[{
                   type: 'scattergeo',
                   lat: riesgoSorted.map((r) => r.lat),
@@ -720,142 +720,142 @@ export default function GeopoliticaPage() {
                 config={{ displayModeBar: false, responsive: true }}
                 style={{ width: '100%' }}
               />
-            </div>
+ </div>
 
             {/* ───── RESUMEN EJECUTIVO ─────
                 4 módulos compactos que asoman información de las
                 otras pestañas (Alertas, OSINT, Impacto, Presencia)
                 + CTA para Análisis Politeia. Cada item enlaza a la
                 noticia o salta al tab correspondiente. */}
-            <section style={{ marginBottom: 22 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12 }}>
-                <h2 style={{
+ <section style={{ marginBottom: 22 }}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12 }}>
+ <h2 style={{
                   fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700,
                   letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f',
                 }}>Resumen ejecutivo</h2>
-                <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· lo más relevante de cada módulo</span>
-              </div>
+ <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· lo más relevante de cada módulo</span>
+ </div>
 
-              <div style={{
+ <div style={{
                 display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 14,
               }}>
                 {/* MÓDULO 1 — Alertas críticas (TAB 2) */}
-                <article style={resumenBox('#DC2626')}>
-                  <header style={resumenHeader('#DC2626')}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                      <span style={resumenTitulo('#DC2626')}>Alertas activas</span>
-                      <span style={resumenBadge('#DC2626')}>{alertas.length}</span>
-                    </div>
-                    <button onClick={() => setTab(2)} style={resumenLink('#DC2626')}>Ver todas →</button>
-                  </header>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+ <article style={resumenBox('#DC2626')}>
+ <header style={resumenHeader('#DC2626')}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+ <span style={resumenTitulo('#DC2626')}>Alertas activas</span>
+ <span style={resumenBadge('#DC2626')}>{alertas.length}</span>
+ </div>
+ <button onClick={() => setTab(2)} style={resumenLink('#DC2626')}>Ver todas →</button>
+ </header>
+ <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {alertas.length === 0 && <div style={resumenEmpty}>Sin alertas activas en este momento</div>}
                     {alertas.slice(0, 3).map((a, i) => {
                       const m = NIVEL_META[(['CRITICO', 'ALTO', 'MEDIO'].includes(a.nivel) ? a.nivel : 'BAJO') as NivelGeo]
                       return (
-                        <a key={a.id} href={a.url || '#'}
+ <a key={a.id} href={a.url || '#'}
                           target={a.url ? '_blank' : undefined}
                           rel="noopener noreferrer"
                           onClick={a.url ? undefined : (e) => { e.preventDefault(); setTab(2) }}
                           style={resumenItem(i === 0)}>
-                          <span style={resumenChip(m.color)}>{m.label}</span>
-                          <span style={resumenItemTitle}>{a.titulo}</span>
+ <span style={resumenChip(m.color)}>{m.label}</span>
+ <span style={resumenItemTitle}>{a.titulo}</span>
                           {a.url && <span style={resumenArrow}>↗</span>}
-                        </a>
+ </a>
                       )
                     })}
-                  </div>
-                </article>
+ </div>
+ </article>
 
                 {/* MÓDULO 2 — OSINT recientes (TAB 1) */}
-                <article style={resumenBox('#1F4E8C')}>
-                  <header style={resumenHeader('#1F4E8C')}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                      <span style={resumenTitulo('#1F4E8C')}>OSINT recientes</span>
-                      <span style={resumenBadge('#1F4E8C')}>{osint.length}</span>
-                    </div>
-                    <button onClick={() => setTab(1)} style={resumenLink('#1F4E8C')}>Ver todas →</button>
-                  </header>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+ <article style={resumenBox('#1F4E8C')}>
+ <header style={resumenHeader('#1F4E8C')}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+ <span style={resumenTitulo('#1F4E8C')}>OSINT recientes</span>
+ <span style={resumenBadge('#1F4E8C')}>{osint.length}</span>
+ </div>
+ <button onClick={() => setTab(1)} style={resumenLink('#1F4E8C')}>Ver todas →</button>
+ </header>
+ <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {osint.length === 0 && <div style={resumenEmpty}>Sin señales recientes</div>}
                     {[...osint].sort((a, b) => b.urgencia - a.urgencia).slice(0, 3).map((o, i) => {
                       const cc = catColor(o.categoria)
                       return (
-                        <a key={o.id} href={o.url || '#'}
+ <a key={o.id} href={o.url || '#'}
                           target={o.url ? '_blank' : undefined}
                           rel="noopener noreferrer"
                           onClick={o.url ? undefined : (e) => { e.preventDefault(); setTab(1) }}
                           style={resumenItem(i === 0)}>
-                          <span style={resumenChip(cc)}>{o.categoria.replace('_', ' ').toUpperCase()}</span>
-                          <span style={resumenItemTitle}>{o.titulo}</span>
+ <span style={resumenChip(cc)}>{o.categoria.replace('_', ' ').toUpperCase()}</span>
+ <span style={resumenItemTitle}>{o.titulo}</span>
                           {o.url && <span style={resumenArrow}>↗</span>}
-                        </a>
+ </a>
                       )
                     })}
-                  </div>
-                </article>
+ </div>
+ </article>
 
                 {/* MÓDULO 3 — Impacto España (TAB 3) */}
-                <article style={resumenBox('#F97316')}>
-                  <header style={resumenHeader('#F97316')}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                      <span style={resumenTitulo('#F97316')}>Impacto en España</span>
-                      <span style={resumenBadge('#F97316')}>{impactos.length}</span>
-                    </div>
-                    <button onClick={() => setTab(3)} style={resumenLink('#F97316')}>Ver todos →</button>
-                  </header>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+ <article style={resumenBox('#F97316')}>
+ <header style={resumenHeader('#F97316')}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+ <span style={resumenTitulo('#F97316')}>Impacto en España</span>
+ <span style={resumenBadge('#F97316')}>{impactos.length}</span>
+ </div>
+ <button onClick={() => setTab(3)} style={resumenLink('#F97316')}>Ver todos →</button>
+ </header>
+ <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {impactos.length === 0 && <div style={resumenEmpty}>Sin impactos detectados</div>}
                     {impactosSorted.slice(0, 3).map((imp, i) => {
                       const m = dimMeta(imp.dimension)
                       return (
-                        <a key={imp.id} href={imp.url || '#'}
+ <a key={imp.id} href={imp.url || '#'}
                           target={imp.url ? '_blank' : undefined}
                           rel="noopener noreferrer"
                           onClick={imp.url ? undefined : (e) => { e.preventDefault(); setTab(3) }}
                           style={resumenItem(i === 0)}>
-                          <span style={resumenChip(m.color)}>{m.label}</span>
-                          <span style={resumenItemTitle}>{imp.titulo}</span>
-                          <span style={{ fontSize: 10, fontWeight: 700, color: m.color, marginLeft: 'auto' }}>{imp.severidad}/5</span>
-                        </a>
+ <span style={resumenChip(m.color)}>{m.label}</span>
+ <span style={resumenItemTitle}>{imp.titulo}</span>
+ <span style={{ fontSize: 10, fontWeight: 700, color: m.color, marginLeft: 'auto' }}>{imp.severidad}/5</span>
+ </a>
                       )
                     })}
-                  </div>
-                </article>
+ </div>
+ </article>
 
                 {/* MÓDULO 4 — Top Presencia España (TAB 4) */}
-                <article style={resumenBox('#0F766E')}>
-                  <header style={resumenHeader('#0F766E')}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                      <span style={resumenTitulo('#0F766E')}>Top presencia española</span>
-                      <span style={resumenBadge('#0F766E')}>{presencia.length} países</span>
-                    </div>
-                    <button onClick={() => setTab(4)} style={resumenLink('#0F766E')}>Ver todos →</button>
-                  </header>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+ <article style={resumenBox('#0F766E')}>
+ <header style={resumenHeader('#0F766E')}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+ <span style={resumenTitulo('#0F766E')}>Top presencia española</span>
+ <span style={resumenBadge('#0F766E')}>{presencia.length} países</span>
+ </div>
+ <button onClick={() => setTab(4)} style={resumenLink('#0F766E')}>Ver todos →</button>
+ </header>
+ <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {presencia.length === 0 && <div style={resumenEmpty}>Sin datos de presencia</div>}
                     {[...presencia].sort((x, y) => y.intensidad - x.intensidad).slice(0, 4).map((p, i) => {
                       const iso = p.iso || isoFromPais(p.pais)
                       const cc = catColor(p.categoria)
                       return (
-                        <button key={p.pais}
+ <button key={p.pais}
                           onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
                           style={{ ...resumenItem(i === 0), background: 'transparent', border: 'none', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit' }}>
-                          <CountryBadge iso={iso} size={22} color={cc}/>
-                          <span style={{ ...resumenItemTitle, fontWeight: 600 }}>{p.pais}</span>
-                          <div style={{ flex: 1, height: 4, background: '#f5f5f7', borderRadius: 2, overflow: 'hidden', maxWidth: 80 }}>
-                            <div style={{ width: `${p.intensidad}%`, height: 4, background: cc }}/>
-                          </div>
-                          <span style={{ fontSize: 10, fontWeight: 700, color: cc, fontVariantNumeric: 'tabular-nums', minWidth: 26, textAlign: 'right' }}>{p.intensidad}</span>
-                        </button>
+ <CountryBadge iso={iso} size={22} color={cc}/>
+ <span style={{ ...resumenItemTitle, fontWeight: 600 }}>{p.pais}</span>
+ <div style={{ flex: 1, height: 4, background: '#f5f5f7', borderRadius: 2, overflow: 'hidden', maxWidth: 80 }}>
+ <div style={{ width: `${p.intensidad}%`, height: 4, background: cc }}/>
+ </div>
+ <span style={{ fontSize: 10, fontWeight: 700, color: cc, fontVariantNumeric: 'tabular-nums', minWidth: 26, textAlign: 'right' }}>{p.intensidad}</span>
+ </button>
                       )
                     })}
-                  </div>
-                </article>
-              </div>
+ </div>
+ </article>
+ </div>
 
               {/* Banner Análisis Politeia (TAB 5) */}
-              <button onClick={() => setTab(5)} style={{
+ <button onClick={() => setTab(5)} style={{
                 width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 gap: 16, padding: '14px 22px', borderRadius: 14,
                 background: 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)',
@@ -866,24 +866,24 @@ export default function GeopoliticaPage() {
                 onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)' }}
               >
-                <div style={{ textAlign: 'left' }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase', marginBottom: 3 }}>Análisis Politeia · Geopolítico</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, color: '#fff', letterSpacing: '-0.012em' }}>
+ <div style={{ textAlign: 'left' }}>
+ <div style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase', marginBottom: 3 }}>Análisis Politeia · Geopolítico</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, color: '#fff', letterSpacing: '-0.012em' }}>
                     Genera un briefing estratégico con los datos en vivo de todos los módulos
-                  </div>
-                </div>
-                <span style={{
+ </div>
+ </div>
+ <span style={{
                   background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.30)',
                   color: '#fff', borderRadius: 10, padding: '8px 16px',
                   fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap',
                 }}>Generar análisis →</span>
-              </button>
-            </section>
+ </button>
+ </section>
 
             {/* Selector de orden */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ordenar por:</span>
-              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ordenar por:</span>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
                 {[
                   { v: 'importancia', l: 'Importancia para España' },
                   { v: 'continente',  l: 'Por continente' },
@@ -891,7 +891,7 @@ export default function GeopoliticaPage() {
                 ].map((o) => {
                   const active = teatroOrden === o.v
                   return (
-                    <button key={o.v} onClick={() => setTeatroOrden(o.v as typeof teatroOrden)} style={{
+ <button key={o.v} onClick={() => setTeatroOrden(o.v as typeof teatroOrden)} style={{
                       background: active ? '#fff' : 'transparent',
                       color: active ? '#1d1d1f' : '#6e6e73',
                       border: 'none', borderRadius: 999, padding: '6px 14px',
@@ -902,57 +902,57 @@ export default function GeopoliticaPage() {
                     }}>{o.l}</button>
                   )
                 })}
-              </div>
-              <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· {riesgo.length} países en seguimiento</span>
-            </div>
+ </div>
+ <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· {riesgo.length} países en seguimiento</span>
+ </div>
 
             {/* Vista 1: lista plana (importancia o riesgo) */}
             {teatroOrden !== 'continente' && (
-              <div style={{
+ <div style={{
                 display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
               }}>
                 {(teatroOrden === 'riesgo' ? teatroRiesgo : teatroImportancia).map(renderRiesgoCard)}
-              </div>
+ </div>
             )}
 
             {/* Vista 2: agrupado por continente */}
             {teatroOrden === 'continente' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
                 {teatroContinents.map((cont) => {
                   const cc = CONTINENT_COLOR[cont] || '#9CA3AF'
                   const items = teatroBuckets.get(cont) || []
                   return (
-                    <section key={cont}>
-                      <div style={{
+ <section key={cont}>
+ <div style={{
                         display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12,
                         padding: '8px 14px', borderRadius: 10,
                         background: `${cc}10`, borderLeft: `3px solid ${cc}`,
                       }}>
-                        <span style={{
+ <span style={{
                           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
                           color: cc, letterSpacing: '-0.012em',
                         }}>{cont}</span>
-                        <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 600 }}>{items.length} países</span>
-                      </div>
-                      <div style={{
+ <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 600 }}>{items.length} países</span>
+ </div>
+ <div style={{
                         display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
                       }}>
                         {items.map(renderRiesgoCard)}
-                      </div>
-                    </section>
+ </div>
+ </section>
                   )
                 })}
-              </div>
+ </div>
             )}
-          </div>
+ </div>
           )
         })()}
 
         {/* TAB 1 — OSINT (visual estilo Alertas Prioritarias + enlace a noticia) */}
         {tab === 1 && (
-          <div>
+ <div>
             {/* Resumen contadores por urgencia (clicable: minimo) */}
-            <div style={{
+ <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 14,
             }}>
               {[5, 4, 3, 2, 1].map((u) => {
@@ -960,7 +960,7 @@ export default function GeopoliticaPage() {
                 const cnt = osint.filter((o) => o.urgencia === u && (osintCat === 'all' || o.categoria === osintCat)).length
                 const active = osintUrgMin === u
                 return (
-                  <button
+ <button
                     key={u}
                     onClick={() => setOsintUrgMin(active ? 1 : u)}
                     title={`Filtrar por urgencia ≥ ${u}`}
@@ -971,29 +971,29 @@ export default function GeopoliticaPage() {
                       fontFamily: 'inherit', cursor: 'pointer', transition: 'all 140ms',
                     }}
                   >
-                    <span style={{
+ <span style={{
                       display: 'inline-block', width: 12, height: 12, borderRadius: '50%',
                       background: active ? '#fff' : m.color, marginBottom: 6,
                       animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
                       boxShadow: m.pulse && !active ? `0 0 12px ${m.color}` : undefined,
                     }}/>
-                    <div style={{
+ <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700,
                       lineHeight: 1, color: active ? '#fff' : m.color, fontVariantNumeric: 'tabular-nums',
                     }}>{cnt}</div>
-                    <div style={{
+ <div style={{
                       fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em',
                       color: active ? '#fff' : 'inherit',
                       opacity: active ? 0.95 : 0.7, marginTop: 4, textTransform: 'uppercase',
                     }}>{m.label}</div>
-                  </button>
+ </button>
                 )
               })}
-            </div>
+ </div>
 
             {/* Selector de categoría + estado del filtro */}
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 14 }}>
-              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
+ <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 14 }}>
+ <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
               {[
                 { v: 'all', l: 'Todas' },
                 { v: 'migracion', l: 'Migración' },
@@ -1006,7 +1006,7 @@ export default function GeopoliticaPage() {
                 const active = osintCat === c.v
                 const cc = c.v === 'all' ? '#1d1d1f' : catColor(c.v)
                 return (
-                  <button key={c.v} onClick={() => setOsintCat(c.v)} style={{
+ <button key={c.v} onClick={() => setOsintCat(c.v)} style={{
                     background: active ? cc : '#fff',
                     color: active ? '#fff' : '#3a3a3d',
                     border: `1px solid ${active ? cc : '#ECECEF'}`,
@@ -1016,27 +1016,27 @@ export default function GeopoliticaPage() {
                   }}>{c.l}</button>
                 )
               })}
-              <span style={{ width: 1, height: 22, background: '#ECECEF', margin: '0 4px' }}/>
-              <span style={{ fontSize: 12, color: '#6e6e73' }}>
+ <span style={{ width: 1, height: 22, background: '#ECECEF', margin: '0 4px' }}/>
+ <span style={{ fontSize: 12, color: '#6e6e73' }}>
                 {loadingOsint ? 'Cargando…' : `${osintFiltered.length} señales`}
                 {(osintUrgMin > 1 || osintCat !== 'all') && (
-                  <button onClick={() => { setOsintUrgMin(1); setOsintCat('all') }} style={{
+ <button onClick={() => { setOsintUrgMin(1); setOsintCat('all') }} style={{
                     background: 'transparent', border: 'none', color: '#1F4E8C', marginLeft: 8,
                     fontSize: 11.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: 'inherit',
                   }}>Quitar filtros ×</button>
                 )}
-              </span>
-            </div>
+ </span>
+ </div>
 
             {/* Lista de señales OSINT estilo Alertas Prioritarias */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {osintFiltered.length === 0 && !loadingOsint && (
-                <div style={{
+ <div style={{
                   padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
                   background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
                 }}>
                   No hay señales con los filtros seleccionados
-                </div>
+ </div>
               )}
               {osintFiltered.map((o) => {
                 const m = urgMeta(o.urgencia)            // urgencia → barra lateral + badge CRÍTICA/ALTA…
@@ -1044,7 +1044,7 @@ export default function GeopoliticaPage() {
                 // Cuando es CRÍTICA, el fondo y el halo del parpadeo se intensifican
                 // pero MANTIENEN el tono del sector (no del color de urgencia).
                 return (
-                  <article key={o.id} style={{
+ <article key={o.id} style={{
                     display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
                     gap: 14, alignItems: 'center',
                     padding: '14px 18px 14px 0', borderRadius: 14,
@@ -1057,14 +1057,14 @@ export default function GeopoliticaPage() {
                   } as React.CSSProperties}>
                     {/* Barra lateral conserva el color de la URGENCIA (señal primaria).
                         El parpadeo (escala + opacidad) se mantiene en CRÍTICA. */}
-                    <div style={{
+ <div style={{
                       background: m.color, height: '100%',
                       animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
                       boxShadow: m.pulse ? `0 0 14px ${cc}` : undefined,
                     }}/>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
                       {/* Badge urgencia: CRÍTICA / ALTA / MEDIA / BAJA / INFO */}
-                      <span style={{
+ <span style={{
                         fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
                         color: '#fff', background: m.color,
                         padding: '3px 8px', borderRadius: 999,
@@ -1074,28 +1074,28 @@ export default function GeopoliticaPage() {
                       }}>
                         {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
                         {m.label}
-                      </span>
+ </span>
                       {/* Chip de sector con el color del sector (refuerzo visual del fondo) */}
-                      <span style={{
+ <span style={{
                         fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
                         color: '#fff', background: cc,
                         padding: '2px 8px', borderRadius: 999,
                         textTransform: 'uppercase',
                       }}>{o.categoria.replace('_', ' ')}</span>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF' }}>Urgencia {o.urgencia}/5</span>
-                    </div>
-                    <div style={{ minWidth: 0 }}>
-                      <h3 style={{
+ <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF' }}>Urgencia {o.urgencia}/5</span>
+ </div>
+ <div style={{ minWidth: 0 }}>
+ <h3 style={{
                         margin: 0, fontFamily: 'var(--font-display)', fontSize: 15,
                         fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
                       }}>{o.titulo}</h3>
-                      <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{o.resumen}</p>
-                      <span style={{ fontSize: 11, color: '#6e6e73' }}>
+ <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{o.resumen}</p>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>
                         {o.fuente} · <span style={{ fontWeight: 600 }}>{fmtDate(o.fecha)}</span>
-                      </span>
-                    </div>
+ </span>
+ </div>
                     {o.url ? (
-                      <a href={o.url} target="_blank" rel="noopener noreferrer" style={{
+ <a href={o.url} target="_blank" rel="noopener noreferrer" style={{
                         background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
                         padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: m.color,
                         cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
@@ -1106,67 +1106,67 @@ export default function GeopoliticaPage() {
                       onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#ECECEF' }}
                       >Leer noticia ↗</a>
                     ) : (
-                      <span style={{
+ <span style={{
                         padding: '6px 12px', fontSize: 11.5, fontWeight: 500, color: '#9CA3AF',
                         fontFamily: 'inherit', flexShrink: 0, marginRight: 18,
                       }}>Sin enlace</span>
                     )}
-                  </article>
+ </article>
                 )
               })}
-            </div>
-          </div>
+ </div>
+ </div>
         )}
 
         {/* TAB 2 — Alertas (visual igual a Alertas Prioritarias) */}
         {tab === 2 && (
-          <div>
+ <div>
             {/* Resumen contadores por nivel */}
-            <div style={{
+ <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 18,
             }}>
               {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as NivelGeo[]).map((lv) => {
                 const m = NIVEL_META[lv]
                 const cnt = alertasByNivel[lv]?.length || 0
                 return (
-                  <div key={lv} style={{
+ <div key={lv} style={{
                     textAlign: 'center', padding: '14px 8px', borderRadius: 12,
                     background: m.bg, border: `1px solid ${m.ring}`,
                   }}>
-                    <span style={{
+ <span style={{
                       display: 'inline-block', width: 12, height: 12, borderRadius: '50%',
                       background: m.color, marginBottom: 6,
                       animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
                       boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
                     }}/>
-                    <div style={{
+ <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700,
                       lineHeight: 1, color: m.color, fontVariantNumeric: 'tabular-nums',
                     }}>{cnt}</div>
-                    <div style={{
+ <div style={{
                       fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em',
                       opacity: 0.7, marginTop: 4, textTransform: 'uppercase',
                     }}>{m.label}</div>
-                  </div>
+ </div>
                 )
               })}
-            </div>
+ </div>
 
             {/* Lista de alertas estilo Alertas Prioritarias */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {alertas.length === 0 && (
-                <div style={{
+ <div style={{
                   padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
                   background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
                 }}>
                   Sin alertas activas
-                </div>
+ </div>
               )}
               {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as NivelGeo[]).flatMap((lv) =>
                 (alertasByNivel[lv] || []).map((a) => {
                   const m = NIVEL_META[lv]
                   return (
-                    <article key={a.id} style={{
+ <article key={a.id} style={{
                       display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
                       gap: 14, alignItems: 'center',
                       padding: '14px 18px 14px 0', borderRadius: 14,
@@ -1174,12 +1174,12 @@ export default function GeopoliticaPage() {
                       position: 'relative', overflow: 'hidden',
                       animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
                     }}>
-                      <div style={{
+ <div style={{
                         background: m.color, height: '100%',
                         boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
                       }}/>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
-                        <span style={{
+ <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+ <span style={{
                           fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
                           color: '#fff', background: m.color,
                           padding: '3px 8px', borderRadius: 999,
@@ -1189,27 +1189,27 @@ export default function GeopoliticaPage() {
                         }}>
                           {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
                           {m.label}
-                        </span>
-                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>GEOPOLÍTICA</span>
-                      </div>
-                      <div style={{ minWidth: 0 }}>
-                        <h3 style={{
+ </span>
+ <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>GEOPOLÍTICA</span>
+ </div>
+ <div style={{ minWidth: 0 }}>
+ <h3 style={{
                           margin: 0, fontFamily: 'var(--font-display)', fontSize: 15,
                           fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
                         }}>{a.titulo}</h3>
-                        <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{a.descripcion}</p>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-                          <span style={{ fontSize: 11, color: '#6e6e73' }}>{a.fuente} · <span style={{ fontWeight: 600 }}>{fmtDate(a.fecha)}</span></span>
+ <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{a.descripcion}</p>
+ <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>{a.fuente} · <span style={{ fontWeight: 600 }}>{fmtDate(a.fecha)}</span></span>
                           {a.paises.slice(0, 3).map((p) => (
-                            <span key={p} style={{
+ <span key={p} style={{
                               padding: '2px 8px', borderRadius: 999, background: 'rgba(0,0,0,0.06)',
                               fontSize: 10.5, fontWeight: 600, color: '#3a3a3d',
                             }}>{p}</span>
                           ))}
-                        </div>
-                      </div>
+ </div>
+ </div>
                       {a.url ? (
-                        <a href={a.url} target="_blank" rel="noopener noreferrer" style={{
+ <a href={a.url} target="_blank" rel="noopener noreferrer" style={{
                           background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
                           padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: m.color,
                           cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
@@ -1220,23 +1220,23 @@ export default function GeopoliticaPage() {
                         onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#ECECEF' }}
                         >Leer noticia ↗</a>
                       ) : (
-                        <span style={{
+ <span style={{
                           padding: '6px 12px', fontSize: 11.5, fontWeight: 500, color: '#9CA3AF',
                           fontFamily: 'inherit', flexShrink: 0, marginRight: 18,
                         }}>Sin enlace</span>
                       )}
-                    </article>
+ </article>
                   )
                 })
               )}
-            </div>
+ </div>
 
-            <style>{`
+ <style>{`
               @keyframes alertPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
               @keyframes alertDot   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
               @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(185,28,28,0); } 50% { box-shadow: 0 0 22px -2px rgba(185,28,28,0.45); } }
-            `}</style>
-          </div>
+ `}</style>
+ </div>
         )}
 
         {/* TAB 3 — Impacto España (visual Alertas con colores por sector) */}
@@ -1246,13 +1246,13 @@ export default function GeopoliticaPage() {
             ? impactosSorted
             : impactosSorted.filter((i) => i.dimension === impactoDim)
           return (
-          <div>
+ <div>
             {/* Contadores clicables por dimensión = selector de tipos de noticia */}
-            <div style={{
+ <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 10, marginBottom: 14,
             }}>
               {/* Pill "Todos" */}
-              <button
+ <button
                 onClick={() => setImpactoDim('all')}
                 style={{
                   textAlign: 'center', padding: '16px 8px 14px', borderRadius: 12,
@@ -1263,23 +1263,23 @@ export default function GeopoliticaPage() {
                   transition: 'all 140ms',
                 }}
               >
-                <span style={{
+ <span style={{
                   display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
                   background: impactoDim === 'all' ? '#fff' : '#1d1d1f', marginBottom: 8,
                 }}/>
-                <div style={{
+ <div style={{
                   fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
                   lineHeight: 1, fontVariantNumeric: 'tabular-nums',
                 }}>{impactosSorted.length}</div>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.85, marginTop: 4, textTransform: 'uppercase' }}>Todos</div>
-              </button>
+ <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.85, marginTop: 4, textTransform: 'uppercase' }}>Todos</div>
+ </button>
               {/* Pills por dimensión */}
               {dimsList.map((dim) => {
                 const m = dimMeta(dim)
                 const cnt = impactosSorted.filter((i) => i.dimension === dim).length
                 const active = impactoDim === dim
                 return (
-                  <button
+ <button
                     key={dim}
                     onClick={() => setImpactoDim(active ? 'all' : dim)}
                     style={{
@@ -1292,115 +1292,115 @@ export default function GeopoliticaPage() {
                     }}
                     disabled={cnt === 0}
                   >
-                    <span style={{
+ <span style={{
                       display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
                       background: active ? '#fff' : m.color, marginBottom: 8,
                     }}/>
-                    <div style={{
+ <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
                       lineHeight: 1, color: active ? '#fff' : m.color, fontVariantNumeric: 'tabular-nums',
                     }}>{cnt}</div>
-                    <div style={{
+ <div style={{
                       fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
                       color: active ? '#fff' : 'inherit',
                       opacity: active ? 0.95 : 0.7, marginTop: 4, textTransform: 'uppercase',
                     }}>{m.label}</div>
-                  </button>
+ </button>
                 )
               })}
-            </div>
+ </div>
 
             {/* Indicador de filtro activo */}
             {impactoDim !== 'all' && (
-              <div style={{
+ <div style={{
                 fontSize: 11.5, color: '#6e6e73', marginBottom: 12, display: 'flex',
                 alignItems: 'center', gap: 8,
               }}>
-                <span>Filtrando por <strong style={{ color: dimMeta(impactoDim).color }}>{dimMeta(impactoDim).label}</strong></span>
-                <span style={{ color: '#9CA3AF' }}>· {impactosFiltered.length} de {impactosSorted.length}</span>
-                <button onClick={() => setImpactoDim('all')} style={{
+ <span>Filtrando por <strong style={{ color: dimMeta(impactoDim).color }}>{dimMeta(impactoDim).label}</strong></span>
+ <span style={{ color: '#9CA3AF' }}>· {impactosFiltered.length} de {impactosSorted.length}</span>
+ <button onClick={() => setImpactoDim('all')} style={{
                   background: 'transparent', border: 'none', color: '#1F4E8C',
                   fontSize: 11.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: 'inherit',
                 }}>Quitar filtro ×</button>
-              </div>
+ </div>
             )}
 
             {/* Lista de impactos: estilo Alertas con barra lateral por dimensión */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {impactosFiltered.length === 0 && (
-                <div style={{
+ <div style={{
                   padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
                   background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
                 }}>
                   {impactoDim === 'all' ? 'Sin impactos registrados' : `Sin impactos registrados en sector ${dimMeta(impactoDim).label}`}
-                </div>
+ </div>
               )}
               {impactosFiltered.map((imp) => {
                 const m = dimMeta(imp.dimension)
                 const hLabel = imp.horizonte === 'corto' ? 'CORTO PLAZO' : imp.horizonte === 'medio' ? 'MEDIO PLAZO' : 'LARGO PLAZO'
                 return (
-                  <article key={imp.id} style={{
+ <article key={imp.id} style={{
                     display: 'grid', gridTemplateColumns: '6px 130px 1fr auto',
                     gap: 14, alignItems: 'center',
                     padding: '14px 18px 14px 0', borderRadius: 14,
                     background: m.bg, border: `1px solid ${m.ring}`,
                     position: 'relative', overflow: 'hidden',
                   }}>
-                    <div style={{ background: m.color, height: '100%' }}/>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
-                      <span style={{
+ <div style={{ background: m.color, height: '100%' }}/>
+ <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+ <span style={{
                         fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
                         color: '#fff', background: m.color,
                         padding: '3px 8px', borderRadius: 999,
                         display: 'inline-flex', alignItems: 'center', gap: 5,
                       }}>
                         {m.label}
-                      </span>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.06em' }}>{hLabel}</span>
+ </span>
+ <span style={{ fontSize: 10, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.06em' }}>{hLabel}</span>
                       {/* Severidad como barras horizontales (5 niveles) */}
-                      <div style={{ display: 'flex', gap: 2, marginTop: 2 }}>
+ <div style={{ display: 'flex', gap: 2, marginTop: 2 }}>
                         {[1, 2, 3, 4, 5].map((n) => (
-                          <span key={n} style={{
+ <span key={n} style={{
                             width: 10, height: 4, borderRadius: 1,
                             background: n <= imp.severidad ? m.color : 'rgba(0,0,0,0.10)',
                           }}/>
                         ))}
-                      </div>
-                    </div>
-                    <div style={{ minWidth: 0 }}>
-                      <h3 style={{
+ </div>
+ </div>
+ <div style={{ minWidth: 0 }}>
+ <h3 style={{
                         margin: 0, fontFamily: 'var(--font-display)', fontSize: 15,
                         fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
                       }}>{imp.titulo}</h3>
-                      <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{imp.descripcion}</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>Severidad {imp.severidad}/5 · Origen:</span>
+ <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{imp.descripcion}</p>
+ <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+ <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>Severidad {imp.severidad}/5 · Origen:</span>
                         {imp.paises_origen.slice(0, 4).map((p) => (
-                          <span key={p} style={{
+ <span key={p} style={{
                             padding: '2px 8px', borderRadius: 999, background: 'rgba(0,0,0,0.06)',
                             fontSize: 10.5, fontWeight: 600, color: '#3a3a3d',
                           }}>{p}</span>
                         ))}
-                      </div>
-                    </div>
+ </div>
+ </div>
                     {imp.url ? (
-                      <a href={imp.url} target="_blank" rel="noopener noreferrer" style={{
+ <a href={imp.url} target="_blank" rel="noopener noreferrer" style={{
                         background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
                         padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: m.color,
                         fontFamily: 'inherit', flexShrink: 0, textDecoration: 'none',
                         marginRight: 18,
                       }}>Leer noticia ↗</a>
                     ) : (
-                      <span style={{
+ <span style={{
                         padding: '6px 12px', fontSize: 11.5, fontWeight: 500, color: '#9CA3AF',
                         fontFamily: 'inherit', flexShrink: 0, marginRight: 18,
                       }}>—</span>
                     )}
-                  </article>
+ </article>
                 )
               })}
-            </div>
-          </div>
+ </div>
+ </div>
         )})()}
 
         {/* TAB 4 — Presencia Española (cards estilo Teatro Global + DAFO breve) */}
@@ -1434,7 +1434,7 @@ export default function GeopoliticaPage() {
             const dafo = COUNTRY_DAFO[p.pais]
             const hasDafo = !!dafo
             return (
-              <button
+ <button
                 key={p.pais}
                 onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
                 title={hasDafo ? `Ver DAFO completo de ${p.pais}` : 'Más detalles'}
@@ -1448,81 +1448,81 @@ export default function GeopoliticaPage() {
                 onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
               >
-                <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+ <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
                 {hasDafo && (
-                  <span style={{
+ <span style={{
                     position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
                     letterSpacing: '0.08em', color: catC, background: `${catC}14`,
                     padding: '2px 6px', borderRadius: 4,
                   }}>DAFO →</span>
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                  <CountryBadge iso={iso} size={44} color={catC}/>
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+ <CountryBadge iso={iso} size={44} color={catC}/>
+ <div style={{ minWidth: 0, flex: 1 }}>
+ <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
                       letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
                     }}>{p.pais}</div>
-                    <span style={{
+ <span style={{
                       display: 'inline-block', marginTop: 4,
                       padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
                       color: catC, fontSize: 10.5, fontWeight: 600,
                       letterSpacing: '0.04em', textTransform: 'capitalize',
                     }}>{p.categoria}</span>
-                  </div>
-                </div>
+ </div>
+ </div>
 
                 {dafo ? (
-                  <div style={{
+ <div style={{
                     marginBottom: 10, padding: '8px 10px', borderRadius: 10,
                     background: '#fafafa', border: '1px solid #f0f0f3',
                     fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.45,
                   }}>
-                    <span style={{ fontStyle: 'italic' }}>{dafo.resumen}</span>
-                  </div>
+ <span style={{ fontStyle: 'italic' }}>{dafo.resumen}</span>
+ </div>
                 ) : (
-                  <div style={{
+ <div style={{
                     marginBottom: 10, padding: '8px 10px', borderRadius: 10,
                     background: '#fafafa', border: '1px dashed #e8e8ed',
                     fontSize: 11.5, color: '#9CA3AF',
                   }}>
                     DAFO no disponible aún para este país
-                  </div>
+ </div>
                 )}
 
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Presencia España</span>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: catC, fontVariantNumeric: 'tabular-nums' }}>{p.intensidad}/100</span>
-                  </div>
-                  <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
-                    <div style={{
+ <div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+ <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Presencia España</span>
+ <span style={{ fontSize: 12, fontWeight: 700, color: catC, fontVariantNumeric: 'tabular-nums' }}>{p.intensidad}/100</span>
+ </div>
+ <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
+ <div style={{
                       width: `${p.intensidad}%`, height: 5,
                       background: catC,
                     }}/>
-                  </div>
-                </div>
-              </button>
+ </div>
+ </div>
+ </button>
             )
           }
 
           return (
-          <div>
+ <div>
             {/* Mapa arriba (mantiene contexto visual) */}
-            <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
-              <Plot
+ <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
+ <Plot
                 data={presenciaTraces as object[]}
                 layout={{ ...geoLayout, height: 360 } as object}
                 config={{ displayModeBar: false, responsive: true }}
                 style={{ width: '100%' }}
               />
-            </div>
+ </div>
 
             {/* Selector de orden */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ordenar por:</span>
-              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ordenar por:</span>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
                 {[
                   { v: 'importancia', l: 'Importancia para España' },
                   { v: 'continente',  l: 'Por continente' },
@@ -1530,7 +1530,7 @@ export default function GeopoliticaPage() {
                 ].map((o) => {
                   const active = presenciaOrden === o.v
                   return (
-                    <button key={o.v} onClick={() => setPresenciaOrden(o.v as typeof presenciaOrden)} style={{
+ <button key={o.v} onClick={() => setPresenciaOrden(o.v as typeof presenciaOrden)} style={{
                       background: active ? '#fff' : 'transparent',
                       color: active ? '#1d1d1f' : '#6e6e73',
                       border: 'none', borderRadius: 999, padding: '6px 14px',
@@ -1541,60 +1541,60 @@ export default function GeopoliticaPage() {
                     }}>{o.l}</button>
                   )
                 })}
-              </div>
-              <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· {presencia.length} países en seguimiento</span>
-            </div>
+ </div>
+ <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· {presencia.length} países en seguimiento</span>
+ </div>
 
             {/* Vista 1: lista plana (importancia o presencia) */}
             {presenciaOrden !== 'continente' && (
-              <div style={{
+ <div style={{
                 display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
               }}>
                 {(presenciaOrden === 'presencia' ? presenciaPresencia : presenciaImportancia).map(renderCard)}
-              </div>
+ </div>
             )}
 
             {/* Vista 2: agrupado por continente con headers */}
             {presenciaOrden === 'continente' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
                 {continentList.map((cont) => {
                   const cc = CONTINENT_COLOR[cont] || '#9CA3AF'
                   const items = continentBuckets.get(cont) || []
                   return (
-                    <section key={cont}>
-                      <div style={{
+ <section key={cont}>
+ <div style={{
                         display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12,
                         padding: '8px 14px', borderRadius: 10,
                         background: `${cc}10`, borderLeft: `3px solid ${cc}`,
                       }}>
-                        <span style={{
+ <span style={{
                           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
                           color: cc, letterSpacing: '-0.012em',
                         }}>{cont}</span>
-                        <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 600 }}>{items.length} países</span>
-                      </div>
-                      <div style={{
+ <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 600 }}>{items.length} países</span>
+ </div>
+ <div style={{
                         display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
                       }}>
                         {items.map(renderCard)}
-                      </div>
-                    </section>
+ </div>
+ </section>
                   )
                 })}
-              </div>
+ </div>
             )}
-          </div>
+ </div>
           )
         })()}
 
         {/* TAB 5 — Análisis IA */}
         {tab === 5 && <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>}
 
-      </main>
+ </main>
 
       {/* Modal DAFO global (compartido por Teatro Global y Presencia Española) */}
       {dafoOpen && (
-        <DafoModal
+ <DafoModal
           pais={dafoOpen.pais}
           iso={dafoOpen.iso}
           extra={dafoOpen.extra}
@@ -1602,7 +1602,7 @@ export default function GeopoliticaPage() {
         />
       )}
 
-      <style>{`
+ <style>{`
         @keyframes dafoOverlayIn { from { opacity: 0 } to { opacity: 1 } }
         @keyframes dafoBoxIn     { from { opacity: 0; transform: scale(0.94) translateY(12px) } to { opacity: 1; transform: scale(1) translateY(0) } }
         /* Animaciones de parpadeo CRÍTICA — globales para TAB 1 OSINT y TAB 2 Alertas */
@@ -1612,8 +1612,8 @@ export default function GeopoliticaPage() {
         @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(127,29,29,0); }       50% { box-shadow: 0 0 22px -2px rgba(127,29,29,0.55); } }
         /* alertCardSector usa el color del sector vía CSS var --pulse-color (OSINT) */
         @keyframes alertCardSector { 0%, 100% { box-shadow: 0 0 0 0 transparent; }        50% { box-shadow: 0 0 26px -2px var(--pulse-color, rgba(127,29,29,0.55)); } }
-      `}</style>
-    </div>
+ `}</style>
+ </div>
   )
 }
 
@@ -1669,25 +1669,25 @@ INSTRUCCIONES:
   }
 
   return (
-    <section style={{
+ <section style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
       padding: '24px 28px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
-        <div>
-          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: '#7C3AED', textTransform: 'uppercase', margin: '0 0 4px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
+ <div>
+ <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: '#7C3AED', textTransform: 'uppercase', margin: '0 0 4px' }}>
             ANÁLISIS POLITEIA · GEOPOLÍTICO
-          </p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.018em', margin: '0 0 6px', color: '#1d1d1f' }}>
+ </p>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.018em', margin: '0 0 6px', color: '#1d1d1f' }}>
             Briefing estratégico Politeia
-          </h2>
-          <p style={{ fontSize: 12.5, color: '#515154', margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
+ </h2>
+ <p style={{ fontSize: 12.5, color: '#515154', margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
             Síntesis ejecutiva sobre el contexto geopolítico actual usando los datos en vivo
             de los tabs anteriores (riesgos, alertas críticas, señales OSINT). Pulsa el botón
             para generar un informe nuevo.
-          </p>
-        </div>
-        <button onClick={runAnalysis} disabled={analyzing} style={{
+ </p>
+ </div>
+ <button onClick={runAnalysis} disabled={analyzing} style={{
           background: analyzing ? '#9CA3AF' : 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)',
           color: '#fff', border: 'none', borderRadius: 10, padding: '10px 18px',
           fontSize: 12.5, fontWeight: 700, cursor: analyzing ? 'wait' : 'pointer',
@@ -1695,42 +1695,42 @@ INSTRUCCIONES:
           boxShadow: '0 4px 14px rgba(124,58,237,0.30)',
         }}>
           {analyzing ? 'Generando…' : 'Generar análisis Politeia'}
-        </button>
-      </div>
+ </button>
+ </div>
 
       {!analysis && !analyzing && (
-        <div style={{ padding: '40px 20px', textAlign: 'center', color: '#9CA3AF', fontSize: 13,
+ <div style={{ padding: '40px 20px', textAlign: 'center', color: '#9CA3AF', fontSize: 13,
                        background: '#fafafa', borderRadius: 14, border: '1px dashed #ECECEF' }}>
           Pulsa &quot;Generar análisis Politeia&quot; para producir un briefing geopolítico
           basado en los datos cargados en los tabs anteriores.
-        </div>
+ </div>
       )}
 
       {analyzing && (
-        <div style={{ padding: '40px 20px', textAlign: 'center', color: '#7C3AED', fontSize: 13,
+ <div style={{ padding: '40px 20px', textAlign: 'center', color: '#7C3AED', fontSize: 13,
                        background: 'rgba(124,58,237,0.04)', borderRadius: 14,
                        border: '1px solid rgba(124,58,237,0.15)' }}>
-          Generando el análisis Politeia…  <span style={{ color:'#9CA3AF' }}>(suele tardar 15-40 s)</span>
-        </div>
+          Generando el análisis Politeia… <span style={{ color:'#9CA3AF' }}>(suele tardar 15-40 s)</span>
+ </div>
       )}
 
       {analysis && (
-        <div style={{ padding: '20px 24px', background: 'rgba(124,58,237,0.04)', border: '1px solid rgba(124,58,237,0.20)',
+ <div style={{ padding: '20px 24px', background: 'rgba(124,58,237,0.04)', border: '1px solid rgba(124,58,237,0.20)',
                        borderRadius: 14 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff',
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff',
                             background: '#7C3AED',
                             padding: '3px 8px', borderRadius: 5, letterSpacing: '0.06em' }}>
               POLITEIA · {llmSource === 'ollama' ? 'LOCAL' : llmSource === 'backend' ? 'CLOUD' : 'FALLBACK'}
-            </span>
+ </span>
             {llmMs && <span style={{ fontSize: 11, color: '#6e6e73' }}>{(llmMs/1000).toFixed(1)} s</span>}
-          </div>
-          <pre style={{
+ </div>
+ <pre style={{
             margin: 0, fontFamily: 'inherit', fontSize: 13.5, lineHeight: 1.7, color: '#1d1d1f',
             whiteSpace: 'pre-wrap', wordWrap: 'break-word',
           }}>{analysis}</pre>
-        </div>
+ </div>
       )}
-    </section>
+ </section>
   )
 }

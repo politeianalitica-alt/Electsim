@@ -98,12 +98,12 @@ function sumSeats(
  * matemáticamente sume.
  */
 const BASE_WEIGHTS: Record<string, number> = {
-  "pp-vox-cc": 0.45,                  // Histórico reciente, viable políticamente
-  "pp-minoria": 0.20,                 // PP solo con abstención PSOE = poco probable
-  "psoe-sumar": 0.30,                 // Sin Junts/PNV no llega
-  "psoe-junts": 0.35,                 // Coalición Sánchez 2023
-  "gran-coalicion": 0.05,             // Casi nunca pasa en España
-  "bloqueo": 0.25,                    // Probabilidad si ningún bloque llega
+ "pp-vox-cc": 0.45,                  // Histórico reciente, viable políticamente
+ "pp-minoria": 0.20,                 // PP solo con abstención PSOE = poco probable
+ "psoe-sumar": 0.30,                 // Sin Junts/PNV no llega
+ "psoe-junts": 0.35,                 // Coalición Sánchez 2023
+ "gran-coalicion": 0.05,             // Casi nunca pasa en España
+ "bloqueo": 0.25,                    // Probabilidad si ningún bloque llega
 };
 
 /**

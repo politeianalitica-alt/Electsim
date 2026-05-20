@@ -139,12 +139,12 @@ function wrapError(context: string, err: unknown): AiUnavailableError {
     const status = err.status ?? "?";
     const type = (err.error as { error?: { type?: string } })?.error?.type ?? "unknown";
     return new AiUnavailableError(
-      `Anthropic ${context} failed [${status} ${type}]: ${err.message}`,
+ `Anthropic ${context} failed [${status} ${type}]: ${err.message}`,
       err
     );
   }
   return new AiUnavailableError(
-    `Anthropic ${context} failed: ${(err as Error).message}`,
+ `Anthropic ${context} failed: ${(err as Error).message}`,
     err
   );
 }
@@ -170,7 +170,7 @@ function logUsage(
   const totalInput = input + cacheRead + cacheWrite;
   // eslint-disable-next-line no-console
   console.log(
-    `[ai] ${context} · ${model} · in_billed=${input}${
+ `[ai] ${context} · ${model} · in_billed=${input}${
       cacheRead ? ` cache_hit=${cacheRead}` : ""
     }${cacheWrite ? ` cache_write=${cacheWrite}` : ""} · in_total=${totalInput} · out=${output}`
   );
@@ -457,7 +457,7 @@ export async function generateJSON<T = unknown>(
   if (opts.system) sysParts.push(opts.system);
   if (opts.schemaHint) sysParts.push(opts.schemaHint);
   sysParts.push(
-    "Devuelve ÚNICAMENTE un JSON válido sin texto adicional, sin markdown, sin ```. Empieza directamente con { y termina con }."
+ "Devuelve ÚNICAMENTE un JSON válido sin texto adicional, sin markdown, sin ```. Empieza directamente con { y termina con }."
   );
 
   // Prefill trick: el assistant arranca con "{" para que el modelo continúe
@@ -481,7 +481,7 @@ export async function generateJSON<T = unknown>(
     return JSON.parse(jsonText) as T;
   } catch (err) {
     throw new AiUnavailableError(
-      `Anthropic returned non-JSON payload: ${jsonText.slice(0, 200)}`,
+ `Anthropic returned non-JSON payload: ${jsonText.slice(0, 200)}`,
       err
     );
   }

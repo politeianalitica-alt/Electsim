@@ -83,16 +83,16 @@ function detectMateria(titulo: string, depto: string): Materia {
 }
 
 const URGENCY_KEYWORDS = [
-  'medidas urgentes', 'situación de emergencia', 'estado de alarma',
-  'medida extraordinaria', 'crisis', 'declaración de zona afectada',
-  'modificación urgente',
+ 'medidas urgentes', 'situación de emergencia', 'estado de alarma',
+ 'medida extraordinaria', 'crisis', 'declaración de zona afectada',
+ 'modificación urgente',
 ]
 
 const HIGH_IMPACT_KEYWORDS = [
-  'reforma', 'modificación', 'derogación', 'nueva ley',
-  'ampliación', 'subida', 'reducción', 'aprobación',
-  'irpf', 'iva', 'salario mínimo', 'pensiones', 'vivienda',
-  'amnistía', 'memoria democrática', 'cgpj',
+ 'reforma', 'modificación', 'derogación', 'nueva ley',
+ 'ampliación', 'subida', 'reducción', 'aprobación',
+ 'irpf', 'iva', 'salario mínimo', 'pensiones', 'vivienda',
+ 'amnistía', 'memoria democrática', 'cgpj',
 ]
 
 // Sección · 1 = Disposiciones generales (máximo peso)

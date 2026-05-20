@@ -12,10 +12,10 @@ export function AgentMessage({ message }: { message: AgentMessageType }) {
   }
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-3`}>
-      <div className={`${isUser ? "max-w-[85%]" : "max-w-full"} space-y-2`}>
+ <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-3`}>
+ <div className={`${isUser ? "max-w-[85%]" : "max-w-full"} space-y-2`}>
         {message.content && (
-          <div
+ <div
             className={`rounded-xl px-3 py-2 text-xs leading-relaxed whitespace-pre-wrap ${
               isUser
                 ? "bg-indigo-600 text-white"
@@ -23,16 +23,16 @@ export function AgentMessage({ message }: { message: AgentMessageType }) {
             }`}
           >
             {message.content}
-          </div>
+ </div>
         )}
         {message.cards && message.cards.length > 0 && (
-          <div className="space-y-2">
+ <div className="space-y-2">
             {message.cards.map((card, idx) => (
-              <AgentCard key={card.id ?? idx} card={card} />
+ <AgentCard key={card.id ?? idx} card={card} />
             ))}
-          </div>
+ </div>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }

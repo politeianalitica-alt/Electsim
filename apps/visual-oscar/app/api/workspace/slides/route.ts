@@ -38,17 +38,17 @@ export async function POST(req: NextRequest) {
   if (!isAiEnabled()) return NextResponse.json(fallback);
 
   const system = [
-    `Eres un consultor político senior. Genera presentaciones ejecutivas en español, sin emojis.`,
-    `Tono: profesional, denso, accionable. Frases cortas. Sin disclaimers.`,
-    `Workspace: "${workspaceName}".`,
+ `Eres un consultor político senior. Genera presentaciones ejecutivas en español, sin emojis.`,
+ `Tono: profesional, denso, accionable. Frases cortas. Sin disclaimers.`,
+ `Workspace: "${workspaceName}".`,
   ].join("\n");
 
   const user = [
-    `Encargo: ${brief || "Brief ejecutivo del workspace"}.`,
-    `Datos disponibles del workspace:`,
+ `Encargo: ${brief || "Brief ejecutivo del workspace"}.`,
+ `Datos disponibles del workspace:`,
     context || "(sin contexto adicional)",
-    ``,
-    `Genera 8-12 slides con la estructura indicada.`,
+ ``,
+ `Genera 8-12 slides con la estructura indicada.`,
   ].join("\n");
 
   try {

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   } catch {
     const body = await req.json().catch(() => ({}))
     return NextResponse.json({
-      id:        `pipe-${Date.now().toString(36)}`,
+      id: `pipe-${Date.now().toString(36)}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       ...body,

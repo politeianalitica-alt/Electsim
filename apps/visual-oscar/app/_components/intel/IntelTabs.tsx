@@ -22,7 +22,7 @@ export default function IntelTabs<T extends string>({ tabs, active, onChange }: 
     gap: 2,
   }
   return (
-    <div style={wrap}>
+ <div style={wrap}>
       {tabs.map(t => {
         const isActive = t.id === active
         const pill: CSSProperties = {
@@ -43,18 +43,18 @@ export default function IntelTabs<T extends string>({ tabs, active, onChange }: 
           gap: 6,
         }
         return (
-          <button key={t.id} type="button" style={pill} onClick={() => onChange(t.id)}>
+ <button key={t.id} type="button" style={pill} onClick={() => onChange(t.id)}>
             {t.label}
             {typeof t.count === 'number' && (
-              <span style={{
+ <span style={{
                 fontSize: 10, padding: '1px 6px', borderRadius: 999,
                 background: isActive ? 'rgba(31,78,140,0.10)' : 'rgba(0,0,0,0.06)',
                 color: isActive ? '#1F4E8C' : '#6e6e73', fontWeight: 600,
               }}>{t.count}</span>
             )}
-          </button>
+ </button>
         )
       })}
-    </div>
+ </div>
   )
 }

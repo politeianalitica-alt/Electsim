@@ -8,9 +8,9 @@ type Estado = 'activa' | 'extraordinaria' | 'inactiva'
 type Tipo = 'Permanente legislativa' | 'Permanente no legislativa' | 'No permanente' | 'Investigación'
 
 const ESTADO_META: Record<Estado, { label: string; color: string }> = {
-  'activa':         { label:'Activa',         color:'#16A34A' },
-  'extraordinaria': { label:'Extraordinaria', color:'#F97316' },
-  'inactiva':       { label:'Inactiva',       color:'#6e6e73' },
+ 'activa':         { label:'Activa',         color:'#16A34A' },
+ 'extraordinaria': { label:'Extraordinaria', color:'#F97316' },
+ 'inactiva':       { label:'Inactiva',       color:'#6e6e73' },
 }
 
 type Comision = {
@@ -143,176 +143,176 @@ export default function ComisionesPage() {
   }, [filterEstado, filterTipo])
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color:'#1d1d1f' }}>
+ <AppHeader/>
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* Hero */}
-        <section style={{
+ <section style={{
           background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
           padding:'24px 32px', marginBottom:18, boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
           display:'grid', gridTemplateColumns:'1.6fr 1fr', gap:32, alignItems:'center',
         }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#6e6e73', textTransform:'uppercase', margin:'0 0 8px' }}>
+ <div>
+ <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#6e6e73', textTransform:'uppercase', margin:'0 0 8px' }}>
               RADAR LEGISLATIVO · COMISIONES PARLAMENTARIAS
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:28, letterSpacing:'-0.022em', margin:'0 0 6px', lineHeight:1.1 }}>
+ </p>
+ <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:28, letterSpacing:'-0.022em', margin:'0 0 6px', lineHeight:1.1 }}>
               {counts.activas} comisiones <em style={{ fontWeight:300, fontStyle:'italic', color:'#5B21B6' }}>activas</em>
-            </h1>
-            <p style={{ fontSize:13, color:'#6e6e73', margin:0 }}>
+ </h1>
+ <p style={{ fontSize:13, color:'#6e6e73', margin:0 }}>
               {counts.total} comisiones · {counts.extraord} convocatorias extraordinarias · {counts.expedientes} expedientes activos
-            </p>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
-            <KPI label="ACTIVAS" value={String(counts.activas)} color="#16A34A"/>
-            <KPI label="EXTRAORDINARIAS" value={String(counts.extraord)} color="#F97316"/>
-            <KPI label="EXPEDIENTES" value={String(counts.expedientes)} color="#5B21B6"/>
-          </div>
-        </section>
+ </p>
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
+ <KPI label="ACTIVAS" value={String(counts.activas)} color="#16A34A"/>
+ <KPI label="EXTRAORDINARIAS" value={String(counts.extraord)} color="#F97316"/>
+ <KPI label="EXPEDIENTES" value={String(counts.expedientes)} color="#5B21B6"/>
+ </div>
+ </section>
 
         {/* Filtros */}
-        <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:18 }}>
-          <FilterGroup label="Estado">
+ <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:18 }}>
+ <FilterGroup label="Estado">
             {(['todas','extraordinaria','activa','inactiva'] as const).map(e => {
               const active = filterEstado === e
               const m = e !== 'todas' ? ESTADO_META[e as Estado] : null
               return (
-                <Pill key={e} active={active} onClick={()=>setFilterEstado(e)} color={m?.color}>
+ <Pill key={e} active={active} onClick={()=>setFilterEstado(e)} color={m?.color}>
                   {m && <span style={{ width:7, height:7, borderRadius:'50%', background:m.color, display:'inline-block', marginRight:5 }}/>}
                   {e === 'todas' ? 'Todas' : m?.label}
-                </Pill>
+ </Pill>
               )
             })}
-          </FilterGroup>
-          <Sep/>
-          <FilterGroup label="Tipo">
+ </FilterGroup>
+ <Sep/>
+ <FilterGroup label="Tipo">
             {TIPOS_FIL.map(t => (
-              <BoxBtn key={t} active={filterTipo === t} onClick={()=>setFilterTipo(t)}>{t}</BoxBtn>
+ <BoxBtn key={t} active={filterTipo === t} onClick={()=>setFilterTipo(t)}>{t}</BoxBtn>
             ))}
-          </FilterGroup>
-          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} comisiones</span>
-        </div>
+ </FilterGroup>
+ <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} comisiones</span>
+ </div>
 
         {/* Grid de comisiones */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:14 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:14 }}>
           {filtered.length === 0 && (
-            <div style={{ padding:30, textAlign:'center', color:'#6e6e73', fontSize:13, background:'#fff', borderRadius:14, border:'1px solid #ECECEF', gridColumn:'1/-1' }}>
+ <div style={{ padding:30, textAlign:'center', color:'#6e6e73', fontSize:13, background:'#fff', borderRadius:14, border:'1px solid #ECECEF', gridColumn:'1/-1' }}>
               Sin comisiones que coincidan con el filtro.
-            </div>
+ </div>
           )}
           {filtered.map(c => {
             const m = ESTADO_META[c.estado]
             const totalMiembros = c.composicion.reduce((s, x) => s + x.n, 0)
             return (
-              <article key={c.id} style={{
+ <article key={c.id} style={{
                 background:'#fff', border:'1px solid #ECECEF', borderRadius:16, padding:'18px 20px',
                 boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
                 display:'flex', flexDirection:'column', gap:12, position:'relative', overflow:'hidden',
               }}>
-                <div style={{ position:'absolute', left:0, top:0, bottom:0, width:4, background:m.color }}/>
+ <div style={{ position:'absolute', left:0, top:0, bottom:0, width:4, background:m.color }}/>
 
                 {/* Header */}
-                <div>
-                  <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:5, flexWrap:'wrap' }}>
-                    <span style={{
+ <div>
+ <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:5, flexWrap:'wrap' }}>
+ <span style={{
                       fontSize:9.5, fontWeight:800, letterSpacing:'0.08em',
                       padding:'3px 8px', borderRadius:999,
                       background:`${m.color}15`, color:m.color, border:`1px solid ${m.color}40`,
                     }}>{m.label.toUpperCase()}</span>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600, marginLeft:'auto' }}>{c.tipo}</span>
-                  </div>
-                  <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.25 }}>{c.name}</h3>
-                </div>
+ <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600, marginLeft:'auto' }}>{c.tipo}</span>
+ </div>
+ <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.25 }}>{c.name}</h3>
+ </div>
 
                 {/* Presidencia */}
-                <div style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
-                  <div style={{
+ <div style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
+ <div style={{
                     width:36, height:36, borderRadius:'50%', background:c.presidencia.partidoColor, color:'#fff',
                     display:'flex', alignItems:'center', justifyContent:'center',
                     fontWeight:700, fontSize:14, fontFamily:'var(--font-display)', flexShrink:0,
                   }}>{c.presidencia.nombre.split(' ').map(n => n[0]).slice(0,2).join('')}</div>
-                  <div style={{ minWidth:0, flex:1 }}>
-                    <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Presidencia</div>
-                    <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f' }}>{c.presidencia.nombre}</div>
-                    <div style={{ fontSize:11, color:c.presidencia.partidoColor, fontWeight:600 }}>{c.presidencia.partido}</div>
-                  </div>
-                </div>
+ <div style={{ minWidth:0, flex:1 }}>
+ <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Presidencia</div>
+ <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f' }}>{c.presidencia.nombre}</div>
+ <div style={{ fontSize:11, color:c.presidencia.partidoColor, fontWeight:600 }}>{c.presidencia.partido}</div>
+ </div>
+ </div>
 
                 {/* Composición */}
-                <div>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Composición</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f' }}>{totalMiembros} miembros</span>
-                  </div>
-                  <div style={{ display:'flex', height:10, borderRadius:5, overflow:'hidden' }}>
+ <div>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
+ <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Composición</span>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f' }}>{totalMiembros} miembros</span>
+ </div>
+ <div style={{ display:'flex', height:10, borderRadius:5, overflow:'hidden' }}>
                     {c.composicion.map((g, i) => (
-                      <div key={i} title={`${g.partido} ${g.n}`} style={{ width:`${(g.n/totalMiembros)*100}%`, background:g.color }}/>
+ <div key={i} title={`${g.partido} ${g.n}`} style={{ width:`${(g.n/totalMiembros)*100}%`, background:g.color }}/>
                     ))}
-                  </div>
-                  <div style={{ display:'flex', flexWrap:'wrap', gap:'4px 10px', marginTop:6 }}>
+ </div>
+ <div style={{ display:'flex', flexWrap:'wrap', gap:'4px 10px', marginTop:6 }}>
                     {c.composicion.map(g => (
-                      <span key={g.partido} style={{ display:'inline-flex', alignItems:'center', gap:4, fontSize:11 }}>
-                        <span style={{ width:8, height:8, borderRadius:2, background:g.color }}/>
-                        <span style={{ color:'#3a3a3d' }}>{g.partido}</span>
-                        <strong style={{ color:'#1d1d1f' }}>{g.n}</strong>
-                      </span>
+ <span key={g.partido} style={{ display:'inline-flex', alignItems:'center', gap:4, fontSize:11 }}>
+ <span style={{ width:8, height:8, borderRadius:2, background:g.color }}/>
+ <span style={{ color:'#3a3a3d' }}>{g.partido}</span>
+ <strong style={{ color:'#1d1d1f' }}>{g.n}</strong>
+ </span>
                     ))}
-                  </div>
-                </div>
+ </div>
+ </div>
 
                 {/* Próxima reunión */}
-                <div style={{ padding:'10px 12px', background:`${m.color}08`, border:`1px solid ${m.color}30`, borderRadius:10 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
-                    <span style={{ fontSize:9.5, color:m.color, fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Próxima reunión</span>
-                    <span style={{ fontSize:10.5, color:'#6e6e73' }}>Última: {c.ultimaReunion}</span>
-                  </div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:m.color }}>{c.proximaReunion}</div>
-                  <div style={{ fontSize:11.5, color:'#3a3a3d', marginTop:2 }}>{c.proximaTema}</div>
-                </div>
+ <div style={{ padding:'10px 12px', background:`${m.color}08`, border:`1px solid ${m.color}30`, borderRadius:10 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
+ <span style={{ fontSize:9.5, color:m.color, fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Próxima reunión</span>
+ <span style={{ fontSize:10.5, color:'#6e6e73' }}>Última: {c.ultimaReunion}</span>
+ </div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:m.color }}>{c.proximaReunion}</div>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', marginTop:2 }}>{c.proximaTema}</div>
+ </div>
 
                 {/* Métricas + CTA */}
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'auto' }}>
-                  <div style={{ fontSize:11, color:'#6e6e73' }}>
-                    <strong style={{ color:'#1d1d1f' }}>{c.expedientesActivos}</strong> expedientes activos · <strong style={{ color:'#1d1d1f' }}>{c.totalReuniones}</strong> reuniones celebradas
-                  </div>
-                  <button style={{
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'auto' }}>
+ <div style={{ fontSize:11, color:'#6e6e73' }}>
+ <strong style={{ color:'#1d1d1f' }}>{c.expedientesActivos}</strong> expedientes activos · <strong style={{ color:'#1d1d1f' }}>{c.totalReuniones}</strong> reuniones celebradas
+ </div>
+ <button style={{
                     background:'#5B21B6', color:'#fff', border:'none', borderRadius:8, padding:'6px 11px',
                     fontSize:11.5, fontWeight:600, cursor:'pointer', fontFamily:'inherit',
                   }}>Abrir →</button>
-                </div>
-              </article>
+ </div>
+ </article>
             )
           })}
-        </div>
-      </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+ </div>
+ </main>
+ <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Radar Legislativo · Comisiones · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }
 
 // Helpers UI
 function KPI({ label, value, color }: { label:string, value:string, color:string }) {
   return (
-    <div style={{ textAlign:'center', padding:'12px 8px', borderRadius:12, background:'#FAFAFB', border:`1px solid ${color}33` }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, lineHeight:1, color }}>{value}</div>
-      <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73', marginTop:4 }}>{label}</div>
-    </div>
+ <div style={{ textAlign:'center', padding:'12px 8px', borderRadius:12, background:'#FAFAFB', border:`1px solid ${color}33` }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, lineHeight:1, color }}>{value}</div>
+ <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73', marginTop:4 }}>{label}</div>
+ </div>
   )
 }
 function FilterGroup({ label, children }: { label:string, children:React.ReactNode }) {
   return (
-    <div style={{ display:'inline-flex', alignItems:'center', gap:6 }}>
-      <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}:</span>
-      <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>{children}</div>
-    </div>
+ <div style={{ display:'inline-flex', alignItems:'center', gap:6 }}>
+ <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}:</span>
+ <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>{children}</div>
+ </div>
   )
 }
 function Pill({ active, onClick, color, children }: { active:boolean, onClick:()=>void, color?:string, children:React.ReactNode }) {
   return (
-    <button onClick={onClick} style={{
+ <button onClick={onClick} style={{
       background: active ? '#fff' : 'transparent',
       color: active ? (color || '#1d1d1f') : '#6e6e73',
       border:'none', borderRadius:999, padding:'5px 11px',
@@ -324,7 +324,7 @@ function Pill({ active, onClick, color, children }: { active:boolean, onClick:()
 }
 function BoxBtn({ active, onClick, children }: { active:boolean, onClick:()=>void, children:React.ReactNode }) {
   return (
-    <button onClick={onClick} style={{
+ <button onClick={onClick} style={{
       background: active ? '#1F4E8C' : '#fff',
       color: active ? '#fff' : '#3a3a3d',
       border:'1px solid '+(active ? '#1F4E8C' : '#ECECEF'),

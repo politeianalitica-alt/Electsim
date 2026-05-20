@@ -22,7 +22,7 @@ function injectKeyframes() {
     @keyframes pol-shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
     @keyframes pol-pulse { 0%,100% { opacity: 0.65 } 50% { opacity: 1 } }
     @keyframes pol-fade-in { 0% { opacity: 0; transform: translateY(4px) } 100% { opacity: 1; transform: none } }
-  `
+ `
   document.head.appendChild(style)
   injected = true
 }
@@ -30,7 +30,7 @@ function injectKeyframes() {
 export default function Skeleton({ width = '100%', height = 14, radius = 6, style, className }: Props) {
   if (typeof document !== 'undefined') injectKeyframes()
   return (
-    <div
+ <div
       className={className}
       style={{
         width,
@@ -48,7 +48,7 @@ export default function Skeleton({ width = '100%', height = 14, radius = 6, styl
 export function LiveDot({ color = '#16A34A' }: { color?: string }) {
   if (typeof document !== 'undefined') injectKeyframes()
   return (
-    <span style={{
+ <span style={{
       display: 'inline-block', width: 7, height: 7, borderRadius: 999,
       background: color, marginRight: 6, verticalAlign: 'middle',
       animation: 'pol-pulse 1.4s ease-in-out infinite',

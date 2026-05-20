@@ -34,7 +34,7 @@ export function isQueueConfigured(): boolean {
 
 export async function publish<T>(topic: string, payload: T): Promise<QueueMessage<T>> {
   const msg: QueueMessage<T> = {
-    id:        `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
     topic,
     payload,
     createdAt: new Date().toISOString(),
@@ -53,7 +53,7 @@ export async function publish<T>(topic: string, payload: T): Promise<QueueMessag
     const client = new mod.Client({ token: process.env.UPSTASH_QSTASH_TOKEN! });
     const url = process.env.UPSTASH_QSTASH_DESTINATION_URL!;
     await client.publishJSON({
-      url:    `${url.replace(/\/+$/, "")}/${topic}`,
+      url: `${url.replace(/\/+$/, "")}/${topic}`,
       body:   payload,
       retries: 3,
     });

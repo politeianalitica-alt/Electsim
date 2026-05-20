@@ -110,7 +110,7 @@ const MOCK_NARRATIVES: Narrative[] = [
     top_orgs:     [{ name: 'Tesoro Público', cnt: 18 }, { name: 'Banco de España', cnt: 12 }, { name: 'BCE', cnt: 9 }],
     countries:    [{ name: 'España', cnt: 28 }, { name: 'Alemania', cnt: 7 }, { name: 'Bélgica', cnt: 5 }],
     samples: [
-      { id: 301, title: 'Prima de riesgo supera los 100 pb por tercer día consecutivo',                source: 'Bloomberg',    summary: 'El diferencial con el Bund alcanza 102 pb · Tesoro convoca reunión técnica.',  sentiment: 'negative', relevance: 0.89, spain_impact: 'high'   },
+      { id: 301, title: 'Prima de riesgo supera los 100 pb por tercer día consecutivo',                source: 'Bloomberg',    summary: 'El diferencial con el Bund alcanza 102 pb · Tesoro convoca reunión técnica.',  sentiment: 'negative', relevance: 0.89, spain_impact: 'high' },
       { id: 302, title: 'BCE publica actas de abril con tono moderadamente hawkish',                   source: 'Reuters',      summary: 'Mercados descuentan recorte de tipos solo en septiembre · prob. 38%.',          sentiment: 'mixed',    relevance: 0.72, spain_impact: 'medium' },
       { id: 303, title: 'Cuerpo: "Los fundamentos económicos siguen sólidos"',                         source: 'Expansión',    summary: 'El ministro responde a la subida de la prima con datos de PIB y déficit.',      sentiment: 'mixed',    relevance: 0.66, spain_impact: 'medium' },
     ],

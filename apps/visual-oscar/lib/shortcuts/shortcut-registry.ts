@@ -7,7 +7,7 @@ export interface ShortcutDef {
   id:        string;
   label:     string;
   combo:     string;     // "g 1", "?", "cmd+k"...
-  group:     "navigation" | "terminal" | "agent" | "workspace";
+  group: "navigation" | "terminal" | "agent" | "workspace";
   hint?:     string;
   /** Si es ruta, el palette navega con next/router. */
   href?:     string;

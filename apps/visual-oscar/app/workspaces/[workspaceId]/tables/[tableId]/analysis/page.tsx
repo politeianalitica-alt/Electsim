@@ -12,9 +12,9 @@ export default function TableAnalysisPage({
 
   if (!table) {
     return (
-      <div className="flex h-full flex-col items-center justify-center">
-        <p className="text-lg font-semibold text-[#1d1d1f]">Dataset no encontrado</p>
-      </div>
+ <div className="flex h-full flex-col items-center justify-center">
+ <p className="text-lg font-semibold text-[#1d1d1f]">Dataset no encontrado</p>
+ </div>
     );
   }
 
@@ -36,49 +36,49 @@ export default function TableAnalysisPage({
   }
 
   return (
-    <div>
-      <div className="mb-4">
-        <Link
+ <div>
+ <div className="mb-4">
+ <Link
           href={`/workspaces/${params.workspaceId}/tables/${table.id}`}
           className="text-xs text-[#6e6e73] hover:text-[#3a3a3d]"
         >
           ← Volver a la tabla
-        </Link>
-        <h1 className="text-lg font-bold text-[#1d1d1f] mt-1">Análisis · {table.name}</h1>
-      </div>
+ </Link>
+ <h1 className="text-lg font-bold text-[#1d1d1f] mt-1">Análisis · {table.name}</h1>
+ </div>
 
-      <div className="grid grid-cols-2 gap-3">
+ <div className="grid grid-cols-2 gap-3">
         {numericCols.map(col => {
           const s = stats(col.key);
           return (
-            <div key={col.id} className="rounded-xl border border-[#e8e8ed] bg-white p-4">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-[#6e6e73] mb-3">
+ <div key={col.id} className="rounded-xl border border-[#e8e8ed] bg-white p-4">
+ <p className="text-[10px] font-bold uppercase tracking-wider text-[#6e6e73] mb-3">
                 {col.label}
-              </p>
-              <div className="grid grid-cols-4 gap-2">
-                <Stat label="Min"   value={s.min.toFixed(1)} />
-                <Stat label="Max"   value={s.max.toFixed(1)} />
-                <Stat label="Avg"   value={s.avg.toFixed(1)} />
-                <Stat label="Count" value={s.count.toString()} />
-              </div>
-            </div>
+ </p>
+ <div className="grid grid-cols-4 gap-2">
+ <Stat label="Min" value={s.min.toFixed(1)} />
+ <Stat label="Max" value={s.max.toFixed(1)} />
+ <Stat label="Avg" value={s.avg.toFixed(1)} />
+ <Stat label="Count" value={s.count.toString()} />
+ </div>
+ </div>
           );
         })}
         {numericCols.length === 0 && (
-          <p className="col-span-2 text-sm text-[#6e6e73]">
+ <p className="col-span-2 text-sm text-[#6e6e73]">
             Esta tabla no tiene columnas numéricas analizables.
-          </p>
+ </p>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <p className="text-base font-bold text-[#1d1d1f]">{value}</p>
-      <p className="text-[9px] font-semibold uppercase tracking-wider text-[#6e6e73]">{label}</p>
-    </div>
+ <div>
+ <p className="text-base font-bold text-[#1d1d1f]">{value}</p>
+ <p className="text-[9px] font-semibold uppercase tracking-wider text-[#6e6e73]">{label}</p>
+ </div>
   );
 }

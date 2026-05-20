@@ -216,20 +216,20 @@ function inferSentiment(text: string): number {
 // ── CHES 2024 party ideological coordinates ──────────────────────────────────
 
 const CHES_COORDS: Record<string, { lr: number; gal: number }> = {
-  'PP':      { lr: +3.8, gal: -1.2 },
-  'PSOE':    { lr: -2.1, gal: +0.8 },
-  'PSC':     { lr: -2.1, gal: +0.8 },
-  'VOX':     { lr: +7.2, gal: +4.8 },
-  'Sumar':   { lr: -5.4, gal: -2.1 },
-  'Podemos': { lr: -5.8, gal: -1.9 },
-  'ERC':     { lr: -3.2, gal: -0.5 },
-  'Junts':   { lr: +1.1, gal: +1.0 },
-  'PNV':     { lr: -0.4, gal: +0.2 },
-  'EH Bildu':{ lr: -5.0, gal: -1.5 },
-  'CC':      { lr: +1.5, gal: +0.9 },
-  'BNG':     { lr: -4.1, gal: -1.0 },
-  'PRC':     { lr: -0.8, gal: +0.5 },
-  'UPN':     { lr: +2.5, gal: +1.5 },
+ 'PP':      { lr: +3.8, gal: -1.2 },
+ 'PSOE':    { lr: -2.1, gal: +0.8 },
+ 'PSC':     { lr: -2.1, gal: +0.8 },
+ 'VOX':     { lr: +7.2, gal: +4.8 },
+ 'Sumar':   { lr: -5.4, gal: -2.1 },
+ 'Podemos': { lr: -5.8, gal: -1.9 },
+ 'ERC':     { lr: -3.2, gal: -0.5 },
+ 'Junts':   { lr: +1.1, gal: +1.0 },
+ 'PNV':     { lr: -0.4, gal: +0.2 },
+ 'EH Bildu':{ lr: -5.0, gal: -1.5 },
+ 'CC':      { lr: +1.5, gal: +0.9 },
+ 'BNG':     { lr: -4.1, gal: -1.0 },
+ 'PRC':     { lr: -0.8, gal: +0.5 },
+ 'UPN':     { lr: +2.5, gal: +1.5 },
 }
 
 function getPositioning(partido: string): { lr: number; gal: number; fuente: 'ches_2024' | 'estimado' } {
@@ -287,7 +287,7 @@ async function fetchWikipedia(nombre: string): Promise<{ bio: string; foto: stri
 async function fetchNoticias(nombre: string): Promise<DossierNewsItem[]> {
   const q = encodeURIComponent(nombre)
   const xml = await safeFetch(
-    `https://news.google.com/rss/search?q=${q}&hl=es&gl=ES&ceid=ES:es`,
+ `https://news.google.com/rss/search?q=${q}&hl=es&gl=ES&ceid=ES:es`,
     6000
   )
   if (!xml) return []
@@ -334,7 +334,7 @@ async function fetchNoticias(nombre: string): Promise<DossierNewsItem[]> {
 async function fetchActividadCongreso(nombre: string): Promise<DossierActividad[]> {
   const apellido = nombre.split(' ').slice(1).join('+') || nombre.split(' ')[0]
   const xml = await safeFetch(
-    `https://www.congreso.es/busqueda-de-iniciativas?p_p_id=iniciativas&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_iniciativas_mode=mostrarListadoIniciatitivasFiltro&_iniciativas_filterAutor=${apellido}&format=rss`,
+ `https://www.congreso.es/busqueda-de-iniciativas?p_p_id=iniciativas&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_iniciativas_mode=mostrarListadoIniciatitivasFiltro&_iniciativas_filterAutor=${apellido}&format=rss`,
     5000
   )
 
@@ -373,7 +373,7 @@ async function fetchActividadCongreso(nombre: string): Promise<DossierActividad[
 async function fetchAgenda(nombre: string): Promise<Array<{ titulo: string; fecha: string; tipo: string; url?: string }>> {
   const apellido = encodeURIComponent(nombre.split(' ').slice(-1)[0] ?? nombre)
   const xml = await safeFetch(
-    `https://news.google.com/rss/search?q=${encodeURIComponent(nombre)}+congreso+senado&hl=es&gl=ES&ceid=ES:es`,
+ `https://news.google.com/rss/search?q=${encodeURIComponent(nombre)}+congreso+senado&hl=es&gl=ES&ceid=ES:es`,
     5000
   )
   if (!xml) return []

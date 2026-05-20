@@ -3,12 +3,12 @@ import { COOKIE_NAME } from '@/lib/auth/session'
 
 // Rutas que no requieren sesión
 const PUBLIC_PREFIXES = [
-  '/login',
-  '/api/auth/',
-  '/api/cron/',
-  '/api/system/',
-  '/_next',
-  '/favicon',
+ '/login',
+ '/api/auth/',
+ '/api/cron/',
+ '/api/system/',
+ '/_next',
+ '/favicon',
 ]
 
 export function middleware(req: NextRequest) {
@@ -31,6 +31,6 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)).*)',
+ '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)).*)',
   ],
 }

@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
   const q = req.nextUrl.searchParams.get('q') || ''
   const ciudad = req.nextUrl.searchParams.get('ciudad') || ''
   const sort = (req.nextUrl.searchParams.get('sort') || 'precio_desc') as
-    'precio_desc' | 'precio_asc' | 'var_desc' | 'alfabetico'
+ 'precio_desc' | 'precio_asc' | 'var_desc' | 'alfabetico'
   const page = Math.max(1, Number(req.nextUrl.searchParams.get('page') || 1))
   const page_size = Math.min(100, Math.max(1, Number(req.nextUrl.searchParams.get('page_size') || 30)))
 

@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     const res = await fetch(
-      `${BACKEND}/api/estudio/dashboard/${params.id}/widget/${params.widgetId}/data`,
+ `${BACKEND}/api/estudio/dashboard/${params.id}/widget/${params.widgetId}/data`,
       { next: { revalidate: 0 } },
     )
     if (!res.ok) throw new Error(`backend ${res.status}`)

@@ -31,14 +31,14 @@ const VELOCITY_META: Record<string, { label: string; color: string; symbol: stri
 const SENTIMENT_COLOR: Record<string, string> = {
   positivo: '#16A34A',
   negativo: '#DC2626',
-  neutro:   '#6E6E73',
-  mixto:    '#A855F7',
+  neutro: '#6E6E73',
+  mixto: '#A855F7',
 }
 
 const IDEOLOGY_BG: Record<string, string> = {
-  izquierda:  'linear-gradient(90deg, #E30613 0%, #E30613 100%)',
-  centro:     'linear-gradient(90deg, #6E6E73 0%, #6E6E73 100%)',
-  derecha:    'linear-gradient(90deg, #009FDB 0%, #009FDB 100%)',
+  izquierda: 'linear-gradient(90deg, #E30613 0%, #E30613 100%)',
+  centro: 'linear-gradient(90deg, #6E6E73 0%, #6E6E73 100%)',
+  derecha: 'linear-gradient(90deg, #009FDB 0%, #009FDB 100%)',
   transversal:'linear-gradient(90deg, #E30613 0%, #6E6E73 50%, #009FDB 100%)',
 }
 
@@ -55,7 +55,7 @@ export default function NarrativesGallery() {
   const [analyzingTopic, setAnalyzingTopic] = useState<string | null>(null)
 
   const { data, source, updatedAt, refresh } = useApi<FetchResult>(
-    '/api/narratives/analysis?hours_back=72&min_articles_per_cluster=2',
+ '/api/narratives/analysis?hours_back=72&min_articles_per_cluster=2',
     { refreshInterval: 180_000 }
   )
 
@@ -100,43 +100,43 @@ export default function NarrativesGallery() {
   }
 
   return (
-    <section style={{ marginTop: 22 }}>
+ <section style={{ marginTop: 22 }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 14, flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 14, flexWrap: 'wrap', gap: 12 }}>
+ <div>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+ <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
             Narrativas activas
-          </h2>
-          <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+ </h2>
+ <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {data ? (
-              <><CountUp value={data.total_clusters}/> narrativas detectadas en 72h · análisis Entman + Lakoff con PoliteIA</>
+ <><CountUp value={data.total_clusters}/> narrativas detectadas en 72h · análisis Entman + Lakoff con PoliteIA</>
             ) : 'Detectando narrativas...'}
-          </p>
-        </div>
-        <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={180} onRefresh={refresh}/>
-      </div>
+ </p>
+ </div>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={180} onRefresh={refresh}/>
+ </div>
 
       {/* Category filter pills */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
-        <button onClick={() => setFilter('all')} style={pillStyle(filter === 'all', '#1d1d1f', '#FFFFFF')}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
+ <button onClick={() => setFilter('all')} style={pillStyle(filter === 'all', '#1d1d1f', '#FFFFFF')}>
           Todas <span style={{ opacity: 0.6, marginLeft: 4 }}>{narratives.length}</span>
-        </button>
+ </button>
         {allCategories.map(cat => {
           const meta = CATEGORY_META[cat]
           const active = filter === cat
           return (
-            <button key={cat} onClick={() => setFilter(cat)} style={pillStyle(active, meta.color, meta.bg)}>
+ <button key={cat} onClick={() => setFilter(cat)} style={pillStyle(active, meta.color, meta.bg)}>
               {meta.label} <span style={{ opacity: 0.6, marginLeft: 4 }}>{dist[cat]}</span>
-            </button>
+ </button>
           )
         })}
-      </div>
+ </div>
 
       {/* Cards grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 14 }}>
         {filtered.length > 0 ? filtered.map((n, i) => (
-          <NarrativeCard
+ <NarrativeCard
             key={n.topic}
             narrative={n}
             expanded={expanded === n.topic}
@@ -147,15 +147,15 @@ export default function NarrativesGallery() {
           />
         )) : (
           Array.from({ length: 6 }, (_, i) => (
-            <div key={i} style={{ background: '#fff', borderRadius: 14, padding: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-              <Skeleton width="60%" height={14} radius={4} style={{ marginBottom: 8 }}/>
-              <Skeleton width="100%" height={11} radius={4} style={{ marginBottom: 6 }}/>
-              <Skeleton width="80%" height={11} radius={4}/>
-            </div>
+ <div key={i} style={{ background: '#fff', borderRadius: 14, padding: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+ <Skeleton width="60%" height={14} radius={4} style={{ marginBottom: 8 }}/>
+ <Skeleton width="100%" height={11} radius={4} style={{ marginBottom: 6 }}/>
+ <Skeleton width="80%" height={11} radius={4}/>
+ </div>
           ))
         )}
-      </div>
-    </section>
+ </div>
+ </section>
   )
 }
 
@@ -180,7 +180,7 @@ function NarrativeCard({
   const sentColor = SENTIMENT_COLOR[n.dominant_sentiment] || '#6E6E73'
 
   return (
-    <div style={{
+ <div style={{
       background: '#fff', borderRadius: 14, overflow: 'hidden',
       boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
       border: `1px solid ${expanded ? meta.color : '#ECECEF'}`,
@@ -189,187 +189,187 @@ function NarrativeCard({
       transition: 'border-color 200ms, box-shadow 200ms',
     }}>
       {/* Header (clickable) */}
-      <button onClick={onToggle} style={{
+ <button onClick={onToggle} style={{
         width: '100%', textAlign: 'left',
         background: 'transparent', border: 'none', cursor: 'pointer',
         padding: '14px 16px', fontFamily: 'inherit',
       }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
+ <div style={{ flex: 1, minWidth: 0 }}>
             {/* Category chip + velocity */}
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 6 }}>
-              <span style={{
+ <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 6 }}>
+ <span style={{
                 fontSize: 9.5, fontWeight: 700, padding: '2px 8px', borderRadius: 4,
                 background: meta.bg, color: meta.color, letterSpacing: '0.05em',
               }}>{meta.label.toUpperCase()}</span>
-              <span style={{ fontSize: 10.5, color: vel.color, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3 }}>
+ <span style={{ fontSize: 10.5, color: vel.color, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3 }}>
                 {vel.symbol} {vel.label}
-              </span>
-            </div>
+ </span>
+ </div>
             {/* Topic */}
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 15.5, fontWeight: 600, letterSpacing: '-0.01em', color: '#1d1d1f', textTransform: 'capitalize' }}>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 15.5, fontWeight: 600, letterSpacing: '-0.01em', color: '#1d1d1f', textTransform: 'capitalize' }}>
               {n.topic}
-            </div>
-          </div>
+ </div>
+ </div>
           {/* Expand indicator */}
-          <span style={{ fontSize: 14, color: '#6E6E73', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 200ms', flexShrink: 0 }}>▾</span>
-        </div>
+ <span style={{ fontSize: 14, color: '#6E6E73', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 200ms', flexShrink: 0 }}>▾</span>
+ </div>
 
         {/* Stats row */}
-        <div style={{ display: 'flex', gap: 14, fontSize: 11, color: 'var(--ink-3)', flexWrap: 'wrap' }}>
-          <span><strong style={{ color: 'var(--ink)' }}>{n.n_articles}</strong> arts</span>
-          <span><strong style={{ color: 'var(--ink)' }}>{n.n_sources}</strong> medios</span>
-          <span style={{ color: sentColor, fontWeight: 600 }}>● {n.dominant_sentiment}</span>
-          <span>relevancia <strong style={{ color: 'var(--ink)' }}>{n.avg_relevance}</strong></span>
+ <div style={{ display: 'flex', gap: 14, fontSize: 11, color: 'var(--ink-3)', flexWrap: 'wrap' }}>
+ <span><strong style={{ color: 'var(--ink)' }}>{n.n_articles}</strong> arts</span>
+ <span><strong style={{ color: 'var(--ink)' }}>{n.n_sources}</strong> medios</span>
+ <span style={{ color: sentColor, fontWeight: 600 }}>● {n.dominant_sentiment}</span>
+ <span>relevancia <strong style={{ color: 'var(--ink)' }}>{n.avg_relevance}</strong></span>
           {n.high_impact_count > 0 && (
-            <span style={{ color: '#DC2626', fontWeight: 600 }}>{n.high_impact_count} alto impacto España</span>
+ <span style={{ color: '#DC2626', fontWeight: 600 }}>{n.high_impact_count} alto impacto España</span>
           )}
-        </div>
-      </button>
+ </div>
+ </button>
 
       {/* Expanded content */}
       {expanded && (
-        <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--hairline)' }}>
+ <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--hairline)' }}>
           {/* Framework analysis */}
           {framework ? (
-            <FrameworkBlock framework={framework}/>
+ <FrameworkBlock framework={framework}/>
           ) : analyzing ? (
-            <div style={{ padding: '12px 0' }}>
-              <Skeleton width="40%" height={11} radius={4} style={{ marginBottom: 6 }}/>
-              <Skeleton width="100%" height={11} radius={4} style={{ marginBottom: 6 }}/>
-              <Skeleton width="92%" height={11} radius={4} style={{ marginBottom: 6 }}/>
-              <Skeleton width="88%" height={11} radius={4}/>
-              <p style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 10, fontStyle: 'italic' }}>Analizando con PoliteIA (framework Entman + Lakoff)...</p>
-            </div>
+ <div style={{ padding: '12px 0' }}>
+ <Skeleton width="40%" height={11} radius={4} style={{ marginBottom: 6 }}/>
+ <Skeleton width="100%" height={11} radius={4} style={{ marginBottom: 6 }}/>
+ <Skeleton width="92%" height={11} radius={4} style={{ marginBottom: 6 }}/>
+ <Skeleton width="88%" height={11} radius={4}/>
+ <p style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 10, fontStyle: 'italic' }}>Analizando con PoliteIA (framework Entman + Lakoff)...</p>
+ </div>
           ) : (
-            <div style={{ padding: '12px 0' }}>
-              <p style={{ fontSize: 11, color: 'var(--ink-4)', fontStyle: 'italic' }}>
+ <div style={{ padding: '12px 0' }}>
+ <p style={{ fontSize: 11, color: 'var(--ink-4)', fontStyle: 'italic' }}>
                 Análisis del frame no disponible. Pulsa Re-analizar.
-              </p>
-            </div>
+ </p>
+ </div>
           )}
 
           {/* Top actors */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 14 }}>
             {n.top_personas.length > 0 && (
-              <div>
-                <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>Personas</div>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>Personas</div>
                 {n.top_personas.slice(0, 4).map(p => (
-                  <div key={p.name} style={{ fontSize: 11, color: 'var(--ink-2)', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
-                    <span style={{ color: 'var(--ink-4)', flexShrink: 0, marginLeft: 4 }}>{p.cnt}</span>
-                  </div>
+ <div key={p.name} style={{ fontSize: 11, color: 'var(--ink-2)', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+ <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
+ <span style={{ color: 'var(--ink-4)', flexShrink: 0, marginLeft: 4 }}>{p.cnt}</span>
+ </div>
                 ))}
-              </div>
+ </div>
             )}
             {n.top_orgs.length > 0 && (
-              <div>
-                <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>Organizaciones</div>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>Organizaciones</div>
                 {n.top_orgs.slice(0, 4).map(p => (
-                  <div key={p.name} style={{ fontSize: 11, color: 'var(--ink-2)', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
-                    <span style={{ color: 'var(--ink-4)', flexShrink: 0, marginLeft: 4 }}>{p.cnt}</span>
-                  </div>
+ <div key={p.name} style={{ fontSize: 11, color: 'var(--ink-2)', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+ <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
+ <span style={{ color: 'var(--ink-4)', flexShrink: 0, marginLeft: 4 }}>{p.cnt}</span>
+ </div>
                 ))}
-              </div>
+ </div>
             )}
-          </div>
+ </div>
 
           {/* Sample articles */}
           {n.samples.length > 0 && (
-            <div style={{ marginTop: 14 }}>
-              <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Artículos representativos</div>
+ <div style={{ marginTop: 14 }}>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Artículos representativos</div>
               {n.samples.map(a => (
-                <div key={a.id} style={{ padding: '8px 0', borderBottom: '1px solid var(--hairline)' }}>
-                  <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, fontWeight: 500, marginBottom: 2 }}>
+ <div key={a.id} style={{ padding: '8px 0', borderBottom: '1px solid var(--hairline)' }}>
+ <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, fontWeight: 500, marginBottom: 2 }}>
                     {a.title}
-                  </div>
-                  <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
-                    <span style={{ fontWeight: 600 }}>{a.source}</span>
-                    <span style={{ color: SENTIMENT_COLOR[a.sentiment] || 'var(--ink-4)' }}>● {a.sentiment}</span>
-                    <span>R{a.relevance}</span>
-                  </div>
-                </div>
+ </div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
+ <span style={{ fontWeight: 600 }}>{a.source}</span>
+ <span style={{ color: SENTIMENT_COLOR[a.sentiment] || 'var(--ink-4)' }}>● {a.sentiment}</span>
+ <span>R{a.relevance}</span>
+ </div>
+ </div>
               ))}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
 function FrameworkBlock({ framework }: { framework: NarrativeFrameAnalysis }) {
   if (framework.error) {
     return (
-      <p style={{ fontSize: 11, color: 'var(--ink-4)', padding: '10px 0' }}>
+ <p style={{ fontSize: 11, color: 'var(--ink-4)', padding: '10px 0' }}>
         Análisis no disponible: {framework.error}
-      </p>
+ </p>
     )
   }
   const lean = framework.ideological_lean || 'centro'
   return (
-    <div style={{ padding: '12px 0 0' }}>
+ <div style={{ padding: '12px 0 0' }}>
       {/* Frame label header */}
       {framework.frame_label && (
-        <div style={{ marginBottom: 12 }}>
-          <span style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Frame dominante</span>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: '#1d1d1f', marginTop: 2 }}>
-            "{framework.frame_label}"
-          </div>
+ <div style={{ marginBottom: 12 }}>
+ <span style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Frame dominante</span>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: '#1d1d1f', marginTop: 2 }}>
+ "{framework.frame_label}"
+ </div>
           {framework.dominant_metaphor && (
-            <div style={{ fontSize: 11, color: 'var(--ink-3)', marginTop: 2, fontStyle: 'italic' }}>
+ <div style={{ fontSize: 11, color: 'var(--ink-3)', marginTop: 2, fontStyle: 'italic' }}>
               metáfora cognitiva: <strong>{framework.dominant_metaphor}</strong>
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
 
       {/* Entman 4 frames */}
-      <div style={{ display: 'grid', gap: 10, marginBottom: 12 }}>
+ <div style={{ display: 'grid', gap: 10, marginBottom: 12 }}>
         {framework.problem_definition && (
-          <FrameBox label="Problema construido" text={framework.problem_definition} accent="#DC2626"/>
+ <FrameBox label="Problema construido" text={framework.problem_definition} accent="#DC2626"/>
         )}
         {framework.causal_interpretation && (
-          <FrameBox label="Atribución causal" text={framework.causal_interpretation} accent="#D97706"/>
+ <FrameBox label="Atribución causal" text={framework.causal_interpretation} accent="#D97706"/>
         )}
         {framework.moral_evaluation && (
-          <FrameBox label="Juicio moral implícito" text={framework.moral_evaluation} accent="#7C3AED"/>
+ <FrameBox label="Juicio moral implícito" text={framework.moral_evaluation} accent="#7C3AED"/>
         )}
         {framework.treatment_recommendation && (
-          <FrameBox label="Solución sugerida" text={framework.treatment_recommendation} accent="#0F766E"/>
+ <FrameBox label="Solución sugerida" text={framework.treatment_recommendation} accent="#0F766E"/>
         )}
-      </div>
+ </div>
 
       {/* Actors */}
       {((framework.actors_protagonist || []).length > 0 || (framework.actors_antagonist || []).length > 0) && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
           {(framework.actors_protagonist || []).length > 0 && (
-            <div>
-              <div style={{ fontSize: 9.5, color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 3 }}>Protagonistas</div>
+ <div>
+ <div style={{ fontSize: 9.5, color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 3 }}>Protagonistas</div>
               {framework.actors_protagonist!.map(a => (
-                <div key={a} style={{ fontSize: 11, color: 'var(--ink-2)' }}>{a}</div>
+ <div key={a} style={{ fontSize: 11, color: 'var(--ink-2)' }}>{a}</div>
               ))}
-            </div>
+ </div>
           )}
           {(framework.actors_antagonist || []).length > 0 && (
-            <div>
-              <div style={{ fontSize: 9.5, color: '#DC2626', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 3 }}>Antagonistas</div>
+ <div>
+ <div style={{ fontSize: 9.5, color: '#DC2626', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 3 }}>Antagonistas</div>
               {framework.actors_antagonist!.map(a => (
-                <div key={a} style={{ fontSize: 11, color: 'var(--ink-2)' }}>{a}</div>
+ <div key={a} style={{ fontSize: 11, color: 'var(--ink-2)' }}>{a}</div>
               ))}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
 
       {/* Ideology bar */}
-      <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 9.5, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>
+ <div style={{ marginBottom: 12 }}>
+ <div style={{ fontSize: 9.5, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>
           Sesgo ideológico: <strong style={{ color: 'var(--ink-2)' }}>{lean}</strong>
-        </div>
-        <div style={{ height: 4, background: '#F5F5F7', borderRadius: 2, overflow: 'hidden', position: 'relative' }}>
-          <div style={{
+ </div>
+ <div style={{ height: 4, background: '#F5F5F7', borderRadius: 2, overflow: 'hidden', position: 'relative' }}>
+ <div style={{
             position: 'absolute',
             left: lean === 'izquierda' ? '0%' : lean === 'derecha' ? '70%' : lean === 'transversal' ? '0%' : '40%',
             width: lean === 'transversal' ? '100%' : '30%',
@@ -377,28 +377,28 @@ function FrameworkBlock({ framework }: { framework: NarrativeFrameAnalysis }) {
             background: IDEOLOGY_BG[lean] || '#6E6E73',
             transition: 'left 600ms, width 600ms',
           }}/>
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Strategic recs */}
       {framework.counter_frame_suggested && (
-        <FrameBox label="Contra-frame sugerido" text={framework.counter_frame_suggested} accent="#1F4E8C"/>
+ <FrameBox label="Contra-frame sugerido" text={framework.counter_frame_suggested} accent="#1F4E8C"/>
       )}
       {framework.strategic_recommendation && (
-        <div style={{ marginTop: 8 }}>
-          <FrameBox label="Recomendación estratégica" text={framework.strategic_recommendation} accent="#15803D"/>
-        </div>
+ <div style={{ marginTop: 8 }}>
+ <FrameBox label="Recomendación estratégica" text={framework.strategic_recommendation} accent="#15803D"/>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
 function FrameBox({ label, text, accent }: { label: string; text: string; accent: string }) {
   return (
-    <div style={{ padding: '8px 12px', background: '#FAFAFB', borderLeft: `3px solid ${accent}`, borderRadius: 4 }}>
-      <div style={{ fontSize: 9.5, color: accent, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 2 }}>{label}</div>
-      <div style={{ fontSize: 11.5, color: 'var(--ink-2)', lineHeight: 1.45 }}>{text}</div>
-    </div>
+ <div style={{ padding: '8px 12px', background: '#FAFAFB', borderLeft: `3px solid ${accent}`, borderRadius: 4 }}>
+ <div style={{ fontSize: 9.5, color: accent, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 2 }}>{label}</div>
+ <div style={{ fontSize: 11.5, color: 'var(--ink-2)', lineHeight: 1.45 }}>{text}</div>
+ </div>
   )
 }
 

@@ -22,18 +22,18 @@ export function ActivityFeed({ events, limit, compact = false }: ActivityFeedPro
 
   if (items.length === 0) {
     return (
-      <div style={{ padding: 24, textAlign: "center", color: WS.ink3, fontSize: 12 }}>
+ <div style={{ padding: 24, textAlign: "center", color: WS.ink3, fontSize: 12 }}>
         Sin actividad reciente
-      </div>
+ </div>
     );
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: compact ? 4 : 8 }}>
+ <div style={{ display: "flex", flexDirection: "column", gap: compact ? 4 : 8 }}>
       {items.map(ev => {
         const cfg = TYPE_CONFIG[ev.type] ?? TYPE_CONFIG.action;
         return (
-          <div
+ <div
             key={ev.id}
             style={{
               display: "flex", alignItems: "flex-start", gap: 10,
@@ -42,7 +42,7 @@ export function ActivityFeed({ events, limit, compact = false }: ActivityFeedPro
               transition: "background 120ms",
             }}
           >
-            <div style={{
+ <div style={{
               width: compact ? 22 : 26, height: compact ? 22 : 26,
               borderRadius: 7, flexShrink: 0,
               background: `${cfg.color}18`,
@@ -51,27 +51,27 @@ export function ActivityFeed({ events, limit, compact = false }: ActivityFeedPro
               color: cfg.color, letterSpacing: "0.04em",
             }}>
               {cfg.mark}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: compact ? 11.5 : 12, color: WS.ink, lineHeight: 1.4 }}>
+ </div>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: compact ? 11.5 : 12, color: WS.ink, lineHeight: 1.4 }}>
                 {ev.title}
-              </div>
-              <div style={{ fontSize: 10, color: WS.ink3, marginTop: 1, display: "flex", gap: 6 }}>
+ </div>
+ <div style={{ fontSize: 10, color: WS.ink3, marginTop: 1, display: "flex", gap: 6 }}>
                 {ev.actorName && <span>{ev.actorName}</span>}
-                <span>·</span>
-                <span>{formatRelative(ev.createdAt)}</span>
+ <span>·</span>
+ <span>{formatRelative(ev.createdAt)}</span>
                 {ev.meta && (
-                  <>
-                    <span>·</span>
-                    <span>{ev.meta}</span>
-                  </>
+ <>
+ <span>·</span>
+ <span>{ev.meta}</span>
+ </>
                 )}
-              </div>
-            </div>
-          </div>
+ </div>
+ </div>
+ </div>
         );
       })}
-    </div>
+ </div>
   );
 }
 

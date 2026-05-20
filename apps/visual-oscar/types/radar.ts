@@ -25,13 +25,13 @@ export interface RadarOpportunity {
   actions:      RadarAction[];   // 1-3 acciones recomendadas
   relatedIds:   string[];        // ids de issues / docs / canvas relacionados
   generatedAt:  string;          // ISO timestamp
-  source:       "ollama" | "anthropic" | "mock";
+  source: "ollama" | "anthropic" | "mock";
 }
 
 export interface RadarBatch {
   id:           string;
   workspaceId:  string;
   generatedAt:  string;
-  source:       "ollama" | "anthropic" | "mock";
+  source: "ollama" | "anthropic" | "mock";
   opportunities: RadarOpportunity[];
 }

@@ -80,19 +80,19 @@ const STATUS_ORDER: Array<{ key: string; label: string; color: string }> = [
 ];
 
 const DOC_KIND_COLORS: Record<string, string> = {
-  briefing:        "#4f7df2",
-  memo:            "#8b5cf6",
-  "crisis-note":   "#ff453a",
-  analysis:        "#06b6d4",
-  "client-report": "#3dba4c",
-  positioning:     "#f59e0b",
-  "talking-points":"#ec4899",
+  briefing: "#4f7df2",
+  memo: "#8b5cf6",
+ "crisis-note": "#ff453a",
+  analysis: "#06b6d4",
+ "client-report": "#3dba4c",
+  positioning: "#f59e0b",
+ "talking-points":"#ec4899",
 };
 
 const RISK_COLORS: Record<string, string> = {
-  low:      "#3dba4c",
-  normal:   "#4f7df2",
-  high:     "#f59e0b",
+  low: "#3dba4c",
+  normal: "#4f7df2",
+  high: "#f59e0b",
   critical: "#ff453a",
 };
 

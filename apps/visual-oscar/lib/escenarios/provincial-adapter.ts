@@ -52,7 +52,7 @@ const NOMBRES: Record<string, string> = {
   Sumar: "Sumar",
   Junts: "Junts per Catalunya",
   ERC: "Esquerra Republicana",
-  "EH Bildu": "EH Bildu",
+ "EH Bildu": "EH Bildu",
   PNV: "Partido Nacionalista Vasco",
   CC: "Coalición Canaria",
   BNG: "Bloque Nacionalista Galego",
@@ -63,7 +63,7 @@ const NOMBRES: Record<string, string> = {
 const BLOQUE: Record<string, "derecha" | "izquierda" | "otros"> = {
   PP: "derecha", VOX: "derecha", CC: "derecha", UPN: "derecha",
   PSOE: "izquierda", Sumar: "izquierda", ERC: "izquierda",
-  "EH Bildu": "izquierda", BNG: "izquierda",
+ "EH Bildu": "izquierda", BNG: "izquierda",
   Junts: "otros", PNV: "otros", Otros: "otros",
 };
 

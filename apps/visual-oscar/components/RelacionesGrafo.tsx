@@ -46,7 +46,7 @@ const PARTY_BLOCK: Record<string, 'izq' | 'der' | 'centro' | 'institucion'> = {
   ERC:'izq','EH Bildu':'izq', BNG:'izq', Compromís:'izq',
   PP:'der', VOX:'der', UPN:'der',
   PNV:'centro','EAJ-PNV':'centro', Junts:'centro', JxCat:'centro', CC:'centro',
-  'Casa Real':'institucion', CGPJ:'institucion', TC:'institucion', TS:'institucion', Fiscalía:'institucion',
+ 'Casa Real':'institucion', CGPJ:'institucion', TC:'institucion', TS:'institucion', Fiscalía:'institucion',
   BdE:'institucion', BEI:'institucion',
   CEOE:'der', CEPYME:'der', ATA:'der',
   CCOO:'izq', UGT:'izq',
@@ -252,11 +252,11 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   }, [visibleActors, basePosMap, transformPos])
 
   const visibleLinks = allLinks.filter(l => {
-    if (filter === 'alianzas'  && l.val < 0)              return false
+    if (filter === 'alianzas' && l.val < 0)              return false
     if (filter === 'conflicto' && l.val >= 0)             return false
-    if (filter === 'criticas'  && Math.abs(l.val) < 70)   return false
-    if (filter === 'puente'    && !(networkMetrics.bridges.has(l.a) || networkMetrics.bridges.has(l.b))) return false
-    if (filter === 'curadas'   && !l.curado)              return false
+    if (filter === 'criticas' && Math.abs(l.val) < 70)   return false
+    if (filter === 'puente' && !(networkMetrics.bridges.has(l.a) || networkMetrics.bridges.has(l.b))) return false
+    if (filter === 'curadas' && !l.curado)              return false
     if (focus && l.a !== focus && l.b !== focus)          return false
     return true
   })
@@ -382,31 +382,31 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   const distinctParties = new Set(visibleActors.map(a => a.partido).filter(Boolean)).size
 
   return (
-    <section style={{ display: 'grid', gridTemplateColumns: '8fr 4fr', gap: 18 }}>
-      <div style={{
+ <section style={{ display: 'grid', gridTemplateColumns: '8fr 4fr', gap: 18 }}>
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
         padding: '20px 18px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
         position: 'relative', overflow: 'hidden',
       }}>
         {/* Filtros */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-          <FilterBtn active={filter === 'red'}       onClick={() => setFilter('red')}>Red completa</FilterBtn>
-          <FilterBtn active={filter === 'alianzas'}  onClick={() => setFilter('alianzas')}  accent="#16A34A">Alianzas</FilterBtn>
-          <FilterBtn active={filter === 'conflicto'} onClick={() => setFilter('conflicto')} accent="#DC2626">Conflictos</FilterBtn>
-          <FilterBtn active={filter === 'criticas'}  onClick={() => setFilter('criticas')}  accent="#B45309">Relaciones críticas</FilterBtn>
-          <FilterBtn active={filter === 'puente'}    onClick={() => setFilter('puente')}    accent="#7C3AED">Actores puente</FilterBtn>
-          <FilterBtn active={filter === 'curadas'}   onClick={() => setFilter('curadas')}   accent="#0F766E">Con evidencia</FilterBtn>
-          <span style={{ flex: 1 }}/>
-          <button onClick={() => setShowLabels(s => !s)} style={btnGhost}>
+ <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+ <FilterBtn active={filter === 'red'}       onClick={() => setFilter('red')}>Red completa</FilterBtn>
+ <FilterBtn active={filter === 'alianzas'}  onClick={() => setFilter('alianzas')}  accent="#16A34A">Alianzas</FilterBtn>
+ <FilterBtn active={filter === 'conflicto'} onClick={() => setFilter('conflicto')} accent="#DC2626">Conflictos</FilterBtn>
+ <FilterBtn active={filter === 'criticas'}  onClick={() => setFilter('criticas')}  accent="#B45309">Relaciones críticas</FilterBtn>
+ <FilterBtn active={filter === 'puente'}    onClick={() => setFilter('puente')}    accent="#7C3AED">Actores puente</FilterBtn>
+ <FilterBtn active={filter === 'curadas'}   onClick={() => setFilter('curadas')}   accent="#0F766E">Con evidencia</FilterBtn>
+ <span style={{ flex: 1 }}/>
+ <button onClick={() => setShowLabels(s => !s)} style={btnGhost}>
             {showLabels ? 'Ocultar etiquetas' : 'Mostrar etiquetas'}
-          </button>
-          {focus && <button onClick={() => setFocus(null)} style={btnPrimary}>✕ Quitar foco</button>}
-        </div>
+ </button>
+          {focus && <button onClick={() => setFocus(null)} style={btnPrimary}> Quitar foco</button>}
+ </div>
 
         {/* Buscador + categorías */}
-        <div style={{ display: 'flex', gap: 10, marginBottom: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative', minWidth: 240 }}>
-            <input
+ <div style={{ display: 'flex', gap: 10, marginBottom: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+ <div style={{ position: 'relative', minWidth: 240 }}>
+ <input
               ref={searchInputRef}
               type="text"
               value={searchQuery}
@@ -420,12 +420,12 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
               onFocus={e => { e.currentTarget.style.borderColor = '#1d1d1f' }}
               onBlur={e => { e.currentTarget.style.borderColor = '#d2d2d7' }}
             />
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 11, top: 9, color: '#6e6e73' }}>
-              <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/>
-              <path d="M11 11 L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
+ <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 11, top: 9, color: '#6e6e73' }}>
+ <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/>
+ <path d="M11 11 L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+ </svg>
             {searchQuery && searchMatches.length > 0 && (
-              <div style={{
+ <div style={{
                 position: 'absolute', top: 36, left: 0, right: 0, zIndex: 10,
                 background: '#fff', border: '1px solid #ECECEF', borderRadius: 10,
                 boxShadow: '0 8px 24px rgba(0,0,0,0.10)', padding: 4,
@@ -434,27 +434,27 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                 {searchMatches.map(m => {
                   const isInGraph = visibleActors.some(a => a.id === m.id)
                   return (
-                    <button key={m.id} onClick={() => { setSearchQuery(''); setFilterCat('Todas'); setFocus(m.id) }} style={{
+ <button key={m.id} onClick={() => { setSearchQuery(''); setFilterCat('Todas'); setFocus(m.id) }} style={{
                       width: '100%', textAlign: 'left', background: 'transparent',
                       border: 'none', padding: '8px 10px', borderRadius: 7, cursor: 'pointer',
                       fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 8,
                     }}
                       onMouseEnter={e => { e.currentTarget.style.background = '#f5f5f7' }}
                       onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}>
-                      <span style={{ width: 8, height: 8, borderRadius: 999, background: m.color || CAT_COLOR[m.cat || ''] || '#6e6e73' }}/>
-                      <span style={{ fontSize: 12, fontWeight: 500, color: '#1d1d1f', flex: 1 }}>{nameOf(m)}</span>
-                      <span style={{ fontSize: 10.5, color: '#6e6e73' }}>
-                        {m.partido}{!isInGraph && ' · ⚠ fuera del grafo'}
-                      </span>
-                    </button>
+ <span style={{ width: 8, height: 8, borderRadius: 999, background: m.color || CAT_COLOR[m.cat || ''] || '#6e6e73' }}/>
+ <span style={{ fontSize: 12, fontWeight: 500, color: '#1d1d1f', flex: 1 }}>{nameOf(m)}</span>
+ <span style={{ fontSize: 10.5, color: '#6e6e73' }}>
+                        {m.partido}{!isInGraph && ' ·  fuera del grafo'}
+ </span>
+ </button>
                   )
                 })}
-              </div>
+ </div>
             )}
-          </div>
-          <span style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', alignSelf: 'center' }}>Categoría:</span>
-          <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-            <select
+ </div>
+ <span style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', alignSelf: 'center' }}>Categoría:</span>
+ <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+ <select
               value={filterCat}
               onChange={e => { setFilterCat(e.target.value); setFocus(null) }}
               style={{
@@ -476,54 +476,54 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
               }}
             >
               {cats.map(c => (
-                <option key={c} value={c}>{c}</option>
+ <option key={c} value={c}>{c}</option>
               ))}
-            </select>
+ </select>
             {/* Chevron · superpuesto al select porque appearance:none oculta el del navegador */}
-            <svg
+ <svg
               width="11" height="11" viewBox="0 0 24 24" fill="none"
               stroke={filterCat === 'Todas' ? '#6e6e73' : '#fff'}
               strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
               style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}
             >
-              <path d="M6 9l6 6 6-6"/>
-            </svg>
-          </div>
-        </div>
+ <path d="M6 9l6 6 6-6"/>
+ </svg>
+ </div>
+ </div>
 
         {/* Wrapper SVG */}
-        <div style={{ position: 'relative' }}>
+ <div style={{ position: 'relative' }}>
           {/* Stats chip · esquina superior izquierda */}
-          <div style={{
+ <div style={{
             position: 'absolute', top: 14, left: 14, zIndex: 5,
             display: 'flex', alignItems: 'center', gap: 14,
             background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)',
             border: '1px solid #ECECEF', borderRadius: 14,
             padding: '8px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
           }}>
-            <Stat label="Actores" value={visibleActors.length}/>
-            <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
-            <Stat label="Alianzas"   value={positiveLinks} color="#16A34A"/>
-            <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
-            <Stat label="Conflictos" value={negativeLinks} color="#DC2626"/>
-            <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
-            <Stat label="Partidos" value={distinctParties}/>
-          </div>
+ <Stat label="Actores" value={visibleActors.length}/>
+ <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
+ <Stat label="Alianzas" value={positiveLinks} color="#16A34A"/>
+ <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
+ <Stat label="Conflictos" value={negativeLinks} color="#DC2626"/>
+ <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
+ <Stat label="Partidos" value={distinctParties}/>
+ </div>
 
           {/* Controles de zoom */}
-          <div style={{
+ <div style={{
             position: 'absolute', top: 14, right: 14, zIndex: 5,
             display: 'flex', flexDirection: 'column', gap: 1,
             background: '#fff', border: '1px solid #ECECEF', borderRadius: 12,
             boxShadow: '0 4px 12px rgba(0,0,0,0.06)', overflow: 'hidden',
           }}>
-            <ZoomBtn onClick={zoomIn} title="Acercar (+)">＋</ZoomBtn>
-            <div style={{ height: 1, background: '#f5f5f7' }}/>
-            <ZoomBtn onClick={zoomOut} title="Alejar (-)">－</ZoomBtn>
-            <div style={{ height: 1, background: '#f5f5f7' }}/>
-            <ZoomBtn onClick={zoomReset} title="Restablecer (0)" small>↺</ZoomBtn>
-          </div>
-          <div style={{
+ <ZoomBtn onClick={zoomIn} title="Acercar (+)">＋</ZoomBtn>
+ <div style={{ height: 1, background: '#f5f5f7' }}/>
+ <ZoomBtn onClick={zoomOut} title="Alejar (-)">－</ZoomBtn>
+ <div style={{ height: 1, background: '#f5f5f7' }}/>
+ <ZoomBtn onClick={zoomReset} title="Restablecer (0)" small>↺</ZoomBtn>
+ </div>
+ <div style={{
             position: 'absolute', bottom: 14, right: 14, zIndex: 5,
             background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(6px)',
             border: '1px solid #ECECEF', borderRadius: 999,
@@ -531,7 +531,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
             fontVariantNumeric: 'tabular-nums',
           }}>{Math.round(zoom * 100)}%</div>
 
-          <svg
+ <svg
             ref={svgRef}
             viewBox={`0 0 ${W} ${H}`}
             style={{
@@ -544,45 +544,45 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
           >
-            <defs>
+ <defs>
               {/* Cuadrantes ideológicos · más sutil que antes */}
-              <linearGradient id="bgQuadrants" x1="0" y1="0" x2="100%" y2="0">
-                <stop offset="0%"   stopColor="#FEF2F2" stopOpacity="0.32"/>
-                <stop offset="50%"  stopColor="#fafafa" stopOpacity="0.10"/>
-                <stop offset="100%" stopColor="#EFF6FF" stopOpacity="0.32"/>
-              </linearGradient>
+ <linearGradient id="bgQuadrants" x1="0" y1="0" x2="100%" y2="0">
+ <stop offset="0%" stopColor="#FEF2F2" stopOpacity="0.32"/>
+ <stop offset="50%" stopColor="#fafafa" stopOpacity="0.10"/>
+ <stop offset="100%" stopColor="#EFF6FF" stopOpacity="0.32"/>
+ </linearGradient>
               {/* Viñeta radial sutil para enfocar la mirada al centro */}
-              <radialGradient id="bgVignette" cx="50%" cy="50%" r="62%">
-                <stop offset="60%" stopColor="#fff" stopOpacity="0"/>
-                <stop offset="100%" stopColor="#1d1d1f" stopOpacity="0.06"/>
-              </radialGradient>
+ <radialGradient id="bgVignette" cx="50%" cy="50%" r="62%">
+ <stop offset="60%" stopColor="#fff" stopOpacity="0"/>
+ <stop offset="100%" stopColor="#1d1d1f" stopOpacity="0.06"/>
+ </radialGradient>
               {/* Patrón de puntos · más fino y discreto */}
-              <pattern id="grafoDotsPattern" width="26" height="26" patternUnits="userSpaceOnUse">
-                <circle cx="1" cy="1" r="0.6" fill="#d2d2d7" opacity="0.35"/>
-              </pattern>
+ <pattern id="grafoDotsPattern" width="26" height="26" patternUnits="userSpaceOnUse">
+ <circle cx="1" cy="1" r="0.6" fill="#d2d2d7" opacity="0.35"/>
+ </pattern>
               {/* Sombra suave para nodos · da profundidad */}
-              <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="2.6"/>
-                <feOffset dx="0" dy="2" result="offsetblur"/>
-                <feFlood floodColor="#000" floodOpacity="0.18"/>
-                <feComposite in2="offsetblur" operator="in"/>
-                <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
+ <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
+ <feGaussianBlur in="SourceAlpha" stdDeviation="2.6"/>
+ <feOffset dx="0" dy="2" result="offsetblur"/>
+ <feFlood floodColor="#000" floodOpacity="0.18"/>
+ <feComposite in2="offsetblur" operator="in"/>
+ <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+ </filter>
               {/* Glow para nodos enfocados */}
-              <filter id="nodeGlowFocus" x="-100%" y="-100%" width="300%" height="300%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
-              </filter>
+ <filter id="nodeGlowFocus" x="-100%" y="-100%" width="300%" height="300%">
+ <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
+ </filter>
               {/* Gradiente radial reutilizable por color (definido inline en cada nodo via fill) */}
               {/* Marker de flecha sutil para arcos enfocados (sólo en focus) */}
-              <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="#1d1d1f" opacity="0.4"/>
-              </marker>
-            </defs>
+ <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+ <path d="M0,0 L10,5 L0,10 z" fill="#1d1d1f" opacity="0.4"/>
+ </marker>
+ </defs>
 
             {/* Fondo · capas: gradiente cuadrantes + viñeta radial + dots */}
-            <rect x="0" y="0" width={W} height={H} fill="url(#bgQuadrants)"/>
-            <rect x="0" y="0" width={W} height={H} fill="url(#bgVignette)"/>
-            <rect x="0" y="0" width={W} height={H} fill="url(#grafoDotsPattern)"/>
+ <rect x="0" y="0" width={W} height={H} fill="url(#bgQuadrants)"/>
+ <rect x="0" y="0" width={W} height={H} fill="url(#bgVignette)"/>
+ <rect x="0" y="0" width={W} height={H} fill="url(#grafoDotsPattern)"/>
 
             {/* Ejes (transformados por zoom + pan para coherencia) */}
             {(() => {
@@ -591,14 +591,14 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
               const [bx0, by0] = [cx + pan.x, (40 - cy) * zoom + cy + pan.y]
               const [bx1, by1] = [cx + pan.x, (H - 40 - cy) * zoom + cy + pan.y]
               return (
-                <>
-                  <line x1={ax0} y1={ay0} x2={ax1} y2={ay1} stroke="#d2d2d7" strokeDasharray="2 5" strokeWidth="1"/>
-                  <line x1={bx0} y1={by0} x2={bx1} y2={by1} stroke="#d2d2d7" strokeDasharray="2 5" strokeWidth="1"/>
-                  <text x={ax0 + 8} y={ay0 + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">IZQ.</text>
-                  <text x={ax1 - 8} y={ay1 + 4} textAnchor="end"   fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DER.</text>
-                  <text x={bx0} y={by0 - 8} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">CENTRALIZACIÓN</text>
-                  <text x={bx1} y={by1 + 14} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DESCENTRALIZACIÓN</text>
-                </>
+ <>
+ <line x1={ax0} y1={ay0} x2={ax1} y2={ay1} stroke="#d2d2d7" strokeDasharray="2 5" strokeWidth="1"/>
+ <line x1={bx0} y1={by0} x2={bx1} y2={by1} stroke="#d2d2d7" strokeDasharray="2 5" strokeWidth="1"/>
+ <text x={ax0 + 8} y={ay0 + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">IZQ.</text>
+ <text x={ax1 - 8} y={ay1 + 4} textAnchor="end" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DER.</text>
+ <text x={bx0} y={by0 - 8} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">CENTRALIZACIÓN</text>
+ <text x={bx1} y={by1 + 14} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DESCENTRALIZACIÓN</text>
+ </>
               )
             })()}
 
@@ -625,8 +625,8 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
               const width = Math.max(0.8, (Math.abs(l.val) / 100) * 5 * intensidad) * (isHL ? 1.7 : 1) * (l.curado ? 1.25 : 1)
               const dash = l.val < 0 ? '5 5' : ''
               return (
-                <g key={i} style={{ pointerEvents: 'visibleStroke' }}>
-                  <path
+ <g key={i} style={{ pointerEvents: 'visibleStroke' }}>
+ <path
                     d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
                     fill="none"
                     stroke={stroke}
@@ -636,7 +636,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                     onMouseEnter={() => setHoveredLink(i)}
                     onMouseLeave={() => setHoveredLink(null)}
                   />
-                  <path
+ <path
                     d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
                     fill="none"
                     stroke={stroke}
@@ -664,8 +664,8 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                     const maxLen = Math.max(labelText.length, meta1.length, meta2.length)
                     const w = maxLen * 5.8 + 16
                     return (
-                      <g style={{ pointerEvents: 'none' }}>
-                        <rect
+ <g style={{ pointerEvents: 'none' }}>
+ <rect
                           x={cmx - w / 2}
                           y={cmy - 50}
                           width={w}
@@ -676,13 +676,13 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                           strokeOpacity="0.50"
                           style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.08))' }}
                         />
-                        <text x={cmx} y={cmy - 35} textAnchor="middle" fontSize="10" fontWeight="700" fill={stroke}>{labelText}</text>
-                        <text x={cmx} y={cmy - 22} textAnchor="middle" fontSize="8.5" fontWeight="500" fill="#3a3a3d">{meta1}</text>
-                        <text x={cmx} y={cmy - 11} textAnchor="middle" fontSize="8.5" fontWeight="500" fill="#86868b">{meta2}</text>
-                      </g>
+ <text x={cmx} y={cmy - 35} textAnchor="middle" fontSize="10" fontWeight="700" fill={stroke}>{labelText}</text>
+ <text x={cmx} y={cmy - 22} textAnchor="middle" fontSize="8.5" fontWeight="500" fill="#3a3a3d">{meta1}</text>
+ <text x={cmx} y={cmy - 11} textAnchor="middle" fontSize="8.5" fontWeight="500" fill="#86868b">{meta2}</text>
+ </g>
                     )
                   })()}
-                </g>
+ </g>
               )
             })}
 
@@ -699,7 +699,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
               const dim = !!focus && focus !== a.id && !visibleLinks.some(l => l.a === a.id || l.b === a.id)
               const color = a.color || CAT_COLOR[a.cat || ''] || '#6e6e73'
               return (
-                <g
+ <g
                   key={a.id}
                   data-node-id={a.id}
                   style={{
@@ -715,13 +715,13 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                 >
                   {/* Halo expandido (focus o hover) — más grande y suave */}
                   {(isFocus || isHover) && (
-                    <>
-                      <circle cx={x} cy={y} r={r + 18} fill={color} opacity={isFocus ? 0.16 : 0.08}/>
-                      <circle cx={x} cy={y} r={r + 9}  fill={color} opacity={isFocus ? 0.24 : 0.14}/>
-                    </>
+ <>
+ <circle cx={x} cy={y} r={r + 18} fill={color} opacity={isFocus ? 0.16 : 0.08}/>
+ <circle cx={x} cy={y} r={r + 9}  fill={color} opacity={isFocus ? 0.24 : 0.14}/>
+ </>
                   )}
                   {/* Nodo principal con sombra */}
-                  <circle
+ <circle
                     cx={x} cy={y} r={r}
                     fill={color}
                     stroke={isFocus ? '#1d1d1f' : '#fff'}
@@ -730,7 +730,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                     style={{ transition: 'r 200ms ease-out' }}
                   />
                   {/* Highlight superior · simula iluminación 3D */}
-                  <ellipse
+ <ellipse
                     cx={x} cy={y - r * 0.42}
                     rx={r * 0.55} ry={r * 0.28}
                     fill="#fff"
@@ -738,7 +738,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                     style={{ pointerEvents: 'none', transition: 'opacity 200ms' }}
                   />
                   {r >= 14 && (
-                    <text
+ <text
                       x={x} y={y + 4}
                       textAnchor="middle"
                       fill="#fff"
@@ -749,11 +749,11 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                       style={{ pointerEvents: 'none' }}
                     >
                       {initialsOf(a)}
-                    </text>
+ </text>
                   )}
                   {(isFocus || isHover || (inf >= 70 && !focus)) && (
-                    <g style={{ pointerEvents: 'none' }}>
-                      <rect
+ <g style={{ pointerEvents: 'none' }}>
+ <rect
                         x={x - (shortName(a).length * 3.4) - 7}
                         y={y + r + 6}
                         width={(shortName(a).length * 6.8) + 14}
@@ -763,7 +763,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                         stroke="#ECECEF"
                         strokeWidth="1"
                       />
-                      <text
+ <text
                         x={x} y={y + r + 17}
                         textAnchor="middle"
                         fill="#1d1d1f"
@@ -772,13 +772,13 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                         fontSize="10"
                       >
                         {shortName(a)}
-                      </text>
-                    </g>
+ </text>
+ </g>
                   )}
-                </g>
+ </g>
               )
             })}
-          </svg>
+ </svg>
 
           {/* Tooltip al hover sobre nodo */}
           {tooltipActor && hovered !== focus && (() => {
@@ -789,7 +789,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
             const top  = (ty / H) * 100
             const color = tooltipActor.color || CAT_COLOR[tooltipActor.cat || ''] || '#6e6e73'
             return (
-              <div style={{
+ <div style={{
                 position: 'absolute',
                 left: `${left}%`, top: `${top}%`,
                 transform: 'translate(-50%, calc(-100% - 22px))',
@@ -798,17 +798,17 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                 boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
                 pointerEvents: 'none', zIndex: 8,
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                  <span style={{ width: 8, height: 8, borderRadius: 999, background: color, flexShrink: 0 }}/>
-                  <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{nameOf(tooltipActor)}</span>
-                </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+ <span style={{ width: 8, height: 8, borderRadius: 999, background: color, flexShrink: 0 }}/>
+ <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{nameOf(tooltipActor)}</span>
+ </div>
                 {(tooltipActor.cargo_actual || tooltipActor.cargo) && (
-                  <div style={{ fontSize: 11, color: '#515154', marginBottom: 2 }}>{tooltipActor.cargo_actual || tooltipActor.cargo}</div>
+ <div style={{ fontSize: 11, color: '#515154', marginBottom: 2 }}>{tooltipActor.cargo_actual || tooltipActor.cargo}</div>
                 )}
-                <div style={{ fontSize: 10.5, color: '#6e6e73' }}>
+ <div style={{ fontSize: 10.5, color: '#6e6e73' }}>
                   {tooltipActor.partido}{tooltipActor.cat ? ' · ' + (CAT_LABEL[tooltipActor.cat] || '') : ''} · inf. {infOf(tooltipActor)}
-                </div>
-              </div>
+ </div>
+ </div>
             )
           })()}
 
@@ -825,7 +825,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
             const partyA = visibleActors.find(x => x.id === hoveredLinkData.a)
             const partyB = visibleActors.find(x => x.id === hoveredLinkData.b)
             return (
-              <div style={{
+ <div style={{
                 position: 'absolute',
                 left: `${left}%`, top: `${top}%`,
                 transform: 'translate(-50%, -50%)',
@@ -833,21 +833,21 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                 padding: '8px 12px', minWidth: 200, boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
                 pointerEvents: 'none', zIndex: 8,
               }}>
-                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: stroke, textTransform: 'uppercase', marginBottom: 4 }}>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: stroke, textTransform: 'uppercase', marginBottom: 4 }}>
                   {hoveredLinkData.label}
-                </div>
-                <div style={{ fontSize: 12, color: '#1d1d1f' }}>
-                  <strong>{partyA && shortName(partyA)}</strong> ↔ <strong>{partyB && shortName(partyB)}</strong>
-                </div>
-                <div style={{ fontSize: 14, fontFamily: 'var(--font-display)', fontWeight: 700, color: stroke, marginTop: 2 }}>
+ </div>
+ <div style={{ fontSize: 12, color: '#1d1d1f' }}>
+ <strong>{partyA && shortName(partyA)}</strong> ↔ <strong>{partyB && shortName(partyB)}</strong>
+ </div>
+ <div style={{ fontSize: 14, fontFamily: 'var(--font-display)', fontWeight: 700, color: stroke, marginTop: 2 }}>
                   {hoveredLinkData.val > 0 ? '+' : ''}{hoveredLinkData.val}
-                </div>
-              </div>
+ </div>
+ </div>
             )
           })()}
 
           {/* Hint de uso */}
-          <div style={{
+ <div style={{
             position: 'absolute', bottom: 14, left: 14, zIndex: 5,
             display: 'flex', alignItems: 'center', gap: 6,
             background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(6px)',
@@ -855,22 +855,22 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
             padding: '4px 10px', fontSize: 10, color: '#6e6e73',
             pointerEvents: 'none',
           }}>
-            <span>scroll · zoom &nbsp; · &nbsp; arrastrar fondo · pan &nbsp; · &nbsp; arrastrar nodo · mover &nbsp; · &nbsp; ESC · quitar foco</span>
-          </div>
-        </div>
-      </div>
+ <span>scroll · zoom &nbsp; · &nbsp; arrastrar fondo · pan &nbsp; · &nbsp; arrastrar nodo · mover &nbsp; · &nbsp; ESC · quitar foco</span>
+ </div>
+ </div>
+ </div>
 
       {/* Panel lateral */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
         padding: '22px 22px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
       }}>
         {focusStats ? <FocusPanel stats={focusStats} actors={visibleActors} metrics={networkMetrics}/>
                     : <LegendPanel actors={visibleActors} totalActors={actors.length} cats={cats.filter(c => c !== 'Todas')}/>}
-      </div>
+ </div>
 
       {/* Keyframes globales */}
-      <style jsx global>{`
+ <style jsx global>{`
         @keyframes grafoNodeIn {
           from { opacity: 0; transform: scale(0.4); }
           to   { opacity: 1; transform: scale(1); }
@@ -884,8 +884,8 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
           0%, 100% { opacity: 0.20; transform: scale(1); }
           50%      { opacity: 0.35; transform: scale(1.06); }
         }
-      `}</style>
-    </section>
+ `}</style>
+ </section>
   )
 }
 
@@ -903,7 +903,7 @@ const btnPrimary: React.CSSProperties = {
 
 function ZoomBtn({ onClick, children, title, small }: { onClick: () => void; children: React.ReactNode; title?: string; small?: boolean }) {
   return (
-    <button onClick={onClick} title={title} style={{
+ <button onClick={onClick} title={title} style={{
       background: '#fff', border: 'none', cursor: 'pointer',
       width: 36, height: 36, padding: 0,
       fontSize: small ? 14 : 18, fontWeight: 500, color: '#1d1d1f',
@@ -913,22 +913,22 @@ function ZoomBtn({ onClick, children, title, small }: { onClick: () => void; chi
       onMouseEnter={e => { e.currentTarget.style.background = '#f5f5f7' }}
       onMouseLeave={e => { e.currentTarget.style.background = '#fff' }}>
       {children}
-    </button>
+ </button>
   )
 }
 
 function Stat({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div style={{ textAlign: 'center', minWidth: 50 }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: color || '#1d1d1f', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
-      <div style={{ fontSize: 9, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 2 }}>{label}</div>
-    </div>
+ <div style={{ textAlign: 'center', minWidth: 50 }}>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: color || '#1d1d1f', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
+ <div style={{ fontSize: 9, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 2 }}>{label}</div>
+ </div>
   )
 }
 
 function FilterBtn({ active, onClick, accent, children }: { active: boolean; onClick: () => void; accent?: string; children: React.ReactNode }) {
   return (
-    <button onClick={onClick} style={{
+ <button onClick={onClick} style={{
       background: active ? '#1d1d1f' : '#fff',
       color: active ? '#fff' : (accent || '#3a3a3d'),
       border: active ? '1px solid #1d1d1f' : '1px solid #d2d2d7',
@@ -939,7 +939,7 @@ function FilterBtn({ active, onClick, accent, children }: { active: boolean; onC
     }}>
       {accent && !active && <span style={{ width: 8, height: 8, borderRadius: 999, background: accent }}/>}
       {children}
-    </button>
+ </button>
   )
 }
 
@@ -974,128 +974,128 @@ function FocusPanel({ stats, actors, metrics }: {
   if (curados >= 3) roles.push({ label: 'Trazabilidad alta', color: '#16A34A' })
 
   return (
-    <>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-        <div style={{
+ <>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+ <div style={{
           width: 48, height: 48, borderRadius: 999, background: color,
           color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
           boxShadow: `0 4px 14px ${color}40`, flexShrink: 0,
         }}>
           {initialsOf(a)}
-        </div>
-        <div style={{ minWidth: 0, flex: 1 }}>
-          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>
+ </div>
+ <div style={{ minWidth: 0, flex: 1 }}>
+ <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>
             Ficha de actor
-          </p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 600, letterSpacing: '-0.018em', margin: '2px 0', lineHeight: 1.2 }}>
+ </p>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 600, letterSpacing: '-0.018em', margin: '2px 0', lineHeight: 1.2 }}>
             {nameOf(a)}
-          </h2>
-        </div>
-      </div>
-      <p style={{ fontSize: 12.5, color: '#515154', margin: '0 0 4px', lineHeight: 1.4 }}>{cargo}</p>
-      <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 12px' }}>
+ </h2>
+ </div>
+ </div>
+ <p style={{ fontSize: 12.5, color: '#515154', margin: '0 0 4px', lineHeight: 1.4 }}>{cargo}</p>
+ <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 12px' }}>
         {partido}{partido && a.cat ? ' · ' : ''}{CAT_LABEL[a.cat || ''] || ''}
-      </p>
+ </p>
 
       {/* Roles automáticos · clasificación de red */}
       {roles.length > 0 && (
-        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 12 }}>
+ <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 12 }}>
           {roles.map(r => (
-            <span key={r.label} style={{
+ <span key={r.label} style={{
               fontSize: 9.5, fontWeight: 700, color: '#fff', background: r.color,
               padding: '2px 8px', borderRadius: 999, letterSpacing: '0.04em',
             }}>{r.label.toUpperCase()}</span>
           ))}
-        </div>
+ </div>
       )}
 
       {/* OBSERVADO · métricas de red derivadas de datos */}
-      <div style={{
+ <div style={{
         background: 'rgba(15,118,110,0.06)', border: '1px solid rgba(15,118,110,0.20)',
         borderLeft: '3px solid #0F766E', borderRadius: 10, padding: '10px 12px', marginBottom: 10,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#0F766E', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
-          <span>●</span>MÉTRICAS DE RED · OBSERVADO
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-          <Metric label="Grado" value={grado}/>
-          <Metric label="Aliados" value={aliados} color="#16A34A"/>
-          <Metric label="Adversarios" value={adversarios} color="#DC2626"/>
-          <Metric label="Influencia" value={inf}/>
-          <Metric label="Curadas" value={curados}/>
-          <Metric label="Centralidad" value={Math.round((grado / Math.max(1, metrics.meanG)) * 50)}/>
-        </div>
-      </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#0F766E', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+ <span>●</span>MÉTRICAS DE RED · OBSERVADO
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+ <Metric label="Grado" value={grado}/>
+ <Metric label="Aliados" value={aliados} color="#16A34A"/>
+ <Metric label="Adversarios" value={adversarios} color="#DC2626"/>
+ <Metric label="Influencia" value={inf}/>
+ <Metric label="Curadas" value={curados}/>
+ <Metric label="Centralidad" value={Math.round((grado / Math.max(1, metrics.meanG)) * 50)}/>
+ </div>
+ </div>
 
       {/* INFERIDO · top aliados y adversarios */}
-      <div style={{
+ <div style={{
         background: 'rgba(37,99,235,0.06)', border: '1px solid rgba(37,99,235,0.20)',
         borderLeft: '3px solid #2563EB', borderRadius: 10, padding: '10px 12px', marginBottom: 10,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#2563EB', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 8 }}>
-          <span>◆</span>RELACIONES PRINCIPALES · INFERIDO
-        </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#2563EB', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 8 }}>
+ <span>◆</span>RELACIONES PRINCIPALES · INFERIDO
+ </div>
         {topAliados.length > 0 && (
-          <div style={{ marginBottom: 6 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, color: '#16A34A', margin: '0 0 4px' }}>Aliados</p>
+ <div style={{ marginBottom: 6 }}>
+ <p style={{ fontSize: 10, fontWeight: 700, color: '#16A34A', margin: '0 0 4px' }}>Aliados</p>
             {topAliados.map(l => {
               const o = actorOf(l.otherId); if (!o) return null
               return (
-                <div key={l.otherId} style={{ fontSize: 12, color: '#1d1d1f', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
-                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 8 }}>
+ <div key={l.otherId} style={{ fontSize: 12, color: '#1d1d1f', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+ <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 8 }}>
                     {shortName(o)} <span style={{ fontSize: 10, color: '#86868b' }}>· {l.label}</span>
-                  </span>
-                  <span style={{ fontWeight: 700, color: '#16A34A', fontFamily: 'var(--font-display)' }}>+{l.val}</span>
-                </div>
+ </span>
+ <span style={{ fontWeight: 700, color: '#16A34A', fontFamily: 'var(--font-display)' }}>+{l.val}</span>
+ </div>
               )
             })}
-          </div>
+ </div>
         )}
         {topAdvers.length > 0 && (
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, color: '#DC2626', margin: '6px 0 4px' }}>Adversarios</p>
+ <div>
+ <p style={{ fontSize: 10, fontWeight: 700, color: '#DC2626', margin: '6px 0 4px' }}>Adversarios</p>
             {topAdvers.map(l => {
               const o = actorOf(l.otherId); if (!o) return null
               return (
-                <div key={l.otherId} style={{ fontSize: 12, color: '#1d1d1f', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
-                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 8 }}>
+ <div key={l.otherId} style={{ fontSize: 12, color: '#1d1d1f', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+ <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 8 }}>
                     {shortName(o)} <span style={{ fontSize: 10, color: '#86868b' }}>· {l.label}</span>
-                  </span>
-                  <span style={{ fontWeight: 700, color: '#DC2626', fontFamily: 'var(--font-display)' }}>{l.val}</span>
-                </div>
+ </span>
+ <span style={{ fontWeight: 700, color: '#DC2626', fontFamily: 'var(--font-display)' }}>{l.val}</span>
+ </div>
               )
             })}
-          </div>
+ </div>
         )}
-      </div>
+ </div>
 
       {/* PROYECTADO · escenario tactico */}
       {(isPolar || isBridge || isIsolat) && (
-        <div style={{
+ <div style={{
           background: 'rgba(180,83,9,0.06)', border: '1px solid rgba(180,83,9,0.22)',
           borderLeft: '3px solid #B45309', borderRadius: 10, padding: '10px 12px', marginBottom: 10,
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#B45309', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
-            <span>◐</span>ESCENARIO · PROYECTADO
-          </div>
-          <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#B45309', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+ <span>◐</span>ESCENARIO · PROYECTADO
+ </div>
+ <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
             {isPolar  && <>Su perfil de polarización ({adversarios} adversarios directos) sugiere que cualquier movimiento táctico tendrá <strong>resistencia organizada</strong>.{' '}</>}
             {isBridge && <>Como <strong>actor puente</strong> con grado {grado} (umbral {metrics.bridgeThreshold.toFixed(1)}), su posición es estratégica para mediación o bloqueo.{' '}</>}
             {isIsolat && <>Está <strong>aislado</strong> en el set actual · revisar filtros o ampliar el universo de análisis.</>}
-          </p>
-        </div>
+ </p>
+ </div>
       )}
 
       {/* RECOMENDADO · acción analista */}
-      <div style={{
+ <div style={{
         background: 'rgba(91,33,182,0.06)', border: '1px solid rgba(91,33,182,0.22)',
         borderLeft: '3px solid #5B21B6', borderRadius: 10, padding: '10px 12px', marginBottom: 12,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#5B21B6', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
-          <span>➤</span>ACCIÓN · RECOMENDADO
-        </div>
-        <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#5B21B6', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+ <span></span>ACCIÓN · RECOMENDADO
+ </div>
+ <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
           {curados >= 3
             ? <>Tiene {curados} relaciones con trazabilidad alta · usar como <strong>caso de estudio</strong> para validar el modelo de red en analista.</>
             : isPolar
@@ -1105,25 +1105,25 @@ function FocusPanel({ stats, actors, metrics }: {
                 : inf >= 75
                   ? <>Monitorización prioritaria · su exposición mediática amplifica cualquier movimiento del bloque.</>
                   : <>Mantener seguimiento ordinario · sin urgencia táctica.</>}
-        </p>
-      </div>
+ </p>
+ </div>
 
       {/* Métodologia · disclaimer compacto */}
-      <p style={{ fontSize: 10, color: '#86868b', margin: '0 0 10px', lineHeight: 1.4, fontStyle: 'italic' }}>
+ <p style={{ fontSize: 10, color: '#86868b', margin: '0 0 10px', lineHeight: 1.4, fontStyle: 'italic' }}>
         Las relaciones curadas tienen evidencia documental verificable. Las inferidas
         provienen del algoritmo de afinidad bilateral (partido, bloque, categoría)
         y requieren validación.
-      </p>
+ </p>
 
       {/* Todas las relaciones · listado completo */}
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, margin: '0 0 8px' }}>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, margin: '0 0 8px' }}>
         Todas las relaciones · {stats.links.length}
-      </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 280, overflowY: 'auto', paddingRight: 4 }}>
+ </p>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 280, overflowY: 'auto', paddingRight: 4 }}>
         {stats.links.length === 0 && (
-          <div style={{ padding: '20px 6px', textAlign: 'center', color: '#9CA3AF', fontSize: 11.5 }}>
+ <div style={{ padding: '20px 6px', textAlign: 'center', color: '#9CA3AF', fontSize: 11.5 }}>
             Sin relaciones detectadas con los actores visibles.
-          </div>
+ </div>
         )}
         {stats.links.map(l => {
           const other = actorOf(l.otherId)
@@ -1132,45 +1132,45 @@ function FocusPanel({ stats, actors, metrics }: {
           const pos = l.val >= 0
           const otherColor = other.color || CAT_COLOR[other.cat || ''] || '#6e6e73'
           return (
-            <div key={l.otherId}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 3, gap: 8 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, minWidth: 0 }}>
-                  <span style={{ width: 8, height: 8, borderRadius: 999, background: otherColor, flexShrink: 0 }}/>
-                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shortName(other)}</span>
+ <div key={l.otherId}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 3, gap: 8 }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, minWidth: 0 }}>
+ <span style={{ width: 8, height: 8, borderRadius: 999, background: otherColor, flexShrink: 0 }}/>
+ <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shortName(other)}</span>
                   {l.curado && <InsightPill variant="observed" label="evidencia"/>}
-                </span>
-                <span style={{
+ </span>
+ <span style={{
                   fontFamily: 'var(--font-display)', fontSize: 12.5, fontWeight: 600,
                   letterSpacing: '-0.012em', color: pos ? '#16A34A' : '#DC2626', whiteSpace: 'nowrap',
                 }}>
                   {pos ? '+' : ''}{l.val}
-                </span>
-              </div>
-              <div style={{ position: 'relative', height: 4, background: '#f5f5f7', borderRadius: 999 }}>
-                <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: '#6e6e73', opacity: 0.4 }}/>
-                <div style={{
+ </span>
+ </div>
+ <div style={{ position: 'relative', height: 4, background: '#f5f5f7', borderRadius: 999 }}>
+ <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: '#6e6e73', opacity: 0.4 }}/>
+ <div style={{
                   position: 'absolute', top: 0, bottom: 0,
                   left: pos ? '50%' : `${50 - pct}%`,
                   width: `${pct}%`,
                   background: pos ? '#16A34A' : '#DC2626',
                   borderRadius: 999,
                 }}/>
-              </div>
-              <div style={{ fontSize: 9.5, color: '#9CA3AF', marginTop: 1 }}>{l.label}</div>
-            </div>
+ </div>
+ <div style={{ fontSize: 9.5, color: '#9CA3AF', marginTop: 1 }}>{l.label}</div>
+ </div>
           )
         })}
-      </div>
-    </>
+ </div>
+ </>
   )
 }
 
 function Metric({ label, value, color = '#1d1d1f' }: { label: string; value: number; color?: string }) {
   return (
-    <div>
-      <div style={{ fontSize: 9, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{label}</div>
-      <div style={{ fontSize: 17, fontWeight: 700, color, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{value}</div>
-    </div>
+ <div>
+ <div style={{ fontSize: 9, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{label}</div>
+ <div style={{ fontSize: 17, fontWeight: 700, color, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{value}</div>
+ </div>
   )
 }
 
@@ -1181,92 +1181,92 @@ function LegendPanel({ actors, totalActors, cats }: { actors: Actor[]; totalActo
     if (lbl) byCat[lbl] = (byCat[lbl] || 0) + 1
   }
   return (
-    <>
-      <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 6px' }}>Leyenda</p>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.022em', margin: '0 0 6px' }}>
+ <>
+ <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 6px' }}>Leyenda</p>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.022em', margin: '0 0 6px' }}>
         Cómo leer el grafo
-      </h2>
-      <p style={{ fontSize: 12, color: '#515154', margin: '0 0 16px', lineHeight: 1.5 }}>
-        <strong>{actors.length}</strong> actores en pantalla · de {totalActors} totales · ordenados por influencia.
+ </h2>
+ <p style={{ fontSize: 12, color: '#515154', margin: '0 0 16px', lineHeight: 1.5 }}>
+ <strong>{actors.length}</strong> actores en pantalla · de {totalActors} totales · ordenados por influencia.
         Posición: <strong>X</strong> ideología (izq/dcha) · <strong>Y</strong> centralización.
-      </p>
+ </p>
 
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
         Tipos de alianza
-      </p>
+ </p>
       {[
         ['coalicion_gobierno', 'Coalición Moncloa'],
-        ['pacto_investidura',  'Pacto investidura'],
-        ['pacto_autonomico',   'Coalición autonómica'],
-        ['aliado_partido',     'Aliado de partido'],
-        ['aliado_sindical',    'Alianza sindical'],
-        ['aliado_mediatico',   'Afinidad mediática'],
-        ['mediador',           'Diálogo institucional'],
+        ['pacto_investidura', 'Pacto investidura'],
+        ['pacto_autonomico', 'Coalición autonómica'],
+        ['aliado_partido', 'Aliado de partido'],
+        ['aliado_sindical', 'Alianza sindical'],
+        ['aliado_mediatico', 'Afinidad mediática'],
+        ['mediador', 'Diálogo institucional'],
       ].map(([k, l]) => {
         const m = TIPO_META[k as TipoRelacion]
         return (
-          <LegendRow key={k}>
-            <svg width="40" height="10"><line x1="0" y1="5" x2="40" y2="5" stroke={m.color} strokeWidth={2.6 * m.intensidad} strokeLinecap="round"/></svg>
-            <div style={{ fontSize: 11.5, color: '#3a3a3d' }}>{l}</div>
-          </LegendRow>
+ <LegendRow key={k}>
+ <svg width="40" height="10"><line x1="0" y1="5" x2="40" y2="5" stroke={m.color} strokeWidth={2.6 * m.intensidad} strokeLinecap="round"/></svg>
+ <div style={{ fontSize: 11.5, color: '#3a3a3d' }}>{l}</div>
+ </LegendRow>
         )
       })}
 
-      <div style={{ height: 1, background: '#e8e8ed', margin: '12px 0' }}/>
+ <div style={{ height: 1, background: '#e8e8ed', margin: '12px 0' }}/>
 
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
         Tipos de conflicto
-      </p>
+ </p>
       {[
-        ['oposicion_frontal',     'Oposición frontal'],
-        ['rivalidad_interna',     'Rivalidad interna'],
-        ['conflicto_judicial',    'Conflicto judicial'],
+        ['oposicion_frontal', 'Oposición frontal'],
+        ['rivalidad_interna', 'Rivalidad interna'],
+        ['conflicto_judicial', 'Conflicto judicial'],
         ['conflicto_territorial', 'Conflicto territorial'],
-        ['ruptura_coalicion',     'Ruptura coalición'],
-        ['critica_publica',       'Crítica pública'],
+        ['ruptura_coalicion', 'Ruptura coalición'],
+        ['critica_publica', 'Crítica pública'],
       ].map(([k, l]) => {
         const m = TIPO_META[k as TipoRelacion]
         return (
-          <LegendRow key={k}>
-            <svg width="40" height="10"><line x1="0" y1="5" x2="40" y2="5" stroke={m.color} strokeWidth={2.6 * m.intensidad} strokeDasharray="4 4" strokeLinecap="round"/></svg>
-            <div style={{ fontSize: 11.5, color: '#3a3a3d' }}>{l}</div>
-          </LegendRow>
+ <LegendRow key={k}>
+ <svg width="40" height="10"><line x1="0" y1="5" x2="40" y2="5" stroke={m.color} strokeWidth={2.6 * m.intensidad} strokeDasharray="4 4" strokeLinecap="round"/></svg>
+ <div style={{ fontSize: 11.5, color: '#3a3a3d' }}>{l}</div>
+ </LegendRow>
         )
       })}
 
-      <div style={{ fontSize: 10.5, color: '#6e6e73', margin: '10px 0 0', lineHeight: 1.4 }}>
+ <div style={{ fontSize: 10.5, color: '#6e6e73', margin: '10px 0 0', lineHeight: 1.4 }}>
         Las relaciones <strong>curadas</strong> (con tipo) son más gruesas y opacas
         · las <strong>inferidas</strong> por algoritmo son más finas.
-      </div>
+ </div>
 
-      <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
+ <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
 
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
         Por categoría
-      </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+ </p>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {cats.map(c => {
           const code = Object.keys(CAT_LABEL).find(k => CAT_LABEL[k] === c) || ''
           const color = CAT_COLOR[code] || '#6e6e73'
           return (
-            <div key={c} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 999, background: color, flexShrink: 0 }}/>
-                <span style={{ fontSize: 12, color: '#1d1d1f' }}>{c}</span>
-              </span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>
+ <div key={c} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+ <span style={{ width: 10, height: 10, borderRadius: 999, background: color, flexShrink: 0 }}/>
+ <span style={{ fontSize: 12, color: '#1d1d1f' }}>{c}</span>
+ </span>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>
                 {byCat[c] || 0}
-              </span>
-            </div>
+ </span>
+ </div>
           )
         })}
-      </div>
+ </div>
 
-      <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
-      <p style={{ fontSize: 10.5, color: '#6e6e73', margin: 0, lineHeight: 1.5 }}>
+ <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', margin: 0, lineHeight: 1.5 }}>
         Pulsa un nodo para aislar sus vínculos. Arrástralo para moverlo. Usa scroll para zoom y pan con el fondo.
-      </p>
-    </>
+ </p>
+ </>
   )
 }
 

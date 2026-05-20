@@ -110,8 +110,8 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
   ]);
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="slides"
         eyebrow="Workspace · Presentaciones"
         title="Politeia Slides"
@@ -121,8 +121,8 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
         }`}
         badge={deck ? `${deck.slides.length} slides` : ""}
         actions={
-          <div style={{ display: "flex", gap: 8 }}>
-            <button
+ <div style={{ display: "flex", gap: 8 }}>
+ <button
               onClick={generate}
               disabled={isGenerating}
               style={{
@@ -132,10 +132,10 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
               }}
             >
               {isGenerating ? "Generando…" : "Generar deck"}
-            </button>
+ </button>
             {deck && (
-              <>
-                <button
+ <>
+ <button
                   onClick={() => setPresentIdx(0)}
                   style={{
                     padding: "7px 14px", background: WS.surface, border: `1px solid ${WS.border}`,
@@ -144,8 +144,8 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
                   }}
                 >
                   Presentar
-                </button>
-                <button
+ </button>
+ <button
                   onClick={exportPdf}
                   style={{
                     padding: "7px 14px", background: WS.surface, border: `1px solid ${WS.border}`,
@@ -154,23 +154,23 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
                   }}
                 >
                   Exportar PDF
-                </button>
-              </>
+ </button>
+ </>
             )}
-          </div>
+ </div>
         }
       />
 
       {/* Brief input */}
-      <div style={{
+ <div style={{
         background: WS.surface, border: `1px solid ${WS.border}`,
         borderRadius: 12, padding: 14, marginBottom: 14,
         display: "flex", gap: 12, alignItems: "center",
       }}>
-        <span style={{ fontSize: 10.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+ <span style={{ fontSize: 10.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
           Encargo
-        </span>
-        <input
+ </span>
+ <input
           value={brief}
           onChange={e => setBrief(e.target.value)}
           placeholder="Ej: presentación 10 slides análisis electoral CCAA para cliente Energía"
@@ -180,58 +180,58 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
             outline: "none",
           }}
         />
-      </div>
+ </div>
 
       {error && (
-        <div style={{ background: WS.dangerSub, color: WS.danger, padding: 12, borderRadius: 10, fontSize: 12.5, marginBottom: 12 }}>
+ <div style={{ background: WS.dangerSub, color: WS.danger, padding: 12, borderRadius: 10, fontSize: 12.5, marginBottom: 12 }}>
           {error}
-        </div>
+ </div>
       )}
 
       {!deck && !isGenerating && (
-        <div style={{ padding: 32, textAlign: "center", color: WS.ink3, fontSize: 13 }}>
+ <div style={{ padding: 32, textAlign: "center", color: WS.ink3, fontSize: 13 }}>
           Escribe el encargo arriba y pulsa «Generar deck».
-        </div>
+ </div>
       )}
 
       {/* Grid de slides */}
       {deck && (
-        <>
-          <div style={{
+ <>
+ <div style={{
             display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
             gap: 14, marginBottom: 18,
           }}>
             {deck.slides.map((s, i) => (
-              <div key={s.id} onClick={() => setPresentIdx(i)} style={{ cursor: "zoom-in" }}>
-                <SlideRenderer slide={s} index={i} total={deck.slides.length} mode="card" />
-              </div>
+ <div key={s.id} onClick={() => setPresentIdx(i)} style={{ cursor: "zoom-in" }}>
+ <SlideRenderer slide={s} index={i} total={deck.slides.length} mode="card" />
+ </div>
             ))}
-          </div>
-          <div style={{ fontSize: 11, color: WS.ink3, marginBottom: 24 }}>
+ </div>
+ <div style={{ fontSize: 11, color: WS.ink3, marginBottom: 24 }}>
             Generado {new Date(deck.generatedAt).toLocaleString("es-ES")} · fuente: {deck.source}
-          </div>
-        </>
+ </div>
+ </>
       )}
 
       {/* Modo presentación */}
       {presentIdx !== null && deck && (
-        <div style={{
+ <div style={{
           position: "fixed", inset: 0, zIndex: 500,
           background: "#0d0d0f",
           display: "flex", alignItems: "center", justifyContent: "center",
         }}>
-          <div style={{ width: "min(94vw, 1500px)", aspectRatio: "16/9", maxHeight: "92vh" }}>
-            <SlideRenderer
+ <div style={{ width: "min(94vw, 1500px)", aspectRatio: "16/9", maxHeight: "92vh" }}>
+ <SlideRenderer
               slide={deck.slides[presentIdx]}
               index={presentIdx}
               total={deck.slides.length}
               mode="present"
             />
-          </div>
-          <div style={{
+ </div>
+ <div style={{
             position: "absolute", top: 18, right: 22, display: "flex", gap: 10,
           }}>
-            <button
+ <button
               onClick={() => setPresentIdx(null)}
               style={{
                 padding: "6px 12px", background: "rgba(255,255,255,0.92)", border: "none",
@@ -240,16 +240,16 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
               }}
             >
               Salir (esc)
-            </button>
-          </div>
-          <div style={{
+ </button>
+ </div>
+ <div style={{
             position: "absolute", bottom: 22, left: 0, right: 0, textAlign: "center",
             color: "#ffffff80", fontSize: 11.5, fontFamily: WS.font, letterSpacing: "0.08em",
           }}>
             ← → para navegar · ESC para salir
-          </div>
-        </div>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   );
 }

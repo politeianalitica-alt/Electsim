@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     }
     const tpl = TEMPLATE[body.tipo] ?? TEMPLATE.memo
     return createInDomain(
-      '/api/intelligence/drafts',
+ '/api/intelligence/drafts',
       {
         title: body.titulo,
         kind: body.tipo,

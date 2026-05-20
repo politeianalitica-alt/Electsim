@@ -31,7 +31,7 @@ interface Payload {
 export async function GET(req: NextRequest) {
   const country = req.nextUrl.searchParams.get('country') || 'ES'
   const r = await callBackend<Payload>(
-    `/api/risk-v2/scenarios?country=${encodeURIComponent(country)}`,
+ `/api/risk-v2/scenarios?country=${encodeURIComponent(country)}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.scenarios) && r.data.scenarios.length > 0) {

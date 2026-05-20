@@ -48,30 +48,30 @@ function make(
 
 export const actorsMockData: PoliticalActor[] = [
   // PP (4)
-  make("actor_001", "Carmen",   "Villanueva", "PP",    "Portavoz Economía",      "politician",     "critical", 0.88),
-  make("actor_002", "Roberto",  "Cuesta",     "PP",    "Vicesecretario",          "party_official", "high",     0.76),
-  make("actor_003", "Elsa",     "Carrera",    "PP",    "Comisión Sanidad",        "politician",     "medium",   0.55),
-  make("actor_004", "Iván",     "Aguirre",    "PP",    "Diputado Andalucía",      "politician",     "medium",   0.48),
+  make("actor_001", "Carmen", "Villanueva", "PP", "Portavoz Economía", "politician", "critical", 0.88),
+  make("actor_002", "Roberto", "Cuesta", "PP", "Vicesecretario", "party_official", "high",     0.76),
+  make("actor_003", "Elsa", "Carrera", "PP", "Comisión Sanidad", "politician", "medium",   0.55),
+  make("actor_004", "Iván", "Aguirre", "PP", "Diputado Andalucía", "politician", "medium",   0.48),
 
   // PSOE (3)
-  make("actor_005", "Pedro",    "Marín",      "PSOE",  "Comisión Vivienda",       "politician",     "critical", 0.92),
-  make("actor_006", "Lucía",    "Belmonte",   "PSOE",  "Portavoz Comunicación",   "politician",     "high",     0.80),
-  make("actor_007", "Iván",     "Berzal",     "PSOE",  "Comisión Industria",      "politician",     "medium",   0.70),
+  make("actor_005", "Pedro", "Marín", "PSOE", "Comisión Vivienda", "politician", "critical", 0.92),
+  make("actor_006", "Lucía", "Belmonte", "PSOE", "Portavoz Comunicación", "politician", "high",     0.80),
+  make("actor_007", "Iván", "Berzal", "PSOE", "Comisión Industria", "politician", "medium",   0.70),
 
   // Junts (1)
-  make("actor_008", "Aitana",   "Rius",       "Junts", "Constitucional",          "politician",     "critical", 0.71),
+  make("actor_008", "Aitana", "Rius", "Junts", "Constitucional", "politician", "critical", 0.71),
 
   // Sumar (1)
-  make("actor_009", "Sergi",    "Vinyets",    "Sumar", "Comisión Trabajo",        "politician",     "high",     0.65),
+  make("actor_009", "Sergi", "Vinyets", "Sumar", "Comisión Trabajo", "politician", "high",     0.65),
 
   // Vox (1)
-  make("actor_010", "Luis",     "Arnedo",     "Vox",   "Comisión Interior",       "politician",     "medium",   0.58),
+  make("actor_010", "Luis", "Arnedo", "Vox", "Comisión Interior", "politician", "medium",   0.58),
 
   // PNV (1)
-  make("actor_011", "Andoni",   "Esnaola",    "PNV",   "Comisión Defensa",        "politician",     "medium",   0.64),
+  make("actor_011", "Andoni", "Esnaola", "PNV", "Comisión Defensa", "politician", "medium",   0.64),
 
   // Periodista / Asesor / Lobista (extras de tipo)
-  make("actor_012", "Marisa",   "Conde",      "independent", "Editora política",  "journalist",     "high",     0.74),
+  make("actor_012", "Marisa", "Conde", "independent", "Editora política", "journalist", "high",     0.74),
 ];
 
 // Posiciones cruzadas para la matriz actores × issues

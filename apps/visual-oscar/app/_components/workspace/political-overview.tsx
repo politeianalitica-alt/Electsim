@@ -157,11 +157,11 @@ interface TerritorioDef {
 }
 
 const TERRITORIOS: TerritorioDef[] = [
-  { ccaa: 'Comunidad Valenciana', topic: 'Reconstrucción DANA + financiación',  topActor: 'Pérez Llorca',  polarization: 72, change: '+24%', risk: 'alto'  },
-  { ccaa: 'Cataluña',             topic: 'Concierto fiscal',                     topActor: 'Illa',          polarization: 68, change: '+15%', risk: 'alto'  },
+  { ccaa: 'Comunidad Valenciana', topic: 'Reconstrucción DANA + financiación',  topActor: 'Pérez Llorca',  polarization: 72, change: '+24%', risk: 'alto' },
+  { ccaa: 'Cataluña',             topic: 'Concierto fiscal',                     topActor: 'Illa',          polarization: 68, change: '+15%', risk: 'alto' },
   { ccaa: 'Madrid',               topic: 'Sanidad pública + huelga AP',          topActor: 'Ayuso',         polarization: 78, change: '+12%', risk: 'medio' },
   { ccaa: 'Andalucía',            topic: 'Vivienda urbana + aranceles agro',     topActor: 'Moreno',        polarization: 42, change: '+8%',  risk: 'medio' },
-  { ccaa: 'País Vasco',           topic: 'Transferencias + presupuestos',        topActor: 'Pradales',      polarization: 35, change: '+4%',  risk: 'bajo'  },
+  { ccaa: 'País Vasco',           topic: 'Transferencias + presupuestos',        topActor: 'Pradales',      polarization: 35, change: '+4%',  risk: 'bajo' },
   { ccaa: 'Baleares',             topic: 'Tasa turística + saturación',          topActor: 'Prohens',       polarization: 52, change: '+32%', risk: 'medio' },
 ]
 
@@ -207,13 +207,13 @@ const EVIDENCIA: EvidenceItem[] = [
 const ACTIONS = [
   { label: 'Generar briefing ejecutivo 24h',        href: '/briefing',         icon: '◐' },
   { label: 'Comparar narrativa vivienda por bloque', href: '/medios-narrativa',icon: '◐' },
-  { label: 'Revisar actores emergentes Cataluña',    href: '/mapa-actores',    icon: '➤' },
-  { label: 'Abrir mapa de actores · conflictos',     href: '/mapa-actores',    icon: '➤' },
+  { label: 'Revisar actores emergentes Cataluña',    href: '/mapa-actores',    icon: '' },
+  { label: 'Abrir mapa de actores · conflictos',     href: '/mapa-actores',    icon: '' },
   { label: 'Exportar informe para comité',           href: '/briefing',        icon: '◐' },
 ]
 
 const SENT_COLOR: Record<NarrativaDef['sentiment'], string> = {
-  'crítico': '#DC2626', 'neutral': '#6e6e73', 'positivo': '#16A34A',
+ 'crítico': '#DC2626', 'neutral': '#6e6e73', 'positivo': '#16A34A',
 }
 const RISK_COLOR: Record<TerritorioDef['risk'], string> = {
   alto: '#DC2626', medio: '#F59E0B', bajo: '#16A34A',
@@ -234,67 +234,67 @@ const AGENDA_STATUS: Record<AgendaEvent['status'], { color: string; label: strin
 
 export default function WorkspacePoliticalOverview() {
   return (
-    <section style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 16 }}>
+ <section style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 16 }}>
 
       {/* 1 · CABECERA EJECUTIVA DEL WORKSPACE */}
-      <header style={{
+ <header style={{
         background: 'linear-gradient(135deg, #1F4E8C 0%, #0F2A4F 100%)',
         borderRadius: 16, padding: '20px 26px', color: '#fff',
         display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 24,
       }}>
-        <div>
-          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.7, margin: '0 0 6px' }}>
+ <div>
+ <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.7, margin: '0 0 6px' }}>
             Workspace activo · Inteligencia política
-          </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 26, letterSpacing: '-0.022em', margin: '0 0 4px', lineHeight: 1.1 }}>
+ </p>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 26, letterSpacing: '-0.022em', margin: '0 0 4px', lineHeight: 1.1 }}>
             España 2026 <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>· electoral · legislativo · narrativo · territorial</em>
-          </h1>
-          <p style={{ fontSize: 12.5, opacity: 0.78, margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
+ </h1>
+ <p style={{ fontSize: 12.5, opacity: 0.78, margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
             Workspace de inteligencia política para seguimiento electoral, legislativo, territorial y narrativo
             del ciclo político español 2026. Agrega actores, narrativas, riesgo y agenda en una sola pantalla.
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
-          <HeaderStat label="Última actualización"  value="hace 4 min"/>
-          <HeaderStat label="Fuentes activas"        value="28 / 31"/>
-          <HeaderStat label="Cobertura de datos"     value="Alta"      tone="success"/>
-          <HeaderStat label="Confianza general"      value="78%"       tone="success"/>
-        </div>
-      </header>
+ </p>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
+ <HeaderStat label="Última actualización" value="hace 4 min"/>
+ <HeaderStat label="Fuentes activas" value="28 / 31"/>
+ <HeaderStat label="Cobertura de datos" value="Alta" tone="success"/>
+ <HeaderStat label="Confianza general" value="78%" tone="success"/>
+ </div>
+ </header>
 
       {/* 2 · RESUMEN EJECUTIVO */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
         padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.012em', margin: 0, color: '#1d1d1f' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.012em', margin: 0, color: '#1d1d1f' }}>
             Resumen ejecutivo
-          </h2>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <Link href="/briefing" style={btnPrimary}>Generar briefing</Link>
-            <Link href="/medios-narrativa" style={btnSecondary}>Ver evidencia</Link>
-          </div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12 }}>
-          <InsightClassification variant="observed" label="Lo que ha cambiado" compact>
-            <strong>Vivienda dispara la conversación</strong> · +18% menciones en 24h. La narrativa generacional
+ </h2>
+ <div style={{ display: 'flex', gap: 8 }}>
+ <Link href="/briefing" style={btnPrimary}>Generar briefing</Link>
+ <Link href="/medios-narrativa" style={btnSecondary}>Ver evidencia</Link>
+ </div>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12 }}>
+ <InsightClassification variant="observed" label="Lo que ha cambiado" compact>
+ <strong>Vivienda dispara la conversación</strong> · +18% menciones en 24h. La narrativa generacional
             se desplaza a Madrid y Barcelona. Pico de 90 días alcanzado.
-          </InsightClassification>
-          <InsightClassification variant="inferred" label="Por qué importa" compact>
+ </InsightClassification>
+ <InsightClassification variant="inferred" label="Por qué importa" compact>
             La narrativa de vivienda concentra <strong>4 grupos parlamentarios distintos</strong> (PSOE, Sumar, ERC,
             Podemos) lo que sugiere una posible coalición temática frente al PP-Vox.
-          </InsightClassification>
-          <InsightClassification variant="projected" label="A quién afecta" compact>
+ </InsightClassification>
+ <InsightClassification variant="projected" label="A quién afecta" compact>
             Riesgo principal · <strong>erosión del voto joven y urbano</strong> en Madrid y Barcelona. Posible
             impacto en sondeos próximos 14 días si no hay respuesta institucional.
-          </InsightClassification>
-          <InsightClassification variant="recommended" label="Qué vigilar" compact>
+ </InsightClassification>
+ <InsightClassification variant="recommended" label="Qué vigilar" compact>
             Monitorizar discurso PP-Ayuso esta semana sobre vivienda · activar tracking de portavoces parlamentarios
             del bloque investidura · revisar correlación con encuestas tracking.
-          </InsightClassification>
-        </div>
-        <MetricTrace
+ </InsightClassification>
+ </div>
+ <MetricTrace
           compact
           sources={[
             { name: 'GDELT 2.0', href: 'https://www.gdeltproject.org/' },
@@ -308,189 +308,189 @@ export default function WorkspacePoliticalOverview() {
           methodology="Burst Kleinberg sobre titulares con keywords de vivienda. Cross-validation con LLM (Brain) para emoción dominante. Comparación con baseline 30d para detección de pico."
           style={{ marginTop: 14 }}
         />
-      </div>
+ </div>
 
       {/* 3 · KPIs políticos */}
-      <div>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: '0 0 8px', color: '#1d1d1f' }}>
+ <div>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: '0 0 8px', color: '#1d1d1f' }}>
           Indicadores clave
-        </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
+ </h2>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
           {KPIS.map(k => (
-            <KpiCard key={k.label} kpi={k}/>
+ <KpiCard key={k.label} kpi={k}/>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* 4 · ALERTAS PRIORITARIAS */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
         padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
             Alertas prioritarias · {ALERTAS.length} activas
-          </h2>
-          <Link href="/alertas" style={btnSecondary}>Ver todas →</Link>
-        </div>
+ </h2>
+ <Link href="/alertas" style={btnSecondary}>Ver todas →</Link>
+ </div>
         {ALERTAS.length === 0 ? (
-          <EmptyState
+ <EmptyState
             severity="success"
             compact
             title="No hay alertas prioritarias activas"
             description="El sistema no ha detectado anomalías relevantes en el periodo seleccionado."
           />
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {ALERTAS.map(a => (
-              <AlertItem key={a.id} alert={a}/>
+ <AlertItem key={a.id} alert={a}/>
             ))}
-          </div>
+ </div>
         )}
-      </div>
+ </div>
 
       {/* 5 · NARRATIVAS EN ACELERACIÓN */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
         padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
             Narrativas en aceleración
-          </h2>
-          <Link href="/medios-narrativa" style={btnSecondary}>Feed completo →</Link>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 12 }}>
+ </h2>
+ <Link href="/medios-narrativa" style={btnSecondary}>Feed completo →</Link>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 12 }}>
           {NARRATIVAS.map(n => (
-            <NarrativeCard key={n.id} narrative={n}/>
+ <NarrativeCard key={n.id} narrative={n}/>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* 6 · ACTORES CLAVE */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
         padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
             Actores clave del workspace
-          </h2>
-          <Link href="/mapa-actores" style={btnSecondary}>Ver mapa de actores →</Link>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
+ </h2>
+ <Link href="/mapa-actores" style={btnSecondary}>Ver mapa de actores →</Link>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
           {ACTORES_CLAVE.map(a => (
-            <ActorKeyCard key={a.id} actor={a}/>
+ <ActorKeyCard key={a.id} actor={a}/>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* 7 + 8 · TERRITORIOS CALIENTES + AGENDA INSTITUCIONAL · doble columna */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
         {/* Territorios */}
-        <div style={{
+ <div style={{
           background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
           padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.01em' }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.01em' }}>
             Territorios calientes
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ </h2>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {TERRITORIOS.map(t => (
-              <TerritorioRow key={t.ccaa} t={t}/>
+ <TerritorioRow key={t.ccaa} t={t}/>
             ))}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* Agenda */}
-        <div style={{
+ <div style={{
           background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
           padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.01em' }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.01em' }}>
             Agenda institucional · próximos 7 días
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+ </h2>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {AGENDA.map(ev => (
-              <AgendaRow key={ev.id} ev={ev}/>
+ <AgendaRow key={ev.id} ev={ev}/>
             ))}
-          </div>
-          <p style={{ fontSize: 10, color: '#86868b', margin: '10px 0 0', fontStyle: 'italic', lineHeight: 1.4 }}>
+ </div>
+ <p style={{ fontSize: 10, color: '#86868b', margin: '10px 0 0', fontStyle: 'italic', lineHeight: 1.4 }}>
             Eventos clasificados · <strong>confirmados</strong> con fuente oficial · <strong>inferidos</strong>
             de señales legislativas · <strong>escenarios</strong> proyectados por el modelo (no determinista).
-          </p>
-        </div>
-      </div>
+ </p>
+ </div>
+ </div>
 
       {/* 9 · EVIDENCIA RECIENTE */}
-      <div style={{
+ <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
         padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
             Evidencia reciente
-          </h2>
-          <span style={{ fontSize: 11, color: '#86868b' }}>{EVIDENCIA.length} elementos · últimas 12h</span>
-        </div>
-        <div style={{
+ </h2>
+ <span style={{ fontSize: 11, color: '#86868b' }}>{EVIDENCIA.length} elementos · últimas 12h</span>
+ </div>
+ <div style={{
           display: 'grid', gridTemplateColumns: '90px 1fr auto auto auto',
           gap: 12, padding: '8px 12px', background: '#FAFAFA',
           borderRadius: 8, fontSize: 10, color: '#6e6e73',
           fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
           marginBottom: 6,
         }}>
-          <span>Tipo</span><span>Título / actores</span>
-          <span>Tema</span><span>Relev.</span><span>Detec.</span>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+ <span>Tipo</span><span>Título / actores</span>
+ <span>Tema</span><span>Relev.</span><span>Detec.</span>
+ </div>
+ <div style={{ display: 'flex', flexDirection: 'column' }}>
           {EVIDENCIA.map(e => (
-            <EvidenceRow key={e.id} ev={e}/>
+ <EvidenceRow key={e.id} ev={e}/>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* 10 · ACCIONES RECOMENDADAS */}
-      <div style={{
+ <div style={{
         background: 'linear-gradient(135deg, rgba(91,33,182,0.06) 0%, rgba(37,99,235,0.06) 100%)',
         border: '1px solid rgba(91,33,182,0.20)', borderRadius: 14,
         padding: '18px 22px',
       }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: '0 0 4px', letterSpacing: '-0.01em', color: '#1d1d1f' }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, margin: '0 0 4px', letterSpacing: '-0.01em', color: '#1d1d1f' }}>
           Acciones recomendadas
-        </h2>
-        <p style={{ fontSize: 12, color: '#515154', margin: '0 0 12px' }}>
+ </h2>
+ <p style={{ fontSize: 12, color: '#515154', margin: '0 0 12px' }}>
           Sugerencias contextuales basadas en el estado actual del workspace · pulsa para ir al módulo correspondiente.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 8 }}>
+ </p>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 8 }}>
           {ACTIONS.map(a => (
-            <Link key={a.label} href={a.href} style={{
+ <Link key={a.label} href={a.href} style={{
               display: 'flex', alignItems: 'center', gap: 10,
               background: '#fff', border: '1px solid #ECECEF', borderRadius: 10,
               padding: '12px 14px', fontFamily: 'inherit', textDecoration: 'none',
               transition: 'border-color 150ms, box-shadow 150ms',
             }}>
-              <span style={{
+ <span style={{
                 width: 30, height: 30, borderRadius: 8, background: '#5B21B610', color: '#5B21B6',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 14, fontWeight: 700, flexShrink: 0,
               }}>{a.icon}</span>
-              <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', flex: 1 }}>{a.label}</span>
-              <span style={{ fontSize: 14, color: '#0071e3' }}>→</span>
-            </Link>
+ <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', flex: 1 }}>{a.label}</span>
+ <span style={{ fontSize: 14, color: '#0071e3' }}>→</span>
+ </Link>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Pie · trazabilidad global */}
-      <p style={{ fontSize: 11, color: '#86868b', textAlign: 'center', margin: 0, lineHeight: 1.5 }}>
+ <p style={{ fontSize: 11, color: '#86868b', textAlign: 'center', margin: 0, lineHeight: 1.5 }}>
         Workspace <strong>España 2026</strong> · actualizado {todayStr} ·
         datos clasificados · <strong>observado</strong> (medido directamente) ·
-        <strong>inferido</strong> (interpretación del modelo) ·
-        <strong>proyectado</strong> (escenario IA · no determinista) ·
-        <strong>recomendado</strong> (acción sugerida · requiere juicio humano).
-      </p>
-    </section>
+ <strong>inferido</strong> (interpretación del modelo) ·
+ <strong>proyectado</strong> (escenario IA · no determinista) ·
+ <strong>recomendado</strong> (acción sugerida · requiere juicio humano).
+ </p>
+ </section>
   )
 }
 
@@ -499,13 +499,13 @@ export default function WorkspacePoliticalOverview() {
 function HeaderStat({ label, value, tone }: { label: string; value: string; tone?: 'success' | 'warning' }) {
   const color = tone === 'success' ? '#4ADE80' : tone === 'warning' ? '#FBBF24' : '#fff'
   return (
-    <div style={{
+ <div style={{
       background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
       borderRadius: 10, padding: '8px 12px',
     }}>
-      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{label}</div>
-      <div style={{ fontSize: 14, fontWeight: 700, color, marginTop: 2, fontFamily: 'var(--font-display)' }}>{value}</div>
-    </div>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{label}</div>
+ <div style={{ fontSize: 14, fontWeight: 700, color, marginTop: 2, fontFamily: 'var(--font-display)' }}>{value}</div>
+ </div>
   )
 }
 
@@ -513,139 +513,139 @@ function KpiCard({ kpi }: { kpi: KPIDef }) {
   const isPos = (s?: string) => s?.startsWith('+') ?? false
   const isNeg = (s?: string) => s?.startsWith('-') || s?.startsWith('−')
   return (
-    <div style={{
+ <div style={{
       background: '#fff', border: '1px solid #ECECEF', borderLeft: `3px solid ${kpi.accent}`,
       borderRadius: 12, padding: '12px 14px', boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
     }}>
-      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#6e6e73', marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>{kpi.label}</span>
-        <span title={kpi.methodology} style={{
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#6e6e73', marginBottom: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+ <span>{kpi.label}</span>
+ <span title={kpi.methodology} style={{
           width: 12, height: 12, borderRadius: '50%', background: '#F0F0F2', color: '#6e6e73',
           fontSize: 8, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'help',
         }}>?</span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: kpi.accent, lineHeight: 1 }}>
+ </div>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: kpi.accent, lineHeight: 1 }}>
           {kpi.value}
-        </span>
+ </span>
         {kpi.unit && <span style={{ fontSize: 11, color: '#86868b' }}>{kpi.unit}</span>}
-      </div>
-      <div style={{ display: 'flex', gap: 8, fontSize: 10.5, marginTop: 5, color: '#86868b' }}>
+ </div>
+ <div style={{ display: 'flex', gap: 8, fontSize: 10.5, marginTop: 5, color: '#86868b' }}>
         {kpi.delta24h && (
-          <span style={{ color: isPos(kpi.delta24h) ? '#DC2626' : isNeg(kpi.delta24h) ? '#16A34A' : '#86868b', fontWeight: 600 }}>
+ <span style={{ color: isPos(kpi.delta24h) ? '#DC2626' : isNeg(kpi.delta24h) ? '#16A34A' : '#86868b', fontWeight: 600 }}>
             24h {kpi.delta24h}
-          </span>
+ </span>
         )}
         {kpi.delta7d && (
-          <span style={{ color: isPos(kpi.delta7d) ? '#DC2626' : isNeg(kpi.delta7d) ? '#16A34A' : '#86868b', fontWeight: 600 }}>
+ <span style={{ color: isPos(kpi.delta7d) ? '#DC2626' : isNeg(kpi.delta7d) ? '#16A34A' : '#86868b', fontWeight: 600 }}>
             7d {kpi.delta7d}
-          </span>
+ </span>
         )}
-      </div>
-      <div style={{ fontSize: 10, color: '#86868b', marginTop: 6, paddingTop: 6, borderTop: '1px solid #F5F5F7' }}>
+ </div>
+ <div style={{ fontSize: 10, color: '#86868b', marginTop: 6, paddingTop: 6, borderTop: '1px solid #F5F5F7' }}>
         Confianza <strong style={{ color: '#3a3a3d' }}>{kpi.confidence}%</strong> · {kpi.sources}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
 
 function AlertItem({ alert }: { alert: AlertDef }) {
   const meta = ALERT_LEVEL[alert.level]
   return (
-    <article style={{
+ <article style={{
       display: 'grid', gridTemplateColumns: '90px 1fr auto', gap: 12, alignItems: 'flex-start',
       padding: '12px 14px', background: `${meta.color}06`, borderLeft: `3px solid ${meta.color}`,
       border: `1px solid ${meta.color}22`, borderRadius: 10,
     }}>
-      <span style={{
+ <span style={{
         color: '#fff', background: meta.color, fontWeight: 800,
         fontSize: 9.5, letterSpacing: '0.08em', padding: '4px 10px',
         borderRadius: 999, textAlign: 'center', alignSelf: 'flex-start',
       }}>{meta.label}</span>
-      <div>
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600, letterSpacing: '-0.01em', color: '#1d1d1f' }}>{alert.title}</h3>
-        <div style={{ fontSize: 11.5, color: '#3a3a3d', margin: '4px 0', lineHeight: 1.5 }}>
-          <strong style={{ color: '#1d1d1f' }}>{alert.topic}</strong> · {alert.territory} · <span style={{ color: '#6e6e73' }}>{alert.actors}</span>
-        </div>
-        <div style={{ fontSize: 11, color: '#86868b' }}>
+ <div>
+ <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600, letterSpacing: '-0.01em', color: '#1d1d1f' }}>{alert.title}</h3>
+ <div style={{ fontSize: 11.5, color: '#3a3a3d', margin: '4px 0', lineHeight: 1.5 }}>
+ <strong style={{ color: '#1d1d1f' }}>{alert.topic}</strong> · {alert.territory} · <span style={{ color: '#6e6e73' }}>{alert.actors}</span>
+ </div>
+ <div style={{ fontSize: 11, color: '#86868b' }}>
           {alert.evidence} · detectado {alert.detected}
-        </div>
-        <p style={{ margin: '8px 0 0', fontSize: 11.5, color: '#3a3a3d', padding: '6px 10px', background: 'rgba(91,33,182,0.06)', borderLeft: '2px solid #5B21B6', borderRadius: 6 }}>
-          <span style={{ fontWeight: 700, color: '#5B21B6', fontSize: 9.5, letterSpacing: '0.08em' }}>RECOMENDADO · </span>
+ </div>
+ <p style={{ margin: '8px 0 0', fontSize: 11.5, color: '#3a3a3d', padding: '6px 10px', background: 'rgba(91,33,182,0.06)', borderLeft: '2px solid #5B21B6', borderRadius: 6 }}>
+ <span style={{ fontWeight: 700, color: '#5B21B6', fontSize: 9.5, letterSpacing: '0.08em' }}>RECOMENDADO · </span>
           {alert.action}
-        </p>
-      </div>
-      <button style={btnSecondary}>Ver evidencia</button>
-    </article>
+ </p>
+ </div>
+ <button style={btnSecondary}>Ver evidencia</button>
+ </article>
   )
 }
 
 function NarrativeCard({ narrative }: { narrative: NarrativaDef }) {
   return (
-    <article style={{
+ <article style={{
       background: '#FAFAFA', border: '1px solid #ECECEF',
       borderLeft: `3px solid ${SENT_COLOR[narrative.sentiment]}`,
       borderRadius: 10, padding: '12px 14px',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 4 }}>
-        <h3 style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.3 }}>{narrative.name}</h3>
-        <InsightPill variant="observed" label={narrative.sentiment}/>
-      </div>
-      <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '2px 0 8px' }}>{narrative.topic}</p>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: SENT_COLOR[narrative.sentiment] }}>{narrative.velocity.split('·')[0]}</span>
-        <span style={{ fontSize: 11, color: '#86868b' }}>{narrative.volume}</span>
-      </div>
-      <div style={{ fontSize: 11, color: '#3a3a3d', lineHeight: 1.55, marginBottom: 6 }}>
-        <strong style={{ color: '#1d1d1f' }}>Impulsan ·</strong> {narrative.driverActors}<br/>
-        <strong style={{ color: '#1d1d1f' }}>Canales ·</strong> {narrative.channels}<br/>
-        <strong style={{ color: '#1d1d1f' }}>Territorio ·</strong> {narrative.territories}
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 10.5, color: '#86868b', borderTop: '1px solid #ECECEF', paddingTop: 6 }}>
-        <span>Confianza · <strong style={{ color: '#1d1d1f' }}>{narrative.confidence}%</strong></span>
-        <Link href="/medios-narrativa" style={{ color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>Ver evidencia →</Link>
-      </div>
-    </article>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 4 }}>
+ <h3 style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.3 }}>{narrative.name}</h3>
+ <InsightPill variant="observed" label={narrative.sentiment}/>
+ </div>
+ <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '2px 0 8px' }}>{narrative.topic}</p>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: SENT_COLOR[narrative.sentiment] }}>{narrative.velocity.split('·')[0]}</span>
+ <span style={{ fontSize: 11, color: '#86868b' }}>{narrative.volume}</span>
+ </div>
+ <div style={{ fontSize: 11, color: '#3a3a3d', lineHeight: 1.55, marginBottom: 6 }}>
+ <strong style={{ color: '#1d1d1f' }}>Impulsan ·</strong> {narrative.driverActors}<br/>
+ <strong style={{ color: '#1d1d1f' }}>Canales ·</strong> {narrative.channels}<br/>
+ <strong style={{ color: '#1d1d1f' }}>Territorio ·</strong> {narrative.territories}
+ </div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 10.5, color: '#86868b', borderTop: '1px solid #ECECEF', paddingTop: 6 }}>
+ <span>Confianza · <strong style={{ color: '#1d1d1f' }}>{narrative.confidence}%</strong></span>
+ <Link href="/medios-narrativa" style={{ color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>Ver evidencia →</Link>
+ </div>
+ </article>
   )
 }
 
 function ActorKeyCard({ actor }: { actor: ActorKey }) {
   const meta = BADGE_META[actor.badge]
   return (
-    <Link href="/mapa-actores" style={{
+ <Link href="/mapa-actores" style={{
       display: 'block', background: '#FAFAFA', border: '1px solid #ECECEF',
       borderLeft: `3px solid ${meta.color}`, borderRadius: 10,
       padding: '12px 14px', textDecoration: 'none', color: 'inherit',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-        <span style={{ fontSize: 9, fontWeight: 800, color: meta.color, letterSpacing: '0.08em', background: `${meta.color}14`, padding: '2px 7px', borderRadius: 999 }}>{meta.label}</span>
-        <span style={{ fontSize: 10.5, color: actor.delta.startsWith('-') || actor.delta.startsWith('−') ? '#16A34A' : '#DC2626', fontWeight: 700 }}>{actor.delta}</span>
-      </div>
-      <h4 style={{ margin: '2px 0 2px', fontSize: 13.5, fontWeight: 700, color: '#1d1d1f' }}>{actor.name}</h4>
-      <p style={{ fontSize: 11, color: '#6e6e73', margin: '0 0 4px' }}>{actor.org}</p>
-      <p style={{ fontSize: 10.5, color: '#3a3a3d', margin: '0 0 4px' }}><strong>{actor.role}</strong> · {actor.metric}</p>
-      <p style={{ fontSize: 10.5, color: '#86868b', margin: '0 0 2px' }}>Temas · {actor.topics}</p>
-      <p style={{ fontSize: 10.5, color: '#86868b', margin: 0 }}>Relación con · {actor.related}</p>
-    </Link>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+ <span style={{ fontSize: 9, fontWeight: 800, color: meta.color, letterSpacing: '0.08em', background: `${meta.color}14`, padding: '2px 7px', borderRadius: 999 }}>{meta.label}</span>
+ <span style={{ fontSize: 10.5, color: actor.delta.startsWith('-') || actor.delta.startsWith('−') ? '#16A34A' : '#DC2626', fontWeight: 700 }}>{actor.delta}</span>
+ </div>
+ <h4 style={{ margin: '2px 0 2px', fontSize: 13.5, fontWeight: 700, color: '#1d1d1f' }}>{actor.name}</h4>
+ <p style={{ fontSize: 11, color: '#6e6e73', margin: '0 0 4px' }}>{actor.org}</p>
+ <p style={{ fontSize: 10.5, color: '#3a3a3d', margin: '0 0 4px' }}><strong>{actor.role}</strong> · {actor.metric}</p>
+ <p style={{ fontSize: 10.5, color: '#86868b', margin: '0 0 2px' }}>Temas · {actor.topics}</p>
+ <p style={{ fontSize: 10.5, color: '#86868b', margin: 0 }}>Relación con · {actor.related}</p>
+ </Link>
   )
 }
 
 function TerritorioRow({ t }: { t: TerritorioDef }) {
   return (
-    <div style={{
+ <div style={{
       display: 'grid', gridTemplateColumns: '1fr auto auto auto', gap: 10,
       padding: '10px 12px', background: '#FAFAFA', borderRadius: 8,
       borderLeft: `3px solid ${RISK_COLOR[t.risk]}`,
       alignItems: 'center', fontSize: 12,
     }}>
-      <div>
-        <div style={{ fontWeight: 700, color: '#1d1d1f' }}>{t.ccaa}</div>
-        <div style={{ fontSize: 11, color: '#6e6e73' }}>{t.topic} · top actor <strong style={{ color: '#1d1d1f' }}>{t.topActor}</strong></div>
-      </div>
-      <span style={{ fontSize: 10.5, color: '#6e6e73' }}>Polariz. <strong style={{ color: '#1d1d1f' }}>{t.polarization}</strong></span>
-      <span style={{ fontSize: 11, fontWeight: 600, color: '#DC2626', fontFamily: 'var(--font-display)' }}>{t.change}</span>
-      <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff', background: RISK_COLOR[t.risk], padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em' }}>{t.risk.toUpperCase()}</span>
-    </div>
+ <div>
+ <div style={{ fontWeight: 700, color: '#1d1d1f' }}>{t.ccaa}</div>
+ <div style={{ fontSize: 11, color: '#6e6e73' }}>{t.topic} · top actor <strong style={{ color: '#1d1d1f' }}>{t.topActor}</strong></div>
+ </div>
+ <span style={{ fontSize: 10.5, color: '#6e6e73' }}>Polariz. <strong style={{ color: '#1d1d1f' }}>{t.polarization}</strong></span>
+ <span style={{ fontSize: 11, fontWeight: 600, color: '#DC2626', fontFamily: 'var(--font-display)' }}>{t.change}</span>
+ <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff', background: RISK_COLOR[t.risk], padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em' }}>{t.risk.toUpperCase()}</span>
+ </div>
   )
 }
 
@@ -653,46 +653,46 @@ function AgendaRow({ ev }: { ev: AgendaEvent }) {
   const meta = AGENDA_STATUS[ev.status]
   const impColor = ev.impact === 'alto' ? '#DC2626' : ev.impact === 'medio' ? '#F59E0B' : '#16A34A'
   return (
-    <div style={{
+ <div style={{
       display: 'grid', gridTemplateColumns: '70px 1fr auto auto', gap: 10,
       padding: '8px 10px', borderBottom: '1px solid #F5F5F7',
       fontSize: 12, alignItems: 'center',
     }}>
-      <span style={{ fontSize: 11, fontWeight: 700, color: '#3a3a3d', fontFamily: 'var(--font-display)' }}>{ev.date}</span>
-      <div>
-        <div style={{ color: '#1d1d1f', fontWeight: 500, lineHeight: 1.3 }}>{ev.title}</div>
-        <div style={{ fontSize: 10.5, color: '#86868b' }}>{ev.actors}</div>
-      </div>
-      <span style={{ fontSize: 9, fontWeight: 800, color: '#fff', background: impColor, padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em' }}>{ev.impact.toUpperCase()}</span>
-      <span style={{ fontSize: 9, fontWeight: 800, color: meta.color, background: `${meta.color}14`, border: `1px solid ${meta.color}33`, padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em' }}>{meta.label}</span>
-    </div>
+ <span style={{ fontSize: 11, fontWeight: 700, color: '#3a3a3d', fontFamily: 'var(--font-display)' }}>{ev.date}</span>
+ <div>
+ <div style={{ color: '#1d1d1f', fontWeight: 500, lineHeight: 1.3 }}>{ev.title}</div>
+ <div style={{ fontSize: 10.5, color: '#86868b' }}>{ev.actors}</div>
+ </div>
+ <span style={{ fontSize: 9, fontWeight: 800, color: '#fff', background: impColor, padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em' }}>{ev.impact.toUpperCase()}</span>
+ <span style={{ fontSize: 9, fontWeight: 800, color: meta.color, background: `${meta.color}14`, border: `1px solid ${meta.color}33`, padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em' }}>{meta.label}</span>
+ </div>
   )
 }
 
 function EvidenceRow({ ev }: { ev: EvidenceItem }) {
   return (
-    <div style={{
+ <div style={{
       display: 'grid', gridTemplateColumns: '90px 1fr auto auto auto',
       gap: 12, padding: '10px 12px', borderTop: '1px solid #F5F5F7',
       fontSize: 12, alignItems: 'center',
     }}>
-      <span style={{ fontSize: 9.5, fontWeight: 700, color: '#3a3a3d', background: '#F0F0F2', padding: '3px 7px', borderRadius: 4, textAlign: 'center', letterSpacing: '0.04em' }}>{ev.type.toUpperCase()}</span>
-      <div>
+ <span style={{ fontSize: 9.5, fontWeight: 700, color: '#3a3a3d', background: '#F0F0F2', padding: '3px 7px', borderRadius: 4, textAlign: 'center', letterSpacing: '0.04em' }}>{ev.type.toUpperCase()}</span>
+ <div>
         {ev.href ? (
-          <Link href={ev.href} style={{ color: '#1d1d1f', fontWeight: 600, lineHeight: 1.35, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)' }}>
+ <Link href={ev.href} style={{ color: '#1d1d1f', fontWeight: 600, lineHeight: 1.35, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)' }}>
             {ev.title} <span style={{ color: '#0071e3', fontSize: 10 }}>↗</span>
-          </Link>
+ </Link>
         ) : (
-          <span style={{ color: '#1d1d1f', fontWeight: 600 }}>{ev.title}</span>
+ <span style={{ color: '#1d1d1f', fontWeight: 600 }}>{ev.title}</span>
         )}
-        <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 2 }}>
-          <strong style={{ color: '#3a3a3d' }}>{ev.source}</strong> · {ev.actors}
-        </div>
-      </div>
-      <span style={{ fontSize: 10.5, color: '#6e6e73' }}>{ev.topic}</span>
-      <span style={{ fontSize: 11, fontWeight: 700, color: ev.relevance >= 85 ? '#DC2626' : ev.relevance >= 70 ? '#F59E0B' : '#3a3a3d', fontFamily: 'var(--font-display)' }}>{ev.relevance}</span>
-      <span style={{ fontSize: 10.5, color: '#86868b' }}>{ev.date}</span>
-    </div>
+ <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 2 }}>
+ <strong style={{ color: '#3a3a3d' }}>{ev.source}</strong> · {ev.actors}
+ </div>
+ </div>
+ <span style={{ fontSize: 10.5, color: '#6e6e73' }}>{ev.topic}</span>
+ <span style={{ fontSize: 11, fontWeight: 700, color: ev.relevance >= 85 ? '#DC2626' : ev.relevance >= 70 ? '#F59E0B' : '#3a3a3d', fontFamily: 'var(--font-display)' }}>{ev.relevance}</span>
+ <span style={{ fontSize: 10.5, color: '#86868b' }}>{ev.date}</span>
+ </div>
   )
 }
 

@@ -52,8 +52,8 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
   }, [batch]);
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="radar"
         eyebrow="Workspace · Radar"
         title="Radar de Oportunidades"
@@ -63,8 +63,8 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
         }`}
         badge={batch ? `${batch.opportunities.length} oportunidades` : ""}
         actions={
-          <div style={{ display: "flex", gap: 8 }}>
-            <button
+ <div style={{ display: "flex", gap: 8 }}>
+ <button
               onClick={() => generate()}
               disabled={isLoading}
               style={{
@@ -80,39 +80,39 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
               }}
             >
               {isLoading ? "Generando…" : "Regenerar con PoliteIA"}
-            </button>
-          </div>
+ </button>
+ </div>
         }
       />
 
       {/* Filtros */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
-        <FilterChip active={filter === "all"}    onClick={() => setFilter("all")}>Todas</FilterChip>
-        <FilterChip active={filter === "now"}    onClick={() => setFilter("now")}>Ahora</FilterChip>
-        <FilterChip active={filter === "week"}   onClick={() => setFilter("week")}>Semana</FilterChip>
-        <FilterChip active={filter === "month"}  onClick={() => setFilter("month")}>Mes</FilterChip>
-        <FilterChip active={filter === "quarter"} onClick={() => setFilter("quarter")}>Trimestre</FilterChip>
-        <div style={{ width: 1, alignSelf: "stretch", background: WS.border, margin: "0 4px" }} />
+ <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
+ <FilterChip active={filter === "all"}    onClick={() => setFilter("all")}>Todas</FilterChip>
+ <FilterChip active={filter === "now"}    onClick={() => setFilter("now")}>Ahora</FilterChip>
+ <FilterChip active={filter === "week"}   onClick={() => setFilter("week")}>Semana</FilterChip>
+ <FilterChip active={filter === "month"}  onClick={() => setFilter("month")}>Mes</FilterChip>
+ <FilterChip active={filter === "quarter"} onClick={() => setFilter("quarter")}>Trimestre</FilterChip>
+ <div style={{ width: 1, alignSelf: "stretch", background: WS.border, margin: "0 4px" }} />
         {categories.map(c => (
-          <FilterChip key={c} active={filter === c} onClick={() => setFilter(c)}>{c}</FilterChip>
+ <FilterChip key={c} active={filter === c} onClick={() => setFilter(c)}>{c}</FilterChip>
         ))}
-      </div>
+ </div>
 
       {error && (
-        <div style={{ background: WS.dangerSub, color: WS.danger, padding: 12, borderRadius: 10, fontSize: 12, marginBottom: 12 }}>
+ <div style={{ background: WS.dangerSub, color: WS.danger, padding: 12, borderRadius: 10, fontSize: 12, marginBottom: 12 }}>
           {error}
-        </div>
+ </div>
       )}
 
       {!batch && !isLoading && (
-        <div style={{ padding: 28, textAlign: "center", color: WS.ink3, fontSize: 13 }}>
+ <div style={{ padding: 28, textAlign: "center", color: WS.ink3, fontSize: 13 }}>
           Sin batch generado todavía.
-        </div>
+ </div>
       )}
 
       {batch && (
-        <>
-          <div
+ <>
+ <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
@@ -120,23 +120,23 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
             }}
           >
             {items.map(o => (
-              <OpportunityCard
+ <OpportunityCard
                 key={o.id}
                 opportunity={o}
                 selected={selected?.id === o.id}
                 onClick={() => setSelected(o)}
               />
             ))}
-          </div>
+ </div>
 
-          <div style={{ marginTop: 18, fontSize: 11, color: WS.ink3 }}>
+ <div style={{ marginTop: 18, fontSize: 11, color: WS.ink3 }}>
             Generado {new Date(batch.generatedAt).toLocaleString("es-ES")} · fuente: {batch.source}
             {batch.source === "mock" && " · PoliteIA está procesando este módulo"}
-          </div>
-        </>
+ </div>
+ </>
       )}
 
-      <OpportunityDrawer
+ <OpportunityDrawer
         opportunity={selected}
         onClose={() => setSelected(null)}
         onSendToAgent={(opp) => {
@@ -147,7 +147,7 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
         onCreateAction={() => alert("Crear acción aún no persistente — se conectará al backend en Sprint 11/16")}
         onArchive={() => setSelected(null)}
       />
-    </div>
+ </div>
   );
 }
 
@@ -161,7 +161,7 @@ function FilterChip({
   children: React.ReactNode;
 }) {
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         padding: "4px 10px",
@@ -176,6 +176,6 @@ function FilterChip({
       }}
     >
       {children}
-    </button>
+ </button>
   );
 }

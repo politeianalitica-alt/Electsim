@@ -31,7 +31,7 @@ export default function LiveTicker() {
   const loop = [...items, ...items]
 
   return (
-    <div
+ <div
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{
@@ -48,15 +48,15 @@ export default function LiveTicker() {
         marginBottom: 18,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, paddingRight: 12, borderRight: '1px solid #e8e8ed' }}>
-        <span style={{ width: 7, height: 7, borderRadius: 999, background: '#2d8a39', boxShadow: '0 0 0 3px rgba(45,138,57,0.18)' }} />
-        <span style={{ fontSize: 10, fontWeight: 700, color: '#1d1d1f', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, paddingRight: 12, borderRight: '1px solid #e8e8ed' }}>
+ <span style={{ width: 7, height: 7, borderRadius: 999, background: '#2d8a39', boxShadow: '0 0 0 3px rgba(45,138,57,0.18)' }} />
+ <span style={{ fontSize: 10, fontWeight: 700, color: '#1d1d1f', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           Live · {source === 'mock' ? 'demo' : source === 'backend' ? 'on' : '…'}
-        </span>
-      </div>
+ </span>
+ </div>
 
-      <div style={{ flex: 1, overflow: 'hidden', height: '100%', position: 'relative' }}>
-        <div
+ <div style={{ flex: 1, overflow: 'hidden', height: '100%', position: 'relative' }}>
+ <div
           ref={trackRef}
           style={{
             display: 'flex',
@@ -69,28 +69,28 @@ export default function LiveTicker() {
           }}
         >
           {loop.map((it, i) => (
-            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
-              <span style={{
+ <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
+ <span style={{
                 fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
                 textTransform: 'uppercase', color: color(it.severity),
                 padding: '2px 7px', borderRadius: 999,
                 background: `${color(it.severity)}14`,
               }}>
                 {it.label}
-              </span>
-              <span style={{ color: '#1d1d1f', fontWeight: 500 }}>{it.value || ''}</span>
-              <span style={{ color: '#d2d2d7' }}>•</span>
-            </span>
+ </span>
+ <span style={{ color: '#1d1d1f', fontWeight: 500 }}>{it.value || ''}</span>
+ <span style={{ color: '#d2d2d7' }}>•</span>
+ </span>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <style jsx>{`
+ <style jsx>{`
         @keyframes ticker-scroll {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
         }
-      `}</style>
-    </div>
+ `}</style>
+ </div>
   )
 }

@@ -29,20 +29,20 @@ export async function POST(req: NextRequest) {
   if (!isAiEnabled()) return NextResponse.json(buildMockSimulation(scenario, workspaceId));
 
   const system = [
-    `Eres un analista estratégico senior especializado en simulación política.`,
-    `Trabajas para el workspace "${workspaceName}".`,
-    `Tu tarea: dado un escenario hipotético, generar 3 outcomes con probabilidades realistas,`,
-    `contramovimientos de los actores relevantes y una recomendación operativa.`,
-    `Tono ejecutivo, denso, en español, sin emojis.`,
+ `Eres un analista estratégico senior especializado en simulación política.`,
+ `Trabajas para el workspace "${workspaceName}".`,
+ `Tu tarea: dado un escenario hipotético, generar 3 outcomes con probabilidades realistas,`,
+ `contramovimientos de los actores relevantes y una recomendación operativa.`,
+ `Tono ejecutivo, denso, en español, sin emojis.`,
   ].join("\n");
 
   const user = [
-    `Escenario: ${scenario}`,
-    ``,
-    `Contexto del workspace:`,
+ `Escenario: ${scenario}`,
+ ``,
+ `Contexto del workspace:`,
     context || "(sin contexto adicional)",
-    ``,
-    `Genera la simulación con 3 outcomes (base/óptimo/adverso) según el schema.`,
+ ``,
+ `Genera la simulación con 3 outcomes (base/óptimo/adverso) según el schema.`,
   ].join("\n");
 
   try {

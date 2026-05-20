@@ -17,22 +17,22 @@ import type { RolEquipo, EstadoMiembro, TipoActo, PrioridadTerritorio, Severidad
 
 // ─── Colour maps ──────────────────────────────────────────
 const ROL_COLOR: Record<RolEquipo, string> = {
-  'Director':'#1F4E8C', 'Estrategia':'#5B21B6', 'Comunicación':'#7C3AED',
-  'Datos':'#0EA5E9', 'Digital':'#DC2626', 'Ground game':'#16A34A',
-  'Finanzas':'#B45309', 'Legal':'#0F766E', 'Crisis':'#F97316',
+ 'Director':'#1F4E8C', 'Estrategia':'#5B21B6', 'Comunicación':'#7C3AED',
+ 'Datos':'#0EA5E9', 'Digital':'#DC2626', 'Ground game':'#16A34A',
+ 'Finanzas':'#B45309', 'Legal':'#0F766E', 'Crisis':'#F97316',
 }
 const ESTADO_META: Record<EstadoMiembro, { color: string }> = {
-  'En war room': { color: '#16A34A' }, 'En terreno': { color: '#0EA5E9' },
-  'Remoto': { color: '#6e6e73' }, 'En reunión': { color: '#F97316' }, 'Reunión': { color: '#F97316' },
+ 'En war room': { color: '#16A34A' }, 'En terreno': { color: '#0EA5E9' },
+ 'Remoto': { color: '#6e6e73' }, 'En reunión': { color: '#F97316' }, 'Reunión': { color: '#F97316' },
 }
 const TIPO_COLOR: Record<TipoActo, string> = {
-  'Mitin':'#DC2626', 'Acto territorial':'#1F4E8C', 'Debate':'#5B21B6',
-  'Rueda de prensa':'#0EA5E9', 'Entrevista':'#7C3AED',
-  'Reunión interna':'#525258', 'Visita':'#16A34A',
+ 'Mitin':'#DC2626', 'Acto territorial':'#1F4E8C', 'Debate':'#5B21B6',
+ 'Rueda de prensa':'#0EA5E9', 'Entrevista':'#7C3AED',
+ 'Reunión interna':'#525258', 'Visita':'#16A34A',
 }
 const ESTADO_ACTO: Record<string, string> = { 'Confirmado':'#16A34A', 'Pendiente':'#F97316', 'Cancelado':'#DC2626' }
 const PRIO_COLOR: Record<PrioridadTerritorio, string> = {
-  'Crítica':'#DC2626', 'Alta':'#F97316', 'Media':'#EAB308', 'Mantener':'#16A34A',
+ 'Crítica':'#DC2626', 'Alta':'#F97316', 'Media':'#EAB308', 'Mantener':'#16A34A',
 }
 const SEV_CRI: Record<SeveridadCrisis, string> = { 'CRÍTICA':'#DC2626', 'ALTA':'#F97316', 'MEDIA':'#EAB308' }
 const TAR_COLOR: Record<EstadoTarea, string> = { 'Pendiente':'#6e6e73', 'En curso':'#5B21B6', 'Completada':'#16A34A' }
@@ -50,7 +50,7 @@ type SectionId =
 const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: string }> = [
   { id: 'dashboard',     label: 'Dashboard general',     group: 'Comando',           icon: '◉' },
   { id: 'decisiones',    label: 'Cola de decisiones',    group: 'Comando',           icon: '◆' },
-  { id: 'crisis',        label: 'Crisis radar',          group: 'Comando',           icon: '⚠' },
+  { id: 'crisis',        label: 'Crisis radar',          group: 'Comando',           icon: '' },
   { id: 'wargames',      label: 'War games',             group: 'Comando',           icon: '⊠' },
   { id: 'snapshot',      label: 'Snapshot electoral',    group: 'Electoral',         icon: '⌘' },
   { id: 'encuestas',     label: 'Encuestas tracker',     group: 'Electoral',         icon: '⊞' },
@@ -64,10 +64,10 @@ const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: strin
   { id: 'endorsements',  label: 'Endorsements',          group: 'Cobertura',         icon: '★' },
   { id: 'agenda',        label: 'Agenda · 10 días',      group: 'Operaciones',       icon: '◷' },
   { id: 'equipo',        label: 'Equipo central',        group: 'Operaciones',       icon: '◍' },
-  { id: 'tareas',        label: 'Tareas críticas',       group: 'Operaciones',       icon: '✓' },
+  { id: 'tareas',        label: 'Tareas críticas',       group: 'Operaciones',       icon: '' },
   { id: 'voluntarios',   label: 'Voluntarios',           group: 'Campaña',           icon: '⌂' },
   { id: 'fundraising',   label: 'Fundraising',           group: 'Campaña',           icon: '€' },
-  { id: 'presupuesto',   label: 'Presupuesto',           group: 'Campaña',           icon: '☰' },
+  { id: 'presupuesto',   label: 'Presupuesto',           group: 'Campaña',           icon: '' },
 ]
 
 // ─── Mock data extra ─────────────────────────────────────
@@ -222,12 +222,12 @@ export default function WarRoomPage() {
 
   if (loading || !data) {
     return (
-      <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
-        <AppHeader />
-        <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
-          <div style={{ textAlign: 'center', padding: '80px 0', color: '#6e6e73', fontSize: 14 }}>Cargando War Room...</div>
-        </main>
-      </div>
+ <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
+ <AppHeader />
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ textAlign: 'center', padding: '80px 0', color: '#6e6e73', fontSize: 14 }}>Cargando War Room...</div>
+ </main>
+ </div>
     )
   }
 
@@ -237,73 +237,73 @@ export default function WarRoomPage() {
   const presupRestante = presupuesto.total - presupuesto.gastado
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
-      <AppHeader/>
+ <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
+ <AppHeader/>
 
       {/* HERO compacto · Command Center con countdown + KPIs principales */}
-      <section style={{
+ <section style={{
         background: 'linear-gradient(135deg,#0F172A 0%,#020617 100%)',
         color: '#fff', padding: '22px 32px', position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ position:'absolute', inset:0, opacity:0.12, pointerEvents:'none',
+ <div style={{ position:'absolute', inset:0, opacity:0.12, pointerEvents:'none',
           background:'radial-gradient(circle at 80% 20%, #DC2626 0%, transparent 55%), radial-gradient(circle at 20% 80%, #1F4E8C 0%, transparent 55%)' }}/>
-        <div style={{ position:'relative', maxWidth: 1500, margin: '0 auto', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 24, alignItems: 'center' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:14 }}>
-            <div style={{
+ <div style={{ position:'relative', maxWidth: 1500, margin: '0 auto', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 24, alignItems: 'center' }}>
+ <div style={{ display:'flex', alignItems:'center', gap:14 }}>
+ <div style={{
               width:56, height:56, borderRadius:11, background: candidato.color, color:'#fff',
               display:'flex', alignItems:'center', justifyContent:'center',
               fontFamily:'var(--font-display)', fontWeight:800, fontSize:18, letterSpacing:'-0.02em',
               boxShadow:`0 4px 16px ${candidato.color}80`,
             }}>{candidato.iniciales}</div>
-            <div>
-              <p style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 3px', display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
-                <span>WAR ROOM · COMMAND CENTER · LIVE</span>
-                <LiveStatusBadge updatedAt={snapUpdated} source={snapSource} refreshIntervalSec={60} onRefresh={snapRefresh}/>
-              </p>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:17, fontWeight:700, letterSpacing:'-0.014em' }}>{candidato.nombre}</div>
-              <div style={{ fontSize:11.5, opacity:0.7, marginTop:1 }}>{candidato.partido} · {candidato.cargo}</div>
-            </div>
-          </div>
-          <div style={{ textAlign:'center' }}>
-            <p style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.14em', opacity:0.6, textTransform:'uppercase', margin:'0 0 8px' }}>
+ <div>
+ <p style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 3px', display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+ <span>WAR ROOM · COMMAND CENTER · LIVE</span>
+ <LiveStatusBadge updatedAt={snapUpdated} source={snapSource} refreshIntervalSec={60} onRefresh={snapRefresh}/>
+ </p>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:17, fontWeight:700, letterSpacing:'-0.014em' }}>{candidato.nombre}</div>
+ <div style={{ fontSize:11.5, opacity:0.7, marginTop:1 }}>{candidato.partido} · {candidato.cargo}</div>
+ </div>
+ </div>
+ <div style={{ textAlign:'center' }}>
+ <p style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.14em', opacity:0.6, textTransform:'uppercase', margin:'0 0 8px' }}>
               Cuenta atrás · Generales 10 ago 2026
-            </p>
-            <div style={{ display:'flex', justifyContent:'center', alignItems:'baseline', gap:8 }}>
-              <CDNum n={tiempo.dias}  label="DÍAS"  big/>
-              <span style={{ fontSize:32, color:'rgba(255,255,255,0.3)', fontWeight:200 }}>:</span>
-              <CDNum n={tiempo.horas} label="HORAS"/>
-              <span style={{ fontSize:32, color:'rgba(255,255,255,0.3)', fontWeight:200 }}>:</span>
-              <CDNum n={tiempo.min}   label="MIN"/>
-            </div>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8, minWidth:260 }}>
-            <HeroKPI label="Tareas abiertas"  value={String(tareasAbiertas)}  accent="#FCA5A5"/>
-            <HeroKPI label="Crisis activas"   value={String(crisisActivas)}   accent="#F97316"/>
-            <HeroKPI label="Presup. restante" value={`${(presupRestante/1000).toFixed(1)}M€`} accent="#7DD3FC"/>
-            <HeroKPI label="Voluntarios"      value={`${(kpis.voluntarios/1000).toFixed(1)}K`} accent="#86EFAC"/>
-          </div>
-        </div>
-      </section>
+ </p>
+ <div style={{ display:'flex', justifyContent:'center', alignItems:'baseline', gap:8 }}>
+ <CDNum n={tiempo.dias}  label="DÍAS" big/>
+ <span style={{ fontSize:32, color:'rgba(255,255,255,0.3)', fontWeight:200 }}>:</span>
+ <CDNum n={tiempo.horas} label="HORAS"/>
+ <span style={{ fontSize:32, color:'rgba(255,255,255,0.3)', fontWeight:200 }}>:</span>
+ <CDNum n={tiempo.min}   label="MIN"/>
+ </div>
+ </div>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8, minWidth:260 }}>
+ <HeroKPI label="Tareas abiertas" value={String(tareasAbiertas)}  accent="#FCA5A5"/>
+ <HeroKPI label="Crisis activas" value={String(crisisActivas)}   accent="#F97316"/>
+ <HeroKPI label="Presup. restante" value={`${(presupRestante/1000).toFixed(1)}M€`} accent="#7DD3FC"/>
+ <HeroKPI label="Voluntarios" value={`${(kpis.voluntarios/1000).toFixed(1)}K`} accent="#86EFAC"/>
+ </div>
+ </div>
+ </section>
 
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 24 }}>
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 24 }}>
 
         {/* SIDEBAR */}
-        <aside style={{
+ <aside style={{
           background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '14px 12px',
           alignSelf: 'start', position: 'sticky', top: 80, maxHeight: 'calc(100vh - 100px)', overflowY: 'auto',
         }}>
           {Object.entries(sectionsByGroup).map(([group, items]) => (
-            <div key={group} style={{ marginBottom: 12 }}>
-              <div style={{
+ <div key={group} style={{ marginBottom: 12 }}>
+ <div style={{
                 fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em', color: '#6e6e73',
                 textTransform: 'uppercase', padding: '0 10px 6px',
               }}>{group}</div>
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
+ <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {items.map(s => {
                   const active = section === s.id
                   return (
-                    <li key={s.id}>
-                      <button
+ <li key={s.id}>
+ <button
                         onClick={() => setSection(s.id)}
                         style={{
                           width: '100%', display: 'flex', alignItems: 'center', gap: 8,
@@ -315,42 +315,42 @@ export default function WarRoomPage() {
                           transition: 'all 120ms',
                         }}
                       >
-                        <span style={{ width: 16, fontSize: 13, color: active ? '#fff' : '#86868b' }}>{s.icon}</span>
+ <span style={{ width: 16, fontSize: 13, color: active ? '#fff' : '#86868b' }}>{s.icon}</span>
                         {s.label}
-                      </button>
-                    </li>
+ </button>
+ </li>
                   )
                 })}
-              </ul>
-            </div>
+ </ul>
+ </div>
           ))}
-        </aside>
+ </aside>
 
         {/* CONTENIDO */}
-        <div>
-          {section === 'dashboard'    && <SecDashboard kpis={kpis} candidato={candidato}/>}
-          {section === 'decisiones'   && <SecDecisiones/>}
-          {section === 'crisis'       && <SecCrisis crisis={crisis} update={updateCrisisEstado}/>}
-          {section === 'wargames'     && <SecWargames/>}
-          {section === 'snapshot'     && <SecSnapshot kpis={kpis} candidato={candidato}/>}
-          {section === 'encuestas'    && <SecEncuestas encuestas={encuestas}/>}
-          {section === 'territorio'   && <SecTerritorio territorio={territorio} candidato={candidato}/>}
-          {section === 'mensaje'      && <SecMensaje mensaje={mensaje} candidato={candidato}/>}
-          {section === 'talking'      && <SecTalking/>}
-          {section === 'sentimiento'  && <SecSentimiento/>}
-          {section === 'adversario'   && <SecAdversario/>}
-          {section === 'opp'          && <SecOpp/>}
-          {section === 'media'        && <SecMedia/>}
+ <div>
+          {section === 'dashboard' && <SecDashboard kpis={kpis} candidato={candidato}/>}
+          {section === 'decisiones' && <SecDecisiones/>}
+          {section === 'crisis' && <SecCrisis crisis={crisis} update={updateCrisisEstado}/>}
+          {section === 'wargames' && <SecWargames/>}
+          {section === 'snapshot' && <SecSnapshot kpis={kpis} candidato={candidato}/>}
+          {section === 'encuestas' && <SecEncuestas encuestas={encuestas}/>}
+          {section === 'territorio' && <SecTerritorio territorio={territorio} candidato={candidato}/>}
+          {section === 'mensaje' && <SecMensaje mensaje={mensaje} candidato={candidato}/>}
+          {section === 'talking' && <SecTalking/>}
+          {section === 'sentimiento' && <SecSentimiento/>}
+          {section === 'adversario' && <SecAdversario/>}
+          {section === 'opp' && <SecOpp/>}
+          {section === 'media' && <SecMedia/>}
           {section === 'endorsements' && <SecEndorsements/>}
-          {section === 'agenda'       && <SecAgenda agenda={agenda}/>}
-          {section === 'equipo'       && <SecEquipo equipo={equipo}/>}
-          {section === 'tareas'       && <SecTareas tareas={tareas} cycle={cycleTareaEstado}/>}
-          {section === 'voluntarios'  && <SecVoluntarios kpis={kpis}/>}
-          {section === 'fundraising'  && <SecFundraising/>}
-          {section === 'presupuesto'  && <SecPresupuesto presupuesto={presupuesto} candidato={candidato}/>}
-        </div>
-      </main>
-    </div>
+          {section === 'agenda' && <SecAgenda agenda={agenda}/>}
+          {section === 'equipo' && <SecEquipo equipo={equipo}/>}
+          {section === 'tareas' && <SecTareas tareas={tareas} cycle={cycleTareaEstado}/>}
+          {section === 'voluntarios' && <SecVoluntarios kpis={kpis}/>}
+          {section === 'fundraising' && <SecFundraising/>}
+          {section === 'presupuesto' && <SecPresupuesto presupuesto={presupuesto} candidato={candidato}/>}
+ </div>
+ </main>
+ </div>
   )
 }
 
@@ -358,30 +358,30 @@ export default function WarRoomPage() {
 
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', marginBottom:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', ...style }}>
+ <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', marginBottom:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', ...style }}>
       {children}
-    </div>
+ </div>
   )
 }
 
 function CardHeader({ title, sub, right, accent }: { title: string; sub?: string; right?: React.ReactNode; accent?: string }) {
   return (
-    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14, gap:12, flexWrap:'wrap' }}>
-      <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14, gap:12, flexWrap:'wrap' }}>
+ <div style={{ display:'flex', alignItems:'center', gap:10 }}>
         {accent && <span style={{ width:3, height:18, background: accent, borderRadius:2 }}/>}
-        <div>
-          <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:15, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f' }}>{title}</h3>
+ <div>
+ <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:15, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f' }}>{title}</h3>
           {sub && <p style={{ margin:'2px 0 0', fontSize:11, color:'#6e6e73' }}>{sub}</p>}
-        </div>
-      </div>
+ </div>
+ </div>
       {right}
-    </div>
+ </div>
   )
 }
 
 function Badge({ label, color, outline = false }: { label: string; color: string; outline?: boolean }) {
   return (
-    <span style={{
+ <span style={{
       fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
       padding:'2px 7px', borderRadius:4,
       background: outline ? `${color}15` : color,
@@ -400,7 +400,7 @@ function Button({ children, variant = 'primary', size = 'md', onClick }: {
     danger:    { background:'#fff', color:'#DC2626', border:'1px solid #FECACA' },
   }
   return (
-    <button onClick={onClick} style={{
+ <button onClick={onClick} style={{
       ...styles[variant],
       padding: size === 'sm' ? '6px 12px' : '8px 14px',
       borderRadius:7, fontSize: size === 'sm' ? 11 : 12, fontWeight:600,
@@ -413,186 +413,186 @@ function Button({ children, variant = 'primary', size = 'md', onClick }: {
 
 function SecDashboard({ kpis, candidato }: any) {
   return (
-    <>
-      <Card>
-        <CardHeader title="Estado operativo · 5 indicadores live" accent="#1F4E8C"/>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:10 }}>
+ <>
+ <Card>
+ <CardHeader title="Estado operativo · 5 indicadores live" accent="#1F4E8C"/>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:10 }}>
           {OPS_ALERTS.map(o => (
-            <div key={o.label} style={{
+ <div key={o.label} style={{
               padding:'12px 14px', background:`${o.color}08`, border:`1px solid ${o.color}30`,
               borderRadius:10, borderLeft:`3px solid ${o.color}`,
             }}>
-              <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73', marginBottom:4 }}>{o.label}</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color: o.color, lineHeight:1, letterSpacing:'-0.02em' }}>{o.value}</div>
-              <div style={{ fontSize:9.5, color:'#86868b', marginTop:3 }}>{o.sub}</div>
-            </div>
+ <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73', marginBottom:4 }}>{o.label}</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color: o.color, lineHeight:1, letterSpacing:'-0.02em' }}>{o.value}</div>
+ <div style={{ fontSize:9.5, color:'#86868b', marginTop:3 }}>{o.sub}</div>
+ </div>
           ))}
-        </div>
-      </Card>
-      <Card>
-        <CardHeader title="Snapshot rápido del candidato" sub={`${candidato.partido} · ${candidato.cargo}`} accent={candidato.color}/>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
-          <SKpi big label="Intención de voto" value={`${kpis.intencionPP}%`}  delta="+0.4 pp · 7d" deltaPos color={candidato.color}/>
-          <SKpi label="Diferencial PSOE"      value={`+${kpis.diferencialPSOE}`} sub="puntos"      delta="+0.6 pp · 7d" deltaPos color={candidato.color}/>
-          <SKpi label="Conocimiento"          value={`${kpis.conocimiento}%`}  sub="población" color="#5B21B6"/>
-          <SKpi label="Valoración líder"      value={`${kpis.valoracion}`}     sub="/10 · CIS"  delta="+0.1" deltaPos color="#16A34A"/>
-        </div>
-      </Card>
-      <Card>
-        <CardHeader title="Sentimiento online · 24h" sub="NSI score · evolución horaria" accent="#16A34A"/>
-        <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:10 }}>
-          <span style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, color:'#16A34A', letterSpacing:'-0.02em', lineHeight:1 }}>{SENTIMENT_24H[SENTIMENT_24H.length-1]}</span>
-          <span style={{ fontSize:11, fontWeight:700, color:'#6e6e73' }}>/100 · NSI</span>
-          <span style={{ fontSize:11, fontWeight:700, color:'#16A34A' }}>▲ +{SENTIMENT_24H[SENTIMENT_24H.length-1] - SENTIMENT_24H[0]} pts</span>
-          <span style={{ fontSize:11, color:'#86868b' }}>· últimas 24h</span>
-        </div>
-        <SentimentChart points={SENTIMENT_24H}/>
-      </Card>
-    </>
+ </div>
+ </Card>
+ <Card>
+ <CardHeader title="Snapshot rápido del candidato" sub={`${candidato.partido} · ${candidato.cargo}`} accent={candidato.color}/>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+ <SKpi big label="Intención de voto" value={`${kpis.intencionPP}%`}  delta="+0.4 pp · 7d" deltaPos color={candidato.color}/>
+ <SKpi label="Diferencial PSOE" value={`+${kpis.diferencialPSOE}`} sub="puntos" delta="+0.6 pp · 7d" deltaPos color={candidato.color}/>
+ <SKpi label="Conocimiento" value={`${kpis.conocimiento}%`}  sub="población" color="#5B21B6"/>
+ <SKpi label="Valoración líder" value={`${kpis.valoracion}`}     sub="/10 · CIS" delta="+0.1" deltaPos color="#16A34A"/>
+ </div>
+ </Card>
+ <Card>
+ <CardHeader title="Sentimiento online · 24h" sub="NSI score · evolución horaria" accent="#16A34A"/>
+ <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:10 }}>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, color:'#16A34A', letterSpacing:'-0.02em', lineHeight:1 }}>{SENTIMENT_24H[SENTIMENT_24H.length-1]}</span>
+ <span style={{ fontSize:11, fontWeight:700, color:'#6e6e73' }}>/100 · NSI</span>
+ <span style={{ fontSize:11, fontWeight:700, color:'#16A34A' }}>▲ +{SENTIMENT_24H[SENTIMENT_24H.length-1] - SENTIMENT_24H[0]} pts</span>
+ <span style={{ fontSize:11, color:'#86868b' }}>· últimas 24h</span>
+ </div>
+ <SentimentChart points={SENTIMENT_24H}/>
+ </Card>
+ </>
   )
 }
 
 function SecDecisiones() {
   return (
-    <Card>
-      <CardHeader title="Cola de decisiones" sub={`${DECISIONES.length} pendientes · 2 críticas requieren tu atención`} accent="#DC2626" right={<Button>Marcar todas</Button>}/>
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <Card>
+ <CardHeader title="Cola de decisiones" sub={`${DECISIONES.length} pendientes · 2 críticas requieren tu atención`} accent="#DC2626" right={<Button>Marcar todas</Button>}/>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
         {DECISIONES.map(d => (
-          <div key={d.id} style={{
+ <div key={d.id} style={{
             padding:'14px 16px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
             borderLeft:`3px solid ${PRIO_DEC_COLOR[d.prioridad]}`,
           }}>
-            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:10, marginBottom:6, flexWrap:'wrap' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <Badge label={d.prioridad} color={PRIO_DEC_COLOR[d.prioridad]}/>
-                <span style={{ fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{d.tipo} · {d.resp}</span>
-              </div>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color: d.deadline.includes('h') && parseInt(d.deadline) < 5 ? '#DC2626' : '#1d1d1f' }}>{d.deadline}</span>
-            </div>
-            <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.35, marginBottom:5 }}>{d.titulo}</div>
+ <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:10, marginBottom:6, flexWrap:'wrap' }}>
+ <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+ <Badge label={d.prioridad} color={PRIO_DEC_COLOR[d.prioridad]}/>
+ <span style={{ fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{d.tipo} · {d.resp}</span>
+ </div>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color: d.deadline.includes('h') && parseInt(d.deadline) < 5 ? '#DC2626' : '#1d1d1f' }}>{d.deadline}</span>
+ </div>
+ <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.35, marginBottom:5 }}>{d.titulo}</div>
             {d.descripcion && <div style={{ fontSize:11.5, color:'#6e6e73', lineHeight:1.45, marginBottom:10 }}>{d.descripcion}</div>}
-            <div style={{ display:'flex', gap:6 }}>
-              <Button size="sm">Aprobar</Button>
-              <Button size="sm" variant="secondary">Posponer</Button>
-              <Button size="sm" variant="danger">Rechazar</Button>
-            </div>
-          </div>
+ <div style={{ display:'flex', gap:6 }}>
+ <Button size="sm">Aprobar</Button>
+ <Button size="sm" variant="secondary">Posponer</Button>
+ <Button size="sm" variant="danger">Rechazar</Button>
+ </div>
+ </div>
         ))}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecCrisis({ crisis, update }: any) {
   const activas = crisis.filter((c: any) => c.estado === 'Activa').length
   return (
-    <Card>
-      <CardHeader title="Crisis radar" sub={`${activas} crisis activa(s) de ${crisis.length} totales · monitoreo 24/7`} accent="#DC2626"/>
-      <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+ <Card>
+ <CardHeader title="Crisis radar" sub={`${activas} crisis activa(s) de ${crisis.length} totales · monitoreo 24/7`} accent="#DC2626"/>
+ <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
         {crisis.map((c: any) => (
-          <div key={c.id} style={{
+ <div key={c.id} style={{
             padding:'14px 16px', borderRadius:10,
             background:`${SEV_CRI[c.severidad as SeveridadCrisis]}10`,
             border:`1px solid ${SEV_CRI[c.severidad as SeveridadCrisis]}40`,
             borderLeft:`4px solid ${SEV_CRI[c.severidad as SeveridadCrisis]}`,
           }}>
-            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6, flexWrap:'wrap' }}>
-              <Badge label={c.severidad} color={SEV_CRI[c.severidad as SeveridadCrisis]}/>
-              <span style={{ fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>· {c.tipo}</span>
-              <span onClick={() => update(c.id, c.estado === 'Activa' ? 'Contenida' : 'Activa')}
+ <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6, flexWrap:'wrap' }}>
+ <Badge label={c.severidad} color={SEV_CRI[c.severidad as SeveridadCrisis]}/>
+ <span style={{ fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>· {c.tipo}</span>
+ <span onClick={() => update(c.id, c.estado === 'Activa' ? 'Contenida' : 'Activa')}
                 style={{ marginLeft:'auto', fontSize:9.5, fontWeight:800, padding:'2px 8px', borderRadius:999, background: c.estado === 'Activa' ? '#DC2626' : '#16A34A', color:'#fff', letterSpacing:'0.06em', cursor:'pointer' }}>
                 {c.estado.toUpperCase()}
-              </span>
-            </div>
-            <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.4 }}>{c.titulo}</div>
-          </div>
+ </span>
+ </div>
+ <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.4 }}>{c.titulo}</div>
+ </div>
         ))}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecWargames() {
   return (
-    <Card>
-      <CardHeader title="War games · 4 escenarios pre-cargados" sub="Protocolos listos para ejecución inmediata" accent="#5B21B6"/>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+ <Card>
+ <CardHeader title="War games · 4 escenarios pre-cargados" sub="Protocolos listos para ejecución inmediata" accent="#5B21B6"/>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         {WAR_GAMES.map(w => (
-          <div key={w.titulo} style={{
+ <div key={w.titulo} style={{
             padding:'14px 16px', borderRadius:11,
             background:`${w.color}06`, border:`1px solid ${w.color}30`,
             borderLeft:`3px solid ${w.color}`,
           }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:5 }}>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:13.5, fontWeight:700, color:'#1d1d1f' }}>{w.titulo}</span>
-              <span style={{ fontSize:13, fontWeight:800, color: w.color }}>{w.probabilidad}%</span>
-            </div>
-            <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700, marginBottom:6 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:5 }}>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:13.5, fontWeight:700, color:'#1d1d1f' }}>{w.titulo}</span>
+ <span style={{ fontSize:13, fontWeight:800, color: w.color }}>{w.probabilidad}%</span>
+ </div>
+ <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700, marginBottom:6 }}>
               {w.tipo} · respuesta máx {w.tiempo_max}
-            </div>
-            <div style={{ fontSize:11.5, color:'#3a3a3d', lineHeight:1.45, marginBottom:8 }}>{w.respuesta}</div>
-            <div style={{ background:'#fff', border:`1px solid ${w.color}25`, borderRadius:8, padding:'8px 10px' }}>
-              <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Pasos protocolo</div>
-              <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:10.5, color:'#3a3a3d', lineHeight:1.5 }}>
+ </div>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', lineHeight:1.45, marginBottom:8 }}>{w.respuesta}</div>
+ <div style={{ background:'#fff', border:`1px solid ${w.color}25`, borderRadius:8, padding:'8px 10px' }}>
+ <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>Pasos protocolo</div>
+ <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:10.5, color:'#3a3a3d', lineHeight:1.5 }}>
                 {w.pasos.map((p, i) => <li key={i}>{p}</li>)}
-              </ul>
-            </div>
-            <div style={{ marginTop:8 }}>
-              <Button size="sm">▶ Activar protocolo</Button>
-            </div>
-          </div>
+ </ul>
+ </div>
+ <div style={{ marginTop:8 }}>
+ <Button size="sm">▶ Activar protocolo</Button>
+ </div>
+ </div>
         ))}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecSnapshot({ kpis, candidato }: any) {
   return (
-    <Card>
-      <CardHeader title="Snapshot electoral · 8 indicadores" sub={`${candidato.partido} · ${candidato.cargo}`} accent={candidato.color}/>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
-        <SKpi big label="Intención de voto" value={`${kpis.intencionPP}%`}  delta="+0.4 pp · 7d" deltaPos color={candidato.color}/>
-        <SKpi label="Diferencial PSOE"      value={`+${kpis.diferencialPSOE}`} sub="puntos"      delta="+0.6 pp · 7d" deltaPos color={candidato.color}/>
-        <SKpi label="Conocimiento"          value={`${kpis.conocimiento}%`}  sub="población adulta" color="#5B21B6"/>
-        <SKpi label="Valoración líder"      value={`${kpis.valoracion}`}     sub="/10 · CIS"        delta="+0.1 vs mes" deltaPos color="#16A34A"/>
-        <SKpi label="Imagen líder"          value={`${kpis.imagenLider}`}    sub="/10 · 40dB"       delta="estable" color="#0EA5E9"/>
-        <SKpi label="Particip. prevista"    value={`${kpis.participacionPrev}%`} sub="estimación"    color="#F97316"/>
-        <SKpi label="Locales abiertos"      value={`${kpis.localesAbiertos}`} sub="48 provincias"   color="#16A34A"/>
-        <SKpi label="Voluntarios activos"   value={`${kpis.voluntarios.toLocaleString('es-ES')}`} sub="reg. esta semana" color={candidato.color}/>
-      </div>
-    </Card>
+ <Card>
+ <CardHeader title="Snapshot electoral · 8 indicadores" sub={`${candidato.partido} · ${candidato.cargo}`} accent={candidato.color}/>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+ <SKpi big label="Intención de voto" value={`${kpis.intencionPP}%`}  delta="+0.4 pp · 7d" deltaPos color={candidato.color}/>
+ <SKpi label="Diferencial PSOE" value={`+${kpis.diferencialPSOE}`} sub="puntos" delta="+0.6 pp · 7d" deltaPos color={candidato.color}/>
+ <SKpi label="Conocimiento" value={`${kpis.conocimiento}%`}  sub="población adulta" color="#5B21B6"/>
+ <SKpi label="Valoración líder" value={`${kpis.valoracion}`}     sub="/10 · CIS" delta="+0.1 vs mes" deltaPos color="#16A34A"/>
+ <SKpi label="Imagen líder" value={`${kpis.imagenLider}`}    sub="/10 · 40dB" delta="estable" color="#0EA5E9"/>
+ <SKpi label="Particip. prevista" value={`${kpis.participacionPrev}%`} sub="estimación" color="#F97316"/>
+ <SKpi label="Locales abiertos" value={`${kpis.localesAbiertos}`} sub="48 provincias" color="#16A34A"/>
+ <SKpi label="Voluntarios activos" value={`${kpis.voluntarios.toLocaleString('es-ES')}`} sub="reg. esta semana" color={candidato.color}/>
+ </div>
+ </Card>
   )
 }
 
 function SecEncuestas({ encuestas }: any) {
   return (
-    <Card>
-      <CardHeader title="Encuestas · últimas 6 olas" sub="Tracker semanal · todas las casas demoscópicas" accent="#1F4E8C"/>
-      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
-        <thead>
-          <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+ <Card>
+ <CardHeader title="Encuestas · últimas 6 olas" sub="Tracker semanal · todas las casas demoscópicas" accent="#1F4E8C"/>
+ <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+ <thead>
+ <tr style={{ borderBottom:'2px solid #ECECEF' }}>
             {['Fecha','Casa','Cliente','PP','PSOE','VOX','Sumar','Otros'].map(h => (
-              <th key={h} style={{ textAlign:'left', padding:'9px 10px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+ <th key={h} style={{ textAlign:'left', padding:'9px 10px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+ </tr>
+ </thead>
+ <tbody>
           {encuestas.map((e: any, i: number) => (
-            <tr key={i} style={{ borderBottom:'1px solid #F5F5F7' }}>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{e.fecha}</td>
-              <td style={{ padding:'10px 10px', fontWeight:600, color:'#1d1d1f' }}>{e.casa}</td>
-              <td style={{ padding:'10px 10px', color:'#6e6e73', fontSize:11 }}>{e.cliente}</td>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1F4E8C' }}>{e.pp}</td>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#E1322D' }}>{e.psoe}</td>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:600, color:'#5BA02E' }}>{e.vox}</td>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:600, color:'#D43F8D' }}>{e.sumar}</td>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:600, color:'#9E9E9E' }}>{e.otros}</td>
-            </tr>
+ <tr key={i} style={{ borderBottom:'1px solid #F5F5F7' }}>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{e.fecha}</td>
+ <td style={{ padding:'10px 10px', fontWeight:600, color:'#1d1d1f' }}>{e.casa}</td>
+ <td style={{ padding:'10px 10px', color:'#6e6e73', fontSize:11 }}>{e.cliente}</td>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1F4E8C' }}>{e.pp}</td>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#E1322D' }}>{e.psoe}</td>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:600, color:'#5BA02E' }}>{e.vox}</td>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:600, color:'#D43F8D' }}>{e.sumar}</td>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:600, color:'#9E9E9E' }}>{e.otros}</td>
+ </tr>
           ))}
-        </tbody>
-      </table>
-    </Card>
+ </tbody>
+ </table>
+ </Card>
   )
 }
 
@@ -602,391 +602,391 @@ function SecTerritorio({ territorio, candidato }: any) {
     return order[a.prioridad] - order[b.prioridad]
   })
   return (
-    <Card>
-      <CardHeader
+ <Card>
+ <CardHeader
         title="Mapa territorial · prioridad de campaña"
         sub={`${territorio.length} provincias · 17 CCAA`}
         accent="#F97316"
         right={<div style={{ display:'flex', gap:10, fontSize:10.5 }}>
           {(['Crítica','Alta','Media','Mantener'] as PrioridadTerritorio[]).map(p => (
-            <span key={p} style={{ display:'inline-flex', alignItems:'center', gap:5, color:'#3a3a3d' }}>
-              <span style={{ width:9, height:9, borderRadius:2, background:PRIO_COLOR[p] }}/>
+ <span key={p} style={{ display:'inline-flex', alignItems:'center', gap:5, color:'#3a3a3d' }}>
+ <span style={{ width:9, height:9, borderRadius:2, background:PRIO_COLOR[p] }}/>
               {p}
-            </span>
+ </span>
           ))}
-        </div>}
+ </div>}
       />
-      <div style={{ overflowX:'auto' }}>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:780 }}>
-          <thead>
-            <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
+ <div style={{ overflowX:'auto' }}>
+ <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:780 }}>
+ <thead>
+ <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
               {['Provincia','CCAA','Prioridad','Intención','Gap PSOE','% recursos','Voluntarios'].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+ <th key={h} style={{ textAlign:'left', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+ </tr>
+ </thead>
+ <tbody>
             {sorted.map((t: any, i: number) => {
               const gapColor = t.gap > 0 ? '#16A34A' : '#DC2626'
               return (
-                <tr key={i} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                  <td style={{ padding:'10px 12px', fontWeight:700, color:'#1d1d1f' }}>{t.prov}</td>
-                  <td style={{ padding:'10px 12px', color:'#6e6e73', fontSize:11 }}>{t.ccaa}</td>
-                  <td style={{ padding:'10px 12px' }}><Badge label={t.prioridad} color={PRIO_COLOR[t.prioridad as PrioridadTerritorio]}/></td>
-                  <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:candidato.color }}>{t.intencion.toFixed(1)}%</td>
-                  <td style={{ padding:'10px 12px', fontWeight:700, color:gapColor }}>{t.gap > 0 ? `+${t.gap}` : t.gap} pp</td>
-                  <td style={{ padding:'10px 12px' }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                      <div style={{ flex:1, height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden', minWidth:60 }}>
-                        <div style={{ width:`${(t.recursos / 22) * 100}%`, height:'100%', background:candidato.color }}/>
-                      </div>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, color:candidato.color, minWidth:24, textAlign:'right' }}>{t.recursos}%</span>
-                    </div>
-                  </td>
-                  <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f', textAlign:'right' }}>{t.voluntarios.toLocaleString('es-ES')}</td>
-                </tr>
+ <tr key={i} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
+ <td style={{ padding:'10px 12px', fontWeight:700, color:'#1d1d1f' }}>{t.prov}</td>
+ <td style={{ padding:'10px 12px', color:'#6e6e73', fontSize:11 }}>{t.ccaa}</td>
+ <td style={{ padding:'10px 12px' }}><Badge label={t.prioridad} color={PRIO_COLOR[t.prioridad as PrioridadTerritorio]}/></td>
+ <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:candidato.color }}>{t.intencion.toFixed(1)}%</td>
+ <td style={{ padding:'10px 12px', fontWeight:700, color:gapColor }}>{t.gap > 0 ? `+${t.gap}` : t.gap} pp</td>
+ <td style={{ padding:'10px 12px' }}>
+ <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+ <div style={{ flex:1, height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden', minWidth:60 }}>
+ <div style={{ width:`${(t.recursos / 22) * 100}%`, height:'100%', background:candidato.color }}/>
+ </div>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, color:candidato.color, minWidth:24, textAlign:'right' }}>{t.recursos}%</span>
+ </div>
+ </td>
+ <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f', textAlign:'right' }}>{t.voluntarios.toLocaleString('es-ES')}</td>
+ </tr>
               )
             })}
-          </tbody>
-        </table>
-      </div>
-    </Card>
+ </tbody>
+ </table>
+ </div>
+ </Card>
   )
 }
 
 function SecMensaje({ mensaje, candidato }: any) {
   return (
-    <Card style={{ background:`linear-gradient(135deg, ${candidato.color}05, ${candidato.color}01)`, border:`1px solid ${candidato.color}40` }}>
-      <CardHeader
+ <Card style={{ background:`linear-gradient(135deg, ${candidato.color}05, ${candidato.color}01)`, border:`1px solid ${candidato.color}40` }}>
+ <CardHeader
         title="Mensaje del día"
         sub={`Hashtag · ${mensaje.hashtag}`}
         accent={candidato.color}
         right={<Badge label="MENSAJE OFICIAL" color={candidato.color}/>}
       />
-      <h2 style={{ margin:'0 0 8px', fontFamily:'var(--font-display)', fontSize:22, fontWeight:600, color:'#1d1d1f', lineHeight:1.25, letterSpacing:'-0.018em' }}>
+ <h2 style={{ margin:'0 0 8px', fontFamily:'var(--font-display)', fontSize:22, fontWeight:600, color:'#1d1d1f', lineHeight:1.25, letterSpacing:'-0.018em' }}>
         «{mensaje.titular}»
-      </h2>
-      <p style={{ margin:'0 0 16px', fontSize:13.5, color:'#3a3a3d', lineHeight:1.55 }}>{mensaje.subtitular}</p>
+ </h2>
+ <p style={{ margin:'0 0 16px', fontSize:13.5, color:'#3a3a3d', lineHeight:1.55 }}>{mensaje.subtitular}</p>
 
-      <div style={{ marginBottom:14 }}>
-        <div style={{ fontSize:10, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:8 }}>Pilares del mensaje</div>
-        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <div style={{ marginBottom:14 }}>
+ <div style={{ fontSize:10, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:8 }}>Pilares del mensaje</div>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
           {mensaje.pilares.map((p: any, i: number) => (
-            <div key={i} style={{ display:'flex', gap:10, padding:'10px 12px', background:'#fff', border:'1px solid #ECECEF', borderRadius:9 }}>
-              <span style={{ color:candidato.color, fontFamily:'var(--font-display)', fontWeight:800, flexShrink:0, fontSize:18, lineHeight:1 }}>{i+1}</span>
-              <div style={{ fontSize:12.5, color:'#3a3a3d', lineHeight:1.45 }}>
-                <strong style={{ color:'#1d1d1f' }}>{p.p}.</strong> {p.detalle}
-              </div>
-            </div>
+ <div key={i} style={{ display:'flex', gap:10, padding:'10px 12px', background:'#fff', border:'1px solid #ECECEF', borderRadius:9 }}>
+ <span style={{ color:candidato.color, fontFamily:'var(--font-display)', fontWeight:800, flexShrink:0, fontSize:18, lineHeight:1 }}>{i+1}</span>
+ <div style={{ fontSize:12.5, color:'#3a3a3d', lineHeight:1.45 }}>
+ <strong style={{ color:'#1d1d1f' }}>{p.p}.</strong> {p.detalle}
+ </div>
+ </div>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-        <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:10, padding:'12px 14px' }}>
-          <div style={{ fontSize:10, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:5 }}>Contraste</div>
-          <div style={{ fontSize:12, color:'#3a3a3d', fontStyle:'italic', lineHeight:1.5 }}>{mensaje.contraste}</div>
-        </div>
-        <div style={{ background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:10, padding:'12px 14px' }}>
-          <div style={{ fontSize:10, fontWeight:800, color:'#DC2626', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:5 }}>Evitar comentar</div>
-          <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+ <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:10, padding:'12px 14px' }}>
+ <div style={{ fontSize:10, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:5 }}>Contraste</div>
+ <div style={{ fontSize:12, color:'#3a3a3d', fontStyle:'italic', lineHeight:1.5 }}>{mensaje.contraste}</div>
+ </div>
+ <div style={{ background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:10, padding:'12px 14px' }}>
+ <div style={{ fontSize:10, fontWeight:800, color:'#DC2626', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:5 }}>Evitar comentar</div>
+ <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
             {mensaje.evitar.map((e: string) => (
-              <span key={e} style={{ fontSize:10.5, padding:'2px 7px', borderRadius:999, background:'#fff', border:'1px solid #FECACA', color:'#7F1D1D' }}>{e}</span>
+ <span key={e} style={{ fontSize:10.5, padding:'2px 7px', borderRadius:999, background:'#fff', border:'1px solid #FECACA', color:'#7F1D1D' }}>{e}</span>
             ))}
-          </div>
-        </div>
-      </div>
-    </Card>
+ </div>
+ </div>
+ </div>
+ </Card>
   )
 }
 
 function SecTalking() {
   return (
-    <Card>
-      <CardHeader title="Talking points · heat map" sub="Análisis online 24h · ordenado por menciones" accent="#16A34A"/>
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <Card>
+ <CardHeader title="Talking points · heat map" sub="Análisis online 24h · ordenado por menciones" accent="#16A34A"/>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
         {TALKING_POINTS.map(t => {
           const sentColor = t.sent >= 60 ? '#16A34A' : t.sent >= 45 ? '#EAB308' : '#DC2626'
           const trendIcon = t.tendencia === 'subiendo' ? '▲' : t.tendencia === 'bajando' ? '▼' : '—'
           const trendColor = t.tendencia === 'subiendo' ? '#16A34A' : t.tendencia === 'bajando' ? '#DC2626' : '#6e6e73'
           return (
-            <div key={t.tema} style={{
+ <div key={t.tema} style={{
               display:'grid', gridTemplateColumns:'1fr auto auto auto', gap:14, alignItems:'center',
               padding:'12px 16px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
               borderLeft:`3px solid ${sentColor}`,
             }}>
-              <div style={{ minWidth:0 }}>
-                <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{t.tema}</div>
-                <div style={{ display:'flex', alignItems:'center', gap:6, marginTop:6 }}>
-                  <div style={{ flex:1, maxWidth:140, height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                    <div style={{ width:`${t.sent}%`, height:'100%', background: sentColor }}/>
-                  </div>
-                  <span style={{ fontSize:11, fontWeight:700, color: sentColor }}>{t.sent}/100</span>
-                </div>
-              </div>
-              <div style={{ textAlign:'right', minWidth:80 }}>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{(t.mencs/1000).toFixed(1)}k</div>
-                <div style={{ fontSize:9.5, color:'#86868b', marginTop:2 }}>menciones</div>
-              </div>
-              <span style={{ fontSize:18, color: trendColor, fontWeight:700 }}>{trendIcon}</span>
-            </div>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{t.tema}</div>
+ <div style={{ display:'flex', alignItems:'center', gap:6, marginTop:6 }}>
+ <div style={{ flex:1, maxWidth:140, height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
+ <div style={{ width:`${t.sent}%`, height:'100%', background: sentColor }}/>
+ </div>
+ <span style={{ fontSize:11, fontWeight:700, color: sentColor }}>{t.sent}/100</span>
+ </div>
+ </div>
+ <div style={{ textAlign:'right', minWidth:80 }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{(t.mencs/1000).toFixed(1)}k</div>
+ <div style={{ fontSize:9.5, color:'#86868b', marginTop:2 }}>menciones</div>
+ </div>
+ <span style={{ fontSize:18, color: trendColor, fontWeight:700 }}>{trendIcon}</span>
+ </div>
           )
         })}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecSentimiento() {
   return (
-    <>
-      <Card>
-        <CardHeader title="NSI · Net Sentiment Indicator" sub="Última lectura · ventana 24h" accent="#16A34A"/>
-        <div style={{ display:'flex', alignItems:'baseline', gap:14, marginBottom:14 }}>
-          <span style={{ fontFamily:'var(--font-display)', fontSize:48, fontWeight:700, color:'#16A34A', letterSpacing:'-0.02em', lineHeight:1 }}>{SENTIMENT_24H[SENTIMENT_24H.length-1]}</span>
-          <span style={{ fontSize:12, fontWeight:700, color:'#6e6e73' }}>/100</span>
-          <span style={{ fontSize:12, fontWeight:700, color:'#16A34A' }}>▲ +{SENTIMENT_24H[SENTIMENT_24H.length-1] - SENTIMENT_24H[0]} pts vs. ayer</span>
-        </div>
-        <SentimentChart points={SENTIMENT_24H} large/>
-      </Card>
-      <Card>
-        <CardHeader title="Drivers de sentimiento · últimas 24h" sub="Eventos que han movido el NSI" accent="#5B21B6"/>
-        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+ <>
+ <Card>
+ <CardHeader title="NSI · Net Sentiment Indicator" sub="Última lectura · ventana 24h" accent="#16A34A"/>
+ <div style={{ display:'flex', alignItems:'baseline', gap:14, marginBottom:14 }}>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:48, fontWeight:700, color:'#16A34A', letterSpacing:'-0.02em', lineHeight:1 }}>{SENTIMENT_24H[SENTIMENT_24H.length-1]}</span>
+ <span style={{ fontSize:12, fontWeight:700, color:'#6e6e73' }}>/100</span>
+ <span style={{ fontSize:12, fontWeight:700, color:'#16A34A' }}>▲ +{SENTIMENT_24H[SENTIMENT_24H.length-1] - SENTIMENT_24H[0]} pts vs. ayer</span>
+ </div>
+ <SentimentChart points={SENTIMENT_24H} large/>
+ </Card>
+ <Card>
+ <CardHeader title="Drivers de sentimiento · últimas 24h" sub="Eventos que han movido el NSI" accent="#5B21B6"/>
+ <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
           {SENTIMENT_DRIVERS.map((d, i) => (
-            <div key={i} style={{ display:'grid', gridTemplateColumns:'80px 1fr auto', gap:14, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9 }}>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:'#1d1d1f' }}>{d.hora}</span>
-              <span style={{ fontSize:12, color:'#3a3a3d' }}>{d.evento}</span>
-              <Badge label={d.delta} color={d.color}/>
-            </div>
+ <div key={i} style={{ display:'grid', gridTemplateColumns:'80px 1fr auto', gap:14, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9 }}>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:'#1d1d1f' }}>{d.hora}</span>
+ <span style={{ fontSize:12, color:'#3a3a3d' }}>{d.evento}</span>
+ <Badge label={d.delta} color={d.color}/>
+ </div>
           ))}
-        </div>
-      </Card>
-    </>
+ </div>
+ </Card>
+ </>
   )
 }
 
 function SecAdversario() {
   return (
-    <Card>
-      <CardHeader title="Adversarios · live feed" sub={`${ADVERSARIO_FEED.length} declaraciones tracked últimas 24h`} accent="#DC2626"/>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10 }}>
+ <Card>
+ <CardHeader title="Adversarios · live feed" sub={`${ADVERSARIO_FEED.length} declaraciones tracked últimas 24h`} accent="#DC2626"/>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10 }}>
         {(['PSOE', 'VOX', 'SUMAR'] as const).map(partido => {
           const items = ADVERSARIO_FEED.filter(a => a.partido === partido)
           const color = items[0]?.color || '#525258'
           return (
-            <div key={partido} style={{ display:'flex', flexDirection:'column', gap:8, minWidth:0 }}>
-              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.08em', textAlign:'center', padding:'6px 8px', borderRadius:7, background:color, color:'#fff', textTransform:'uppercase' }}>{partido} · {items.length}</div>
+ <div key={partido} style={{ display:'flex', flexDirection:'column', gap:8, minWidth:0 }}>
+ <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.08em', textAlign:'center', padding:'6px 8px', borderRadius:7, background:color, color:'#fff', textTransform:'uppercase' }}>{partido} · {items.length}</div>
               {items.map((a, i) => (
-                <div key={i} style={{ padding:'10px 12px', background:`${color}06`, border:`1px solid ${color}25`, borderRadius:9, borderLeft:`2px solid ${color}` }}>
-                  <div style={{ fontSize:11.5, color:'#1d1d1f', lineHeight:1.4, marginBottom:6 }}>{a.declaracion}</div>
-                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:9.5, color:'#86868b', marginBottom:4 }}>
-                    <span style={{ fontWeight:600, color:'#3a3a3d' }}>{a.quien}</span>
-                    <span>{a.cuando}</span>
-                  </div>
-                  <Badge label={a.sentimiento} color={SENTIMENT_COLOR[a.sentimiento]}/>
-                </div>
+ <div key={i} style={{ padding:'10px 12px', background:`${color}06`, border:`1px solid ${color}25`, borderRadius:9, borderLeft:`2px solid ${color}` }}>
+ <div style={{ fontSize:11.5, color:'#1d1d1f', lineHeight:1.4, marginBottom:6 }}>{a.declaracion}</div>
+ <div style={{ display:'flex', justifyContent:'space-between', fontSize:9.5, color:'#86868b', marginBottom:4 }}>
+ <span style={{ fontWeight:600, color:'#3a3a3d' }}>{a.quien}</span>
+ <span>{a.cuando}</span>
+ </div>
+ <Badge label={a.sentimiento} color={SENTIMENT_COLOR[a.sentimiento]}/>
+ </div>
               ))}
-            </div>
+ </div>
           )
         })}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecOpp() {
   return (
-    <Card>
-      <CardHeader title="Opposition research · alertas" sub={`${OPP_ALERTS.length} señales activas · OSINT + fuentes internas`} accent="#7C3AED"/>
-      <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+ <Card>
+ <CardHeader title="Opposition research · alertas" sub={`${OPP_ALERTS.length} señales activas · OSINT + fuentes internas`} accent="#7C3AED"/>
+ <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
         {OPP_ALERTS.map((a, i) => {
           const cgrav = a.gravedad === 'ALTA' ? '#DC2626' : a.gravedad === 'MEDIA' ? '#F97316' : '#EAB308'
           return (
-            <div key={i} style={{ padding:'14px 16px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, borderLeft:`3px solid ${cgrav}` }}>
-              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:8, marginBottom:6 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                  <Badge label={a.gravedad} color={cgrav}/>
-                  <span style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>{a.fuente}</span>
-                </div>
-                <span style={{ fontSize:10.5, color:'#86868b' }}>{a.cuando}</span>
-              </div>
-              <div style={{ fontSize:13, color:'#1d1d1f', fontWeight:600, lineHeight:1.4, marginBottom:6 }}>{a.titulo}</div>
-              <div style={{ fontSize:11.5, color:'#3a3a3d', lineHeight:1.5 }}>{a.descripcion}</div>
-            </div>
+ <div key={i} style={{ padding:'14px 16px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, borderLeft:`3px solid ${cgrav}` }}>
+ <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:8, marginBottom:6 }}>
+ <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+ <Badge label={a.gravedad} color={cgrav}/>
+ <span style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>{a.fuente}</span>
+ </div>
+ <span style={{ fontSize:10.5, color:'#86868b' }}>{a.cuando}</span>
+ </div>
+ <div style={{ fontSize:13, color:'#1d1d1f', fontWeight:600, lineHeight:1.4, marginBottom:6 }}>{a.titulo}</div>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', lineHeight:1.5 }}>{a.descripcion}</div>
+ </div>
           )
         })}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecMedia() {
   const totalAlcance = MEDIA_MONITOR.reduce((s, m) => s + m.alcance, 0)
   return (
-    <Card>
-      <CardHeader title="Media monitor · cobertura últimas 24h" sub={`${MEDIA_MONITOR.length} apariciones · ${(totalAlcance/1_000_000).toFixed(1)}M alcance acumulado`} accent="#0EA5E9"/>
-      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
-        <thead>
-          <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+ <Card>
+ <CardHeader title="Media monitor · cobertura últimas 24h" sub={`${MEDIA_MONITOR.length} apariciones · ${(totalAlcance/1_000_000).toFixed(1)}M alcance acumulado`} accent="#0EA5E9"/>
+ <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+ <thead>
+ <tr style={{ borderBottom:'2px solid #ECECEF' }}>
             {['Medio','Tipo','Titular','Alcance','Sentimiento','Hora'].map(h => (
-              <th key={h} style={{ textAlign:'left', padding:'9px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+ <th key={h} style={{ textAlign:'left', padding:'9px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+ </tr>
+ </thead>
+ <tbody>
           {MEDIA_MONITOR.map((m, i) => (
-            <tr key={i} style={{ borderBottom:'1px solid #F5F5F7' }}>
-              <td style={{ padding:'9px 8px', fontWeight:600, color:'#1d1d1f' }}>{m.medio}</td>
-              <td style={{ padding:'9px 8px' }}><Badge label={m.tipo} color="#525258"/></td>
-              <td style={{ padding:'9px 8px', color:'#3a3a3d', maxWidth:340 }}>{m.titular}</td>
-              <td style={{ padding:'9px 8px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{(m.alcance/1000).toFixed(0)}k</td>
-              <td style={{ padding:'9px 8px' }}><Badge label={m.sentiment} color={SENTIMENT_COLOR[m.sentiment]}/></td>
-              <td style={{ padding:'9px 8px', fontFamily:'var(--font-display)', fontWeight:600, color:'#6e6e73' }}>{m.hora}</td>
-            </tr>
+ <tr key={i} style={{ borderBottom:'1px solid #F5F5F7' }}>
+ <td style={{ padding:'9px 8px', fontWeight:600, color:'#1d1d1f' }}>{m.medio}</td>
+ <td style={{ padding:'9px 8px' }}><Badge label={m.tipo} color="#525258"/></td>
+ <td style={{ padding:'9px 8px', color:'#3a3a3d', maxWidth:340 }}>{m.titular}</td>
+ <td style={{ padding:'9px 8px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{(m.alcance/1000).toFixed(0)}k</td>
+ <td style={{ padding:'9px 8px' }}><Badge label={m.sentiment} color={SENTIMENT_COLOR[m.sentiment]}/></td>
+ <td style={{ padding:'9px 8px', fontFamily:'var(--font-display)', fontWeight:600, color:'#6e6e73' }}>{m.hora}</td>
+ </tr>
           ))}
-        </tbody>
-      </table>
-    </Card>
+ </tbody>
+ </table>
+ </Card>
   )
 }
 
 function SecEndorsements() {
   return (
-    <Card>
-      <CardHeader title="Endorsements · apoyos del mes" sub={`${ENDORSEMENTS.length} apoyos · ${ENDORSEMENTS.filter(e => e.impacto === 'ALTO').length} de impacto ALTO`} accent="#7C3AED"/>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+ <Card>
+ <CardHeader title="Endorsements · apoyos del mes" sub={`${ENDORSEMENTS.length} apoyos · ${ENDORSEMENTS.filter(e => e.impacto === 'ALTO').length} de impacto ALTO`} accent="#7C3AED"/>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
         {ENDORSEMENTS.map((e, i) => {
           const c = e.impacto === 'ALTO' ? '#7C3AED' : '#A78BFA'
           return (
-            <div key={i} style={{ padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, borderLeft:`3px solid ${c}` }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:5 }}>
-                <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f' }}>{e.quien}</span>
-                <Badge label={e.impacto} color={c}/>
-              </div>
-              <div style={{ fontSize:11.5, color:'#3a3a3d', marginBottom:5 }}>{e.rol}</div>
-              <div style={{ fontSize:10.5, color:'#86868b' }}>{e.donde} · {e.cuando}</div>
-            </div>
+ <div key={i} style={{ padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, borderLeft:`3px solid ${c}` }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:5 }}>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f' }}>{e.quien}</span>
+ <Badge label={e.impacto} color={c}/>
+ </div>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', marginBottom:5 }}>{e.rol}</div>
+ <div style={{ fontSize:10.5, color:'#86868b' }}>{e.donde} · {e.cuando}</div>
+ </div>
           )
         })}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecAgenda({ agenda }: any) {
   return (
-    <Card>
-      <CardHeader title="Agenda · próximos 10 días" sub={`${agenda.length} actos programados`} accent="#1F4E8C" right={<Button>+ Nuevo acto</Button>}/>
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <Card>
+ <CardHeader title="Agenda · próximos 10 días" sub={`${agenda.length} actos programados`} accent="#1F4E8C" right={<Button>+ Nuevo acto</Button>}/>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
         {agenda.map((a: any, i: number) => (
-          <div key={i} style={{ display:'grid', gridTemplateColumns:'70px 6px 1fr auto', gap:12, alignItems:'center', padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
-            <div style={{ textAlign:'center' }}>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{a.fecha.slice(0,5)}</div>
-              <div style={{ fontSize:11, color:'#6e6e73', fontWeight:600, marginTop:3 }}>{a.hora}</div>
-            </div>
-            <div style={{ width:6, height:42, background:TIPO_COLOR[a.tipo as TipoActo], borderRadius:3 }}/>
-            <div style={{ minWidth:0 }}>
-              <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3, flexWrap:'wrap' }}>
-                <Badge label={a.tipo} color={TIPO_COLOR[a.tipo as TipoActo]}/>
-                <span style={{ fontSize:10, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em' }}>· {a.coverage.toUpperCase()}</span>
+ <div key={i} style={{ display:'grid', gridTemplateColumns:'70px 6px 1fr auto', gap:12, alignItems:'center', padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
+ <div style={{ textAlign:'center' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{a.fecha.slice(0,5)}</div>
+ <div style={{ fontSize:11, color:'#6e6e73', fontWeight:600, marginTop:3 }}>{a.hora}</div>
+ </div>
+ <div style={{ width:6, height:42, background:TIPO_COLOR[a.tipo as TipoActo], borderRadius:3 }}/>
+ <div style={{ minWidth:0 }}>
+ <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3, flexWrap:'wrap' }}>
+ <Badge label={a.tipo} color={TIPO_COLOR[a.tipo as TipoActo]}/>
+ <span style={{ fontSize:10, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em' }}>· {a.coverage.toUpperCase()}</span>
                 {a.aforo && <span style={{ fontSize:10, fontWeight:700, color:'#6e6e73' }}>· {a.aforo.toLocaleString('es-ES')} aforo</span>}
-              </div>
-              <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{a.titulo}</div>
-              <div style={{ fontSize:11, color:'#6e6e73', marginTop:2 }}>{a.ubicacion}</div>
-            </div>
-            <Badge label={a.estado} color={ESTADO_ACTO[a.estado]}/>
-          </div>
+ </div>
+ <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{a.titulo}</div>
+ <div style={{ fontSize:11, color:'#6e6e73', marginTop:2 }}>{a.ubicacion}</div>
+ </div>
+ <Badge label={a.estado} color={ESTADO_ACTO[a.estado]}/>
+ </div>
         ))}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecEquipo({ equipo }: any) {
   return (
-    <Card>
-      <CardHeader title="Equipo central" sub={`${equipo.length} miembros · estado en directo`} accent="#5B21B6"/>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+ <Card>
+ <CardHeader title="Equipo central" sub={`${equipo.length} miembros · estado en directo`} accent="#5B21B6"/>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
         {equipo.map((m: any) => (
-          <div key={m.rol} style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:10, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
-            <div style={{ width:38, height:38, borderRadius:'50%', background:ROL_COLOR[m.rol as RolEquipo], color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-display)', fontWeight:800, fontSize:11, flexShrink:0 }}>
+ <div key={m.rol} style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:10, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
+ <div style={{ width:38, height:38, borderRadius:'50%', background:ROL_COLOR[m.rol as RolEquipo], color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-display)', fontWeight:800, fontSize:11, flexShrink:0 }}>
               {m.nombre.split(/\s+/).slice(0,2).map((s: string) => s[0]).join('').toUpperCase()}
-            </div>
-            <div style={{ minWidth:0 }}>
-              <Badge label={m.rol} color={ROL_COLOR[m.rol as RolEquipo]} outline/>
-              <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f', marginTop:3, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre}</div>
-              <div style={{ fontSize:10, color:'#86868b', marginTop:1 }}>{m.ult}</div>
-            </div>
-            <Badge label={m.estado} color={ESTADO_META[m.estado as EstadoMiembro]?.color || '#6e6e73'}/>
-          </div>
+ </div>
+ <div style={{ minWidth:0 }}>
+ <Badge label={m.rol} color={ROL_COLOR[m.rol as RolEquipo]} outline/>
+ <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f', marginTop:3, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre}</div>
+ <div style={{ fontSize:10, color:'#86868b', marginTop:1 }}>{m.ult}</div>
+ </div>
+ <Badge label={m.estado} color={ESTADO_META[m.estado as EstadoMiembro]?.color || '#6e6e73'}/>
+ </div>
         ))}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
 function SecTareas({ tareas, cycle }: any) {
   return (
-    <Card>
-      <CardHeader title="Tareas críticas del día" sub={`${tareas.filter((t: any) => t.estado === 'Completada').length}/${tareas.length} completadas`} accent="#5B21B6" right={<Button>+ Nueva tarea</Button>}/>
-      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12.5 }}>
-        <thead>
-          <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+ <Card>
+ <CardHeader title="Tareas críticas del día" sub={`${tareas.filter((t: any) => t.estado === 'Completada').length}/${tareas.length} completadas`} accent="#5B21B6" right={<Button>+ Nueva tarea</Button>}/>
+ <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12.5 }}>
+ <thead>
+ <tr style={{ borderBottom:'2px solid #ECECEF' }}>
             {['Tarea','Responsable','Plazo','Estado'].map(h => (
-              <th key={h} style={{ textAlign:'left', padding:'9px 10px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+ <th key={h} style={{ textAlign:'left', padding:'9px 10px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+ </tr>
+ </thead>
+ <tbody>
           {tareas.map((t: any) => (
-            <tr key={t.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-              <td style={{ padding:'10px 10px', fontWeight:600, color:'#1d1d1f' }}>{t.tarea}</td>
-              <td style={{ padding:'10px 10px', color:'#3a3a3d', fontSize:11.5 }}>{t.resp}</td>
-              <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{t.plazo}</td>
-              <td style={{ padding:'10px 10px' }}>
-                <span onClick={() => cycle(t.id)}
+ <tr key={t.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
+ <td style={{ padding:'10px 10px', fontWeight:600, color:'#1d1d1f' }}>{t.tarea}</td>
+ <td style={{ padding:'10px 10px', color:'#3a3a3d', fontSize:11.5 }}>{t.resp}</td>
+ <td style={{ padding:'10px 10px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{t.plazo}</td>
+ <td style={{ padding:'10px 10px' }}>
+ <span onClick={() => cycle(t.id)}
                   style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.06em', padding:'2px 8px', borderRadius:999, background:`${TAR_COLOR[t.estado as EstadoTarea]}15`, color:TAR_COLOR[t.estado as EstadoTarea], border:`1px solid ${TAR_COLOR[t.estado as EstadoTarea]}40`, cursor:'pointer' }}>
                   {t.estado.toUpperCase()}
-                </span>
-              </td>
-            </tr>
+ </span>
+ </td>
+ </tr>
           ))}
-        </tbody>
-      </table>
-    </Card>
+ </tbody>
+ </table>
+ </Card>
   )
 }
 
 function SecVoluntarios({ kpis }: any) {
   return (
-    <>
-      <Card>
-        <CardHeader title="Voluntarios · KPIs" accent="#16A34A"/>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
-          <SKpi big label="Voluntarios totales" value={kpis.voluntarios.toLocaleString('es-ES')} delta="+184 esta semana" deltaPos color="#16A34A"/>
-          <SKpi label="Activos hoy"   value="1.247" sub="38 provincias" color="#16A34A"/>
-          <SKpi label="Locales"       value={`${kpis.localesAbiertos}`} sub="48 provincias" color="#0EA5E9"/>
-          <SKpi label="Ratio activación" value="48%" sub="objetivo 60%" color="#F97316"/>
-        </div>
-      </Card>
-      <Card>
-        <CardHeader title="Activity feed · últimas 2 horas" sub={`${VOL_ACTIVITY.length} acciones registradas`} accent="#16A34A"/>
-        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <>
+ <Card>
+ <CardHeader title="Voluntarios · KPIs" accent="#16A34A"/>
+ <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+ <SKpi big label="Voluntarios totales" value={kpis.voluntarios.toLocaleString('es-ES')} delta="+184 esta semana" deltaPos color="#16A34A"/>
+ <SKpi label="Activos hoy" value="1.247" sub="38 provincias" color="#16A34A"/>
+ <SKpi label="Locales" value={`${kpis.localesAbiertos}`} sub="48 provincias" color="#0EA5E9"/>
+ <SKpi label="Ratio activación" value="48%" sub="objetivo 60%" color="#F97316"/>
+ </div>
+ </Card>
+ <Card>
+ <CardHeader title="Activity feed · últimas 2 horas" sub={`${VOL_ACTIVITY.length} acciones registradas`} accent="#16A34A"/>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
           {VOL_ACTIVITY.map((v, i) => (
-            <div key={i} style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:12, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
-              <div style={{ width:36, height:36, borderRadius:8, background: TIPO_VOL_COLOR[v.tipo], color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-display)', fontWeight:800, fontSize:13, flexShrink:0 }}>
-                {v.tipo === 'puerta' ? '⌂' : v.tipo === 'llamada' ? '☎' : v.tipo === 'evento' ? '★' : '◉'}
-              </div>
-              <div style={{ minWidth:0 }}>
-                <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{v.accion}</div>
-                <div style={{ fontSize:10.5, color:'#6e6e73', marginTop:2 }}>{v.voluntario} · {v.localidad} · {v.cuando}</div>
-              </div>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, color: TIPO_VOL_COLOR[v.tipo] }}>{v.cantidad}</span>
-            </div>
+ <div key={i} style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:12, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
+ <div style={{ width:36, height:36, borderRadius:8, background: TIPO_VOL_COLOR[v.tipo], color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-display)', fontWeight:800, fontSize:13, flexShrink:0 }}>
+                {v.tipo === 'puerta' ? '⌂' : v.tipo === 'llamada' ? '' : v.tipo === 'evento' ? '★' : '◉'}
+ </div>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{v.accion}</div>
+ <div style={{ fontSize:10.5, color:'#6e6e73', marginTop:2 }}>{v.voluntario} · {v.localidad} · {v.cuando}</div>
+ </div>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, color: TIPO_VOL_COLOR[v.tipo] }}>{v.cantidad}</span>
+ </div>
           ))}
-        </div>
-      </Card>
-    </>
+ </div>
+ </Card>
+ </>
   )
 }
 
@@ -995,76 +995,76 @@ function SecFundraising() {
   const meta = 2_000_000
   const pct = (total / meta) * 100
   return (
-    <>
-      <Card>
-        <CardHeader title="Fundraising · acumulado de campaña" sub={`Meta €${(meta/1000).toFixed(0)}K · ${pct.toFixed(1)}% completado`} accent="#0EA5E9"/>
-        <div style={{ background:'linear-gradient(135deg,#0EA5E908,#0EA5E903)', border:'1px solid #0EA5E930', borderRadius:11, padding:'18px 22px', marginBottom:14 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:8 }}>
-            <div>
-              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73' }}>Acumulado total</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, color:'#0EA5E9', letterSpacing:'-0.022em', lineHeight:1, marginTop:5 }}>€{total.toLocaleString('es-ES')}</div>
-              <div style={{ fontSize:11.5, color:'#3a3a3d', marginTop:5 }}>3.842 donantes · 24h: <strong>€42.380</strong> de 218 nuevos</div>
-            </div>
-            <div style={{ textAlign:'right' }}>
-              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73' }}>Meta</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, color:'#3a3a3d' }}>€{meta.toLocaleString('es-ES')}</div>
-            </div>
-          </div>
-          <div style={{ height:10, background:'#fff', borderRadius:5, overflow:'hidden' }}>
-            <div style={{ width:`${pct}%`, height:'100%', background:'#0EA5E9' }}/>
-          </div>
-        </div>
-      </Card>
-      <Card>
-        <CardHeader title="Donaciones recientes" sub={`${DONACIONES.length} últimas · live feed`} accent="#0EA5E9"/>
-        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+ <>
+ <Card>
+ <CardHeader title="Fundraising · acumulado de campaña" sub={`Meta €${(meta/1000).toFixed(0)}K · ${pct.toFixed(1)}% completado`} accent="#0EA5E9"/>
+ <div style={{ background:'linear-gradient(135deg,#0EA5E908,#0EA5E903)', border:'1px solid #0EA5E930', borderRadius:11, padding:'18px 22px', marginBottom:14 }}>
+ <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:8 }}>
+ <div>
+ <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73' }}>Acumulado total</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, color:'#0EA5E9', letterSpacing:'-0.022em', lineHeight:1, marginTop:5 }}>€{total.toLocaleString('es-ES')}</div>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', marginTop:5 }}>3.842 donantes · 24h: <strong>€42.380</strong> de 218 nuevos</div>
+ </div>
+ <div style={{ textAlign:'right' }}>
+ <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73' }}>Meta</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, color:'#3a3a3d' }}>€{meta.toLocaleString('es-ES')}</div>
+ </div>
+ </div>
+ <div style={{ height:10, background:'#fff', borderRadius:5, overflow:'hidden' }}>
+ <div style={{ width:`${pct}%`, height:'100%', background:'#0EA5E9' }}/>
+ </div>
+ </div>
+ </Card>
+ <Card>
+ <CardHeader title="Donaciones recientes" sub={`${DONACIONES.length} últimas · live feed`} accent="#0EA5E9"/>
+ <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
           {DONACIONES.map((d, i) => (
-            <div key={i} style={{ display:'grid', gridTemplateColumns:'1fr auto auto', gap:10, alignItems:'center', padding:'9px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9 }}>
-              <div style={{ minWidth:0 }}>
-                <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{d.donante}</div>
-                <div style={{ fontSize:10, color:'#86868b', marginTop:2 }}>{d.cuando}</div>
-              </div>
-              <Badge label={d.tipo} color={d.tipo==='grande' ? '#0EA5E9' : d.tipo==='PAC' ? '#7C3AED' : '#16A34A'}/>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color:'#0EA5E9' }}>€{d.cantidad}</span>
-            </div>
+ <div key={i} style={{ display:'grid', gridTemplateColumns:'1fr auto auto', gap:10, alignItems:'center', padding:'9px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9 }}>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:12, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{d.donante}</div>
+ <div style={{ fontSize:10, color:'#86868b', marginTop:2 }}>{d.cuando}</div>
+ </div>
+ <Badge label={d.tipo} color={d.tipo==='grande' ? '#0EA5E9' : d.tipo==='PAC' ? '#7C3AED' : '#16A34A'}/>
+ <span style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color:'#0EA5E9' }}>€{d.cantidad}</span>
+ </div>
           ))}
-        </div>
-      </Card>
-    </>
+ </div>
+ </Card>
+ </>
   )
 }
 
 function SecPresupuesto({ presupuesto, candidato }: any) {
   return (
-    <Card>
-      <CardHeader title="Presupuesto de campaña" sub={`${(presupuesto.gastado/1000).toFixed(2)}M€ ejecutados de ${(presupuesto.total/1000).toFixed(2)}M€`} accent="#B45309"/>
-      <div style={{ marginBottom:18 }}>
-        <div style={{ height:12, background:'#F5F5F7', borderRadius:6, overflow:'hidden', marginBottom:6 }}>
-          <div style={{ width:`${(presupuesto.gastado / presupuesto.total) * 100}%`, height:'100%', background:`linear-gradient(90deg, ${candidato.color}, ${candidato.color}aa)`, borderRadius:6 }}/>
-        </div>
-        <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, color:'#6e6e73', fontWeight:600 }}>
-          <span>{Math.round((presupuesto.gastado / presupuesto.total) * 100)}% ejecutado</span>
-          <span>Restante: <strong style={{ color:'#1d1d1f' }}>{((presupuesto.total - presupuesto.gastado)/1000).toFixed(2)}M€</strong></span>
-        </div>
-      </div>
-      <div style={{ fontSize:10, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:10 }}>Distribución por línea</div>
-      <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+ <Card>
+ <CardHeader title="Presupuesto de campaña" sub={`${(presupuesto.gastado/1000).toFixed(2)}M€ ejecutados de ${(presupuesto.total/1000).toFixed(2)}M€`} accent="#B45309"/>
+ <div style={{ marginBottom:18 }}>
+ <div style={{ height:12, background:'#F5F5F7', borderRadius:6, overflow:'hidden', marginBottom:6 }}>
+ <div style={{ width:`${(presupuesto.gastado / presupuesto.total) * 100}%`, height:'100%', background:`linear-gradient(90deg, ${candidato.color}, ${candidato.color}aa)`, borderRadius:6 }}/>
+ </div>
+ <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, color:'#6e6e73', fontWeight:600 }}>
+ <span>{Math.round((presupuesto.gastado / presupuesto.total) * 100)}% ejecutado</span>
+ <span>Restante: <strong style={{ color:'#1d1d1f' }}>{((presupuesto.total - presupuesto.gastado)/1000).toFixed(2)}M€</strong></span>
+ </div>
+ </div>
+ <div style={{ fontSize:10, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:10 }}>Distribución por línea</div>
+ <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
         {presupuesto.lineas.map((p: any) => {
           const pct = (p.gastado / p.presupuestado) * 100
           return (
-            <div key={p.concepto}>
-              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4, fontSize:12 }}>
-                <span style={{ color:'#1d1d1f', fontWeight:600 }}>{p.concepto}</span>
-                <span style={{ fontFamily:'var(--font-display)', color:p.color, fontWeight:700 }}>{p.gastado}K€<span style={{ color:'#86868b', fontWeight:500 }}> / {p.presupuestado}K€ · {pct.toFixed(0)}%</span></span>
-              </div>
-              <div style={{ height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                <div style={{ width:`${pct}%`, height:'100%', background:p.color, borderRadius:3 }}/>
-              </div>
-            </div>
+ <div key={p.concepto}>
+ <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4, fontSize:12 }}>
+ <span style={{ color:'#1d1d1f', fontWeight:600 }}>{p.concepto}</span>
+ <span style={{ fontFamily:'var(--font-display)', color:p.color, fontWeight:700 }}>{p.gastado}K€<span style={{ color:'#86868b', fontWeight:500 }}> / {p.presupuestado}K€ · {pct.toFixed(0)}%</span></span>
+ </div>
+ <div style={{ height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
+ <div style={{ width:`${pct}%`, height:'100%', background:p.color, borderRadius:3 }}/>
+ </div>
+ </div>
           )
         })}
-      </div>
-    </Card>
+ </div>
+ </Card>
   )
 }
 
@@ -1082,14 +1082,14 @@ function SentimentChart({ points, large }: { points: number[]; large?: boolean }
   }).join(' ')
   const area = `${path} L${P + (W - 2 * P)},${H - P} L${P},${H - P} Z`
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:'block' }}>
-      <path d={area} fill="#16A34A20"/>
-      <path d={path} fill="none" stroke="#16A34A" strokeWidth={2}/>
+ <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display:'block' }}>
+ <path d={area} fill="#16A34A20"/>
+ <path d={path} fill="none" stroke="#16A34A" strokeWidth={2}/>
       {points.map((v, i) => {
         const x = P + (i / (points.length - 1)) * (W - 2 * P)
         const y = P + (1 - (v - min) / range) * (H - 2 * P)
         return <circle key={i} cx={x} cy={y} r={1.8} fill="#16A34A"/>
       })}
-    </svg>
+ </svg>
   )
 }

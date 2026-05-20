@@ -16,14 +16,14 @@ export function KpiCard({
   color: string
 }) {
   return (
-    <div style={{
+ <div style={{
       background: '#fff',
       border: '1px solid #ECECEF',
       borderRadius: 12,
       padding: '14px 16px',
       boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <div style={{
+ <div style={{
         fontSize: 9,
         fontWeight: 800,
         color: '#6e6e73',
@@ -31,9 +31,9 @@ export function KpiCard({
         textTransform: 'uppercase',
       }}>
         {label}
-      </div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 5, marginTop: 4 }}>
-        <span style={{
+ </div>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 5, marginTop: 4 }}>
+ <span style={{
           fontFamily: 'var(--font-display)',
           fontSize: 22,
           fontWeight: 700,
@@ -42,21 +42,21 @@ export function KpiCard({
           lineHeight: 1,
         }}>
           {value}
-        </span>
+ </span>
         {sub && (
-          <span style={{ fontSize: 10, color: '#86868b', fontWeight: 600 }}>{sub}</span>
+ <span style={{ fontSize: 10, color: '#86868b', fontWeight: 600 }}>{sub}</span>
         )}
-      </div>
+ </div>
       {delta && (
-        <div style={{
+ <div style={{
           fontSize: 10,
           fontWeight: 700,
           color: pos ? '#16A34A' : color,
           marginTop: 5,
         }}>
           {pos ? '▲ ' : ''}{delta}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }

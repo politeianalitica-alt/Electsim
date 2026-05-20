@@ -57,8 +57,8 @@ export async function fetchWikipediaPolls(limit = 30): Promise<SondeoWiki[]> {
   try {
     const r = await fetch(WIKI_URL, {
       headers: {
-        'User-Agent': 'Politeia-Analitica/1.0 (+https://politeia-analitica.vercel.app)',
-        'Accept': 'application/json',
+ 'User-Agent': 'Politeia-Analitica/1.0 (+https://politeia-analitica.vercel.app)',
+ 'Accept': 'application/json',
       },
       next: { revalidate: 21600 },
     })

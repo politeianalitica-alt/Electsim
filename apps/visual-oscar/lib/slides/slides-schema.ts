@@ -27,19 +27,19 @@ export const DeckPayloadSchema = z.object({
 
 export const SLIDES_SCHEMA_HINT = `Devuelve ÚNICAMENTE JSON con este shape:
 {
-  "title": "Título del deck",
-  "subtitle": "Subtítulo descriptivo",
-  "slides": [
-    { "id": "s1", "layout": "title",     "title": "...", "subtitle": "...", "author": "..." },
-    { "id": "s2", "layout": "section",   "title": "Contexto" },
-    { "id": "s3", "layout": "kpi",       "title": "Estado actual", "kpis": [
+ "title": "Título del deck",
+ "subtitle": "Subtítulo descriptivo",
+ "slides": [
+    { "id": "s1", "layout": "title", "title": "...", "subtitle": "...", "author": "..." },
+    { "id": "s2", "layout": "section", "title": "Contexto" },
+    { "id": "s3", "layout": "kpi", "title": "Estado actual", "kpis": [
         { "label": "...", "value": "12.4%", "hint": "..." },
         { "label": "...", "value": "+2.3pp" }
     ] },
-    { "id": "s4", "layout": "content",   "title": "...", "bullets": ["...", "...", "..."] },
+    { "id": "s4", "layout": "content", "title": "...", "bullets": ["...", "...", "..."] },
     { "id": "s5", "layout": "two_column","title": "...", "bullets": ["..."], "rightBullets": ["..."] },
-    { "id": "s6", "layout": "quote",     "quote": "...", "author": "..." },
-    { "id": "s7", "layout": "closing",   "title": "Conclusiones", "bullets": ["...", "...", "..."] }
+    { "id": "s6", "layout": "quote", "quote": "...", "author": "..." },
+    { "id": "s7", "layout": "closing", "title": "Conclusiones", "bullets": ["...", "...", "..."] }
   ]
 }
 Reglas: 8-12 slides, contenido en español, sin Markdown, sin emojis, frases concisas.`;

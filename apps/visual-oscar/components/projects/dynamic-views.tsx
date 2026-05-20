@@ -7,9 +7,9 @@ export const KanbanView = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full items-center justify-center text-sm text-slate-500">
+ <div className="flex h-full items-center justify-center text-sm text-slate-500">
         Cargando Kanban…
-      </div>
+ </div>
     ),
   }
 );
@@ -19,9 +19,9 @@ export const GanttView = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full items-center justify-center text-sm text-slate-500">
+ <div className="flex h-full items-center justify-center text-sm text-slate-500">
         Cargando Gantt…
-      </div>
+ </div>
     ),
   }
 );

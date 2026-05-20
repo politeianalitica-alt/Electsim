@@ -25,9 +25,9 @@ export default function Spark({ values, width = 120, height = 32, color = '#1F4E
     : null
 
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block' }}>
+ <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block' }}>
       {fillArea && <path d={fillArea} fill={fill} opacity={0.18} />}
-      <polyline fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" points={points} />
-    </svg>
+ <polyline fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" points={points} />
+ </svg>
   )
 }

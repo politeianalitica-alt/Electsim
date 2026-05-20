@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
           crisis: result.data.crisis,
           playbooks: result.data.playbooks ?? PLAYBOOKS,
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         withMeta(
           { crisis: liveCrisis, playbooks: PLAYBOOKS },
-          'aggregator',
+ 'aggregator',
           {
             warnings: [`live_clusters:${liveCrisis.length}`, 'derived_from_sigint_signals'],
             latency_ms: result.latency_ms,
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(
     withMeta(
       { crisis: CRISIS, playbooks: PLAYBOOKS },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`, 'aggregator_no_clusters']

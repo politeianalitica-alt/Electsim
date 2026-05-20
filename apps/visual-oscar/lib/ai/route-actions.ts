@@ -18,77 +18,77 @@ interface RouteInfo {
 
 export const KNOWN_ROUTES: Record<string, RouteInfo> = {
   // Home / dashboard general
-  "/dashboard": { label: "Dashboard", description: "Vista ejecutiva principal", icon: "🏠" },
-  "/": { label: "Inicio", icon: "🏠" },
+ "/dashboard": { label: "Dashboard", description: "Vista ejecutiva principal", icon: "" },
+ "/": { label: "Inicio", icon: "" },
 
   // Riesgo y crisis
-  "/riesgo": { label: "Termómetro de Riesgo", description: "Índice de riesgo político (6 dimensiones)", icon: "🌡" },
-  "/crisis": { label: "Crisis Intelligence", description: "Monitor de crisis activa", icon: "⚠" },
-  "/deteccion-ataques": { label: "Detección de Ataques", description: "Ataques narrativos en curso", icon: "🛡" },
+ "/riesgo": { label: "Termómetro de Riesgo", description: "Índice de riesgo político (6 dimensiones)", icon: "" },
+ "/crisis": { label: "Crisis Intelligence", description: "Monitor de crisis activa", icon: "" },
+ "/deteccion-ataques": { label: "Detección de Ataques", description: "Ataques narrativos en curso", icon: "" },
 
   // Actores y mapa
-  "/mapa-actores": { label: "Mapa de Actores", description: "399 actores · relaciones · métricas de red", icon: "🗺" },
-  "/actores": { label: "Actores", description: "Catálogo de actores políticos", icon: "👥" },
-  "/adversarios": { label: "Inteligencia Adversarios", description: "Perfiles estratégicos rivales", icon: "🎯" },
+ "/mapa-actores": { label: "Mapa de Actores", description: "399 actores · relaciones · métricas de red", icon: "" },
+ "/actores": { label: "Actores", description: "Catálogo de actores políticos", icon: "" },
+ "/adversarios": { label: "Inteligencia Adversarios", description: "Perfiles estratégicos rivales", icon: "" },
 
   // Medios
-  "/prensa": { label: "Pulso de Prensa", description: "Titulares + sentimiento", icon: "📰" },
-  "/medios-narrativa": { label: "Mapa de Medios", description: "Narrativa por cabecera", icon: "📡" },
-  "/desinformacion": { label: "Desinformación", description: "Bulos detectados + paciente cero", icon: "🔍" },
-  "/ataques-narrativos": { label: "Desinformación", description: "Bulos detectados", icon: "🔍" }, // legacy alias
+ "/prensa": { label: "Pulso de Prensa", description: "Titulares + sentimiento", icon: "" },
+ "/medios-narrativa": { label: "Mapa de Medios", description: "Narrativa por cabecera", icon: "" },
+ "/desinformacion": { label: "Desinformación", description: "Bulos detectados + paciente cero", icon: "" },
+ "/ataques-narrativos": { label: "Desinformación", description: "Bulos detectados", icon: "" }, // legacy alias
 
   // Electoral
-  "/nowcasting": { label: "Módulo Electoral", description: "Estimación electoral en tiempo real", icon: "📊" },
-  "/escenarios": { label: "Simulador Estratégico", description: "Escenarios de coalición", icon: "🎲" },
-  "/microdatos": { label: "Perfiles de Votante", description: "Microdatos demográficos", icon: "📈" },
+ "/nowcasting": { label: "Módulo Electoral", description: "Estimación electoral en tiempo real", icon: "" },
+ "/escenarios": { label: "Simulador Estratégico", description: "Escenarios de coalición", icon: "" },
+ "/microdatos": { label: "Perfiles de Votante", description: "Microdatos demográficos", icon: "" },
 
   // Geopolítica y macro
-  "/geopolitica": { label: "Geopolítica y RRII", description: "OSINT + presencia internacional", icon: "🌍" },
-  "/macro": { label: "Macro & Economía", description: "Indicadores macroeconómicos", icon: "💹" },
+ "/geopolitica": { label: "Geopolítica y RRII", description: "OSINT + presencia internacional", icon: "" },
+ "/macro": { label: "Macro & Economía", description: "Indicadores macroeconómicos", icon: "" },
 
   // Legislativo y normativo
-  "/huella-legislativa": { label: "Huella Legislativa", description: "BOE · Congreso · EUR-Lex", icon: "📜" },
-  "/legislativo": { label: "Monitor Legislativo", icon: "📜" },
-  "/monitor-legislativo": { label: "Monitor Legislativo", icon: "📜" },
+ "/huella-legislativa": { label: "Huella Legislativa", description: "BOE · Congreso · EUR-Lex", icon: "" },
+ "/legislativo": { label: "Monitor Legislativo", icon: "" },
+ "/monitor-legislativo": { label: "Monitor Legislativo", icon: "" },
 
   // Contratación
-  "/licitaciones": { label: "Licitaciones", description: "Oportunidades de contratación pública", icon: "💼" },
-  "/adjudicaciones": { label: "Adjudicaciones", description: "Inteligencia sobre adjudicaciones", icon: "📋" },
-  "/contratos-vigentes": { label: "Contratos Vigentes", icon: "📋" },
+ "/licitaciones": { label: "Licitaciones", description: "Oportunidades de contratación pública", icon: "" },
+ "/adjudicaciones": { label: "Adjudicaciones", description: "Inteligencia sobre adjudicaciones", icon: "" },
+ "/contratos-vigentes": { label: "Contratos Vigentes", icon: "" },
 
   // Alertas e inteligencia
-  "/alertas": { label: "Alertas", description: "Sala de Control · señales críticas", icon: "🚨" },
-  "/inteligencia": { label: "Inteligencia", icon: "🧠" },
+ "/alertas": { label: "Alertas", description: "Sala de Control · señales críticas", icon: "" },
+ "/inteligencia": { label: "Inteligencia", icon: "" },
 
   // Workspaces
-  "/workspaces": { label: "Workspaces", description: "Espacios de trabajo", icon: "📁" },
-  "/workspaces/ws_espana_2026/overview": {
+ "/workspaces": { label: "Workspaces", description: "Espacios de trabajo", icon: "" },
+ "/workspaces/ws_espana_2026/overview": {
     label: "Workspace España 2026",
     description: "Overview ejecutivo + 10 secciones",
-    icon: "🇪🇸",
+    icon: "",
   },
 
   // Estudio
-  "/estudio": { label: "Estudio Politeia", description: "Centro de operaciones del analista", icon: "🎯" },
-  "/war-room": { label: "War Room", description: "Sala de operaciones", icon: "⚔" },
+ "/estudio": { label: "Estudio Politeia", description: "Centro de operaciones del analista", icon: "" },
+ "/war-room": { label: "War Room", description: "Sala de operaciones", icon: "" },
 
   // Termómetro / IA
-  "/termometro": { label: "Termómetro", icon: "🌡" },
-  "/agente-ia": { label: "Agente IA", description: "Chat completo con el Brain", icon: "🤖" },
+ "/termometro": { label: "Termómetro", icon: "" },
+ "/agente-ia": { label: "Agente IA", description: "Chat completo con el Brain", icon: "" },
 
   // Sectoriales
-  "/sector-energia": { label: "Sector Energía & Utilities", icon: "⚡" },
-  "/sector-farma": { label: "Sector Farma & Salud", icon: "💊" },
-  "/sector-defensa": { label: "Sector Defensa & Industria", icon: "🛡" },
-  "/sector-vivienda": { label: "Sector Vivienda", icon: "🏘" },
-  "/sector-banca": { label: "Sector Banca & Seguros", icon: "🏦" },
-  "/sector-agro": { label: "Sector Agro", icon: "🌾" },
-  "/sector-telecom": { label: "Sector Telecom & Digital", icon: "📡" },
-  "/sector-infraestructuras": { label: "Sector Infraestructuras", icon: "🛣" },
-  "/sector-turismo": { label: "Sector Turismo", icon: "🏖" },
+ "/sector-energia": { label: "Sector Energía & Utilities", icon: "" },
+ "/sector-farma": { label: "Sector Farma & Salud", icon: "" },
+ "/sector-defensa": { label: "Sector Defensa & Industria", icon: "" },
+ "/sector-vivienda": { label: "Sector Vivienda", icon: "" },
+ "/sector-banca": { label: "Sector Banca & Seguros", icon: "" },
+ "/sector-agro": { label: "Sector Agro", icon: "" },
+ "/sector-telecom": { label: "Sector Telecom & Digital", icon: "" },
+ "/sector-infraestructuras": { label: "Sector Infraestructuras", icon: "" },
+ "/sector-turismo": { label: "Sector Turismo", icon: "" },
 
   // Fondos europeos
-  "/fondos-europeos": { label: "Fondos Europeos", icon: "💶" },
+ "/fondos-europeos": { label: "Fondos Europeos", icon: "" },
 };
 
 /**

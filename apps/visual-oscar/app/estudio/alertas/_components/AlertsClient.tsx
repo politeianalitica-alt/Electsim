@@ -19,7 +19,7 @@ const STATUS_META: Record<AlertStatus, { label: string; glyph: string; color: st
   active:    { label: 'Activa',    glyph: '●', color: '#22c55e' },
   paused:    { label: 'Pausada',   glyph: '⏸', color: '#9ca3af' },
   triggered: { label: 'Disparada', glyph: '!', color: '#f59e0b' },
-  resolved:  { label: 'Resuelta',  glyph: '✓', color: '#3b82f6' },
+  resolved:  { label: 'Resuelta',  glyph: '', color: '#3b82f6' },
 }
 
 const OP_LABELS: Record<string, string> = {
@@ -28,7 +28,7 @@ const OP_LABELS: Record<string, string> = {
 }
 
 const CHANNEL_GLYPH: Record<string, string> = {
-  in_app: '◐', email: '✉', webhook: '⇉',
+  in_app: '◐', email: '', webhook: '⇉',
 }
 
 export default function AlertsClient() {
@@ -60,7 +60,7 @@ export default function AlertsClient() {
 
   const testMutation = useMutation({
     mutationFn: alertsApi.testFire,
-    onSuccess:  (result) => alert(result.fired ? '✓ Alerta disparada correctamente' : '× Condición no cumplida'),
+    onSuccess:  (result) => alert(result.fired ? ' Alerta disparada correctamente' : '× Condición no cumplida'),
   })
 
   const datasetName = (id: string) => datasets.find(d => d.id === id)?.name ?? id
@@ -70,106 +70,106 @@ export default function AlertsClient() {
   const criticalCount  = alerts.filter(a => a.severity === 'critical').length
 
   return (
-    <div className={styles.root}>
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Alertas</h1>
-          <p className={styles.subtitle}>Monitorización proactiva de métricas y datasets</p>
-        </div>
-        <button onClick={() => { setEditingAlert(null); setShowForm(true) }} className={styles.btnPrimary}>
+ <div className={styles.root}>
+ <div className={styles.header}>
+ <div>
+ <h1 className={styles.title}>Alertas</h1>
+ <p className={styles.subtitle}>Monitorización proactiva de métricas y datasets</p>
+ </div>
+ <button onClick={() => { setEditingAlert(null); setShowForm(true) }} className={styles.btnPrimary}>
           + Nueva alerta
-        </button>
-      </div>
+ </button>
+ </div>
 
-      <div className={styles.kpiStrip}>
+ <div className={styles.kpiStrip}>
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} style={{ height: 68, borderRadius: 10 }} />)
         ) : (
-          <>
-            <div className={styles.kpiCard}><span className={styles.kpiVal}>{alerts.length}</span><span className={styles.kpiLbl}>Total alertas</span></div>
-            <div className={styles.kpiCard}><span className={styles.kpiVal} style={{ color: '#22c55e' }}>{activeCount}</span><span className={styles.kpiLbl}>Activas</span></div>
-            <div className={styles.kpiCard}><span className={styles.kpiVal} style={{ color: '#f59e0b' }}>{triggeredCount}</span><span className={styles.kpiLbl}>Disparadas</span></div>
-            <div className={styles.kpiCard}><span className={styles.kpiVal} style={{ color: '#ef4444' }}>{criticalCount}</span><span className={styles.kpiLbl}>Críticas</span></div>
-          </>
+ <>
+ <div className={styles.kpiCard}><span className={styles.kpiVal}>{alerts.length}</span><span className={styles.kpiLbl}>Total alertas</span></div>
+ <div className={styles.kpiCard}><span className={styles.kpiVal} style={{ color: '#22c55e' }}>{activeCount}</span><span className={styles.kpiLbl}>Activas</span></div>
+ <div className={styles.kpiCard}><span className={styles.kpiVal} style={{ color: '#f59e0b' }}>{triggeredCount}</span><span className={styles.kpiLbl}>Disparadas</span></div>
+ <div className={styles.kpiCard}><span className={styles.kpiVal} style={{ color: '#ef4444' }}>{criticalCount}</span><span className={styles.kpiLbl}>Críticas</span></div>
+ </>
         )}
-      </div>
+ </div>
 
       {isLoading ? (
-        <div className={styles.list}>
+ <div className={styles.list}>
           {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} style={{ height: 100, borderRadius: 12 }} />)}
-        </div>
+ </div>
       ) : alerts.length === 0 ? (
-        <div className={styles.empty}>
-          <span style={{ fontSize: '2rem', opacity: 0.25 }}>!</span>
-          <p>No hay alertas configuradas.</p>
-          <button onClick={() => setShowForm(true)} className={styles.btnPrimary}>Crear primera alerta</button>
-        </div>
+ <div className={styles.empty}>
+ <span style={{ fontSize: '2rem', opacity: 0.25 }}>!</span>
+ <p>No hay alertas configuradas.</p>
+ <button onClick={() => setShowForm(true)} className={styles.btnPrimary}>Crear primera alerta</button>
+ </div>
       ) : (
-        <div className={styles.list}>
+ <div className={styles.list}>
           {alerts.map(a => {
             const sev = SEV_META[a.severity]
             const st  = STATUS_META[a.status]
             return (
-              <div key={a.id} className={styles.card}>
-                <div className={styles.cardLeft}>
-                  <span
+ <div key={a.id} className={styles.card}>
+ <div className={styles.cardLeft}>
+ <span
                     className={styles.sevBadge}
                     style={{ color: sev.color, background: sev.bg, borderColor: `${sev.color}30` }}
                   >
                     {sev.label}
-                  </span>
-                </div>
-                <div className={styles.cardBody}>
-                  <div className={styles.cardTitleRow}>
-                    <span className={styles.cardName}>{a.name}</span>
-                    <span className={styles.statusChip} style={{ color: st.color }}>
+ </span>
+ </div>
+ <div className={styles.cardBody}>
+ <div className={styles.cardTitleRow}>
+ <span className={styles.cardName}>{a.name}</span>
+ <span className={styles.statusChip} style={{ color: st.color }}>
                       {st.glyph} {st.label}
-                    </span>
-                  </div>
+ </span>
+ </div>
                   {a.description && <p className={styles.cardDesc}>{a.description}</p>}
-                  <div className={styles.cardMeta}>
-                    <span title="Dataset">⊟ {datasetName(a.datasetId)}</span>
-                    <span>· {a.condition.field} {OP_LABELS[a.condition.op]} {a.condition.threshold ?? ''}</span>
+ <div className={styles.cardMeta}>
+ <span title="Dataset">⊟ {datasetName(a.datasetId)}</span>
+ <span>· {a.condition.field} {OP_LABELS[a.condition.op]} {a.condition.threshold ?? ''}</span>
                     {a.condition.windowMinutes && <span>· ventana {a.condition.windowMinutes}m</span>}
                     {a.triggerCount !== undefined && a.triggerCount > 0 && (
-                      <span>· {a.triggerCount} disparos</span>
+ <span>· {a.triggerCount} disparos</span>
                     )}
                     {a.lastTriggeredAt && (
-                      <span>· último: {timeAgo(a.lastTriggeredAt)}</span>
+ <span>· último: {timeAgo(a.lastTriggeredAt)}</span>
                     )}
-                  </div>
-                  <div className={styles.channelBadges}>
+ </div>
+ <div className={styles.channelBadges}>
                     {a.actions.map((act, i) => (
-                      <span key={i} className={styles.channelBadge}>
+ <span key={i} className={styles.channelBadge}>
                         {CHANNEL_GLYPH[act.channel] ?? '●'} {act.channel}
-                      </span>
+ </span>
                     ))}
-                  </div>
-                </div>
-                <div className={styles.cardActions}>
-                  <button
+ </div>
+ </div>
+ <div className={styles.cardActions}>
+ <button
                     onClick={() => toggleMutation.mutate(a.id)}
                     className={styles.btnSmall}
                     title={a.status === 'paused' ? 'Activar' : 'Pausar'}
                   >
                     {a.status === 'paused' ? '▶' : '⏸'}
-                  </button>
-                  <button onClick={() => testMutation.mutate(a.id)} className={styles.btnSmall} title="Probar">⚡</button>
-                  <button onClick={() => { setEditingAlert(a); setShowForm(true) }} className={styles.btnSmall} title="Editar">✎</button>
-                  <button
+ </button>
+ <button onClick={() => testMutation.mutate(a.id)} className={styles.btnSmall} title="Probar"></button>
+ <button onClick={() => { setEditingAlert(a); setShowForm(true) }} className={styles.btnSmall} title="Editar"></button>
+ <button
                     onClick={() => { if (confirm(`¿Eliminar "${a.name}"?`)) deleteMutation.mutate(a.id) }}
                     className={styles.btnSmall}
                     title="Eliminar"
                   >×</button>
-                </div>
-              </div>
+ </div>
+ </div>
             )
           })}
-        </div>
+ </div>
       )}
 
       {showForm && (
-        <AlertFormModal
+ <AlertFormModal
           alert={editingAlert}
           datasets={datasets}
           onClose={() => { setShowForm(false); setEditingAlert(null) }}
@@ -180,6 +180,6 @@ export default function AlertsClient() {
           }}
         />
       )}
-    </div>
+ </div>
   )
 }

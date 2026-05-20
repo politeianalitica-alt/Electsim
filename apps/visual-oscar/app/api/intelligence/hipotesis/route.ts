@@ -15,7 +15,7 @@ export async function GET(req: Request) {
 
   // Intento backend: si responde con `items` o `matriz`, lo usamos.
   const result = await callBackend<HipotesisACH>(
-    `/api/intelligence/hipotesis?canvas_id=${encodeURIComponent(canvas_id)}`,
+ `/api/intelligence/hipotesis?canvas_id=${encodeURIComponent(canvas_id)}`,
   )
   if (result.data && (result.data.hipotesis?.length ?? 0) > 0) {
     return NextResponse.json(withMeta(result.data, 'backend', { latency_ms: result.latency_ms }))

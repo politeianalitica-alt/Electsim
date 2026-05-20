@@ -71,7 +71,7 @@ export const pipelinesApi = {
   getRuns: (id: string)               => fetchDomo<PipelineRun[]>(`/pipeline/${id}/runs`),
   preview: (id: string, nodeId?: string) =>
     fetchDomo<{ columns: string[]; rows: Record<string, unknown>[] }>(
-      `/pipeline/${id}/preview${nodeId ? `?nodeId=${nodeId}` : ''}`
+ `/pipeline/${id}/preview${nodeId ? `?nodeId=${nodeId}` : ''}`
     ),
 }
 
@@ -89,7 +89,7 @@ export const datasetsApi = {
   query:   (id: string, sql: string)  =>
     fetchDomo<DatasetQueryResult>(`/dataset/${id}/query`, { method: 'POST', body: JSON.stringify({ sql }) }),
   exportUrl: (id: string, format: 'csv' | 'json' | 'parquet' = 'csv') =>
-    `${BASE}/dataset/${id}/export?format=${format}`,
+ `${BASE}/dataset/${id}/export?format=${format}`,
 }
 
 // ─── Dashboards ──────────────────────────────────────────────────────────────
@@ -103,7 +103,7 @@ export const dashboardsApi = {
   duplicate: (id: string)               => fetchDomo<Dashboard>(`/dashboard/${id}/duplicate`, { method: 'POST' }),
   widgetData: (dashboardId: string, widgetId: string) =>
     fetchDomo<{ columns: string[]; rows: Record<string, unknown>[] }>(
-      `/dashboard/${dashboardId}/widget/${widgetId}/data`
+ `/dashboard/${dashboardId}/widget/${widgetId}/data`
     ),
 }
 

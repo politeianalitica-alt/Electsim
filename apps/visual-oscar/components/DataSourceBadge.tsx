@@ -5,7 +5,7 @@
  * reales del backend, datos en caché, modo demo, o ha fallado.
  *
  * Uso:
- *   <DataSourceBadge source={meta?.source} ts={meta?.ts} warnings={meta?.warnings} />
+ * <DataSourceBadge source={meta?.source} ts={meta?.ts} warnings={meta?.warnings} />
  *
  * El operador NUNCA debe confundir demo con producción — este badge es la
  * última línea de defensa visual.
@@ -52,7 +52,7 @@ export default function DataSourceBadge({ source, ts, warnings, variant = 'compa
 
   if (variant === 'pill') {
     return (
-      <span
+ <span
         title={title}
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -62,23 +62,23 @@ export default function DataSourceBadge({ source, ts, warnings, variant = 'compa
           border: `1px solid ${s.fg}33`,
         }}
       >
-        <span style={{ width: 6, height: 6, borderRadius: 999, background: s.dot, boxShadow: source === 'backend' ? `0 0 0 0 ${s.dot}` : 'none', animation: source === 'backend' ? '_pulseDot 2s ease-in-out infinite' : 'none' }} />
+ <span style={{ width: 6, height: 6, borderRadius: 999, background: s.dot, boxShadow: source === 'backend' ? `0 0 0 0 ${s.dot}` : 'none', animation: source === 'backend' ? '_pulseDot 2s ease-in-out infinite' : 'none' }} />
         {s.label}
         {tsLabel && <span style={{ opacity: 0.7, fontWeight: 400 }}>· {tsLabel}</span>}
-        <style>{`@keyframes _pulseDot{0%,100%{box-shadow:0 0 0 0 ${s.dot}88}50%{box-shadow:0 0 0 4px ${s.dot}00}}`}</style>
-      </span>
+ <style>{`@keyframes _pulseDot{0%,100%{box-shadow:0 0 0 0 ${s.dot}88}50%{box-shadow:0 0 0 4px ${s.dot}00}}`}</style>
+ </span>
     )
   }
 
   // compact
   return (
-    <span
+ <span
       title={title}
       style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, color: s.fg, fontWeight: 600 }}
     >
-      <span style={{ width: 6, height: 6, borderRadius: 999, background: s.dot }} />
+ <span style={{ width: 6, height: 6, borderRadius: 999, background: s.dot }} />
       {s.label}
       {tsLabel && <span style={{ opacity: 0.6, fontWeight: 400 }}> · {tsLabel}</span>}
-    </span>
+ </span>
   )
 }

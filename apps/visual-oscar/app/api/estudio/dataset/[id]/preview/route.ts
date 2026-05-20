@@ -7,7 +7,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const offset = req.nextUrl.searchParams.get('offset') ?? '0'
   try {
     const res = await fetch(
-      `${BACKEND}/api/estudio/dataset/${params.id}/preview?limit=${limit}&offset=${offset}`,
+ `${BACKEND}/api/estudio/dataset/${params.id}/preview?limit=${limit}&offset=${offset}`,
       { next: { revalidate: 0 } },
     )
     if (!res.ok) throw new Error(`backend ${res.status}`)

@@ -22,7 +22,7 @@ export function IssueCard({ issue, onClick, variant = "card", showAssignee = tru
 
   if (variant === "row") {
     return (
-      <div
+ <div
         onClick={onClick}
         style={{
           display: "flex", alignItems: "center", gap: 10,
@@ -30,68 +30,68 @@ export function IssueCard({ issue, onClick, variant = "card", showAssignee = tru
           background: WS.surface2, cursor: onClick ? "pointer" : "default",
         }}
       >
-        <WsDot color={sevColor} />
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 12.5, color: WS.ink, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+ <WsDot color={sevColor} />
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 12.5, color: WS.ink, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {issue.title}
-          </div>
-          <div style={{ display: "flex", gap: 8, marginTop: 2, alignItems: "center" }}>
-            <span style={{ fontSize: 10.5, color: statusColor(issue.status) }}>
+ </div>
+ <div style={{ display: "flex", gap: 8, marginTop: 2, alignItems: "center" }}>
+ <span style={{ fontSize: 10.5, color: statusColor(issue.status) }}>
               {STATUS_MAP[issue.status] ?? issue.status}
-            </span>
+ </span>
             {issue.dueDate && (
-              <span style={{ fontSize: 10.5, color: WS.ink3 }}>
+ <span style={{ fontSize: 10.5, color: WS.ink3 }}>
                 · vence {formatShortDate(issue.dueDate)}
-              </span>
+ </span>
             )}
-          </div>
-        </div>
+ </div>
+ </div>
         {showAssignee && issue.ownerId && (
-          <Avatar id={issue.ownerId} />
+ <Avatar id={issue.ownerId} />
         )}
-      </div>
+ </div>
     );
   }
 
   return (
-    <WorkspaceCard onClick={onClick} hoverable={!!onClick} accentBorder={sevColor}>
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
-        <WsDot color={sevColor} />
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, lineHeight: 1.3, marginBottom: 3 }}>
+ <WorkspaceCard onClick={onClick} hoverable={!!onClick} accentBorder={sevColor}>
+ <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+ <WsDot color={sevColor} />
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, lineHeight: 1.3, marginBottom: 3 }}>
             {issue.title}
-          </div>
-          <div style={{ fontSize: 11.5, color: WS.ink3, lineHeight: 1.45 }}>
+ </div>
+ <div style={{ fontSize: 11.5, color: WS.ink3, lineHeight: 1.45 }}>
             {issue.summary}
-          </div>
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-        <WsBadge label={priorityLabel(issue.severity)} color={sevColor} />
-        <WsBadge label={STATUS_MAP[issue.status] ?? issue.status} color={statusColor(issue.status)} />
+ </div>
+ </div>
+ </div>
+ <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+ <WsBadge label={priorityLabel(issue.severity)} color={sevColor} />
+ <WsBadge label={STATUS_MAP[issue.status] ?? issue.status} color={statusColor(issue.status)} />
         {issue.dueDate && (
-          <span style={{ fontSize: 10.5, color: WS.ink3 }}>
+ <span style={{ fontSize: 10.5, color: WS.ink3 }}>
             · vence {formatShortDate(issue.dueDate)}
-          </span>
+ </span>
         )}
-        <div style={{ flex: 1 }} />
+ <div style={{ flex: 1 }} />
         {showAssignee && issue.ownerId && <Avatar id={issue.ownerId} />}
-      </div>
-    </WorkspaceCard>
+ </div>
+ </WorkspaceCard>
   );
 }
 
 function Avatar({ id }: { id: string }) {
   const initials = id.replace("u", "").padStart(2, "U");
   return (
-    <div style={{
+ <div style={{
       width: 22, height: 22, borderRadius: "50%",
       background: WS.surface3,
       display: "flex", alignItems: "center", justifyContent: "center",
       fontSize: 9, fontWeight: 700, color: WS.ink3, flexShrink: 0,
     }} title={`Asignado: ${id}`}>
       {initials.toUpperCase()}
-    </div>
+ </div>
   );
 }
 

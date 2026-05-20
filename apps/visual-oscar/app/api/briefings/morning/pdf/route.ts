@@ -62,7 +62,7 @@ function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
     blocks.push({ type: 'divider' })
     blocks.push({ type: 'h2', text: 'Top stories del día' })
     briefing.top_stories.slice(0, 5).forEach(s => {
-      const rel = s.relevance != null ? `  (relevancia ${Math.round(s.relevance * 100)}%)` : ''
+      const rel = s.relevance != null ? ` (relevancia ${Math.round(s.relevance * 100)}%)` : ''
       blocks.push({ type: 'bullet', text: `${s.title} — ${s.source || 'fuente desconocida'}${rel}` })
     })
   }
@@ -200,9 +200,9 @@ export async function POST(req: NextRequest) {
     const filename = `briefing-${format}-${fechaCorta}.pdf`
     return new NextResponse(buf as unknown as BodyInit, {
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${filename}"`,
-        'Cache-Control': 'no-store',
+ 'Content-Type': 'application/pdf',
+ 'Content-Disposition': `attachment; filename="${filename}"`,
+ 'Cache-Control': 'no-store',
       },
     })
   } catch (e) {

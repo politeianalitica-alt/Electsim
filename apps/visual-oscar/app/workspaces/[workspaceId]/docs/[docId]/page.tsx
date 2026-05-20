@@ -18,63 +18,63 @@ export default function DocEditorPage({
 
   if (!doc) {
     return (
-      <div className="flex h-full flex-col items-center justify-center text-center">
-        <p className="text-lg font-semibold text-[#1d1d1f] mb-2">Documento no encontrado</p>
-        <Link
+ <div className="flex h-full flex-col items-center justify-center text-center">
+ <p className="text-lg font-semibold text-[#1d1d1f] mb-2">Documento no encontrado</p>
+ <Link
           href={`/workspaces/${params.workspaceId}/docs`}
           className="text-sm text-indigo-400 hover:text-indigo-300"
         >
           ← Volver a Docs
-        </Link>
-      </div>
+ </Link>
+ </div>
     );
   }
 
   return (
-    <div className="flex h-full -mx-7 -my-6">
-      <div className="flex-1 flex flex-col overflow-hidden">
+ <div className="flex h-full -mx-7 -my-6">
+ <div className="flex-1 flex flex-col overflow-hidden">
         {/* Doc topbar */}
-        <div className="flex items-center justify-between border-b border-[#e8e8ed] bg-white px-6 py-3">
-          <div className="flex items-center gap-3">
-            <Link
+ <div className="flex items-center justify-between border-b border-[#e8e8ed] bg-white px-6 py-3">
+ <div className="flex items-center gap-3">
+ <Link
               href={`/workspaces/${params.workspaceId}/docs`}
               className="text-xs text-[#6e6e73] hover:text-[#3a3a3d]"
             >
               ← Docs
-            </Link>
-            <span className="text-[#3a3a3d]">/</span>
-            <BadgeStatus value={doc.status} />
-          </div>
-          <div className="flex items-center gap-2 text-[11px] text-[#6e6e73]">
+ </Link>
+ <span className="text-[#3a3a3d]">/</span>
+ <BadgeStatus value={doc.status} />
+ </div>
+ <div className="flex items-center gap-2 text-[11px] text-[#6e6e73]">
             {isSaving ? (
-              <span className="text-amber-400">Guardando…</span>
+ <span className="text-amber-400">Guardando…</span>
             ) : lastSavedAt ? (
-              <span>Guardado · {new Date(lastSavedAt).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}</span>
+ <span>Guardado · {new Date(lastSavedAt).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}</span>
             ) : (
-              <span>Sin cambios</span>
+ <span>Sin cambios</span>
             )}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* Editor */}
-        <div className="flex-1 overflow-auto">
-          <div className="mx-auto max-w-[860px] px-8 py-12">
-            <input
+ <div className="flex-1 overflow-auto">
+ <div className="mx-auto max-w-[860px] px-8 py-12">
+ <input
               type="text"
               value={doc.title}
               onChange={e => updateDoc({ title: e.target.value })}
               className="w-full bg-transparent text-3xl font-bold text-[#1d1d1f] outline-none placeholder-[#aeaeb2] mb-8"
               placeholder="Título del documento…"
             />
-            <PoliteiBlockEditor
+ <PoliteiBlockEditor
               initialBlocks={doc.blocks}
               onChange={blocks => updateDoc({ blocks })}
             />
-          </div>
-        </div>
-      </div>
+ </div>
+ </div>
+ </div>
 
-      <DocContextPanel doc={doc} workspaceId={params.workspaceId} />
-    </div>
+ <DocContextPanel doc={doc} workspaceId={params.workspaceId} />
+ </div>
   );
 }

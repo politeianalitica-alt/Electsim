@@ -33,7 +33,7 @@ export async function timedFetch(url: string, opts: TimedFetchOptions = {}): Pro
       body: opts.body,
       cache: opts.cache,
       headers: {
-        'User-Agent': 'Politeia-Analitica/1.0 (+https://politeia-analitica.vercel.app)',
+ 'User-Agent': 'Politeia-Analitica/1.0 (+https://politeia-analitica.vercel.app)',
         ...opts.headers,
       },
     }

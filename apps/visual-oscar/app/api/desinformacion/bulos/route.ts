@@ -29,9 +29,9 @@ export type OrigenBulo = 'Cuenta anónima' | 'Foro' | 'Bot/granja' | 'Medio extr
 
 const COLOR_ESTADO: Record<EstadoBulo, string> = {
   CONFIRMADO_FALSO: '#7C2D12',
-  DESMENTIDO:       '#DC2626',
+  DESMENTIDO: '#DC2626',
   EN_INVESTIGACION: '#F59E0B',
-  PARCIAL:          '#0EA5E9',
+  PARCIAL: '#0EA5E9',
 }
 export const COLOR_CANAL: Record<CanalBulo, string> = {
   X: '#000000', Facebook: '#1877F2', Telegram: '#0088CC', WhatsApp: '#25D366',
@@ -138,21 +138,21 @@ function urlForCuenta(nombre: string, canal: CanalBulo | string): string | null 
 /** URL home de medios conocidos (fallback Google si no listado) */
 function urlMedio(nombre: string): string {
   const map: Record<string, string> = {
-    'OkDiario':           'https://okdiario.com/',
-    'El Confidencial':    'https://www.elconfidencial.com/',
-    'El País':            'https://elpais.com/',
-    'El Mundo':           'https://www.elmundo.es/',
-    'ABC':                'https://www.abc.es/',
-    'La Razón':           'https://www.larazon.es/',
-    'El Debate':          'https://www.eldebate.com/',
-    'Cadena SER':         'https://cadenaser.com/',
-    'eldiario.es':        'https://www.eldiario.es/',
-    '13TV Tertulia':      'https://www.trecetv.es/',
-    'La Sexta':           'https://www.lasexta.com/',
-    'Caso Aislado':       'https://casoaislado.com/',
-    'EFE':                'https://www.efe.com/',
-    'Europa Press':       'https://www.europapress.es/',
-    'Política Hoy':       'https://www.youtube.com/results?search_query=' + encodeURIComponent('Política Hoy YouTube'),
+ 'OkDiario': 'https://okdiario.com/',
+ 'El Confidencial': 'https://www.elconfidencial.com/',
+ 'El País': 'https://elpais.com/',
+ 'El Mundo': 'https://www.elmundo.es/',
+ 'ABC': 'https://www.abc.es/',
+ 'La Razón': 'https://www.larazon.es/',
+ 'El Debate': 'https://www.eldebate.com/',
+ 'Cadena SER': 'https://cadenaser.com/',
+ 'eldiario.es': 'https://www.eldiario.es/',
+ '13TV Tertulia': 'https://www.trecetv.es/',
+ 'La Sexta': 'https://www.lasexta.com/',
+ 'Caso Aislado': 'https://casoaislado.com/',
+ 'EFE': 'https://www.efe.com/',
+ 'Europa Press': 'https://www.europapress.es/',
+ 'Política Hoy': 'https://www.youtube.com/results?search_query=' + encodeURIComponent('Política Hoy YouTube'),
   }
   // Buscar por inclusión (ej. "OkDiario" matchea "OkDiario.com")
   for (const k of Object.keys(map)) {
@@ -186,14 +186,14 @@ function busquedaCanal(canal: CanalBulo, query: string): string | null {
 function urlFactchecker(nombre: string, query?: string): { home: string; search?: string } {
   const q = query ? encodeURIComponent(query) : ''
   const map: Record<string, { home: string; searchTpl?: string }> = {
-    'Maldita.es':         { home: 'https://maldita.es/',           searchTpl: 'https://maldita.es/buscador/?q={q}' },
-    'Maldita Migración':  { home: 'https://maldita.es/migracion/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
-    'Maldita Ciencia':    { home: 'https://maldita.es/malditaciencia/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
-    'Maldita IA':         { home: 'https://maldita.es/malditatecnologia/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
-    'Newtral':            { home: 'https://www.newtral.es/',       searchTpl: 'https://www.newtral.es/?s={q}' },
-    'EFE Verifica':       { home: 'https://verifica.efe.com/',     searchTpl: 'https://verifica.efe.com/?s={q}' },
-    'AFP Verifica':       { home: 'https://factual.afp.com/factuel-es', searchTpl: 'https://factual.afp.com/search?keys={q}' },
-    'Verifica RTVE':      { home: 'https://www.rtve.es/verifica/', searchTpl: 'https://www.rtve.es/buscador/?q={q}' },
+ 'Maldita.es':         { home: 'https://maldita.es/',           searchTpl: 'https://maldita.es/buscador/?q={q}' },
+ 'Maldita Migración':  { home: 'https://maldita.es/migracion/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
+ 'Maldita Ciencia':    { home: 'https://maldita.es/malditaciencia/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
+ 'Maldita IA':         { home: 'https://maldita.es/malditatecnologia/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
+ 'Newtral':            { home: 'https://www.newtral.es/',       searchTpl: 'https://www.newtral.es/?s={q}' },
+ 'EFE Verifica':       { home: 'https://verifica.efe.com/',     searchTpl: 'https://verifica.efe.com/?s={q}' },
+ 'AFP Verifica':       { home: 'https://factual.afp.com/factuel-es', searchTpl: 'https://factual.afp.com/search?keys={q}' },
+ 'Verifica RTVE':      { home: 'https://www.rtve.es/verifica/', searchTpl: 'https://www.rtve.es/buscador/?q={q}' },
   }
   const entry = map[nombre] || { home: `https://www.google.com/search?q=${encodeURIComponent(nombre + ' fact check')}` }
   return {
@@ -210,14 +210,14 @@ function urlBusquedaBulo(titulo: string): string {
 /** URL de Maldita filtrando categoría · útil para "ver todos los bulos" */
 function urlMalditaCategoria(categoria: string): string {
   const map: Record<string, string> = {
-    'Política':       'https://maldita.es/politica/',
-    'Migración':      'https://maldita.es/migracion/',
-    'Sanidad':        'https://maldita.es/malditaciencia/',
-    'Económica':      'https://maldita.es/economia/',
-    'Electoral':      'https://maldita.es/elecciones/',
-    'Climática':      'https://maldita.es/medioambiente/',
-    'Internacional':  'https://maldita.es/internacional/',
-    'Justicia':       'https://maldita.es/justicia/',
+ 'Política': 'https://maldita.es/politica/',
+ 'Migración': 'https://maldita.es/migracion/',
+ 'Sanidad': 'https://maldita.es/malditaciencia/',
+ 'Económica': 'https://maldita.es/economia/',
+ 'Electoral': 'https://maldita.es/elecciones/',
+ 'Climática': 'https://maldita.es/medioambiente/',
+ 'Internacional': 'https://maldita.es/internacional/',
+ 'Justicia': 'https://maldita.es/justicia/',
   }
   return map[categoria] || 'https://maldita.es/'
 }
@@ -225,14 +225,14 @@ function urlMalditaCategoria(categoria: string): string {
 /** URL del partido en su web oficial (para beneficiarios) */
 function urlPartido(nombre: string): string | null {
   const map: Record<string, string> = {
-    'PP':   'https://www.pp.es/',
-    'PSOE': 'https://www.psoe.es/',
-    'VOX':  'https://www.voxespana.es/',
-    'Sumar': 'https://movimientosumar.es/',
-    'Junts': 'https://www.junts.cat/',
-    'ERC':  'https://www.esquerra.cat/',
-    'PNV':  'https://www.eaj-pnv.eus/',
-    'Bildu': 'https://www.ehbildu.eus/',
+ 'PP': 'https://www.pp.es/',
+ 'PSOE': 'https://www.psoe.es/',
+ 'VOX': 'https://www.voxespana.es/',
+ 'Sumar': 'https://movimientosumar.es/',
+ 'Junts': 'https://www.junts.cat/',
+ 'ERC': 'https://www.esquerra.cat/',
+ 'PNV': 'https://www.eaj-pnv.eus/',
+ 'Bildu': 'https://www.ehbildu.eus/',
   }
   for (const k of Object.keys(map)) {
     if (nombre.toLowerCase().includes(k.toLowerCase())) return map[k]
@@ -251,9 +251,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(2),
     texto_principal: 'Captura supuesta carta de la AEAT anunciando una "tasa europea armonizada" de 350€/mes a autónomos a partir de junio.',
     variantes: [
-      '"La AEAT te enviará una carta de 350€ por la nueva tasa UE"',
-      '"Bruselas obliga a España a crear una tasa especial para autónomos"',
-      '"Hacienda pasa el cobro de la tasa europea desde junio"',
+ '"La AEAT te enviará una carta de 350€ por la nueva tasa UE"',
+ '"Bruselas obliga a España a crear una tasa especial para autónomos"',
+ '"Hacienda pasa el cobro de la tasa europea desde junio"',
     ],
     alcance_estimado: 4_200_000,
     paciente_cero: {
@@ -310,9 +310,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(4),
     texto_principal: 'Vídeo TikTok afirmando que el lote vacunal de la campaña gripe-COVID 2026 lleva nano-tracker patentado por farma.',
     variantes: [
-      '"Las vacunas de septiembre llevan microchips ARN+grafeno"',
-      '"Han confesado: la vacuna sirve para geolocalizar tras la inyección"',
-      '"Doctor explica el chip cuántico de la vacuna 2026"',
+ '"Las vacunas de septiembre llevan microchips ARN+grafeno"',
+ '"Han confesado: la vacuna sirve para geolocalizar tras la inyección"',
+ '"Doctor explica el chip cuántico de la vacuna 2026"',
     ],
     alcance_estimado: 2_800_000,
     paciente_cero: {
@@ -366,9 +366,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(6),
     texto_principal: 'Captura BOE manipulada · supuesta orden ministerial concediendo 1.200€/mes a inmigrantes recién llegados.',
     variantes: [
-      '"BOE confirma: 1.200€ a cada migrante africano que llega"',
-      '"Mientras a ti te dan 480€, ellos cobran 1.200"',
-      '"La orden está en el BOE de ayer · disposición 4521"',
+ '"BOE confirma: 1.200€ a cada migrante africano que llega"',
+ '"Mientras a ti te dan 480€, ellos cobran 1.200"',
+ '"La orden está en el BOE de ayer · disposición 4521"',
     ],
     alcance_estimado: 5_200_000,
     paciente_cero: {
@@ -421,9 +421,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(1),
     texto_principal: 'Hilo X afirmando "filtración interna" UBS sobre cuenta de €4.5M a nombre de testaferro vinculado al presidente.',
     variantes: [
-      '"Filtración UBS: cuenta de 4.5M en Suiza"',
-      '"El testaferro es su exjefe de gabinete"',
-      '"Documentos fechados en 2023 demuestran la transferencia"',
+ '"Filtración UBS: cuenta de 4.5M en Suiza"',
+ '"El testaferro es su exjefe de gabinete"',
+ '"Documentos fechados en 2023 demuestran la transferencia"',
     ],
     alcance_estimado: 1_840_000,
     paciente_cero: {
@@ -473,9 +473,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(8),
     texto_principal: 'Cadena WhatsApp con audio supuestamente de un sanitario AENA anunciando "obligación PCR pago 80€" para todos los vuelos a partir de mayo.',
     variantes: [
-      '"Audio sanitario AENA: vuelven los PCR de 80€"',
-      '"Te van a cobrar 80€ en el aeropuerto antes de volar"',
-      '"AENA confirma test obligatorio en 2026"',
+ '"Audio sanitario AENA: vuelven los PCR de 80€"',
+ '"Te van a cobrar 80€ en el aeropuerto antes de volar"',
+ '"AENA confirma test obligatorio en 2026"',
     ],
     alcance_estimado: 1_240_000,
     paciente_cero: {
@@ -523,9 +523,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(24),
     texto_principal: 'Imagen supuestamente de la portada de El País anunciando una "sentencia confidencial" del TS que prohibiría las corridas de toros en toda España.',
     variantes: [
-      '"El País filtra: el TS prohibe los toros"',
-      '"Sentencia confidencial declara ilegal la tauromaquia"',
-      '"Llegó el día: prohibición nacional"',
+ '"El País filtra: el TS prohibe los toros"',
+ '"Sentencia confidencial declara ilegal la tauromaquia"',
+ '"Llegó el día: prohibición nacional"',
     ],
     alcance_estimado: 980_000,
     paciente_cero: {
@@ -572,9 +572,9 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(6),
     texto_principal: 'Titular distorsionado sobre una sentencia del TJUE: presenta como "indemnización a Marruecos" lo que es realmente devolución de aranceles al sector pesquero.',
     variantes: [
-      '"España pagará 80M a Marruecos por orden de la UE"',
-      '"Indemnización a Mohamed VI por la pesca"',
-      '"Bruselas obliga a indemnizar al rey alauí"',
+ '"España pagará 80M a Marruecos por orden de la UE"',
+ '"Indemnización a Mohamed VI por la pesca"',
+ '"Bruselas obliga a indemnizar al rey alauí"',
     ],
     alcance_estimado: 740_000,
     paciente_cero: {
@@ -619,8 +619,8 @@ const BULOS: Bulo[] = [
     ultima_actividad: hoursAgo(2),
     texto_principal: 'Vídeo manipulado con cortes de audio fuera de contexto · IA atribuye frase nunca pronunciada a candidata autonómica.',
     variantes: [
-      '"Vox propone campos de exterminio · vídeo viral"',
-      '"Confesión de candidata Vox sobre inmigrantes"',
+ '"Vox propone campos de exterminio · vídeo viral"',
+ '"Confesión de candidata Vox sobre inmigrantes"',
     ],
     alcance_estimado: 1_640_000,
     paciente_cero: {

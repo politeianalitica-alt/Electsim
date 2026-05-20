@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const countries = req.nextUrl.searchParams.get('countries') || 'ES,FR,IT,DE,PT'
   const days = req.nextUrl.searchParams.get('days') || '365'
   const r = await callBackend<YieldsData>(
-    `/api/macro-finance/yields?countries=${encodeURIComponent(countries)}&days=${encodeURIComponent(days)}`,
+ `/api/macro-finance/yields?countries=${encodeURIComponent(countries)}&days=${encodeURIComponent(days)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { countries: [], days: 730, series: {} },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

@@ -40,8 +40,8 @@ function fetchUrl(url: string, timeoutMs = 8000): Promise<string> {
     const lib = url.startsWith('https') ? https : http
     const req = lib.get(url, {
       headers: {
-        'User-Agent': 'Politeia/1.0 (intelligence platform; contact@politeia.es)',
-        'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+ 'User-Agent': 'Politeia/1.0 (intelligence platform; contact@politeia.es)',
+ 'Accept': 'application/rss+xml, application/xml, text/xml, */*',
       }
     }, (res) => {
       if (res.statusCode === 301 || res.statusCode === 302) {

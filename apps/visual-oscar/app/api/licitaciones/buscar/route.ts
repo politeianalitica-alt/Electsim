@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
   const page = Math.max(1, numOrUndef(sp.get('page')) ?? 1)
   const offset = (page - 1) * limit
   const sort = (sp.get('sort') || 'date_desc') as
-    'relevance' | 'date_desc' | 'date_asc' | 'imp_desc' | 'imp_asc'
+ 'relevance' | 'date_desc' | 'date_asc' | 'imp_desc' | 'imp_asc'
 
   const orderSocrata = mapOrderSocrata(sort)
 

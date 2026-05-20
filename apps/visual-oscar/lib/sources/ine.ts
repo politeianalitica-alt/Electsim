@@ -78,27 +78,27 @@ export async function getSerie(cod: string, nult = 24): Promise<{
 
 // ─── Series clave del sector vivienda ─────────────────────
 export const INE_SERIES_VIVIENDA = {
-  IPV_INDICE:       'IPV769',    // IPV nacional general índice trimestral
-  IPV_VAR_ANUAL:    'IPV948',    // IPV nacional general variación anual %
-  COMPRA_TOTAL:     'ETDP3337',  // Total compraventa viviendas anual
-  COMPRA_LIBRE:     'ETDP1823',  // Vivienda libre mensual
+  IPV_INDICE: 'IPV769',    // IPV nacional general índice trimestral
+  IPV_VAR_ANUAL: 'IPV948',    // IPV nacional general variación anual %
+  COMPRA_TOTAL: 'ETDP3337',  // Total compraventa viviendas anual
+  COMPRA_LIBRE: 'ETDP1823',  // Vivienda libre mensual
   COMPRA_PROTEGIDA: 'ETDP1822',  // Vivienda protegida mensual
-  COMPRA_NUEVA:     'ETDP1825',  // Vivienda nueva mensual
-  COMPRA_USADA:     'ETDP1824',  // Vivienda segunda mano mensual
-  ALQUILER_INDICE:  'IPVA5',     // Índice precio alquiler nacional anual
-  ALQUILER_VAR:     'IPVA4',     // Variación anual alquiler nacional %
+  COMPRA_NUEVA: 'ETDP1825',  // Vivienda nueva mensual
+  COMPRA_USADA: 'ETDP1824',  // Vivienda segunda mano mensual
+  ALQUILER_INDICE: 'IPVA5',     // Índice precio alquiler nacional anual
+  ALQUILER_VAR: 'IPVA4',     // Variación anual alquiler nacional %
 } as const
 
 // ─── Series turismo ──────────────────────────────────────
 export const INE_SERIES_TURISMO = {
-  TURISTAS_TOTAL:    'FREG651',   // Turistas internacionales nacional mensual
-  TURISTAS_MERCADO:  'FREG593',   // Turistas mercado mensual
-  TURISTAS_VAR:      'FREG592',   // Turistas variación anual %
-  TURISTAS_OCIO:     'FREG650',   // Turistas ocio/recreo
-  TURISTAS_NEGOCIO:  'FREG649',   // Turistas negocio
-  TURISTAS_OTROS:    'FREG648',   // Turistas otros motivos
-  PERNOCTACIONES:    'EOT21193',  // Pernoctaciones hoteleras nacional mensual
-  VIAJEROS_HOTEL:    'EOT21197',  // Viajeros hoteleros nacional mensual
+  TURISTAS_TOTAL: 'FREG651',   // Turistas internacionales nacional mensual
+  TURISTAS_MERCADO: 'FREG593',   // Turistas mercado mensual
+  TURISTAS_VAR: 'FREG592',   // Turistas variación anual %
+  TURISTAS_OCIO: 'FREG650',   // Turistas ocio/recreo
+  TURISTAS_NEGOCIO: 'FREG649',   // Turistas negocio
+  TURISTAS_OTROS: 'FREG648',   // Turistas otros motivos
+  PERNOCTACIONES: 'EOT21193',  // Pernoctaciones hoteleras nacional mensual
+  VIAJEROS_HOTEL: 'EOT21197',  // Viajeros hoteleros nacional mensual
 } as const
 
 // ─── Series construcción / infraestructura ───────────────

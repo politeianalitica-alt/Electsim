@@ -134,53 +134,53 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
   }
 
   return (
-    <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '24px 28px', marginBottom: 18 }}>
+ <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '24px 28px', marginBottom: 18 }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
-        <div>
-          <h2 style={{ margin: 0, fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em' }}>Mapa legislativo · Impacto territorial</h2>
-          <p style={{ margin: '2px 0 0', fontSize: 11, color: '#6e6e73' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
+ <div>
+ <h2 style={{ margin: 0, fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em' }}>Mapa legislativo · Impacto territorial</h2>
+ <p style={{ margin: '2px 0 0', fontSize: 11, color: '#6e6e73' }}>
             {legislation.length} normas · {geoItems.length} geolocalizadas · {source === 'mock' || apiItems.length === 0 ? 'datos demo' : 'datos en vivo'}
-          </p>
-        </div>
-        <button onClick={() => refresh()} style={{ padding: '6px 12px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff', fontSize: 11, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit' }}>
+ </p>
+ </div>
+ <button onClick={() => refresh()} style={{ padding: '6px 12px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff', fontSize: 11, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit' }}>
           {loading ? 'Cargando…' : 'Actualizar'}
-        </button>
-      </div>
+ </button>
+ </div>
 
       {/* Filters */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14, flexWrap: 'wrap', fontSize: 12 }}>
-        <select value={level} onChange={e => setLevel(e.target.value)}
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14, flexWrap: 'wrap', fontSize: 12 }}>
+ <select value={level} onChange={e => setLevel(e.target.value)}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, background: '#fff', fontSize: 12, fontFamily: 'inherit' }}>
-          <option value="">Todos niveles</option>
-          <option value="nacional">Nacional</option>
-          <option value="regional">Regional</option>
-          <option value="local">Local</option>
-        </select>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ color: '#6e6e73', fontSize: 11 }}>Rel min</span>
-          <input type="range" min={1} max={10} value={minRelevance} onChange={e => setMinRelevance(parseInt(e.target.value))} style={{ width: 100 }} />
-          <span style={{ fontWeight: 700, fontSize: 12, width: 16 }}>{minRelevance}</span>
-        </div>
-        <select value={daysBack} onChange={e => setDaysBack(parseInt(e.target.value))}
+ <option value="">Todos niveles</option>
+ <option value="nacional">Nacional</option>
+ <option value="regional">Regional</option>
+ <option value="local">Local</option>
+ </select>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+ <span style={{ color: '#6e6e73', fontSize: 11 }}>Rel min</span>
+ <input type="range" min={1} max={10} value={minRelevance} onChange={e => setMinRelevance(parseInt(e.target.value))} style={{ width: 100 }} />
+ <span style={{ fontWeight: 700, fontSize: 12, width: 16 }}>{minRelevance}</span>
+ </div>
+ <select value={daysBack} onChange={e => setDaysBack(parseInt(e.target.value))}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, background: '#fff', fontSize: 12, fontFamily: 'inherit' }}>
-          <option value={7}>7 días</option>
-          <option value={30}>30 días</option>
-          <option value={90}>90 días</option>
-        </select>
-      </div>
+ <option value={7}>7 días</option>
+ <option value={30}>30 días</option>
+ <option value={90}>90 días</option>
+ </select>
+ </div>
 
       {/* Map area */}
       {geoError ? (
-        <div style={{ height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c42c2c', fontSize: 13, border: '1px solid #fde8e8', borderRadius: 14, marginBottom: 16 }}>
+ <div style={{ height: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c42c2c', fontSize: 13, border: '1px solid #fde8e8', borderRadius: 14, marginBottom: 16 }}>
           Error cargando mapa: {geoError}
-        </div>
+ </div>
       ) : !geoData ? (
-        <div style={{ marginBottom: 16 }}><MapSkeleton height={420} /></div>
+ <div style={{ marginBottom: 16 }}><MapSkeleton height={420} /></div>
       ) : (
-        <div style={{ position: 'relative', background: 'linear-gradient(180deg, #f6f8fb 0%, #f0f3f8 100%)', borderRadius: 14, overflow: 'hidden', marginBottom: 16, height: 420 }}>
+ <div style={{ position: 'relative', background: 'linear-gradient(180deg, #f6f8fb 0%, #f0f3f8 100%)', borderRadius: 14, overflow: 'hidden', marginBottom: 16, height: 420 }}>
           {/* Main SVG — peninsula + Baleares */}
-          <svg
+ <svg
             viewBox={`0 0 ${SVG_W} ${SVG_H}`}
             style={{ width: '100%', height: '100%' }}
             preserveAspectRatio="xMidYMid meet"
@@ -192,7 +192,7 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
               const d = mainPathGen(f as unknown as GeoPermissibleObjects)
               if (!d) return null
               return (
-                <path
+ <path
                   key={i}
                   d={d}
                   fill="#e2e8f0"
@@ -211,7 +211,7 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
               const r = item.ai_impact_level === 'high' ? 9 : item.ai_impact_level === 'medium' ? 7 : 5.5
               const color = dotColor(item.ai_impact_level)
               return (
-                <g
+ <g
                   key={item.id ?? i}
                   style={{ cursor: 'pointer' }}
                   tabIndex={0}
@@ -219,11 +219,11 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
                   aria-label={`${item.region ?? ''}: impacto ${item.ai_impact_level ?? 'bajo'}`}
                   onKeyDown={e => e.key === 'Enter' && setSelected(item)}
                 >
-                  <circle cx={x} cy={y} r={r + 5} fill={color} fillOpacity={0.12}>
-                    <animate attributeName="r" values={`${r + 3};${r + 8};${r + 3}`} dur="2.4s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.18;0.04;0.18" dur="2.4s" repeatCount="indefinite" />
-                  </circle>
-                  <circle
+ <circle cx={x} cy={y} r={r + 5} fill={color} fillOpacity={0.12}>
+ <animate attributeName="r" values={`${r + 3};${r + 8};${r + 3}`} dur="2.4s" repeatCount="indefinite" />
+ <animate attributeName="opacity" values="0.18;0.04;0.18" dur="2.4s" repeatCount="indefinite" />
+ </circle>
+ <circle
                     cx={x} cy={y} r={r}
                     fill={color} fillOpacity={0.92}
                     stroke="white" strokeWidth={1.6}
@@ -235,20 +235,20 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
                     onMouseLeave={() => setHovered(null)}
                     onClick={() => setSelected(item)}
                   />
-                </g>
+ </g>
               )
             })}
-          </svg>
+ </svg>
 
           {/* Canarias inset — bottom-left */}
-          <div style={{
+ <div style={{
             position: 'absolute', bottom: 12, left: 12,
             width: INS_W + 4,
             background: 'rgba(255,255,255,0.92)',
             borderRadius: 8, border: '1px solid #cbd5e1', padding: 2,
           }}>
-            <div style={{ fontSize: 8, color: '#6e6e73', textAlign: 'center', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 1 }}>Canarias</div>
-            <svg viewBox={`0 0 ${INS_W} ${INS_H}`} width={INS_W} height={INS_H} role="img" aria-label="Canarias">
+ <div style={{ fontSize: 8, color: '#6e6e73', textAlign: 'center', fontWeight: 600, letterSpacing: '0.04em', marginBottom: 1 }}>Canarias</div>
+ <svg viewBox={`0 0 ${INS_W} ${INS_H}`} width={INS_W} height={INS_H} role="img" aria-label="Canarias">
               {canariasFC && canariasPathGen && canariasFC.features.map((f, i) => {
                 const d = canariasPathGen(f as unknown as GeoPermissibleObjects)
                 if (!d) return null
@@ -260,7 +260,7 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
                 const [x, y] = pos
                 const r = item.ai_impact_level === 'high' ? 7 : item.ai_impact_level === 'medium' ? 5.5 : 4
                 return (
-                  <circle
+ <circle
                     key={item.id ?? i}
                     cx={x} cy={y} r={r}
                     fill={dotColor(item.ai_impact_level)} fillOpacity={0.9}
@@ -273,119 +273,119 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
                   />
                 )
               })}
-            </svg>
-          </div>
+ </svg>
+ </div>
 
           {/* Impact legend */}
-          <div style={{
+ <div style={{
             position: 'absolute', bottom: 12, right: 12,
             background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)',
             border: '1px solid #e8e8ed', borderRadius: 12, padding: '10px 14px',
             fontSize: 11, display: 'flex', flexDirection: 'column', gap: 6,
           }}>
-            <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Impacto</div>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Impacto</div>
             {([{ c: '#c42c2c', l: 'Alto', n: breakdown.high }, { c: '#b25000', l: 'Medio', n: breakdown.medium }, { c: '#1F4E8C', l: 'Bajo', n: breakdown.low }] as const).map(x => (
-              <div key={x.l} style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between', minWidth: 100 }}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ width: 9, height: 9, borderRadius: 999, background: x.c }} />{x.l}
-                </span>
-                <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{x.n}</span>
-              </div>
+ <div key={x.l} style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between', minWidth: 100 }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+ <span style={{ width: 9, height: 9, borderRadius: 999, background: x.c }} />{x.l}
+ </span>
+ <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{x.n}</span>
+ </div>
             ))}
-          </div>
+ </div>
 
           {/* Tooltip */}
           {hovered && (
-            <div style={{
+ <div style={{
               position: 'absolute', pointerEvents: 'none',
               left: Math.min(hoverPos.x + 14, 520), top: Math.max(hoverPos.y - 30, 8),
               background: '#fff', border: '1px solid #e8e8ed', borderRadius: 10,
               padding: '10px 14px', boxShadow: '0 6px 22px rgba(0,0,0,0.10)', maxWidth: 280, fontSize: 12,
             }}>
-              <p style={{ fontWeight: 600, color: '#1d1d1f', margin: '0 0 6px', lineHeight: 1.3 }}>{hovered.titulo}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999, letterSpacing: '0.06em', textTransform: 'uppercase',
+ <p style={{ fontWeight: 600, color: '#1d1d1f', margin: '0 0 6px', lineHeight: 1.3 }}>{hovered.titulo}</p>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999, letterSpacing: '0.06em', textTransform: 'uppercase',
                   color: dotColor(hovered.ai_impact_level), background: `${dotColor(hovered.ai_impact_level)}18` }}>
                   {hovered.ai_impact_level ?? '—'}
-                </span>
+ </span>
                 {hovered.region && <span style={{ color: '#6e6e73', fontSize: 11 }}>{hovered.region}</span>}
                 {hovered.ai_relevance != null && <span style={{ color: '#1F4E8C', fontWeight: 700, fontSize: 11.5 }}>R{hovered.ai_relevance}</span>}
-              </div>
-            </div>
+ </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
 
       {/* Selected detail */}
       {selected && (
-        <div style={{ marginBottom: 16, background: '#f5f9ff', border: '1px solid #cfe0f3', borderRadius: 14, padding: '14px 18px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-            <div>
-              <h4 style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{selected.titulo}</h4>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11.5, color: '#424245', flexWrap: 'wrap' }}>
-                <span style={{ padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 700,
+ <div style={{ marginBottom: 16, background: '#f5f9ff', border: '1px solid #cfe0f3', borderRadius: 14, padding: '14px 18px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+ <div>
+ <h4 style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{selected.titulo}</h4>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11.5, color: '#424245', flexWrap: 'wrap' }}>
+ <span style={{ padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 700,
                   color: dotColor(selected.ai_impact_level), background: `${dotColor(selected.ai_impact_level)}18` }}>
                   {selected.ai_impact_level ?? '—'}
-                </span>
+ </span>
                 {selected.nivel   && <span>Nivel: <strong>{selected.nivel}</strong></span>}
                 {selected.region  && <span>Región: <strong>{selected.region}</strong></span>}
                 {selected.ai_relevance != null && <span style={{ color: '#1F4E8C', fontWeight: 700 }}>R{selected.ai_relevance}</span>}
-              </div>
-            </div>
-            <button onClick={() => setSelected(null)} style={{ border: 'none', background: 'transparent', color: '#6e6e73', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
+ </div>
+ </div>
+ <button onClick={() => setSelected(null)} style={{ border: 'none', background: 'transparent', color: '#6e6e73', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit' }}>
               cerrar
-            </button>
-          </div>
+ </button>
+ </div>
           {(selected.sectores_afectados?.length ?? 0) > 0 && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {selected.sectores_afectados!.map(s => (
-                <span key={s} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontWeight: 600 }}>{s}</span>
+ <span key={s} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontWeight: 600 }}>{s}</span>
               ))}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
 
       {/* Bottom: top items + breakdown */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 18 }}>
-        <div>
-          <h3 style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 8px' }}>Normas con mayor relevancia</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 18 }}>
+ <div>
+ <h3 style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 8px' }}>Normas con mayor relevancia</h3>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {topItems.length === 0
               ? <p style={{ fontSize: 12, color: '#6e6e73', margin: '8px 0' }}>Sin normas en el periodo seleccionado.</p>
               : topItems.map((it, i) => (
-                <div key={i} style={{
+ <div key={i} style={{
                   display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px',
                   background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 10, fontSize: 12, cursor: 'pointer',
                 }} onClick={() => setSelected(it)}>
-                  <span style={{
+ <span style={{
                     fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 999,
                     color: it.nivel === 'nacional' ? '#c42c2c' : it.nivel === 'regional' ? '#b25000' : '#1F4E8C',
                     background: it.nivel === 'nacional' ? 'rgba(196,44,44,0.12)' : it.nivel === 'regional' ? 'rgba(178,80,0,0.12)' : 'rgba(31,78,140,0.12)',
                   }}>{it.nivel ?? '—'}</span>
-                  <span style={{ flex: 1, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.titulo}</span>
+ <span style={{ flex: 1, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.titulo}</span>
                   {it.region && <span style={{ color: '#6e6e73', fontSize: 11 }}>{it.region}</span>}
-                  <span style={{ color: '#1F4E8C', fontWeight: 700, fontSize: 11.5 }}>R{it.ai_relevance ?? 0}</span>
-                </div>
+ <span style={{ color: '#1F4E8C', fontWeight: 700, fontSize: 11.5 }}>R{it.ai_relevance ?? 0}</span>
+ </div>
               ))}
-          </div>
-        </div>
-        <div>
-          <h3 style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 8px' }}>Por impacto</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+ </div>
+ </div>
+ <div>
+ <h3 style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 8px' }}>Por impacto</h3>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {[{ label: 'Alto', count: breakdown.high, color: '#c42c2c' }, { label: 'Medio', count: breakdown.medium, color: '#b25000' }, { label: 'Bajo', count: breakdown.low, color: '#1F4E8C' }].map(b => (
-              <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 10 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 999, background: b.color }} />
-                <span style={{ fontSize: 12, color: '#1d1d1f', flex: 1 }}>{b.label}</span>
-                <span style={{ fontSize: 14, fontWeight: 700 }}>{b.count}</span>
-              </div>
+ <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 10 }}>
+ <span style={{ width: 10, height: 10, borderRadius: 999, background: b.color }} />
+ <span style={{ fontSize: 12, color: '#1d1d1f', flex: 1 }}>{b.label}</span>
+ <span style={{ fontSize: 14, fontWeight: 700 }}>{b.count}</span>
+ </div>
             ))}
-            <p style={{ fontSize: 10.5, color: '#6e6e73', textAlign: 'center', margin: '4px 0 0' }}>
+ <p style={{ fontSize: 10.5, color: '#6e6e73', textAlign: 'center', margin: '4px 0 0' }}>
               Total: <strong style={{ color: '#1d1d1f' }}>{legislation.length}</strong> normas
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+ </p>
+ </div>
+ </div>
+ </div>
+ </section>
   )
 }

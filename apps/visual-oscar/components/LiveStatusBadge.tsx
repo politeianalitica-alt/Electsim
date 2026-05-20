@@ -70,7 +70,7 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
     : isMock ? 'rgba(245,158,11,0.30)'
     : 'rgba(156,163,175,0.30)'
   return (
-    <span
+ <span
       onClick={onRefresh}
       title={warningsTooltip}
       style={{
@@ -85,17 +85,17 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
         verticalAlign: 'middle',
       }}
     >
-      <span style={{
+ <span style={{
         width: 7, height: 7, borderRadius: '50%',
         background: dotColor,
         animation: fresh ? 'liveStatusPulse 1.6s ease-in-out infinite' : undefined,
         boxShadow: fresh ? `0 0 8px ${dotColor}` : undefined,
       }}/>
-      <span>{labelText}</span>
-      <span style={{ opacity: 0.6, fontWeight: 400 }}>· {fmtAge(ageS)}</span>
-      <style>{`
+ <span>{labelText}</span>
+ <span style={{ opacity: 0.6, fontWeight: 400 }}>· {fmtAge(ageS)}</span>
+ <style>{`
         @keyframes liveStatusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-      `}</style>
-    </span>
+ `}</style>
+ </span>
   )
 }

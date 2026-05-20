@@ -12,7 +12,7 @@ export async function GET(req: Request) {
   if (wantHistory) {
     // Historia: usa el endpoint backend si está disponible.
     const result = await callBackend<{ history?: Array<{ date: string; score: number }> } | Array<{ date: string; score: number }>>(
-      '/intelligence/risk-index/history?n=30',
+ '/intelligence/risk-index/history?n=30',
     )
     if (result.data) {
       const arr = Array.isArray(result.data) ? result.data : (result.data.history ?? [])
@@ -36,7 +36,7 @@ export async function GET(req: Request) {
 
   // Índice de Riesgo Político actual
   const result = await callBackend<{ score: number; nivel: string; componentes: Record<string, number>; timestamp: string }>(
-    '/intelligence/risk-index',
+ '/intelligence/risk-index',
   )
   if (result.data) {
     return NextResponse.json(withMeta(result.data, 'backend', { latency_ms: result.latency_ms }))

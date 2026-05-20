@@ -30,9 +30,9 @@ export function PoliteiBlockEditor({
   }
 
   return (
-    <div className="min-h-[600px] space-y-4 font-sans">
+ <div className="min-h-[600px] space-y-4 font-sans">
       {initialBlocks.map((block, idx) => (
-        <BlockRenderer
+ <BlockRenderer
           key={block.id ?? idx}
           block={block}
           editable={editable}
@@ -40,11 +40,11 @@ export function PoliteiBlockEditor({
         />
       ))}
       {initialBlocks.length === 0 && (
-        <p className="text-sm text-slate-500">
+ <p className="text-sm text-slate-500">
           Selecciona una plantilla o empieza a escribir.
-        </p>
+ </p>
       )}
-    </div>
+ </div>
   );
 }
 
@@ -63,33 +63,33 @@ function BlockRenderer({
     const level = Number(block.props?.level ?? 2);
     const size = level === 1 ? "text-3xl" : level === 2 ? "text-xl" : "text-lg";
     return (
-      <div
+ <div
         className={`font-bold text-slate-100 ${size} outline-none`}
         contentEditable={editable}
         suppressContentEditableWarning
         onBlur={e => onChange(e.currentTarget.textContent ?? "")}
       >
         {text}
-      </div>
+ </div>
     );
   }
 
   if (block.type === "callout") {
     const variant = String(block.props?.variant ?? "info");
     const colors: Record<string, string> = {
-      info:    "border-l-indigo-500 bg-indigo-500/10 text-indigo-100",
+      info: "border-l-indigo-500 bg-indigo-500/10 text-indigo-100",
       warning: "border-l-amber-500 bg-amber-500/10 text-amber-100",
-      danger:  "border-l-red-500 bg-red-500/10 text-red-100",
+      danger: "border-l-red-500 bg-red-500/10 text-red-100",
     };
     return (
-      <div
+ <div
         className={`rounded border-l-4 px-3 py-2 text-sm ${colors[variant] ?? colors.info} outline-none`}
         contentEditable={editable}
         suppressContentEditableWarning
         onBlur={e => onChange(e.currentTarget.textContent ?? "")}
       >
         {text}
-      </div>
+ </div>
     );
   }
 
@@ -99,45 +99,45 @@ function BlockRenderer({
 
   if (block.type === "bullet") {
     return (
-      <div className="flex gap-2 text-sm text-slate-200">
-        <span className="text-slate-500">•</span>
-        <div
+ <div className="flex gap-2 text-sm text-slate-200">
+ <span className="text-slate-500">•</span>
+ <div
           className="flex-1 outline-none"
           contentEditable={editable}
           suppressContentEditableWarning
           onBlur={e => onChange(e.currentTarget.textContent ?? "")}
         >
           {text}
-        </div>
-      </div>
+ </div>
+ </div>
     );
   }
 
   if (block.type === "numbered") {
     return (
-      <div className="flex gap-2 text-sm text-slate-200">
-        <span className="text-slate-500">›</span>
-        <div
+ <div className="flex gap-2 text-sm text-slate-200">
+ <span className="text-slate-500">›</span>
+ <div
           className="flex-1 outline-none"
           contentEditable={editable}
           suppressContentEditableWarning
           onBlur={e => onChange(e.currentTarget.textContent ?? "")}
         >
           {text}
-        </div>
-      </div>
+ </div>
+ </div>
     );
   }
 
   return (
-    <div
+ <div
       className="text-sm text-slate-200 leading-relaxed outline-none"
       contentEditable={editable}
       suppressContentEditableWarning
       onBlur={e => onChange(e.currentTarget.textContent ?? "")}
     >
       {text}
-    </div>
+ </div>
   );
 }
 
@@ -147,21 +147,21 @@ function ContextBlockRenderer({ block }: { block: DocBlock }) {
     source === "issues" ? "Issues del workspace" :
     source === "actions" ? "Próximas acciones" :
     source === "opportunities" ? "Oportunidades del radar" :
-    "Contexto del workspace";
+ "Contexto del workspace";
 
   return (
-    <div className="my-2 rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
-      <div className="mb-2 flex items-center gap-2">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
+ <div className="my-2 rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-3">
+ <div className="mb-2 flex items-center gap-2">
+ <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
           {label}
-        </span>
-        <span className="rounded bg-indigo-500/20 px-1.5 py-0.5 text-[10px] text-indigo-300">
+ </span>
+ <span className="rounded bg-indigo-500/20 px-1.5 py-0.5 text-[10px] text-indigo-300">
           sincronizado
-        </span>
-      </div>
-      <p className="text-[11px] text-slate-400">
+ </span>
+ </div>
+ <p className="text-[11px] text-slate-400">
         Datos del workspace se renderizan aquí en tiempo real.
-      </p>
-    </div>
+ </p>
+ </div>
   );
 }

@@ -14,13 +14,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Origen real de los datos. El operador debe distinguir backend vs. mock.
- *  - 'backend'     · FastAPI propio
- *  - 'wikipedia'   · agregador Wikipedia (datos electorales en vivo)
+ *  - 'backend' · FastAPI propio
+ *  - 'wikipedia' · agregador Wikipedia (datos electorales en vivo)
  *  - 'electocracia'· catálogo curado + electocracia.com
- *  - 'aggregator'  · cualquier otro agregador externo en vivo
- *  - 'mock'        · stub/jitter (no datos reales)
- *  - 'fallback'    · caché stale-while-revalidate
- *  - 'error'       · fallo de fetch
+ *  - 'aggregator' · cualquier otro agregador externo en vivo
+ *  - 'mock' · stub/jitter (no datos reales)
+ *  - 'fallback' · caché stale-while-revalidate
+ *  - 'error' · fallo de fetch
  */
 export type DataSource =
   | 'backend' | 'wikipedia' | 'electocracia' | 'aggregator'

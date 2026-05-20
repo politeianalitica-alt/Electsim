@@ -11,9 +11,9 @@ const IMPACT_COLOR: Record<string, string> = {
 };
 
 const HORIZON_LABEL: Record<string, string> = {
-  now:     "Ahora",
-  week:    "Semana",
-  month:   "Mes",
+  now: "Ahora",
+  week: "Semana",
+  month: "Mes",
   quarter: "Trimestre",
 };
 
@@ -28,7 +28,7 @@ export function OpportunityCard({
 }) {
   const impactColor = IMPACT_COLOR[opportunity.impact] ?? WS.ink3;
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         textAlign: "left",
@@ -45,9 +45,9 @@ export function OpportunityCard({
         width: "100%",
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
-        <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.3, flex: 1 }}>{opportunity.title}</span>
-        <span
+ <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10 }}>
+ <span style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.3, flex: 1 }}>{opportunity.title}</span>
+ <span
           style={{
             fontSize: 18,
             fontWeight: 700,
@@ -56,30 +56,30 @@ export function OpportunityCard({
           }}
         >
           {opportunity.score}
-        </span>
-      </div>
+ </span>
+ </div>
 
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-        <Tag color={impactColor}>{opportunity.impact}</Tag>
-        <Tag color={WS.ink3}>{HORIZON_LABEL[opportunity.horizon] ?? opportunity.horizon}</Tag>
-        <Tag color={WS.ink2}>{opportunity.category}</Tag>
-        <Tag color={WS.ink3}>{Math.round(opportunity.confidence * 100)}% conf.</Tag>
-      </div>
+ <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+ <Tag color={impactColor}>{opportunity.impact}</Tag>
+ <Tag color={WS.ink3}>{HORIZON_LABEL[opportunity.horizon] ?? opportunity.horizon}</Tag>
+ <Tag color={WS.ink2}>{opportunity.category}</Tag>
+ <Tag color={WS.ink3}>{Math.round(opportunity.confidence * 100)}% conf.</Tag>
+ </div>
 
-      <p style={{ fontSize: 12, lineHeight: 1.4, color: WS.ink2, margin: 0 }}>
+ <p style={{ fontSize: 12, lineHeight: 1.4, color: WS.ink2, margin: 0 }}>
         {opportunity.rationale}
-      </p>
+ </p>
 
-      <div style={{ fontSize: 11, color: WS.ink3 }}>
+ <div style={{ fontSize: 11, color: WS.ink3 }}>
         {opportunity.actions.length} acciones recomendadas
-      </div>
-    </button>
+ </div>
+ </button>
   );
 }
 
 function Tag({ color, children }: { color: string; children: React.ReactNode }) {
   return (
-    <span
+ <span
       style={{
         fontSize: 10,
         fontWeight: 600,
@@ -92,6 +92,6 @@ function Tag({ color, children }: { color: string; children: React.ReactNode }) 
       }}
     >
       {children}
-    </span>
+ </span>
   );
 }

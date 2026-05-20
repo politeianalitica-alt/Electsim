@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   const t0 = Date.now()
   const country = req.nextUrl.searchParams.get('country') || 'ES'
   const r = await callBackend<RiskIndicesPayload>(
-    `/api/risk-v2/indices?country=${encodeURIComponent(country)}`,
+ `/api/risk-v2/indices?country=${encodeURIComponent(country)}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.indices) && r.data.indices.length > 0) {

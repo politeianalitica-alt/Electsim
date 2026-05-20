@@ -30,11 +30,11 @@ interface TrendItem {
 type MapTab = 'electoral' | 'narrativa' | 'figuras'
 
 const BACKEND_NAME_MAP: Record<string, string> = {
-  'C. Valenciana':   'Comunidad Valenciana',
-  'C-La Mancha':     'Castilla-La Mancha',
-  'Castilla y León': 'Castilla y León',
-  'País Vasco':      'País Vasco',
-  'La Rioja':        'La Rioja',
+ 'C. Valenciana': 'Comunidad Valenciana',
+ 'C-La Mancha': 'Castilla-La Mancha',
+ 'Castilla y León': 'Castilla y León',
+ 'País Vasco': 'País Vasco',
+ 'La Rioja': 'La Rioja',
 }
 
 const REGION_GRID: Array<Array<{ name: string; display: string; flex: number; height: number }>> = [
@@ -69,74 +69,74 @@ const REGION_LABEL = { pp: 'PP', psoe: 'PSOE', mixed: '?' } as const
 // Narrativa dominante por CCAA · actualizado mayo 2026 (post-DANA + concierto catalán
 // + sequía + crisis judicial CGPJ + corredor mediterráneo + paro juvenil)
 const CCAA_NARRATIVA: Record<string, { tema: string; color: string }> = {
-  'Andalucía':          { tema: 'Vivienda urbana',   color: '#2d8a39' },
-  'Cataluña':           { tema: 'Concierto fiscal',  color: '#D97706' },
-  'Madrid':             { tema: 'Sanidad pública',   color: '#1F4E8C' },
-  'C. Valenciana':      { tema: 'Reconstrucción DANA', color: '#0E7490' },
-  'Galicia':            { tema: 'Acuicultura · ENCE', color: '#7C3AED' },
-  'Castilla y León':    { tema: 'Despoblación',      color: '#b25000' },
-  'País Vasco':         { tema: 'Transferencias',    color: '#0F766E' },
-  'Castilla-La Mancha': { tema: 'Trasvase Tajo',     color: '#0070D1' },
-  'Canarias':           { tema: 'Migración menores', color: '#C01818' },
-  'Murcia':             { tema: 'Mar Menor · agua',  color: '#0070D1' },
-  'Asturias':           { tema: 'Reindustrialización', color: '#525258' },
-  'Aragón':             { tema: 'Hidrógeno · GIGA',  color: '#D97706' },
-  'Baleares':           { tema: 'Turismo masivo',    color: '#0E7490' },
-  'Extremadura':        { tema: 'Tren digno',        color: '#2d8a39' },
-  'Navarra':            { tema: 'Concierto · UPN',   color: '#0F766E' },
-  'La Rioja':           { tema: 'Viticultura',       color: '#2d8a39' },
-  'Cantabria':          { tema: 'Sanidad rural',     color: '#525258' },
+ 'Andalucía':          { tema: 'Vivienda urbana',   color: '#2d8a39' },
+ 'Cataluña':           { tema: 'Concierto fiscal',  color: '#D97706' },
+ 'Madrid':             { tema: 'Sanidad pública',   color: '#1F4E8C' },
+ 'C. Valenciana':      { tema: 'Reconstrucción DANA', color: '#0E7490' },
+ 'Galicia':            { tema: 'Acuicultura · ENCE', color: '#7C3AED' },
+ 'Castilla y León':    { tema: 'Despoblación',      color: '#b25000' },
+ 'País Vasco':         { tema: 'Transferencias',    color: '#0F766E' },
+ 'Castilla-La Mancha': { tema: 'Trasvase Tajo',     color: '#0070D1' },
+ 'Canarias':           { tema: 'Migración menores', color: '#C01818' },
+ 'Murcia':             { tema: 'Mar Menor · agua',  color: '#0070D1' },
+ 'Asturias':           { tema: 'Reindustrialización', color: '#525258' },
+ 'Aragón':             { tema: 'Hidrógeno · GIGA',  color: '#D97706' },
+ 'Baleares':           { tema: 'Turismo masivo',    color: '#0E7490' },
+ 'Extremadura':        { tema: 'Tren digno',        color: '#2d8a39' },
+ 'Navarra':            { tema: 'Concierto · UPN',   color: '#0F766E' },
+ 'La Rioja':           { tema: 'Viticultura',       color: '#2d8a39' },
+ 'Cantabria':          { tema: 'Sanidad rural',     color: '#525258' },
 }
 
 // Presidente autonómico actual · mayo 2026 (post-DANA · Mazón dimite y le sucede Pérez Llorca ·
 // Buruaga gana Cantabria · Capellán La Rioja · resto continuidad 2023)
 const CCAA_FIGURA: Record<string, { name: string; partido: string; trend: string; dir: 'up' | 'down' | 'flat' }> = {
-  'Andalucía':          { name: 'J. Moreno',         partido: 'PP',   trend: '+1.4', dir: 'up'   },
-  'Cataluña':           { name: 'S. Illa',           partido: 'PSC',  trend: '+2.3', dir: 'up'   },
-  'Madrid':             { name: 'I. D. Ayuso',       partido: 'PP',   trend: '-0.6', dir: 'down' },
-  'C. Valenciana':      { name: 'J. Pérez Llorca',   partido: 'PP',   trend: '+0.9', dir: 'up'   },
-  'Galicia':            { name: 'A. Rueda',          partido: 'PP',   trend: '+0.7', dir: 'up'   },
-  'Castilla y León':    { name: 'A. Mañueco',        partido: 'PP',   trend: '-0.1', dir: 'flat' },
-  'País Vasco':         { name: 'I. Pradales',       partido: 'PNV',  trend: '+1.1', dir: 'up'   },
-  'Castilla-La Mancha': { name: 'E. García-Page',    partido: 'PSOE', trend: '+0.6', dir: 'up'   },
-  'Canarias':           { name: 'F. Clavijo',        partido: 'CC',   trend: '-0.8', dir: 'down' },
-  'Murcia':             { name: 'F. López Miras',    partido: 'PP',   trend: '-0.4', dir: 'down' },
-  'Asturias':           { name: 'A. Barbón',         partido: 'PSOE', trend: '+1.2', dir: 'up'   },
-  'Aragón':             { name: 'J. Azcón',          partido: 'PP',   trend: '+0.4', dir: 'up'   },
-  'Baleares':           { name: 'M. Prohens',        partido: 'PP',   trend: '+0.5', dir: 'up'   },
-  'Extremadura':        { name: 'M. Guardiola',      partido: 'PP',   trend: '-0.2', dir: 'down' },
-  'Navarra':            { name: 'M. Chivite',        partido: 'PSN',  trend: '+0.3', dir: 'up'   },
-  'La Rioja':           { name: 'G. Capellán',       partido: 'PP',   trend: '+0.8', dir: 'up'   },
-  'Cantabria':          { name: 'M.J. Sáenz Buruaga',partido: 'PP',   trend: '+1.0', dir: 'up'   },
+ 'Andalucía':          { name: 'J. Moreno',         partido: 'PP',   trend: '+1.4', dir: 'up' },
+ 'Cataluña':           { name: 'S. Illa',           partido: 'PSC',  trend: '+2.3', dir: 'up' },
+ 'Madrid':             { name: 'I. D. Ayuso',       partido: 'PP',   trend: '-0.6', dir: 'down' },
+ 'C. Valenciana':      { name: 'J. Pérez Llorca',   partido: 'PP',   trend: '+0.9', dir: 'up' },
+ 'Galicia':            { name: 'A. Rueda',          partido: 'PP',   trend: '+0.7', dir: 'up' },
+ 'Castilla y León':    { name: 'A. Mañueco',        partido: 'PP',   trend: '-0.1', dir: 'flat' },
+ 'País Vasco':         { name: 'I. Pradales',       partido: 'PNV',  trend: '+1.1', dir: 'up' },
+ 'Castilla-La Mancha': { name: 'E. García-Page',    partido: 'PSOE', trend: '+0.6', dir: 'up' },
+ 'Canarias':           { name: 'F. Clavijo',        partido: 'CC',   trend: '-0.8', dir: 'down' },
+ 'Murcia':             { name: 'F. López Miras',    partido: 'PP',   trend: '-0.4', dir: 'down' },
+ 'Asturias':           { name: 'A. Barbón',         partido: 'PSOE', trend: '+1.2', dir: 'up' },
+ 'Aragón':             { name: 'J. Azcón',          partido: 'PP',   trend: '+0.4', dir: 'up' },
+ 'Baleares':           { name: 'M. Prohens',        partido: 'PP',   trend: '+0.5', dir: 'up' },
+ 'Extremadura':        { name: 'M. Guardiola',      partido: 'PP',   trend: '-0.2', dir: 'down' },
+ 'Navarra':            { name: 'M. Chivite',        partido: 'PSN',  trend: '+0.3', dir: 'up' },
+ 'La Rioja':           { name: 'G. Capellán',       partido: 'PP',   trend: '+0.8', dir: 'up' },
+ 'Cantabria':          { name: 'M.J. Sáenz Buruaga',partido: 'PP',   trend: '+1.0', dir: 'up' },
 }
 
 // Figuras en tendencia · actualizado mayo 2026 (8 actores · tracking semanal)
 const TRENDING_FIGURES = [
   { name: 'P. Sánchez',     party: 'PSOE',  trend: '-0.4', dir: 'down' as const, color: '#C53030' },
-  { name: 'A. Feijóo',      party: 'PP',    trend: '+1.6', dir: 'up'   as const, color: '#2D4A8A' },
-  { name: 'I. D. Ayuso',    party: 'PP',    trend: '+2.2', dir: 'up'   as const, color: '#2D4A8A' },
-  { name: 'S. Abascal',     party: 'VOX',   trend: '+0.7', dir: 'up'   as const, color: '#63BE21' },
+  { name: 'A. Feijóo',      party: 'PP',    trend: '+1.6', dir: 'up' as const, color: '#2D4A8A' },
+  { name: 'I. D. Ayuso',    party: 'PP',    trend: '+2.2', dir: 'up' as const, color: '#2D4A8A' },
+  { name: 'S. Abascal',     party: 'VOX',   trend: '+0.7', dir: 'up' as const, color: '#63BE21' },
   { name: 'Y. Díaz',        party: 'SUMAR', trend: '-1.1', dir: 'down' as const, color: '#BF3F7E' },
-  { name: 'C. Puigdemont',  party: 'JUNTS', trend: '+0.5', dir: 'up'   as const, color: '#1FA89B' },
+  { name: 'C. Puigdemont',  party: 'JUNTS', trend: '+0.5', dir: 'up' as const, color: '#1FA89B' },
   { name: 'P. Bolaños',     party: 'PSOE',  trend: '-0.3', dir: 'down' as const, color: '#C53030' },
-  { name: 'M. J. Montero',  party: 'PSOE',  trend: '+0.8', dir: 'up'   as const, color: '#C53030' },
+  { name: 'M. J. Montero',  party: 'PSOE',  trend: '+0.8', dir: 'up' as const, color: '#C53030' },
 ]
 
 // ── Module grid (single unified section) ──────────────────────────────────────
 
 const MODULES = [
-  { href: '/coaliciones',         label: 'Hub electoral',         sub: '8 tabs · Adversario · Voto blando',    accent: '#5B21B6', tag: 'NUEVO'     },
+  { href: '/coaliciones',         label: 'Hub electoral',         sub: '8 tabs · Adversario · Voto blando',    accent: '#5B21B6', tag: 'NUEVO' },
   { href: '/mapa-actores',        label: 'Mapa de actores',       sub: 'Grafo · Dossier · Cuadrante ideológico', accent: '#1F4E8C', tag: 'EXPANDIDO' },
   { href: '/riesgo',              label: 'Índice de Riesgo Político',             sub: 'Señales · simulador · escenarios',     accent: '#c42c2c', tag: 'EXPANDIDO' },
   { href: '/medios-narrativa',    label: 'Medios y narrativa',     sub: '487 fuentes · ciclo de vida narrativo',accent: '#b25000', tag: 'EXPANDIDO' },
-  { href: '/monitor-legislativo', label: 'Monitor legislativo',   sub: 'BOE · Congreso · Senado · timeline',   accent: '#0F766E', tag: 'NUEVO'     },
+  { href: '/monitor-legislativo', label: 'Monitor legislativo',   sub: 'BOE · Congreso · Senado · timeline',   accent: '#0F766E', tag: 'NUEVO' },
   { href: '/briefing',            label: 'Briefing diario',        sub: 'PDF · archivo histórico · digest',     accent: '#2d8a39', tag: 'EXPANDIDO' },
-  { href: '/geopolitica',         label: 'Geopolítica',            sub: 'Live ticker · OSINT · presencia España',accent: '#0E7490', tag: 'NUEVO'    },
-  { href: '/workspaces',          label: 'Workspaces',             sub: 'KPIs · briefings archivados',          accent: '#7C3AED', tag: 'NUEVO'     },
-  { href: '/nowcasting',          label: 'Intención de voto',      sub: 'Encuestas · nowcast · partidos',       accent: '#0070D1', tag: ''          },
-  { href: '/escenarios',          label: 'Mayorías y coaliciones', sub: "Escenarios de mayoría · D'Hondt",      accent: '#8B5CF6', tag: ''          },
-  { href: '/macro',               label: 'Indicadores macro',      sub: 'PIB · deuda · mercados en tiempo real',accent: '#16A34A', tag: ''          },
-  { href: '/alertas',             label: 'Alertas activas',        sub: 'Señales críticas · detección escaladas',accent: '#D97706', tag: ''         },
+  { href: '/geopolitica',         label: 'Geopolítica',            sub: 'Live ticker · OSINT · presencia España',accent: '#0E7490', tag: 'NUEVO' },
+  { href: '/workspaces',          label: 'Workspaces',             sub: 'KPIs · briefings archivados',          accent: '#7C3AED', tag: 'NUEVO' },
+  { href: '/nowcasting',          label: 'Intención de voto',      sub: 'Encuestas · nowcast · partidos',       accent: '#0070D1', tag: '' },
+  { href: '/escenarios',          label: 'Mayorías y coaliciones', sub: "Escenarios de mayoría · D'Hondt",      accent: '#8B5CF6', tag: '' },
+  { href: '/macro',               label: 'Indicadores macro',      sub: 'PIB · deuda · mercados en tiempo real',accent: '#16A34A', tag: '' },
+  { href: '/alertas',             label: 'Alertas activas',        sub: 'Señales críticas · detección escaladas',accent: '#D97706', tag: '' },
 ]
 
 /** Converts whatever the backend sends in news_pulse.parties to a display string.
@@ -163,18 +163,18 @@ export default function DashboardPage() {
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
 
   const { data, source, updatedAt, loading, refresh } = useApi<DashboardHome>(
-    '/api/dashboard/home',
+ '/api/dashboard/home',
     { refreshInterval: 60_000 }
   )
 
   const { data: trendsRaw, loading: trendsLoading } = useApi<{ items?: TrendItem[]; source?: string; timestamp?: string } | TrendItem[]>(
-    '/api/trends',
+ '/api/trends',
     { refreshInterval: 120_000 }
   )
 
   // Alertas con shape rico para mostrar con la misma visual que /alertas
   const { data: signalsData } = useApi<{ signals?: AlertaItem[] }>(
-    '/api/intelligence/signals?legacy=1',
+ '/api/intelligence/signals?legacy=1',
     { refreshInterval: 30_000 }
   )
   const richAlerts: AlertaItem[] = (signalsData?.signals ?? [])
@@ -189,16 +189,16 @@ export default function DashboardPage() {
   const isReady = !!data && Array.isArray(data.parties) && data.parties.length > 0
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
-      <AppHeader/>
+ <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
+ <AppHeader/>
 
-      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
+ <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
 
         {/* Morning briefing */}
-        <BrainBriefing/>
+ <BrainBriefing/>
 
         {/* Descargar briefing en PDF o escuchar en audio */}
-        <BriefingExports/>
+ <BriefingExports/>
 
         {/* ═══════════════ PANEL EJECUTIVO ═══════════════
            Bloque destacado · KPIs principales + risk + macro + alertas.
@@ -207,28 +207,28 @@ export default function DashboardPage() {
              [ Macro strip (4 cols con sparklines) ]
              [ Alertas críticas (chips inline) ]
         */}
-        <section style={{
+ <section style={{
           background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)',
           borderRadius: 16, padding: '20px 22px', marginTop: 18, marginBottom: 18,
           border: '1px solid #ECECEF',
           boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
         }}>
           {/* Section header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+ <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
                 Panel ejecutivo
-              </h2>
-              <span style={{ fontSize: 11.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
+ </h2>
+ <span style={{ fontSize: 11.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Estado del sistema · vista consolidada
-              </span>
-            </div>
-            <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
-          </div>
+ </span>
+ </div>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
+ </div>
 
           {/* Row 1: Risk hero (left) + KPIs grid 2x2 (right) */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2fr', gap: 12, marginBottom: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2fr', gap: 12, marginBottom: 12 }}>
 
             {/* Risk hero card */}
             {(() => {
@@ -238,7 +238,7 @@ export default function DashboardPage() {
               const semColor = semaforo === 'rojo' ? '#DC2626' : semaforo === 'ambar' || semaforo === 'amarillo' ? '#D97706' : '#16A34A'
               const semLabel = semaforo === 'rojo' ? 'Rojo' : semaforo === 'ambar' || semaforo === 'amarillo' ? 'Ámbar' : 'Verde'
               return (
-                <div onClick={() => router.push('/riesgo')} style={{
+ <div onClick={() => router.push('/riesgo')} style={{
                   background: '#fff', borderRadius: 12, padding: '16px 18px',
                   border: '1px solid #ECECEF', borderLeft: `4px solid ${semColor}`,
                   cursor: 'pointer', transition: 'box-shadow 150ms, transform 150ms',
@@ -248,64 +248,64 @@ export default function DashboardPage() {
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
                 >
-                  <div>
-                    <p style={{ fontSize: 11.5, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
+ <div>
+ <p style={{ fontSize: 11.5, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
                       Índice de Riesgo Político
-                    </p>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 48, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
+ </p>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 48, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
                         {isReady ? <CountUp value={score}/> : <Skeleton width={84} height={48} radius={6}/>}
-                      </span>
-                      <span style={{ fontSize: 12, color: '#86868b', fontWeight: 500 }}>/100</span>
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 999, background: `${semColor}14`, border: `1px solid ${semColor}33` }}>
-                      <span style={{ width: 7, height: 7, borderRadius: '50%', background: semColor }}/>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
-                    </div>
-                    <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '6px 0 0' }}>
+ </span>
+ <span style={{ fontSize: 12, color: '#86868b', fontWeight: 500 }}>/100</span>
+ </div>
+ </div>
+ <div>
+ <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 999, background: `${semColor}14`, border: `1px solid ${semColor}33` }}>
+ <span style={{ width: 7, height: 7, borderRadius: '50%', background: semColor }}/>
+ <span style={{ fontSize: 12, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
+ </div>
+ <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '6px 0 0' }}>
                       Tensión política y económica · click para detalle
-                    </p>
-                  </div>
-                </div>
+ </p>
+ </div>
+ </div>
               )
             })()}
 
             {/* KPIs grid 2x2 */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: 10 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: 10 }}>
               {(data?.kpis ?? []).slice(0, 4).map(k => {
                 const numeric = typeof k.value === 'number' ? k.value : Number(String(k.value).replace(/[^0-9.-]/g, ''))
                 const suffix = typeof k.value === 'string' && k.value.includes('%') ? '%' : ''
                 return (
-                  <div key={k.label} style={{
+ <div key={k.label} style={{
                     background: '#fff', borderRadius: 10, padding: '12px 14px',
                     border: '1px solid #ECECEF', borderLeft: `3px solid ${k.accent}`,
                     display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                   }}>
-                    <p style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', margin: 0 }}>{k.label}</p>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', color: k.accent, lineHeight: 1, marginTop: 4 }}>
+ <p style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', margin: 0 }}>{k.label}</p>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', color: k.accent, lineHeight: 1, marginTop: 4 }}>
                       {isReady && !Number.isNaN(numeric)
                         ? <><CountUp value={numeric}/>{suffix}</>
                         : <Skeleton width={58} height={30} radius={4}/>
                       }
-                    </div>
-                    <p style={{ fontSize: 11.5, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
-                  </div>
+ </div>
+ <p style={{ fontSize: 11.5, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
+ </div>
                 )
               })}
               {!data?.kpis && !isReady && [0,1,2,3].map(i => (
-                <div key={i} style={{ background: '#fff', borderRadius: 10, padding: '12px 14px', border: '1px solid #ECECEF' }}>
-                  <Skeleton width={80} height={11} radius={3} style={{ marginBottom: 8 }}/>
-                  <Skeleton width={80} height={30} radius={4}/>
-                </div>
+ <div key={i} style={{ background: '#fff', borderRadius: 10, padding: '12px 14px', border: '1px solid #ECECEF' }}>
+ <Skeleton width={80} height={11} radius={3} style={{ marginBottom: 8 }}/>
+ <Skeleton width={80} height={30} radius={4}/>
+ </div>
               ))}
-            </div>
-          </div>
+ </div>
+ </div>
 
           {/* Row 2: Macro strip (4 cols con sparklines) */}
           {data?.macro && data.macro.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(4, data.macro.length)}, 1fr)`, gap: 8, marginBottom: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(4, data.macro.length)}, 1fr)`, gap: 8, marginBottom: 12 }}>
               {data.macro.slice(0, 4).map(m => {
                 const goodIsUp = m.good === 'up'
                 const isPositiveDir = m.dir === 'up'
@@ -322,7 +322,7 @@ export default function DashboardPage() {
                   return `${x},${y}`
                 }).join(' ')
                 return (
-                  <div key={m.label} onClick={() => router.push('/macro')} style={{
+ <div key={m.label} onClick={() => router.push('/macro')} style={{
                     background: '#fff', borderRadius: 10, padding: '10px 12px',
                     border: '1px solid #ECECEF', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
@@ -331,29 +331,29 @@ export default function DashboardPage() {
                   onMouseEnter={e => { e.currentTarget.style.borderColor = '#D6D6DA' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = '#ECECEF' }}
                   >
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <p style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', margin: 0, marginBottom: 2 }}>{m.label}</p>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.015em', color: '#1d1d1f' }}>{m.value}</span>
-                        <span style={{ fontSize: 11.5, fontWeight: 700, color: trendColor }}>
+ <div style={{ minWidth: 0, flex: 1 }}>
+ <p style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', margin: 0, marginBottom: 2 }}>{m.label}</p>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.015em', color: '#1d1d1f' }}>{m.value}</span>
+ <span style={{ fontSize: 11.5, fontWeight: 700, color: trendColor }}>
                           {isPositiveDir ? '↑' : '↓'} {m.delta}
-                        </span>
-                      </div>
-                    </div>
+ </span>
+ </div>
+ </div>
                     {data_arr.length > 1 && (
-                      <svg width={w} height={h} style={{ flexShrink: 0 }}>
-                        <polyline points={points} fill="none" stroke={trendColor} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round"/>
-                      </svg>
+ <svg width={w} height={h} style={{ flexShrink: 0 }}>
+ <polyline points={points} fill="none" stroke={trendColor} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round"/>
+ </svg>
                     )}
-                  </div>
+ </div>
                 )
               })}
-            </div>
+ </div>
           )}
 
           {/* Row 3: Top 5 alertas prioritarias · misma visual que /alertas */}
           {top5Alerts.length === 0 && !loading && (
-            <EmptyState
+ <EmptyState
               severity="success"
               compact
               title="No hay alertas activas"
@@ -364,45 +364,45 @@ export default function DashboardPage() {
             />
           )}
           {top5Alerts.length > 0 && (
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+ <div>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+ <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     Top 5 alertas del día
-                  </span>
-                  <span style={{
+ </span>
+ <span style={{
                     fontSize: 11, padding: '2px 7px', borderRadius: 999,
                     background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
                   }}>
                     {richAlerts.length} activas
-                  </span>
-                </div>
-                <button onClick={() => router.push('/alertas')} style={{
+ </span>
+ </div>
+ <button onClick={() => router.push('/alertas')} style={{
                   background: '#0071e3', border: 'none', cursor: 'pointer',
                   fontSize: 12, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
                   padding: '5px 12px', borderRadius: 999,
                   display: 'inline-flex', alignItems: 'center', gap: 4,
                 }}>
                   Ver más
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ </button>
+ </div>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {top5Alerts.map(a => (
-                  <AlertCard key={a.id} alert={a} compact onDetailClick={() => router.push('/alertas')}/>
+ <AlertCard key={a.id} alert={a} compact onDetailClick={() => router.push('/alertas')}/>
                 ))}
-              </div>
-              <AlertKeyframes/>
-            </div>
+ </div>
+ <AlertKeyframes/>
+ </div>
           )}
-        </section>
+ </section>
 
         {/* Tendencias ahora */}
         {(() => {
           const CATEGORIA_COLOR: Record<string, string> = {
             geopolitica: '#c42c2c',
-            politica:    '#1F4E8C',
-            economia:    '#2d8a39',
+            politica: '#1F4E8C',
+            economia: '#2d8a39',
           }
           // API returns { items: TrendItem[] } OR a plain TrendItem[] — normalise both
           const trends: TrendItem[] = Array.isArray(trendsRaw)
@@ -416,58 +416,58 @@ export default function DashboardPage() {
             : null
 
           return (
-            <section style={{ marginBottom: 20 }}>
+ <section style={{ marginBottom: 20 }}>
               {/* Section header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
                   Tendencias ahora
-                </h2>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+ </h2>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   {formattedTs && (
-                    <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>
+ <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>
                       {formattedTs}
-                    </span>
+ </span>
                   )}
                   {sourcePills.map(src => (
-                    <span key={src} style={{
+ <span key={src} style={{
                       fontSize: 10.5, fontWeight: 600, padding: '2px 7px', borderRadius: 999,
                       background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.03em',
                       border: '1px solid #ECECEF',
                     }}>
                       {src}
-                    </span>
+ </span>
                   ))}
-                </div>
-              </div>
+ </div>
+ </div>
 
               {/* Horizontal scroll row */}
               {trendsLoading ? (
-                <div style={{ display: 'flex', gap: 8, overflowX: 'hidden' }}>
+ <div style={{ display: 'flex', gap: 8, overflowX: 'hidden' }}>
                   {[0,1,2,3,4,5].map(i => (
-                    <div key={i} style={{
+ <div key={i} style={{
                       minWidth: 220, maxWidth: 280, flexShrink: 0,
                       background: '#fff', borderRadius: 10, padding: '12px 13px',
                       boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                       border: '1px solid #ECECEF', borderLeft: '3px solid #e8e8ed',
                     }}>
-                      <Skeleton width={160} height={10} radius={4} style={{ marginBottom: 7 }}/>
-                      <Skeleton width={80} height={8} radius={4} style={{ marginBottom: 8 }}/>
-                      <Skeleton width={180} height={8} radius={4} style={{ marginBottom: 4 }}/>
-                      <Skeleton width={140} height={8} radius={4} style={{ marginBottom: 12 }}/>
-                      <Skeleton width={'100%' as unknown as number} height={3} radius={3}/>
-                    </div>
+ <Skeleton width={160} height={10} radius={4} style={{ marginBottom: 7 }}/>
+ <Skeleton width={80} height={8} radius={4} style={{ marginBottom: 8 }}/>
+ <Skeleton width={180} height={8} radius={4} style={{ marginBottom: 4 }}/>
+ <Skeleton width={140} height={8} radius={4} style={{ marginBottom: 12 }}/>
+ <Skeleton width={'100%' as unknown as number} height={3} radius={3}/>
+ </div>
                   ))}
-                </div>
+ </div>
               ) : trends.length === 0 ? (
-                <div style={{
+ <div style={{
                   background: '#fff', borderRadius: 10, padding: '18px 20px',
                   boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF',
                   textAlign: 'center', color: '#6e6e73', fontSize: 13,
                 }}>
                   Sin tendencias disponibles
-                </div>
+ </div>
               ) : (
-                <div style={{
+ <div style={{
                   display: 'flex', gap: 8, overflowX: 'auto',
                   paddingBottom: 4,
                   msOverflowStyle: 'none',
@@ -476,7 +476,7 @@ export default function DashboardPage() {
                     const accentColor = t.categoria ? (CATEGORIA_COLOR[t.categoria] ?? '#6e6e73') : '#6e6e73'
                     const borderLeft = t.es_evento_geo ? '3px solid #c42c2c' : '3px solid #e8e8ed'
                     return (
-                      <div key={t.id}
+ <div key={t.id}
                         onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
                         style={{
                           minWidth: 220, maxWidth: 280, flexShrink: 0,
@@ -492,36 +492,36 @@ export default function DashboardPage() {
                         onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                       >
                         {/* Rank + geo badge row */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                          <span style={{
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+ <span style={{
                             fontSize: 10.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
                             background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.04em',
                           }}>
                             #{t.rank}
-                          </span>
+ </span>
                           {t.es_evento_geo && (
-                            <span style={{
+ <span style={{
                               fontSize: 10, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
                               background: '#c42c2c18', color: '#c42c2c', letterSpacing: '0.04em',
                             }}>
                               GEO
-                            </span>
+ </span>
                           )}
-                        </div>
+ </div>
 
                         {/* Termino */}
-                        <div style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+ <div style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
                           {t.termino}
-                        </div>
+ </div>
 
                         {/* Fuente */}
-                        <div style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>
+ <div style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>
                           {t.fuente}
-                        </div>
+ </div>
 
                         {/* Resumen */}
                         {t.resumen && (
-                          <div style={{
+ <div style={{
                             fontSize: 13, color: '#444', lineHeight: 1.4,
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
@@ -529,44 +529,44 @@ export default function DashboardPage() {
                             overflow: 'hidden',
                           } as React.CSSProperties}>
                             {t.resumen}
-                          </div>
+ </div>
                         )}
 
                         {/* Country chips */}
                         {t.paises_mencionados && t.paises_mencionados.length > 0 && (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
                             {t.paises_mencionados.slice(0, 3).map(p => (
-                              <span key={p} style={{
+ <span key={p} style={{
                                 fontSize: 10.5, padding: '1px 5px', borderRadius: 999,
                                 background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
                                 border: '1px solid #dce6ff',
                               }}>
                                 {p}
-                              </span>
+ </span>
                             ))}
-                          </div>
+ </div>
                         )}
 
                         {/* Score bar + link arrow */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
-                          <div style={{ flex: 1, height: 3, background: '#F5F5F7', borderRadius: 3, overflow: 'hidden' }}>
-                            <div style={{ width: `${Math.min(100, t.score_norm * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
-                          </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
+ <div style={{ flex: 1, height: 3, background: '#F5F5F7', borderRadius: 3, overflow: 'hidden' }}>
+ <div style={{ width: `${Math.min(100, t.score_norm * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
+ </div>
                           {t.url && (
-                            <span style={{ fontSize: 13, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
+ <span style={{ fontSize: 13, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
                           )}
-                        </div>
-                      </div>
+ </div>
+ </div>
                     )
                   })}
-                </div>
+ </div>
               )}
 
               {/* Geo highlights */}
               {geoItems.length > 0 && !trendsLoading && (
-                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${geoItems.length}, 1fr)`, gap: 8, marginTop: 8 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: `repeat(${geoItems.length}, 1fr)`, gap: 8, marginTop: 8 }}>
                   {geoItems.map(t => (
-                    <div key={`geo-${t.id}`}
+ <div key={`geo-${t.id}`}
                       onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
                       style={{
                         background: '#fff', borderRadius: 10, padding: '13px 15px',
@@ -578,11 +578,11 @@ export default function DashboardPage() {
                       onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
                       onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                     >
-                      <div style={{ fontWeight: 700, fontSize: 13, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
+ <div style={{ fontWeight: 700, fontSize: 13, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
                         {t.termino}
-                      </div>
+ </div>
                       {t.resumen && (
-                        <div style={{
+ <div style={{
                           fontSize: 12, color: '#444', lineHeight: 1.4, marginBottom: 6,
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
@@ -590,63 +590,63 @@ export default function DashboardPage() {
                           overflow: 'hidden',
                         } as React.CSSProperties}>
                           {t.resumen}
-                        </div>
+ </div>
                       )}
                       {t.paises_mencionados && t.paises_mencionados.length > 0 && (
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
                           {t.paises_mencionados.map(p => (
-                            <span key={p} style={{
+ <span key={p} style={{
                               fontSize: 10.5, padding: '1px 5px', borderRadius: 999,
                               background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
                               border: '1px solid #dce6ff',
                             }}>
                               {p}
-                            </span>
+ </span>
                           ))}
-                        </div>
+ </div>
                       )}
-                      <div style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
-                    </div>
+ <div style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
+ </div>
                   ))}
-                </div>
+ </div>
               )}
-            </section>
+ </section>
           )
         })()}
 
         {/* News pulse (full width arriba) + Mapa territorial (full width abajo) */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
 
           {/* Pulso informativo · misma visual que las alertas (AlertCard) */}
-          <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF' }}>
+ <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF' }}>
             {/* Cabecera estilo "Top 5 alertas del día": label uppercase + chip + botón accent */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+ <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   Pulso de prensa · top 5
-                </span>
+ </span>
                 {data?.news_pulse && data.news_pulse.length > 0 && (
-                  <span style={{
+ <span style={{
                     fontSize: 11, padding: '2px 7px', borderRadius: 999,
                     background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
                   }}>
                     {data.news_pulse.length} titulares
-                  </span>
+ </span>
                 )}
-              </div>
-              <button onClick={() => router.push('/medios-narrativa')} style={{
+ </div>
+ <button onClick={() => router.push('/medios-narrativa')} style={{
                 background: '#0071e3', border: 'none', cursor: 'pointer',
                 fontSize: 12, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
                 padding: '5px 12px', borderRadius: 999,
                 display: 'inline-flex', alignItems: 'center', gap: 4,
               }}>
                 Feed completo
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </button>
-            </div>
+ <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ </button>
+ </div>
 
             {data?.news_pulse && data.news_pulse.length > 0 && (
-              <MetricTrace
+ <MetricTrace
                 compact
                 sources={[
                   { name: 'Agregador propio', href: '/medios-narrativa' },
@@ -661,7 +661,7 @@ export default function DashboardPage() {
             )}
 
             {data?.news_pulse && data.news_pulse.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {data.news_pulse.slice(0, 5).map(n => {
                   const item: NewsItem = {
                     id: n.id,
@@ -675,13 +675,13 @@ export default function DashboardPage() {
                   }
                   return <NewsCard key={n.id} item={item} compact/>
                 })}
-              </div>
+ </div>
             ) : loading ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {[0,1,2,3,4].map(i => <Skeleton key={i} height={64} radius={14}/>)}
-              </div>
+ </div>
             ) : (
-              <EmptyState
+ <EmptyState
                 severity="neutral"
                 title="Pulso informativo en construcción"
                 description="Todavía no hay artículos procesados para esta sesión. No se ha completado ninguna ingesta informativa del agregador RSS en los últimos minutos."
@@ -692,19 +692,19 @@ export default function DashboardPage() {
                 secondaryAction={{ label: 'Revisar fuentes', href: '/medios-narrativa' }}
               />
             )}
-          </section>
+ </section>
 
           {/* Mapa territorial — enriched */}
-          <section style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <section style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
             {/* Header + tab toggle */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
                 Mapa territorial
-              </h2>
-              <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
+ </h2>
+ <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
                 {(['electoral', 'narrativa', 'figuras'] as MapTab[]).map(tab => (
-                  <button key={tab} onClick={() => setMapTab(tab)} style={{
+ <button key={tab} onClick={() => setMapTab(tab)} style={{
                     background: mapTab === tab ? '#fff' : 'transparent',
                     border: 'none', cursor: 'pointer', borderRadius: 6,
                     padding: '3px 8px', fontSize: 11.5, fontWeight: 600,
@@ -715,22 +715,22 @@ export default function DashboardPage() {
                     transition: 'all 150ms',
                   }}>
                     {tab === 'electoral' ? 'Electoral' : tab === 'narrativa' ? 'Narrativa' : 'Figuras'}
-                  </button>
+ </button>
                 ))}
-              </div>
-            </div>
+ </div>
+ </div>
 
             {/* Map cells */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               {REGION_GRID.map((row, ri) => (
-                <div key={ri} style={{ display: 'flex', gap: 3 }}>
+ <div key={ri} style={{ display: 'flex', gap: 3 }}>
                   {row.map(cell => {
                     const region = data?.regions?.find(r => r.name === cell.name || r.name === BACKEND_NAME_MAP[cell.name])
 
                     if (mapTab === 'narrativa') {
                       const nv = CCAA_NARRATIVA[cell.name]
                       return (
-                        <div key={cell.name} onClick={() => router.push(`/mapa?ccaa=${encodeURIComponent(cell.name)}`)}
+ <div key={cell.name} onClick={() => router.push(`/mapa?ccaa=${encodeURIComponent(cell.name)}`)}
                           title={`${cell.name} · Narrativa dominante: ${nv?.tema ?? '?'}`}
                           style={{
                             flex: cell.flex, height: cell.height,
@@ -739,9 +739,9 @@ export default function DashboardPage() {
                             display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                             cursor: 'pointer',
                           }}>
-                          <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
-                          <div style={{ fontSize: cell.height >= 78 ? 12.5 : 11.5, fontWeight: 700, lineHeight: 1.1 }}>{nv?.tema ?? '?'}</div>
-                        </div>
+ <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
+ <div style={{ fontSize: cell.height >= 78 ? 12.5 : 11.5, fontWeight: 700, lineHeight: 1.1 }}>{nv?.tema ?? '?'}</div>
+ </div>
                       )
                     }
 
@@ -750,7 +750,7 @@ export default function DashboardPage() {
                       const dirColor = fg?.dir === 'up' ? '#16A34A' : fg?.dir === 'down' ? '#DC2626' : '#6e6e73'
                       const dirArrow = fg?.dir === 'up' ? '↑' : fg?.dir === 'down' ? '↓' : '–'
                       return (
-                        <div key={cell.name} onClick={() => router.push('/mapa-actores')}
+ <div key={cell.name} onClick={() => router.push('/mapa-actores')}
                           title={`${cell.name} · ${fg?.name ?? '?'} (${fg?.partido ?? '?'})`}
                           style={{
                             flex: cell.flex, height: cell.height,
@@ -760,16 +760,16 @@ export default function DashboardPage() {
                             cursor: 'pointer',
                             borderLeft: `3px solid ${dirColor}`,
                           }}>
-                          <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
+ <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
                           {cell.height >= 64 ? (
-                            <div>
-                              <div style={{ fontSize: cell.height >= 78 ? 12.5 : 11, fontWeight: 700, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fg?.name ?? '?'}</div>
-                              <div style={{ fontSize: 12.5, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
-                            </div>
+ <div>
+ <div style={{ fontSize: cell.height >= 78 ? 12.5 : 11, fontWeight: 700, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fg?.name ?? '?'}</div>
+ <div style={{ fontSize: 12.5, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
+ </div>
                           ) : (
-                            <div style={{ fontSize: 12.5, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
+ <div style={{ fontSize: 12.5, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
                           )}
-                        </div>
+ </div>
                       )
                     }
 
@@ -777,7 +777,7 @@ export default function DashboardPage() {
                     const lean = (region?.lean ?? 'mixed') as 'pp' | 'psoe' | 'mixed'
                     const diff = region?.diff ?? 0
                     return (
-                      <div key={cell.name} onClick={() => router.push(`/nowcasting?ccaa=${encodeURIComponent(cell.name)}`)}
+ <div key={cell.name} onClick={() => router.push(`/nowcasting?ccaa=${encodeURIComponent(cell.name)}`)}
                         title={region ? `${cell.name} · PP ${region.pp_pct}% · PSOE ${region.psoe_pct}% · dif ${region.diff > 0 ? '+' : ''}${region.diff}` : cell.name}
                         style={{
                           flex: cell.flex, height: cell.height,
@@ -786,105 +786,105 @@ export default function DashboardPage() {
                           display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                           cursor: 'pointer', transition: 'background 600ms ease',
                         }}>
-                        <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
+ <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
                         {region && cell.height >= 64 ? (
-                          <div>
-                            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
+ <div>
+ <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MIXTO'}
-                            </div>
-                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
+ </div>
+ <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
                               PP {region.pp_pct.toFixed(1)}% · PSOE {region.psoe_pct.toFixed(1)}%
-                            </div>
-                            <div style={{ height: 3, borderRadius: 2, overflow: 'hidden', display: 'flex' }}>
-                              <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
-                              <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
-                              <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
-                            </div>
-                          </div>
+ </div>
+ <div style={{ height: 3, borderRadius: 2, overflow: 'hidden', display: 'flex' }}>
+ <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
+ <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
+ <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
+ </div>
+ </div>
                         ) : cell.height >= 64 ? (
-                          <div>
-                            <div style={{ fontSize: cell.height >= 78 ? 16 : 13.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+ <div>
+ <div style={{ fontSize: cell.height >= 78 ? 16 : 13.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                               {REGION_LABEL[lean]}
-                            </div>
+ </div>
                             {diff !== 0 && (
-                              <div style={{ fontSize: 12, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
+ <div style={{ fontSize: 12, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
                                 {diff > 0 ? '+' : ''}{Math.round(diff)} esc.
-                              </div>
+ </div>
                             )}
-                          </div>
+ </div>
                         ) : region ? (
                           // Small cell with real data: label + proportional bar
-                          <div>
-                            <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
+ <div>
+ <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MX'}
-                            </div>
-                            <div style={{ height: 3, borderRadius: 1, overflow: 'hidden', display: 'flex' }}>
-                              <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
-                              <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
-                              <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
-                            </div>
-                          </div>
+ </div>
+ <div style={{ height: 3, borderRadius: 1, overflow: 'hidden', display: 'flex' }}>
+ <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
+ <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
+ <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
+ </div>
+ </div>
                         ) : (
-                          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+ <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                             {REGION_LABEL[lean]}
-                          </div>
+ </div>
                         )}
-                      </div>
+ </div>
                     )
                   })}
-                </div>
+ </div>
               ))}
-            </div>
+ </div>
 
             {/* Trending figures strip */}
-            <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
+ <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
+ <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
                 Figuras en tendencia
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
                 {TRENDING_FIGURES.map(f => {
                   const arrow = f.dir === 'up' ? '↑' : '↓'
                   const trendColor = f.dir === 'up' ? '#16A34A' : '#DC2626'
                   return (
-                    <button key={f.name} onClick={() => router.push('/mapa-actores')} style={{
+ <button key={f.name} onClick={() => router.push('/mapa-actores')} style={{
                       background: '#F9F9FB', border: 'none', borderRadius: 7,
                       padding: '6px 7px', cursor: 'pointer', fontFamily: 'inherit',
                       textAlign: 'left', transition: 'background 150ms',
                     }}
                     onMouseEnter={e => { e.currentTarget.style.background = '#F0F0F5' }}
                     onMouseLeave={e => { e.currentTarget.style.background = '#F9F9FB' }}>
-                      <div style={{ width: '100%', height: 2, background: f.color, borderRadius: 1, marginBottom: 5 }}/>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.name}</div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: 10, color: '#6e6e73' }}>{f.party}</span>
-                        <span style={{ fontSize: 10.5, fontWeight: 700, color: trendColor }}>{arrow}{f.trend}</span>
-                      </div>
-                    </button>
+ <div style={{ width: '100%', height: 2, background: f.color, borderRadius: 1, marginBottom: 5 }}/>
+ <div style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.name}</div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+ <span style={{ fontSize: 10, color: '#6e6e73' }}>{f.party}</span>
+ <span style={{ fontSize: 10.5, fontWeight: 700, color: trendColor }}>{arrow}{f.trend}</span>
+ </div>
+ </button>
                   )
                 })}
-              </div>
-            </div>
+ </div>
+ </div>
 
-          </section>
+ </section>
 
-        </div>
+ </div>
 
         {/* ═══════════════ CENTROS DE INTELIGENCIA ═══════════════
            Navegación principal · 12 módulos. Va al final porque es navegación,
            no contenido en vivo (los KPIs y tendencias se ven antes).
         */}
-        <section style={{ marginTop: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+ <section style={{ marginTop: 24 }}>
+ <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
               Centros de inteligencia
-            </h2>
-            <span style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+ </h2>
+ <span style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
               {MODULES.length} módulos · click para abrir
-            </span>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+ </span>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
             {MODULES.map(m => (
-              <button key={m.href} onClick={() => router.push(m.href)} style={{
+ <button key={m.href} onClick={() => router.push(m.href)} style={{
                 background: '#fff',
                 border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
                 borderLeft: `3px solid ${m.accent}`,
@@ -894,26 +894,26 @@ export default function DashboardPage() {
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+ <span style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
                   {m.tag && (
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
+ <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
                       {m.tag}
-                    </span>
+ </span>
                   )}
-                </div>
-                <p style={{ margin: 0, fontSize: 12, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
-              </button>
+ </div>
+ <p style={{ margin: 0, fontSize: 12, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
+ </button>
             ))}
-          </div>
-        </section>
+ </div>
+ </section>
 
-      </main>
+ </main>
 
-      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 12 }}>
+ <footer style={{ borderTop: '1px solid var(--hairline)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 12 }}>
         Politeia Analítica · {new Date().getFullYear()}
-        <span style={{ marginLeft: 16 }}><LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60}/></span>
-      </footer>
-    </div>
+ <span style={{ marginLeft: 16 }}><LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60}/></span>
+ </footer>
+ </div>
   )
 }

@@ -18,15 +18,15 @@ export default function IntelKpi({ label, value, sub, delta, color = '#1F4E8C' }
     boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
   }
   return (
-    <div style={wrap}>
-      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+ <div style={wrap}>
+ <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
         {label}
-      </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color }}>
+ </div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color }}>
         {value}
-      </div>
+ </div>
       {sub && <div style={{ fontSize: 11, color: '#86868b', marginTop: 3 }}>{sub}</div>}
       {delta && <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 2 }}>{delta}</div>}
-    </div>
+ </div>
   )
 }

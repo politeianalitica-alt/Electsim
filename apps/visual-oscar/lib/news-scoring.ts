@@ -47,36 +47,36 @@ export interface ScoredArticle {
 // Keywords políticos · partidos, instituciones, líderes, temas calientes
 const POLITICS_KEYWORDS = [
   // Partidos
-  'pp', 'psoe', 'vox', 'sumar', 'podemos', 'erc', 'junts', 'pnv', 'bildu', 'cs', 'bng', 'cc',
+ 'pp', 'psoe', 'vox', 'sumar', 'podemos', 'erc', 'junts', 'pnv', 'bildu', 'cs', 'bng', 'cc',
   // Líderes
-  'sánchez', 'sanchez', 'feijóo', 'feijoo', 'ayuso', 'abascal', 'yolanda díaz', 'yolanda diaz',
-  'puigdemont', 'aragonès', 'aragones', 'urkullu', 'pradales', 'page', 'moreno bonilla',
-  'almeida', 'colau', 'ortuzar', 'rufián', 'rufian', 'belarra', 'iglesias', 'errejón',
+ 'sánchez', 'sanchez', 'feijóo', 'feijoo', 'ayuso', 'abascal', 'yolanda díaz', 'yolanda diaz',
+ 'puigdemont', 'aragonès', 'aragones', 'urkullu', 'pradales', 'page', 'moreno bonilla',
+ 'almeida', 'colau', 'ortuzar', 'rufián', 'rufian', 'belarra', 'iglesias', 'errejón',
   // Instituciones
-  'congreso', 'senado', 'moncloa', 'gobierno', 'oposición', 'oposicion',
-  'tribunal supremo', 'constitucional', 'audiencia nacional', 'fiscalía', 'fiscalia',
-  'cgpj', 'rey', 'casa real', 'monarquía', 'monarquia',
+ 'congreso', 'senado', 'moncloa', 'gobierno', 'oposición', 'oposicion',
+ 'tribunal supremo', 'constitucional', 'audiencia nacional', 'fiscalía', 'fiscalia',
+ 'cgpj', 'rey', 'casa real', 'monarquía', 'monarquia',
   // Temas
-  'amnistía', 'amnistia', 'investidura', 'moción', 'mocion', 'censura', 'cuestión de confianza',
-  'presupuestos', 'pgegov', 'decreto-ley', 'decreto ley', 'reforma constitucional',
-  'cataluña', 'cataluna', 'catalunya', 'país vasco', 'pais vasco', 'galicia', 'andalucía',
-  'inmigración', 'inmigracion', 'sahara', 'gibraltar',
+ 'amnistía', 'amnistia', 'investidura', 'moción', 'mocion', 'censura', 'cuestión de confianza',
+ 'presupuestos', 'pgegov', 'decreto-ley', 'decreto ley', 'reforma constitucional',
+ 'cataluña', 'cataluna', 'catalunya', 'país vasco', 'pais vasco', 'galicia', 'andalucía',
+ 'inmigración', 'inmigracion', 'sahara', 'gibraltar',
   // Económico-político
-  'prima de riesgo', 'bono español', 'bono espanol', 'banco de españa', 'airef',
-  'ibex', 'cnmv', 'cnmc', 'oligopolio',
+ 'prima de riesgo', 'bono español', 'bono espanol', 'banco de españa', 'airef',
+ 'ibex', 'cnmv', 'cnmc', 'oligopolio',
   // Procesos y casos
-  'caso koldo', 'caso ábalos', 'caso abalos', 'caso bárcenas', 'gürtel', 'guertel',
-  'lava jato', 'tito berni', 'lawfare', 'imputación', 'imputacion',
+ 'caso koldo', 'caso ábalos', 'caso abalos', 'caso bárcenas', 'gürtel', 'guertel',
+ 'lava jato', 'tito berni', 'lawfare', 'imputación', 'imputacion',
 ]
 
 const CRISIS_KEYWORDS = [
-  'última hora', 'ultima hora', 'urgente', 'breaking', 'alerta',
-  'crisis', 'colapso', 'dimite', 'dimisión', 'dimision', 'detenido',
-  'imputado', 'investigado', 'condenado', 'absuelto',
-  'evacuado', 'emergencia', 'catástrofe', 'catastrofe',
-  'muere', 'fallece', 'muerto', 'asesinado',
-  'huelga general', 'paro general', 'manifestación masiva',
-  'récord histórico', 'record historico', 'mínimo histórico', 'minimo historico',
+ 'última hora', 'ultima hora', 'urgente', 'breaking', 'alerta',
+ 'crisis', 'colapso', 'dimite', 'dimisión', 'dimision', 'detenido',
+ 'imputado', 'investigado', 'condenado', 'absuelto',
+ 'evacuado', 'emergencia', 'catástrofe', 'catastrofe',
+ 'muere', 'fallece', 'muerto', 'asesinado',
+ 'huelga general', 'paro general', 'manifestación masiva',
+ 'récord histórico', 'record historico', 'mínimo histórico', 'minimo historico',
 ]
 
 function countMatches(text: string, keywords: string[]): { count: number; matched: string[] } {

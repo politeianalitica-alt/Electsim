@@ -97,7 +97,7 @@ export default function SentimentHeatmap({
   }
 
   return (
-    <div
+ <div
       style={{
         background: '#ffffff',
         borderRadius: 22,
@@ -107,13 +107,13 @@ export default function SentimentHeatmap({
         fontFamily: '-apple-system, system-ui, sans-serif',
       }}
     >
-      <Plot
+ <Plot
         data={traces}
         layout={layout}
         config={config}
         style={{ width: '100%' }}
         useResizeHandler
       />
-    </div>
+ </div>
   )
 }

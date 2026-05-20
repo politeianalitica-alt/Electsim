@@ -25,30 +25,30 @@ export default function SectorPage({ params }: { params: { id: string } }) {
 
   if (loading) return <SectorSkeleton meta={meta} />;
   if (error) return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-      <div className="text-center text-slate-400">
-        <p className="text-lg font-semibold mb-2">Error cargando sector</p>
-        <p className="text-sm">{error.message}</p>
-      </div>
-    </div>
+ <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+ <div className="text-center text-slate-400">
+ <p className="text-lg font-semibold mb-2">Error cargando sector</p>
+ <p className="text-sm">{error.message}</p>
+ </div>
+ </div>
   );
   if (!data) return null;
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <div className="max-w-screen-xl mx-auto px-6 py-8 space-y-6">
-        <SectorHeader meta={meta} score={data.score} alertas={data.alertas} />
-        <SectorScoreCard score={data.score} resumen={data.resumen_ia} />
-        <KPIGrid kpis={kpisLoading ? [] : kpis} loading={kpisLoading} />
-        <SectorIniciativas
+ <div className="min-h-screen bg-slate-950">
+ <div className="max-w-screen-xl mx-auto px-6 py-8 space-y-6">
+ <SectorHeader meta={meta} score={data.score} alertas={data.alertas} />
+ <SectorScoreCard score={data.score} resumen={data.resumen_ia} />
+ <KPIGrid kpis={kpisLoading ? [] : kpis} loading={kpisLoading} />
+ <SectorIniciativas
           iniciativasIds={data.iniciativas_legislativas_ids}
           areasTematicas={meta.areas_tematicas}
         />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <ActoresList sectorId={params.id} />
-          <EventosTimeline sectorId={params.id} />
-        </div>
-      </div>
-    </div>
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <ActoresList sectorId={params.id} />
+ <EventosTimeline sectorId={params.id} />
+ </div>
+ </div>
+ </div>
   );
 }

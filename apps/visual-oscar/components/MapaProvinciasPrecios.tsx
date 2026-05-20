@@ -127,55 +127,55 @@ export default function MapaProvinciasPrecios({ provincias, compact = false }: M
   const focused = focusedId ? Object.values(byCod).find(p => p.cod_prov === focusedId) : null
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {/* Header con info contextual + escala */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-        <div style={{ fontSize: 12, color: '#6e6e73' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+ <div style={{ fontSize: 12, color: '#6e6e73' }}>
           {focused ? (
-            <span>
-              <strong style={{ color: '#1d1d1f' }}>{focused.nombre}</strong>
+ <span>
+ <strong style={{ color: '#1d1d1f' }}>{focused.nombre}</strong>
               {' · '}
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: '#DB2777' }}>
+ <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: '#DB2777' }}>
                 {focused.precio_m2.toLocaleString('es-ES')} €/m²
-              </span>
+ </span>
               {' · '}
-              <span style={{ color: focused.var_anual >= 7 ? '#DC2626' : focused.var_anual >= 4 ? '#D97706' : '#16A34A', fontWeight: 600 }}>
+ <span style={{ color: focused.var_anual >= 7 ? '#DC2626' : focused.var_anual >= 4 ? '#D97706' : '#16A34A', fontWeight: 600 }}>
                 {focused.var_anual >= 0 ? '+' : ''}{focused.var_anual.toFixed(1)}% anual
-              </span>
+ </span>
               {' · '}
-              <span style={{ color: '#86868b' }}>{focused.ccaa}</span>
-            </span>
+ <span style={{ color: '#86868b' }}>{focused.ccaa}</span>
+ </span>
           ) : (
-            <span>52 provincias · hover para ver precio · click para fijar</span>
+ <span>52 provincias · hover para ver precio · click para fijar</span>
           )}
-        </div>
+ </div>
         {/* Escala de color */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <span style={{ fontSize: 9.5, color: '#86868b', marginRight: 4 }}>€/m²</span>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+ <span style={{ fontSize: 9.5, color: '#86868b', marginRight: 4 }}>€/m²</span>
           {SCALE_COLORS.map((c, i) => (
-            <span key={i} title={`${SCALE_LABELS[i]} · ≤ ${breaks[i].toLocaleString('es-ES')} €/m²`} style={{
+ <span key={i} title={`${SCALE_LABELS[i]} · ≤ ${breaks[i].toLocaleString('es-ES')} €/m²`} style={{
               width: 22, height: 10, background: c, borderRadius: i === 0 ? '3px 0 0 3px' : i === SCALE_COLORS.length - 1 ? '0 3px 3px 0' : 0,
             }}/>
           ))}
-          <span style={{ fontSize: 9.5, color: '#86868b', marginLeft: 4 }}>+caro</span>
-        </div>
-      </div>
+ <span style={{ fontSize: 9.5, color: '#86868b', marginLeft: 4 }}>+caro</span>
+ </div>
+ </div>
 
       {/* Mapa SVG */}
-      <div style={{ position: 'relative', minHeight: 0 }}>
+ <div style={{ position: 'relative', minHeight: 0 }}>
         {loading && (
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#86868b', fontSize: 12 }}>
+ <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#86868b', fontSize: 12 }}>
             Cargando geografía…
-          </div>
+ </div>
         )}
         {!loading && geo && (
-          <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="auto" style={{ display: 'block' }}
+ <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="auto" style={{ display: 'block' }}
                onClick={() => setPinId(null)}
           >
             {/* Caja Canarias (decorativa) */}
-            <rect x={5} y={H - (compact ? 60 : 82)} width={compact ? 100 : 140} height={compact ? 55 : 77}
+ <rect x={5} y={H - (compact ? 60 : 82)} width={compact ? 100 : 140} height={compact ? 55 : 77}
                   fill="none" stroke="#ECECEF" strokeWidth={1} strokeDasharray="3 3" rx={6}/>
-            <text x={10} y={H - (compact ? 48 : 68)} fontSize={8} fill="#86868b" fontWeight={600} letterSpacing="0.05em">CANARIAS</text>
+ <text x={10} y={H - (compact ? 48 : 68)} fontSize={8} fill="#86868b" fontWeight={600} letterSpacing="0.05em">CANARIAS</text>
 
             {/* Península + Baleares */}
             {peninsulaPath && peninsulaFCs.map(f => {
@@ -185,7 +185,7 @@ export default function MapaProvinciasPrecios({ provincias, compact = false }: M
               const isFocused = focusedId === c
               const d = peninsulaPath(f as never) || ''
               return (
-                <path key={`pen-${c}`} d={d} fill={fill}
+ <path key={`pen-${c}`} d={d} fill={fill}
                   fillOpacity={isFocused ? 1 : 0.92}
                   stroke="#fff" strokeWidth={isFocused ? 1.6 : 0.7}
                   style={{ cursor: 'pointer', transition: 'fill-opacity 120ms, stroke-width 120ms' }}
@@ -203,7 +203,7 @@ export default function MapaProvinciasPrecios({ provincias, compact = false }: M
               const isFocused = focusedId === c
               const d = canariasPath(f as never) || ''
               return (
-                <path key={`can-${c}`} d={d} fill={fill}
+ <path key={`can-${c}`} d={d} fill={fill}
                   fillOpacity={isFocused ? 1 : 0.92}
                   stroke="#fff" strokeWidth={isFocused ? 1.6 : 0.7}
                   style={{ cursor: 'pointer', transition: 'fill-opacity 120ms, stroke-width 120ms' }}
@@ -226,14 +226,14 @@ export default function MapaProvinciasPrecios({ provincias, compact = false }: M
               if (!ctr || isNaN(ctr[0]) || isNaN(ctr[1])) return null
               const isDark = prov.precio_m2 >= breaks[3]
               return (
-                <text key={`lbl-${c}`} x={ctr[0]} y={ctr[1]}
+ <text key={`lbl-${c}`} x={ctr[0]} y={ctr[1]}
                   textAnchor="middle" dominantBaseline="middle"
                   fontSize={compact ? 8.5 : 10} fontWeight={700}
                   fill={isDark ? '#fff' : '#1d1d1f'}
                   style={{ pointerEvents: 'none', textShadow: isDark ? '0 1px 2px rgba(0,0,0,0.4)' : 'none' }}
                 >
                   {prov.precio_m2 >= 1000 ? (prov.precio_m2 / 1000).toFixed(1) + 'k' : prov.precio_m2.toFixed(0)}
-                </text>
+ </text>
               )
             })}
             {canariasPath && canariasFCs.map(f => {
@@ -244,19 +244,19 @@ export default function MapaProvinciasPrecios({ provincias, compact = false }: M
               if (!ctr || isNaN(ctr[0]) || isNaN(ctr[1])) return null
               const isDark = prov.precio_m2 >= breaks[3]
               return (
-                <text key={`canlbl-${c}`} x={ctr[0]} y={ctr[1]}
+ <text key={`canlbl-${c}`} x={ctr[0]} y={ctr[1]}
                   textAnchor="middle" dominantBaseline="middle"
                   fontSize={compact ? 7 : 8} fontWeight={700}
                   fill={isDark ? '#fff' : '#1d1d1f'}
                   style={{ pointerEvents: 'none', textShadow: isDark ? '0 1px 2px rgba(0,0,0,0.4)' : 'none' }}
                 >
                   {(prov.precio_m2 / 1000).toFixed(1)}k
-                </text>
+ </text>
               )
             })}
-          </svg>
+ </svg>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }

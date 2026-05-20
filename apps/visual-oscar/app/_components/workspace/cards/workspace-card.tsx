@@ -30,7 +30,7 @@ export function WorkspaceCard({
   };
 
   return (
-    <div
+ <div
       style={base}
       onClick={onClick}
       onMouseEnter={e => {
@@ -41,7 +41,7 @@ export function WorkspaceCard({
       }}
     >
       {children}
-    </div>
+ </div>
   );
 }
 
@@ -55,7 +55,7 @@ interface BadgeProps {
 export function WsBadge({ label, color = WS.ink3, variant = "filled", size = "sm" }: BadgeProps) {
   const isXs = size === "xs";
   return (
-    <span style={{
+ <span style={{
       display: "inline-flex", alignItems: "center",
       fontSize: isXs ? 9.5 : 10.5, fontWeight: 600,
       padding: isXs ? "1px 6px" : "2px 8px",
@@ -67,13 +67,13 @@ export function WsBadge({ label, color = WS.ink3, variant = "filled", size = "sm
       whiteSpace: "nowrap",
     }}>
       {label}
-    </span>
+ </span>
   );
 }
 
 export function WsDot({ color }: { color: string }) {
   return (
-    <span style={{
+ <span style={{
       display: "inline-block",
       width: 7, height: 7, borderRadius: "50%",
       background: color, flexShrink: 0,

@@ -50,7 +50,7 @@ import { AiUnavailableError } from "./anthropic-client";
 function ensureEnabled(): void {
   if (AI_CONFIG.provider === "none") {
     throw new AiUnavailableError(
-      "No AI provider configured (set ANTHROPIC_API_KEY or OLLAMA_URL)"
+ "No AI provider configured (set ANTHROPIC_API_KEY or OLLAMA_URL)"
     );
   }
 }

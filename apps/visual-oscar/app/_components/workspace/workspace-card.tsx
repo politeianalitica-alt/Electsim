@@ -25,9 +25,9 @@ interface WorkspaceCardProps {
  * resto de la plataforma (dashboard / riesgo / mapa-actores).
  *
  * Uso:
- *   <WorkspaceCard>...</WorkspaceCard>                                // por defecto
- *   <WorkspaceCard accent={WS.danger} padding="lg">...</WorkspaceCard>
- *   <WorkspaceCard interactive onClick={...}>...</WorkspaceCard>
+ * <WorkspaceCard>...</WorkspaceCard> // por defecto
+ * <WorkspaceCard accent={WS.danger} padding="lg">...</WorkspaceCard>
+ * <WorkspaceCard interactive onClick={...}>...</WorkspaceCard>
  */
 export function WorkspaceCard({
   children,
@@ -41,7 +41,7 @@ export function WorkspaceCard({
   const padMap = { sm: 12, md: 16, lg: 20 } as const;
 
   return (
-    <div
+ <div
       onClick={onClick}
       className={className}
       style={{
@@ -54,7 +54,7 @@ export function WorkspaceCard({
         transition: "transform .15s ease, box-shadow .15s ease, border-color .15s ease",
         cursor: onClick || interactive ? "pointer" : "default",
         ...(interactive && {
-          ":hover": {
+ ":hover": {
             transform: "translateY(-1px)",
             boxShadow: "0 4px 14px rgba(0,0,0,0.07)",
           },
@@ -65,7 +65,7 @@ export function WorkspaceCard({
         interactive
           ? (e) => {
               (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 4px 14px rgba(0,0,0,0.07)";
+ "0 4px 14px rgba(0,0,0,0.07)";
               (e.currentTarget as HTMLDivElement).style.transform = "translateY(-1px)";
             }
           : undefined
@@ -74,14 +74,14 @@ export function WorkspaceCard({
         interactive
           ? (e) => {
               (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 1px 2px rgba(0,0,0,0.04)";
+ "0 1px 2px rgba(0,0,0,0.04)";
               (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
             }
           : undefined
       }
     >
       {children}
-    </div>
+ </div>
   );
 }
 
@@ -101,8 +101,8 @@ export function WorkspaceSection({
   children: ReactNode;
 }) {
   return (
-    <section style={{ marginBottom: 28 }}>
-      <div
+ <section style={{ marginBottom: 28 }}>
+ <div
         style={{
           display: "flex",
           alignItems: "baseline",
@@ -113,8 +113,8 @@ export function WorkspaceSection({
           borderBottom: `1px solid ${WS.border}`,
         }}
       >
-        <div>
-          <div
+ <div>
+ <div
             style={{
               fontSize: 10,
               color: WS.ink3,
@@ -125,9 +125,9 @@ export function WorkspaceSection({
             }}
           >
             {title}
-          </div>
+ </div>
           {description && (
-            <p
+ <p
               style={{
                 margin: "4px 0 0",
                 fontSize: 12.5,
@@ -137,16 +137,16 @@ export function WorkspaceSection({
               }}
             >
               {description}
-            </p>
+ </p>
           )}
-        </div>
+ </div>
         {actions && (
-          <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
+ <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
             {actions}
-          </div>
+ </div>
         )}
-      </div>
+ </div>
       {children}
-    </section>
+ </section>
   );
 }

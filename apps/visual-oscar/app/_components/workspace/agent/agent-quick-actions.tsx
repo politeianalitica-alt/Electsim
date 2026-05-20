@@ -24,22 +24,22 @@ interface AgentQuickActionsProps {
 
 export function AgentQuickActions({ onAction, isLoading }: AgentQuickActionsProps) {
   return (
-    <div className="border-t border-[#e8e8ed] px-3 py-2">
-      <p className="text-[9px] font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+ <div className="border-t border-[#e8e8ed] px-3 py-2">
+ <p className="text-[9px] font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
         Acciones rápidas
-      </p>
-      <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
+ </p>
+ <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
         {QUICK_ACTIONS.map(qa => (
-          <button
+ <button
             key={qa.id}
             onClick={() => onAction(qa.message, qa.mode)}
             disabled={isLoading}
             className="flex-none rounded-full border border-[#e8e8ed] bg-[#f5f5f7] px-2.5 py-1 text-[10px] text-[#3a3a3d] hover:border-[#b0b0b8] hover:text-[#1d1d1f] transition-colors disabled:opacity-50"
           >
             {qa.label}
-          </button>
+ </button>
         ))}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }

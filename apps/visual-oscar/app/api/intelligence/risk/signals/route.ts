@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json(
       withMeta(
         { items: result.data, total: result.data.length, generado_en: nowIso() } as SignalsSnapshot,
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -21,7 +21,7 @@ export async function GET() {
   return NextResponse.json(
     withMeta(
       { items: MOCK_SIGNALS, total: MOCK_SIGNALS.length, generado_en: nowIso() } as SignalsSnapshot,
-      'mock',
+ 'mock',
       {
         warnings: result.error ? [`backend_unreachable:${result.error}`] : ['empty_dataset'],
         latency_ms: result.latency_ms,

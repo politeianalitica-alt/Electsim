@@ -155,12 +155,12 @@ export async function fetchAllRiskFeeds(): Promise<RiskFeedsSnapshot> {
       Awaited<ReturnType<typeof fetchGDELTSpainTone>>,
     ]
     const breakdown = {
-      'Banco Mundial Gini': !!gini,
-      'Banco Mundial Gasto militar': !!militar,
-      'Banco Mundial Paro juvenil': !!paroJuvenil,
-      'ECB DFR': !!ecbDfr,
-      'INE IPC': !!ineIpc,
-      'GDELT España': !!gdelt,
+ 'Banco Mundial Gini': !!gini,
+ 'Banco Mundial Gasto militar': !!militar,
+ 'Banco Mundial Paro juvenil': !!paroJuvenil,
+ 'ECB DFR': !!ecbDfr,
+ 'INE IPC': !!ineIpc,
+ 'GDELT España': !!gdelt,
     }
     const ok = Object.values(breakdown).filter(Boolean).length
     return {

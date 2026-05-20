@@ -43,7 +43,7 @@ function detectHorizonte(text: string): ImpactoItem['horizonte'] {
 const COUNTRY_KW: Record<string, string> = {
   marruecos: 'Marruecos', argelia: 'Argelia', francia: 'Francia', alemania: 'Alemania',
   rusia: 'Rusia', ucrania: 'Ucrania', china: 'China', israel: 'Israel', irán: 'Irán', iran: 'Irán',
-  'estados unidos': 'EE.UU.', 'ee.uu.': 'EE.UU.', 'eeuu': 'EE.UU.', portugal: 'Portugal',
+ 'estados unidos': 'EE.UU.', 'ee.uu.': 'EE.UU.', 'eeuu': 'EE.UU.', portugal: 'Portugal',
   italia: 'Italia', 'reino unido': 'Reino Unido',
 }
 

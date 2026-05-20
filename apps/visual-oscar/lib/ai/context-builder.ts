@@ -124,7 +124,7 @@ export async function buildLiveContext(): Promise<string> {
     fetchInternal<{ items?: TrendSnapshot[] } | TrendSnapshot[]>("/api/trends"),
     fetchInternal<{ signals?: AlertSnapshot[] }>("/api/intelligence/signals?legacy=1"),
     fetchInternal<{ executive_summary?: string; analyst_note?: string }>(
-      "/api/briefings/morning?workspace_id=default"
+ "/api/briefings/morning?workspace_id=default"
     ),
   ]);
 
@@ -151,7 +151,7 @@ export async function buildLiveContext(): Promise<string> {
     const lines: string[] = ["## KPIs ACTUALES"];
     if (dashboard.risk) {
       lines.push(
-        `Riesgo Político: ${dashboard.risk.score}/100 (semáforo ${dashboard.risk.semaforo})`
+ `Riesgo Político: ${dashboard.risk.score}/100 (semáforo ${dashboard.risk.semaforo})`
       );
     }
     if (dashboard.kpis) {
@@ -254,12 +254,12 @@ function buildMinimalContext(): string {
   });
   const hora = now.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
   return [
-    "## CONTEXTO ACTUAL",
-    `Fecha: ${fecha}`,
-    `Hora: ${hora}`,
-    "",
-    "## DATOS DEL BACKEND",
-    "(No disponibles en este momento. Responde con tu conocimiento general sobre política española, indicando que no tienes datos en vivo.)",
+ "## CONTEXTO ACTUAL",
+ `Fecha: ${fecha}`,
+ `Hora: ${hora}`,
+ "",
+ "## DATOS DEL BACKEND",
+ "(No disponibles en este momento. Responde con tu conocimiento general sobre política española, indicando que no tienes datos en vivo.)",
   ].join("\n");
 }
 

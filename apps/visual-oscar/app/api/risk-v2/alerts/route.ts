@@ -29,11 +29,11 @@ interface AlertsPayload {
 
 const INDEX_NAME: Record<string, string> = {
   institutional: 'Riesgo institucional',
-  electoral:     'Volatilidad electoral',
-  geopolitical:  'Riesgo geopolítico',
-  economic:      'Riesgo económico',
-  media:         'Presión mediática',
-  social:        'Tensión social',
+  electoral: 'Volatilidad electoral',
+  geopolitical: 'Riesgo geopolítico',
+  economic: 'Riesgo económico',
+  media: 'Presión mediática',
+  social: 'Tensión social',
 }
 
 /** Genera alertas dinámicas a partir de los scores live de los 6 índices. */
@@ -102,7 +102,7 @@ export async function GET(req: NextRequest) {
   const country = req.nextUrl.searchParams.get('country') || 'ES'
   const days = req.nextUrl.searchParams.get('days') || '30'
   const r = await callBackend<AlertsPayload>(
-    `/api/risk-v2/alerts?country=${encodeURIComponent(country)}&days=${days}`,
+ `/api/risk-v2/alerts?country=${encodeURIComponent(country)}&days=${days}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.alerts) && r.data.alerts.length > 0) {

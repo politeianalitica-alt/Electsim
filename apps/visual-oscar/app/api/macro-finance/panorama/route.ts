@@ -10,7 +10,7 @@ export interface MacroPanorama { country: string; indicators: Indicator[] }
 export async function GET(req: NextRequest) {
   const country = req.nextUrl.searchParams.get('country') || 'ES'
   const r = await callBackend<MacroPanorama>(
-    `/api/macro-finance/panorama?country=${encodeURIComponent(country)}`,
+ `/api/macro-finance/panorama?country=${encodeURIComponent(country)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { country: 'ES', indicators: [] },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

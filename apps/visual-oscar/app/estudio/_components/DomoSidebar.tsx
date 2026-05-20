@@ -24,16 +24,16 @@ const NAV_ITEMS: NavItem[] = [
   // Análisis
   { href: '/estudio/dashboard',       label: 'Mis paneles',           glyph: '⊟', group: 'Análisis' },
   { href: '/estudio/charts',          label: 'Galería de gráficos',   glyph: '▋' },
-  { href: '/estudio/query',           label: 'Pregúntale a los datos',glyph: '✦' },
+  { href: '/estudio/query',           label: 'Pregúntale a los datos',glyph: '' },
 
   // Vigilancia
   { href: '/estudio/alertas',         label: 'Vigilantes',            glyph: '!', group: 'Vigilancia' },
   { href: '/estudio/notificaciones',  label: 'Mis avisos',            glyph: '◐' },
-  { href: '/estudio/jobs',            label: 'Histórico de tareas',   glyph: '⚙' },
+  { href: '/estudio/jobs',            label: 'Histórico de tareas',   glyph: '' },
   { href: '/estudio/health',          label: 'Estado del sistema',    glyph: '◉' },
 
   // Equipo
-  { href: '/estudio/gobernanza',      label: 'Equipo y permisos',     glyph: '✓', group: 'Equipo' },
+  { href: '/estudio/gobernanza',      label: 'Equipo y permisos',     glyph: '', group: 'Equipo' },
 ]
 
 export default function DomoSidebar() {
@@ -48,44 +48,44 @@ export default function DomoSidebar() {
   })
 
   return (
-    <nav className={styles.sidebar} aria-label="Navegación Estudio">
-      <div className={styles.sidebarHeader}>
-        <span className={styles.logo}>P</span>
-        <span className={styles.logoText}>Estudio Politeia</span>
-        <span className={styles.logoSubtext}>Workspace del analista</span>
-      </div>
+ <nav className={styles.sidebar} aria-label="Navegación Estudio">
+ <div className={styles.sidebarHeader}>
+ <span className={styles.logo}>P</span>
+ <span className={styles.logoText}>Estudio Politeia</span>
+ <span className={styles.logoSubtext}>Workspace del analista</span>
+ </div>
 
-      <div className={styles.navList}>
+ <div className={styles.navList}>
         {groups.map((g, gi) => (
-          <div key={gi} className={styles.navGroup}>
+ <div key={gi} className={styles.navGroup}>
             {g.name && <div className={styles.navGroupLabel}>{g.name}</div>}
-            <ul className={styles.navUl}>
+ <ul className={styles.navUl}>
               {g.items.map(item => {
                 const isActive = item.exact
                   ? pathname === item.href
                   : pathname?.startsWith(item.href) ?? false
                 return (
-                  <li key={item.href}>
-                    <Link
+ <li key={item.href}>
+ <Link
                       href={item.href}
                       className={`${styles.navItem} ${isActive ? styles.active : ''}`}
                     >
-                      <span className={styles.navIcon}>{item.glyph}</span>
-                      <span className={styles.navLabel}>{item.label}</span>
-                    </Link>
-                  </li>
+ <span className={styles.navIcon}>{item.glyph}</span>
+ <span className={styles.navLabel}>{item.label}</span>
+ </Link>
+ </li>
                 )
               })}
-            </ul>
-          </div>
+ </ul>
+ </div>
         ))}
-      </div>
+ </div>
 
-      <div className={styles.sidebarFooter}>
-        <Link href="/dashboard" className={styles.backLink}>
+ <div className={styles.sidebarFooter}>
+ <Link href="/dashboard" className={styles.backLink}>
           ← Volver a Politeia
-        </Link>
-      </div>
-    </nav>
+ </Link>
+ </div>
+ </nav>
   )
 }

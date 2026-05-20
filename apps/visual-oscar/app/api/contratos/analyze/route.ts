@@ -39,12 +39,12 @@ function buildPrompt(req: AnalyzeRequest): string {
 Acabas de recibir un expediente de la Plataforma de Contratación del Sector Público (PLACSP). Devuelve EXCLUSIVAMENTE un objeto JSON válido (sin markdown, sin texto antes ni después) con estos campos:
 
 {
-  "resumen": "...",                          // 2-3 frases · qué es el contrato y por qué importa
-  "sectores": ["..."],                        // máx 5 sectores económicos afectados
-  "riesgos": ["..."],                         // máx 5 señales de alarma · ej "adjudicación directa", "importe atípico", "concentración geográfica"
-  "indicador_competencia": "media",           // alta | media | baja | nula
-  "relevancia_politica": 0,                   // entero -100 a +100 · negativo = oposición lo usaría · positivo = gobierno lo destacaría
-  "alertas": ["..."]                          // puntos clave para un analista político
+ "resumen": "...",                          // 2-3 frases · qué es el contrato y por qué importa
+ "sectores": ["..."],                        // máx 5 sectores económicos afectados
+ "riesgos": ["..."],                         // máx 5 señales de alarma · ej "adjudicación directa", "importe atípico", "concentración geográfica"
+ "indicador_competencia": "media",           // alta | media | baja | nula
+ "relevancia_politica": 0,                   // entero -100 a +100 · negativo = oposición lo usaría · positivo = gobierno lo destacaría
+ "alertas": ["..."]                          // puntos clave para un analista político
 }
 
 Datos del expediente:

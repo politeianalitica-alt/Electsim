@@ -31,7 +31,7 @@ const VARIANT_MAP: Record<ButtonVariant, CSSProperties> = {
 
 export function Button({ children, variant = 'secondary', size = 'sm', icon, iconEnd, loading, fullWidth, style, disabled, ...rest }: ButtonProps) {
   return (
-    <button
+ <button
       {...rest}
       disabled={disabled || loading}
       style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: disabled || loading ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1, transition: 'all var(--transition-fast)', whiteSpace: 'nowrap', lineHeight: 1, width: fullWidth ? '100%' : undefined, fontFamily: 'var(--font-text)', ...SIZE_MAP[size], ...VARIANT_MAP[variant], ...style }}
@@ -39,6 +39,6 @@ export function Button({ children, variant = 'secondary', size = 'sm', icon, ico
       {loading ? <span style={{ width: 12, height: 12, border: '1.5px solid currentColor', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} /> : icon}
       {children}
       {!loading && iconEnd}
-    </button>
+ </button>
   );
 }

@@ -106,18 +106,18 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
   const visibleSet = useMemo(() => new Set(layout.visible), [layout.visible]);
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="terminal"
         eyebrow="Workspace · Terminal"
         title="Terminal"
         description={`Vista operativa intensiva · ${workspaceName} · modo ${labelFor(layout.mode)}`}
         actions={
-          <div style={{ display: "flex", gap: 6 }}>
-            <ModeBtn active={layout.mode === "focus"}   onClick={() => applyMode("focus")}  >Focus</ModeBtn>
-            <ModeBtn active={layout.mode === "warroom"} onClick={() => applyMode("warroom")}>War Room</ModeBtn>
-            <ModeBtn active={layout.mode === "compact"} onClick={() => applyMode("compact")}>Compact</ModeBtn>
-            <button
+ <div style={{ display: "flex", gap: 6 }}>
+ <ModeBtn active={layout.mode === "focus"}   onClick={() => applyMode("focus")}  >Focus</ModeBtn>
+ <ModeBtn active={layout.mode === "warroom"} onClick={() => applyMode("warroom")}>War Room</ModeBtn>
+ <ModeBtn active={layout.mode === "compact"} onClick={() => applyMode("compact")}>Compact</ModeBtn>
+ <button
               onClick={() => setShowHelp(true)}
               style={{
                 padding: "4px 10px",
@@ -131,12 +131,12 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
               }}
             >
               ? atajos
-            </button>
-          </div>
+ </button>
+ </div>
         }
       />
 
-      <div
+ <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
@@ -145,21 +145,21 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
         }}
       >
         {TERMINAL_PANELS.filter(p => visibleSet.has(p.id)).map(p => (
-          <div
+ <div
             key={p.id}
             style={{
               gridColumn: `span ${p.span}`,
-              gridRow:    `span ${p.rows}`,
+              gridRow: `span ${p.rows}`,
               minHeight: 0,
             }}
           >
-            <PanelByKind kind={p.id} workspaceId={params.workspaceId} radarTop={radarBatch?.opportunities ?? []} onCommand={runCommand} history={history} inputRef={inputRef} />
-          </div>
+ <PanelByKind kind={p.id} workspaceId={params.workspaceId} radarTop={radarBatch?.opportunities ?? []} onCommand={runCommand} history={history} inputRef={inputRef} />
+ </div>
         ))}
-      </div>
+ </div>
 
       {showHelp && (
-        <div
+ <div
           role="dialog"
           aria-modal="true"
           onClick={() => setShowHelp(false)}
@@ -168,7 +168,7 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
             display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200,
           }}
         >
-          <div
+ <div
             onClick={e => e.stopPropagation()}
             style={{
               background: WS.surface,
@@ -180,20 +180,20 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
               color: WS.ink,
             }}
           >
-            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>Atajos del Terminal</div>
-            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", rowGap: 6, columnGap: 14, fontSize: 12 }}>
+ <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>Atajos del Terminal</div>
+ <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", rowGap: 6, columnGap: 14, fontSize: 12 }}>
               {Object.entries(TERMINAL_HOTKEYS).map(([combo, label]) => (
-                <div key={combo} style={{ display: "contents" }}>
-                  <kbd style={{
+ <div key={combo} style={{ display: "contents" }}>
+ <kbd style={{
                     background: WS.surface2, border: `1px solid ${WS.border}`,
                     borderRadius: 6, padding: "2px 8px", color: WS.ink2,
                     fontFamily: "ui-monospace, monospace", fontSize: 11,
                   }}>{combo}</kbd>
-                  <span style={{ color: WS.ink2 }}>{label}</span>
-                </div>
+ <span style={{ color: WS.ink2 }}>{label}</span>
+ </div>
               ))}
-            </div>
-            <button
+ </div>
+ <button
               onClick={() => setShowHelp(false)}
               style={{
                 marginTop: 14, padding: "6px 14px", background: WS.accent,
@@ -201,11 +201,11 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
               }}
             >
               Cerrar (esc)
-            </button>
-          </div>
-        </div>
+ </button>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   );
 }
 
@@ -238,7 +238,7 @@ function PanelByKind({
 
 function ModeBtn({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         padding: "4px 12px",
@@ -253,7 +253,7 @@ function ModeBtn({ active, onClick, children }: { active: boolean; onClick: () =
       }}
     >
       {children}
-    </button>
+ </button>
   );
 }
 

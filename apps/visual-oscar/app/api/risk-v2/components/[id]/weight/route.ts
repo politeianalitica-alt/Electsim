@@ -10,7 +10,7 @@ export async function PUT(
 ) {
   const body = await req.json()
   const r = await callBackend(
-    `/api/risk-v2/components/${encodeURIComponent(params.id)}/weight`,
+ `/api/risk-v2/components/${encodeURIComponent(params.id)}/weight`,
     {
       method: 'PUT', cache: 'no-store',
       headers: { 'Content-Type': 'application/json' },
@@ -22,7 +22,7 @@ export async function PUT(
   }
   return NextResponse.json(withMeta(
     { ok: false, component_id: params.id },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['update_failed'],
       latency_ms: r.latency_ms,

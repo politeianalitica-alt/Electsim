@@ -38,7 +38,7 @@ export async function GET() {
   }
   return NextResponse.json(withMeta(
     { n_indices: 0, indices: [], sources: [] },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_config'],
       latency_ms: r.latency_ms,

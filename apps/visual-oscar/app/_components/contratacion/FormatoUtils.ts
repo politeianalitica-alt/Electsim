@@ -19,10 +19,10 @@ export function diasColor(dias: number): string {
 
 export function riesgoColor(r: string): string {
   const m: Record<string, string> = {
-    'CRÍTICO': '#DC2626',
-    'ALTO': '#F97316',
-    'MEDIO': '#EAB308',
-    'BAJO': '#0EA5E9',
+ 'CRÍTICO': '#DC2626',
+ 'ALTO': '#F97316',
+ 'MEDIO': '#EAB308',
+ 'BAJO': '#0EA5E9',
   }
   return m[r] ?? '#6e6e73'
 }

@@ -43,41 +43,41 @@ const CanvasBaseNode = memo(function CanvasBaseNode({
 }: NodeProps<{ object: CanvasObject }>) {
   const config = OBJECT_TYPE_CONFIG[data.object.type];
   return (
-    <div
+ <div
       className={`relative rounded-xl border px-3 py-2 min-w-[140px] max-w-[200px] transition-all cursor-grab active:cursor-grabbing ${
         selected
           ? "border-indigo-500 shadow-lg shadow-indigo-500/20 bg-slate-800"
           : "border-slate-700 bg-slate-900 hover:border-slate-600"
       }`}
     >
-      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
-      <div className="flex items-start gap-2">
-        <span
+ <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
+ <div className="flex items-start gap-2">
+ <span
           className="flex-none rounded px-1 py-0.5 text-[8px] font-bold tracking-wider"
           style={{ background: `${config.color}25`, color: config.color }}
         >
           {config.mark}
-        </span>
-        <div className="min-w-0">
-          <p className="text-xs font-semibold text-slate-100 leading-tight">{data.object.label}</p>
+ </span>
+ <div className="min-w-0">
+ <p className="text-xs font-semibold text-slate-100 leading-tight">{data.object.label}</p>
           {data.object.confidence !== undefined && (
-            <p className="text-[9px] text-slate-500 mt-0.5">
+ <p className="text-[9px] text-slate-500 mt-0.5">
               {Math.round(data.object.confidence * 100)}% confianza
-            </p>
+ </p>
           )}
-        </div>
-      </div>
+ </div>
+ </div>
       {data.object.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1 mt-1.5">
+ <div className="flex flex-wrap gap-1 mt-1.5">
           {data.object.tags.slice(0, 2).map(t => (
-            <span key={t} className="rounded bg-slate-800 px-1 py-0.5 text-[9px] text-slate-400">
+ <span key={t} className="rounded bg-slate-800 px-1 py-0.5 text-[9px] text-slate-400">
               {t}
-            </span>
+ </span>
           ))}
-        </div>
+ </div>
       )}
-      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
-    </div>
+ <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
+ </div>
   );
 });
 
@@ -90,34 +90,34 @@ const CanvasHypothesisNode = memo(function CanvasHypothesisNode({
 }: NodeProps<{ hypothesis: CanvasHypothesis }>) {
   const config = HYPOTHESIS_STATUS_CONFIG[data.hypothesis.status];
   return (
-    <div
+ <div
       className={`rounded-xl border-2 border-dashed px-3 py-2.5 min-w-[180px] max-w-[240px] ${
         selected ? "border-violet-500 bg-violet-500/10" : "bg-slate-900/80"
       }`}
       style={{ borderColor: selected ? undefined : `${config.color}60` }}
     >
-      <div className="flex items-center gap-2 mb-1.5">
-        <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: config.color }}>
+ <div className="flex items-center gap-2 mb-1.5">
+ <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: config.color }}>
           Hipótesis
-        </span>
-        <span
+ </span>
+ <span
           className="rounded px-1.5 py-0.5 text-[9px] font-medium"
           style={{ background: `${config.color}20`, color: config.color }}
         >
           {config.label}
-        </span>
-        <span className="ml-auto text-[9px] text-slate-400">
+ </span>
+ <span className="ml-auto text-[9px] text-slate-400">
           {Math.round(data.hypothesis.confidence * 100)}%
-        </span>
-      </div>
-      <p className="text-xs text-slate-200 leading-snug">{data.hypothesis.title}</p>
-      <div className="mt-1.5 h-1 rounded-full bg-slate-800 overflow-hidden">
-        <div
+ </span>
+ </div>
+ <p className="text-xs text-slate-200 leading-snug">{data.hypothesis.title}</p>
+ <div className="mt-1.5 h-1 rounded-full bg-slate-800 overflow-hidden">
+ <div
           className="h-full rounded-full transition-all"
           style={{ width: `${data.hypothesis.confidence * 100}%`, background: config.color }}
         />
-      </div>
-    </div>
+ </div>
+ </div>
   );
 });
 
@@ -129,16 +129,16 @@ const CanvasNoteNode = memo(function CanvasNoteNode({
   selected,
 }: NodeProps<{ object: CanvasObject }>) {
   return (
-    <div
+ <div
       className={`rounded-lg border px-3 py-2.5 min-w-[160px] max-w-[220px] bg-amber-950/40 ${
         selected ? "border-amber-500" : "border-amber-900/60"
       }`}
     >
-      <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">Nota</span>
-      <p className="text-xs text-amber-100/90 leading-snug mt-1">
+ <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">Nota</span>
+ <p className="text-xs text-amber-100/90 leading-snug mt-1">
         {data.object.description ?? data.object.label}
-      </p>
-    </div>
+ </p>
+ </div>
   );
 });
 
@@ -159,8 +159,8 @@ const CanvasEdge = memo(function CanvasEdge({
   const [edgePath, labelX, labelY] = getStraightPath({ sourceX, sourceY, targetX, targetY });
   const strokeWidth = selected ? 2 : Math.max(1, (conn.confidence ?? 0.5) * 2);
   return (
-    <>
-      <BaseEdge
+ <>
+ <BaseEdge
         id={id}
         path={edgePath}
         style={{
@@ -171,16 +171,16 @@ const CanvasEdge = memo(function CanvasEdge({
         }}
       />
       {conn.label && (
-        <EdgeLabelRenderer>
-          <div
+ <EdgeLabelRenderer>
+ <div
             style={{ transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)` }}
             className="pointer-events-none absolute rounded border border-slate-700 bg-slate-900 px-1.5 py-0.5 text-[10px] text-slate-300"
           >
             {conn.label}
-          </div>
-        </EdgeLabelRenderer>
+ </div>
+ </EdgeLabelRenderer>
       )}
-    </>
+ </>
   );
 });
 
@@ -220,8 +220,8 @@ export function InvestigationCanvasInner({
   );
 
   return (
-    <div className="h-full w-full">
-      <ReactFlow
+ <div className="h-full w-full">
+ <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -240,14 +240,14 @@ export function InvestigationCanvasInner({
         colorMode="dark"
         className="bg-slate-950"
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#1e293b" />
-        <Controls className="!border-slate-700 !bg-slate-900" showInteractive={false} />
-        <MiniMap
+ <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#1e293b" />
+ <Controls className="!border-slate-700 !bg-slate-900" showInteractive={false} />
+ <MiniMap
           className="!border-slate-700 !bg-slate-900"
           nodeColor={(node: Node) => (node.type === "hypothesis" ? "#8b5cf6" : "#6366f1")}
           maskColor="rgba(2,6,23,0.7)"
         />
-      </ReactFlow>
-    </div>
+ </ReactFlow>
+ </div>
   );
 }

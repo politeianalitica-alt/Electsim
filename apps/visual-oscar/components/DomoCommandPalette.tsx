@@ -34,33 +34,33 @@ interface CmdItem {
 }
 
 const KIND_LABEL: Record<ItemKind, string> = {
-  source:    'Fuente',
-  pipeline:  'Pipeline',
-  dataset:   'Dataset',
+  source: 'Fuente',
+  pipeline: 'Pipeline',
+  dataset: 'Dataset',
   dashboard: 'Dashboard',
-  alert:     'Alerta',
-  action:    'Acción',
-  nav:       'Ir a',
+  alert: 'Alerta',
+  action: 'Acción',
+  nav: 'Ir a',
 }
 
 const KIND_COLOR: Record<ItemKind, string> = {
-  source:    '#3b82f6',
-  pipeline:  '#8b5cf6',
-  dataset:   '#06b6d4',
+  source: '#3b82f6',
+  pipeline: '#8b5cf6',
+  dataset: '#06b6d4',
   dashboard: '#22c55e',
-  alert:     '#ef4444',
-  action:    '#f59e0b',
-  nav:       '#9ca3af',
+  alert: '#ef4444',
+  action: '#f59e0b',
+  nav: '#9ca3af',
 }
 
 const KIND_GLYPH: Record<ItemKind, string> = {
-  source:    '⇡',
-  pipeline:  '⟶',
-  dataset:   '⊞',
+  source: '⇡',
+  pipeline: '⟶',
+  dataset: '⊞',
   dashboard: '⊟',
-  alert:     '!',
-  action:    '+',
-  nav:       '→',
+  alert: '!',
+  action: '+',
+  nav: '→',
 }
 
 // Acciones rápidas siempre disponibles
@@ -70,7 +70,7 @@ const STATIC_ACTIONS: CmdItem[] = [
   { kind: 'action', id: 'new-dataset',   title: 'Crear nueva tabla',          href: '/estudio/dataset/nuevo',    glyph: '+', keywords: 'tabla columnas dataset' },
   { kind: 'action', id: 'new-dashboard', title: 'Crear nuevo panel',          href: '/estudio/dashboard/nuevo',  glyph: '+', keywords: 'panel dashboard widget kpi grafico' },
   { kind: 'action', id: 'new-alert',     title: 'Nuevo vigilante',            href: '/estudio/alertas?new=1',    glyph: '+', keywords: 'alerta umbral anomalia aviso' },
-  { kind: 'action', id: 'ai-query',      title: 'Pregúntale a tus datos',     href: '/estudio/query',            glyph: '✦', keywords: 'pregunta lenguaje natural ia ai chat' },
+  { kind: 'action', id: 'ai-query',      title: 'Pregúntale a tus datos',     href: '/estudio/query',            glyph: '', keywords: 'pregunta lenguaje natural ia ai chat' },
 ]
 
 const STATIC_NAV: CmdItem[] = [
@@ -81,8 +81,8 @@ const STATIC_NAV: CmdItem[] = [
   { kind: 'nav', id: 'nav-dashboard',  title: 'Mis paneles',             href: '/estudio/dashboard',      glyph: '⊟' },
   { kind: 'nav', id: 'nav-alertas',    title: 'Vigilantes',              href: '/estudio/alertas',        glyph: '!' },
   { kind: 'nav', id: 'nav-notif',      title: 'Mis avisos',              href: '/estudio/notificaciones', glyph: '◐' },
-  { kind: 'nav', id: 'nav-gobernanza', title: 'Equipo y permisos',       href: '/estudio/gobernanza',     glyph: '✓' },
-  { kind: 'nav', id: 'nav-query',      title: 'Pregúntale a los datos',  href: '/estudio/query',          glyph: '✦' },
+  { kind: 'nav', id: 'nav-gobernanza', title: 'Equipo y permisos',       href: '/estudio/gobernanza',     glyph: '' },
+  { kind: 'nav', id: 'nav-query',      title: 'Pregúntale a los datos',  href: '/estudio/query',          glyph: '' },
   { kind: 'nav', id: 'nav-health',     title: 'Estado del sistema',      href: '/estudio/health',         glyph: '◉' },
 ]
 
@@ -203,11 +203,11 @@ export default function DomoCommandPalette({ open, onClose }: Props) {
   let runningIndex = 0
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.palette} onClick={e => e.stopPropagation()}>
-        <div className={styles.searchBar}>
-          <span className={styles.searchIcon}>⌕</span>
-          <input
+ <div className={styles.overlay} onClick={onClose}>
+ <div className={styles.palette} onClick={e => e.stopPropagation()}>
+ <div className={styles.searchBar}>
+ <span className={styles.searchIcon}>⌕</span>
+ <input
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
@@ -215,61 +215,61 @@ export default function DomoCommandPalette({ open, onClose }: Props) {
             placeholder="Busca fuentes, pipelines, datasets, dashboards…"
             className={styles.searchInput}
           />
-          <kbd className={styles.kbd}>ESC</kbd>
-        </div>
+ <kbd className={styles.kbd}>ESC</kbd>
+ </div>
 
-        <div className={styles.results}>
+ <div className={styles.results}>
           {filtered.length === 0 ? (
-            <div className={styles.empty}>
-              <span style={{ fontSize: '1.5rem', opacity: 0.3 }}>⌕</span>
-              <p>Sin resultados para “{query}”</p>
-            </div>
+ <div className={styles.empty}>
+ <span style={{ fontSize: '1.5rem', opacity: 0.3 }}>⌕</span>
+ <p>Sin resultados para “{query}”</p>
+ </div>
           ) : (
             (Object.keys(groups) as ItemKind[]).map(kind => {
               const items = groups[kind]
               if (items.length === 0) return null
               return (
-                <div key={kind} className={styles.group}>
-                  <div className={styles.groupLabel}>{KIND_LABEL[kind]}</div>
+ <div key={kind} className={styles.group}>
+ <div className={styles.groupLabel}>{KIND_LABEL[kind]}</div>
                   {items.map(item => {
                     const idx = runningIndex++
                     const active = idx === activeIndex
                     return (
-                      <button
+ <button
                         key={`${kind}-${item.id}`}
                         onMouseEnter={() => setActiveIndex(idx)}
                         onClick={() => handleSelect(item)}
                         className={`${styles.item} ${active ? styles.itemActive : ''}`}
                       >
-                        <span
+ <span
                           className={styles.itemIcon}
                           style={{ color: KIND_COLOR[item.kind], background: `${KIND_COLOR[item.kind]}15` }}
                         >
                           {item.glyph}
-                        </span>
-                        <div className={styles.itemBody}>
-                          <span className={styles.itemTitle}>{item.title}</span>
+ </span>
+ <div className={styles.itemBody}>
+ <span className={styles.itemTitle}>{item.title}</span>
                           {item.subtitle && <span className={styles.itemSubtitle}>{item.subtitle}</span>}
-                        </div>
+ </div>
                         {active && <kbd className={styles.kbdInline}>↵</kbd>}
-                      </button>
+ </button>
                     )
                   })}
-                </div>
+ </div>
               )
             })
           )}
-        </div>
+ </div>
 
-        <div className={styles.footer}>
-          <span><kbd className={styles.kbdSmall}>↑</kbd><kbd className={styles.kbdSmall}>↓</kbd> navegar</span>
-          <span><kbd className={styles.kbdSmall}>↵</kbd> abrir</span>
-          <span><kbd className={styles.kbdSmall}>esc</kbd> cerrar</span>
-          <span style={{ marginLeft: 'auto', fontSize: '.65rem', color: 'var(--color-muted,#9ca3af)' }}>
+ <div className={styles.footer}>
+ <span><kbd className={styles.kbdSmall}>↑</kbd><kbd className={styles.kbdSmall}>↓</kbd> navegar</span>
+ <span><kbd className={styles.kbdSmall}>↵</kbd> abrir</span>
+ <span><kbd className={styles.kbdSmall}>esc</kbd> cerrar</span>
+ <span style={{ marginLeft: 'auto', fontSize: '.65rem', color: 'var(--color-muted,#9ca3af)' }}>
             {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
-          </span>
-        </div>
-      </div>
-    </div>
+ </span>
+ </div>
+ </div>
+ </div>
   )
 }

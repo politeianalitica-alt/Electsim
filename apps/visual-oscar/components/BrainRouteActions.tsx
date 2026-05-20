@@ -35,7 +35,7 @@ export default function BrainRouteActions({
   const isDark = theme === 'dark'
 
   return (
-    <div style={{
+ <div style={{
       display: 'flex',
       flexWrap: 'wrap',
       gap: 6,
@@ -45,7 +45,7 @@ export default function BrainRouteActions({
       {routes.map((route) => {
         const info = getRouteInfo(route)
         return (
-          <Link
+ <Link
             key={route}
             href={route}
             style={{
@@ -101,13 +101,13 @@ export default function BrainRouteActions({
             title={info.description ? `${info.label} · ${info.description}` : info.label}
           >
             {info.icon && <span style={{ fontSize: 13 }}>{info.icon}</span>}
-            <span>{info.label}</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1 }}>
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </Link>
+ <span>{info.label}</span>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1 }}>
+ <path d="M5 12h14M12 5l7 7-7 7"/>
+ </svg>
+ </Link>
         )
       })}
-    </div>
+ </div>
   )
 }

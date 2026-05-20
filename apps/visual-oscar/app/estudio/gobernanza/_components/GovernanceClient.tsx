@@ -20,15 +20,15 @@ const ROLE_META: Record<OrgRole, { label: string; color: string }> = {
 
 const AUDIT_GLYPH: Record<string, string> = {
   dashboard: '⊟', dataset: '⊞', pipeline: '⇉', alert: '!',
-  query: '⌨', member: 'U', api_key: '⚿',
+  query: '⌨', member: 'U', api_key: '',
 }
 
 const API_SCOPES = [
-  'read:datasets', 'write:datasets',
-  'read:dashboards', 'write:dashboards',
-  'read:pipelines', 'run:pipelines',
-  'read:alerts', 'write:alerts',
-  'read:audit',
+ 'read:datasets', 'write:datasets',
+ 'read:dashboards', 'write:dashboards',
+ 'read:pipelines', 'run:pipelines',
+ 'read:alerts', 'write:alerts',
+ 'read:audit',
 ]
 
 export default function GovernanceClient() {
@@ -100,203 +100,203 @@ export default function GovernanceClient() {
   const TABS: Array<{ id: Tab; label: string; glyph: string }> = [
     { id: 'members', label: 'Miembros',  glyph: 'U' },
     { id: 'audit',   label: 'Auditoría', glyph: '≡' },
-    { id: 'apikeys', label: 'API Keys',  glyph: '⚿' },
+    { id: 'apikeys', label: 'API Keys',  glyph: '' },
   ]
 
   return (
-    <div className={styles.root}>
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Gobernanza</h1>
-          <p className={styles.subtitle}>Control de acceso, roles y trazabilidad de la organización</p>
-        </div>
-      </div>
+ <div className={styles.root}>
+ <div className={styles.header}>
+ <div>
+ <h1 className={styles.title}>Gobernanza</h1>
+ <p className={styles.subtitle}>Control de acceso, roles y trazabilidad de la organización</p>
+ </div>
+ </div>
 
-      <div className={styles.tabs}>
+ <div className={styles.tabs}>
         {TABS.map(t => (
-          <button key={t.id} onClick={() => setTab(t.id)}
+ <button key={t.id} onClick={() => setTab(t.id)}
             className={`${styles.tab} ${tab === t.id ? styles.tabActive : ''}`}>
-            <span style={{ marginRight: 4 }}>{t.glyph}</span> {t.label}
+ <span style={{ marginRight: 4 }}>{t.glyph}</span> {t.label}
             {t.id === 'members' && members.length > 0 && (
-              <span className={styles.tabCount}>{members.length}</span>
+ <span className={styles.tabCount}>{members.length}</span>
             )}
-          </button>
+ </button>
         ))}
-      </div>
+ </div>
 
       {tab === 'members' && (
-        <div className={styles.section}>
-          <div className={styles.inviteBar}>
-            <input
+ <div className={styles.section}>
+ <div className={styles.inviteBar}>
+ <input
               type="email" placeholder="email@organización.es"
               value={inviteEmail} onChange={e => setInviteEmail(e.target.value)}
               className={styles.input} style={{ flex: 1 }}
             />
-            <select value={inviteRole} onChange={e => setInviteRole(e.target.value as OrgRole)} className={styles.input}>
+ <select value={inviteRole} onChange={e => setInviteRole(e.target.value as OrgRole)} className={styles.input}>
               {Object.entries(ROLE_META).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
-            </select>
-            <button
+ </select>
+ <button
               onClick={() => inviteMutation.mutate()}
               disabled={!inviteEmail.trim() || inviteMutation.isPending}
               className={styles.btnPrimary}
             >
               {inviteMutation.isPending ? '⟳' : '+ Invitar'}
-            </button>
-          </div>
+ </button>
+ </div>
 
           {loadingMembers ? (
-            <div className={styles.list}>
+ <div className={styles.list}>
               {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} style={{ height: 60, borderRadius: 10 }} />)}
-            </div>
+ </div>
           ) : (
-            <div className={styles.list}>
+ <div className={styles.list}>
               {members.map(m => {
                 const rm = ROLE_META[m.role]
                 return (
-                  <div key={m.id} className={styles.memberRow}>
-                    <div className={styles.memberAvatar}>
+ <div key={m.id} className={styles.memberRow}>
+ <div className={styles.memberAvatar}>
                       {m.avatarUrl
                         // eslint-disable-next-line @next/next/no-img-element
                         ? <img src={m.avatarUrl} alt={m.name} />
                         : <span>{m.name.slice(0, 2).toUpperCase()}</span>
                       }
-                    </div>
-                    <div className={styles.memberInfo}>
-                      <span className={styles.memberName}>{m.name}</span>
-                      <span className={styles.memberEmail}>{m.email}</span>
-                    </div>
-                    <span className={styles.memberMeta}>
+ </div>
+ <div className={styles.memberInfo}>
+ <span className={styles.memberName}>{m.name}</span>
+ <span className={styles.memberEmail}>{m.email}</span>
+ </div>
+ <span className={styles.memberMeta}>
                       {m.lastActiveAt ? `Activo ${timeAgo(m.lastActiveAt)}` : 'Nunca activo'}
-                    </span>
-                    <select
+ </span>
+ <select
                       value={m.role}
                       onChange={e => updateRoleMutation.mutate({ id: m.id, role: e.target.value as OrgRole })}
                       className={styles.roleSelect}
                       style={{ color: rm.color, borderColor: `${rm.color}40` }}
                     >
                       {Object.entries(ROLE_META).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
-                    </select>
+ </select>
                     {m.role !== 'owner' && (
-                      <button
+ <button
                         onClick={() => { if (confirm(`¿Eliminar a ${m.name}?`)) removeMemberMutation.mutate(m.id) }}
                         className={styles.removeBtn} title="Eliminar miembro"
-                      >✕</button>
+                      ></button>
                     )}
-                  </div>
+ </div>
                 )
               })}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
 
       {tab === 'audit' && (
-        <div className={styles.section}>
+ <div className={styles.section}>
           {loadingAudit ? (
-            <div className={styles.list}>
+ <div className={styles.list}>
               {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} style={{ height: 52, borderRadius: 8 }} />)}
-            </div>
+ </div>
           ) : auditLogs.length === 0 ? (
-            <div className={styles.empty}>
-              <span style={{ fontSize: '1.75rem', opacity: 0.25 }}>≡</span>
-              <p>No hay logs de auditoría todavía.</p>
-            </div>
+ <div className={styles.empty}>
+ <span style={{ fontSize: '1.75rem', opacity: 0.25 }}>≡</span>
+ <p>No hay logs de auditoría todavía.</p>
+ </div>
           ) : (
-            <div className={styles.auditTable}>
-              <div className={styles.auditHeader}>
-                <span>Acción</span><span>Actor</span><span>Recurso</span><span>IP</span><span>Fecha</span>
-              </div>
+ <div className={styles.auditTable}>
+ <div className={styles.auditHeader}>
+ <span>Acción</span><span>Actor</span><span>Recurso</span><span>IP</span><span>Fecha</span>
+ </div>
               {auditLogs.map(log => (
-                <div key={log.id} className={styles.auditRow}>
-                  <span className={styles.auditAction}>
-                    <span className={styles.auditIcon}>{AUDIT_GLYPH[log.resourceType] ?? '●'}</span>
+ <div key={log.id} className={styles.auditRow}>
+ <span className={styles.auditAction}>
+ <span className={styles.auditIcon}>{AUDIT_GLYPH[log.resourceType] ?? '●'}</span>
                     {log.action}
-                  </span>
-                  <span className={styles.auditActor}>{log.actorEmail}</span>
-                  <span className={styles.auditResource}>{log.resourceName ?? log.resourceId ?? '—'}</span>
-                  <span className={styles.auditIp}>{log.ipAddress ?? '—'}</span>
-                  <span className={styles.auditTime}>{timeAgo(log.createdAt)}</span>
-                </div>
+ </span>
+ <span className={styles.auditActor}>{log.actorEmail}</span>
+ <span className={styles.auditResource}>{log.resourceName ?? log.resourceId ?? '—'}</span>
+ <span className={styles.auditIp}>{log.ipAddress ?? '—'}</span>
+ <span className={styles.auditTime}>{timeAgo(log.createdAt)}</span>
+ </div>
               ))}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
 
       {tab === 'apikeys' && (
-        <div className={styles.section}>
+ <div className={styles.section}>
           {createdKey && (
-            <div className={styles.createdKeyAlert}>
-              <strong>! Guarda esta clave ahora — no volverá a mostrarse</strong>
-              <code className={styles.createdKeyCode}>{createdKey}</code>
-              <button onClick={() => { navigator.clipboard.writeText(createdKey) }} className={styles.copyBtn}>⎘ Copiar</button>
-              <button onClick={() => setCreatedKey(null)} className={styles.dismissBtn}>✕</button>
-            </div>
+ <div className={styles.createdKeyAlert}>
+ <strong>! Guarda esta clave ahora — no volverá a mostrarse</strong>
+ <code className={styles.createdKeyCode}>{createdKey}</code>
+ <button onClick={() => { navigator.clipboard.writeText(createdKey) }} className={styles.copyBtn}>⎘ Copiar</button>
+ <button onClick={() => setCreatedKey(null)} className={styles.dismissBtn}></button>
+ </div>
           )}
 
-          <div className={styles.keyForm}>
-            <span className={styles.keyFormTitle}>Nueva API Key</span>
-            <input
+ <div className={styles.keyForm}>
+ <span className={styles.keyFormTitle}>Nueva API Key</span>
+ <input
               placeholder="Nombre descriptivo (ej: CI/CD pipeline)"
               value={newKeyName} onChange={e => setNewKeyName(e.target.value)}
               className={styles.input}
             />
-            <div className={styles.scopeGrid}>
+ <div className={styles.scopeGrid}>
               {API_SCOPES.map(scope => (
-                <button
+ <button
                   key={scope} type="button"
                   onClick={() => toggleScope(scope)}
                   className={`${styles.scopeToggle} ${newKeyScopes.includes(scope) ? styles.scopeActive : ''}`}
                 >
                   {scope}
-                </button>
+ </button>
               ))}
-            </div>
-            <button
+ </div>
+ <button
               onClick={() => createKeyMutation.mutate()}
               disabled={!newKeyName.trim() || newKeyScopes.length === 0 || createKeyMutation.isPending}
               className={styles.btnPrimary}
               style={{ alignSelf: 'flex-start' }}
             >
               {createKeyMutation.isPending ? '⟳ Generando…' : '+ Crear API Key'}
-            </button>
-          </div>
+ </button>
+ </div>
 
           {loadingKeys ? (
-            <div className={styles.list}>
+ <div className={styles.list}>
               {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} style={{ height: 68, borderRadius: 10 }} />)}
-            </div>
+ </div>
           ) : (
-            <div className={styles.list}>
+ <div className={styles.list}>
               {apiKeys.map(key => (
-                <div key={key.id} className={`${styles.keyRow} ${!key.isActive ? styles.keyInactive : ''}`}>
-                  <div className={styles.keyInfo}>
-                    <div className={styles.keyNameRow}>
-                      <span className={styles.keyName}>{key.name}</span>
+ <div key={key.id} className={`${styles.keyRow} ${!key.isActive ? styles.keyInactive : ''}`}>
+ <div className={styles.keyInfo}>
+ <div className={styles.keyNameRow}>
+ <span className={styles.keyName}>{key.name}</span>
                       {!key.isActive && <span className={styles.revokedBadge}>Revocada</span>}
-                    </div>
-                    <code className={styles.keyPrefix}>{key.prefix}••••••••••••••••</code>
-                    <div className={styles.keyMeta}>
-                      <span>Creada por {key.createdBy}</span>
+ </div>
+ <code className={styles.keyPrefix}>{key.prefix}••••••••••••••••</code>
+ <div className={styles.keyMeta}>
+ <span>Creada por {key.createdBy}</span>
                       {key.lastUsedAt && <span>· Último uso {timeAgo(key.lastUsedAt)}</span>}
                       {key.expiresAt && <span>· Expira {timeAgo(key.expiresAt)}</span>}
-                    </div>
-                    <div className={styles.scopeList}>
+ </div>
+ <div className={styles.scopeList}>
                       {key.scopes.map(s => <span key={s} className={styles.scopeBadge}>{s}</span>)}
-                    </div>
-                  </div>
+ </div>
+ </div>
                   {key.isActive && (
-                    <button
+ <button
                       onClick={() => { if (confirm(`¿Revocar "${key.name}"?`)) revokeKeyMutation.mutate(key.id) }}
                       className={styles.revokeBtn}
                     >Revocar</button>
                   )}
-                </div>
+ </div>
               ))}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }

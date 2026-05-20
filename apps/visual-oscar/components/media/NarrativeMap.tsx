@@ -28,23 +28,23 @@ const NARRATIVA_LABELS: Record<string, string> = {
 
 // API nombre_ccaa → GeoJSON name (actual names from spain-ccaa.geojson)
 const CCAA_TO_GEO: Record<string, string> = {
-  'Andalucía':            'Andalucia',
-  'Aragón':               'Aragon',
-  'Asturias':             'Asturias',
-  'Baleares':             'Baleares',
-  'Canarias':             'Canarias',
-  'Cantabria':            'Cantabria',
-  'Castilla-La Mancha':   'Castilla-La Mancha',
-  'Castilla y León':      'Castilla-Leon',
-  'Cataluña':             'Cataluña',
-  'Extremadura':          'Extremadura',
-  'Galicia':              'Galicia',
-  'La Rioja':             'La Rioja',
-  'Madrid':               'Madrid',
-  'Murcia':               'Murcia',
-  'Navarra':              'Navarra',
-  'País Vasco':           'Pais Vasco',
-  'Comunitat Valenciana': 'Valencia',
+ 'Andalucía': 'Andalucia',
+ 'Aragón': 'Aragon',
+ 'Asturias': 'Asturias',
+ 'Baleares': 'Baleares',
+ 'Canarias': 'Canarias',
+ 'Cantabria': 'Cantabria',
+ 'Castilla-La Mancha': 'Castilla-La Mancha',
+ 'Castilla y León': 'Castilla-Leon',
+ 'Cataluña': 'Cataluña',
+ 'Extremadura': 'Extremadura',
+ 'Galicia': 'Galicia',
+ 'La Rioja': 'La Rioja',
+ 'Madrid': 'Madrid',
+ 'Murcia': 'Murcia',
+ 'Navarra': 'Navarra',
+ 'País Vasco': 'Pais Vasco',
+ 'Comunitat Valenciana': 'Valencia',
 }
 const GEO_TO_CCAA: Record<string, string> = Object.fromEntries(Object.entries(CCAA_TO_GEO).map(([a, g]) => [g, a]))
 
@@ -53,14 +53,14 @@ interface TooltipState { x: number; y: number; lines: string[] }
 
 function Tooltip({ tip }: { tip: TooltipState }) {
   return (
-    <div style={{
+ <div style={{
       position: 'absolute', left: tip.x + 10, top: tip.y - 10, zIndex: 200, pointerEvents: 'none',
       background: '#0d1f3a', color: '#fff', borderRadius: 10, padding: '8px 12px',
       fontSize: 11.5, lineHeight: 1.6, whiteSpace: 'nowrap',
       boxShadow: '0 4px 18px rgba(0,0,0,0.45)', border: '1px solid rgba(64,96,160,0.4)',
     }}>
       {tip.lines.map((l, i) => <div key={i} style={i === 0 ? { fontWeight: 700, marginBottom: 2 } : { opacity: 0.82 }}>{l}</div>)}
-    </div>
+ </div>
   )
 }
 
@@ -123,15 +123,15 @@ function GeoMap({ paises, worldData, mode }: GeoMapProps) {
   }
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', lineHeight: 0 }}>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block', background: '#0b1422', borderRadius: 12 }} role="img" aria-label={`Mapa narrativo — ${mode}`}>
+ <div ref={containerRef} style={{ position: 'relative', lineHeight: 0 }}>
+ <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block', background: '#0b1422', borderRadius: 12 }} role="img" aria-label={`Mapa narrativo — ${mode}`}>
         {/* Country fills */}
         {features.map((f, i) => {
           const d = pathGen(f as unknown as GeoPermissibleObjects)
           if (!d) return null
           const p = getPais(f)
           return (
-            <path
+ <path
               key={i} d={d}
               fill={p && p.n_articulos > 0 ? colorFn(p.n_articulos) : '#1e293b'}
               stroke="rgba(255,255,255,0.08)" strokeWidth={0.4}
@@ -150,28 +150,28 @@ function GeoMap({ paises, worldData, mode }: GeoMapProps) {
           const [x, y] = pos
           const r = bubbleR(p.n_articulos, maxArt)
           return (
-            <g key={p.country_code} style={{ cursor: 'pointer' }}
+ <g key={p.country_code} style={{ cursor: 'pointer' }}
               onMouseEnter={e => handleEnter(p, e)}
               onMouseLeave={() => setTip(null)}>
-              <circle cx={x} cy={y} r={r} fill={sentColor(p.sentiment_avg)} fillOpacity={0.75} stroke="rgba(255,255,255,0.5)" strokeWidth={0.5} />
+ <circle cx={x} cy={y} r={r} fill={sentColor(p.sentiment_avg)} fillOpacity={0.75} stroke="rgba(255,255,255,0.5)" strokeWidth={0.5} />
               {r >= 12 && (
-                <text x={x} y={y} textAnchor="middle" dominantBaseline="middle" fill="#fff" fontSize={9} style={{ pointerEvents: 'none', userSelect: 'none' }}>
+ <text x={x} y={y} textAnchor="middle" dominantBaseline="middle" fill="#fff" fontSize={9} style={{ pointerEvents: 'none', userSelect: 'none' }}>
                   {p.country_code.toUpperCase()}
-                </text>
+ </text>
               )}
-            </g>
+ </g>
           )
         })}
 
         {paises.length === 0 && (
-          <text x={W / 2} y={H / 2} textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.35)" fontSize={14} fontFamily="-apple-system, system-ui, sans-serif">
+ <text x={W / 2} y={H / 2} textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.35)" fontSize={14} fontFamily="-apple-system, system-ui, sans-serif">
             Sin datos · Conectando con backend…
-          </text>
+ </text>
         )}
-      </svg>
+ </svg>
       {tip && <Tooltip tip={tip} />}
-      <MapLegend scale={colorFn} min={0} max={maxArt} unit="arts." />
-    </div>
+ <MapLegend scale={colorFn} min={0} max={maxArt} unit="arts." />
+ </div>
   )
 }
 
@@ -226,8 +226,8 @@ function SpainMap({ ccaas }: { ccaas: CcaaItem[] }) {
   if (!geoData)  return <MapSkeleton height={H} />
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', lineHeight: 0 }}>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block', background: '#0b1422', borderRadius: 12 }} role="img" aria-label="Mapa España CCAA — narrativas dominantes">
+ <div ref={containerRef} style={{ position: 'relative', lineHeight: 0 }}>
+ <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: 'block', background: '#0b1422', borderRadius: 12 }} role="img" aria-label="Mapa España CCAA — narrativas dominantes">
         {/* CCAA fills colored by narrativa_dominante */}
         {peninsulaFC && mainPath && peninsulaFC.features.map((f, i) => {
           const d = mainPath(f as unknown as GeoPermissibleObjects)
@@ -236,7 +236,7 @@ function SpainMap({ ccaas }: { ccaas: CcaaItem[] }) {
           const ccaa = byCcaa[geoName]
           const fill = ccaa ? categoricalColor(ccaa.narrativa_dominante) : '#1e293b'
           return (
-            <path
+ <path
               key={i} d={d}
               fill={fill} fillOpacity={0.75}
               stroke="rgba(255,255,255,0.1)" strokeWidth={0.6}
@@ -259,7 +259,7 @@ function SpainMap({ ccaas }: { ccaas: CcaaItem[] }) {
           const [x, y] = pos
           const r = bubbleR(ccaa.n_articulos, maxArt)
           return (
-            <circle key={`dot-${i}`} cx={x} cy={y} r={r}
+ <circle key={`dot-${i}`} cx={x} cy={y} r={r}
               fill={categoricalColor(ccaa.narrativa_dominante)} fillOpacity={0.9}
               stroke="rgba(255,255,255,0.4)" strokeWidth={0.8}
               style={{ cursor: 'pointer' }}
@@ -268,54 +268,54 @@ function SpainMap({ ccaas }: { ccaas: CcaaItem[] }) {
             />
           )
         })}
-      </svg>
+ </svg>
 
       {/* Canarias inset */}
       {canariasFC && canPath && (
-        <div style={{
+ <div style={{
           position: 'absolute', bottom: 8, left: 8,
           background: 'rgba(11,20,34,0.92)', borderRadius: 8, border: '1px solid rgba(64,96,160,0.3)', padding: 4,
         }}>
-          <div style={{ fontSize: 8, color: '#8899bb', textAlign: 'center', fontWeight: 600, marginBottom: 2 }}>Canarias</div>
-          <svg viewBox={`0 0 ${INS_W} ${INS_H}`} width={INS_W} height={INS_H} role="img" aria-label="Canarias">
+ <div style={{ fontSize: 8, color: '#8899bb', textAlign: 'center', fontWeight: 600, marginBottom: 2 }}>Canarias</div>
+ <svg viewBox={`0 0 ${INS_W} ${INS_H}`} width={INS_W} height={INS_H} role="img" aria-label="Canarias">
             {canariasFC.features.map((f, i) => {
               const d = canPath(f as unknown as GeoPermissibleObjects)
               if (!d) return null
               const geoName = String(f.properties?.name ?? '')
               const ccaa = byCcaa[geoName]
               return (
-                <path key={i} d={d}
+ <path key={i} d={d}
                   fill={ccaa ? categoricalColor(ccaa.narrativa_dominante) : '#1e293b'}
                   fillOpacity={0.75}
                   stroke="rgba(255,255,255,0.1)" strokeWidth={0.6}
                 >
                   {ccaa && <title>{ccaa.nombre_ccaa}: {ccaa.n_articulos} artículos</title>}
-                </path>
+ </path>
               )
             })}
-          </svg>
-        </div>
+ </svg>
+ </div>
       )}
 
       {/* Narrativa legend */}
       {usedNarrativas.length > 0 && (
-        <div style={{
+ <div style={{
           position: 'absolute', bottom: 8, left: '50%', transform: 'translateX(-50%)',
           display: 'flex', flexWrap: 'wrap', gap: '6px 10px', justifyContent: 'center',
           background: 'rgba(11,20,34,0.82)', borderRadius: 10, padding: '6px 14px',
           maxWidth: '90%', zIndex: 10, border: '1px solid rgba(64,96,160,0.3)',
         }}>
           {usedNarrativas.map(n => (
-            <span key={n} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#cdd5e0', fontSize: 10.5, fontWeight: 500 }}>
-              <span style={{ width: 10, height: 10, borderRadius: 2, background: categoricalColor(n), flexShrink: 0 }} />
+ <span key={n} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#cdd5e0', fontSize: 10.5, fontWeight: 500 }}>
+ <span style={{ width: 10, height: 10, borderRadius: 2, background: categoricalColor(n), flexShrink: 0 }} />
               {NARRATIVA_LABELS[n] ?? n}
-            </span>
+ </span>
           ))}
-        </div>
+ </div>
       )}
 
       {tip && <Tooltip tip={tip} />}
-    </div>
+ </div>
   )
 }
 
@@ -340,14 +340,14 @@ export default function NarrativeMap({ paises, ccaas }: NarrativeMapProps) {
   ]
 
   return (
-    <div style={{ fontFamily: '-apple-system, system-ui, sans-serif' }}>
+ <div style={{ fontFamily: '-apple-system, system-ui, sans-serif' }}>
       {/* Toggle */}
-      <div style={{
+ <div style={{
         display: 'inline-flex', gap: 4, background: 'rgba(255,255,255,0.07)',
         borderRadius: 24, padding: 4, marginBottom: 14, border: '1px solid rgba(64,96,160,0.25)',
       }}>
         {views.map(v => (
-          <button key={v.id} onClick={() => setView(v.id)} style={{
+ <button key={v.id} onClick={() => setView(v.id)} style={{
             background: view === v.id ? '#2a4a9c' : 'transparent',
             color: view === v.id ? '#e8f0ff' : '#8899bb',
             border: 'none', borderRadius: 20, padding: '6px 16px',
@@ -355,9 +355,9 @@ export default function NarrativeMap({ paises, ccaas }: NarrativeMapProps) {
             cursor: 'pointer', fontFamily: 'inherit', transition: 'all 150ms', whiteSpace: 'nowrap',
           }}>
             {v.label}
-          </button>
+ </button>
         ))}
-      </div>
+ </div>
 
       {/* Map area */}
       {(view === 'mundo' || view === 'europa') && (
@@ -368,6 +368,6 @@ export default function NarrativeMap({ paises, ccaas }: NarrativeMapProps) {
             : <GeoMap paises={paises} worldData={worldData} mode={view} />
       )}
       {view === 'espana' && <SpainMap ccaas={ccaas} />}
-    </div>
+ </div>
   )
 }

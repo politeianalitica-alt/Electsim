@@ -25,12 +25,12 @@ export function isAuthEnabled(): boolean {
 
 /** Usuario mock devuelto cuando Clerk no está configurado. */
 export const DEV_USER = {
-  id:        "user_dev",
-  email:     "analyst@politeia.local",
-  name:      "Analista Demo",
+  id: "user_dev",
+  email: "analyst@politeia.local",
+  name: "Analista Demo",
   avatarUrl: undefined as string | undefined,
-  tenantId:  "tenant_dev",
-  role:      "owner" as const,
+  tenantId: "tenant_dev",
+  role: "owner" as const,
 } as const;
 
 export type WorkspaceRole = "owner" | "admin" | "analyst" | "viewer";

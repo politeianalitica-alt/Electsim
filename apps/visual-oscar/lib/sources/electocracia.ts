@@ -69,9 +69,9 @@ interface RawPost {
 
 /**
  * Extrae casa, cliente y fecha de un título estilo:
- *   "Elecciones Generales (Sigma Dos para El Mundo, 14/04/2026)"
- *   "Andalucía (NC Report para La Razón, 12/03/2026)"
- *   "Cataluña - Encuesta GAD3 ABC 12 mar 2026"
+ * "Elecciones Generales (Sigma Dos para El Mundo, 14/04/2026)"
+ * "Andalucía (NC Report para La Razón, 12/03/2026)"
+ * "Cataluña - Encuesta GAD3 ABC 12 mar 2026"
  */
 function parsePostTitle(rawTitle: string): {
   pollster?: string
@@ -93,9 +93,9 @@ function parsePostTitle(rawTitle: string): {
 
   // Si no es generales pero menciona una CCAA/provincia
   const CCAA = ['Andalucía', 'Cataluña', 'Madrid', 'C. Valenciana', 'Galicia',
-    'Castilla y León', 'País Vasco', 'Castilla-La Mancha', 'Canarias',
-    'Murcia', 'Asturias', 'Aragón', 'Baleares', 'Extremadura', 'Navarra',
-    'La Rioja', 'Cantabria', 'Ceuta', 'Melilla']
+ 'Castilla y León', 'País Vasco', 'Castilla-La Mancha', 'Canarias',
+ 'Murcia', 'Asturias', 'Aragón', 'Baleares', 'Extremadura', 'Navarra',
+ 'La Rioja', 'Cantabria', 'Ceuta', 'Melilla']
   if (!ambito) {
     const found = CCAA.find(c => new RegExp(`\\b${c}\\b`, 'i').test(t))
     if (found) {

@@ -37,12 +37,12 @@ function capitalize(s: string): string {
 
 export default function NarrativePanel({ clusters }: NarrativePanelProps) {
   return (
-    <div
+ <div
       style={{
         fontFamily: '-apple-system, system-ui, sans-serif',
       }}
     >
-      <div
+ <div
         style={{
           fontSize: 14,
           fontWeight: 600,
@@ -52,9 +52,9 @@ export default function NarrativePanel({ clusters }: NarrativePanelProps) {
         }}
       >
         Narrativas Activas
-      </div>
+ </div>
 
-      <div
+ <div
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
@@ -62,10 +62,10 @@ export default function NarrativePanel({ clusters }: NarrativePanelProps) {
         }}
       >
         {clusters.map((cluster, i) => (
-          <NarrativeCard key={`${cluster.categoria}-${i}`} cluster={cluster} />
+ <NarrativeCard key={`${cluster.categoria}-${i}`} cluster={cluster} />
         ))}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
 
@@ -74,7 +74,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
   const emocionColor = EMOCION_COLOR[cluster.emocion_dominante as EmocionDominante] ?? '#95a5a6'
 
   return (
-    <div
+ <div
       style={{
         background: '#ffffff',
         borderRadius: 16,
@@ -87,7 +87,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
       }}
     >
       {/* Header row */}
-      <div
+ <div
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -96,7 +96,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
           flexWrap: 'wrap',
         }}
       >
-        <span
+ <span
           style={{
             fontSize: 13,
             fontWeight: 700,
@@ -105,8 +105,8 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
           }}
         >
           {capitalize(cluster.categoria)}
-        </span>
-        <span
+ </span>
+ <span
           style={{
             background: velocidadBg,
             color: '#ffffff',
@@ -119,26 +119,26 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
           }}
         >
           {cluster.velocidad_label}
-        </span>
-      </div>
+ </span>
+ </div>
 
       {/* Articles count + emotion */}
-      <div
+ <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: 10,
         }}
       >
-        <span
+ <span
           style={{
             fontSize: 11.5,
             color: '#6e6e73',
           }}
         >
           {cluster.n_articulos.toLocaleString('es-ES')} artículos
-        </span>
-        <span
+ </span>
+ <span
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -152,12 +152,12 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
           }}
         >
           {cluster.emocion_dominante}
-        </span>
-      </div>
+ </span>
+ </div>
 
       {/* Party chips */}
       {cluster.partidos_top.length > 0 && (
-        <div
+ <div
           style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -165,7 +165,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
           }}
         >
           {cluster.partidos_top.map((partido) => (
-            <span
+ <span
               key={partido}
               style={{
                 fontSize: 11,
@@ -178,13 +178,13 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
               }}
             >
               {partido}
-            </span>
+ </span>
           ))}
-        </div>
+ </div>
       )}
 
       {/* Recomendación */}
-      <div
+ <div
         style={{
           fontSize: 11.5,
           color: '#6e6e73',
@@ -196,7 +196,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
         }}
       >
         {cluster.recomendacion}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }

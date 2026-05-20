@@ -56,10 +56,10 @@ interface ExplainResponse {
 
 const SCHEMA_HINT = `Devuelve un JSON con esta estructura exacta:
 {
-  "factores_favorables": ["frase 1", "frase 2", "frase 3"],    // 3-4 factores
-  "factores_desfavorables": ["frase 1", "frase 2", "frase 3"], // 3-4 factores
-  "sucesos_pivote": ["evento 1", "evento 2"],                   // 2-3 eventos
-  "analista_note": "1-2 frases de síntesis ejecutiva"
+ "factores_favorables": ["frase 1", "frase 2", "frase 3"],    // 3-4 factores
+ "factores_desfavorables": ["frase 1", "frase 2", "frase 3"], // 3-4 factores
+ "sucesos_pivote": ["evento 1", "evento 2"],                   // 2-3 eventos
+ "analista_note": "1-2 frases de síntesis ejecutiva"
 }
 
 Reglas estrictas:
@@ -75,8 +75,8 @@ Reglas estrictas:
 function mockResponse(input: ExplainRequest): ExplainResponse {
   return {
     factores_favorables: [
-      `Suma ${input.seats} escaños sobre 350 (${input.viable ? "supera" : "no llega a"} mayoría 176)`,
-      "Análisis IA no disponible; configura ANTHROPIC_API_KEY",
+ `Suma ${input.seats} escaños sobre 350 (${input.viable ? "supera" : "no llega a"} mayoría 176)`,
+ "Análisis IA no disponible; configura ANTHROPIC_API_KEY",
     ],
     factores_desfavorables: ["Datos en vivo limitados sin LLM activo"],
     sucesos_pivote: ["Próximas elecciones generales", "Cambios en la dirección de los partidos"],
@@ -111,16 +111,16 @@ export async function POST(req: NextRequest) {
       : `Composición: sin coalición posible (escenario de bloqueo/repetición)`;
 
     const user = [
-      `Analiza el escenario de gobierno: **${body.scenario_nombre}**`,
-      ``,
+ `Analiza el escenario de gobierno: **${body.scenario_nombre}**`,
+ ``,
       composition,
-      `Escaños totales: ${body.seats} (mayoría absoluta: 176)`,
-      `Viabilidad matemática: ${body.viable ? "SÍ llega a mayoría" : "NO llega a mayoría"}`,
-      `Probabilidad estimada: ${body.prob}%`,
-      `Tipo: ${body.tipo}`,
-      ``,
-      `Devuelve el análisis estructurado en JSON con factores favorables,`,
-      `desfavorables, sucesos pivote y nota del analista.`,
+ `Escaños totales: ${body.seats} (mayoría absoluta: 176)`,
+ `Viabilidad matemática: ${body.viable ? "SÍ llega a mayoría" : "NO llega a mayoría"}`,
+ `Probabilidad estimada: ${body.prob}%`,
+ `Tipo: ${body.tipo}`,
+ ``,
+ `Devuelve el análisis estructurado en JSON con factores favorables,`,
+ `desfavorables, sucesos pivote y nota del analista.`,
     ].join("\n");
 
     const system = `Eres un analista político senior español especializado en España 2026.

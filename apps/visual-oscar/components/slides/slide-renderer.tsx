@@ -42,26 +42,26 @@ export function SlideRenderer({
 
   // Branding chip top-right (solo cards)
   const brand = !isPresent && (
-    <div style={{
+ <div style={{
       position: "absolute",
       top: 14, right: 16,
       fontSize: 9, fontWeight: 700, letterSpacing: "0.12em",
       color: WS.ink3, textTransform: "uppercase",
     }}>
       POLITEIA · {index + 1}/{total}
-    </div>
+ </div>
   );
 
   // Page number footer presentation mode
   const footer = isPresent && (
-    <div style={{
+ <div style={{
       position: "absolute", bottom: 32, left: 0, right: 0,
       display: "flex", justifyContent: "space-between", padding: "0 6%",
       fontSize: 13, color: WS.ink3, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
     }}>
-      <span>Politeia · Workspace</span>
-      <span>{index + 1} / {total}</span>
-    </div>
+ <span>Politeia · Workspace</span>
+ <span>{index + 1} / {total}</span>
+ </div>
   );
 
   const titleStyle: React.CSSProperties = {
@@ -93,176 +93,176 @@ export function SlideRenderer({
 
   function Bullet({ text }: { text: string }) {
     return (
-      <div style={bulletStyle()}>
-        <span style={{
+ <div style={bulletStyle()}>
+ <span style={{
           flexShrink: 0,
           width: isPresent ? 8 : 5, height: isPresent ? 8 : 5,
           borderRadius: 99, background: accent,
           marginTop: isPresent ? 16 : 7,
         }} />
-        <span>{text}</span>
-      </div>
+ <span>{text}</span>
+ </div>
     );
   }
 
   switch (slide.layout) {
     case "title":
       return (
-        <div style={wrap}>
+ <div style={wrap}>
           {brand}
-          <div style={{
+ <div style={{
             width: isPresent ? 50 : 28, height: isPresent ? 4 : 3, background: accent,
             marginBottom: isPresent ? 18 : 8, borderRadius: 99,
           }} />
-          <h1 style={titleStyle}>{slide.title}</h1>
+ <h1 style={titleStyle}>{slide.title}</h1>
           {slide.subtitle && <p style={subStyle}>{slide.subtitle}</p>}
           {slide.author && (
-            <div style={{
+ <div style={{
               fontSize: isPresent ? 14 : 11, color: WS.ink3, marginTop: isPresent ? 30 : 12,
               textTransform: "uppercase", fontWeight: 700, letterSpacing: "0.1em",
             }}>
               {slide.author}
-            </div>
+ </div>
           )}
           {footer}
-        </div>
+ </div>
       );
 
     case "section":
       return (
-        <div style={{ ...wrap, justifyContent: "center", alignItems: "flex-start", background: WS.surface2 }}>
+ <div style={{ ...wrap, justifyContent: "center", alignItems: "flex-start", background: WS.surface2 }}>
           {brand}
-          <div style={{
+ <div style={{
             fontSize: isPresent ? 16 : 11, color: accent, fontWeight: 700,
             letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: isPresent ? 18 : 6,
           }}>
             Sección · {String(index + 1).padStart(2, "0")}
-          </div>
-          <h2 style={{ ...titleStyle, fontSize: isPresent ? "clamp(48px, 6vw, 80px)" : 30 }}>
+ </div>
+ <h2 style={{ ...titleStyle, fontSize: isPresent ? "clamp(48px, 6vw, 80px)" : 30 }}>
             {slide.title}
-          </h2>
+ </h2>
           {footer}
-        </div>
+ </div>
       );
 
     case "kpi":
       return (
-        <div style={wrap}>
+ <div style={wrap}>
           {brand}
           {slide.title && <h2 style={titleStyle}>{slide.title}</h2>}
-          <div style={{
+ <div style={{
             display: "grid",
             gridTemplateColumns: `repeat(${Math.min((slide.kpis ?? []).length, 4)}, 1fr)`,
             gap: isPresent ? 32 : 14,
             marginTop: isPresent ? 16 : 4,
           }}>
             {(slide.kpis ?? []).map((k, i) => (
-              <div key={i}>
-                <div style={{
+ <div key={i}>
+ <div style={{
                   fontSize: isPresent ? "clamp(40px, 5.5vw, 64px)" : 28,
                   fontWeight: 700, color: accent, lineHeight: 1.0,
                   letterSpacing: "-0.04em", marginBottom: 4,
                 }}>
                   {k.value}
-                </div>
-                <div style={{
+ </div>
+ <div style={{
                   fontSize: isPresent ? 14 : 10, fontWeight: 700, color: WS.ink2,
                   textTransform: "uppercase", letterSpacing: "0.08em",
                 }}>
                   {k.label}
-                </div>
+ </div>
                 {k.hint && (
-                  <div style={{ fontSize: isPresent ? 14 : 11, color: WS.ink3, marginTop: 4 }}>
+ <div style={{ fontSize: isPresent ? 14 : 11, color: WS.ink3, marginTop: 4 }}>
                     {k.hint}
-                  </div>
+ </div>
                 )}
-              </div>
+ </div>
             ))}
-          </div>
+ </div>
           {footer}
-        </div>
+ </div>
       );
 
     case "content":
       return (
-        <div style={wrap}>
+ <div style={wrap}>
           {brand}
           {slide.title && <h2 style={titleStyle}>{slide.title}</h2>}
           {slide.subtitle && <p style={subStyle}>{slide.subtitle}</p>}
-          <div style={{ marginTop: isPresent ? 18 : 6 }}>
+ <div style={{ marginTop: isPresent ? 18 : 6 }}>
             {(slide.bullets ?? []).map((b, i) => <Bullet key={i} text={b} />)}
-          </div>
+ </div>
           {footer}
-        </div>
+ </div>
       );
 
     case "two_column":
       return (
-        <div style={wrap}>
+ <div style={wrap}>
           {brand}
           {slide.title && <h2 style={titleStyle}>{slide.title}</h2>}
-          <div style={{
+ <div style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: isPresent ? 48 : 18,
             marginTop: isPresent ? 18 : 6,
           }}>
-            <div>{(slide.bullets ?? []).map((b, i) => <Bullet key={i} text={b} />)}</div>
-            <div>{(slide.rightBullets ?? []).map((b, i) => <Bullet key={i} text={b} />)}</div>
-          </div>
+ <div>{(slide.bullets ?? []).map((b, i) => <Bullet key={i} text={b} />)}</div>
+ <div>{(slide.rightBullets ?? []).map((b, i) => <Bullet key={i} text={b} />)}</div>
+ </div>
           {footer}
-        </div>
+ </div>
       );
 
     case "quote":
       return (
-        <div style={{ ...wrap, justifyContent: "center" }}>
+ <div style={{ ...wrap, justifyContent: "center" }}>
           {brand}
-          <div style={{
+ <div style={{
             fontSize: isPresent ? "clamp(28px, 3.5vw, 44px)" : 18,
             fontFamily: "'New York', Charter, Georgia, serif",
             fontStyle: "italic", lineHeight: 1.35, color: WS.ink, fontWeight: 400,
             maxWidth: "90%",
           }}>
             «{slide.quote}»
-          </div>
+ </div>
           {slide.author && (
-            <div style={{
+ <div style={{
               fontSize: isPresent ? 14 : 11, color: WS.ink3, fontWeight: 700,
               letterSpacing: "0.1em", textTransform: "uppercase",
               marginTop: isPresent ? 28 : 10,
             }}>
               — {slide.author}
-            </div>
+ </div>
           )}
           {footer}
-        </div>
+ </div>
       );
 
     case "closing":
       return (
-        <div style={wrap}>
+ <div style={wrap}>
           {brand}
-          <div style={{
+ <div style={{
             fontSize: isPresent ? 16 : 11, color: accent, fontWeight: 700,
             letterSpacing: "0.16em", textTransform: "uppercase",
           }}>
             Cierre
-          </div>
+ </div>
           {slide.title && <h2 style={titleStyle}>{slide.title}</h2>}
-          <div style={{ marginTop: isPresent ? 18 : 6 }}>
+ <div style={{ marginTop: isPresent ? 18 : 6 }}>
             {(slide.bullets ?? []).map((b, i) => <Bullet key={i} text={b} />)}
-          </div>
+ </div>
           {footer}
-        </div>
+ </div>
       );
 
     default:
       return (
-        <div style={wrap}>
+ <div style={wrap}>
           {brand}
-          <p style={{ color: WS.ink3 }}>Layout no soportado: {slide.layout}</p>
-        </div>
+ <p style={{ color: WS.ink3 }}>Layout no soportado: {slide.layout}</p>
+ </div>
       );
   }
 }

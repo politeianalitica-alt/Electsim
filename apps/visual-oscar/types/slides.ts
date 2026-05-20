@@ -1,12 +1,12 @@
 /** Tipos para Politeia Slides (M9). */
 
 export type SlideLayout =
-  | "title"        // título + subtítulo + autor
-  | "section"      // separador de sección grande
-  | "content"      // título + bullets
-  | "kpi"          // 3-4 métricas grandes con label
-  | "quote"        // cita destacada
-  | "two_column"   // título + 2 columnas (bullets izquierda, bullets derecha)
+  | "title" // título + subtítulo + autor
+  | "section" // separador de sección grande
+  | "content" // título + bullets
+  | "kpi" // 3-4 métricas grandes con label
+  | "quote" // cita destacada
+  | "two_column" // título + 2 columnas (bullets izquierda, bullets derecha)
   | "closing";     // cierre con CTA
 
 export interface SlideKpi {
@@ -40,6 +40,6 @@ export interface Deck {
   subtitle?:    string;
   client?:      string;
   generatedAt:  string;
-  source:       "ollama" | "anthropic" | "mock";
+  source: "ollama" | "anthropic" | "mock";
   slides:       Slide[];
 }

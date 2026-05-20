@@ -9,7 +9,7 @@ export interface CoferReserves { days: number; series: Record<string, Array<{ da
 export async function GET(req: NextRequest) {
   const days = req.nextUrl.searchParams.get('days') || '365'
   const r = await callBackend<CoferReserves>(
-    `/api/macro-finance/cofer?days=${encodeURIComponent(days)}`,
+ `/api/macro-finance/cofer?days=${encodeURIComponent(days)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { days: 2190, series: {} },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

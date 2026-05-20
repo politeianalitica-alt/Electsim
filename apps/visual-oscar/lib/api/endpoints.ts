@@ -82,7 +82,7 @@ export const endpoints = {
     narratives: () => apiClient.get<{ items: NarrativeCluster[] }>('/api/narrativa/clusters'),
     sourceHealth: () =>
       apiClient.get<{ total: number; active: number; degraded: number; down: number; sources: unknown[] }>(
-        '/api/media-intel/source-health',
+ '/api/media-intel/source-health',
       ),
   },
 
@@ -132,7 +132,7 @@ export const endpoints = {
     } = {}) => apiClient.get<{ items: LegislationItem[] }>(`/api/intelligence/legislation/impact${qs(params)}`),
     swingDistricts: (partido_a: string, partido_b: string, n = 50) =>
       apiClient.get<{ items: SwingDistrict[] }>(
-        `/api/intelligence/propensity/swing-districts${qs({ partido_a, partido_b, n })}`,
+ `/api/intelligence/propensity/swing-districts${qs({ partido_a, partido_b, n })}`,
       ),
     // Para listar evidencias/fuentes/notebooks/canvas/drafts/watchlists/team:
     // mantenemos rutas existentes en visual-oscar (que se irán migrando a backend real).
@@ -156,7 +156,7 @@ export const endpoints = {
     dossier: (id: string) => apiClient.get<ActorDossier>(`/api/actors/${encodeURIComponent(id)}/dossier`),
     triggerDiscovery: (lookback_hours = 48, min_mentions = 3) =>
       apiClient.post<{ created: number; ids: string[] }>(
-        `/api/actors/trigger-discovery${qs({ lookback_hours, min_mentions })}`,
+ `/api/actors/trigger-discovery${qs({ lookback_hours, min_mentions })}`,
       ),
   },
 

@@ -30,7 +30,7 @@ export interface ProvinciaConfig {
   ccaa: string
   escanos: number           // escaños asignados
   censo_2023: number        // votos válidos totales 2023 (para % umbral)
-  resultados_2023: Partial<Record<Partido, number>>  // votos por partido 2023
+  resultados_2023: Partial<Record<Partido, number>> // votos por partido 2023
 }
 
 // ─── Tabla de provincias · escaños y censo (Generales 23-J 2023) ────────

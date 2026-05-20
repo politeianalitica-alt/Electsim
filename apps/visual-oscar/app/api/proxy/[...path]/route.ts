@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fromBackend, backendConfigured } from '@/lib/backend'
 
-// Proxy genérico: GET /api/proxy/foo/bar  ->  ${BACKEND_URL}/foo/bar
+// Proxy genérico: GET /api/proxy/foo/bar  -> ${BACKEND_URL}/foo/bar
 // Útil para llamar a cualquier endpoint del FastAPI sin tener que crear
 // un route handler específico para cada uno.
 

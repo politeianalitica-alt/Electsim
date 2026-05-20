@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
   } catch {
     const body = await req.json().catch(() => ({ email: '', role: 'viewer' }))
     return NextResponse.json({
-      id:        `m-${Date.now().toString(36)}`,
-      userId:    `u-${Date.now().toString(36)}`,
+      id: `m-${Date.now().toString(36)}`,
+      userId: `u-${Date.now().toString(36)}`,
       email:     body.email ?? '',
       name:      (body.email ?? '').split('@')[0] || 'Nuevo miembro',
       role:      body.role ?? 'viewer',

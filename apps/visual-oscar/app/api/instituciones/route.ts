@@ -44,7 +44,7 @@ export async function GET() {
           capitales: result.data.capitales ?? [],
           insulares: result.data.insulares ?? [],
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -58,7 +58,7 @@ export async function GET() {
         capitales: CAPITALES,
         insulares: INSULARES,
       },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`]

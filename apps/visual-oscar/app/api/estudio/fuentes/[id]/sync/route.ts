@@ -8,9 +8,9 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     return NextResponse.json(await res.json(), { status: res.status })
   } catch {
     return NextResponse.json({
-      id:           `run-mock-${Date.now().toString(36)}`,
+      id: `run-mock-${Date.now().toString(36)}`,
       sourceId:     params.id,
-      status:       'running',
+      status: 'running',
       startedAt:    new Date().toISOString(),
       recordsRead:    0,
       recordsWritten: 0,

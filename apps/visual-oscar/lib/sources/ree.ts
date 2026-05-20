@@ -118,7 +118,7 @@ export async function demandaTiempoReal(daysBack = 1): Promise<{ ok: boolean; se
   const end = daysAgo(0)
   const r = await fetchRee('demanda/demanda-tiempo-real', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'hour',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }
@@ -131,7 +131,7 @@ export async function mixGeneracion(daysBack = 7): Promise<{ ok: boolean; series
   const end = daysAgo(1)
   const r = await fetchRee('generacion/estructura-generacion', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'day',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }
@@ -144,7 +144,7 @@ export async function preciosMercado(daysBack = 1): Promise<{ ok: boolean; serie
   const end = daysAgo(0)
   const r = await fetchRee('mercados/precios-mercados-tiempo-real', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'hour',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }
@@ -157,7 +157,7 @@ export async function intercambiosInternacionales(daysBack = 7): Promise<{ ok: b
   const end = daysAgo(1)
   const r = await fetchRee('intercambios/todas-fronteras-programados', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'day',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }
@@ -170,7 +170,7 @@ export async function balanceElectrico(monthsBack = 12): Promise<{ ok: boolean; 
   const end = monthsAgo(1)
   const r = await fetchRee('balance/balance-electrico', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'month',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }
@@ -183,7 +183,7 @@ export async function emisionesCO2(daysBack = 7): Promise<{ ok: boolean; series:
   const end = daysAgo(1)
   const r = await fetchRee('generacion/no-renovables-detalle-emisiones-CO2', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'day',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }
@@ -196,7 +196,7 @@ export async function demandaEvolucion(monthsBack = 12): Promise<{ ok: boolean; 
   const end = monthsAgo(1)
   const r = await fetchRee('demanda/evolucion', {
     start_date: `${isoDate(start)}T00:00`,
-    end_date:   `${isoDate(end)}T23:59`,
+    end_date: `${isoDate(end)}T23:59`,
     time_trunc: 'month',
   })
   if (r.errors) return { ok: false, series: [], error: r.errors[0]?.detail }

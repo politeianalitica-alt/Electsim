@@ -103,7 +103,7 @@ function syntheticTrend(country: string, aggregate: number): TrendPayload {
 export async function GET(req: NextRequest) {
   const country = req.nextUrl.searchParams.get('country') || 'ES'
   const r = await callBackend<TrendPayload>(
-    `/api/risk-v2/trend?country=${encodeURIComponent(country)}`,
+ `/api/risk-v2/trend?country=${encodeURIComponent(country)}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.history) && r.data.history.length > 0) {

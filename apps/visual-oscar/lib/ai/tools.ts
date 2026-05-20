@@ -38,9 +38,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_actor_profile",
     description:
-      "Obtiene el perfil detallado de un actor político específico por nombre " +
-      "(ej: 'Núñez Feijóo', 'Yolanda Díaz', 'Ayuso'). Devuelve partido, rol, " +
-      "exposición mediática 24h, sentimiento, menciones, y eventos recientes.",
+ "Obtiene el perfil detallado de un actor político específico por nombre " +
+ "(ej: 'Núñez Feijóo', 'Yolanda Díaz', 'Ayuso'). Devuelve partido, rol, " +
+ "exposición mediática 24h, sentimiento, menciones, y eventos recientes.",
     input_schema: {
       type: "object",
       properties: {
@@ -55,9 +55,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "search_news",
     description:
-      "Busca titulares recientes filtrados por tema, partido o keyword. " +
-      "Útil para preguntas tipo 'qué dicen los medios sobre X' o " +
-      "'titulares sobre vivienda esta semana'.",
+ "Busca titulares recientes filtrados por tema, partido o keyword. " +
+ "Útil para preguntas tipo 'qué dicen los medios sobre X' o " +
+ "'titulares sobre vivienda esta semana'.",
     input_schema: {
       type: "object",
       properties: {
@@ -70,9 +70,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_polls",
     description:
-      "Devuelve la última encuesta consolidada (media de 14 casas encuestadoras) " +
-      "con intención de voto, escaños estimados y delta vs encuesta anterior. " +
-      "Útil para preguntas tipo 'cómo va la encuesta', 'última intención de voto'.",
+ "Devuelve la última encuesta consolidada (media de 14 casas encuestadoras) " +
+ "con intención de voto, escaños estimados y delta vs encuesta anterior. " +
+ "Útil para preguntas tipo 'cómo va la encuesta', 'última intención de voto'.",
     input_schema: {
       type: "object",
       properties: {},
@@ -81,10 +81,10 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_risk_breakdown",
     description:
-      "Devuelve el desglose del Índice de Riesgo Político (6 dimensiones: " +
-      "institucional, electoral, geopolítico, económico, mediático, social) " +
-      "con score por dimensión y deltas. Útil para preguntas tipo 'cómo está el " +
-      "riesgo', '¿qué dimensión ha subido más?'.",
+ "Devuelve el desglose del Índice de Riesgo Político (6 dimensiones: " +
+ "institucional, electoral, geopolítico, económico, mediático, social) " +
+ "con score por dimensión y deltas. Útil para preguntas tipo 'cómo está el " +
+ "riesgo', '¿qué dimensión ha subido más?'.",
     input_schema: {
       type: "object",
       properties: {},
@@ -93,9 +93,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_alert_details",
     description:
-      "Devuelve el detalle completo de las alertas activas críticas (categoría, " +
-      "descripción, fuente, timestamp, severidad). Útil para 'cuáles son las " +
-      "alertas críticas', 'qué pasa esta mañana'.",
+ "Devuelve el detalle completo de las alertas activas críticas (categoría, " +
+ "descripción, fuente, timestamp, severidad). Útil para 'cuáles son las " +
+ "alertas críticas', 'qué pasa esta mañana'.",
     input_schema: {
       type: "object",
       properties: {
@@ -110,20 +110,20 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_legislative_activity",
     description:
-      "Devuelve normas publicadas en el BOE (Boletín Oficial del Estado) " +
-      "de los últimos 14 días filtradas por keyword. SIEMPRE úsala para " +
-      "preguntas tipo 'normas BOE sobre X', 'últimas leyes de Y', " +
-      "'qué dice el BOE de vivienda', 'tramitación de Z'. Datos reales " +
-      "vía API pública del BOE — no inventes nada, llama esta tool.",
+ "Devuelve normas publicadas en el BOE (Boletín Oficial del Estado) " +
+ "de los últimos 14 días filtradas por keyword. SIEMPRE úsala para " +
+ "preguntas tipo 'normas BOE sobre X', 'últimas leyes de Y', " +
+ "'qué dice el BOE de vivienda', 'tramitación de Z'. Datos reales " +
+ "vía API pública del BOE — no inventes nada, llama esta tool.",
     input_schema: {
       type: "object",
       properties: {
         topic: {
           type: "string",
           description:
-            "Tema/keyword a buscar en títulos de normas (ej: 'vivienda', " +
-            "'energía', 'IA', 'inmigración', 'fiscal'). Puede ser varios " +
-            "separados por espacios.",
+ "Tema/keyword a buscar en títulos de normas (ej: 'vivienda', " +
+ "'energía', 'IA', 'inmigración', 'fiscal'). Puede ser varios " +
+ "separados por espacios.",
         },
         days_back: {
           type: "number",
@@ -140,17 +140,17 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_boe_today",
     description:
-      "Devuelve TODAS las normas publicadas en el BOE del día actual " +
-      "(o de una fecha específica). Útil para preguntas tipo 'qué hay " +
-      "hoy en el BOE', 'normas publicadas esta mañana', 'sumario BOE'. " +
-      "Datos reales vía API pública del BOE.",
+ "Devuelve TODAS las normas publicadas en el BOE del día actual " +
+ "(o de una fecha específica). Útil para preguntas tipo 'qué hay " +
+ "hoy en el BOE', 'normas publicadas esta mañana', 'sumario BOE'. " +
+ "Datos reales vía API pública del BOE.",
     input_schema: {
       type: "object",
       properties: {
         fecha: {
           type: "string",
           description:
-            "Fecha en formato YYYY-MM-DD (opcional, default hoy). Ejemplo: '2026-05-20'.",
+ "Fecha en formato YYYY-MM-DD (opcional, default hoy). Ejemplo: '2026-05-20'.",
         },
         limit: {
           type: "number",
@@ -162,9 +162,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_narrative_trends",
     description:
-      "Devuelve las narrativas en aceleración (top temas detectados con " +
-      "velocidad de propagación, drivers, canales). Útil para 'qué está " +
-      "subiendo en redes', 'narrativas calientes'.",
+ "Devuelve las narrativas en aceleración (top temas detectados con " +
+ "velocidad de propagación, drivers, canales). Útil para 'qué está " +
+ "subiendo en redes', 'narrativas calientes'.",
     input_schema: {
       type: "object",
       properties: {
@@ -175,9 +175,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_coalition_status",
     description:
-      "Devuelve el estado del gobierno de coalición (estabilidad, tensiones, " +
-      "votaciones recientes, posición de Junts/PNV/ERC/Bildu). Útil para " +
-      "preguntas sobre la coalición progresista.",
+ "Devuelve el estado del gobierno de coalición (estabilidad, tensiones, " +
+ "votaciones recientes, posición de Junts/PNV/ERC/Bildu). Útil para " +
+ "preguntas sobre la coalición progresista.",
     input_schema: {
       type: "object",
       properties: {},
@@ -186,9 +186,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_morning_briefing",
     description:
-      "Devuelve el briefing matinal del día completo (resumen ejecutivo, " +
-      "nota del analista, 3 preguntas clave, score de riesgo). Úsala cuando " +
-      "el usuario pregunta '¿qué pasa hoy?', 'resumen del día', 'briefing'.",
+ "Devuelve el briefing matinal del día completo (resumen ejecutivo, " +
+ "nota del analista, 3 preguntas clave, score de riesgo). Úsala cuando " +
+ "el usuario pregunta '¿qué pasa hoy?', 'resumen del día', 'briefing'.",
     input_schema: {
       type: "object",
       properties: {},
@@ -197,8 +197,8 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "compare_parties",
     description:
-      "Compara dos partidos políticos en intención de voto, escaños y delta. " +
-      "Útil cuando el usuario pide 'compara X y Y' o 'PP vs PSOE'.",
+ "Compara dos partidos políticos en intención de voto, escaños y delta. " +
+ "Útil cuando el usuario pide 'compara X y Y' o 'PP vs PSOE'.",
     input_schema: {
       type: "object",
       properties: {
@@ -211,9 +211,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_calendar",
     description:
-      "Devuelve los próximos eventos políticos en una ventana de días " +
-      "(votaciones, plenos, citas institucionales). Útil para 'qué viene esta " +
-      "semana', 'agenda parlamentaria'.",
+ "Devuelve los próximos eventos políticos en una ventana de días " +
+ "(votaciones, plenos, citas institucionales). Útil para 'qué viene esta " +
+ "semana', 'agenda parlamentaria'.",
     input_schema: {
       type: "object",
       properties: {
@@ -224,9 +224,9 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_territory_status",
     description:
-      "Devuelve el estado de una Comunidad Autónoma específica (riesgo, " +
-      "narrativas, actores). Útil para 'cómo va Cataluña', 'qué pasa en " +
-      "Andalucía'.",
+ "Devuelve el estado de una Comunidad Autónoma específica (riesgo, " +
+ "narrativas, actores). Útil para 'cómo va Cataluña', 'qué pasa en " +
+ "Andalucía'.",
     input_schema: {
       type: "object",
       properties: {

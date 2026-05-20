@@ -88,7 +88,7 @@ export async function GET(
   const days = Math.max(7, Math.min(730, Number(daysStr) || 365))
   const id = decodeURIComponent(params.id)
   const r = await callBackend<HistoryPayload>(
-    `/api/risk-v2/indices/${encodeURIComponent(id)}/history?country=${encodeURIComponent(country)}&days=${days}`,
+ `/api/risk-v2/indices/${encodeURIComponent(id)}/history?country=${encodeURIComponent(country)}&days=${days}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.series) && r.data.series.length > 0) {

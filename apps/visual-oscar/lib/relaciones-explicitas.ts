@@ -22,22 +22,22 @@
 
 export type TipoRelacion =
   // Alianzas
-  | 'coalicion_gobierno'      // miembros de la misma coalición Moncloa
-  | 'pacto_investidura'       // socios externos del bloque de investidura
-  | 'pacto_autonomico'        // coalición de gobierno en CCAA
-  | 'aliado_partido'          // mismo partido y misma facción
-  | 'aliado_internacional'    // alianza diplomática activa
-  | 'aliado_sindical'         // sindicatos coordinados
-  | 'aliado_mediatico'        // línea editorial afín
-  | 'mediador'                // figura puente entre bloques
+  | 'coalicion_gobierno' // miembros de la misma coalición Moncloa
+  | 'pacto_investidura' // socios externos del bloque de investidura
+  | 'pacto_autonomico' // coalición de gobierno en CCAA
+  | 'aliado_partido' // mismo partido y misma facción
+  | 'aliado_internacional' // alianza diplomática activa
+  | 'aliado_sindical' // sindicatos coordinados
+  | 'aliado_mediatico' // línea editorial afín
+  | 'mediador' // figura puente entre bloques
   // Conflictos
-  | 'oposicion_frontal'       // enfrentamiento público sostenido
-  | 'rivalidad_interna'       // rivales del mismo partido
-  | 'conflicto_judicial'      // procedimiento judicial activo
-  | 'conflicto_territorial'   // tensión nación/CCAA o entre CCAA
-  | 'bloqueo_legislativo'     // bloqueo formal de iniciativa o nombramiento
-  | 'critica_publica'         // ataques mediáticos sin ruptura
-  | 'ruptura_coalicion'       // coalición rota recientemente
+  | 'oposicion_frontal' // enfrentamiento público sostenido
+  | 'rivalidad_interna' // rivales del mismo partido
+  | 'conflicto_judicial' // procedimiento judicial activo
+  | 'conflicto_territorial' // tensión nación/CCAA o entre CCAA
+  | 'bloqueo_legislativo' // bloqueo formal de iniciativa o nombramiento
+  | 'critica_publica' // ataques mediáticos sin ruptura
+  | 'ruptura_coalicion' // coalición rota recientemente
 
 export interface RelacionExplicita {
   a: string            // id actor origen
@@ -1087,19 +1087,19 @@ export const TIPO_META: Record<TipoRelacion, { color: string; intensidad: number
 }
 
 export const TIPO_LABEL: Record<TipoRelacion, string> = {
-  coalicion_gobierno:    'Coalición Moncloa',
-  pacto_investidura:     'Pacto investidura',
-  pacto_autonomico:      'Coalición autonómica',
-  aliado_partido:        'Aliado de partido',
-  aliado_internacional:  'Alianza internacional',
-  aliado_sindical:       'Alianza sindical',
-  aliado_mediatico:      'Afinidad mediática',
-  mediador:              'Diálogo formal',
-  oposicion_frontal:     'Oposición frontal',
-  rivalidad_interna:     'Rivalidad interna',
-  conflicto_judicial:    'Conflicto judicial',
+  coalicion_gobierno: 'Coalición Moncloa',
+  pacto_investidura: 'Pacto investidura',
+  pacto_autonomico: 'Coalición autonómica',
+  aliado_partido: 'Aliado de partido',
+  aliado_internacional: 'Alianza internacional',
+  aliado_sindical: 'Alianza sindical',
+  aliado_mediatico: 'Afinidad mediática',
+  mediador: 'Diálogo formal',
+  oposicion_frontal: 'Oposición frontal',
+  rivalidad_interna: 'Rivalidad interna',
+  conflicto_judicial: 'Conflicto judicial',
   conflicto_territorial: 'Conflicto territorial',
-  bloqueo_legislativo:   'Bloqueo legislativo',
-  critica_publica:       'Crítica pública',
-  ruptura_coalicion:     'Ruptura coalición',
+  bloqueo_legislativo: 'Bloqueo legislativo',
+  critica_publica: 'Crítica pública',
+  ruptura_coalicion: 'Ruptura coalición',
 }

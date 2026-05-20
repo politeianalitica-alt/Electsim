@@ -9,11 +9,11 @@ import Skeleton from '@/components/Skeleton'
 import styles from './Query.module.css'
 
 const EXAMPLE_QUESTIONS = [
-  '¿Cuál es la media de estimación de voto del PP en los últimos 12 meses?',
-  'Muestra los contratos adjudicados por importe mayor de 5M€ en 2025',
-  '¿Qué partido tiene mayor volatilidad en intención de voto?',
-  'Compara abstención por comunidad autónoma en las últimas elecciones',
-  'Cuántos registros hay en este dataset y cuál es el campo más reciente',
+ '¿Cuál es la media de estimación de voto del PP en los últimos 12 meses?',
+ 'Muestra los contratos adjudicados por importe mayor de 5M€ en 2025',
+ '¿Qué partido tiene mayor volatilidad en intención de voto?',
+ 'Compara abstención por comunidad autónoma en las últimas elecciones',
+ 'Cuántos registros hay en este dataset y cuál es el campo más reciente',
 ]
 
 export default function QueryClient() {
@@ -91,122 +91,122 @@ export default function QueryClient() {
     setSelectedDatasets(prev => prev.includes(id) ? prev.filter(d => d !== id) : [...prev, id])
 
   return (
-    <div className={styles.root}>
-      <div className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <span className={styles.sidebarTitle}>Consultas</span>
-          <button onClick={() => setShowDatasetPicker(true)} className={styles.newBtn} title="Nueva consulta">+</button>
-        </div>
+ <div className={styles.root}>
+ <div className={styles.sidebar}>
+ <div className={styles.sidebarHeader}>
+ <span className={styles.sidebarTitle}>Consultas</span>
+ <button onClick={() => setShowDatasetPicker(true)} className={styles.newBtn} title="Nueva consulta">+</button>
+ </div>
         {loadingSessions ? (
-          <div className={styles.sidebarList}>
+ <div className={styles.sidebarList}>
             {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} style={{ height: 52, borderRadius: 8 }} />)}
-          </div>
+ </div>
         ) : sessions.length === 0 ? (
-          <div className={styles.sidebarEmpty}>
-            <span style={{ fontSize: '1.4rem', opacity: 0.25 }}>⌨</span>
-            <p>Crea tu primera consulta IA</p>
-            <button onClick={() => setShowDatasetPicker(true)} className={styles.btnPrimary} style={{ fontSize: '.75rem' }}>
+ <div className={styles.sidebarEmpty}>
+ <span style={{ fontSize: '1.4rem', opacity: 0.25 }}>⌨</span>
+ <p>Crea tu primera consulta IA</p>
+ <button onClick={() => setShowDatasetPicker(true)} className={styles.btnPrimary} style={{ fontSize: '.75rem' }}>
               + Nueva
-            </button>
-          </div>
+ </button>
+ </div>
         ) : (
-          <div className={styles.sidebarList}>
+ <div className={styles.sidebarList}>
             {sessions.map(s => (
-              <div
+ <div
                 key={s.id}
                 onClick={() => setActiveSessionId(s.id)}
                 className={`${styles.sessionItem} ${activeSessionId === s.id ? styles.sessionActive : ''}`}
               >
-                <div className={styles.sessionItemTitle}>{s.title}</div>
-                <div className={styles.sessionItemMeta}>
+ <div className={styles.sessionItemTitle}>{s.title}</div>
+ <div className={styles.sessionItemMeta}>
                   {s.messages.length} mensajes · {timeAgo(s.updatedAt)}
-                </div>
-                <button
+ </div>
+ <button
                   onClick={e => { e.stopPropagation(); deleteSessionMutation.mutate(s.id) }}
                   className={styles.sessionDelete}
                   title="Eliminar"
-                >✕</button>
-              </div>
+                ></button>
+ </div>
             ))}
-          </div>
+ </div>
         )}
-      </div>
+ </div>
 
-      <div className={styles.main}>
+ <div className={styles.main}>
         {!activeSessionId ? (
-          <div className={styles.emptyChat}>
-            <span style={{ fontSize: '2.5rem', opacity: 0.2 }}>⌨</span>
-            <h2 className={styles.emptyChatTitle}>AI Query — Pregunta en lenguaje natural</h2>
-            <p className={styles.emptyChatDesc}>
+ <div className={styles.emptyChat}>
+ <span style={{ fontSize: '2.5rem', opacity: 0.2 }}>⌨</span>
+ <h2 className={styles.emptyChatTitle}>AI Query — Pregunta en lenguaje natural</h2>
+ <p className={styles.emptyChatDesc}>
               Selecciona uno o varios datasets y haz preguntas en español. El motor generará el SQL,
               ejecutará la consulta y te mostrará los resultados con sugerencias de visualización.
-            </p>
-            <div className={styles.exampleQuestions}>
+ </p>
+ <div className={styles.exampleQuestions}>
               {EXAMPLE_QUESTIONS.map((q, i) => (
-                <button
+ <button
                   key={i}
                   onClick={() => setShowDatasetPicker(true)}
                   className={styles.exampleBtn}
                 >
                   {q}
-                </button>
+ </button>
               ))}
-            </div>
-            <button onClick={() => setShowDatasetPicker(true)} className={styles.btnPrimary}>
+ </div>
+ <button onClick={() => setShowDatasetPicker(true)} className={styles.btnPrimary}>
               + Nueva consulta
-            </button>
-          </div>
+ </button>
+ </div>
         ) : loadingSession ? (
-          <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+ <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
             {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} style={{ height: 80, borderRadius: 12 }} />)}
-          </div>
+ </div>
         ) : (
-          <>
-            <div className={styles.messages}>
+ <>
+ <div className={styles.messages}>
               {activeSession && activeSession.datasetIds.length > 0 && (
-                <div className={styles.datasetPills}>
-                  <span className={styles.datasetPillsLabel}>Datasets activos:</span>
+ <div className={styles.datasetPills}>
+ <span className={styles.datasetPillsLabel}>Datasets activos:</span>
                   {activeSession.datasetIds.map(id => {
                     const ds = datasets.find(d => d.id === id)
                     return <span key={id} className={styles.datasetPill}>{ds?.name ?? id}</span>
                   })}
-                </div>
+ </div>
               )}
 
               {activeSession?.messages.length === 0 && (
-                <div className={styles.chatHint}>
-                  <p>Haz una pregunta sobre los datos o escribe una consulta SQL directamente.</p>
-                  <div className={styles.exampleQuestions} style={{ marginTop: '.5rem' }}>
+ <div className={styles.chatHint}>
+ <p>Haz una pregunta sobre los datos o escribe una consulta SQL directamente.</p>
+ <div className={styles.exampleQuestions} style={{ marginTop: '.5rem' }}>
                     {EXAMPLE_QUESTIONS.slice(0, 3).map((q, i) => (
-                      <button
+ <button
                         key={i}
                         onClick={() => { setInput(q); inputRef.current?.focus() }}
                         className={styles.exampleBtn}
                       >
                         {q}
-                      </button>
+ </button>
                     ))}
-                  </div>
-                </div>
+ </div>
+ </div>
               )}
 
               {activeSession?.messages.map(msg => (
-                <MessageBubble key={msg.id} message={msg} />
+ <MessageBubble key={msg.id} message={msg} />
               ))}
 
               {sendMutation.isPending && (
-                <div className={styles.thinkingBubble}>
-                  <span className={styles.dot} />
-                  <span className={styles.dot} />
-                  <span className={styles.dot} />
-                </div>
+ <div className={styles.thinkingBubble}>
+ <span className={styles.dot} />
+ <span className={styles.dot} />
+ <span className={styles.dot} />
+ </div>
               )}
 
-              <div ref={messagesEndRef} />
-            </div>
+ <div ref={messagesEndRef} />
+ </div>
 
-            <div className={styles.inputBar}>
-              <textarea
+ <div className={styles.inputBar}>
+ <textarea
                 ref={inputRef}
                 value={input}
                 onChange={e => setInput(e.target.value)}
@@ -216,68 +216,68 @@ export default function QueryClient() {
                 rows={1}
                 disabled={sendMutation.isPending}
               />
-              <button
+ <button
                 onClick={handleSend}
                 disabled={!input.trim() || sendMutation.isPending}
                 className={styles.sendBtn}
               >
                 {sendMutation.isPending ? '⟳' : '↑'}
-              </button>
-            </div>
-          </>
+ </button>
+ </div>
+ </>
         )}
-      </div>
+ </div>
 
       {showDatasetPicker && (
-        <div className={styles.modalOverlay} onClick={() => setShowDatasetPicker(false)}>
-          <div className={styles.modal} onClick={e => e.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <span className={styles.modalTitle}>Seleccionar datasets para la consulta</span>
-              <button onClick={() => setShowDatasetPicker(false)} className={styles.modalClose}>✕</button>
-            </div>
-            <div className={styles.modalBody}>
-              <p style={{ fontSize: '.82rem', color: 'var(--color-muted,#6b7280)', margin: '0 0 .75rem' }}>
+ <div className={styles.modalOverlay} onClick={() => setShowDatasetPicker(false)}>
+ <div className={styles.modal} onClick={e => e.stopPropagation()}>
+ <div className={styles.modalHeader}>
+ <span className={styles.modalTitle}>Seleccionar datasets para la consulta</span>
+ <button onClick={() => setShowDatasetPicker(false)} className={styles.modalClose}></button>
+ </div>
+ <div className={styles.modalBody}>
+ <p style={{ fontSize: '.82rem', color: 'var(--color-muted,#6b7280)', margin: '0 0 .75rem' }}>
                 Elige los datasets que el asistente IA podrá consultar. Puedes seleccionar hasta 5.
-              </p>
-              <div className={styles.datasetList}>
+ </p>
+ <div className={styles.datasetList}>
                 {datasets.map(ds => (
-                  <div
+ <div
                     key={ds.id}
                     onClick={() => (selectedDatasets.length < 5 || selectedDatasets.includes(ds.id)) && toggleDataset(ds.id)}
                     className={`${styles.datasetItem} ${selectedDatasets.includes(ds.id) ? styles.datasetSelected : ''}`}
                   >
-                    <div className={styles.datasetCheck}>
-                      {selectedDatasets.includes(ds.id) ? '✓' : ''}
-                    </div>
-                    <div className={styles.datasetInfo}>
-                      <span className={styles.datasetName}>{ds.name}</span>
-                      <span className={styles.datasetMeta}>
+ <div className={styles.datasetCheck}>
+                      {selectedDatasets.includes(ds.id) ? '' : ''}
+ </div>
+ <div className={styles.datasetInfo}>
+ <span className={styles.datasetName}>{ds.name}</span>
+ <span className={styles.datasetMeta}>
                         {ds.rowCount?.toLocaleString('es') ?? '?'} filas · {ds.schema?.length ?? '?'} columnas
-                      </span>
-                    </div>
-                  </div>
+ </span>
+ </div>
+ </div>
                 ))}
-              </div>
-            </div>
-            <div className={styles.modalFooter}>
-              <span style={{ fontSize: '.78rem', color: 'var(--color-muted,#9ca3af)' }}>
+ </div>
+ </div>
+ <div className={styles.modalFooter}>
+ <span style={{ fontSize: '.78rem', color: 'var(--color-muted,#9ca3af)' }}>
                 {selectedDatasets.length} seleccionado{selectedDatasets.length !== 1 ? 's' : ''}
-              </span>
-              <div style={{ display: 'flex', gap: '.5rem' }}>
-                <button onClick={() => setShowDatasetPicker(false)} className={styles.btnCancel}>Cancelar</button>
-                <button
+ </span>
+ <div style={{ display: 'flex', gap: '.5rem' }}>
+ <button onClick={() => setShowDatasetPicker(false)} className={styles.btnCancel}>Cancelar</button>
+ <button
                   onClick={() => createSessionMutation.mutate()}
                   disabled={selectedDatasets.length === 0 || createSessionMutation.isPending}
                   className={styles.btnPrimary}
                 >
                   {createSessionMutation.isPending ? '⟳ Iniciando…' : 'Iniciar consulta →'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+ </button>
+ </div>
+ </div>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
@@ -286,38 +286,38 @@ function MessageBubble({ message: msg }: { message: QueryMessage }) {
   const isUser = msg.role === 'user'
 
   return (
-    <div className={`${styles.bubble} ${isUser ? styles.bubbleUser : styles.bubbleAssistant}`}>
-      <div className={`${styles.bubbleInner} ${isUser ? styles.bubbleInnerUser : styles.bubbleInnerAssistant}`}>
-        <p className={styles.bubbleText}>{msg.content}</p>
+ <div className={`${styles.bubble} ${isUser ? styles.bubbleUser : styles.bubbleAssistant}`}>
+ <div className={`${styles.bubbleInner} ${isUser ? styles.bubbleInnerUser : styles.bubbleInnerAssistant}`}>
+ <p className={styles.bubbleText}>{msg.content}</p>
 
         {msg.sql && (
-          <div className={styles.sqlBlock}>
-            <button onClick={() => setShowSql(s => !s)} className={styles.sqlToggle}>
+ <div className={styles.sqlBlock}>
+ <button onClick={() => setShowSql(s => !s)} className={styles.sqlToggle}>
               {showSql ? '▲ Ocultar SQL' : '▼ Ver SQL generado'}
-            </button>
+ </button>
             {showSql && <pre className={styles.sqlCode}>{msg.sql}</pre>}
-          </div>
+ </div>
         )}
 
         {msg.queryResult && (
-          <QueryResultTable result={msg.queryResult} />
+ <QueryResultTable result={msg.queryResult} />
         )}
 
         {msg.chartSuggestion && (
-          <div className={styles.chartSuggestion}>
-            <span className={styles.chartSuggestionIcon}>◔</span>
-            <span>Sugerencia de visualización: <strong>{msg.chartSuggestion.type}</strong>
+ <div className={styles.chartSuggestion}>
+ <span className={styles.chartSuggestionIcon}>◔</span>
+ <span>Sugerencia de visualización: <strong>{msg.chartSuggestion.type}</strong>
               {msg.chartSuggestion.title && ` — ${msg.chartSuggestion.title}`}
-            </span>
-          </div>
+ </span>
+ </div>
         )}
 
         {msg.error && (
-          <div className={styles.errorBlock}>⛔ {msg.error}</div>
+ <div className={styles.errorBlock}> {msg.error}</div>
         )}
-      </div>
-      <div className={styles.bubbleTime}>{timeAgo(msg.createdAt)}</div>
-    </div>
+ </div>
+ <div className={styles.bubbleTime}>{timeAgo(msg.createdAt)}</div>
+ </div>
   )
 }
 
@@ -327,29 +327,29 @@ function QueryResultTable({ result }: { result: NonNullable<QueryMessage['queryR
   const rows = showAll ? result.rows : result.rows.slice(0, MAX_ROWS)
 
   return (
-    <div className={styles.resultBlock}>
-      <div className={styles.resultMeta}>
+ <div className={styles.resultBlock}>
+ <div className={styles.resultMeta}>
         {result.rowCount.toLocaleString('es')} filas · {result.executionMs}ms
-      </div>
-      <div className={styles.resultTableWrap}>
-        <table className={styles.resultTable}>
-          <thead>
-            <tr>{result.columns.map(c => <th key={c}>{c}</th>)}</tr>
-          </thead>
-          <tbody>
+ </div>
+ <div className={styles.resultTableWrap}>
+ <table className={styles.resultTable}>
+ <thead>
+ <tr>{result.columns.map(c => <th key={c}>{c}</th>)}</tr>
+ </thead>
+ <tbody>
             {rows.map((row, i) => (
-              <tr key={i}>
+ <tr key={i}>
                 {result.columns.map(c => <td key={c}>{String(row[c] ?? '—')}</td>)}
-              </tr>
+ </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
+ </tbody>
+ </table>
+ </div>
       {result.rows.length > MAX_ROWS && !showAll && (
-        <button onClick={() => setShowAll(true)} className={styles.showMoreBtn}>
+ <button onClick={() => setShowAll(true)} className={styles.showMoreBtn}>
           + Ver {result.rows.length - MAX_ROWS} filas más
-        </button>
+ </button>
       )}
-    </div>
+ </div>
   )
 }

@@ -8,10 +8,10 @@ export default function Sparkline({data,color="#0071e3"}:{data:number[];color?:s
   const area=`${path} L${xF(data.length-1)},${H} L${xF(0)},${H} Z`;
   const id=`sg${color.replace(/[^a-z0-9]/gi,"")}`;
   return(
-    <svg className="spark" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
-      <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity="0.22"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
-      <path d={area} fill={`url(#${id})`}/><path d={path} fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-      <circle cx={xF(data.length-1)} cy={yF(data[data.length-1])} r="2.5" fill={color}/>
-    </svg>
+ <svg className="spark" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
+ <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity="0.22"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+ <path d={area} fill={`url(#${id})`}/><path d={path} fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+ <circle cx={xF(data.length-1)} cy={yF(data[data.length-1])} r="2.5" fill={color}/>
+ </svg>
   );
 }

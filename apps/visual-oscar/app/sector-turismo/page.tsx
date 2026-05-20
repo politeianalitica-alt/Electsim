@@ -43,10 +43,10 @@ export default function SectorTurismoPage() {
   useEffect(() => { refresh(); const t = setInterval(refresh, 60 * 60 * 1000); return () => clearInterval(t) }, [])
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
-        <SectorHero
+ <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+ <AppHeader/>
+ <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+ <SectorHero
           accent={ACCENT} accentDark={ACCENT_DARK}
           eyebrow="SECTORIAL · TURISMO & HOSTELERÍA · INE FRONTUR + EOH"
           title="Mercado turístico español en tiempo real"
@@ -54,21 +54,21 @@ export default function SectorTurismoPage() {
           updatedAt={updatedAt} fetchMs={data?.fetch_ms}
           onRefresh={refresh}
           kpis={<>
-            <HeroKPI label={`Turistas mes (${data?.kpis.turistas_periodo || ''})`}
+ <HeroKPI label={`Turistas mes (${data?.kpis.turistas_periodo || ''})`}
               value={data?.kpis.turistas_mes != null ? Math.round(data.kpis.turistas_mes / 1000) : null}
               unit="k" accent="#86EFAC"/>
-            <HeroKPI label="Variación anual" value={data?.kpis.turistas_var_anual} unit="%" decimals={1} accent="#FCD34D"/>
-            <HeroKPI label={`Pernoctaciones (${data?.kpis.pernoctaciones_periodo || ''})`}
+ <HeroKPI label="Variación anual" value={data?.kpis.turistas_var_anual} unit="%" decimals={1} accent="#FCD34D"/>
+ <HeroKPI label={`Pernoctaciones (${data?.kpis.pernoctaciones_periodo || ''})`}
               value={data?.kpis.pernoctaciones_mes != null ? Math.round(data.kpis.pernoctaciones_mes / 1000) : null}
               unit="k" accent="#7DD3FC"/>
-            <HeroKPI label={`Viajeros hoteles (${data?.kpis.viajeros_periodo || ''})`}
+ <HeroKPI label={`Viajeros hoteles (${data?.kpis.viajeros_periodo || ''})`}
               value={data?.kpis.viajeros_mes != null ? Math.round(data.kpis.viajeros_mes / 1000) : null}
               unit="k" accent="#FCA5A5"/>
-          </>}
+ </>}
         />
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Turistas internacionales · serie mensual"
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
+ <Panel title="Turistas internacionales · serie mensual"
             subtitle="INE FRONTUR · Total Nacional dato base"
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10256"
             sourceLabel="INE"
@@ -77,8 +77,8 @@ export default function SectorTurismoPage() {
               points={data.serie_turistas.map(p => ({ t: p.t, v: p.v != null ? p.v / 1_000_000 : null }))}
               color={ACCENT}
               formatY={n => `${n.toFixed(1)}M`}/>}
-          </Panel>
-          <Panel title="Pernoctaciones hoteleras · serie mensual"
+ </Panel>
+ <Panel title="Pernoctaciones hoteleras · serie mensual"
             subtitle="INE EOH · Total Nacional"
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10257"
             sourceLabel="INE"
@@ -87,31 +87,31 @@ export default function SectorTurismoPage() {
               points={data.serie_pernoctaciones.map(p => ({ t: p.t, v: p.v != null ? p.v / 1000 : null }))}
               color="#7C3AED"
               formatY={n => `${n.toFixed(0)}k`}/>}
-          </Panel>
-        </div>
+ </Panel>
+ </div>
 
-        <Panel title="Programas y políticas activas" subtitle="Estrategia Turismo Sostenible 2030 · PERTE Turismo · Plan VUT" marginBottom>
-          <ProgramasGrid programas={PROGRAMAS_TURISMO} columns={4}/>
-        </Panel>
+ <Panel title="Programas y políticas activas" subtitle="Estrategia Turismo Sostenible 2030 · PERTE Turismo · Plan VUT" marginBottom>
+ <ProgramasGrid programas={PROGRAMAS_TURISMO} columns={4}/>
+ </Panel>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Empresas líderes del sector" subtitle={`${EMPRESAS_TURISMO.length} compañías · aerolíneas + hoteles + OTAs`}>
-            <EmpresasGrid empresas={EMPRESAS_TURISMO} accent={ACCENT}/>
-          </Panel>
-          <Panel title="Reguladores y operadores" subtitle="Marco institucional turismo nacional + UE">
-            <RegLista reguladores={REGULADORES_TURISMO}/>
-          </Panel>
-        </div>
+ <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
+ <Panel title="Empresas líderes del sector" subtitle={`${EMPRESAS_TURISMO.length} compañías · aerolíneas + hoteles + OTAs`}>
+ <EmpresasGrid empresas={EMPRESAS_TURISMO} accent={ACCENT}/>
+ </Panel>
+ <Panel title="Reguladores y operadores" subtitle="Marco institucional turismo nacional + UE">
+ <RegLista reguladores={REGULADORES_TURISMO}/>
+ </Panel>
+ </div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:14, marginBottom:14 }}>
-          <Panel title="Licitaciones del sector" subtitle="CPV 55 · Servicios hostelería, catering">
-            <LicitacionesShortcut cpv_div="55" label="hostelería y catering"/>
-          </Panel>
-          <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
-            <AreasTematicas areas={AREAS_TURISMO}/>
-          </Panel>
-        </div>
-      </main>
-    </div>
+ <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:14, marginBottom:14 }}>
+ <Panel title="Licitaciones del sector" subtitle="CPV 55 · Servicios hostelería, catering">
+ <LicitacionesShortcut cpv_div="55" label="hostelería y catering"/>
+ </Panel>
+ <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
+ <AreasTematicas areas={AREAS_TURISMO}/>
+ </Panel>
+ </div>
+ </main>
+ </div>
   )
 }

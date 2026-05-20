@@ -53,106 +53,106 @@ export default function CampanaPanel() {
   const active = clientes.find(c => c.id === activeId) ?? clientes[0]
 
   return (
-    <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-        <div>
-          <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
+ <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+ <div>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
             Campaign room
-          </p>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Campaña — {active?.nombre}</h3>
-        </div>
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+ </p>
+ <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Campaña — {active?.nombre}</h3>
+ </div>
+ <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {clientes.map(c => (
-            <button key={c.id} onClick={() => setActiveId(c.id)} style={{
+ <button key={c.id} onClick={() => setActiveId(c.id)} style={{
               padding: '6px 14px', borderRadius: 999, border: `1px solid ${activeId === c.id ? c.color_hex ?? '#1d1d1f' : '#e8e8ed'}`,
               background: activeId === c.id ? `${c.color_hex ?? '#1d1d1f'}15` : '#fff',
               color: activeId === c.id ? c.color_hex ?? '#1d1d1f' : '#6e6e73',
               fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>{c.nombre}</button>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Inner tabs */}
-      <div style={{ display: 'flex', gap: 4, padding: 4, background: '#fafafc', borderRadius: 999, border: '1px solid #e8e8ed', width: 'fit-content', marginBottom: 16 }}>
+ <div style={{ display: 'flex', gap: 4, padding: 4, background: '#fafafc', borderRadius: 999, border: '1px solid #e8e8ed', width: 'fit-content', marginBottom: 16 }}>
         {([
           { v: 'mensajes' as const, l: `Mensajes del día (${mensajes.length})` },
           { v: 'memoria' as const, l: `Memoria estratégica (${decisiones.length})` },
         ]).map(t => (
-          <button key={t.v} onClick={() => setTab(t.v)} style={{
+ <button key={t.v} onClick={() => setTab(t.v)} style={{
             padding: '5px 14px', borderRadius: 999, border: 'none',
             background: tab === t.v ? '#1d1d1f' : 'transparent',
             color: tab === t.v ? '#fff' : '#6e6e73',
             fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
           }}>{t.l}</button>
         ))}
-      </div>
+ </div>
 
       {tab === 'mensajes' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {mensajes.map(m => {
             const ts = tipoStyle[m.tipo] ?? tipoStyle.mensaje
             const prioColor = m.prioridad === 1 ? '#c42c2c' : m.prioridad === 2 ? '#b25000' : '#1F4E8C'
             return (
-              <div key={m.id} style={{ padding: '14px 18px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                    <span style={{ width: 8, height: 8, borderRadius: 999, background: prioColor, flexShrink: 0 }} />
-                    <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{m.titulo}</h4>
-                    <span style={{ padding: '2px 8px', borderRadius: 999, background: ts.bg, color: ts.c, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{m.tipo}</span>
+ <div key={m.id} style={{ padding: '14px 18px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+ <span style={{ width: 8, height: 8, borderRadius: 999, background: prioColor, flexShrink: 0 }} />
+ <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{m.titulo}</h4>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: ts.bg, color: ts.c, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{m.tipo}</span>
                     {m.fecha_fin && <span style={{ fontSize: 10.5, color: '#6e6e73' }}>vence {m.fecha_fin}</span>}
-                  </div>
-                  <button style={{
+ </div>
+ <button style={{
                     padding: '4px 10px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
                     fontSize: 10.5, fontWeight: 600, color: '#6e6e73', cursor: 'pointer', fontFamily: 'inherit',
                   }}>Archivar</button>
-                </div>
-                <p style={{ margin: '0 0 8px', fontSize: 12, color: '#424245', lineHeight: 1.5 }}>{m.cuerpo}</p>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+ </div>
+ <p style={{ margin: '0 0 8px', fontSize: 12, color: '#424245', lineHeight: 1.5 }}>{m.cuerpo}</p>
+ <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {(m.destinatarios ?? []).map(d => (
-                    <span key={d} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.08)', color: '#1F4E8C', fontWeight: 500 }}>{d}</span>
+ <span key={d} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.08)', color: '#1F4E8C', fontWeight: 500 }}>{d}</span>
                   ))}
                   {m.autor && <span style={{ marginLeft: 'auto', fontSize: 10.5, color: '#6e6e73' }}>— {m.autor}</span>}
-                </div>
-              </div>
+ </div>
+ </div>
             )
           })}
-        </div>
+ </div>
       )}
 
       {tab === 'memoria' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {decisiones.map(d => {
             const rs = resultStyle[d.resultado] ?? resultStyle.neutral
             return (
-              <div key={d.id} style={{ padding: '14px 18px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
-                  <div>
-                    <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600 }}>{d.titulo}</h4>
-                    <div style={{ display: 'flex', gap: 8, marginTop: 4, flexWrap: 'wrap' }}>
-                      <span style={{ padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10, fontWeight: 600 }}>{d.tipo}</span>
-                      <span style={{ padding: '2px 8px', borderRadius: 999, background: rs.bg, color: rs.c, fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{d.resultado}</span>
+ <div key={d.id} style={{ padding: '14px 18px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
+ <div>
+ <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600 }}>{d.titulo}</h4>
+ <div style={{ display: 'flex', gap: 8, marginTop: 4, flexWrap: 'wrap' }}>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10, fontWeight: 600 }}>{d.tipo}</span>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: rs.bg, color: rs.c, fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{d.resultado}</span>
                       {d.impacto_est && <span style={{ fontSize: 10.5, color: '#6e6e73' }}>impacto: <strong>{d.impacto_est}</strong></span>}
                       {d.fecha && <span style={{ fontSize: 10.5, color: '#6e6e73' }}>{d.fecha}</span>}
-                    </div>
-                  </div>
-                </div>
-                <p style={{ margin: '0 0 8px', fontSize: 12, color: '#424245', lineHeight: 1.5 }}>{d.descripcion}</p>
+ </div>
+ </div>
+ </div>
+ <p style={{ margin: '0 0 8px', fontSize: 12, color: '#424245', lineHeight: 1.5 }}>{d.descripcion}</p>
                 {d.lecciones && d.lecciones !== '—' && (
-                  <div style={{ padding: '8px 12px', background: '#f5f9ff', border: '1px solid #cfe0f3', borderRadius: 8, fontSize: 11.5, color: '#1d1d1f', marginBottom: 8 }}>
-                    <strong style={{ color: '#1F4E8C' }}>Lección:</strong> {d.lecciones}
-                  </div>
+ <div style={{ padding: '8px 12px', background: '#f5f9ff', border: '1px solid #cfe0f3', borderRadius: 8, fontSize: 11.5, color: '#1d1d1f', marginBottom: 8 }}>
+ <strong style={{ color: '#1F4E8C' }}>Lección:</strong> {d.lecciones}
+ </div>
                 )}
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+ <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {(d.etiquetas ?? []).map(t => (
-                    <span key={t} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: '#fff', border: '1px solid #e8e8ed', color: '#6e6e73' }}>#{t}</span>
+ <span key={t} style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: '#fff', border: '1px solid #e8e8ed', color: '#6e6e73' }}>#{t}</span>
                   ))}
-                </div>
-              </div>
+ </div>
+ </div>
             )
           })}
-        </div>
+ </div>
       )}
-    </section>
+ </section>
   )
 }

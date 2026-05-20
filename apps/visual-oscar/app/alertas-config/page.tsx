@@ -71,27 +71,27 @@ interface HistEntry {
 
 // ── Datos demo ──────────────────────────────────────────────────────────
 const SEV_META: Record<Severidad, { color: string; bg: string }> = {
-  'CRÍTICA': { color: '#7F1D1D', bg: 'rgba(127,29,29,0.10)' },
-  'ALTA':    { color: '#DC2626', bg: 'rgba(220,38,38,0.10)' },
-  'MEDIA':   { color: '#F97316', bg: 'rgba(249,115,22,0.10)' },
-  'BAJA':    { color: '#EAB308', bg: 'rgba(234,179,8,0.12)' },
+ 'CRÍTICA': { color: '#7F1D1D', bg: 'rgba(127,29,29,0.10)' },
+ 'ALTA':    { color: '#DC2626', bg: 'rgba(220,38,38,0.10)' },
+ 'MEDIA':   { color: '#F97316', bg: 'rgba(249,115,22,0.10)' },
+ 'BAJA':    { color: '#EAB308', bg: 'rgba(234,179,8,0.12)' },
 }
 const CAT_COLOR: Record<Categoria, string> = {
-  'Mercados':    '#16A34A',
-  'Gobierno':    '#1F4E8C',
-  'Parlamento':  '#5B21B6',
-  'Encuestas':   '#0E7490',
-  'Geopolítica': '#7C3AED',
-  'Medios':      '#525258',
-  'Riesgo':      '#DC2626',
+ 'Mercados': '#16A34A',
+ 'Gobierno': '#1F4E8C',
+ 'Parlamento': '#5B21B6',
+ 'Encuestas': '#0E7490',
+ 'Geopolítica': '#7C3AED',
+ 'Medios': '#525258',
+ 'Riesgo': '#DC2626',
 }
 const CANAL_META: Record<Canal, { label: string; icon: string }> = {
-  email:   { label: 'Email',   icon: '✉' },
+  email:   { label: 'Email',   icon: '' },
   slack:   { label: 'Slack',   icon: '#' },
   teams:   { label: 'Teams',   icon: 'T' },
   push:    { label: 'Push',    icon: '◔' },
-  sms:     { label: 'SMS',     icon: '✆' },
-  webhook: { label: 'Webhook', icon: '⚙' },
+  sms:     { label: 'SMS',     icon: '' },
+  webhook: { label: 'Webhook', icon: '' },
 }
 
 const REGLAS_INI: Regla[] = [
@@ -147,7 +147,7 @@ const HIST_INI: HistEntry[] = [
 function SevChip({ sev }: { sev: Severidad }) {
   const m = SEV_META[sev]
   return (
-    <span style={{
+ <span style={{
       fontSize: 9.5, fontWeight: 800, letterSpacing: '0.08em',
       color: '#fff', background: m.color, padding: '2px 8px', borderRadius: 999,
       whiteSpace: 'nowrap',
@@ -157,7 +157,7 @@ function SevChip({ sev }: { sev: Severidad }) {
 function CatChip({ cat }: { cat: Categoria }) {
   const c = CAT_COLOR[cat]
   return (
-    <span style={{
+ <span style={{
       fontSize: 10, fontWeight: 700, letterSpacing: '0.04em',
       color: c, background: `${c}14`, border: `1px solid ${c}33`,
       padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase',
@@ -167,7 +167,7 @@ function CatChip({ cat }: { cat: Categoria }) {
 function CanalIcon({ id }: { id: Canal }) {
   const m = CANAL_META[id]
   return (
-    <span title={m.label} style={{
+ <span title={m.label} style={{
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: 22, height: 22, borderRadius: 6,
       background: '#F5F5F7', border: '1px solid #ECECEF',
@@ -178,7 +178,7 @@ function CanalIcon({ id }: { id: Canal }) {
 }
 function Avatar({ initials, size = 32 }: { initials: string; size?: number }) {
   return (
-    <span style={{
+ <span style={{
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: size, height: size, borderRadius: '50%',
       background: 'linear-gradient(135deg,#1F4E8C 0%,#0F2A4F 100%)', color: '#fff',
@@ -189,45 +189,45 @@ function Avatar({ initials, size = 32 }: { initials: string; size?: number }) {
 }
 function KPICard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
   return (
-    <div style={{
+ <div style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 16,
       padding: '14px 16px 12px', position: 'relative', overflow: 'hidden',
       boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
-      <div style={{
+ <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
+ <div style={{
         fontSize: 10, fontWeight: 700, letterSpacing: '0.10em',
         color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6,
       }}>{label}</div>
-      <div style={{
+ <div style={{
         fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700,
         letterSpacing: '-0.022em', lineHeight: 1, color: accent,
         fontVariantNumeric: 'tabular-nums',
       }}>{value}</div>
       {sub && <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 5 }}>{sub}</div>}
-    </div>
+ </div>
   )
 }
 function Card({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <section style={{
+ <section style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 18,
       padding: '20px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <h2 style={{
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+ <h2 style={{
           fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d', margin: 0,
         }}>{title}</h2>
         {action}
-      </div>
+ </div>
       {children}
-    </section>
+ </section>
   )
 }
 function Toggle({ on, onChange }: { on: boolean; onChange: (n: boolean) => void }) {
   return (
-    <button
+ <button
       onClick={() => onChange(!on)}
       role="switch"
       aria-checked={on}
@@ -237,7 +237,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (n: boolean) => void 
         border: 'none', cursor: 'pointer', position: 'relative',
         transition: 'background 180ms', flexShrink: 0,
       }}>
-      <span style={{
+ <span style={{
         position: 'absolute', top: 2,
         left: on ? 18 : 2,
         width: 18, height: 18, borderRadius: '50%',
@@ -245,7 +245,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (n: boolean) => void 
         boxShadow: '0 1px 3px rgba(0,0,0,0.20)',
         transition: 'left 180ms ease-out',
       }}/>
-    </button>
+ </button>
   )
 }
 
@@ -271,57 +271,57 @@ export default function AlertasConfigPage() {
   }, [reglas, canales, destinatarios])
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
-      <AppHeader/>
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
+ <AppHeader/>
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* Hero */}
-        <section style={{
+ <section style={{
           background: 'linear-gradient(135deg,#1F4E8C 0%,#0F2A4F 100%)',
           borderRadius: 18, padding: '28px 36px', marginBottom: 18, color: '#fff',
           display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 32, alignItems: 'center',
         }}>
-          <div>
-            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
+ <div>
+ <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
                         textTransform: 'uppercase', margin: '0 0 8px' }}>
               CONFIGURACIÓN · SISTEMA DE ALERTAS
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700,
+ </p>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700,
                           letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
               {totals.activas} reglas activas <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.75)' }}>vigilando.</em>
-            </h1>
-            <p style={{ fontSize: 13, opacity: 0.78, margin: 0, lineHeight: 1.5 }}>
+ </h1>
+ <p style={{ fontSize: 13, opacity: 0.78, margin: 0, lineHeight: 1.5 }}>
               Define qué eventos disparan una alerta, por qué canales se envían, a quién y con qué severidad.
               {' '}{totals.criticas} críticas · {totals.canalesAct} canales activos · {totals.dest} destinatarios.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
+ </p>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
             {[
               { l: 'Reglas activas', v: totals.activas },
               { l: 'Disparos 7d',    v: totals.disparos7d },
               { l: 'Canales',        v: totals.canalesAct },
             ].map((k) => (
-              <div key={k.l} style={{
+ <div key={k.l} style={{
                 textAlign: 'center', padding: '12px 8px', borderRadius: 12,
                 background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)',
               }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, lineHeight: 1, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{k.v}</div>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.75, marginTop: 5, textTransform: 'uppercase', color: '#fff' }}>{k.l}</div>
-              </div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, lineHeight: 1, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{k.v}</div>
+ <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.75, marginTop: 5, textTransform: 'uppercase', color: '#fff' }}>{k.l}</div>
+ </div>
             ))}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {/* KPI strip */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
-          <KPICard label="Reglas activas"          value={totals.activas}    accent="#1F4E8C" sub={`${totals.criticas} críticas`}/>
-          <KPICard label="Disparos últimos 7 días" value={totals.disparos7d} accent="#F97316" sub="distribuidos en categorías"/>
-          <KPICard label="Canales habilitados"     value={totals.canalesAct} accent="#0F766E" sub="email · slack · push · sms"/>
-          <KPICard label="Destinatarios"           value={totals.dest}       accent="#7C3AED" sub="con configuración por severidad"/>
-        </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
+ <KPICard label="Reglas activas" value={totals.activas}    accent="#1F4E8C" sub={`${totals.criticas} críticas`}/>
+ <KPICard label="Disparos últimos 7 días" value={totals.disparos7d} accent="#F97316" sub="distribuidos en categorías"/>
+ <KPICard label="Canales habilitados" value={totals.canalesAct} accent="#0F766E" sub="email · slack · push · sms"/>
+ <KPICard label="Destinatarios" value={totals.dest}       accent="#7C3AED" sub="con configuración por severidad"/>
+ </div>
 
         {/* Tabs pill */}
-        <div style={{
+ <div style={{
           display: 'inline-flex', background: '#F5F5F7', borderRadius: 999,
           padding: 4, marginBottom: 18, overflowX: 'auto', maxWidth: '100%',
         }}>
@@ -334,7 +334,7 @@ export default function AlertasConfigPage() {
           ] as const).map((t) => {
             const active = tab === t.k
             return (
-              <button key={t.k} onClick={() => setTab(t.k)} style={{
+ <button key={t.k} onClick={() => setTab(t.k)} style={{
                 background: active ? '#fff' : 'transparent',
                 color: active ? '#1d1d1f' : '#6e6e73',
                 border: 'none', borderRadius: 999, padding: '7px 16px',
@@ -345,13 +345,13 @@ export default function AlertasConfigPage() {
               }}>{t.l}</button>
             )
           })}
-        </div>
+ </div>
 
         {/* TAB · Reglas */}
         {tab === 'reglas' && (
-          <div>
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 14 }}>
-              <input
+ <div>
+ <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 14 }}>
+ <input
                 type="text"
                 placeholder="Buscar regla…"
                 value={searchQ}
@@ -362,13 +362,13 @@ export default function AlertasConfigPage() {
                   outline: 'none', minWidth: 220,
                 }}
               />
-              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
-              <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 4 }}>
+ <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
+ <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 4 }}>
                 {(['Todas', 'Mercados', 'Gobierno', 'Parlamento', 'Encuestas', 'Geopolítica', 'Medios', 'Riesgo'] as const).map((c) => {
                   const active = filterCat === c
                   const cc = c === 'Todas' ? '#1d1d1f' : CAT_COLOR[c]
                   return (
-                    <button key={c} onClick={() => setFilterCat(c)} style={{
+ <button key={c} onClick={() => setFilterCat(c)} style={{
                       background: active ? cc : '#fff',
                       color: active ? '#fff' : '#3a3a3d',
                       border: `1px solid ${active ? cc : '#ECECEF'}`,
@@ -378,129 +378,129 @@ export default function AlertasConfigPage() {
                     }}>{c}</button>
                   )
                 })}
-              </div>
-              <span style={{ flex: 1 }}/>
-              <button style={{
+ </div>
+ <span style={{ flex: 1 }}/>
+ <button style={{
                 background: '#1F4E8C', color: '#fff', border: 'none', borderRadius: 8,
                 padding: '7px 14px', fontSize: 12, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'inherit',
               }}>+ Nueva regla</button>
-            </div>
+ </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {reglas
                 .filter((r) => filterCat === 'Todas' || r.categoria === filterCat)
                 .filter((r) => !searchQ.trim() || r.nombre.toLowerCase().includes(searchQ.toLowerCase()))
                 .map((r) => {
                   const sev = SEV_META[r.severidad]
                   return (
-                    <article key={r.id} style={{
+ <article key={r.id} style={{
                       background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
                       padding: '14px 18px',
                       borderLeft: `4px solid ${sev.color}`,
                       display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 16, alignItems: 'center',
                     }}>
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-                          <SevChip sev={r.severidad}/>
-                          <CatChip cat={r.categoria}/>
-                          <span style={{ fontSize: 11, color: '#6e6e73' }}>· {r.disparosUltimos7d} disparos en 7d</span>
-                        </div>
-                        <h3 style={{
+ <div style={{ minWidth: 0 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
+ <SevChip sev={r.severidad}/>
+ <CatChip cat={r.categoria}/>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>· {r.disparosUltimos7d} disparos en 7d</span>
+ </div>
+ <h3 style={{
                           margin: '0 0 4px', fontFamily: 'var(--font-display)', fontSize: 15,
                           fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
                         }}>{r.nombre}</h3>
-                        <code style={{
+ <code style={{
                           fontFamily: 'ui-monospace,monospace', fontSize: 11,
                           color: '#6e6e73', background: '#F5F5F7', padding: '2px 8px',
                           borderRadius: 6, display: 'inline-block',
                         }}>{r.condicion}</code>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontSize: 11, color: '#6e6e73' }}>{r.activa ? 'Activa' : 'Pausada'}</span>
-                        <Toggle on={r.activa} onChange={(n) => setReglas((rs) => rs.map((x) => x.id === r.id ? { ...x, activa: n } : x))}/>
-                      </div>
-                      <button style={{
+ </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>{r.activa ? 'Activa' : 'Pausada'}</span>
+ <Toggle on={r.activa} onChange={(n) => setReglas((rs) => rs.map((x) => x.id === r.id ? { ...x, activa: n } : x))}/>
+ </div>
+ <button style={{
                         background: 'transparent', border: '1px solid #ECECEF', borderRadius: 8,
                         padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
                         cursor: 'pointer', fontFamily: 'inherit',
                       }}>Editar</button>
-                    </article>
+ </article>
                   )
                 })}
-            </div>
-          </div>
+ </div>
+ </div>
         )}
 
         {/* TAB · Canales */}
         {tab === 'canales' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12 }}>
             {canales.map((c) => (
-              <Card key={c.id} title={c.nombre.toUpperCase()}
+ <Card key={c.id} title={c.nombre.toUpperCase()}
                 action={<Toggle on={c.habilitado} onChange={(n) => setCanales((cs) => cs.map((x) => x.id === c.id ? { ...x, habilitado: n } : x))}/>}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-                  <CanalIcon id={c.id}/>
-                  <code style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+ <CanalIcon id={c.id}/>
+ <code style={{
                     fontFamily: 'ui-monospace,monospace', fontSize: 12,
                     color: c.habilitado ? '#1d1d1f' : '#9CA3AF',
                     background: '#F5F5F7', padding: '4px 10px', borderRadius: 6,
                     flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   }}>{c.destino}</code>
-                </div>
-                <p style={{ fontSize: 12, color: '#515154', margin: '0 0 12px', lineHeight: 1.45 }}>{c.descripcion}</p>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <button style={{
+ </div>
+ <p style={{ fontSize: 12, color: '#515154', margin: '0 0 12px', lineHeight: 1.45 }}>{c.descripcion}</p>
+ <div style={{ display: 'flex', gap: 8 }}>
+ <button style={{
                     background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
                     padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
                     cursor: 'pointer', fontFamily: 'inherit',
                   }}>Configurar</button>
-                  <button style={{
+ <button style={{
                     background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
                     padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
                     cursor: 'pointer', fontFamily: 'inherit',
                   }}>Probar envío</button>
-                </div>
-              </Card>
+ </div>
+ </Card>
             ))}
-          </div>
+ </div>
         )}
 
         {/* TAB · Destinatarios */}
         {tab === 'destinatarios' && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <p style={{ fontSize: 12, color: '#6e6e73', margin: 0 }}>
+ <div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+ <p style={{ fontSize: 12, color: '#6e6e73', margin: 0 }}>
                 Cada destinatario recibe alertas según las severidades y canales configurados.
-              </p>
-              <button style={{
+ </p>
+ <button style={{
                 background: '#1F4E8C', color: '#fff', border: 'none', borderRadius: 8,
                 padding: '7px 14px', fontSize: 12, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'inherit',
               }}>+ Añadir destinatario</button>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(360px,1fr))', gap: 12 }}>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(360px,1fr))', gap: 12 }}>
               {destinatarios.map((d) => (
-                <article key={d.id} style={{
+ <article key={d.id} style={{
                   background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
                   padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                    <Avatar initials={d.iniciales} size={40}/>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: '#1d1d1f' }}>{d.nombre}</div>
-                      <div style={{ fontSize: 11, color: '#6e6e73' }}>{d.rol}</div>
-                      <div style={{ fontSize: 10.5, color: '#9CA3AF', fontFamily: 'ui-monospace,monospace' }}>{d.email}</div>
-                    </div>
-                  </div>
-                  <div style={{ marginBottom: 8 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>Recibe severidades</div>
-                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+ <Avatar initials={d.iniciales} size={40}/>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: '#1d1d1f' }}>{d.nombre}</div>
+ <div style={{ fontSize: 11, color: '#6e6e73' }}>{d.rol}</div>
+ <div style={{ fontSize: 10.5, color: '#9CA3AF', fontFamily: 'ui-monospace,monospace' }}>{d.email}</div>
+ </div>
+ </div>
+ <div style={{ marginBottom: 8 }}>
+ <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>Recibe severidades</div>
+ <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                       {(['CRÍTICA', 'ALTA', 'MEDIA', 'BAJA'] as Severidad[]).map((s) => {
                         const active = d.recibe.includes(s)
                         const m = SEV_META[s]
                         return (
-                          <button key={s}
+ <button key={s}
                             onClick={() => setDestinatarios((ds) => ds.map((x) => x.id === d.id ? {
                               ...x, recibe: active ? x.recibe.filter((y) => y !== s) : [...x.recibe, s],
                             } : x))}
@@ -514,46 +514,46 @@ export default function AlertasConfigPage() {
                             }}>{s}</button>
                         )
                       })}
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>Canales</div>
-                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+ </div>
+ </div>
+ <div>
+ <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>Canales</div>
+ <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                       {d.canales.map((c) => (
-                        <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#3a3a3d', background: '#F5F5F7', padding: '3px 8px', borderRadius: 999 }}>
-                          <CanalIcon id={c}/> {CANAL_META[c].label}
-                        </span>
+ <span key={c} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#3a3a3d', background: '#F5F5F7', padding: '3px 8px', borderRadius: 999 }}>
+ <CanalIcon id={c}/> {CANAL_META[c].label}
+ </span>
                       ))}
-                    </div>
-                  </div>
-                </article>
+ </div>
+ </div>
+ </article>
               ))}
-            </div>
-          </div>
+ </div>
+ </div>
         )}
 
         {/* TAB · Umbrales */}
         {tab === 'umbrales' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {umbrales.map((u) => {
               const sev = SEV_META[u.severidad]
               return (
-                <article key={u.id} style={{
+ <article key={u.id} style={{
                   background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
                   padding: '16px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                   display: 'grid', gridTemplateColumns: '1fr 220px 120px', gap: 22, alignItems: 'center',
                 }}>
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <SevChip sev={u.severidad}/>
-                      <h3 style={{
+ <div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+ <SevChip sev={u.severidad}/>
+ <h3 style={{
                         margin: 0, fontFamily: 'var(--font-display)', fontSize: 14,
                         fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
                       }}>{u.metrica}</h3>
-                    </div>
-                    <p style={{ fontSize: 11.5, color: '#6e6e73', margin: 0 }}>{u.hint}</p>
-                  </div>
-                  <input
+ </div>
+ <p style={{ fontSize: 11.5, color: '#6e6e73', margin: 0 }}>{u.hint}</p>
+ </div>
+ <input
                     type="range"
                     min={u.min}
                     max={u.max}
@@ -562,68 +562,68 @@ export default function AlertasConfigPage() {
                     onChange={(e) => setUmbrales((us) => us.map((x) => x.id === u.id ? { ...x, valor: parseFloat(e.target.value) } : x))}
                     style={{ width: '100%', accentColor: sev.color, cursor: 'pointer' }}
                   />
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{
+ <div style={{ textAlign: 'right' }}>
+ <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
                       color: sev.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
                     }}>
                       {u.valor > 0 && u.min < 0 ? '+' : ''}{u.valor.toFixed(u.step < 1 ? 2 : 0)} <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>{u.unidad}</span>
-                    </div>
-                    <div style={{ fontSize: 10, color: '#9CA3AF', marginTop: 2 }}>min {u.min} · max {u.max}</div>
-                  </div>
-                </article>
+ </div>
+ <div style={{ fontSize: 10, color: '#9CA3AF', marginTop: 2 }}>min {u.min} · max {u.max}</div>
+ </div>
+ </article>
               )
             })}
-          </div>
+ </div>
         )}
 
         {/* TAB · Historial */}
         {tab === 'historial' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {HIST_INI.map((h) => {
               const sev = SEV_META[h.severidad]
               const estadoColor = h.estado === 'enviada' ? '#16A34A' : h.estado === 'silenciada' ? '#F97316' : '#DC2626'
               return (
-                <article key={h.id} style={{
+ <article key={h.id} style={{
                   background: '#fff', border: '1px solid #ECECEF', borderRadius: 12,
                   padding: '12px 16px',
                   borderLeft: `4px solid ${sev.color}`,
                   display: 'grid', gridTemplateColumns: '110px 1fr auto auto', gap: 16, alignItems: 'center',
                 }}>
-                  <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', fontFamily: 'ui-monospace,monospace' }}>{h.ts.split(' · ')[0]}</div>
-                    <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 1 }}>{h.ts.split(' · ')[1]}</div>
-                  </div>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                      <SevChip sev={h.severidad}/>
-                      <CatChip cat={h.categoria}/>
-                    </div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.reglaNombre}</div>
-                  </div>
-                  <div style={{ display: 'flex', gap: 5 }}>
+ <div>
+ <div style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', fontFamily: 'ui-monospace,monospace' }}>{h.ts.split(' · ')[0]}</div>
+ <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 1 }}>{h.ts.split(' · ')[1]}</div>
+ </div>
+ <div style={{ minWidth: 0 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+ <SevChip sev={h.severidad}/>
+ <CatChip cat={h.categoria}/>
+ </div>
+ <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.reglaNombre}</div>
+ </div>
+ <div style={{ display: 'flex', gap: 5 }}>
                     {h.canalesEnviados.length > 0
                       ? h.canalesEnviados.map((c) => <CanalIcon key={c} id={c}/>)
                       : <span style={{ fontSize: 11, color: '#9CA3AF' }}>—</span>}
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <span style={{
+ </div>
+ <div style={{ textAlign: 'right' }}>
+ <span style={{
                       fontSize: 9.5, fontWeight: 800, letterSpacing: '0.08em',
                       color: '#fff', background: estadoColor,
                       padding: '3px 8px', borderRadius: 999, textTransform: 'uppercase',
                     }}>{h.estado}</span>
-                    <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 4 }}>{h.destinatariosCount} destinatarios</div>
-                  </div>
-                </article>
+ <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 4 }}>{h.destinatariosCount} destinatarios</div>
+ </div>
+ </article>
               )
             })}
-          </div>
+ </div>
         )}
 
-      </main>
-      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
+ </main>
+ <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
         Configuración · Sistema de Alertas · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }

@@ -99,43 +99,43 @@ export default function NarrativeLifecycle() {
   }), [items])
 
   return (
-    <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '24px 28px', marginTop: 22 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-        <div>
-          <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
+ <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '24px 28px', marginTop: 22 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+ <div>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
             Inteligencia narrativa
-          </p>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>
+ </p>
+ <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>
             Narrativas activas · ciclo de vida
-          </h3>
-          <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6e6e73' }}>
+ </h3>
+ <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6e6e73' }}>
             Click en cada tarjeta para expandir el ciclo, promotores y acción recomendada.
-          </p>
-        </div>
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+ </p>
+ </div>
+ <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {[
             { l: 'Total', v: stats.total, c: '#1d1d1f' },
             { l: 'En peak', v: stats.peak, c: '#c42c2c' },
             { l: 'Emergentes', v: stats.emergence, c: '#b25000' },
             { l: 'En declive', v: stats.decline, c: '#6e6e73' },
           ].map(p => (
-            <span key={p.l} style={{
+ <span key={p.l} style={{
               padding: '5px 12px', borderRadius: 999, background: `${p.c}10`, border: `1px solid ${p.c}30`,
               fontSize: 11, color: '#1d1d1f',
             }}>
               {p.l}: <strong style={{ color: p.c, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700 }}>{p.v}</strong>
-            </span>
+ </span>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
         {items.map(n => {
           const isExpanded = expanded === n.id
           const stepIdx = STEPS.indexOf((n.lifecycle as Lifecycle) ?? 'emergence')
           const lcColor = lifecycleColor(n.lifecycle)
           return (
-            <div key={n.id}
+ <div key={n.id}
               onClick={() => setExpanded(isExpanded ? null : n.id)}
               style={{
                 padding: '16px 18px', borderRadius: 14,
@@ -143,94 +143,94 @@ export default function NarrativeLifecycle() {
                 cursor: 'pointer', transition: 'border-color 200ms ease, box-shadow 200ms ease',
                 boxShadow: isExpanded ? `0 4px 16px ${lcColor}18` : 'none',
               }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
-                <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.3 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
+ <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.3 }}>
                   {n.frame_label ?? n.title ?? n.id}
-                </h4>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-                  <span style={{
+ </h4>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+ <span style={{
                     padding: '2px 8px', borderRadius: 999, background: `${lcColor}18`, color: lcColor,
                     fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                   }}>{n.lifecycle}</span>
-                  <span style={{ fontSize: 10, color: '#6e6e73' }}>{isExpanded ? '▼' : '▶'}</span>
-                </div>
-              </div>
+ <span style={{ fontSize: 10, color: '#6e6e73' }}>{isExpanded ? '▼' : '▶'}</span>
+ </div>
+ </div>
 
               {!isExpanded && n.central_claim && (
-                <p style={{
+ <p style={{
                   margin: '0 0 10px', fontSize: 11.5, color: '#424245', lineHeight: 1.5,
                   display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
                 }}>{n.central_claim}</p>
               )}
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11, color: '#6e6e73', flexWrap: 'wrap', marginBottom: isExpanded ? 12 : 0 }}>
-                <span>{n.article_count ?? 0} artículos</span>
-                <span>·</span>
-                <span style={{ color: n.velocity === 'up' ? '#c42c2c' : n.velocity === 'down' ? '#2d8a39' : '#6e6e73' }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11, color: '#6e6e73', flexWrap: 'wrap', marginBottom: isExpanded ? 12 : 0 }}>
+ <span>{n.article_count ?? 0} artículos</span>
+ <span>·</span>
+ <span style={{ color: n.velocity === 'up' ? '#c42c2c' : n.velocity === 'down' ? '#2d8a39' : '#6e6e73' }}>
                   {n.velocity === 'up' ? '▲ subiendo' : n.velocity === 'down' ? '▼ bajando' : '→ estable'}
-                </span>
+ </span>
                 {n.dominant_emotion && (
-                  <>
-                    <span>·</span>
-                    <span style={{
+ <>
+ <span>·</span>
+ <span style={{
                       padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontWeight: 600,
                     }}>{n.dominant_emotion}</span>
-                  </>
+ </>
                 )}
-              </div>
+ </div>
 
               {isExpanded && (
-                <div style={{ marginTop: 4 }}>
+ <div style={{ marginTop: 4 }}>
                   {n.central_claim && (
-                    <blockquote style={{
+ <blockquote style={{
                       borderLeft: `3px solid ${lcColor}`, paddingLeft: 12, margin: '0 0 14px',
                       fontSize: 12, color: '#424245', fontStyle: 'italic', lineHeight: 1.5,
                     }}>
                       {n.central_claim}
-                    </blockquote>
+ </blockquote>
                   )}
 
                   {(n.promoters?.length ?? 0) > 0 && (
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+ <div style={{ marginBottom: 14 }}>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
                         Promotores
-                      </div>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+ </div>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
                         {n.promoters!.map(p => (
-                          <span key={p} style={{
+ <span key={p} style={{
                             fontSize: 10.5, padding: '3px 9px', borderRadius: 999,
                             background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontWeight: 600,
                           }}>{p}</span>
                         ))}
-                      </div>
-                    </div>
+ </div>
+ </div>
                   )}
 
                   {n.recommended_action && (
-                    <div style={{
+ <div style={{
                       padding: '10px 14px', background: '#f5f9ff', border: '1px solid #cfe0f3', borderRadius: 10, marginBottom: 14,
                     }}>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#1F4E8C', textTransform: 'uppercase', marginBottom: 4 }}>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#1F4E8C', textTransform: 'uppercase', marginBottom: 4 }}>
                         Acción recomendada
-                      </div>
-                      <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.5 }}>{n.recommended_action}</div>
-                    </div>
+ </div>
+ <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.5 }}>{n.recommended_action}</div>
+ </div>
                   )}
 
                   {/* 3-step lifecycle progress */}
-                  <div>
-                    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 8 }}>
+ <div>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 8 }}>
                       Ciclo de vida
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+ </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       {STEPS.map((step, i) => {
                         const reached = i <= stepIdx
                         const isCurrent = i === stepIdx
                         const dateKey = step === 'emergence' ? n.emergence_date : step === 'peak' ? n.peak_date : n.decline_date
                         return (
-                          <div key={step} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-                            <div style={{ flex: 1, textAlign: 'center' }}>
-                              <div style={{
+ <div key={step} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+ <div style={{ flex: 1, textAlign: 'center' }}>
+ <div style={{
                                 width: 26, height: 26, borderRadius: '50%',
                                 background: reached ? lcColor : '#fff',
                                 border: `2px solid ${reached ? lcColor : '#e8e8ed'}`,
@@ -241,34 +241,34 @@ export default function NarrativeLifecycle() {
                                 transition: 'all 200ms ease',
                               }}>
                                 {i + 1}
-                              </div>
-                              <div style={{ fontSize: 10, color: reached ? '#1d1d1f' : '#6e6e73', marginTop: 4, fontWeight: isCurrent ? 600 : 400 }}>
+ </div>
+ <div style={{ fontSize: 10, color: reached ? '#1d1d1f' : '#6e6e73', marginTop: 4, fontWeight: isCurrent ? 600 : 400 }}>
                                 {STEP_LABELS[step]}
-                              </div>
+ </div>
                               {dateKey && (
-                                <div style={{ fontSize: 9, color: '#6e6e73', marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>
+ <div style={{ fontSize: 9, color: '#6e6e73', marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>
                                   {dateKey}
-                                </div>
+ </div>
                               )}
-                            </div>
+ </div>
                             {i < 2 && (
-                              <div style={{
+ <div style={{
                                 flex: 0.6, height: 2,
                                 background: i < stepIdx ? lcColor : '#e8e8ed',
                                 marginTop: -28, // align with circle center
                               }} />
                             )}
-                          </div>
+ </div>
                         )
                       })}
-                    </div>
-                  </div>
-                </div>
+ </div>
+ </div>
+ </div>
               )}
-            </div>
+ </div>
           )
         })}
-      </div>
-    </section>
+ </div>
+ </section>
   )
 }

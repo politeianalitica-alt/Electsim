@@ -8,19 +8,19 @@ import type { DomoNotification, AlertSeverity, NotificationType } from '@/types/
 import styles from './NotificationBell.module.css'
 
 const TYPE_GLYPH: Record<NotificationType, string> = {
-  alert_triggered:  '!',
-  alert_resolved:   '✓',
+  alert_triggered: '!',
+  alert_resolved: '',
   dashboard_shared: '⊡',
-  dataset_updated:  '↻',
-  pipeline_failed:  '×',
+  dataset_updated: '↻',
+  pipeline_failed: '×',
   pipeline_success: '●',
-  mention:          '@',
-  system:           'i',
+  mention: '@',
+  system: 'i',
 }
 
 const SEV_COLORS: Record<AlertSeverity, string> = {
-  info:     '#3b82f6',
-  warning:  '#f59e0b',
+  info: '#3b82f6',
+  warning: '#f59e0b',
   critical: '#ef4444',
 }
 
@@ -38,46 +38,46 @@ export default function NotificationBell() {
   }, [])
 
   return (
-    <div className={styles.root} ref={ref}>
-      <button
+ <div className={styles.root} ref={ref}>
+ <button
         onClick={() => setOpen(o => !o)}
         className={styles.bell}
         aria-label={`${unreadCount} notificaciones sin leer`}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-        </svg>
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+ <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+ <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+ </svg>
         {unreadCount > 0 && (
-          <span className={styles.badge}>{unreadCount > 99 ? '99+' : unreadCount}</span>
+ <span className={styles.badge}>{unreadCount > 99 ? '99+' : unreadCount}</span>
         )}
-      </button>
+ </button>
 
       {open && (
-        <div className={styles.dropdown}>
-          <div className={styles.dropdownHeader}>
-            <span className={styles.dropdownTitle}>Notificaciones</span>
-            <div className={styles.dropdownActions}>
+ <div className={styles.dropdown}>
+ <div className={styles.dropdownHeader}>
+ <span className={styles.dropdownTitle}>Notificaciones</span>
+ <div className={styles.dropdownActions}>
               {unreadCount > 0 && (
-                <button onClick={() => markAllRead()} className={styles.markAllBtn}>
+ <button onClick={() => markAllRead()} className={styles.markAllBtn}>
                   Marcar todas leídas
-                </button>
+ </button>
               )}
-              <Link href="/estudio/notificaciones" onClick={() => setOpen(false)} className={styles.seeAllLink}>
+ <Link href="/estudio/notificaciones" onClick={() => setOpen(false)} className={styles.seeAllLink}>
                 Ver todas
-              </Link>
-            </div>
-          </div>
+ </Link>
+ </div>
+ </div>
 
-          <div className={styles.list}>
+ <div className={styles.list}>
             {notifications.length === 0 ? (
-              <div className={styles.empty}>
-                <span style={{ fontSize: '1.4rem', opacity: 0.3 }}>◌</span>
-                <p>Sin notificaciones</p>
-              </div>
+ <div className={styles.empty}>
+ <span style={{ fontSize: '1.4rem', opacity: 0.3 }}>◌</span>
+ <p>Sin notificaciones</p>
+ </div>
             ) : (
               notifications.slice(0, 10).map(n => (
-                <NotificationItem
+ <NotificationItem
                   key={n.id}
                   notification={n}
                   onRead={() => { if (!n.read) markRead(n.id) }}
@@ -85,10 +85,10 @@ export default function NotificationBell() {
                 />
               ))
             )}
-          </div>
-        </div>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
@@ -101,22 +101,22 @@ function NotificationItem({ notification: n, onRead, onDelete }: {
   const color = n.severity ? SEV_COLORS[n.severity] : '#6b7280'
 
   const inner = (
-    <div className={`${styles.item} ${!n.read ? styles.unread : ''}`} onClick={onRead}>
-      <span className={styles.itemIcon} style={{ color, background: `${color}15` }}>{glyph}</span>
-      <div className={styles.itemBody}>
-        <div className={styles.itemTitle}>{n.title}</div>
-        <div className={styles.itemBody2}>{n.body}</div>
-        <div className={styles.itemTime}>{timeAgo(n.createdAt)}</div>
-      </div>
-      <button
+ <div className={`${styles.item} ${!n.read ? styles.unread : ''}`} onClick={onRead}>
+ <span className={styles.itemIcon} style={{ color, background: `${color}15` }}>{glyph}</span>
+ <div className={styles.itemBody}>
+ <div className={styles.itemTitle}>{n.title}</div>
+ <div className={styles.itemBody2}>{n.body}</div>
+ <div className={styles.itemTime}>{timeAgo(n.createdAt)}</div>
+ </div>
+ <button
         onClick={e => { e.stopPropagation(); onDelete() }}
         className={styles.itemDelete}
         title="Eliminar"
-      >✕</button>
-    </div>
+      ></button>
+ </div>
   )
 
   return n.actionUrl ? (
-    <Link href={n.actionUrl} style={{ textDecoration: 'none' }}>{inner}</Link>
+ <Link href={n.actionUrl} style={{ textDecoration: 'none' }}>{inner}</Link>
   ) : inner
 }

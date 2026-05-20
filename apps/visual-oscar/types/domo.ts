@@ -623,12 +623,12 @@ export interface OrgTeam {
 export type AuditAction =
   | 'dashboard.view' | 'dashboard.create' | 'dashboard.edit'
   | 'dashboard.delete' | 'dashboard.share'
-  | 'dataset.view'   | 'dataset.create'   | 'dataset.edit'
+  | 'dataset.view' | 'dataset.create' | 'dataset.edit'
   | 'dataset.delete' | 'dataset.export'
-  | 'pipeline.run'   | 'pipeline.create'  | 'pipeline.delete'
-  | 'alert.create'   | 'alert.trigger'    | 'alert.delete'
+  | 'pipeline.run' | 'pipeline.create' | 'pipeline.delete'
+  | 'alert.create' | 'alert.trigger' | 'alert.delete'
   | 'query.run'
-  | 'member.invite'  | 'member.remove'    | 'member.role_change'
+  | 'member.invite' | 'member.remove' | 'member.role_change'
   | 'api_key.create' | 'api_key.revoke'
 
 export interface AuditLog {

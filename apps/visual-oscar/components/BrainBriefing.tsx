@@ -55,7 +55,7 @@ const WELCOME_TEXT = 'El PP consolida su liderazgo en intención de voto (+0,4 p
  * Renderer ligero de markdown para respuestas del Brain.
  * Soporta:
  *   - **negrita** → <strong style="color:#fbbf24">
- *   - `código`   → <code>
+ *   - `código` → <code>
  *   - [texto](url) → <a target="_blank">
  *   - /rutas-del-dashboard (autodetectado) → <a>
  *   - · bullets, líneas con "- " al inicio
@@ -70,13 +70,13 @@ function renderBrainMarkdown(text: string): React.ReactNode {
     const content = isBullet ? trimmed.slice(2) : line
     const rendered = renderInline(content)
     return (
-      <div key={lineIdx} style={{
+ <div key={lineIdx} style={{
         marginTop: lineIdx === 0 ? 0 : 2,
         paddingLeft: isBullet ? 14 : 0,
         position: 'relative',
       }}>
         {isBullet && (
-          <span style={{
+ <span style={{
             position: 'absolute', left: 2, top: 0,
             color: 'rgba(167,139,250,0.7)', fontWeight: 700,
           }}>·</span>
@@ -84,7 +84,7 @@ function renderBrainMarkdown(text: string): React.ReactNode {
         {rendered}
         {/* No insertar <br/> si la línea está vacía solo (espaciado natural) */}
         {line === '' && <span>&nbsp;</span>}
-      </div>
+ </div>
     )
   })
 }
@@ -142,7 +142,7 @@ export default function BrainBriefing() {
 
   // Briefing real desde el backend ElectSim · refresh cada 5 min
   const { data: briefing, source, updatedAt, refresh } = useApi<BriefingResponse>(
-    '/api/briefings/morning?workspace_id=default',
+ '/api/briefings/morning?workspace_id=default',
     { refreshInterval: 300_000 }
   )
 
@@ -295,125 +295,125 @@ export default function BrainBriefing() {
   function onSubmit(e: FormEvent) { e.preventDefault(); ask(input) }
 
   return (
-    <section style={{
+ <section style={{
       background: 'linear-gradient(135deg,#0F1F3D 0%,#0A1428 100%)',
       borderRadius: 22, padding: '28px 32px 24px', marginBottom: 22, color: '#e8e8ed',
       position: 'relative', overflow: 'hidden',
     }}>
       {/* Glow decorativo */}
-      <div style={{ position: 'absolute', top: -120, right: -120, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(91,33,182,0.35) 0%, transparent 70%)', pointerEvents: 'none' }}/>
-      <div style={{ position: 'absolute', bottom: -100, left: -80, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(31,78,140,0.25) 0%, transparent 70%)', pointerEvents: 'none' }}/>
+ <div style={{ position: 'absolute', top: -120, right: -120, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(91,33,182,0.35) 0%, transparent 70%)', pointerEvents: 'none' }}/>
+ <div style={{ position: 'absolute', bottom: -100, left: -80, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(31,78,140,0.25) 0%, transparent 70%)', pointerEvents: 'none' }}/>
 
-      <div style={{ position: 'relative' }}>
+ <div style={{ position: 'relative' }}>
 
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 16, flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 16, flexWrap: 'wrap' }}>
+ <div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
                 BRIEFING MATINAL · POLITEIA
-              </span>
+ </span>
               {briefingMode === 'real' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#fff', background: '#10b981', padding: '2px 6px', borderRadius: 4 }}>LIVE</span>}
               {briefingMode === 'demo' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#0F1F3D', background: '#fbbf24', padding: '2px 6px', borderRadius: 4 }}>DEMO</span>}
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </div>
-            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 28, letterSpacing: '-0.022em', lineHeight: 1.1, color: '#fff' }}>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+ </div>
+ <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 28, letterSpacing: '-0.022em', lineHeight: 1.1, color: '#fff' }}>
               Buenos días, <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>Analista</em>
-            </h2>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span style={{ textTransform: 'capitalize' }}>{today}</span>
-            </div>
-          </div>
-          <Link href="/briefing" style={{
+ </h2>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+ <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+ </svg>
+ <span style={{ textTransform: 'capitalize' }}>{today}</span>
+ </div>
+ </div>
+ <Link href="/briefing" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
             color: '#fff', padding: '7px 14px', borderRadius: 999,
             fontSize: 11.5, fontWeight: 600, textDecoration: 'none', flexShrink: 0,
           }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Ver briefing completo
-          </Link>
-        </div>
+ </Link>
+ </div>
 
         {/* Texto narrativo · viene del backend si está conectado.
             Marcado como INFERIDO para que el usuario sepa que es lectura
             analítica generada por el modelo, no datos crudos. */}
-        <div style={{
+ <div style={{
           margin: '0 0 14px', padding: '12px 16px', borderRadius: 10,
           background: 'rgba(37,99,235,0.10)', borderLeft: '3px solid #60A5FA',
           border: '1px solid rgba(96,165,250,0.25)',
         }}>
-          <div style={{
+ <div style={{
             display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6,
             fontSize: 10, fontWeight: 800, color: '#93C5FD',
             letterSpacing: '0.10em', textTransform: 'uppercase',
           }}>
-            <span>◆</span>LECTURA ANALÍTICA · INFERIDO
-            <span title="Interpretación derivada por el modelo a partir de las señales SIGINT disponibles · requiere validación humana antes de informar decisiones."
+ <span>◆</span>LECTURA ANALÍTICA · INFERIDO
+ <span title="Interpretación derivada por el modelo a partir de las señales SIGINT disponibles · requiere validación humana antes de informar decisiones."
                   style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                     width: 12, height: 12, borderRadius: '50%',
                     background: 'rgba(147,197,253,0.20)', color: '#93C5FD',
                     fontSize: 8, fontWeight: 800, cursor: 'help', marginLeft: 2,
                   }}>?</span>
-          </div>
-          <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: '#fff', maxWidth: 980 }}>
+ </div>
+ <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: '#fff', maxWidth: 980 }}>
             {welcomeText}
-          </p>
-        </div>
+ </p>
+ </div>
 
         {/* Preguntas predefinidas · 3 del backend o las locales como fallback.
             Marcadas como PROYECTADO (escenarios para explorar) */}
-        <div style={{
+ <div style={{
           display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8,
           fontSize: 10, fontWeight: 800, color: 'rgba(252,211,77,0.95)',
           letterSpacing: '0.10em', textTransform: 'uppercase',
         }}>
-          <span>◐</span>ESCENARIOS PARA EXPLORAR · PROYECTADO
-          <span title="Posibles evoluciones · hipótesis prospectivas · no son predicciones deterministas."
+ <span>◐</span>ESCENARIOS PARA EXPLORAR · PROYECTADO
+ <span title="Posibles evoluciones · hipótesis prospectivas · no son predicciones deterministas."
                 style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   width: 12, height: 12, borderRadius: '50%',
                   background: 'rgba(252,211,77,0.20)', color: 'rgba(252,211,77,0.95)',
                   fontSize: 8, fontWeight: 800, cursor: 'help', marginLeft: 2,
                 }}>?</span>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
           {threeQuestions.map(p => (
-            <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
+ <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
               background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)',
               color: '#fff', padding: '12px 14px', borderRadius: 12,
               cursor: thinking ? 'not-allowed' : 'pointer', textAlign: 'left',
               fontFamily: 'inherit', transition: 'all 160ms',
               display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 10, alignItems: 'flex-start',
             }}>
-              <div style={{
+ <div style={{
                 width: 22, height: 22, borderRadius: 6,
                 background: 'rgba(91,33,182,0.4)', border: '1px solid rgba(139,92,246,0.4)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0,
               }}>{p.n}</div>
-              <span style={{ fontSize: 12, lineHeight: 1.45, color: 'rgba(255,255,255,0.85)' }}>{p.q}</span>
-            </button>
+ <span style={{ fontSize: 12, lineHeight: 1.45, color: 'rgba(255,255,255,0.85)' }}>{p.q}</span>
+ </button>
           ))}
-        </div>
+ </div>
 
         {/* Conversación inline (si hay) */}
         {(messages.length > 0 || thinking) && (
-          <div ref={scrollRef} style={{
+ <div ref={scrollRef} style={{
             background: 'rgba(0,0,0,0.18)', border: '1px solid rgba(255,255,255,0.06)',
             borderRadius: 12, padding: '12px 14px', marginBottom: 14,
             maxHeight: 320, overflowY: 'auto',
             display: 'flex', flexDirection: 'column', gap: 10,
           }}>
             {messages.map((m, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '100%' }}>
+ <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '100%' }}>
                 {/* Warning banner para respuestas de conocimiento general */}
                 {m.role === 'brain' && m.fromGeneralKnowledge && (
-                  <div style={{
+ <div style={{
                     maxWidth: '88%',
                     background: 'rgba(251,191,36,0.10)',
                     border: '1px solid rgba(251,191,36,0.4)',
@@ -428,15 +428,15 @@ export default function BrainBriefing() {
                     gap: 6,
                     marginBottom: -1,
                   }}>
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10"/>
-                      <line x1="12" y1="8" x2="12" y2="12"/>
-                      <line x1="12" y1="16" x2="12.01" y2="16"/>
-                    </svg>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+ <circle cx="12" cy="12" r="10"/>
+ <line x1="12" y1="8" x2="12" y2="12"/>
+ <line x1="12" y1="16" x2="12.01" y2="16"/>
+ </svg>
                     SIN DATOS DE POLITEIA · RESPUESTA BASADA EN CONOCIMIENTO GENERAL
-                  </div>
+ </div>
                 )}
-                <div style={{
+ <div style={{
                   maxWidth: '88%',
                   padding: '8px 12px',
                   borderRadius: m.fromGeneralKnowledge ? '0 0 12px 12px' : 12,
@@ -454,26 +454,26 @@ export default function BrainBriefing() {
                   color: '#fff', fontSize: 12.5, lineHeight: 1.55,
                 }}>
                   {renderBrainMarkdown(m.text)}
-                </div>
+ </div>
                 {/* Botones CTA · rutas del dashboard mencionadas */}
                 {m.role === 'brain' && (
-                  <BrainRouteActions text={m.text} theme="dark"/>
+ <BrainRouteActions text={m.text} theme="dark"/>
                 )}
                 {/* Metadata: tools usadas + modelo + latencia (solo brain) */}
                 {m.role === 'brain' && (m.toolsUsed?.length || m.model || m.ms) && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4, maxWidth: '88%' }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4, maxWidth: '88%' }}>
                     {m.toolsUsed?.map((t, k) => (
-                      <span key={k} title={`${t.name}(${JSON.stringify(t.input)}) · ${t.ms}ms`} style={{
+ <span key={k} title={`${t.name}(${JSON.stringify(t.input)}) · ${t.ms}ms`} style={{
                         fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
                         background: 'rgba(167,139,250,0.15)', color: '#c4b5fd',
                         border: '1px solid rgba(167,139,250,0.3)', letterSpacing: '0.02em',
                         fontFamily: 'ui-monospace,monospace',
                       }}>
-                        ⚒ {t.name}
-                      </span>
+                         {t.name}
+ </span>
                     ))}
                     {m.source === 'anthropic' && m.model && (
-                      <span
+ <span
                         title={`Motor PoliteIA · ${m.tier === 'premium' ? 'modo profundo' : 'modo rápido'}${m.cost ? ` · Coste: ${m.cost.usd < 0.001 ? '<0,1¢' : (m.cost.usd * 100).toFixed(2).replace('.', ',') + '¢'}` : ''}`}
                         style={{
                           fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
@@ -484,10 +484,10 @@ export default function BrainBriefing() {
                         }}
                       >
                         PoliteIA {m.tier === 'premium' ? '· profundo' : '· rápido'}
-                      </span>
+ </span>
                     )}
                     {m.cost && m.cost.usd > 0 && (
-                      <span
+ <span
                         title="Coste estimado de esta respuesta"
                         style={{
                           fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
@@ -503,23 +503,23 @@ export default function BrainBriefing() {
                             : m.cost.usd < 1
                               ? `${Math.round(m.cost.usd * 100)}¢`
                               : `$${m.cost.usd.toFixed(2)}`}
-                      </span>
+ </span>
                     )}
                     {m.ms && m.ms > 0 && (
-                      <span style={{
+ <span style={{
                         fontSize: 9.5, color: 'rgba(255,255,255,0.45)',
                         letterSpacing: '0.02em',
                       }}>
                         {m.ms < 1000 ? `${m.ms}ms` : `${(m.ms/1000).toFixed(1)}s`}
-                      </span>
+ </span>
                     )}
-                  </div>
+ </div>
                 )}
                 {/* Follow-ups: sugerencias de pregunta de seguimiento */}
                 {m.role === 'brain' && m.followUps && m.followUps.length > 0 && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 6, maxWidth: '88%' }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 6, maxWidth: '88%' }}>
                     {m.followUps.slice(0, 3).map((fu, k) => (
-                      <button
+ <button
                         key={k}
                         type="button"
                         onClick={() => ask(fu)}
@@ -552,33 +552,33 @@ export default function BrainBriefing() {
                         }}
                       >
                         → {fu}
-                      </button>
+ </button>
                     ))}
-                  </div>
+ </div>
                 )}
-              </div>
+ </div>
             ))}
             {thinking && (
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <div style={{ padding:'8px 12px', borderRadius:12, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', display:'inline-flex', gap:4, alignItems:'center' }}>
+ <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+ <div style={{ padding:'8px 12px', borderRadius:12, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', display:'inline-flex', gap:4, alignItems:'center' }}>
                   {[0,1,2].map(i => <span key={i} style={{ width:5, height:5, borderRadius:'50%', background:'#a78bfa', animation:`brainDot 1.2s ${i*0.15}s infinite` }}/>)}
-                </div>
-              </div>
+ </div>
+ </div>
             )}
-          </div>
+ </div>
         )}
 
         {/* Quick actions · botones de prompt rápido */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
           {[
-            { label: '☀ Resumen del día', prompt: 'Resume lo más importante del día en 3 frases.' },
-            { label: '📊 Última encuesta', prompt: '¿Cómo va la última encuesta?' },
-            { label: '⚠ Alertas críticas', prompt: '¿Qué alertas críticas hay activas ahora?' },
-            { label: '🔥 Narrativas calientes', prompt: '¿Qué narrativas están acelerándose?' },
-            { label: '🏛 Estado coalición', prompt: '¿Cómo está la coalición de gobierno?' },
-            { label: '🌡 Riesgo político', prompt: '¿Cómo va el índice de riesgo?' },
+            { label: ' Resumen del día', prompt: 'Resume lo más importante del día en 3 frases.' },
+            { label: ' Última encuesta', prompt: '¿Cómo va la última encuesta?' },
+            { label: ' Alertas críticas', prompt: '¿Qué alertas críticas hay activas ahora?' },
+            { label: ' Narrativas calientes', prompt: '¿Qué narrativas están acelerándose?' },
+            { label: ' Estado coalición', prompt: '¿Cómo está la coalición de gobierno?' },
+            { label: ' Riesgo político', prompt: '¿Cómo va el índice de riesgo?' },
           ].map((qa) => (
-            <button
+ <button
               key={qa.label}
               type="button"
               disabled={thinking}
@@ -609,10 +609,10 @@ export default function BrainBriefing() {
               }}
             >
               {qa.label}
-            </button>
+ </button>
           ))}
           {messages.length > 0 && (
-            <button
+ <button
               type="button"
               onClick={() => {
                 setMessages([])
@@ -631,21 +631,21 @@ export default function BrainBriefing() {
               }}
               title="Limpiar conversación"
             >
-              ✕ Limpiar
-            </button>
+               Limpiar
+ </button>
           )}
-        </div>
+ </div>
 
         {/* Input + footer */}
-        <form onSubmit={onSubmit} style={{
+ <form onSubmit={onSubmit} style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
           borderRadius: 12, padding: '6px 6px 6px 14px',
         }}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="#a78bfa">
-            <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
-          </svg>
-          <input
+ <svg width="14" height="14" viewBox="0 0 16 16" fill="#a78bfa">
+ <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
+ </svg>
+ <input
             type="text"
             placeholder="Pregunta a Politeia sobre lo que ha pasado hoy…"
             value={input}
@@ -655,7 +655,7 @@ export default function BrainBriefing() {
               color: '#fff', fontFamily: 'inherit', fontSize: 13, padding: '8px 0',
             }}
           />
-          <button type="submit" disabled={!input.trim() || thinking} style={{
+ <button type="submit" disabled={!input.trim() || thinking} style={{
             background: input.trim() && !thinking ? 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)' : 'rgba(255,255,255,0.08)',
             color: input.trim() && !thinking ? '#fff' : 'rgba(255,255,255,0.3)',
             border: 'none', borderRadius: 8, padding: '7px 14px',
@@ -665,46 +665,46 @@ export default function BrainBriefing() {
             transition: 'all 160ms',
           }}>
             Preguntar
-            <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M2 8l12-6-3 6 3 6L2 8z"/></svg>
-          </button>
-        </form>
+ <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M2 8l12-6-3 6 3 6L2 8z"/></svg>
+ </button>
+ </form>
 
-        <div style={{
+ <div style={{
           marginTop: 12, padding: '10px 14px', borderRadius: 8,
           background: 'rgba(167,139,250,0.10)', borderLeft: '3px solid #A78BFA',
           border: '1px solid rgba(167,139,250,0.25)',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexWrap: 'wrap', gap: 8,
         }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flex: 1, minWidth: 0 }}>
-            <span style={{
+ <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flex: 1, minWidth: 0 }}>
+ <span style={{
               fontSize: 9, fontWeight: 800, color: '#C4B5FD', letterSpacing: '0.10em',
               textTransform: 'uppercase', flexShrink: 0, marginTop: 1,
               display: 'inline-flex', alignItems: 'center', gap: 4,
             }}>
-              <span>➤</span>NOTA · RECOMENDADO
-            </span>
-            <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.85)', lineHeight: 1.45 }}>
+ <span></span>NOTA · RECOMENDADO
+ </span>
+ <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.85)', lineHeight: 1.45 }}>
               {analystNote || 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.'}
-            </span>
-          </div>
-          <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600, flexShrink: 0 }}>
+ </span>
+ </div>
+ <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600, flexShrink: 0 }}>
             Profundizar con Politeia →
-          </Link>
-        </div>
-        <p style={{
+ </Link>
+ </div>
+ <p style={{
           marginTop: 8, fontSize: 10.5, color: 'rgba(255,255,255,0.4)',
           lineHeight: 1.45, fontStyle: 'italic',
         }}>
           Aviso metodológico · El briefing combina datos <em>observados</em> con
           interpretaciones <em>inferidas</em> y escenarios <em>proyectados</em>
           generados por IA. No constituye predicción determinista y requiere validación.
-        </p>
+ </p>
 
-        <style>{`
+ <style>{`
           @keyframes brainDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
-        `}</style>
-      </div>
-    </section>
+ `}</style>
+ </div>
+ </section>
   )
 }

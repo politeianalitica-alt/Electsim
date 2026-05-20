@@ -35,34 +35,34 @@ function gravedadColor(g: string) {
 export default function AdversarioPanel() {
   const [sub, setSub] = useState<SubTab>('contradicciones')
   return (
-    <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-        <div>
-          <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
+ <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+ <div>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
             Inteligencia adversarial
-          </p>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>Análisis de adversario</h3>
-        </div>
-        <div style={{ display: 'flex', gap: 4, padding: 4, background: '#fafafc', borderRadius: 999, border: '1px solid #e8e8ed' }}>
+ </p>
+ <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>Análisis de adversario</h3>
+ </div>
+ <div style={{ display: 'flex', gap: 4, padding: 4, background: '#fafafc', borderRadius: 999, border: '1px solid #e8e8ed' }}>
           {([
             { v: 'contradicciones' as SubTab, l: 'Contradicciones' },
             { v: 'declaraciones' as SubTab, l: 'Declaraciones' },
             { v: 'simulador' as SubTab, l: 'Simulador de debate' },
           ]).map(t => (
-            <button key={t.v} onClick={() => setSub(t.v)} style={{
+ <button key={t.v} onClick={() => setSub(t.v)} style={{
               padding: '5px 12px', borderRadius: 999, border: 'none',
               background: sub === t.v ? '#1d1d1f' : 'transparent',
               color: sub === t.v ? '#fff' : '#6e6e73',
               fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>{t.l}</button>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {sub === 'contradicciones' && <Contradicciones/>}
       {sub === 'declaraciones' && <Declaraciones/>}
       {sub === 'simulador' && <Simulador/>}
-    </section>
+ </section>
   )
 }
 
@@ -81,60 +81,60 @@ function Contradicciones() {
   )
 
   return (
-    <div>
+ <div>
       {/* Filters */}
-      <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-        <select value={partido} onChange={e => setPartido(e.target.value)}
+ <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+ <select value={partido} onChange={e => setPartido(e.target.value)}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, background: '#fff', fontSize: 12, fontFamily: 'inherit' }}>
-          <option value="">Todos los partidos</option>
+ <option value="">Todos los partidos</option>
           {PARTIDOS.map(p => <option key={p} value={p}>{p}</option>)}
-        </select>
-        <input type="text" placeholder="Buscar persona…" value={persona} onChange={e => setPersona(e.target.value)}
+ </select>
+ <input type="text" placeholder="Buscar persona…" value={persona} onChange={e => setPersona(e.target.value)}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, background: '#fff', fontSize: 12, fontFamily: 'inherit', flex: 1, minWidth: 200, maxWidth: 280 }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 11, color: '#6e6e73' }}>Score min</span>
-          <input type="range" min={0.5} max={1.0} step={0.05} value={scoreMin}
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>Score min</span>
+ <input type="range" min={0.5} max={1.0} step={0.05} value={scoreMin}
             onChange={e => setScoreMin(parseFloat(e.target.value))} style={{ width: 100 }} />
-          <span style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 12, color: '#1d1d1f' }}>{scoreMin.toFixed(2)}</span>
-        </div>
-      </div>
+ <span style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 12, color: '#1d1d1f' }}>{scoreMin.toFixed(2)}</span>
+ </div>
+ </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {items.map(c => {
           const g = gravedadColor(c.gravedad)
           const partyColor = COLORS[c.partido] ?? '#6e6e73'
           return (
-            <div key={c.id} style={{
+ <div key={c.id} style={{
               padding: '14px 18px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12,
               borderLeft: `3px solid ${partyColor}`,
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10, marginBottom: 8, flexWrap: 'wrap' }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{c.persona}</div>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
-                    <span style={{ padding: '2px 8px', borderRadius: 999, background: `${partyColor}15`, color: partyColor, fontSize: 10, fontWeight: 700 }}>{c.partido}</span>
-                    <span style={{ padding: '2px 8px', borderRadius: 999, background: g.bg, color: g.c, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10, marginBottom: 8, flexWrap: 'wrap' }}>
+ <div>
+ <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{c.persona}</div>
+ <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: `${partyColor}15`, color: partyColor, fontSize: 10, fontWeight: 700 }}>{c.partido}</span>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: g.bg, color: g.c, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                       Gravedad {c.gravedad}
-                    </span>
+ </span>
                     {c.fecha && <span style={{ fontSize: 10.5, color: '#6e6e73' }}>{c.fecha}</span>}
-                  </div>
-                </div>
-                <div style={{ minWidth: 130 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', marginBottom: 3 }}>
-                    <span>Score</span>
-                    <span style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, color: '#1d1d1f' }}>{(c.score_minimo * 100).toFixed(0)}</span>
-                  </div>
-                  <div style={{ height: 5, background: '#e8e8ed', borderRadius: 999, overflow: 'hidden' }}>
-                    <div style={{ width: `${c.score_minimo * 100}%`, height: '100%', background: g.c, borderRadius: 999 }} />
-                  </div>
-                </div>
-              </div>
-              <p style={{ margin: 0, fontSize: 12, color: '#424245', lineHeight: 1.5 }}>{c.descripcion}</p>
-            </div>
+ </div>
+ </div>
+ <div style={{ minWidth: 130 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', marginBottom: 3 }}>
+ <span>Score</span>
+ <span style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, color: '#1d1d1f' }}>{(c.score_minimo * 100).toFixed(0)}</span>
+ </div>
+ <div style={{ height: 5, background: '#e8e8ed', borderRadius: 999, overflow: 'hidden' }}>
+ <div style={{ width: `${c.score_minimo * 100}%`, height: '100%', background: g.c, borderRadius: 999 }} />
+ </div>
+ </div>
+ </div>
+ <p style={{ margin: 0, fontSize: 12, color: '#424245', lineHeight: 1.5 }}>{c.descripcion}</p>
+ </div>
           )
         })}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
 
@@ -156,49 +156,49 @@ function Declaraciones() {
   )
 
   return (
-    <div>
-      <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-        <select value={partido} onChange={e => setPartido(e.target.value)}
+ <div>
+ <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
+ <select value={partido} onChange={e => setPartido(e.target.value)}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, background: '#fff', fontSize: 12, fontFamily: 'inherit' }}>
-          <option value="">Todos</option>
+ <option value="">Todos</option>
           {PARTIDOS.map(p => <option key={p} value={p}>{p}</option>)}
-        </select>
-        <input type="text" placeholder="Persona" value={persona} onChange={e => setPersona(e.target.value)}
+ </select>
+ <input type="text" placeholder="Persona" value={persona} onChange={e => setPersona(e.target.value)}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, fontSize: 12, fontFamily: 'inherit', flex: 1, minWidth: 140 }} />
-        <input type="text" placeholder="Tema" value={tema} onChange={e => setTema(e.target.value)}
+ <input type="text" placeholder="Tema" value={tema} onChange={e => setTema(e.target.value)}
           style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, fontSize: 12, fontFamily: 'inherit', flex: 1, minWidth: 140 }} />
-      </div>
+ </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-        <thead>
-          <tr style={{ borderBottom: '1px solid #f0f0f3', textAlign: 'left', color: '#6e6e73' }}>
+ <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+ <thead>
+ <tr style={{ borderBottom: '1px solid #f0f0f3', textAlign: 'left', color: '#6e6e73' }}>
             {['Partido', 'Persona', 'Tema', 'Texto', 'Fecha'].map(h => (
-              <th key={h} style={{ padding: '10px 8px', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{h}</th>
+ <th key={h} style={{ padding: '10px 8px', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{h}</th>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+ </tr>
+ </thead>
+ <tbody>
           {items.map((d, i) => {
             const c = COLORS[d.partido] ?? '#6e6e73'
             return (
-              <tr key={d.id ?? i} style={{ borderBottom: i < items.length - 1 ? '1px solid #f5f5f7' : 'none' }}>
-                <td style={{ padding: '10px 8px' }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 999, background: `${c}15`, color: c, fontSize: 10.5, fontWeight: 700 }}>{d.partido}</span>
-                </td>
-                <td style={{ padding: '10px 8px', color: '#1d1d1f', fontWeight: 500 }}>{d.persona}</td>
-                <td style={{ padding: '10px 8px', color: '#424245' }}>{d.tema}</td>
-                <td style={{ padding: '10px 8px', color: '#424245', maxWidth: 360 }}>
-                  <span style={{ display: 'inline-block', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+ <tr key={d.id ?? i} style={{ borderBottom: i < items.length - 1 ? '1px solid #f5f5f7' : 'none' }}>
+ <td style={{ padding: '10px 8px' }}>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: `${c}15`, color: c, fontSize: 10.5, fontWeight: 700 }}>{d.partido}</span>
+ </td>
+ <td style={{ padding: '10px 8px', color: '#1d1d1f', fontWeight: 500 }}>{d.persona}</td>
+ <td style={{ padding: '10px 8px', color: '#424245' }}>{d.tema}</td>
+ <td style={{ padding: '10px 8px', color: '#424245', maxWidth: 360 }}>
+ <span style={{ display: 'inline-block', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     «{(d.texto ?? '').slice(0, 80)}{(d.texto ?? '').length > 80 ? '…' : ''}»
-                  </span>
-                </td>
-                <td style={{ padding: '10px 8px', color: '#6e6e73', fontVariantNumeric: 'tabular-nums', fontSize: 11 }}>{d.fecha ?? '—'}</td>
-              </tr>
+ </span>
+ </td>
+ <td style={{ padding: '10px 8px', color: '#6e6e73', fontVariantNumeric: 'tabular-nums', fontSize: 11 }}>{d.fecha ?? '—'}</td>
+ </tr>
             )
           })}
-        </tbody>
-      </table>
-    </div>
+ </tbody>
+ </table>
+ </div>
   )
 }
 
@@ -234,66 +234,66 @@ function Simulador() {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 18 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 18 }}>
       {/* Form */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <Field label="Partido propio">
-          <select value={propio} onChange={e => setPropio(e.target.value)} style={selectStyle}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <Field label="Partido propio">
+ <select value={propio} onChange={e => setPropio(e.target.value)} style={selectStyle}>
             {PARTIDOS.map(p => <option key={p} value={p}>{p}</option>)}
-          </select>
-        </Field>
-        <Field label="Partido rival">
-          <select value={rival} onChange={e => setRival(e.target.value)} style={selectStyle}>
+ </select>
+ </Field>
+ <Field label="Partido rival">
+ <select value={rival} onChange={e => setRival(e.target.value)} style={selectStyle}>
             {PARTIDOS.filter(p => p !== propio).map(p => <option key={p} value={p}>{p}</option>)}
-          </select>
-        </Field>
-        <Field label="Tema">
-          <input type="text" value={tema} onChange={e => setTema(e.target.value)} style={selectStyle as React.CSSProperties} />
-        </Field>
-        <Field label="Formato">
-          <select value={formato} onChange={e => setFormato(e.target.value)} style={selectStyle}>
-            <option value="debate_televisivo">Debate televisivo</option>
-            <option value="rueda_prensa">Rueda de prensa</option>
-            <option value="entrevista">Entrevista</option>
-          </select>
-        </Field>
-        <Field label="Tipo de output">
-          <select value={tipoOutput} onChange={e => setTipoOutput(e.target.value)} style={selectStyle}>
-            <option value="guion">Guion</option>
-            <option value="talking_points">Talking points</option>
-            <option value="analisis">Análisis</option>
-          </select>
-        </Field>
-        <button onClick={run} disabled={running} style={{
+ </select>
+ </Field>
+ <Field label="Tema">
+ <input type="text" value={tema} onChange={e => setTema(e.target.value)} style={selectStyle as React.CSSProperties} />
+ </Field>
+ <Field label="Formato">
+ <select value={formato} onChange={e => setFormato(e.target.value)} style={selectStyle}>
+ <option value="debate_televisivo">Debate televisivo</option>
+ <option value="rueda_prensa">Rueda de prensa</option>
+ <option value="entrevista">Entrevista</option>
+ </select>
+ </Field>
+ <Field label="Tipo de output">
+ <select value={tipoOutput} onChange={e => setTipoOutput(e.target.value)} style={selectStyle}>
+ <option value="guion">Guion</option>
+ <option value="talking_points">Talking points</option>
+ <option value="analisis">Análisis</option>
+ </select>
+ </Field>
+ <button onClick={run} disabled={running} style={{
           marginTop: 6, padding: '10px 16px', borderRadius: 10, border: 'none',
           background: running ? '#e8e8ed' : '#1d1d1f', color: running ? '#6e6e73' : '#fff',
           fontSize: 12, fontWeight: 600, cursor: running ? 'wait' : 'pointer', fontFamily: 'inherit',
         }}>
           {running ? 'Generando…' : 'Ejecutar simulación'}
-        </button>
-      </div>
+ </button>
+ </div>
 
       {/* Results */}
-      <div>
+ <div>
         {!result && !running && (
-          <div style={{ padding: '40px 24px', textAlign: 'center', background: '#fafafc', border: '1px dashed #e8e8ed', borderRadius: 12, color: '#6e6e73', fontSize: 12 }}>
+ <div style={{ padding: '40px 24px', textAlign: 'center', background: '#fafafc', border: '1px dashed #e8e8ed', borderRadius: 12, color: '#6e6e73', fontSize: 12 }}>
             Configura los parámetros y pulsa "Ejecutar simulación" para generar el guion adversarial.
-          </div>
+ </div>
         )}
         {running && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {[1,2,3,4,5].map(i => (
-              <div key={i} style={{ height: 14, background: '#e8e8ed', borderRadius: 6, opacity: 0.6, animation: 'pulse 1.4s ease-in-out infinite' }} />
+ <div key={i} style={{ height: 14, background: '#e8e8ed', borderRadius: 6, opacity: 0.6, animation: 'pulse 1.4s ease-in-out infinite' }} />
             ))}
-          </div>
+ </div>
         )}
         {result && !running && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+ <div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+ <span style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
                 Resultado · {tipoOutput}
-              </span>
-              <button onClick={() => {
+ </span>
+ <button onClick={() => {
                 navigator.clipboard?.writeText(result)
                 setCopied(true)
                 setTimeout(() => setCopied(false), 1500)
@@ -302,17 +302,17 @@ function Simulador() {
                 fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
               }}>
                 {copied ? 'Copiado' : 'Copiar'}
-              </button>
-            </div>
-            <pre style={{
+ </button>
+ </div>
+ <pre style={{
               fontFamily: 'ui-monospace, monospace', fontSize: 11.5, color: '#1d1d1f',
               background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12, padding: 16,
               whiteSpace: 'pre-wrap', lineHeight: 1.6, margin: 0, maxHeight: 480, overflowY: 'auto',
             }}>{result}</pre>
-          </div>
+ </div>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
 
@@ -322,12 +322,12 @@ const selectStyle = {
 }
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div>
-      <label style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4, display: 'block' }}>
+ <div>
+ <label style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4, display: 'block' }}>
         {label}
-      </label>
+ </label>
       {children}
-    </div>
+ </div>
   )
 }
 

@@ -10,12 +10,12 @@ const PRIORITY_STYLES: Record<Priority, { bg: string; fg: string; label: string 
 export function BadgeSeverity({ value }: { value: Priority | string }) {
   const cfg = PRIORITY_STYLES[value as Priority] ?? PRIORITY_STYLES.low;
   return (
-    <span
+ <span
       className="inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
       style={{ background: cfg.bg, color: cfg.fg }}
     >
       {cfg.label}
-    </span>
+ </span>
   );
 }
 
@@ -42,11 +42,11 @@ const STATUS_STYLES: Record<string, { bg: string; fg: string; label: string }> =
 export function BadgeStatus({ value }: { value: string }) {
   const cfg = STATUS_STYLES[value] ?? { bg: "rgb(100 116 139 / 0.2)", fg: "rgb(148 163 184)", label: value };
   return (
-    <span
+ <span
       className="inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold"
       style={{ background: cfg.bg, color: cfg.fg }}
     >
       {cfg.label}
-    </span>
+ </span>
   );
 }

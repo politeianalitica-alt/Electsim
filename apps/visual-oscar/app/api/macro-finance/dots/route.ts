@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const reporter = req.nextUrl.searchParams.get('reporter') || 'ES'
   const months = req.nextUrl.searchParams.get('months') || '60'
   const r = await callBackend<DotsTrade>(
-    `/api/macro-finance/dots?reporter=${encodeURIComponent(reporter)}&months=${encodeURIComponent(months)}`,
+ `/api/macro-finance/dots?reporter=${encodeURIComponent(reporter)}&months=${encodeURIComponent(months)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { reporter: 'ES', months: 60, series: { exports: [], imports: [], balance: [] } },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

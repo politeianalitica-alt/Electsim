@@ -182,110 +182,110 @@ export default function LicitacionesBuscador() {
   const procOptions = PROCEDIMIENTOS.map(p => ({ value: p, label: p }))
 
   return (
-    <section style={{ display:'grid', gridTemplateColumns:'280px 1fr', gap:18 }}>
+ <section style={{ display:'grid', gridTemplateColumns:'280px 1fr', gap:18 }}>
       {/* ─── Sidebar de filtros ─── */}
-      <aside style={{
+ <aside style={{
         background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 16px',
         position:'sticky', top:80, alignSelf:'start', maxHeight:'calc(100vh - 100px)', overflowY:'auto',
       }}>
-        <form onSubmit={onSubmit}>
-          <h3 style={{ margin:'0 0 14px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>
+ <form onSubmit={onSubmit}>
+ <h3 style={{ margin:'0 0 14px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>
             Filtros
-          </h3>
+ </h3>
 
-          <FilterGroup label="Buscar por">
-            <PillSelect
+ <FilterGroup label="Buscar por">
+ <PillSelect
               value={type} onChange={setType}
               options={TYPE_OPTIONS}
               ariaLabel="Tipo de búsqueda"
             />
-            <div style={{ marginTop:6 }}>
-              <PillInput
+ <div style={{ marginTop:6 }}>
+ <PillInput
                 value={q} onChange={setQ}
                 placeholder="Texto…"
                 ariaLabel="Texto de búsqueda"
               />
-            </div>
-          </FilterGroup>
+ </div>
+ </FilterGroup>
 
-          <FilterGroup label="Fuente oficial">
-            <PillSelect
+ <FilterGroup label="Fuente oficial">
+ <PillSelect
               value={source} onChange={setSource}
               options={sourceOptions}
               placeholder="— todas —"
               ariaLabel="Fuente oficial"
             />
-          </FilterGroup>
+ </FilterGroup>
 
-          <FilterGroup label="Comunidad autónoma">
-            <PillSelect
+ <FilterGroup label="Comunidad autónoma">
+ <PillSelect
               value={ccaa} onChange={setCcaa}
               options={ccaaOptions}
               placeholder="— todas —"
               ariaLabel="Comunidad autónoma"
             />
-          </FilterGroup>
+ </FilterGroup>
 
-          <FilterGroup label="Año de adjudicación">
-            <PillSelect
+ <FilterGroup label="Año de adjudicación">
+ <PillSelect
               value={anio} onChange={setAnio}
               options={ANIO_OPTIONS}
               placeholder="— todos —"
               ariaLabel="Año"
             />
-          </FilterGroup>
+ </FilterGroup>
 
-          <FilterGroup label="Importe adjudicado (€)">
-            <div style={{ display:'flex', gap:6 }}>
-              <PillInput
+ <FilterGroup label="Importe adjudicado (€)">
+ <div style={{ display:'flex', gap:6 }}>
+ <PillInput
                 value={importeMin} onChange={setImporteMin}
                 type="number" min={0} placeholder="Min"
                 ariaLabel="Importe mínimo"
               />
-              <PillInput
+ <PillInput
                 value={importeMax} onChange={setImporteMax}
                 type="number" min={0} placeholder="Max"
                 ariaLabel="Importe máximo"
               />
-            </div>
-          </FilterGroup>
+ </div>
+ </FilterGroup>
 
-          <FilterGroup label="Sector (CPV)">
-            <PillSelect
+ <FilterGroup label="Sector (CPV)">
+ <PillSelect
               value={cpvDiv} onChange={setCpvDiv}
               options={cpvOptions}
               placeholder="— todos —"
               ariaLabel="Sector CPV"
             />
-          </FilterGroup>
+ </FilterGroup>
 
-          <FilterGroup label="Tipo de contrato">
-            <PillSelect
+ <FilterGroup label="Tipo de contrato">
+ <PillSelect
               value={tipoContrato} onChange={setTipoContrato}
               options={tipoOptions}
               placeholder="— todos —"
               ariaLabel="Tipo de contrato"
             />
-          </FilterGroup>
+ </FilterGroup>
 
-          <FilterGroup label="Procedimiento">
-            <PillSelect
+ <FilterGroup label="Procedimiento">
+ <PillSelect
               value={procedimiento} onChange={setProcedimiento}
               options={procOptions}
               placeholder="— todos —"
               ariaLabel="Procedimiento"
             />
-          </FilterGroup>
+ </FilterGroup>
 
-          <FilterGroup label="Otros">
-            <CheckBox label="Solo PYME adjudicataria" checked={esPyme} onChange={setEsPyme}/>
-            <CheckBox label="Solo contratos menores" checked={soloMenores} onChange={setSoloMenores}/>
-            <CheckBox label="Solo con importe declarado" checked={soloConImporte} onChange={setSoloConImporte}/>
-            <CheckBox label="Solo adjudicados" checked={soloAdjudicados} onChange={setSoloAdjudicados}/>
-          </FilterGroup>
+ <FilterGroup label="Otros">
+ <CheckBox label="Solo PYME adjudicataria" checked={esPyme} onChange={setEsPyme}/>
+ <CheckBox label="Solo contratos menores" checked={soloMenores} onChange={setSoloMenores}/>
+ <CheckBox label="Solo con importe declarado" checked={soloConImporte} onChange={setSoloConImporte}/>
+ <CheckBox label="Solo adjudicados" checked={soloAdjudicados} onChange={setSoloAdjudicados}/>
+ </FilterGroup>
 
-          <FilterGroup label="Calidad de datos">
-            <PillSelect
+ <FilterGroup label="Calidad de datos">
+ <PillSelect
               value={minQuality} onChange={setMinQuality}
               options={[
                 { value: '85', label: 'Solo nivel A · score ≥ 85' },
@@ -294,120 +294,120 @@ export default function LicitacionesBuscador() {
               placeholder="Cualquier calidad"
               ariaLabel="Calidad mínima"
             />
-            <div style={{ marginTop:6 }}>
-              <CheckBox label="Excluir outliers de importe" checked={excluirOutliers} onChange={setExcluirOutliers}/>
-            </div>
-          </FilterGroup>
+ <div style={{ marginTop:6 }}>
+ <CheckBox label="Excluir outliers de importe" checked={excluirOutliers} onChange={setExcluirOutliers}/>
+ </div>
+ </FilterGroup>
 
-          <div style={{ display:'flex', gap:8, marginTop:14 }}>
-            <button type="submit" disabled={loading} style={primaryBtn(loading)}>
+ <div style={{ display:'flex', gap:8, marginTop:14 }}>
+ <button type="submit" disabled={loading} style={primaryBtn(loading)}>
               {loading ? 'Buscando…' : 'Aplicar filtros'}
-            </button>
-            <button type="button" onClick={reset} style={secondaryBtn}>Limpiar</button>
-          </div>
-        </form>
-      </aside>
+ </button>
+ <button type="button" onClick={reset} style={secondaryBtn}>Limpiar</button>
+ </div>
+ </form>
+ </aside>
 
       {/* ─── Resultados ─── */}
-      <div>
+ <div>
         {/* Header con stats */}
-        <header style={{
+ <header style={{
           background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
           padding:'14px 18px', marginBottom:12,
           display:'flex', justifyContent:'space-between', alignItems:'center', gap:14, flexWrap:'wrap',
         }}>
-          <div>
+ <div>
             {data ? (
-              <>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>
+ <>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>
                   {data.pagination.total_estimado != null
                     ? data.pagination.total_estimado.toLocaleString('es-ES')
                     : data.stats.total} contratos encontrados
-                </div>
-                <div style={{ fontSize:11.5, color:'#6e6e73', marginTop:3 }}>
+ </div>
+ <div style={{ fontSize:11.5, color:'#6e6e73', marginTop:3 }}>
                   Búsqueda: <strong>“{q || '—'}”</strong> · {data.stats.fetch_ms} ms · {data.stats.sources.filter(s => s.ok).length}/{data.stats.sources.length} fuentes activas
-                </div>
-              </>
+ </div>
+ </>
             ) : (
-              <div style={{ fontSize:12, color:'#6e6e73' }}>Cargando…</div>
+ <div style={{ fontSize:12, color:'#6e6e73' }}>Cargando…</div>
             )}
-          </div>
-          <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-            <span style={{ fontSize:11, color:'#6e6e73' }}>Ordenar:</span>
-            <PillSelect
+ </div>
+ <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+ <span style={{ fontSize:11, color:'#6e6e73' }}>Ordenar:</span>
+ <PillSelect
               value={sort} onChange={v => { setSort(v); setPage(1) }}
               options={SORT_OPTIONS}
               size="sm"
               fullWidth={false}
               ariaLabel="Ordenar por"
             />
-          </div>
-        </header>
+ </div>
+ </header>
 
         {/* Strip de stats de calidad · score medio + nivel A/B/C + outliers */}
         {data && data.stats.calidad && (
-          <div style={{
+ <div style={{
             background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
             padding:'10px 14px', marginBottom:12, display:'flex', gap:14, alignItems:'center', flexWrap:'wrap',
           }}>
-            <div title="Quality score medio · pipeline INT-VAL/CONS/FIA" style={{ display:'flex', alignItems:'baseline', gap:6 }}>
-              <span style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.06em', color:'#6e6e73', textTransform:'uppercase' }}>Calidad media</span>
-              <span style={{
+ <div title="Quality score medio · pipeline INT-VAL/CONS/FIA" style={{ display:'flex', alignItems:'baseline', gap:6 }}>
+ <span style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.06em', color:'#6e6e73', textTransform:'uppercase' }}>Calidad media</span>
+ <span style={{
                 fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, letterSpacing:'-0.02em',
                 color: data.stats.calidad.avg_score >= 85 ? '#16A34A' : data.stats.calidad.avg_score >= 60 ? '#F97316' : '#DC2626',
               }}>{data.stats.calidad.avg_score}<span style={{ fontSize:11, color:'#86868b', marginLeft:3, fontWeight:500 }}>/100</span></span>
-            </div>
-            <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-              <span title="Nivel A · score ≥ 85 · alta calidad de datos" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#16A34A', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>A · {data.stats.calidad.nivel_a}</span>
-              <span title="Nivel B · score 60-84 · calidad media" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#F97316', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>B · {data.stats.calidad.nivel_b}</span>
-              <span title="Nivel C · score < 60 · calidad baja" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#DC2626', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>C · {data.stats.calidad.nivel_c}</span>
+ </div>
+ <div style={{ display:'flex', gap:6, alignItems:'center' }}>
+ <span title="Nivel A · score ≥ 85 · alta calidad de datos" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#16A34A', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>A · {data.stats.calidad.nivel_a}</span>
+ <span title="Nivel B · score 60-84 · calidad media" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#F97316', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>B · {data.stats.calidad.nivel_b}</span>
+ <span title="Nivel C · score < 60 · calidad baja" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#DC2626', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>C · {data.stats.calidad.nivel_c}</span>
               {data.stats.calidad.outliers > 0 && (
-                <span title="Importes anómalos detectados (z-score > 3 o > 50M€)" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#7C3AED', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>⚠ {data.stats.calidad.outliers} outliers</span>
+ <span title="Importes anómalos detectados (z-score > 3 o > 50M€)" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#7C3AED', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}> {data.stats.calidad.outliers} outliers</span>
               )}
-            </div>
-            <span style={{ marginLeft:'auto', fontSize:10.5, color:'#86868b' }}>
+ </div>
+ <span style={{ marginLeft:'auto', fontSize:10.5, color:'#86868b' }}>
               Pipeline INT-VAL/CONS/FIA · 14 indicadores · validación NIF/CIF/CPV/fechas/coherencia
-            </span>
-          </div>
+ </span>
+ </div>
         )}
 
         {error && (
-          <div style={{ padding:'30px', background:'#FEE2E2', border:'1px solid #FECACA', color:'#DC2626', borderRadius:10, fontSize:13, textAlign:'center' }}>
+ <div style={{ padding:'30px', background:'#FEE2E2', border:'1px solid #FECACA', color:'#DC2626', borderRadius:10, fontSize:13, textAlign:'center' }}>
             Error: {error}
-          </div>
+ </div>
         )}
 
         {!error && data && data.items.length === 0 && (
-          <div style={{ padding:'40px', background:'#fff', border:'1px solid #ECECEF', borderRadius:14, textAlign:'center', fontSize:13, color:'#6e6e73' }}>
-            <strong>Sin resultados.</strong> Prueba con otra palabra o quita algún filtro.
-          </div>
+ <div style={{ padding:'40px', background:'#fff', border:'1px solid #ECECEF', borderRadius:14, textAlign:'center', fontSize:13, color:'#6e6e73' }}>
+ <strong>Sin resultados.</strong> Prueba con otra palabra o quita algún filtro.
+ </div>
         )}
 
-        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+ <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
           {data?.items.map(it => <ContratoCard key={it.id} c={it}/>)}
-        </div>
+ </div>
 
         {/* Paginación */}
         {data && data.items.length > 0 && (
-          <nav style={{
+ <nav style={{
             display:'flex', justifyContent:'space-between', alignItems:'center',
             marginTop:14, fontSize:12, color:'#6e6e73',
           }}>
-            <span>
+ <span>
               Página {data.pagination.page} · Mostrando {((data.pagination.page - 1) * data.pagination.page_size) + 1}–{((data.pagination.page - 1) * data.pagination.page_size) + data.items.length}
               {data.pagination.total_estimado != null && ` de ${data.pagination.total_estimado.toLocaleString('es-ES')}`}
-            </span>
-            <div style={{ display:'flex', gap:6 }}>
-              <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1 || loading} style={pagBtn(page === 1)}>‹ Anterior</button>
-              <span style={{ padding:'7px 12px', fontSize:12, color:'#3a3a3d' }}>
+ </span>
+ <div style={{ display:'flex', gap:6 }}>
+ <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1 || loading} style={pagBtn(page === 1)}>‹ Anterior</button>
+ <span style={{ padding:'7px 12px', fontSize:12, color:'#3a3a3d' }}>
                 {page} / {totalPages}+
-              </span>
-              <button onClick={() => setPage(page + 1)} disabled={data.items.length < pageSize || loading} style={pagBtn(data.items.length < pageSize)}>Siguiente ›</button>
-            </div>
-          </nav>
+ </span>
+ <button onClick={() => setPage(page + 1)} disabled={data.items.length < pageSize || loading} style={pagBtn(data.items.length < pageSize)}>Siguiente ›</button>
+ </div>
+ </nav>
         )}
-      </div>
-    </section>
+ </div>
+ </section>
   )
 }
 
@@ -419,111 +419,111 @@ function ContratoCard({ c }: { c: NormalizedContrato }) {
   // Tooltip con flags · si hay
   const flagsLabel = c.flags && c.flags.length > 0 ? `Issues detectados: ${c.flags.join(', ')}` : 'Sin issues detectados · pasa todos los validadores'
   return (
-    <article style={{
+ <article style={{
       background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
       padding:'14px 18px', display:'grid', gridTemplateColumns:'1fr auto', gap:14,
       borderLeft:`3px solid ${FUENTE_COLOR[c.fuente] || '#525258'}`,
     }}>
-      <div style={{ minWidth:0 }}>
-        <div style={{ display:'flex', gap:6, alignItems:'center', flexWrap:'wrap', marginBottom:5 }}>
-          <Badge label={c.fuente_label} color={FUENTE_COLOR[c.fuente]}/>
+ <div style={{ minWidth:0 }}>
+ <div style={{ display:'flex', gap:6, alignItems:'center', flexWrap:'wrap', marginBottom:5 }}>
+ <Badge label={c.fuente_label} color={FUENTE_COLOR[c.fuente]}/>
           {c.tipo_contrato && <Badge label={c.tipo_contrato} color="#525258" outline/>}
           {c.procedimiento && <Badge label={c.procedimiento} color="#7C3AED" outline/>}
           {c.cpv_div && (
-            <span title={c.cpv_descripcion || `CPV código ${c.cpv}`} style={{ cursor:'help', display:'inline-block' }}>
-              <Badge label={`CPV ${c.cpv_div} · ${cpvDivLabel(c.cpv_div).slice(0, 22)}`} color="#5B21B6" outline/>
-            </span>
+ <span title={c.cpv_descripcion || `CPV código ${c.cpv}`} style={{ cursor:'help', display:'inline-block' }}>
+ <Badge label={`CPV ${c.cpv_div} · ${cpvDivLabel(c.cpv_div).slice(0, 22)}`} color="#5B21B6" outline/>
+ </span>
           )}
           {c.es_pyme && <Badge label="PYME" color="#16A34A"/>}
           {c.quality_level && (
-            <span title={`Quality score ${c.quality_score}/100 · Nivel ${c.quality_level} · ${flagsLabel}`} style={{ cursor:'help', display:'inline-block' }}>
-              <Badge label={`Q ${c.quality_level} · ${c.quality_score}`} color={qColor}/>
-            </span>
+ <span title={`Quality score ${c.quality_score}/100 · Nivel ${c.quality_level} · ${flagsLabel}`} style={{ cursor:'help', display:'inline-block' }}>
+ <Badge label={`Q ${c.quality_level} · ${c.quality_score}`} color={qColor}/>
+ </span>
           )}
           {c.is_outlier && (
-            <span title="Outlier · importe atípico (z-score > 3 o > 50M€)" style={{ cursor:'help', display:'inline-block' }}>
-              <Badge label="⚠ outlier" color="#7C3AED"/>
-            </span>
+ <span title="Outlier · importe atípico (z-score > 3 o > 50M€)" style={{ cursor:'help', display:'inline-block' }}>
+ <Badge label=" outlier" color="#7C3AED"/>
+ </span>
           )}
           {c.adjudicatario_nif && c.nif_valido === false && (
-            <span title="NIF/CIF con checksum inválido · INT-VAL-12 fallido" style={{ cursor:'help', display:'inline-block' }}>
-              <Badge label="NIF inválido" color="#DC2626" outline/>
-            </span>
+ <span title="NIF/CIF con checksum inválido · INT-VAL-12 fallido" style={{ cursor:'help', display:'inline-block' }}>
+ <Badge label="NIF inválido" color="#DC2626" outline/>
+ </span>
           )}
           {c.fecha_publicacion && (
-            <span style={{ fontSize:10, color:'#6e6e73', marginLeft:4 }}>{c.fecha_publicacion}</span>
+ <span style={{ fontSize:10, color:'#6e6e73', marginLeft:4 }}>{c.fecha_publicacion}</span>
           )}
-        </div>
-        <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.01em', color:'#1d1d1f', lineHeight:1.4 }}>
+ </div>
+ <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.01em', color:'#1d1d1f', lineHeight:1.4 }}>
           {c.url ? (
-            <a href={c.url} target="_blank" rel="noreferrer" style={{ color:'inherit', textDecoration:'none' }}>
+ <a href={c.url} target="_blank" rel="noreferrer" style={{ color:'inherit', textDecoration:'none' }}>
               {c.objeto} <span style={{ fontSize:11, color:'#6e6e73' }}>↗</span>
-            </a>
+ </a>
           ) : c.objeto}
-        </h3>
-        <div style={{ fontSize:11.5, color:'#3a3a3d', display:'flex', gap:6, flexWrap:'wrap' }}>
+ </h3>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', display:'flex', gap:6, flexWrap:'wrap' }}>
           {c.organo && (
-            <Link href={`/licitaciones/organo/${encodeURIComponent(c.organo_dir3 || c.organo)}`} style={{ color:'#1F4E8C', textDecoration:'none', fontWeight:600 }}>
+ <Link href={`/licitaciones/organo/${encodeURIComponent(c.organo_dir3 || c.organo)}`} style={{ color:'#1F4E8C', textDecoration:'none', fontWeight:600 }}>
               {c.organo}
-            </Link>
+ </Link>
           )}
           {c.adjudicatario && (
-            <>
-              <span style={{ color:'#86868b' }}>· adj.</span>
-              <Link href={`/licitaciones/adjudicatario/${c.adjudicatario_nif}`} style={{ color:'#0F766E', textDecoration:'none', fontWeight:600 }}>
+ <>
+ <span style={{ color:'#86868b' }}>· adj.</span>
+ <Link href={`/licitaciones/adjudicatario/${c.adjudicatario_nif}`} style={{ color:'#0F766E', textDecoration:'none', fontWeight:600 }}>
                 {c.adjudicatario}
-              </Link>
-            </>
+ </Link>
+ </>
           )}
           {c.expediente && <span style={{ color:'#86868b' }}>· EXP {c.expediente}</span>}
           {c.lugar_ejecucion && <span style={{ color:'#86868b' }}>· {c.lugar_ejecucion}</span>}
-        </div>
-      </div>
-      <div style={{ textAlign:'right', minWidth:120 }}>
+ </div>
+ </div>
+ <div style={{ textAlign:'right', minWidth:120 }}>
         {importe ? (
-          <>
-            <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1F4E8C', letterSpacing:'-0.01em' }}>
+ <>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1F4E8C', letterSpacing:'-0.01em' }}>
               {fmtImporte(importe)}
-            </div>
-            <div style={{ fontSize:9.5, color:'#86868b' }}>
+ </div>
+ <div style={{ fontSize:9.5, color:'#86868b' }}>
               {c.importe_adjudicacion != null ? 'adjudicado' : 'licitación'}
-            </div>
-          </>
+ </div>
+ </>
         ) : (
-          <span style={{ fontSize:11, color:'#86868b' }}>sin importe</span>
+ <span style={{ fontSize:11, color:'#86868b' }}>sin importe</span>
         )}
         {c.ofertas_recibidas != null && (
-          <div style={{ fontSize:10, color:'#6e6e73', marginTop:4 }}>{c.ofertas_recibidas} ofertas</div>
+ <div style={{ fontSize:10, color:'#6e6e73', marginTop:4 }}>{c.ofertas_recibidas} ofertas</div>
         )}
-      </div>
-    </article>
+ </div>
+ </article>
   )
 }
 
 function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom:14 }}>
-      <label style={{
+ <div style={{ marginBottom:14 }}>
+ <label style={{
         display:'block', fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
         color:'#6e6e73', textTransform:'uppercase', marginBottom:5,
       }}>{label}</label>
       {children}
-    </div>
+ </div>
   )
 }
 
 function CheckBox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
-    <label style={{ display:'flex', gap:6, alignItems:'center', fontSize:12, color:'#3a3a3d', marginBottom:5, cursor:'pointer' }}>
-      <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)}/>
+ <label style={{ display:'flex', gap:6, alignItems:'center', fontSize:12, color:'#3a3a3d', marginBottom:5, cursor:'pointer' }}>
+ <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)}/>
       {label}
-    </label>
+ </label>
   )
 }
 
 function Badge({ label, color, outline = false }: { label: string; color: string; outline?: boolean }) {
   return (
-    <span style={{
+ <span style={{
       fontSize:9.5, fontWeight:800, letterSpacing:'0.04em',
       padding:'2px 7px', borderRadius:4,
       background: outline ? `${color}10` : color,

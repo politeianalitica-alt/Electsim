@@ -5,25 +5,25 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const CCAA_COORDS: Record<string, { lat: number; lon: number }> = {
-  'Andalucía':          { lat: 37.54, lon: -4.73 },
-  'Aragón':             { lat: 41.60, lon: -0.89 },
-  'Asturias':           { lat: 43.36, lon: -5.86 },
-  'Baleares':           { lat: 39.57, lon:  2.65 },
-  'Canarias':           { lat: 28.29, lon:-15.49 },
-  'Cantabria':          { lat: 43.18, lon: -3.99 },
-  'Castilla-La Mancha': { lat: 39.86, lon: -3.98 },
-  'Castilla y León':    { lat: 41.65, lon: -4.72 },
-  'Cataluña':           { lat: 41.59, lon:  1.52 },
-  'Extremadura':        { lat: 39.49, lon: -6.07 },
-  'Galicia':            { lat: 42.57, lon: -8.13 },
-  'La Rioja':           { lat: 42.28, lon: -2.53 },
-  'Madrid':             { lat: 40.42, lon: -3.70 },
-  'Murcia':             { lat: 38.02, lon: -1.13 },
-  'Navarra':            { lat: 42.69, lon: -1.64 },
-  'País Vasco':         { lat: 43.00, lon: -2.50 },
-  'Valencia':           { lat: 39.48, lon: -0.75 },
-  'Ceuta':              { lat: 35.89, lon: -5.33 },
-  'Melilla':            { lat: 35.29, lon: -2.94 },
+ 'Andalucía':          { lat: 37.54, lon: -4.73 },
+ 'Aragón':             { lat: 41.60, lon: -0.89 },
+ 'Asturias':           { lat: 43.36, lon: -5.86 },
+ 'Baleares':           { lat: 39.57, lon:  2.65 },
+ 'Canarias':           { lat: 28.29, lon:-15.49 },
+ 'Cantabria':          { lat: 43.18, lon: -3.99 },
+ 'Castilla-La Mancha': { lat: 39.86, lon: -3.98 },
+ 'Castilla y León':    { lat: 41.65, lon: -4.72 },
+ 'Cataluña':           { lat: 41.59, lon:  1.52 },
+ 'Extremadura':        { lat: 39.49, lon: -6.07 },
+ 'Galicia':            { lat: 42.57, lon: -8.13 },
+ 'La Rioja':           { lat: 42.28, lon: -2.53 },
+ 'Madrid':             { lat: 40.42, lon: -3.70 },
+ 'Murcia':             { lat: 38.02, lon: -1.13 },
+ 'Navarra':            { lat: 42.69, lon: -1.64 },
+ 'País Vasco':         { lat: 43.00, lon: -2.50 },
+ 'Valencia':           { lat: 39.48, lon: -0.75 },
+ 'Ceuta':              { lat: 35.89, lon: -5.33 },
+ 'Melilla':            { lat: 35.29, lon: -2.94 },
 }
 
 function deptToCcaa(dept: string): string {
@@ -84,7 +84,7 @@ function mapToLegItem(law: BackendLaw): LegItem {
   const impact = law.impact ?? 50
 
   const nivel   = impact >= 80 ? 'nacional' : impact >= 50 ? 'regional' : 'local'
-  const aiLevel = impact >= 80 ? 'Alto'     : impact >= 50 ? 'Medio'    : 'Bajo'
+  const aiLevel = impact >= 80 ? 'Alto' : impact >= 50 ? 'Medio' : 'Bajo'
 
   const t = (law.tipo ?? '').toLowerCase()
   let cat = 'legislacion'

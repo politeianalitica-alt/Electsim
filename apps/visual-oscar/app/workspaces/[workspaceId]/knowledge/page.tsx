@@ -22,7 +22,7 @@ export default function KnowledgePage({ params }: { params: { workspaceId: strin
 
   if (isEmpty || !items) {
     return (
-      <WorkspaceEmptyState
+ <WorkspaceEmptyState
         view="knowledge"
         eyebrow="Workspace · Conocimiento"
         title="Sin items de conocimiento"
@@ -36,8 +36,8 @@ export default function KnowledgePage({ params }: { params: { workspaceId: strin
   const allTags = Array.from(new Set(items.flatMap(k => k.tags))).slice(0, 12);
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="knowledge"
         title="Knowledge"
         description="Memoria institucional y artículos de referencia"
@@ -45,9 +45,9 @@ export default function KnowledgePage({ params }: { params: { workspaceId: strin
         actions={<button style={btnStyle}>+ Añadir artículo</button>}
       />
 
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 18 }}>
+ <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 18 }}>
         {TYPE_FILTERS.map(t => (
-          <button
+ <button
             key={t.id}
             onClick={() => setType(t.id)}
             style={{
@@ -59,59 +59,59 @@ export default function KnowledgePage({ params }: { params: { workspaceId: strin
             }}
           >
             {t.label}
-          </button>
+ </button>
         ))}
-      </div>
+ </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 20 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+ <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 20 }}>
+ <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {filtered.map(item => <KnowledgeCard key={item.id} item={item} />)}
           {filtered.length === 0 && (
-            <div style={{ padding: 32, textAlign: "center", color: WS.ink3, fontSize: 13 }}>
+ <div style={{ padding: 32, textAlign: "center", color: WS.ink3, fontSize: 13 }}>
               No hay items para este filtro
-            </div>
+ </div>
           )}
-        </div>
+ </div>
 
-        <div>
-          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 10 }}>
+ <div>
+ <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 10 }}>
             Tags frecuentes
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
+ </div>
+ <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
             {allTags.map(tag => (
-              <span key={tag} style={{
+ <span key={tag} style={{
                 fontSize: 11, background: WS.surface, border: `1px solid ${WS.border}`,
                 color: WS.ink3, padding: "4px 10px", borderRadius: 99, cursor: "pointer",
               }}>
                 {tag}
-              </span>
+ </span>
             ))}
-          </div>
+ </div>
 
-          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 10 }}>
+ <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 10 }}>
             Estadísticas
-          </div>
-          <div style={{
+ </div>
+ <div style={{
             background: WS.surface, border: `1px solid ${WS.border}`,
             borderRadius: 12, padding: "12px 14px",
             display: "flex", flexDirection: "column", gap: 10,
           }}>
-            <Stat label="Items totales" value={`${items.length}`} />
-            <Stat label="Confianza media" value={`${Math.round(items.reduce((s, i) => s + i.confidence, 0) / items.length * 100)}%`} />
-            <Stat label="Tipos únicos" value={`${new Set(items.map(i => i.entityType)).size}`} />
-          </div>
-        </div>
-      </div>
-    </div>
+ <Stat label="Items totales" value={`${items.length}`} />
+ <Stat label="Confianza media" value={`${Math.round(items.reduce((s, i) => s + i.confidence, 0) / items.length * 100)}%`} />
+ <Stat label="Tipos únicos" value={`${new Set(items.map(i => i.entityType)).size}`} />
+ </div>
+ </div>
+ </div>
+ </div>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <span style={{ fontSize: 12, color: WS.ink3 }}>{label}</span>
-      <span style={{ fontSize: 12, fontWeight: 600, color: WS.ink }}>{value}</span>
-    </div>
+ <div style={{ display: "flex", justifyContent: "space-between" }}>
+ <span style={{ fontSize: 12, color: WS.ink3 }}>{label}</span>
+ <span style={{ fontSize: 12, fontWeight: 600, color: WS.ink }}>{value}</span>
+ </div>
   );
 }
 

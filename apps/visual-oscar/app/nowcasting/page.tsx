@@ -59,26 +59,26 @@ function CIChart({parties}:{parties:Party[]}){
   const barW=W-padL-padR
   const H=rowH*parties.length+8
   return(
-    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
       {parties.map((p,i)=>{
         const y=i*rowH+rowH/2
         const bx=padL+(p.pct/maxPct)*barW
         const ci0=padL+(p.ci_inf/maxPct)*barW
         const ci1=padL+(p.ci_sup/maxPct)*barW
         return(
-          <g key={p.siglas}>
-            <text x={padL-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
-            <rect x={padL} y={y-8} width={(p.pct/maxPct)*barW} height={16} rx="4" fill={p.color} opacity="0.85"/>
-            <line x1={ci0} y1={y-10} x2={ci0} y2={y+10} stroke={p.color} strokeWidth="1.5" opacity="0.5"/>
-            <line x1={ci1} y1={y-10} x2={ci1} y2={y+10} stroke={p.color} strokeWidth="1.5" opacity="0.5"/>
-            <line x1={ci0} y1={y} x2={ci1} y2={y} stroke={p.color} strokeWidth="1" opacity="0.4" strokeDasharray="2 2"/>
-            <text x={bx+6} y={y+4} fontSize="12" fontWeight="700" fill={p.color}>{p.pct}%</text>
-            <text x={W-padR+8} y={y+4} fontSize="11" fill="var(--ink-4)">[{p.ci_inf}–{p.ci_sup}]</text>
-            <text x={W-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.seats}e</text>
-          </g>
+ <g key={p.siglas}>
+ <text x={padL-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+ <rect x={padL} y={y-8} width={(p.pct/maxPct)*barW} height={16} rx="4" fill={p.color} opacity="0.85"/>
+ <line x1={ci0} y1={y-10} x2={ci0} y2={y+10} stroke={p.color} strokeWidth="1.5" opacity="0.5"/>
+ <line x1={ci1} y1={y-10} x2={ci1} y2={y+10} stroke={p.color} strokeWidth="1.5" opacity="0.5"/>
+ <line x1={ci0} y1={y} x2={ci1} y2={y} stroke={p.color} strokeWidth="1" opacity="0.4" strokeDasharray="2 2"/>
+ <text x={bx+6} y={y+4} fontSize="12" fontWeight="700" fill={p.color}>{p.pct}%</text>
+ <text x={W-padR+8} y={y+4} fontSize="11" fill="var(--ink-4)">[{p.ci_inf}–{p.ci_sup}]</text>
+ <text x={W-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.seats}e</text>
+ </g>
         )
       })}
-    </svg>
+ </svg>
   )
 }
 
@@ -88,24 +88,24 @@ function SeatsChart({parties}:{parties:Party[]}){
   const barW=W-padL-padR,H=rowH*main.length+24
   const majX=padL+(176/maxSeats)*barW
   return(
-    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
-      <line x1={majX} y1={0} x2={majX} y2={H-10} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="4 3"/>
-      <text x={majX} y={H-2} textAnchor="middle" fontSize="10" fill="var(--ink-4)">Mayoría</text>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
+ <line x1={majX} y1={0} x2={majX} y2={H-10} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="4 3"/>
+ <text x={majX} y={H-2} textAnchor="middle" fontSize="10" fill="var(--ink-4)">Mayoría</text>
       {main.map((p,i)=>{
         const y=i*rowH+rowH/2
         const rangW=(p.seats_high/maxSeats)*barW
         const cenW=(p.seats/maxSeats)*barW
         return(
-          <g key={p.siglas}>
-            <text x={padL-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
-            <rect x={padL+(p.seats_low/maxSeats)*barW} y={y-9} width={((p.seats_high-p.seats_low)/maxSeats)*barW} height={18} rx="4" fill={p.color} opacity="0.18"/>
-            <rect x={padL} y={y-7} width={cenW} height={14} rx="3" fill={p.color} opacity="0.85"/>
-            <text x={padL+cenW+5} y={y+4} fontSize="12" fontWeight="700" fill={p.color}>{p.seats}</text>
-            <text x={W-padR+4} y={y+4} fontSize="10.5" fill="var(--ink-4)">{p.seats_low}–{p.seats_high}</text>
-          </g>
+ <g key={p.siglas}>
+ <text x={padL-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+ <rect x={padL+(p.seats_low/maxSeats)*barW} y={y-9} width={((p.seats_high-p.seats_low)/maxSeats)*barW} height={18} rx="4" fill={p.color} opacity="0.18"/>
+ <rect x={padL} y={y-7} width={cenW} height={14} rx="3" fill={p.color} opacity="0.85"/>
+ <text x={padL+cenW+5} y={y+4} fontSize="12" fontWeight="700" fill={p.color}>{p.seats}</text>
+ <text x={W-padR+4} y={y+4} fontSize="10.5" fill="var(--ink-4)">{p.seats_low}–{p.seats_high}</text>
+ </g>
         )
       })}
-    </svg>
+ </svg>
   )
 }
 
@@ -122,7 +122,7 @@ export default function NowcastingPage(){
   // 52 circunscripciones, calibrado 23-J) — la misma fuente que el resto
   // de la plataforma electoral.
   const { data: provincial, source, updatedAt, refresh } = useApi<ProvincialApiResponse>(
-    '/api/electoral/provincial',
+ '/api/electoral/provincial',
     { refreshInterval: 30_000 },
   )
 
@@ -155,142 +155,142 @@ export default function NowcastingPage(){
   })
 
   return(
-    <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
-      <AppHeader/>
+ <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
+ <AppHeader/>
 
-      <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
-        <section style={{background:'linear-gradient(135deg,#1e3a5f 0%,#0a1628 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
-          <div>
-            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
-              <span>Módulo Electoral · D'Hondt provincial en vivo</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
-            </p>
-            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>{PARTIES[0]?.siglas || 'PP'} mantiene <em style={{fontWeight:300}}>ventaja sólida</em></h1>
-            <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de {N_POLLS} encuestas · 52 circunscripciones · LOREG · misma fuente que /escenarios y /mapa</p>
-          </div>
-          <div style={{textAlign:'right',flexShrink:0}}>
-            <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#60a5fa'}}>{(PARTIES[0]?.pct ?? 32.1).toFixed(1)}<span style={{fontSize:28}}>%</span></div>
-            <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginTop:4}}>{PARTIES[0]?.siglas || 'PP'} · IC 95%: [{PARTIES[0]?.ci_inf ?? 30.2} – {PARTIES[0]?.ci_sup ?? 34.0}]</div>
-          </div>
-        </section>
+ <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
+ <section style={{background:'linear-gradient(135deg,#1e3a5f 0%,#0a1628 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
+ <div>
+ <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+ <span>Módulo Electoral · D'Hondt provincial en vivo</span>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
+ </p>
+ <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>{PARTIES[0]?.siglas || 'PP'} mantiene <em style={{fontWeight:300}}>ventaja sólida</em></h1>
+ <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de {N_POLLS} encuestas · 52 circunscripciones · LOREG · misma fuente que /escenarios y /mapa</p>
+ </div>
+ <div style={{textAlign:'right',flexShrink:0}}>
+ <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#60a5fa'}}>{(PARTIES[0]?.pct ?? 32.1).toFixed(1)}<span style={{fontSize:28}}>%</span></div>
+ <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginTop:4}}>{PARTIES[0]?.siglas || 'PP'} · IC 95%: [{PARTIES[0]?.ci_inf ?? 30.2} – {PARTIES[0]?.ci_sup ?? 34.0}]</div>
+ </div>
+ </section>
 
         {/* KPI cards top 6 */}
-        <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:12,marginBottom:20}}>
+ <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:12,marginBottom:20}}>
           {PARTIES.slice(0,6).map(p=>(
-            <div key={p.siglas} style={{background:'#fff',borderRadius:16,padding:'14px 16px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',borderTop:`3px solid ${p.color}`}}>
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
-                <span style={{fontSize:13,fontWeight:700,color:p.color}}>{p.siglas}</span>
-                <span style={{fontSize:10.5,color:p.delta>0?'#16A34A':p.delta<0?'#DC2626':'var(--ink-4)',fontWeight:600}}>{p.delta>0?'+':''}{p.delta!==0?p.delta:'-'}</span>
-              </div>
-              <div style={{fontFamily:'var(--font-display)',fontSize:28,fontWeight:700,letterSpacing:'-0.025em',lineHeight:1}}>{p.pct}%</div>
-              <div style={{fontSize:10.5,color:'var(--ink-4)',marginTop:3}}>[{p.ci_inf}–{p.ci_sup}]</div>
-              <div style={{fontFamily:'var(--font-display)',fontSize:18,fontWeight:600,color:p.color,marginTop:4}}>{p.seats}<span style={{fontSize:11,color:'var(--ink-4)',fontWeight:400}}> esc</span></div>
-            </div>
+ <div key={p.siglas} style={{background:'#fff',borderRadius:16,padding:'14px 16px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',borderTop:`3px solid ${p.color}`}}>
+ <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
+ <span style={{fontSize:13,fontWeight:700,color:p.color}}>{p.siglas}</span>
+ <span style={{fontSize:10.5,color:p.delta>0?'#16A34A':p.delta<0?'#DC2626':'var(--ink-4)',fontWeight:600}}>{p.delta>0?'+':''}{p.delta!==0?p.delta:'-'}</span>
+ </div>
+ <div style={{fontFamily:'var(--font-display)',fontSize:28,fontWeight:700,letterSpacing:'-0.025em',lineHeight:1}}>{p.pct}%</div>
+ <div style={{fontSize:10.5,color:'var(--ink-4)',marginTop:3}}>[{p.ci_inf}–{p.ci_sup}]</div>
+ <div style={{fontFamily:'var(--font-display)',fontSize:18,fontWeight:600,color:p.color,marginTop:4}}>{p.seats}<span style={{fontSize:11,color:'var(--ink-4)',fontWeight:400}}> esc</span></div>
+ </div>
           ))}
-        </div>
+ </div>
 
         {/* CI chart + Bloques */}
-        <div style={{display:'grid',gridTemplateColumns:'8fr 4fr',gap:18,marginBottom:20}}>
-          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Estimación de voto con IC 95%</h2>
-              <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>{N_POLLS} encuestas</span>
-            </div>
-            <CIChart parties={PARTIES}/>
-          </div>
-          <div style={{display:'flex',flexDirection:'column',gap:14}}>
-            <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',flex:1}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Bloques parlamentarios</h2>
+ <div style={{display:'grid',gridTemplateColumns:'8fr 4fr',gap:18,marginBottom:20}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Estimación de voto con IC 95%</h2>
+ <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>{N_POLLS} encuestas</span>
+ </div>
+ <CIChart parties={PARTIES}/>
+ </div>
+ <div style={{display:'flex',flexDirection:'column',gap:14}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',flex:1}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Bloques parlamentarios</h2>
               {[{label:'Derecha',seats:der,color:'#009FDB',parties:'PP · VOX · CC'},{label:'Izquierda',seats:izq,color:'#E30613',parties:'PSOE · Sumar · ERC · Bildu · BNG'}].map(b=>(
-                <div key={b.label} style={{marginBottom:14}}>
-                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
-                    <span style={{fontSize:12,fontWeight:600,color:b.color}}>{b.label}</span>
-                    <span style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700,color:b.color,letterSpacing:'-0.02em'}}>{b.seats}<span style={{fontSize:12,color:'var(--ink-4)',fontWeight:400}}>/350</span></span>
-                  </div>
-                  <div style={{height:8,background:'var(--bg-soft)',borderRadius:999,overflow:'hidden',marginBottom:4}}>
-                    <div style={{width:`${(b.seats/350)*100}%`,height:'100%',background:b.color,borderRadius:999}}/>
-                  </div>
-                  <div style={{fontSize:10.5,color:'var(--ink-4)'}}>{b.parties}</div>
-                </div>
+ <div key={b.label} style={{marginBottom:14}}>
+ <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+ <span style={{fontSize:12,fontWeight:600,color:b.color}}>{b.label}</span>
+ <span style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700,color:b.color,letterSpacing:'-0.02em'}}>{b.seats}<span style={{fontSize:12,color:'var(--ink-4)',fontWeight:400}}>/350</span></span>
+ </div>
+ <div style={{height:8,background:'var(--bg-soft)',borderRadius:999,overflow:'hidden',marginBottom:4}}>
+ <div style={{width:`${(b.seats/350)*100}%`,height:'100%',background:b.color,borderRadius:999}}/>
+ </div>
+ <div style={{fontSize:10.5,color:'var(--ink-4)'}}>{b.parties}</div>
+ </div>
               ))}
-              <div style={{padding:'10px 12px',background:'var(--bg-soft)',borderRadius:10,marginTop:8,textAlign:'center'}}>
-                <div style={{fontSize:10.5,color:'var(--ink-4)',marginBottom:2}}>Mayoría absoluta</div>
-                <div style={{fontFamily:'var(--font-display)',fontSize:20,fontWeight:700,letterSpacing:'-0.02em'}}>176 escaños</div>
-              </div>
-            </div>
-            <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 14px'}}>Transferencias de escaños</h2>
-              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+ <div style={{padding:'10px 12px',background:'var(--bg-soft)',borderRadius:10,marginTop:8,textAlign:'center'}}>
+ <div style={{fontSize:10.5,color:'var(--ink-4)',marginBottom:2}}>Mayoría absoluta</div>
+ <div style={{fontFamily:'var(--font-display)',fontSize:20,fontWeight:700,letterSpacing:'-0.02em'}}>176 escaños</div>
+ </div>
+ </div>
+ <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 14px'}}>Transferencias de escaños</h2>
+ <div style={{display:'flex',flexDirection:'column',gap:8}}>
                 {TRANSFERS.map(t=>(
-                  <div key={t.partido} style={{padding:'9px 12px',borderRadius:10,background:'var(--bg-soft)',borderLeft:`3px solid ${t.color}`}}>
-                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:2}}>
-                      <span style={{fontSize:12,fontWeight:700,color:t.color}}>{t.partido}</span>
-                      <span style={{fontSize:13,fontWeight:700,color:t.dir==='up'?'#16A34A':'#DC2626'}}>{t.dir==='up'?'▲':'▼'} {Math.abs(t.delta)}</span>
-                    </div>
-                    <div style={{fontSize:10.5,color:'var(--ink-4)'}}>{t.fuente}</div>
-                  </div>
+ <div key={t.partido} style={{padding:'9px 12px',borderRadius:10,background:'var(--bg-soft)',borderLeft:`3px solid ${t.color}`}}>
+ <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:2}}>
+ <span style={{fontSize:12,fontWeight:700,color:t.color}}>{t.partido}</span>
+ <span style={{fontSize:13,fontWeight:700,color:t.dir==='up'?'#16A34A':'#DC2626'}}>{t.dir==='up'?'▲':'▼'} {Math.abs(t.delta)}</span>
+ </div>
+ <div style={{fontSize:10.5,color:'var(--ink-4)'}}>{t.fuente}</div>
+ </div>
                 ))}
-              </div>
-            </div>
-          </div>
-        </div>
+ </div>
+ </div>
+ </div>
+ </div>
 
         {/* Seat projection + hemicicle */}
-        <div style={{display:'grid',gridTemplateColumns:'7fr 5fr',gap:18,marginBottom:20}}>
-          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Proyección D'Hondt · 350 escaños</h2>
-              <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>rango IC 95%</span>
-            </div>
-            <SeatsChart parties={PARTIES}/>
-          </div>
-          <div style={{background:'#fff',borderRadius:20,padding:'22px 26px',boxShadow:'0 1px 3px rgba(0,0,0,0.05)',border:'1px solid #ECECEF'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:10,flexWrap:'wrap'}}>
-              <div>
-                <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Hemiciclo · estimación actual</h2>
-                <p style={{margin:'3px 0 0',fontSize:11.5,color:'#6e6e73'}}>350 escaños · IC 95% sobre {N_POLLS} encuestas · activa <strong style={{color:'#1d1d1f'}}>Calcular coalición</strong> para sumar bloques</p>
-              </div>
-              <span style={{fontSize:11,fontWeight:600,color:'#16A34A',background:'#f0fdf4',borderRadius:999,padding:'4px 10px',border:'1px solid #bbf7d0'}}>EN VIVO</span>
-            </div>
-            <HemicycleAdvanced parties={hemPartiesNorm}/>
-          </div>
-        </div>
+ <div style={{display:'grid',gridTemplateColumns:'7fr 5fr',gap:18,marginBottom:20}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Proyección D'Hondt · 350 escaños</h2>
+ <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>rango IC 95%</span>
+ </div>
+ <SeatsChart parties={PARTIES}/>
+ </div>
+ <div style={{background:'#fff',borderRadius:20,padding:'22px 26px',boxShadow:'0 1px 3px rgba(0,0,0,0.05)',border:'1px solid #ECECEF'}}>
+ <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:10,flexWrap:'wrap'}}>
+ <div>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Hemiciclo · estimación actual</h2>
+ <p style={{margin:'3px 0 0',fontSize:11.5,color:'#6e6e73'}}>350 escaños · IC 95% sobre {N_POLLS} encuestas · activa <strong style={{color:'#1d1d1f'}}>Calcular coalición</strong> para sumar bloques</p>
+ </div>
+ <span style={{fontSize:11,fontWeight:600,color:'#16A34A',background:'#f0fdf4',borderRadius:999,padding:'4px 10px',border:'1px solid #bbf7d0'}}>EN VIVO</span>
+ </div>
+ <HemicycleAdvanced parties={hemPartiesNorm}/>
+ </div>
+ </div>
 
         {/* Encuestas que alimentan la estimación */}
-        <EncuestasPanel/>
+ <EncuestasPanel/>
 
         {/* Detail table */}
-        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
-          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 18px'}}>Tabla detallada</h2>
-          <table style={{width:'100%',borderCollapse:'collapse',fontSize:12.5}}>
-            <thead>
-              <tr style={{borderBottom:'1px solid var(--hairline)'}}>
+ <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+ <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 18px'}}>Tabla detallada</h2>
+ <table style={{width:'100%',borderCollapse:'collapse',fontSize:12.5}}>
+ <thead>
+ <tr style={{borderBottom:'1px solid var(--hairline)'}}>
                 {['Partido','Estimación','IC 95% Inf','IC 95% Sup','Escaños','Rango','Δ Semana','Encuestas'].map(h=>(
-                  <th key={h} style={{textAlign:'left',padding:'0 8px 10px',fontWeight:600,color:'var(--ink-3)',fontSize:10.5,letterSpacing:'0.04em',textTransform:'uppercase'}}>{h}</th>
+ <th key={h} style={{textAlign:'left',padding:'0 8px 10px',fontWeight:600,color:'var(--ink-3)',fontSize:10.5,letterSpacing:'0.04em',textTransform:'uppercase'}}>{h}</th>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
+ </tr>
+ </thead>
+ <tbody>
               {PARTIES.map((p,i)=>(
-                <tr key={p.siglas} style={{borderBottom:'1px solid var(--hairline)',background:i%2===0?'transparent':'#fafafa'}}>
-                  <td style={{padding:'9px 8px',fontWeight:700,color:p.color}}>{p.siglas}</td>
-                  <td style={{padding:'9px 8px',fontWeight:600}}>{p.pct}%</td>
-                  <td style={{padding:'9px 8px',color:'var(--ink-3)'}}>{p.ci_inf}%</td>
-                  <td style={{padding:'9px 8px',color:'var(--ink-3)'}}>{p.ci_sup}%</td>
-                  <td style={{padding:'9px 8px',fontWeight:600,color:p.color}}>{p.seats}</td>
-                  <td style={{padding:'9px 8px',color:'var(--ink-4)'}}>{p.seats_low}–{p.seats_high}</td>
-                  <td style={{padding:'9px 8px',color:p.delta>0?'#16A34A':p.delta<0?'#DC2626':'var(--ink-4)',fontWeight:600}}>{p.delta>0?'+':''}{p.delta!==0?p.delta:'–'}</td>
-                  <td style={{padding:'9px 8px',color:'var(--ink-4)'}}>{p.n_enc}</td>
-                </tr>
+ <tr key={p.siglas} style={{borderBottom:'1px solid var(--hairline)',background:i%2===0?'transparent':'#fafafa'}}>
+ <td style={{padding:'9px 8px',fontWeight:700,color:p.color}}>{p.siglas}</td>
+ <td style={{padding:'9px 8px',fontWeight:600}}>{p.pct}%</td>
+ <td style={{padding:'9px 8px',color:'var(--ink-3)'}}>{p.ci_inf}%</td>
+ <td style={{padding:'9px 8px',color:'var(--ink-3)'}}>{p.ci_sup}%</td>
+ <td style={{padding:'9px 8px',fontWeight:600,color:p.color}}>{p.seats}</td>
+ <td style={{padding:'9px 8px',color:'var(--ink-4)'}}>{p.seats_low}–{p.seats_high}</td>
+ <td style={{padding:'9px 8px',color:p.delta>0?'#16A34A':p.delta<0?'#DC2626':'var(--ink-4)',fontWeight:600}}>{p.delta>0?'+':''}{p.delta!==0?p.delta:'–'}</td>
+ <td style={{padding:'9px 8px',color:'var(--ink-4)'}}>{p.n_enc}</td>
+ </tr>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </main>
-      <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
+ </tbody>
+ </table>
+ </div>
+ </main>
+ <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
         Estimación en vivo · Wikipedia (sondeos publicados) + D'Hondt provincial · refresco diario · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }
 
@@ -337,9 +337,9 @@ function EncuestasPanel() {
 
   if (loading) {
     return (
-      <div style={{ background:'#fff', borderRadius:16, padding:'22px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.06)', marginBottom:16, fontSize:12, color:'#86868b' }}>
+ <div style={{ background:'#fff', borderRadius:16, padding:'22px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.06)', marginBottom:16, fontSize:12, color:'#86868b' }}>
         Cargando catálogo de encuestas…
-      </div>
+ </div>
     )
   }
   if (!data) return null
@@ -354,96 +354,96 @@ function EncuestasPanel() {
   const maxPeso = Math.max(...data.encuestas.map(e => e.peso))
 
   return (
-    <div style={{ background:'#fff', borderRadius:16, padding:'22px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.06)', marginBottom:16 }}>
-      <header style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:14, flexWrap:'wrap', gap:10 }}>
-        <div>
-          <h2 style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.015em', margin:0 }}>
+ <div style={{ background:'#fff', borderRadius:16, padding:'22px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.06)', marginBottom:16 }}>
+ <header style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:14, flexWrap:'wrap', gap:10 }}>
+ <div>
+ <h2 style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.015em', margin:0 }}>
             Encuestas que alimentan la estimación
-          </h2>
-          <p style={{ fontSize:11.5, color:'#6e6e73', margin:'3px 0 0' }}>
-            <strong style={{ color:'#16A34A' }}>● LIVE</strong> · {data.meta.n_curadas} sondeos publicados (Wikipedia · refresco diario) · ponderación: {data.meta.ponderacion}
-          </p>
-        </div>
-        <div style={{ display:'flex', gap:6 }}>
-          <a href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_Spanish_general_election" target="_blank" rel="noreferrer" style={{
+ </h2>
+ <p style={{ fontSize:11.5, color:'#6e6e73', margin:'3px 0 0' }}>
+ <strong style={{ color:'#16A34A' }}>● LIVE</strong> · {data.meta.n_curadas} sondeos publicados (Wikipedia · refresco diario) · ponderación: {data.meta.ponderacion}
+ </p>
+ </div>
+ <div style={{ display:'flex', gap:6 }}>
+ <a href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_Spanish_general_election" target="_blank" rel="noreferrer" style={{
             fontSize:11, fontWeight:600, color:'#16A34A', textDecoration:'none',
             padding:'4px 10px', borderRadius:999, border:'1px solid #BBF7D0', background:'#F0FDF4',
           }}>Wikipedia ↗</a>
-          <a href="https://electocracia.com" target="_blank" rel="noreferrer" style={{
+ <a href="https://electocracia.com" target="_blank" rel="noreferrer" style={{
             fontSize:11, fontWeight:600, color:'#1F4E8C', textDecoration:'none',
             padding:'4px 10px', borderRadius:999, border:'1px solid #D8E5F4', background:'#F5F8FC',
           }}>electocracia.com ↗</a>
-        </div>
-      </header>
+ </div>
+ </header>
 
-      <div style={{ overflowX:'auto', maxHeight: 480, overflowY:'auto', border:'1px solid #ECECEF', borderRadius:10 }}>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11 }}>
-          <thead style={{ position:'sticky', top:0, background:'#FAFAFA', zIndex:1 }}>
-            <tr style={{ borderBottom:'1px solid #ECECEF' }}>
-              <th style={{ padding:'8px 10px', textAlign:'left', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Casa · cliente</th>
-              <th style={{ padding:'8px 10px', textAlign:'left', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Fecha</th>
-              <th style={{ padding:'8px 10px', textAlign:'right', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Muestra</th>
+ <div style={{ overflowX:'auto', maxHeight: 480, overflowY:'auto', border:'1px solid #ECECEF', borderRadius:10 }}>
+ <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11 }}>
+ <thead style={{ position:'sticky', top:0, background:'#FAFAFA', zIndex:1 }}>
+ <tr style={{ borderBottom:'1px solid #ECECEF' }}>
+ <th style={{ padding:'8px 10px', textAlign:'left', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Casa · cliente</th>
+ <th style={{ padding:'8px 10px', textAlign:'left', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Fecha</th>
+ <th style={{ padding:'8px 10px', textAlign:'right', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Muestra</th>
               {partyOrder.slice(0, 6).map(p => (
-                <th key={p} style={{ padding:'8px 6px', textAlign:'right', fontSize:9.5, fontWeight:800, color: partyColors[p], letterSpacing:'0.04em' }}>{p}</th>
+ <th key={p} style={{ padding:'8px 6px', textAlign:'right', fontSize:9.5, fontWeight:800, color: partyColors[p], letterSpacing:'0.04em' }}>{p}</th>
               ))}
-              <th style={{ padding:'8px 10px', textAlign:'right', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Peso</th>
-            </tr>
-          </thead>
-          <tbody>
+ <th style={{ padding:'8px 10px', textAlign:'right', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Peso</th>
+ </tr>
+ </thead>
+ <tbody>
             {data.encuestas.map(e => (
-              <tr key={e.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                <td style={{ padding:'7px 10px' }}>
-                  <div style={{ fontWeight:700, color:'#1d1d1f' }}>{e.casa}</div>
-                  <div style={{ fontSize:9.5, color:'#86868b' }}>{e.cliente}</div>
-                </td>
-                <td style={{ padding:'7px 10px', color:'#3a3a3d', fontSize:10.5 }}>
+ <tr key={e.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
+ <td style={{ padding:'7px 10px' }}>
+ <div style={{ fontWeight:700, color:'#1d1d1f' }}>{e.casa}</div>
+ <div style={{ fontSize:9.5, color:'#86868b' }}>{e.cliente}</div>
+ </td>
+ <td style={{ padding:'7px 10px', color:'#3a3a3d', fontSize:10.5 }}>
                   {new Date(e.fecha).toLocaleDateString('es-ES', { day:'2-digit', month:'short' })}
-                </td>
-                <td style={{ padding:'7px 10px', textAlign:'right', color:'#3a3a3d', fontSize:10.5 }}>
+ </td>
+ <td style={{ padding:'7px 10px', textAlign:'right', color:'#3a3a3d', fontSize:10.5 }}>
                   {e.muestra.toLocaleString('es-ES')}
-                </td>
+ </td>
                 {partyOrder.slice(0, 6).map(p => (
-                  <td key={p} style={{ padding:'7px 6px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>
+ <td key={p} style={{ padding:'7px 6px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>
                     {e.partidos[p]?.toFixed(1) || '—'}
-                  </td>
+ </td>
                 ))}
-                <td style={{ padding:'7px 10px', textAlign:'right', minWidth:90 }}>
-                  <div title={`Calidad ${e.peso_breakdown.calidad} × Recencia ${e.peso_breakdown.recencia} × Muestra ${e.peso_breakdown.muestra_factor}`} style={{
+ <td style={{ padding:'7px 10px', textAlign:'right', minWidth:90 }}>
+ <div title={`Calidad ${e.peso_breakdown.calidad} × Recencia ${e.peso_breakdown.recencia} × Muestra ${e.peso_breakdown.muestra_factor}`} style={{
                     display:'inline-flex', alignItems:'center', gap:5,
                   }}>
-                    <div style={{ width:50, height:6, background:'#ECECEF', borderRadius:3, overflow:'hidden' }}>
-                      <div style={{ width:`${(e.peso/maxPeso)*100}%`, height:'100%', background:'#16A34A' }}/>
-                    </div>
-                    <span style={{ fontSize:10, fontWeight:700, color:'#1d1d1f', fontFamily:'var(--font-display)' }}>
+ <div style={{ width:50, height:6, background:'#ECECEF', borderRadius:3, overflow:'hidden' }}>
+ <div style={{ width:`${(e.peso/maxPeso)*100}%`, height:'100%', background:'#16A34A' }}/>
+ </div>
+ <span style={{ fontSize:10, fontWeight:700, color:'#1d1d1f', fontFamily:'var(--font-display)' }}>
                       {e.peso.toFixed(2)}
-                    </span>
-                  </div>
-                </td>
-              </tr>
+ </span>
+ </div>
+ </td>
+ </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
+ </tbody>
+ </table>
+ </div>
 
       {data.referencias_sin_cifras.length > 0 && (
-        <details style={{ marginTop:14, fontSize:11.5 }}>
-          <summary style={{ cursor:'pointer', color:'#1F4E8C', fontWeight:600 }}>
+ <details style={{ marginTop:14, fontSize:11.5 }}>
+ <summary style={{ cursor:'pointer', color:'#1F4E8C', fontWeight:600 }}>
             + {data.referencias_sin_cifras.length} encuestas adicionales detectadas en electocracia.com (ver enlaces)
-          </summary>
-          <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:6 }}>
+ </summary>
+ <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:6 }}>
             {data.referencias_sin_cifras.map(r => (
-              <li key={r.id} style={{ padding:'6px 10px', background:'#FAFAFA', borderRadius:6, border:'1px solid #ECECEF' }}>
-                <a href={r.link} target="_blank" rel="noreferrer" style={{ color:'#1d1d1f', textDecoration:'none', fontSize:11 }}>
-                  <strong>{r.casa}</strong>
+ <li key={r.id} style={{ padding:'6px 10px', background:'#FAFAFA', borderRadius:6, border:'1px solid #ECECEF' }}>
+ <a href={r.link} target="_blank" rel="noreferrer" style={{ color:'#1d1d1f', textDecoration:'none', fontSize:11 }}>
+ <strong>{r.casa}</strong>
                   {r.cliente && <span style={{ color:'#6e6e73' }}> · {r.cliente}</span>}
                   {r.fecha && <span style={{ color:'#6e6e73', fontSize:10 }}> · {new Date(r.fecha).toLocaleDateString('es-ES')}</span>}
                   {r.ambito && r.ambito !== 'España' && <span style={{ marginLeft:4, fontSize:9, padding:'1px 5px', background:'#F5F5F7', borderRadius:4, color:'#3a3a3d' }}>{r.ambito}</span>}
-                </a>
-              </li>
+ </a>
+ </li>
             ))}
-          </ul>
-        </details>
+ </ul>
+ </details>
       )}
-    </div>
+ </div>
   )
 }

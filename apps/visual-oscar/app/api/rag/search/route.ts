@@ -84,7 +84,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       withMeta(
         { query: body.query, citations, total: citations.length },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -94,7 +94,7 @@ export async function POST(req: Request) {
   return NextResponse.json(
     withMeta(
       { query: body.query, citations: [] as RagCitation[], total: 0 },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`]

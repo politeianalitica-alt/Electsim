@@ -22,33 +22,33 @@ export function CrmAlertsPanel({ workspaceId, onSelectActor }: {
 
   if (alerts.length === 0) {
     return (
-      <div style={{
+ <div style={{
         background: WS.successSub, border: `1px solid ${WS.success}33`,
         borderRadius: 12, padding: 14,
         fontSize: 12.5, color: WS.success, fontWeight: 600,
       }}>
         Sin alertas CRM · todas las relaciones tienen actividad reciente.
-      </div>
+ </div>
     );
   }
 
   return (
-    <div style={{
+ <div style={{
       background: WS.surface, border: `1px solid ${WS.border}`,
       borderRadius: 14, padding: 14,
       display: "flex", flexDirection: "column", gap: 8,
     }}>
-      <div style={{
+ <div style={{
         fontSize: 10.5, fontWeight: 700, color: WS.ink3,
         letterSpacing: "0.08em", textTransform: "uppercase",
       }}>
         Alertas CRM · {alerts.length}
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+ </div>
+ <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         {alerts.slice(0, 12).map(a => {
           const t = TONE[a.severity];
           return (
-            <button
+ <button
               key={a.id}
               onClick={() => onSelectActor?.(a.actorId)}
               style={{
@@ -59,23 +59,23 @@ export function CrmAlertsPanel({ workspaceId, onSelectActor }: {
                 textAlign: "left", fontFamily: WS.font,
               }}
             >
-              <div>
-                <div style={{ fontSize: 12.5, fontWeight: 600, color: WS.ink, marginBottom: 2 }}>
+ <div>
+ <div style={{ fontSize: 12.5, fontWeight: 600, color: WS.ink, marginBottom: 2 }}>
                   {a.actorName} · {a.title}
-                </div>
-                <div style={{ fontSize: 11.5, color: WS.ink3 }}>{a.hint}</div>
-              </div>
-              <div style={{
+ </div>
+ <div style={{ fontSize: 11.5, color: WS.ink3 }}>{a.hint}</div>
+ </div>
+ <div style={{
                 fontSize: 10, fontWeight: 700, color: t.color,
                 letterSpacing: "0.06em", textTransform: "uppercase",
                 alignSelf: "start", whiteSpace: "nowrap",
               }}>
                 {a.severity}
-              </div>
-            </button>
+ </div>
+ </button>
           );
         })}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }

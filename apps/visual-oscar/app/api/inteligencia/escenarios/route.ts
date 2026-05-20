@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   try {
     if (BACKEND) {
       const res = await fetch(
-        `${BACKEND}/api/v1/inteligencia/escenarios${estado ? `?estado=${estado}` : ''}`,
+ `${BACKEND}/api/v1/inteligencia/escenarios${estado ? `?estado=${estado}` : ''}`,
         { headers: { 'X-API-Key': process.env.BACKEND_API_KEY ?? '' }, next: { revalidate: 600 } }
       );
       if (res.ok) return Response.json(await res.json());

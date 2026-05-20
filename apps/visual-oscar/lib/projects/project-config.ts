@@ -59,5 +59,5 @@ export const GANTT_VIEW_CONFIG: Record<GanttViewMode, { label: string; columnWid
 };
 
 export const KANBAN_COLUMNS: TaskStatus[] = [
-  "backlog", "todo", "in_progress", "review", "done", "blocked",
+ "backlog", "todo", "in_progress", "review", "done", "blocked",
 ];

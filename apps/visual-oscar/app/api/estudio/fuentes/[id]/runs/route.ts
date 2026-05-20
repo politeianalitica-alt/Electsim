@@ -10,7 +10,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
   } catch {
     return NextResponse.json(
       Array.from({ length: 8 }, (_, i) => ({
-        id:           `run-${params.id}-${i}`,
+        id: `run-${params.id}-${i}`,
         sourceId:     params.id,
         status:       i === 0 ? 'success' : i === 2 ? 'error' : 'success',
         startedAt:    new Date(Date.now() - i * 3_600_000).toISOString(),

@@ -77,12 +77,12 @@ export function GanttView({ project }: { project: Project }) {
   const todayX = dateToX(startOfDay(new Date()));
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900 overflow-hidden">
+ <div className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900 overflow-hidden">
       {/* Controls */}
-      <div className="flex items-center gap-2 border-b border-slate-800 px-4 py-2">
-        <div className="flex rounded-lg border border-slate-700 overflow-hidden">
+ <div className="flex items-center gap-2 border-b border-slate-800 px-4 py-2">
+ <div className="flex rounded-lg border border-slate-700 overflow-hidden">
           {VIEW_MODES.map(m => (
-            <button
+ <button
               key={m}
               onClick={() => setMode(m)}
               className={`px-3 py-1.5 text-[11px] transition-colors ${
@@ -90,43 +90,43 @@ export function GanttView({ project }: { project: Project }) {
               }`}
             >
               {GANTT_VIEW_CONFIG[m].label}
-            </button>
+ </button>
           ))}
-        </div>
-        <div className="ml-auto flex gap-3">
+ </div>
+ <div className="ml-auto flex gap-3">
           {project.phases.map(phase => (
-            <div key={phase.id} className="flex items-center gap-1.5">
-              <div className="h-2.5 w-2.5 rounded-sm" style={{ background: phase.color }} />
-              <span className="text-[11px] text-slate-400">{phase.title}</span>
-            </div>
+ <div key={phase.id} className="flex items-center gap-1.5">
+ <div className="h-2.5 w-2.5 rounded-sm" style={{ background: phase.color }} />
+ <span className="text-[11px] text-slate-400">{phase.title}</span>
+ </div>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <div className="flex flex-1 overflow-hidden">
+ <div className="flex flex-1 overflow-hidden">
         {/* Task labels */}
-        <div className="w-56 flex-none border-r border-slate-800 overflow-y-auto">
-          <div className="h-10 border-b border-slate-800 bg-slate-900 px-3 flex items-center">
-            <span className="text-[11px] font-medium text-slate-400">Tarea</span>
-          </div>
+ <div className="w-56 flex-none border-r border-slate-800 overflow-y-auto">
+ <div className="h-10 border-b border-slate-800 bg-slate-900 px-3 flex items-center">
+ <span className="text-[11px] font-medium text-slate-400">Tarea</span>
+ </div>
           {project.tasks.map(task => (
-            <div
+ <div
               key={task.id}
               style={{ height: rowHeight }}
               className="flex items-center border-b border-slate-800/50 px-3 hover:bg-slate-900/40 transition-colors"
             >
-              <p className="truncate text-xs text-slate-300">{task.title}</p>
-            </div>
+ <p className="truncate text-xs text-slate-300">{task.title}</p>
+ </div>
           ))}
-        </div>
+ </div>
 
         {/* Scrollable Gantt */}
-        <div className="flex-1 overflow-auto">
-          <div style={{ width: Math.max(totalWidth, 600), minWidth: "100%" }}>
+ <div className="flex-1 overflow-auto">
+ <div style={{ width: Math.max(totalWidth, 600), minWidth: "100%" }}>
             {/* Timeline header */}
-            <div className="sticky top-0 z-10 flex h-10 border-b border-slate-800 bg-slate-950">
+ <div className="sticky top-0 z-10 flex h-10 border-b border-slate-800 bg-slate-950">
               {columns.map((c, i) => (
-                <div
+ <div
                   key={i}
                   style={{ width: columnWidth, flexShrink: 0 }}
                   className={`flex items-center justify-center border-r border-slate-800 text-[11px] ${
@@ -134,16 +134,16 @@ export function GanttView({ project }: { project: Project }) {
                   } ${c.isWeekend ? "bg-slate-900/50" : ""}`}
                 >
                   {c.label}
-                </div>
+ </div>
               ))}
-            </div>
+ </div>
 
-            <div
+ <div
               className="relative"
               style={{ height: project.tasks.length * rowHeight }}
             >
               {/* Today line */}
-              <div
+ <div
                 className="absolute top-0 w-0.5 bg-indigo-500/60 z-10"
                 style={{ left: todayX, height: "100%" }}
               />
@@ -153,7 +153,7 @@ export function GanttView({ project }: { project: Project }) {
                 const left = dateToX(new Date(phase.startDate));
                 const width = dateToX(new Date(phase.endDate)) - left;
                 return (
-                  <div
+ <div
                     key={phase.id}
                     className="absolute z-0"
                     style={{
@@ -175,7 +175,7 @@ export function GanttView({ project }: { project: Project }) {
                 const left = dateToX(new Date(task.startDate));
                 const width = Math.max(dateToX(new Date(task.endDate)) - left, 12);
                 return (
-                  <TaskBar
+ <TaskBar
                     key={task.id}
                     title={task.title}
                     status={task.status}
@@ -196,11 +196,11 @@ export function GanttView({ project }: { project: Project }) {
                 const left = dateToX(new Date(m.date));
                 return <MilestoneMarker key={m.id} title={m.title} date={m.date} left={left} totalHeight={project.tasks.length * rowHeight} />;
               })}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
   );
 }
 
@@ -227,30 +227,30 @@ const TaskBar = memo(function TaskBar({
   color: string;
 }) {
   return (
-    <div
+ <div
       className="absolute rounded cursor-pointer group z-[2]"
       style={{ left, top, width, height }}
       title={blocked && blockerReason ? `${title}\nBloqueado: ${blockerReason}` : title}
     >
-      <div
+ <div
         className="absolute inset-0 rounded"
         style={{ background: `${color}25`, border: `1px solid ${color}50` }}
       />
-      <div
+ <div
         className="absolute left-0 top-0 h-full rounded"
         style={{ width: `${progress}%`, background: `${color}50` }}
       />
       {width > 60 && (
-        <div className="absolute inset-0 flex items-center px-2 overflow-hidden">
-          <span className="truncate text-[10px] font-medium" style={{ color }}>
+ <div className="absolute inset-0 flex items-center px-2 overflow-hidden">
+ <span className="truncate text-[10px] font-medium" style={{ color }}>
             {title}
-          </span>
-        </div>
+ </span>
+ </div>
       )}
       {blocked && (
-        <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500 border-2 border-slate-950" />
+ <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500 border-2 border-slate-950" />
       )}
-    </div>
+ </div>
   );
 });
 
@@ -266,12 +266,12 @@ const MilestoneMarker = memo(function MilestoneMarker({
   totalHeight: number;
 }) {
   return (
-    <div className="absolute z-[3]" style={{ left: left - 8, top: 0 }} title={`${title} · ${date}`}>
-      <div
+ <div className="absolute z-[3]" style={{ left: left - 8, top: 0 }} title={`${title} · ${date}`}>
+ <div
         className="absolute"
         style={{ left: 8, top: 0, width: 1, height: totalHeight, background: "#f5733066" }}
       />
-      <div
+ <div
         className="cursor-pointer shadow-lg"
         style={{
           width: 14,
@@ -281,6 +281,6 @@ const MilestoneMarker = memo(function MilestoneMarker({
           borderRadius: 2,
         }}
       />
-    </div>
+ </div>
   );
 });

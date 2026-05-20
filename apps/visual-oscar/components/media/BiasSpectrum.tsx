@@ -61,7 +61,7 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
   )
 
   return (
-    <div
+ <div
       style={{
         background: '#ffffff',
         borderRadius: 22,
@@ -71,8 +71,8 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
         fontFamily: '-apple-system, system-ui, sans-serif',
       }}
     >
-      <div style={{ marginBottom: 4 }}>
-        <div
+ <div style={{ marginBottom: 4 }}>
+ <div
           style={{
             fontSize: 14,
             fontWeight: 600,
@@ -81,14 +81,14 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
           }}
         >
           Espectro de Sesgo Político
-        </div>
-        <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 2 }}>
+ </div>
+ <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 2 }}>
           Tamaño de burbuja = audiencia mensual
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Axis labels */}
-      <div
+ <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -101,23 +101,23 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
           marginBottom: 4,
         }}
       >
-        <span>Izquierda</span>
-        <span>Derecha</span>
-      </div>
+ <span>Izquierda</span>
+ <span>Derecha</span>
+ </div>
 
       {/* Gradient bar */}
-      <div
+ <div
         style={{
           height: 6,
           borderRadius: 3,
           background:
-            'linear-gradient(to right, #e74c3c, #e67e22, #95a5a6, #3498db, #2c3e50)',
+ 'linear-gradient(to right, #e74c3c, #e67e22, #95a5a6, #3498db, #2c3e50)',
           marginBottom: 8,
         }}
       />
 
       {/* Bubble container */}
-      <div
+ <div
         style={{
           position: 'relative',
           height: 200,
@@ -136,7 +136,7 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
           const yPx = yBase + (radius / 2)
 
           return (
-            <div
+ <div
               key={`${medio.nombre}-${i}`}
               onMouseEnter={(e) => {
                 const rect = (
@@ -170,7 +170,7 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
                 zIndex: 1,
               }}
             >
-              <span
+ <span
                 style={{
                   fontSize: Math.max(8, Math.min(11, radius / 3.5)),
                   fontWeight: 700,
@@ -187,14 +187,14 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
                 }}
               >
                 {label}
-              </span>
-            </div>
+ </span>
+ </div>
           )
         })}
 
         {/* Tooltip */}
         {tooltip && (
-          <div
+ <div
             style={{
               position: 'absolute',
               left: Math.min(tooltip.x, 240),
@@ -211,19 +211,19 @@ export default function BiasSpectrum({ medios }: BiasSpectrumProps) {
               boxShadow: '0 4px 16px rgba(0,0,0,0.22)',
             }}
           >
-            <div style={{ fontWeight: 700, marginBottom: 2 }}>
+ <div style={{ fontWeight: 700, marginBottom: 2 }}>
               {tooltip.medio.nombre}
-            </div>
-            <div style={{ opacity: 0.8 }}>{tooltip.medio.grupo_mediatico}</div>
-            <div>
+ </div>
+ <div style={{ opacity: 0.8 }}>{tooltip.medio.grupo_mediatico}</div>
+ <div>
               {tooltip.medio.audiencia_mensual_M.toFixed(1)} M lectores
-            </div>
-            <div>
+ </div>
+ <div>
               {tooltip.medio.n_articulos_recientes} arts últimos 7d
-            </div>
-          </div>
+ </div>
+ </div>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }

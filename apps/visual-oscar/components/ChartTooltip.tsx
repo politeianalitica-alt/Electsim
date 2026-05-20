@@ -4,8 +4,8 @@
  *
  * Provee:
  *   - useChartTooltip()         · hook con estado (visible, x, y, label, value)
- *   - <ChartTooltip>            · overlay HTML posicionado sobre un container
- *   - <HoverArea>               · rect SVG transparente para captar mouseenter
+ *   - <ChartTooltip> · overlay HTML posicionado sobre un container
+ *   - <HoverArea> · rect SVG transparente para captar mouseenter
  */
 import { useState, useCallback } from 'react'
 
@@ -39,7 +39,7 @@ export function useChartTooltip() {
 export function ChartTooltip({ tooltip }: { tooltip: TooltipState }) {
   if (!tooltip.visible) return null
   return (
-    <div
+ <div
       style={{
         position: 'absolute',
         left: `${tooltip.x}%`,
@@ -60,25 +60,25 @@ export function ChartTooltip({ tooltip }: { tooltip: TooltipState }) {
       }}
     >
       {tooltip.label && (
-        <div style={{
+ <div style={{
           fontSize: 9.5, fontWeight: 800, letterSpacing: '0.08em',
           textTransform: 'uppercase', opacity: 0.65, marginBottom: 4,
         }}>{tooltip.label}</div>
       )}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-        <span style={{
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+ <span style={{
           fontFamily: 'var(--font-display)',
           fontSize: 16, fontWeight: 700,
           color: tooltip.color || '#fff',
           letterSpacing: '-0.01em',
         }}>{tooltip.value || '—'}</span>
         {tooltip.unit && <span style={{ fontSize: 10, opacity: 0.7 }}>{tooltip.unit}</span>}
-      </div>
+ </div>
       {tooltip.extra && (
-        <div style={{ fontSize: 10, opacity: 0.7, marginTop: 3 }}>{tooltip.extra}</div>
+ <div style={{ fontSize: 10, opacity: 0.7, marginTop: 3 }}>{tooltip.extra}</div>
       )}
       {/* Triángulo apuntando abajo */}
-      <div style={{
+ <div style={{
         position: 'absolute',
         left: '50%',
         bottom: -5,
@@ -88,7 +88,7 @@ export function ChartTooltip({ tooltip }: { tooltip: TooltipState }) {
         borderRight: '5px solid transparent',
         borderTop: '5px solid rgba(29, 29, 31, 0.95)',
       }}/>
-    </div>
+ </div>
   )
 }
 
@@ -106,15 +106,15 @@ export function HoverableSVG({
   onHide: () => void
 }) {
   return (
-    <g>
+ <g>
       {children}
-      <rect
+ <rect
         x={x} y={y} width={width} height={height}
         fill="transparent"
         style={{ cursor: 'crosshair' }}
         onMouseEnter={onShow}
         onMouseLeave={onHide}
       />
-    </g>
+ </g>
   )
 }

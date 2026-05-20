@@ -42,17 +42,17 @@ interface PartyEstimate {
 }
 
 const PARTY_META: Record<string, { nombre: string; color: string; bloque: 'izquierda' | 'derecha' | 'otros'; partido_id?: number }> = {
-  PP:    { partido_id: 2, nombre: 'Partido Popular',           color: '#1F4E8C', bloque: 'derecha'   },
+  PP:    { partido_id: 2, nombre: 'Partido Popular',           color: '#1F4E8C', bloque: 'derecha' },
   PSOE:  { partido_id: 1, nombre: 'PSOE',                      color: '#E1322D', bloque: 'izquierda' },
-  VOX:   { partido_id: 3, nombre: 'VOX',                       color: '#5BA02E', bloque: 'derecha'   },
+  VOX:   { partido_id: 3, nombre: 'VOX',                       color: '#5BA02E', bloque: 'derecha' },
   SUMAR: { partido_id: 4, nombre: 'Sumar',                     color: '#D43F8D', bloque: 'izquierda' },
   ERC:   { partido_id: 6, nombre: 'Esquerra Republicana',      color: '#E8A030', bloque: 'izquierda' },
-  JUNTS: { partido_id: 7, nombre: 'Junts per Catalunya',       color: '#1FA89B', bloque: 'otros'     },
-  PNV:   { partido_id: 8, nombre: 'Partido Nacionalista Vasco', color: '#7DB94B', bloque: 'otros'    },
+  JUNTS: { partido_id: 7, nombre: 'Junts per Catalunya',       color: '#1FA89B', bloque: 'otros' },
+  PNV:   { partido_id: 8, nombre: 'Partido Nacionalista Vasco', color: '#7DB94B', bloque: 'otros' },
   BILDU: { partido_id: 9, nombre: 'EH Bildu',                  color: '#3F7A3A', bloque: 'izquierda' },
-  CC:    { nombre: 'Coalición Canaria',                         color: '#F2C43A', bloque: 'derecha'   },
+  CC:    { nombre: 'Coalición Canaria',                         color: '#F2C43A', bloque: 'derecha' },
   BNG:   { nombre: 'Bloque Nacionalista Galego',                color: '#5BB3D9', bloque: 'izquierda' },
-  OTROS: { nombre: 'Otros partidos',                            color: '#9E9E9E', bloque: 'otros'     },
+  OTROS: { nombre: 'Otros partidos',                            color: '#9E9E9E', bloque: 'otros' },
 }
 
 /**

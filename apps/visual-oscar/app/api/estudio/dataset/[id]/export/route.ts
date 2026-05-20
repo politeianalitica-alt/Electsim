@@ -11,16 +11,16 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     return new NextResponse(blob, {
       status: 200,
       headers: {
-        'Content-Type':        format === 'csv' ? 'text/csv' : 'application/json',
-        'Content-Disposition': `attachment; filename="dataset-${params.id}.${format}"`,
+ 'Content-Type':        format === 'csv' ? 'text/csv' : 'application/json',
+ 'Content-Disposition': `attachment; filename="dataset-${params.id}.${format}"`,
       },
     })
   } catch {
     const csv = 'municipio_id,municipio,partido,votos\n28001,Madrid,PP,892340\n08001,Barcelona,PSC,680120\n'
     return new NextResponse(csv, {
       headers: {
-        'Content-Type':        'text/csv',
-        'Content-Disposition': `attachment; filename="dataset-${params.id}.csv"`,
+ 'Content-Type': 'text/csv',
+ 'Content-Disposition': `attachment; filename="dataset-${params.id}.csv"`,
       },
     })
   }

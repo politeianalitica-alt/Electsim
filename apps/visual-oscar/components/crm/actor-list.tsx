@@ -20,16 +20,16 @@ export function ActorList({ actors, selectedId, onSelect }: ActorListProps) {
   }
   if (actors.length <= VIRTUAL_THRESHOLD) {
     return (
-      <div className="h-full overflow-auto">
+ <div className="h-full overflow-auto">
         {actors.map(actor => (
-          <ActorListItem
+ <ActorListItem
             key={actor.id}
             actor={actor}
             selected={actor.id === selectedId}
             onClick={() => onSelect(actor)}
           />
         ))}
-      </div>
+ </div>
     );
   }
   return <VirtualisedActorList actors={actors} selectedId={selectedId} onSelect={onSelect} />;
@@ -45,12 +45,12 @@ function VirtualisedActorList({ actors, selectedId, onSelect }: ActorListProps) 
   });
 
   return (
-    <div ref={parentRef} className="h-full overflow-auto" role="listbox" aria-label="Actores">
-      <div style={{ height: virtualizer.getTotalSize(), position: "relative", width: "100%" }}>
+ <div ref={parentRef} className="h-full overflow-auto" role="listbox" aria-label="Actores">
+ <div style={{ height: virtualizer.getTotalSize(), position: "relative", width: "100%" }}>
         {virtualizer.getVirtualItems().map(vi => {
           const actor = actors[vi.index];
           return (
-            <div
+ <div
               key={actor.id}
               style={{
                 position: "absolute",
@@ -61,16 +61,16 @@ function VirtualisedActorList({ actors, selectedId, onSelect }: ActorListProps) 
                 height: vi.size,
               }}
             >
-              <ActorListItem
+ <ActorListItem
                 actor={actor}
                 selected={actor.id === selectedId}
                 onClick={() => onSelect(actor)}
               />
-            </div>
+ </div>
           );
         })}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }
 
@@ -87,7 +87,7 @@ const ActorListItem = memo(function ActorListItem({
   const priorityConfig = PRIORITY_CONFIG[actor.priority];
 
   return (
-    <div
+ <div
       role="option"
       aria-selected={selected}
       tabIndex={0}
@@ -97,7 +97,7 @@ const ActorListItem = memo(function ActorListItem({
         selected ? "bg-slate-800 border-l-2 border-l-indigo-500" : ""
       }`}
     >
-      <div
+ <div
         className="flex h-10 w-10 flex-none items-center justify-center rounded-full text-sm font-bold"
         style={{
           background: `${actor.avatarColor}30`,
@@ -105,28 +105,28 @@ const ActorListItem = memo(function ActorListItem({
         }}
       >
         {actor.avatarInitials}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1.5">
-          <span className="truncate text-sm font-medium text-slate-100">{actor.displayName}</span>
+ </div>
+ <div className="min-w-0 flex-1">
+ <div className="flex items-center gap-1.5">
+ <span className="truncate text-sm font-medium text-slate-100">{actor.displayName}</span>
           {partyConfig && (
-            <span
+ <span
               className="flex-none rounded px-1.5 py-0.5 text-[10px] font-bold"
               style={{ background: `${partyConfig.color}20`, color: partyConfig.color }}
             >
               {actor.party}
-            </span>
+ </span>
           )}
-        </div>
-        <p className="truncate text-xs text-slate-400">
+ </div>
+ <p className="truncate text-xs text-slate-400">
           {actor.role} · {actor.institution}
-        </p>
-      </div>
-      <div
+ </p>
+ </div>
+ <div
         className="h-2 w-2 flex-none rounded-full"
         style={{ background: priorityConfig.color }}
         title={`Prioridad: ${actor.priority}`}
       />
-    </div>
+ </div>
   );
 });

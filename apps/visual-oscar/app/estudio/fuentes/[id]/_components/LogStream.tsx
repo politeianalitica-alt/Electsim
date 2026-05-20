@@ -6,8 +6,8 @@ import styles from './FuenteDetalle.module.css'
 
 const LEVEL_COLORS: Record<string, string> = {
   debug: '#9ca3af',
-  info:  '#3b82f6',
-  warn:  '#f59e0b',
+  info: '#3b82f6',
+  warn: '#f59e0b',
   error: '#ef4444',
 }
 
@@ -45,9 +45,9 @@ export default function LogStream({ sourceId, active }: Props) {
   }, [logs])
 
   return (
-    <div className={styles.logContainer}>
-      <div className={styles.logHeader}>
-        <span
+ <div className={styles.logContainer}>
+ <div className={styles.logHeader}>
+ <span
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -56,31 +56,31 @@ export default function LogStream({ sourceId, active }: Props) {
             color: connected ? 'var(--color-success,#22c55e)' : 'var(--color-muted,#6b7280)',
           }}
         >
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: connected ? 'var(--color-success,#22c55e)' : 'var(--color-muted,#6b7280)', display: 'inline-block' }} />
+ <span style={{ width: 7, height: 7, borderRadius: '50%', background: connected ? 'var(--color-success,#22c55e)' : 'var(--color-muted,#6b7280)', display: 'inline-block' }} />
           {connected ? 'Conectado · tiempo real' : 'Desconectado'}
-        </span>
-        <span style={{ fontSize: '0.72rem', color: 'var(--color-muted,#6b7280)' }}>
+ </span>
+ <span style={{ fontSize: '0.72rem', color: 'var(--color-muted,#6b7280)' }}>
           {logs.length} entradas
-        </span>
-        <button
+ </span>
+ <button
           onClick={() => setLogs([])}
           style={{ marginLeft: 'auto', fontSize: '0.72rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-muted,#6b7280)' }}
         >
           Limpiar
-        </button>
-      </div>
-      <div className={styles.logBody}>
+ </button>
+ </div>
+ <div className={styles.logBody}>
         {logs.length === 0 && (
-          <span style={{ color: '#6b7280', fontSize: '0.8rem', padding: '0.5rem' }}>
+ <span style={{ color: '#6b7280', fontSize: '0.8rem', padding: '0.5rem' }}>
             Esperando eventos de log…
-          </span>
+ </span>
         )}
         {logs.map(log => (
-          <div key={log.id} className={styles.logLine}>
-            <span style={{ color: '#6b7280', fontSize: '0.68rem', flexShrink: 0 }}>
+ <div key={log.id} className={styles.logLine}>
+ <span style={{ color: '#6b7280', fontSize: '0.68rem', flexShrink: 0 }}>
               {new Date(log.timestamp).toLocaleTimeString('es-ES')}
-            </span>
-            <span
+ </span>
+ <span
               style={{
                 color: LEVEL_COLORS[log.level] ?? '#9ca3af',
                 fontSize: '0.7rem',
@@ -91,12 +91,12 @@ export default function LogStream({ sourceId, active }: Props) {
               }}
             >
               {log.level}
-            </span>
-            <span style={{ fontSize: '0.78rem', color: '#e5e7eb' }}>{log.message}</span>
-          </div>
+ </span>
+ <span style={{ fontSize: '0.78rem', color: '#e5e7eb' }}>{log.message}</span>
+ </div>
         ))}
-        <div ref={bottomRef} />
-      </div>
-    </div>
+ <div ref={bottomRef} />
+ </div>
+ </div>
   )
 }

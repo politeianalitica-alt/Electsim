@@ -125,71 +125,71 @@ export default function DashboardBuilderClient({ id }: { id: string }) {
   if (isLoading) return <Skeleton style={{ height: '100vh' }} />
 
   return (
-    <div className={styles.root}>
-      <div className={styles.topBar}>
-        <div className={styles.topLeft}>
-          <Link href="/estudio/dashboard" className={styles.breadcrumbLink}>← Dashboards</Link>
-          <span className={styles.sep}>›</span>
-          <input
+ <div className={styles.root}>
+ <div className={styles.topBar}>
+ <div className={styles.topLeft}>
+ <Link href="/estudio/dashboard" className={styles.breadcrumbLink}>← Dashboards</Link>
+ <span className={styles.sep}>›</span>
+ <input
             type="text"
             value={name}
             onChange={e => { setName(e.target.value); setIsDirty(true) }}
             className={styles.nameInput}
           />
           {isDirty && <span className={styles.dirtyBadge}>Sin guardar</span>}
-        </div>
-        <div className={styles.topRight}>
-          <span className={styles.widgetCount}>{widgets.length} widgets</span>
-          <button onClick={() => setShowLibrary(l => !l)} className={styles.btnToggle}>
+ </div>
+ <div className={styles.topRight}>
+ <span className={styles.widgetCount}>{widgets.length} widgets</span>
+ <button onClick={() => setShowLibrary(l => !l)} className={styles.btnToggle}>
             {showLibrary ? '← Ocultar biblioteca' : 'Biblioteca →'}
-          </button>
+ </button>
           {!isNew && (
-            <Link href={`/estudio/dashboard/${id}`} className={styles.btnPreview}>
+ <Link href={`/estudio/dashboard/${id}`} className={styles.btnPreview}>
               Vista previa
-            </Link>
+ </Link>
           )}
-          <button onClick={handleSave} disabled={saveMutation.isPending || !name.trim()} className={styles.btnSave}>
-            {saveMutation.isPending ? '⟳' : isDirty ? '● Guardar' : '✓ Guardado'}
-          </button>
-        </div>
-      </div>
+ <button onClick={handleSave} disabled={saveMutation.isPending || !name.trim()} className={styles.btnSave}>
+            {saveMutation.isPending ? '⟳' : isDirty ? '● Guardar' : ' Guardado'}
+ </button>
+ </div>
+ </div>
 
-      <div className={styles.main}>
+ <div className={styles.main}>
         {showLibrary && (
-          <div className={styles.library}>
-            <div className={styles.libraryTitle}>Biblioteca</div>
+ <div className={styles.library}>
+ <div className={styles.libraryTitle}>Biblioteca</div>
             {WIDGET_CATEGORIES.map(cat => (
-              <div key={cat.key} className={styles.libCategory}>
-                <span className={styles.libCategoryLabel}>{cat.label}</span>
-                <div className={styles.libGrid}>
+ <div key={cat.key} className={styles.libCategory}>
+ <span className={styles.libCategoryLabel}>{cat.label}</span>
+ <div className={styles.libGrid}>
                   {cat.items.map(type => {
                     const meta = WIDGET_TYPE_META[type]
                     return (
-                      <button
+ <button
                         key={type}
                         onClick={() => addWidget(type)}
                         className={styles.libItem}
                         title={meta.label}
                       >
-                        <span className={styles.libIcon}>{meta.icon}</span>
-                        <span className={styles.libLabel}>{meta.label}</span>
-                      </button>
+ <span className={styles.libIcon}>{meta.icon}</span>
+ <span className={styles.libLabel}>{meta.label}</span>
+ </button>
                     )
                   })}
-                </div>
-              </div>
+ </div>
+ </div>
             ))}
-          </div>
+ </div>
         )}
 
-        <div className={styles.canvas}>
+ <div className={styles.canvas}>
           {widgets.length === 0 ? (
-            <div className={styles.emptyCanvas}>
-              <span style={{ fontSize: '2rem', opacity: 0.2 }}>⊟</span>
-              <p>Añade widgets desde la biblioteca de la izquierda</p>
-            </div>
+ <div className={styles.emptyCanvas}>
+ <span style={{ fontSize: '2rem', opacity: 0.2 }}>⊟</span>
+ <p>Añade widgets desde la biblioteca de la izquierda</p>
+ </div>
           ) : (
-            <GridLayout
+ <GridLayout
               layout={layout}
               cols={COLS}
               rowHeight={ROW_HEIGHT}
@@ -200,33 +200,33 @@ export default function DashboardBuilderClient({ id }: { id: string }) {
               resizeHandles={['se']}
             >
               {widgets.map(widget => (
-                <div
+ <div
                   key={widget.id}
                   onClick={() => setSelectedWidgetId(widget.id)}
                   className={`${styles.widgetCell} ${selectedWidgetId === widget.id ? styles.widgetSelected : ''}`}
                 >
-                  <div className={styles.widgetDragHandle}>⠿</div>
-                  <WidgetRenderer
+ <div className={styles.widgetDragHandle}>⠿</div>
+ <WidgetRenderer
                     widget={widget}
                     dashboardId={isNew ? 'preview' : id}
                     editable
                     onEdit={() => setSelectedWidgetId(widget.id)}
                     onRemove={() => removeWidget(widget.id)}
                   />
-                </div>
+ </div>
               ))}
-            </GridLayout>
+ </GridLayout>
           )}
-        </div>
+ </div>
 
         {selectedWidget && (
-          <WidgetConfigPanel
+ <WidgetConfigPanel
             widget={selectedWidget}
             onUpdate={(cfg) => updateWidgetConfig(selectedWidget.id, cfg)}
             onClose={() => setSelectedWidgetId(null)}
           />
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
