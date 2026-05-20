@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkBackendHealth } from "@/lib/backend/workspace-client";
-import { isAiEnabled } from "@/lib/ai/ai-config";
+import { isAiEnabled } from "@/lib/ai";
 import { isDbConfigured } from "@/lib/db/client";
 import { isAuthEnabled } from "@/lib/auth/auth-config";
 import { isQueueConfigured } from "@/lib/queue/queue-client";

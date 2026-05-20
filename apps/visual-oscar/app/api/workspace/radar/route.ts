@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJSON, OllamaUnavailableError } from "@/lib/ai/ollama-client";
-import { isAiEnabled } from "@/lib/ai/ai-config";
+import { generateJSON, OllamaUnavailableError } from "@/lib/ai";
+import { isAiEnabled } from "@/lib/ai";
 import {
   RadarPayloadSchema,
   RADAR_SCHEMA_HINT,

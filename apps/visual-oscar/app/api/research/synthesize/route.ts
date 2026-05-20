@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { streamText, OllamaUnavailableError } from "@/lib/ai/ollama-client";
-import { isAiEnabled } from "@/lib/ai/ai-config";
+import { streamText, OllamaUnavailableError } from "@/lib/ai";
+import { isAiEnabled } from "@/lib/ai";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
+import { generateText, AI_CONFIG } from '@/lib/ai'
 
 // POST /api/brain/chat
 //
@@ -8,8 +9,9 @@ import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
 //      del backend (Bloque P3 — tool-use con 8 herramientas reales: BOE, EUR-Lex,
 //      AI Act, Congreso, actores).
 //   2. Si BACKEND_URL configurado y sin tools → `/api/brain/chat`.
-//   3. Si backend no responde → Ollama directo (OLLAMA_URL).
-//   4. Si nada responde → `source: 'fallback'` con _meta.warnings.
+//   3. Anthropic Claude Haiku (si LLM_PROVIDER=anthropic + API key).
+//   4. Ollama directo (si OLLAMA_URL configurado).
+//   5. Si nada responde → `source: 'fallback'` con _meta.warnings.
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -162,7 +164,41 @@ export async function POST(req: NextRequest) {
   }
   const backendWarning = fromB && 'error' in fromB && fromB.error ? fromB.error : null
 
-  // 2. Ollama directo
+  // 2. Anthropic Claude (Haiku para chat de alto volumen) si está configurado
+  if (AI_CONFIG.provider === 'anthropic') {
+    try {
+      const reply = await generateText({
+        tier: 'fast',
+        messages: clean.map(m => ({
+          role: m.role === 'system' ? 'system' : m.role,
+          content: m.content,
+        })),
+        temperature: 0.4,
+        maxTokens: 1024,
+      })
+      if (reply) {
+        return NextResponse.json({
+          reply,
+          source: 'anthropic',
+          model: AI_CONFIG.anthropicFastModel,
+          tools_used: [],
+          citations: [],
+          ms: Date.now() - started,
+          _meta: {
+            source: 'anthropic',
+            ts: new Date().toISOString(),
+            warnings: backendWarning ? [`backend_unavailable:${backendWarning}`] : undefined,
+          },
+        })
+      }
+    } catch (e) {
+      const err = e instanceof Error ? e.message : String(e)
+      // eslint-disable-next-line no-console
+      console.warn('[brain/chat] anthropic failed:', err)
+    }
+  }
+
+  // 3. Ollama directo
   const fromO = await callOllama(clean)
   if (fromO) {
     return NextResponse.json({
