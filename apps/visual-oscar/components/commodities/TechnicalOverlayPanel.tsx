@@ -19,7 +19,9 @@ const OPTIONS: { key: OverlayKey; label: string; color: string }[] = [
 ]
 
 export function TechnicalOverlayPanel({ data }: Props) {
-  const [active, setActive] = useState<Set<OverlayKey>>(new Set(['sma20', 'sma50']))
+  const [active, setActive] = useState<Set<OverlayKey>>(
+    () => new Set<OverlayKey>(['sma20', 'sma50']),
+  )
   const [asLine, setAsLine] = useState(false)
 
   const closes = useMemo(() => data.map((d) => d.close), [data])
