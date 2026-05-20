@@ -775,3 +775,158 @@ def test_ema_alertas_tool_feed_invalido():
     res = fn(feed="feed_inexistente_xyz", limit=5)
     assert res["n_items"] == 0
     assert "error" in res and res["error"]
+
+
+# ── Sprint 9 · Tercer Sector (BDNS+EU Funds+EIB+social_orgs) ──────────
+
+def test_bdns_aggregator_importable():
+    """Sprint 9 · S9.1 · aggregator BDNS importable + funciones expuestas."""
+    from etl.sources.spain.bdns_aggregator import (
+        top_beneficiarios, concesiones_por_nif, resumen_por_organo,
+    )
+    assert callable(top_beneficiarios)
+    assert callable(concesiones_por_nif)
+    assert callable(resumen_por_organo)
+
+
+def test_eu_funding_client_importable():
+    """Sprint 9 · S9.2 · cliente EU Funding sin red."""
+    from etl.sources.eu.eu_funding import EUFundingClient, get_eu_funding_client
+    client = get_eu_funding_client()
+    assert isinstance(client, EUFundingClient)
+
+
+def test_eib_client_y_parser():
+    """Sprint 9 · S9.3 · cliente EIB importable y parser RSS."""
+    from etl.sources.eu.eib import EIBClient, get_eib_client
+    client = get_eib_client()
+    assert isinstance(client, EIBClient)
+    items = EIBClient._parse_rss("<rss><channel></channel></rss>")
+    assert items == []
+
+    xml = """<?xml version="1.0"?><rss><channel>
+        <item>
+          <title>Project A - Spain</title>
+          <link>https://www.eib.org/en/projects/all/123</link>
+          <description>Renewable energy in Spain</description>
+          <pubDate>Mon, 19 May 2026 09:00:00 GMT</pubDate>
+          <guid>eib-123</guid>
+        </item>
+    </channel></rss>"""
+    items = EIBClient._parse_rss(xml)
+    assert len(items) == 1
+    assert items[0]["country_hint"].lower() == "spain"
+    filtered = client.filter_by_country(items, "Spain")
+    assert len(filtered) == 1
+
+
+def test_social_orgs_seed_valido():
+    """Sprint 9 · S9.4 · seed JSON con ONGs ES principales."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "social" / "orgs_seed.json"
+    assert seed.exists(), "orgs_seed.json no encontrado"
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "caritas_es", "cruz_roja_es", "save_the_children_es", "msf_es",
+        "wwf_es", "feaps_plena_inclusion", "fundacion_la_caixa",
+    ):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r["slug"] and r["name"]
+        assert r["legal_form"] in {
+            "ngo", "fundacion", "cooperativa", "asociacion", "empresa_insercion"
+        }
+        assert r["scope"] in {"local", "regional", "national", "european", "international"}
+        assert isinstance(r.get("irpf_07", False), bool)
+
+
+def test_social_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio social devuelve estructuras vacías sin romper."""
+    from etl.sources.social import service
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        assert service.get_org("caritas_es") is None
+        assert service.get_org_by_nif("R2800013E") is None
+        assert service.list_orgs() == []
+        res = service.load_orgs_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        service._get_engine = original
+
+
+def test_social_migracion_0069_existe():
+    """Migración 0069_social_orgs existe y declara tabla."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0069_social_orgs.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0069_social_orgs"' in src
+    assert 'down_revision = "0068_pharma_signals"' in src
+    assert 'create_table' in src and '"social_orgs"' in src
+
+
+def test_tercer_sector_tools_registradas():
+    """Sprint 9 · S9.5 · tools tercer sector registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.tercer_sector_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "bdns_top_beneficiarios",
+        "bdns_concesiones_beneficiario",
+        "bdns_resumen_organo",
+        "eu_funds_calls",
+        "eib_proyectos",
+        "social_org",
+        "social_org_by_nif",
+        "list_social_orgs",
+        "social_org_funding",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_social_org_funding_sin_bd():
+    """social_org_funding falla cerrado sin BD (no rompe pipeline)."""
+    from agents.tools import ToolRegistry
+    import agents.tools.tercer_sector_tools  # noqa: F401
+    from etl.sources.social import service as svc_social
+
+    original = svc_social._get_engine
+    svc_social._get_engine = lambda: None
+    try:
+        fn = ToolRegistry.get("social_org_funding")
+        res = fn(slug="caritas_es")
+        assert "error" in res
+    finally:
+        svc_social._get_engine = original
+
+
+def test_bdns_aggregator_funciones_sin_red():
+    """Aggregator BDNS · sin red devuelve estructuras vacías + error explícito."""
+    # Forzar cliente BDNS sin sesión
+    from etl.sources.spain import bdns
+    client = bdns.get_bdns_client()
+    original_session = client._session
+    client._session = None
+    try:
+        from etl.sources.spain.bdns_aggregator import (
+            top_beneficiarios, concesiones_por_nif, resumen_por_organo,
+        )
+        r1 = top_beneficiarios(max_pages=1)
+        assert r1["n_concesiones"] == 0
+        assert "error" in r1
+        r2 = concesiones_por_nif("R2800013E", max_pages=1)
+        assert r2["concesiones"] == []
+        assert "error" in r2
+        r3 = resumen_por_organo("Q2800001A", max_pages=1)
+        assert r3["convocatorias"] == []
+        assert "error" in r3
+    finally:
+        client._session = original_session
