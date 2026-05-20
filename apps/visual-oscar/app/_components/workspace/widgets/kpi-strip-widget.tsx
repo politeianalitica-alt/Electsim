@@ -51,7 +51,7 @@ export function KpiStripWidget({ data, workspaceId }: KpiStripWidgetProps) {
     },
     {
       id: "risk",
-      label: "Risk Index",
+      label: "Índice de Riesgo Político",
       value: riskScore,
       delta: riskScore > 65 ? "alto" : riskScore > 35 ? "medio" : "bajo",
       status: riskScore > 65 ? "critical" : riskScore > 35 ? "warning" : "ok",

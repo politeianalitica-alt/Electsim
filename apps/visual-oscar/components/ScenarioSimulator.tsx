@@ -75,13 +75,13 @@ export default function ScenarioSimulator() {
             ¿Qué pasaría si…?
           </h3>
           <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6e6e73', maxWidth: 480 }}>
-            Ajusta los componentes y la CCAA para recalcular el Risk Index en tiempo real con los pesos del modelo.
+            Ajusta los componentes y la CCAA para recalcular el Índice de Riesgo Político en tiempo real con los pesos del modelo.
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 4 }}>
-              Risk Index simulado
+              Índice de Riesgo Político simulado
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, justifyContent: 'flex-end' }}>
               <span style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 46, fontWeight: 700, letterSpacing: '-0.025em', color: result.tier.color, lineHeight: 1 }}>

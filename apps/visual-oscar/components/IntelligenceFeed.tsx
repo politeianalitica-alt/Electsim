@@ -204,7 +204,7 @@ export default function IntelligenceFeed() {
         <div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
             <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
-            Intelligence Feed
+            Feed de inteligencia
           </h2>
           <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {stats ? (
@@ -230,7 +230,7 @@ export default function IntelligenceFeed() {
               transition: 'all 200ms',
             }}
           >
-            {scraping ? 'Analizando…' : 'Scrape ahora'}
+            {scraping ? 'Analizando…' : 'Iniciar ingesta'}
           </button>
         </div>
       </div>
@@ -384,7 +384,7 @@ export default function IntelligenceFeed() {
                   <Skeleton key={i} height={70} radius={10}/>
                 ))}
                 <p style={{ fontSize: 11, color: 'var(--ink-4)', textAlign: 'center', padding: '8px 0' }}>
-                  Sin artículos aún. Pulsa <strong>Scrape ahora</strong> para iniciar la ingesta.
+                  Sin artículos aún. Pulsa <strong>Iniciar ingesta</strong> para iniciar la ingesta.
                 </p>
               </>
             )}

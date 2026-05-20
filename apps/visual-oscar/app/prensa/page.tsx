@@ -43,7 +43,7 @@ export default function PrensaPage() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <SectionHeader
           eyebrow="Inteligencia de Prensa"
-          title="Intelligence Feed"
+          title="Feed de inteligencia"
           subtitle={`${data.total_monitorizados_24h.toLocaleString('es-ES')} fuentes monitorizadas · Sync: ${timeSince(data.ultima_sync)}`}
           size="lg"
           style={{ marginBottom: 0 }}

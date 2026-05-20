@@ -3,6 +3,7 @@ import { useState } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import EmptyState from '@/components/EmptyState'
 import type { RiskIndicesPayload, RiskIndexCard } from '@/app/api/risk-v2/indices/route'
 
 // ─── types ────────────────────────────────────────────────────────────────────
@@ -1067,9 +1068,15 @@ export default function TermometroPage() {
         {tab === 'drivers' && (
           <div>
             {topRisks.length === 0 && signals.length === 0 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 15 }}>
-                Sin drivers disponibles
-              </div>
+              <EmptyState
+                severity="neutral"
+                title="No hay drivers detectados"
+                description="El sistema no ha encontrado eventos o noticias con peso suficiente para mover el score en las últimas horas."
+                reason="Backend principal no responde o agregador SIGINT vacío en esta ventana."
+                source="GDELT · INCIBE · EMSC · Google Noticias · agregador RSS"
+                primaryAction={{ label: 'Actualizar ahora', onClick: () => riskData.refresh() }}
+                secondaryAction={{ label: 'Ver fuentes activas', href: '/medios-narrativa' }}
+              />
             ) : (
               <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)', overflow: 'hidden' }}>
                 <div style={{
@@ -1157,9 +1164,14 @@ export default function TermometroPage() {
               })}
             </div>
             {buckets.length < 2 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 15 }}>
-                Sin datos históricos · backend no conectado
-              </div>
+              <EmptyState
+                severity="warning"
+                title="Serie histórica no disponible"
+                description="El módulo necesita al menos 2 puntos diarios consecutivos para componer la línea histórica del índice o de cualquier dimensión."
+                reason="Backend /api/risk/timeseries sin datos suficientes."
+                source="Politeia · agregador timeseries"
+                primaryAction={{ label: 'Actualizar ahora', onClick: () => tsData.refresh() }}
+              />
             ) : (() => {
               const vals = buckets.map(b => histDim === 'composite' ? b.composite : ((b as unknown as Record<string, number>)[histDim] ?? 0))
               const W = 760, H = 200

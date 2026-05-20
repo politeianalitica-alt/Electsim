@@ -88,7 +88,7 @@ export default function WorkspacesPage() {
           {[
             { label: 'Alertas activas', value: kpis.active_alerts ?? 0, color: '#c42c2c' },
             { label: 'Señales 24h', value: kpis.new_signals_24h ?? 0, color: '#1F4E8C' },
-            { label: 'Risk Index', value: kpis.risk_index ?? 0, color: kpis.risk_index && kpis.risk_index > 60 ? '#c42c2c' : '#b25000' },
+            { label: 'Índice de Riesgo Político', value: kpis.risk_index ?? 0, color: kpis.risk_index && kpis.risk_index > 60 ? '#c42c2c' : '#b25000' },
             { label: 'Cobertura', value: `${kpis.coverage_pct ?? 0}%`, color: '#2d8a39' },
             { label: 'Briefings pdte.', value: kpis.pending_briefings ?? 0, color: '#5B21B6' },
           ].map(k => (

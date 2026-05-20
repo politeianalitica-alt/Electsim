@@ -34,7 +34,7 @@ export async function GET(req: Request) {
     )
   }
 
-  // Risk Index actual
+  // Índice de Riesgo Político actual
   const result = await callBackend<{ score: number; nivel: string; componentes: Record<string, number>; timestamp: string }>(
     '/intelligence/risk-index',
   )

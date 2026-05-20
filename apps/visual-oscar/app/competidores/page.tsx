@@ -231,7 +231,7 @@ export default function CompetidoresPage() {
             <div style={{ display:'flex', gap:10, alignItems:'center', flexWrap:'wrap' }}>
               <span style={{ fontSize:10, fontWeight:800, letterSpacing:'0.1em', opacity:0.75, textTransform:'uppercase' }}>Tipo:</span>
               <div style={{ display:'inline-flex', background:'rgba(255,255,255,0.08)', borderRadius:999, padding:3, flexWrap:'wrap' }}>
-                {(['Strategic Profile','Due Diligence','Win/Loss Analysis','Bid Intelligence','Executive Briefing'] as TipoInforme[]).map(t => {
+                {(['Strategic Profile','Due Diligence','Win/Loss Analysis','Bid Intelligence','Briefing ejecutivo'] as TipoInforme[]).map(t => {
                   const active = tipoInforme === t
                   return (
                     <button key={t} onClick={() => { setTipoInforme(t); setGenerado(false) }} style={{

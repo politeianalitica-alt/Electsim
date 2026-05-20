@@ -10,6 +10,8 @@ import {
   RiesgoTrendLegend,
   type RiesgoTrendData,
 } from './RiskVisuals'
+import EmptyState from './EmptyState'
+import InsightClassification, { InsightDisclaimer } from './InsightClassification'
 import type { RiskComposite, RiskDimension, RiskDriver } from '../app/api/risk/composite/route'
 import type { RiskTimeseriesResponse } from '../app/api/risk/timeseries/route'
 import type { EscalationsResponse } from '../app/api/risk/escalations/route'
@@ -161,7 +163,7 @@ export default function RiskIntelligence() {
         <div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
             <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
-            Politeia Risk Index
+            Politeia Índice de Riesgo Político
           </h2>
           <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
             Marco ICRG adaptado · Pedersen · Kleinberg burst · EWMA · 6 dimensiones · {composite?.dimensions ? Object.values(composite.dimensions).reduce((s, d) => s + d.n_articles, 0) : '—'} señales analizadas
@@ -181,7 +183,14 @@ export default function RiskIntelligence() {
               showTicks={false}
             />
           ) : (
-            <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Cargando…</div>
+            <EmptyState
+              compact
+              severity="neutral"
+              title="Calculando índice compuesto"
+              description="El motor live está agregando señales SIGINT en tiempo real desde GDELT, INCIBE, EMSC y feeds RSS."
+              source="Marco ICRG + Pedersen · Kleinberg · EWMA"
+              primaryAction={{ label: 'Actualizar ahora', onClick: () => refresh() }}
+            />
           )}
         </Card>
 
@@ -209,7 +218,16 @@ export default function RiskIntelligence() {
                   selectedIndex={selectedIndex}
                 />
               ) : (
-                <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Sin dimensiones</div>
+                <EmptyState
+                  compact
+                  severity="warning"
+                  title="Sin dimensiones suficientes"
+                  description="No hay señales suficientes para componer las 6 dimensiones del radar. Revisa la conexión con el backend o los conectores SIGINT."
+                  reason="Backend FastAPI o agregador GDELT/INCIBE no responde."
+                  source="Politeia · agregador 6 dimensiones"
+                  primaryAction={{ label: 'Reintentar', onClick: () => refresh() }}
+                  secondaryAction={{ label: 'Diagnóstico de fuentes', href: '/medios-narrativa' }}
+                />
               )}
             </Card>
           )
@@ -224,9 +242,14 @@ export default function RiskIntelligence() {
           {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
             <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={340}/>
           ) : (
-            <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
-              Cargando serie histórica…
-            </div>
+            <EmptyState
+              compact
+              severity="neutral"
+              title="Serie histórica no disponible"
+              description="El sistema necesita al menos 7 días de datos consecutivos para componer la línea histórica del índice."
+              source="Backend /api/risk/timeseries"
+              primaryAction={{ label: 'Actualizar ahora', onClick: () => refresh() }}
+            />
           )}
         </Card>
       </div>
@@ -441,7 +464,7 @@ function EscalationsPanel({ data }: { data?: EscalationsResponse }) {
       </h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
         {/* Burst */}
-        <Section title="Burst topics (Kleinberg)" subtitle="rate 24h vs baseline">
+        <Section title="Temas en aceleración (Kleinberg)" subtitle="ritmo 24h frente a línea base">
           {(data?.burst_topics ?? []).slice(0, 6).map((b, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--hairline)' }}>
               <span style={{ fontSize: 11, color: 'var(--ink-2)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
@@ -543,11 +566,24 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
       </div>
 
       {scenarios.length > 0 ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 12 }}>
-          {scenarios.map((sc, i) => (
-            <ScenarioCard key={i} sc={sc} delay={i * 80}/>
-          ))}
-        </div>
+        <>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 12 }}>
+            {scenarios.map((sc, i) => (
+              <ScenarioCard key={i} sc={sc} delay={i * 80}/>
+            ))}
+          </div>
+          <p style={{
+            fontSize: 11, color: 'rgba(255,255,255,0.55)', margin: '16px 0 0', lineHeight: 1.5,
+            padding: '10px 14px', background: 'rgba(255,255,255,0.04)', borderRadius: 8,
+            borderLeft: '3px solid rgba(255,255,255,0.20)',
+          }}>
+            <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Aviso metodológico · </strong>
+            Los escenarios son estimaciones generadas por IA a partir de las señales SIGINT disponibles.
+            No constituyen predicciones deterministas y requieren validación humana antes de informar
+            decisiones operativas. Lectura recomendada · separe siempre lo <em>observado</em> de lo
+            <em> inferido</em>, <em>proyectado</em> y <em>recomendado</em>.
+          </p>
+        </>
       ) : loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
           {Array.from({ length: 3 }, (_, i) => (
@@ -555,9 +591,19 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
           ))}
         </div>
       ) : (
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', fontStyle: 'italic', margin: 0 }}>
-          Pulsa "Generar escenarios" para que Ollama prospecte 3 escenarios con probabilidad, impacto y mitigaciones, anclados en los datos actuales del Risk Index.
-        </p>
+        <div style={{
+          background: 'rgba(255,255,255,0.04)', border: '1px dashed rgba(255,255,255,0.20)',
+          borderRadius: 10, padding: '20px 24px', color: 'rgba(255,255,255,0.75)', fontSize: 12.5,
+          lineHeight: 1.55,
+        }}>
+          <strong style={{ color: '#fff', display: 'block', marginBottom: 6, fontSize: 13.5 }}>
+            Sin escenarios generados todavía
+          </strong>
+          Cuando pulses <strong>"Generar escenarios"</strong> el modelo prospectará 3 escenarios con
+          probabilidad, impacto y recomendaciones operativas, anclados en los datos actuales del
+          índice. Cada escenario separará claramente <em>señales observadas</em>, <em>indicadores
+          tempranos</em> y <em>acciones recomendadas</em>.
+        </div>
       )}
     </div>
   )
@@ -605,29 +651,51 @@ function ScenarioCard({ sc, delay }: { sc: RiskScenario; delay: number }) {
         </div>
       )}
 
-      {/* Triggers + Early warnings + Mitigations */}
+      {/* Señales observadas + Indicadores tempranos + Acciones recomendadas
+          · separación visual observado/proyectado/recomendado */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
         {(sc.triggers || []).length > 0 && (
-          <ScenarioField label="Triggers" items={sc.triggers} accent="#DC2626"/>
+          <ScenarioField variant="observed" label="Señales observadas" items={sc.triggers}/>
         )}
         {(sc.early_warnings || []).length > 0 && (
-          <ScenarioField label="Early warnings" items={sc.early_warnings} accent="#D97706"/>
+          <ScenarioField variant="projected" label="Indicadores tempranos" items={sc.early_warnings}/>
         )}
         {(sc.mitigations || []).length > 0 && (
-          <ScenarioField label="Mitigaciones" items={sc.mitigations} accent="#5DBC52"/>
+          <ScenarioField variant="recommended" label="Acciones recomendadas" items={sc.mitigations}/>
         )}
       </div>
     </div>
   )
 }
 
-function ScenarioField({ label, items, accent }: { label: string; items: string[]; accent: string }) {
+// Cada bloque del escenario está clasificado · observado (cian) ·
+// proyectado (ámbar) · recomendado (verde) · para que el usuario
+// distinga qué viene de datos reales y qué es predicción/acción IA.
+function ScenarioField({ variant, label, items }: {
+  variant: 'observed' | 'projected' | 'recommended'
+  label: string
+  items: string[]
+}) {
+  const colors = {
+    observed:    { fg: '#5EEAD4', bg: 'rgba(94,234,212,0.10)', stroke: 'rgba(94,234,212,0.35)' },
+    projected:   { fg: '#FCD34D', bg: 'rgba(252,211,77,0.10)', stroke: 'rgba(252,211,77,0.35)' },
+    recommended: { fg: '#A78BFA', bg: 'rgba(167,139,250,0.10)', stroke: 'rgba(167,139,250,0.35)' },
+  }[variant]
+  const icon = variant === 'observed' ? '●' : variant === 'projected' ? '◐' : '➤'
   return (
-    <div>
-      <div style={{ fontSize: 9, color: accent, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 2 }}>{label}</div>
+    <div style={{
+      background: colors.bg, borderLeft: `2px solid ${colors.fg}`,
+      borderRadius: 6, padding: '6px 10px',
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 5,
+        fontSize: 9, color: colors.fg, textTransform: 'uppercase',
+        letterSpacing: '0.06em', fontWeight: 800, marginBottom: 3,
+      }}>
+        <span>{icon}</span>{label}
+      </div>
       {items.slice(0, 2).map((it, i) => (
-        <div key={i} style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.78)', lineHeight: 1.4, paddingLeft: 8, position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 0, color: accent }}>·</span>
+        <div key={i} style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.82)', lineHeight: 1.4 }}>
           {it}
         </div>
       ))}

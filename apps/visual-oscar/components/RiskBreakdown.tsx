@@ -28,10 +28,10 @@ export default function RiskBreakdown() {
 
   return (
     <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 18, marginTop: 22 }}>
-      {/* Componentes del Risk Index */}
+      {/* Componentes del Índice de Riesgo Político */}
       <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 14 }}>
-          <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em' }}>Composición del Risk Index</h3>
+          <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em' }}>Composición del Índice de Riesgo Político</h3>
           <span style={{ fontSize: 11, color: '#6e6e73' }}>
             Composite: <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)', fontSize: 13 }}>{composite}</strong>/100
           </span>

@@ -85,7 +85,7 @@ function mockComponents(index_id: string, n: number): RiskIndexCard['components'
       { src: 'JEC',  metric: 'Días hasta próximas generales',    raw: 540  },
     ],
     geopolitical: [
-      { src: 'GPR',   metric: 'Geopolitical Risk Index (Caldara)', raw: 152 },
+      { src: 'GPR',   metric: 'Geopolitical Índice de Riesgo Político (Caldara)', raw: 152 },
       { src: 'ACLED', metric: 'Eventos violencia política · 30d',  raw: 8   },
       { src: 'NATO',  metric: 'Tensión otan (índice 0-10)',         raw: 6.8 },
       { src: 'EU',    metric: 'Sanciones activas Rusia',            raw: 13  },

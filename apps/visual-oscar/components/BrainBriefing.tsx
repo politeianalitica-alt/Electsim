@@ -162,12 +162,49 @@ export default function BrainBriefing() {
           </Link>
         </div>
 
-        {/* Texto narrativo · viene del backend si está conectado */}
-        <p style={{ margin: '0 0 18px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.78)', maxWidth: 980 }}>
-          {welcomeText}
-        </p>
+        {/* Texto narrativo · viene del backend si está conectado.
+            Marcado como INFERIDO para que el usuario sepa que es lectura
+            analítica generada por el modelo, no datos crudos. */}
+        <div style={{
+          margin: '0 0 14px', padding: '12px 16px', borderRadius: 10,
+          background: 'rgba(37,99,235,0.10)', borderLeft: '3px solid #60A5FA',
+          border: '1px solid rgba(96,165,250,0.25)',
+        }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6,
+            fontSize: 10, fontWeight: 800, color: '#93C5FD',
+            letterSpacing: '0.10em', textTransform: 'uppercase',
+          }}>
+            <span>◆</span>LECTURA ANALÍTICA · INFERIDO
+            <span title="Interpretación derivada por el modelo a partir de las señales SIGINT disponibles · requiere validación humana antes de informar decisiones."
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    width: 12, height: 12, borderRadius: '50%',
+                    background: 'rgba(147,197,253,0.20)', color: '#93C5FD',
+                    fontSize: 8, fontWeight: 800, cursor: 'help', marginLeft: 2,
+                  }}>?</span>
+          </div>
+          <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: '#fff', maxWidth: 980 }}>
+            {welcomeText}
+          </p>
+        </div>
 
-        {/* Preguntas predefinidas · 3 del backend o las locales como fallback */}
+        {/* Preguntas predefinidas · 3 del backend o las locales como fallback.
+            Marcadas como PROYECTADO (escenarios para explorar) */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8,
+          fontSize: 10, fontWeight: 800, color: 'rgba(252,211,77,0.95)',
+          letterSpacing: '0.10em', textTransform: 'uppercase',
+        }}>
+          <span>◐</span>ESCENARIOS PARA EXPLORAR · PROYECTADO
+          <span title="Posibles evoluciones · hipótesis prospectivas · no son predicciones deterministas."
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: 12, height: 12, borderRadius: '50%',
+                  background: 'rgba(252,211,77,0.20)', color: 'rgba(252,211,77,0.95)',
+                  fontSize: 8, fontWeight: 800, cursor: 'help', marginLeft: 2,
+                }}>?</span>
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
           {threeQuestions.map(p => (
             <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
@@ -257,14 +294,37 @@ export default function BrainBriefing() {
           </button>
         </form>
 
-        <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>
-            {analystNote || 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.'}
-          </span>
-          <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
+        <div style={{
+          marginTop: 12, padding: '10px 14px', borderRadius: 8,
+          background: 'rgba(167,139,250,0.10)', borderLeft: '3px solid #A78BFA',
+          border: '1px solid rgba(167,139,250,0.25)',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          flexWrap: 'wrap', gap: 8,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flex: 1, minWidth: 0 }}>
+            <span style={{
+              fontSize: 9, fontWeight: 800, color: '#C4B5FD', letterSpacing: '0.10em',
+              textTransform: 'uppercase', flexShrink: 0, marginTop: 1,
+              display: 'inline-flex', alignItems: 'center', gap: 4,
+            }}>
+              <span>➤</span>NOTA · RECOMENDADO
+            </span>
+            <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.85)', lineHeight: 1.45 }}>
+              {analystNote || 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.'}
+            </span>
+          </div>
+          <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600, flexShrink: 0 }}>
             Profundizar con Politeia →
           </Link>
         </div>
+        <p style={{
+          marginTop: 8, fontSize: 10.5, color: 'rgba(255,255,255,0.4)',
+          lineHeight: 1.45, fontStyle: 'italic',
+        }}>
+          Aviso metodológico · El briefing combina datos <em>observados</em> con
+          interpretaciones <em>inferidas</em> y escenarios <em>proyectados</em>
+          generados por IA. No constituye predicción determinista y requiere validación.
+        </p>
 
         <style>{`
           @keyframes brainDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }

@@ -11,6 +11,8 @@ import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/components/AlertCard'
+import EmptyState from '@/components/EmptyState'
+import MetricTrace from '@/components/MetricTrace'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Trends types ─────────────────────────────────────────────────────────────
@@ -124,7 +126,7 @@ const TRENDING_FIGURES = [
 const MODULES = [
   { href: '/coaliciones',         label: 'Hub electoral',         sub: '8 tabs · Adversario · Voto blando',    accent: '#5B21B6', tag: 'NUEVO'     },
   { href: '/mapa-actores',        label: 'Mapa de actores',       sub: 'Grafo · Dossier · Cuadrante ideológico', accent: '#1F4E8C', tag: 'EXPANDIDO' },
-  { href: '/riesgo',              label: 'Risk Index',             sub: 'Señales · simulador · escenarios',     accent: '#c42c2c', tag: 'EXPANDIDO' },
+  { href: '/riesgo',              label: 'Índice de Riesgo Político',             sub: 'Señales · simulador · escenarios',     accent: '#c42c2c', tag: 'EXPANDIDO' },
   { href: '/medios-narrativa',    label: 'Medios y narrativa',     sub: '487 fuentes · ciclo de vida narrativo',accent: '#b25000', tag: 'EXPANDIDO' },
   { href: '/monitor-legislativo', label: 'Monitor legislativo',   sub: 'BOE · Congreso · Senado · timeline',   accent: '#0F766E', tag: 'NUEVO'     },
   { href: '/briefing',            label: 'Briefing diario',        sub: 'PDF · archivo histórico · digest',     accent: '#2d8a39', tag: 'EXPANDIDO' },
@@ -247,7 +249,7 @@ export default function DashboardPage() {
                 >
                   <div>
                     <p style={{ fontSize: 11.5, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
-                      Risk Index
+                      Índice de Riesgo Político
                     </p>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
                       <span style={{ fontFamily: 'var(--font-display)', fontSize: 48, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
@@ -349,6 +351,17 @@ export default function DashboardPage() {
           )}
 
           {/* Row 3: Top 5 alertas prioritarias · misma visual que /alertas */}
+          {top5Alerts.length === 0 && !loading && (
+            <EmptyState
+              severity="success"
+              compact
+              title="No hay alertas activas"
+              description="El sistema no ha detectado anomalías relevantes en las últimas 24 horas. Cuando aparezca una señal crítica, te la mostraremos aquí."
+              source="Politeia · agregador SIGINT"
+              lastUpdated={data?.last_updated ?? null}
+              secondaryAction={{ label: 'Histórico de alertas', href: '/alertas' }}
+            />
+          )}
           {top5Alerts.length > 0 && (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
@@ -605,7 +618,7 @@ export default function DashboardPage() {
 
           {/* Pulso informativo */}
           <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
                 Pulso informativo
               </h2>
@@ -613,6 +626,20 @@ export default function DashboardPage() {
                 Feed completo →
               </button>
             </div>
+            {data?.news_pulse && data.news_pulse.length > 0 && (
+              <MetricTrace
+                compact
+                sources={[
+                  { name: 'Agregador propio', href: '/medios-narrativa' },
+                  { name: 'RSS · 30+ medios', href: '/medios-narrativa' },
+                ]}
+                period="últimas 48h"
+                sampleSize={`${data.news_pulse.length} titulares analizados`}
+                updatedAt={data?.last_updated ?? null}
+                methodology="Sentiment heurístico por keywords. Ranking por relevancia del medio (audiencia mensual) × frescor (recencia del artículo)."
+                style={{ marginBottom: 10, borderTop: 'none', paddingTop: 0 }}
+              />
+            )}
             {data?.news_pulse && data.news_pulse.length > 0 ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {data.news_pulse.slice(0, 5).map((n, i) => {
@@ -683,10 +710,21 @@ export default function DashboardPage() {
                   )
                 })}
               </div>
-            ) : (
+            ) : loading ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                 {[0,1,2,3,4].map(i => <Skeleton key={i} height={42} radius={6}/>)}
               </div>
+            ) : (
+              <EmptyState
+                severity="neutral"
+                title="Pulso informativo en construcción"
+                description="Todavía no hay artículos procesados para esta sesión. No se ha completado ninguna ingesta informativa del agregador RSS en los últimos minutos."
+                reason="Los conectores RSS pueden estar reiniciándose o el agregador en cold start."
+                source="Agregador propio · 30+ medios"
+                lastUpdated={data?.last_updated ?? null}
+                primaryAction={{ label: 'Actualizar ahora', onClick: () => refresh() }}
+                secondaryAction={{ label: 'Revisar fuentes', href: '/medios-narrativa' }}
+              />
             )}
           </section>
 

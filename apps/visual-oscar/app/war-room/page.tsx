@@ -828,7 +828,7 @@ function SecMedia() {
       <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
         <thead>
           <tr style={{ borderBottom:'2px solid #ECECEF' }}>
-            {['Medio','Tipo','Titular','Alcance','Sentiment','Hora'].map(h => (
+            {['Medio','Tipo','Titular','Alcance','Sentimiento','Hora'].map(h => (
               <th key={h} style={{ textAlign:'left', padding:'9px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
             ))}
           </tr>
