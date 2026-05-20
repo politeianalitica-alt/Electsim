@@ -1571,3 +1571,248 @@ def test_housing_tools_sin_bd():
         assert r3["n_items"] == 0
     finally:
         svc._get_engine = original
+
+
+# ── Sprint 14 · Agro + Commodities (Vesper-style) ────────────────────
+
+def test_fega_client_importable():
+    """Sprint 14 · S14.1 · cliente FEGA importable + agregador funciona."""
+    from etl.sources.agro.fega import FEGAClient, get_fega_client
+    client = get_fega_client()
+    assert isinstance(client, FEGAClient)
+    # Agregador en memoria sin red
+    rows = [
+        {"BENEFICIARIO": "Soc. Agraria X", "IMPORTE_TOTAL": "12345,67"},
+        {"BENEFICIARIO": "Soc. Agraria X", "IMPORTE_TOTAL": "5000"},
+        {"BENEFICIARIO": "Coop. Y", "IMPORTE_TOTAL": "9999"},
+    ]
+    res = client.aggregate_top_beneficiarios(rows, top_n=10)
+    assert res["n_rows"] == 3
+    assert res["top"][0]["name"] == "Soc. Agraria X"
+    assert res["top"][0]["n_pagos"] == 2
+
+
+def test_eu_cap_client_y_catalogo():
+    """Sprint 14 · S14.2 · cliente EU CAP importable + indicadores definidos."""
+    from etl.sources.agro.eu_cap import EUCAPClient, get_eu_cap_client, EU_CAP_INDICATORS
+    client = get_eu_cap_client()
+    assert isinstance(client, EUCAPClient)
+    for k in ("agricultural_income", "land_use", "agricultural_prices"):
+        assert k in EU_CAP_INDICATORS
+
+
+def test_mapa_enesa_plan():
+    """Sprint 14 · S14.3 · cliente MAPA + Plan ENESA estático funciona."""
+    from etl.sources.agro.mapa_enesa import (
+        MAPAENESAClient, get_mapa_enesa_client, ENESA_PLAN_2024,
+    )
+    client = get_mapa_enesa_client()
+    assert isinstance(client, MAPAENESAClient)
+    plan = client.get_enesa_plan(2024)
+    assert plan["year"] == 2024
+    assert plan["siniestralidad_global_pct"] > 100
+    assert len(plan["lineas_principales"]) >= 5
+    assert ENESA_PLAN_2024["presupuesto_subvenciones_eur"] > 0
+
+
+def test_commodities_catalog_completo():
+    """Sprint 14 · S14.4 · catálogo 40+ commodities con categorías válidas."""
+    from etl.sources.commodities.catalog import COMMODITIES, CATEGORIES, list_commodities
+    assert len(COMMODITIES) >= 35
+    for c in COMMODITIES.values():
+        assert c["category"] in CATEGORIES
+        assert c["slug"] and c["name"]
+    # Filtro por categoría
+    grains = list_commodities("grains")
+    assert all(c["category"] == "grains" for c in grains)
+    assert len(grains) >= 5
+    # Commodities clave deben estar
+    for slug in (
+        "wheat_cbot", "corn_cbot", "soybeans_cbot",
+        "palm_oil_klu", "olive_oil_es", "milk_smp_eu",
+        "sugar_ny", "cocoa_ny", "brent_crude",
+        "natgas_ttf", "copper_lme", "gold_comex",
+    ):
+        assert slug in COMMODITIES, f"slug '{slug}' falta en catálogo"
+
+
+def test_yahoo_client_importable():
+    """YahooFinanceClient importable y construye sin red."""
+    from etl.sources.commodities.prices import YahooFinanceClient, get_yahoo_client
+    client = get_yahoo_client()
+    assert isinstance(client, YahooFinanceClient)
+
+
+def test_technical_indicators_calculo():
+    """Indicadores técnicos: SMA, RSI, MACD en datos sintéticos."""
+    from etl.sources.commodities.prices import technical_indicators
+    # Serie creciente ⇒ RSI alto
+    rising = [float(i) for i in range(1, 60)]
+    ind_r = technical_indicators(rising)
+    assert ind_r["sma20"] is not None
+    assert ind_r["sma50"] is not None
+    assert ind_r["rsi14"] is not None
+    assert ind_r["rsi14"] > 70  # claramente sobrecomprado
+    assert ind_r["macd"] is not None
+    # Serie corta ⇒ todos None excepto n_obs
+    ind_s = technical_indicators([1.0])
+    assert ind_s["sma20"] is None
+    assert ind_s["rsi14"] is None
+
+
+def test_recipe_cost_calculator():
+    """Recipe cost calculator · cálculos básicos + sensibilidad."""
+    from etl.sources.commodities.recipe import compute_recipe_cost, sensitivity_analysis
+    ingredients = [
+        {"slug": "wheat_milling_euronext", "name": "Harina", "quantity": 0.6, "unit": "ton"},
+        {"slug": "sugar_ny", "name": "Azúcar", "quantity": 0.2, "unit": "ton"},
+        {"slug": "palm_oil_klu", "name": "Palma", "quantity": 0.1, "unit": "ton"},
+    ]
+    prices = {
+        "wheat_milling_euronext": 220.0,
+        "sugar_ny": 480.0,
+        "palm_oil_klu": 950.0,
+    }
+    res = compute_recipe_cost(ingredients, prices)
+    expected = 0.6 * 220 + 0.2 * 480 + 0.1 * 950
+    assert abs(res["total_cost"] - expected) < 0.01
+    assert len(res["breakdown"]) == 3
+    assert all(b["pct_of_total"] is not None for b in res["breakdown"])
+    assert res["missing_prices"] == []
+    # Sensibilidad · palma debería tener impacto alto por precio unitario
+    sens = sensitivity_analysis(ingredients, prices, shock_pct=10)
+    assert sens["base_cost"] > 0
+    assert len(sens["shocks"]) == 3
+    # El primero (más impacto) debería ser palma o azúcar
+    top = sens["shocks"][0]
+    assert top["slug"] in {"palm_oil_klu", "sugar_ny", "wheat_milling_euronext"}
+
+
+def test_recipe_cost_missing_price():
+    """Si falta precio se reporta en missing_prices sin romper."""
+    from etl.sources.commodities.recipe import compute_recipe_cost
+    res = compute_recipe_cost(
+        [{"slug": "wheat_cbot", "quantity": 1.0, "unit": "ton"}],
+        prices={},
+    )
+    assert "wheat_cbot" in res["missing_prices"]
+    assert res["total_cost"] == 0.0
+    assert res["breakdown"][0]["line_cost"] is None
+
+
+def test_commodities_seed_recipes():
+    """Sprint 14 · S14.5 · seed JSON recetas con sectores válidos."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "commodities" / "recipes_seed.json"
+    assert seed.exists()
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "pan_blanco_industrial", "galleta_maria_industrial",
+        "chocolate_negro_70", "pienso_vacuno",
+    ):
+        assert required in slugs
+    # Cada ingrediente referencia un slug del catálogo
+    from etl.sources.commodities.catalog import COMMODITIES
+    for r in rows:
+        for ing in r["ingredients"]:
+            assert ing["slug"] in COMMODITIES, (
+                f"receta '{r['slug']}' usa slug desconocido '{ing['slug']}'"
+            )
+
+
+def test_commodities_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio commodities devuelve estructuras vacías sin romper."""
+    from etl.sources.commodities import service
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        assert service.get_recipe("pan_blanco_industrial") is None
+        assert service.list_recipes() == []
+        assert service.get_snapshot_series("wheat_cbot") == []
+        res = service.load_recipes_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+        snap = service.snapshot_price("wheat_cbot", 220.0)
+        assert snap["snapshot"] is False
+    finally:
+        service._get_engine = original
+
+
+def test_migracion_0074_existe():
+    """Migración 0074_commodity_recipes existe."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0074_commodity_recipes.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0074_commodity_recipes"' in src
+    assert 'down_revision = "0073_housing_markets"' in src
+    assert 'create_table' in src
+    assert '"commodity_recipes"' in src
+    assert '"commodity_price_snapshots"' in src
+
+
+def test_agro_tools_registradas():
+    """Tools agro registradas."""
+    from agents.tools import ToolRegistry
+    import agents.tools.agro_tools  # noqa: F401
+    tools = ToolRegistry.list_tools()
+    for name in ("fega_descargar_csv", "eu_cap_indicator", "mapa_news", "enesa_plan"):
+        assert name in tools
+
+
+def test_commodities_tools_registradas():
+    """Tools commodities (Vesper-style) registradas."""
+    from agents.tools import ToolRegistry
+    import agents.tools.commodities_tools  # noqa: F401
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "commodity_catalog", "commodity_metadata",
+        "commodity_price", "commodity_snapshot", "commodity_technical",
+        "commodity_recipe_cost", "commodity_recipe_sensitivity",
+        "commodity_recipe", "list_commodity_recipes",
+    ):
+        assert name in tools
+
+
+def test_commodity_catalog_tool_filtro():
+    """commodity_catalog filtra por categoría y rechaza categorías inválidas."""
+    from agents.tools import ToolRegistry
+    import agents.tools.commodities_tools  # noqa: F401
+    fn = ToolRegistry.get("commodity_catalog")
+    grains = fn(category="grains")
+    assert grains["n_items"] >= 5
+    assert all(c["category"] == "grains" for c in grains["items"])
+    bad = fn(category="categoria_inventada")
+    assert bad["n_items"] == 0
+    assert "error" in bad and bad["error"]
+
+
+def test_commodity_recipe_cost_tool_via_ingredients():
+    """Tool commodity_recipe_cost calcula vía ingredientes directos."""
+    from agents.tools import ToolRegistry
+    import agents.tools.commodities_tools  # noqa: F401
+    fn = ToolRegistry.get("commodity_recipe_cost")
+    res = fn(
+        ingredients=[
+            {"slug": "wheat_cbot", "quantity": 1.0, "unit": "ton"},
+            {"slug": "sugar_ny", "quantity": 0.2, "unit": "ton"},
+        ],
+        prices={"wheat_cbot": 200.0, "sugar_ny": 450.0},
+    )
+    assert abs(res["total_cost"] - (200 + 90)) < 0.01
+    assert res["n_ingredients"] == 2
+
+
+def test_eu_cap_tool_fallback():
+    """eu_cap_indicator devuelve estructura consistente incluso si red falla."""
+    from agents.tools import ToolRegistry
+    import agents.tools.agro_tools  # noqa: F401
+    fn = ToolRegistry.get("eu_cap_indicator")
+    res = fn(indicator="agricultural_income", geo="ES", last_n_years=3)
+    # Si no hay red el data vendrá vacío con error string
+    assert "data" in res

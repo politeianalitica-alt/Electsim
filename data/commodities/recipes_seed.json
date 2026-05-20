@@ -1,0 +1,75 @@
+[
+  {
+    "slug": "pan_blanco_industrial",
+    "name": "Pan blanco industrial · 1 ton producto",
+    "sector": "panaderia",
+    "currency": "EUR",
+    "ingredients": [
+      {"slug": "wheat_milling_euronext", "name": "Harina trigo molinero", "quantity": 0.62, "unit": "ton"},
+      {"slug": "sunflower_oil_es", "name": "Aceite girasol", "quantity": 0.012, "unit": "ton"},
+      {"slug": "sugar_ny", "name": "Azúcar", "quantity": 0.008, "unit": "ton"}
+    ],
+    "notes": "Receta industrial estándar · base para análisis sensibilidad granero ES."
+  },
+  {
+    "slug": "galleta_maria_industrial",
+    "name": "Galleta María industrial · 1 ton producto",
+    "sector": "panaderia",
+    "currency": "EUR",
+    "ingredients": [
+      {"slug": "wheat_milling_euronext", "name": "Harina trigo", "quantity": 0.58, "unit": "ton"},
+      {"slug": "sugar_ny", "name": "Azúcar", "quantity": 0.22, "unit": "ton"},
+      {"slug": "palm_oil_klu", "name": "Aceite palma", "quantity": 0.12, "unit": "ton"},
+      {"slug": "milk_smp_eu", "name": "Leche en polvo desnatada", "quantity": 0.03, "unit": "ton"}
+    ],
+    "notes": "Sensible a aceite palma · 12% del producto."
+  },
+  {
+    "slug": "chocolate_negro_70",
+    "name": "Chocolate negro 70% cacao · 1 ton",
+    "sector": "chocolate",
+    "currency": "EUR",
+    "ingredients": [
+      {"slug": "cocoa_ny", "name": "Cacao en grano", "quantity": 0.7, "unit": "ton"},
+      {"slug": "sugar_ny", "name": "Azúcar", "quantity": 0.28, "unit": "ton"},
+      {"slug": "milk_smp_eu", "name": "Leche en polvo (lactosa)", "quantity": 0.015, "unit": "ton"}
+    ],
+    "notes": "Crisis cacao 2024-25 ha multiplicado x3 el coste de esta receta."
+  },
+  {
+    "slug": "pienso_vacuno",
+    "name": "Pienso vacuno engorde · 1 ton",
+    "sector": "piensos",
+    "currency": "EUR",
+    "ingredients": [
+      {"slug": "corn_cbot", "name": "Maíz", "quantity": 0.55, "unit": "ton"},
+      {"slug": "soybeans_cbot", "name": "Soja (harina)", "quantity": 0.25, "unit": "ton"},
+      {"slug": "barley_es", "name": "Cebada", "quantity": 0.15, "unit": "ton"},
+      {"slug": "wheat_milling_euronext", "name": "Trigo", "quantity": 0.05, "unit": "ton"}
+    ],
+    "notes": "Base para análisis costes ganadería intensiva ES."
+  },
+  {
+    "slug": "cerveza_lager_hl",
+    "name": "Cerveza Lager · 1 hl",
+    "sector": "cerveza",
+    "currency": "EUR",
+    "ingredients": [
+      {"slug": "barley_es", "name": "Malta (cebada)", "quantity": 0.018, "unit": "ton"},
+      {"slug": "wheat_milling_euronext", "name": "Trigo adjunto", "quantity": 0.003, "unit": "ton"}
+    ],
+    "notes": "Receta básica · agua y lúpulo omitidos · proxy coste materias primas."
+  },
+  {
+    "slug": "yogur_natural_industrial",
+    "name": "Yogur natural · 1 ton producto",
+    "sector": "lacteos",
+    "currency": "EUR",
+    "ingredients": [
+      {"slug": "milk_smp_eu", "name": "Leche en polvo desnatada", "quantity": 0.09, "unit": "ton"},
+      {"slug": "butter_eu", "name": "Materia grasa láctea", "quantity": 0.025, "unit": "ton"},
+      {"slug": "sugar_ny", "name": "Azúcar", "quantity": 0.06, "unit": "ton"}
+    ],
+    "notes": "Modelo simplificado · agua + cultivos omitidos."
+  }
+]
