@@ -63,6 +63,9 @@ SourceKind = Literal[
     "ree", "ecb", "world_bank", "openbb",
     # OSINT / redes
     "telegram", "x", "fact_check_rss",
+    # Puertos & comercio global (Módulo Puertos · MVP P1)
+    "ais_position", "port_call", "comtrade", "eurostat_comext",
+    "freight_rate", "sanctions_maritime",
     # Otros
     "wikidata", "manual", "import",
 ]

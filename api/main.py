@@ -60,6 +60,7 @@ from api.routers import (
     workflows,       # Workflows agentic (composición tools) · /api/v1/workflows/*
     compliance,      # Sprint 4 · /api/v1/compliance/screen · OpenSanctions+BDNS+entities
     commodities,     # Sprint 14 (Vesper-FE) · /api/v1/commodities/* · catálogo + precios + recipe cost
+    ports,           # Módulo Puertos · /api/v1/ports/* · AIS + comercio global + sanciones marítimas
     sector_intel,    # FE-Sectoriales · /api/v1/sector-intel/* · overviews unificados S7-S15
 )
 from agents.semantic_search import validate_semantic_schema
@@ -266,4 +267,5 @@ app.include_router(geopolitica.router, prefix="/api", tags=["geopolitica"])
 app.include_router(actors.router, tags=["actors"])
 app.include_router(compliance.router, tags=["compliance"])  # Sprint 4 · /api/v1/compliance/*
 app.include_router(commodities.router, tags=["commodities"])  # Sprint 14 (Vesper-FE) · /api/v1/commodities/*
+app.include_router(ports.router, tags=["ports"])  # Módulo Puertos · /api/v1/ports/*
 app.include_router(sector_intel.router, tags=["sector-intel"])  # FE-Sectoriales · /api/v1/sector-intel/*
