@@ -24,6 +24,31 @@ export interface AlertaItem {
   description: string
   source: string
   ts: string
+  /** URL externa a la noticia/fuente que explica la alerta. Si no se
+   *  pasa, AlertCard genera automáticamente una búsqueda en Google
+   *  Noticias basada en el título — así nunca hay enlaces rotos. */
+  evidenceUrl?: string
+}
+
+/** Build URL para buscar la noticia · prefer evidenceUrl, fallback a
+ *  Google Noticias con el título como query (filtrado opcionalmente por
+ *  el dominio de la fuente si parece un medio conocido). */
+export function alertEvidenceUrl(alert: AlertaItem): string {
+  if (alert.evidenceUrl) return alert.evidenceUrl
+  const knownSites: Record<string, string> = {
+    'El País': 'elpais.com', 'El Mundo': 'elmundo.es', 'ABC': 'abc.es',
+    'La Vanguardia': 'lavanguardia.com', 'eldiario.es': 'eldiario.es',
+    'OkDiario': 'okdiario.com', 'OK Diario': 'okdiario.com',
+    'El Confidencial': 'elconfidencial.com', 'EFE': 'efe.com',
+    'Europa Press': 'europapress.es', 'Newtral': 'newtral.es',
+    'Maldita': 'maldita.es', 'Maldita.es': 'maldita.es',
+    'RTVE': 'rtve.es', 'La Sexta': 'lasexta.com',
+    'Cadena SER': 'cadenaser.com', 'COPE': 'cope.es',
+    'Moncloa': 'lamoncloa.gob.es', 'BOE': 'boe.es',
+  }
+  const site = knownSites[alert.source]
+  const q = site ? `${alert.title} site:${site}` : alert.title
+  return `https://www.google.com/search?q=${encodeURIComponent(q)}&tbm=nws`
 }
 
 export const LEVEL_META: Record<AlertLevel, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
@@ -69,16 +94,56 @@ export default function AlertCard({ alert, onDetailClick, compact = false }: Ale
  </span>
  <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>{alert.category.toUpperCase()}</span>
  </div>
+      {(() => {
+        const evidenceUrl = alertEvidenceUrl(alert)
+        return (
+ <>
  <div style={{ minWidth: 0 }}>
- <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: compact ? 13.5 : 15, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f' }}>{alert.title}</h3>
+ <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: compact ? 13.5 : 15, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f' }}>
+                  {alert.title}
+ </h3>
  <p style={{ margin: '3px 0 6px', fontSize: compact ? 11.5 : 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{alert.description}</p>
- <span style={{ fontSize: 11, color: '#6e6e73' }}>{alert.source} · <span style={{ fontWeight: 600 }}>{alert.ts}</span></span>
+ <a
+                  href={evidenceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`Buscar noticias sobre: ${alert.title}`}
+                  style={{
+                    fontSize: 11, color: '#6e6e73', textDecoration: 'none',
+                    borderBottom: '1px dotted rgba(0,113,227,0.4)',
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#0071e3' }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#6e6e73' }}
+                >
+                  {alert.source} · <span style={{ fontWeight: 600 }}>{alert.ts}</span>
+                  {' '}<span style={{ color: '#0071e3' }}>↗</span>
+ </a>
  </div>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0 }}>
+ <a
+                  href={evidenceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
+                    padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
+                    cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Ver noticia ↗
+ </a>
+                {onDetailClick && (
  <button onClick={onDetailClick} style={{
-        background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
-        padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
-        cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
-      }}>Detalle →</button>
+                    background: 'transparent', border: '1px solid #ECECEF', borderRadius: 8,
+                    padding: '4px 12px', fontSize: 10.5, fontWeight: 600, color: '#6e6e73',
+                    cursor: 'pointer', fontFamily: 'inherit',
+                  }}>Detalle</button>
+                )}
+ </div>
+ </>
+        )
+      })()}
  </article>
   )
 }

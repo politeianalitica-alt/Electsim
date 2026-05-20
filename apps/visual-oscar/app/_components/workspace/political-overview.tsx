@@ -636,7 +636,15 @@ function NarrativeCard({ narrative }: { narrative: NarrativaDef }) {
  </div>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 10.5, color: '#86868b', borderTop: '1px solid #ECECEF', paddingTop: 6 }}>
  <span>Confianza · <strong style={{ color: '#1d1d1f' }}>{narrative.confidence}%</strong></span>
- <Link href="/medios-narrativa" style={{ color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>Ver evidencia →</Link>
+ <div style={{ display: 'flex', gap: 8 }}>
+ <a
+              href={`https://www.google.com/search?q=${encodeURIComponent(narrative.name + ' ' + narrative.driverActors.split('·')[0].trim())}&tbm=nws`}
+              target="_blank" rel="noopener noreferrer"
+              title={`Buscar noticias sobre: ${narrative.name}`}
+              style={{ color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}
+            >Noticias ↗</a>
+ <Link href="/medios-narrativa" style={{ color: '#86868b', textDecoration: 'none', fontWeight: 600 }}>Mapa →</Link>
+ </div>
  </div>
  </article>
   )
