@@ -58,6 +58,7 @@ from api.routers import (
     sectores,        # Sectorial intel unificado · /api/v1/sectores/*
     sectors,
     workflows,       # Workflows agentic (composición tools) · /api/v1/workflows/*
+    compliance,      # Sprint 4 · /api/v1/compliance/screen · OpenSanctions+BDNS+entities
 )
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
@@ -261,3 +262,4 @@ app.include_router(risk_v2.router, tags=["risk-v2"])
 app.include_router(macro_finance.router, tags=["macro-finance"])
 app.include_router(geopolitica.router, prefix="/api", tags=["geopolitica"])
 app.include_router(actors.router, tags=["actors"])
+app.include_router(compliance.router, tags=["compliance"])  # Sprint 4 · /api/v1/compliance/*

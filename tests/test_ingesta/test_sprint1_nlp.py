@@ -345,3 +345,102 @@ def test_bdns_to_normalized_items_yields_normalized():
     # Iterar con max=0 · generador puede estar vacío sin romper
     items = list(to_normalized_items(max_items=0))
     assert items == []
+
+
+# ── Sprint 4 · Compliance + OSINT + legalize-es + Manifesto ───────────
+
+def test_opensanctions_client_construido():
+    """OpenSanctionsClient se construye correctamente."""
+    from etl.sources.osint.opensanctions_client import OpenSanctionsClient, get_opensanctions_client
+
+    c = get_opensanctions_client()
+    assert c is not None
+    # Singleton
+    assert get_opensanctions_client() is c
+
+
+def test_opensanctions_search_vacio():
+    """Búsqueda vacía devuelve error explicito sin romper."""
+    from etl.sources.osint.opensanctions_client import OpenSanctionsClient
+
+    c = OpenSanctionsClient()
+    r = c.search("")
+    assert r["error"] == "query vacía"
+    assert r["results"] == []
+
+
+def test_party_positions_axes():
+    """9 ejes ideológicos del Manifesto Project."""
+    from etl.sources.spain.party_positions import IDEOLOGICAL_AXES
+
+    assert "rile" in IDEOLOGICAL_AXES
+    assert "welfare" in IDEOLOGICAL_AXES
+    assert "eu_pos" in IDEOLOGICAL_AXES
+    assert len(IDEOLOGICAL_AXES) == 9
+
+
+def test_party_distance_sin_bd_devuelve_none():
+    """Sin BD configurada, get_party_distance devuelve None."""
+    from etl.sources.spain.party_positions import get_party_distance
+
+    assert get_party_distance("psoe", "pp") is None
+
+
+def test_legalize_es_parser_yaml_frontmatter():
+    """Parser de frontmatter YAML funciona en strings simples."""
+    from etl.sources.legislative.legalize_es_indexer import parse_law_markdown
+
+    sample = """---
+title: "Ley Test"
+identifier: "BOE-TEST-001"
+rank: "ley"
+publication_date: "2026-05-20"
+subjects: ["test", "muestra"]
+---
+# Cuerpo de la ley
+Texto del articulado.
+"""
+    meta, body = parse_law_markdown(sample)
+    assert meta["title"] == "Ley Test"
+    assert meta["identifier"] == "BOE-TEST-001"
+    assert meta["rank"] == "ley"
+    assert meta["subjects"] == ["test", "muestra"]
+    assert "Cuerpo de la ley" in body
+
+
+def test_legalize_es_chunk_text():
+    """Chunker trocea respetando longitud y overlap."""
+    from etl.sources.legislative.legalize_es_indexer import _chunk_text
+
+    # Texto corto → 1 chunk
+    chunks = _chunk_text("Texto corto.", chunk_size=2000)
+    assert len(chunks) == 1
+
+    # Texto largo → varios chunks con solapamiento
+    long_text = "\n\n".join(["Párrafo " + str(i) + ". " * 100 for i in range(20)])
+    chunks = _chunk_text(long_text, chunk_size=2000, overlap=200)
+    assert len(chunks) > 1
+
+
+def test_compliance_tools_registradas():
+    """5 tools de compliance Sprint 4 registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.compliance_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    assert "compliance_screen" in tools
+    assert "opensanctions_search" in tools
+    assert "party_position" in tools
+    assert "party_distance" in tools
+    assert "search_laws_semantic" in tools
+
+
+def test_party_position_tool_partido_no_existe():
+    """party_position con slug inexistente devuelve error explicito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.compliance_tools
+
+    fn = ToolRegistry.get("party_position")
+    result = fn(party_slug="partido_inventado_xyz")
+    assert "error" in result
+    assert result["party_slug"] == "partido_inventado_xyz"
