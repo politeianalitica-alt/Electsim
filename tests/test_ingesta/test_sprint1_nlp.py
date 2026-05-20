@@ -501,3 +501,130 @@ def test_sector_briefing_tool_sector_invalido():
     result = fn(sector="sector_inventado_xyz", days_back=1)
     # Esperamos error explicito o respuesta con error en payload
     assert "error" in result or "errors" in result
+
+
+# ── Sprint 7 · Banca & Seguros ───────────────────────────────────────
+
+def test_cnmv_client_importable():
+    """Sprint 7 · S7.1 · CNMVClient importable y construye sin red."""
+    from etl.sources.spain.cnmv import CNMVClient, get_cnmv_client
+    client = get_cnmv_client()
+    assert isinstance(client, CNMVClient)
+    items = CNMVClient._parse_rss("<rss><channel></channel></rss>")
+    assert items == []
+
+
+def test_cnmv_parse_rss_basico():
+    """CNMV parser extrae items de RSS válido."""
+    from etl.sources.spain.cnmv import CNMVClient
+    xml = """<?xml version="1.0"?><rss><channel>
+        <item>
+          <title>BBVA: Hecho relevante test</title>
+          <link>https://www.cnmv.es/test/1</link>
+          <description>Descripcion del hecho</description>
+          <pubDate>Mon, 19 May 2026 12:34:56 GMT</pubDate>
+          <guid>cnmv-test-1</guid>
+        </item>
+    </channel></rss>"""
+    items = CNMVClient._parse_rss(xml)
+    assert len(items) == 1
+    assert items[0]["company"] == "BBVA"
+    assert items[0]["id"] == "cnmv-test-1"
+    assert items[0]["link"] == "https://www.cnmv.es/test/1"
+
+
+def test_regulatory_seed_existe_y_es_valido():
+    """Sprint 7 · S7.3 · seed JSON existe con obligaciones críticas."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "regulatory" / "obligations_seed.json"
+    assert seed.exists(), "seed obligations_seed.json no encontrado"
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in ("dora", "basel_iv", "mica", "ai_act", "nis2", "csrd"):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r.get("slug") and r.get("title") and r.get("sector")
+        assert r.get("jurisdiction") in {"ES", "EU", "INT"}
+        assert r.get("severity") in {"info", "medium", "high", "critical"}
+        assert r.get("status") in {"open", "in_progress", "completed", "deprecated"}
+
+
+def test_regulatory_service_falla_cerrado_sin_engine():
+    """Sin BD las funciones del servicio devuelven valores vacíos sin romper."""
+    from etl.sources.regulatory import service
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        assert service.get_obligation("dora") is None
+        assert service.list_obligations() == []
+        assert service.upcoming_deadlines() == []
+        res = service.load_obligations_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        service._get_engine = original
+
+
+def test_regulatory_migracion_0067_existe():
+    """Migración 0067_regulatory_obligations existe y declara tabla."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0067_regulatory_obligations.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0067_regulatory_obligations"' in src
+    assert 'down_revision = "0066_party_positions"' in src
+    assert 'create_table' in src and '"regulatory_obligations"' in src
+
+
+def test_banca_tools_registradas():
+    """Sprint 7 · S7.4 · tools banca registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.banca_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "cnmv_hechos_relevantes",
+        "bde_indicador",
+        "regulatory_obligation",
+        "list_regulatory_obligations",
+        "upcoming_compliance_deadlines",
+        "dora_compliance_status",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_banca_tools_fallan_cerrado_sin_bd():
+    """Tools regulatorias sin BD devuelven estructura vacía con error."""
+    from agents.tools import ToolRegistry
+    import agents.tools.banca_tools  # noqa: F401
+    from etl.sources.regulatory import service
+
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        r1 = ToolRegistry.get("regulatory_obligation")(slug="dora")
+        assert "error" in r1
+        r2 = ToolRegistry.get("list_regulatory_obligations")(sector="banca")
+        assert r2["n_items"] == 0
+        r3 = ToolRegistry.get("upcoming_compliance_deadlines")(days_ahead=30)
+        assert r3["n_items"] == 0
+        r4 = ToolRegistry.get("dora_compliance_status")()
+        assert "error" in r4
+    finally:
+        service._get_engine = original
+
+
+def test_banca_tool_cnmv_estructura():
+    """cnmv_hechos_relevantes devuelve estructura consistente aunque falle red."""
+    from agents.tools import ToolRegistry
+    import agents.tools.banca_tools  # noqa: F401
+
+    fn = ToolRegistry.get("cnmv_hechos_relevantes")
+    result = fn(limit=5)
+    assert "n_items" in result
+    assert "items" in result
+    assert isinstance(result["items"], list)
