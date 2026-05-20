@@ -23,6 +23,12 @@ interface Actor {
   ejeX?: number; ejeY?: number
   cat?: string; color?: string
   inf?: number; score_influencia?: number
+  // Enriquecimiento opcional (data/actores-fixture.ts > ACTOR_ENRICHMENT)
+  bio?: string
+  twitter?: string
+  webOficial?: string
+  fechaInicio?: string
+  wikipedia?: string
 }
 
 interface Props {
@@ -994,9 +1000,53 @@ function FocusPanel({ stats, actors, metrics }: {
  </div>
  </div>
  <p style={{ fontSize: 12.5, color: '#515154', margin: '0 0 4px', lineHeight: 1.4 }}>{cargo}</p>
- <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 12px' }}>
+ <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 8px' }}>
         {partido}{partido && a.cat ? ' · ' : ''}{CAT_LABEL[a.cat || ''] || ''}
+        {a.fechaInicio ? ` · desde ${a.fechaInicio}` : ''}
  </p>
+
+      {/* Biografía verificada (si existe) */}
+      {a.bio && (
+ <p style={{
+          fontSize: 12,
+          color: '#3a3a3d',
+          margin: '0 0 10px',
+          lineHeight: 1.5,
+          padding: '8px 10px',
+          background: '#fafbfc',
+          borderLeft: `3px solid ${color}`,
+          borderRadius: '0 8px 8px 0',
+        }}>
+          {a.bio}
+ </p>
+      )}
+
+      {/* Enlaces oficiales (twitter, web, wikipedia) */}
+      {(a.twitter || a.webOficial || a.wikipedia) && (
+ <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+          {a.twitter && (
+ <a href={`https://x.com/${a.twitter}`} target="_blank" rel="noopener noreferrer" style={{
+              fontSize: 10.5, fontWeight: 600, padding: '3px 9px', borderRadius: 999,
+              background: '#0a0a0a', color: '#fff', textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center', gap: 4,
+            }}>@{a.twitter}</a>
+          )}
+          {a.webOficial && (
+ <a href={a.webOficial} target="_blank" rel="noopener noreferrer" style={{
+              fontSize: 10.5, fontWeight: 600, padding: '3px 9px', borderRadius: 999,
+              background: `${color}15`, color, border: `1px solid ${color}40`,
+              textDecoration: 'none',
+            }}>Web oficial →</a>
+          )}
+          {a.wikipedia && (
+ <a href={a.wikipedia} target="_blank" rel="noopener noreferrer" style={{
+              fontSize: 10.5, fontWeight: 600, padding: '3px 9px', borderRadius: 999,
+              background: '#f5f5f7', color: '#1d1d1f', border: '1px solid #d2d2d7',
+              textDecoration: 'none',
+            }}>Wikipedia →</a>
+          )}
+ </div>
+      )}
 
       {/* Roles automáticos · clasificación de red */}
       {roles.length > 0 && (
