@@ -1097,3 +1097,171 @@ def test_infra_tool_proyecto_sin_bd():
         assert res3["n_items"] == 0
     finally:
         svc_infra._get_engine = original
+
+
+# ── Sprint 11 · Defensa (NATO+EDA+Defensa.gob+defense_programs) ──────
+
+def test_nato_client_y_parser():
+    """Sprint 11 · S11.1 · cliente NATO importable + parser RSS."""
+    from etl.sources.defense.nato import NATOClient, get_nato_client
+    client = get_nato_client()
+    assert isinstance(client, NATOClient)
+    items = NATOClient._parse_rss("<rss><channel></channel></rss>")
+    assert items == []
+
+
+def test_nato_parse_y_search():
+    """NATO parser + búsqueda case-insensitive."""
+    from etl.sources.defense.nato import NATOClient
+    xml = """<?xml version="1.0"?><rss><channel>
+        <item>
+            <title>NATO procurement opportunity Spain</title>
+            <link>https://www.nato.int/news/1</link>
+            <description>Industrial RFI for Spain</description>
+            <pubDate>Mon, 19 May 2026 09:00:00 GMT</pubDate>
+            <guid>nato-1</guid>
+        </item>
+        <item>
+            <title>Ukraine update</title>
+            <link>https://www.nato.int/news/2</link>
+            <description>News from Ukraine</description>
+            <pubDate>Mon, 19 May 2026 10:00:00 GMT</pubDate>
+            <guid>nato-2</guid>
+        </item>
+    </channel></rss>"""
+    items = NATOClient._parse_rss(xml)
+    assert len(items) == 2
+    client = NATOClient()
+    matches = client.search("spain", items)
+    assert len(matches) == 1
+    assert matches[0]["id"] == "nato-1"
+
+
+def test_eda_client_y_catalogo():
+    """Sprint 11 · S11.2 · cliente EDA + catálogo estático programas."""
+    from etl.sources.defense.eda import EDAClient, get_eda_client
+    client = get_eda_client()
+    assert isinstance(client, EDAClient)
+    progs = client.list_programs()
+    slugs = {p["slug"] for p in progs}
+    for required in ("pesco_euro_male", "edf_fcas", "edf_eurodrone"):
+        assert required in slugs
+    assert client.get_program("edf_fcas")["code"] == "FCAS / NGWS"
+    assert client.get_program("no_existe_xyz") is None
+
+
+def test_defensa_gob_client_importable():
+    """Sprint 11 · S11.3 · cliente Defensa.gob importable."""
+    from etl.sources.defense.defensa_gob import DefensaGobClient, get_defensa_gob_client
+    client = get_defensa_gob_client()
+    assert isinstance(client, DefensaGobClient)
+    # Parser RSS con XML vacío
+    assert DefensaGobClient._parse_rss("<rss><channel></channel></rss>", "bod") == []
+
+
+def test_defense_programs_seed_valido():
+    """Sprint 11 · S11.4 · seed JSON con programas críticos."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "defense" / "programs_seed.json"
+    assert seed.exists(), "programs_seed.json no encontrado"
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "f110_navantia", "s80_submarino", "fcas_ngws",
+        "eurodrone", "eurofighter_t4", "vcr_dragón",
+        "spainsat_ng", "iris2",
+    ):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r["slug"] and r["name"] and r["lead_country"]
+        assert r["domain"] in {"aire", "tierra", "mar", "espacio", "ciber", "multi"}
+        assert r["status"] in {
+            "planificacion", "rfp", "firma", "desarrollo", "produccion",
+            "entrega", "operacion", "retiro", "cancelado",
+        }
+
+
+def test_defense_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio defense_programs devuelve estructuras vacías."""
+    from etl.sources.defense import programs_service as svc
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        assert svc.get_program("f110_navantia") is None
+        assert svc.list_programs() == []
+        assert svc.upcoming_milestones() == []
+        res = svc.load_programs_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        svc._get_engine = original
+
+
+def test_defense_migracion_0071_existe():
+    """Migración 0071_defense_programs existe."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0071_defense_programs.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0071_defense_programs"' in src
+    assert 'down_revision = "0070_infra_projects"' in src
+    assert 'create_table' in src and '"defense_programs"' in src
+
+
+def test_defensa_tools_registradas():
+    """Sprint 11 · S11.5 · tools defensa registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.defensa_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "nato_news", "eda_news", "eda_list_programs", "eda_program",
+        "defensa_gob_feed", "defense_program", "list_defense_programs",
+        "defense_upcoming_milestones",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_defensa_gob_feed_invalido():
+    """defensa_gob_feed rechaza explicitamente feeds desconocidos."""
+    from agents.tools import ToolRegistry
+    import agents.tools.defensa_tools  # noqa: F401
+
+    fn = ToolRegistry.get("defensa_gob_feed")
+    res = fn(feed="feed_inexistente_xyz", limit=5)
+    assert res["n_items"] == 0
+    assert "error" in res and res["error"]
+
+
+def test_defense_tools_fallan_cerrado_sin_bd():
+    """Tools defense_programs sin BD devuelven error consistente."""
+    from agents.tools import ToolRegistry
+    import agents.tools.defensa_tools  # noqa: F401
+    from etl.sources.defense import programs_service as svc
+
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        res = ToolRegistry.get("defense_program")(slug="f110_navantia")
+        assert "error" in res
+        res2 = ToolRegistry.get("list_defense_programs")(domain="mar")
+        assert res2["n_items"] == 0
+        res3 = ToolRegistry.get("defense_upcoming_milestones")(days_ahead=90)
+        assert res3["n_items"] == 0
+    finally:
+        svc._get_engine = original
+
+
+def test_eda_program_via_tool():
+    """eda_program tool · catálogo estático funciona sin BD."""
+    from agents.tools import ToolRegistry
+    import agents.tools.defensa_tools  # noqa: F401
+
+    res = ToolRegistry.get("eda_program")(slug="edf_fcas")
+    assert res["code"] == "FCAS / NGWS"
+    res2 = ToolRegistry.get("eda_program")(slug="no_existe")
+    assert "error" in res2
