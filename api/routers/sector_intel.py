@@ -494,13 +494,102 @@ def agro_overview() -> dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
+# ─────────────────────────────────────────────────────────────────
+# ENERGIA · usa briefing sectorial existente (S6) + commodities energy
+# ─────────────────────────────────────────────────────────────────
+
+@router.get("/energia/overview")
+def energia_overview() -> dict[str, Any]:
+    """Energía · cruza commodities energy + briefing sectorial existente."""
+    try:
+        from etl.sources.commodities.catalog import list_commodities
+        from etl.sources.commodities.prices import get_yahoo_client
+
+        energy_commodities = list_commodities("energy")
+        client = get_yahoo_client()
+        snapshots = []
+        for c in energy_commodities[:10]:
+            ticker = c.get("yahoo_ticker")
+            if not ticker:
+                snapshots.append({**c, "last_price": None, "change_pct": None})
+                continue
+            snap = client.quote_snapshot(ticker) or {}
+            snapshots.append({
+                **c,
+                "last_price": snap.get("last_price"),
+                "change_pct": snap.get("change_pct"),
+                "currency": snap.get("currency"),
+            })
+
+        # KPIs: claves Brent / TTF / Henry Hub si disponibles
+        brent = next((s for s in snapshots if s["slug"] == "brent_crude"), None)
+        ttf = next((s for s in snapshots if s["slug"] == "natgas_ttf"), None)
+        nh = next((s for s in snapshots if s["slug"] == "natgas_henry_hub"), None)
+        coal = next((s for s in snapshots if s["slug"] == "coal_api2"), None)
+
+        # Alertas: variaciones absolutas > 3%
+        alerts = [
+            {
+                "slug": s["slug"],
+                "title": f"{s['name']} · variación {s.get('change_pct')}%",
+                "severity": "high" if abs(s.get("change_pct") or 0) > 5
+                            else "medium" if abs(s.get("change_pct") or 0) > 3
+                            else "info",
+                "kind": "price_move",
+            }
+            for s in snapshots
+            if s.get("change_pct") is not None and abs(s["change_pct"]) > 3
+        ][:6]
+
+        return {
+            "sector": "energia",
+            "headline_kpis": [
+                {
+                    "label": "Brent",
+                    "value": f"{brent['last_price']:.2f} USD/bbl" if brent and brent.get("last_price") else "—",
+                    "color": "#dc2626" if (brent or {}).get("change_pct", 0) > 2 else "#374151",
+                    "sub": f"{brent.get('change_pct')}%" if brent and brent.get("change_pct") is not None else "",
+                },
+                {
+                    "label": "TTF Gas EU",
+                    "value": f"{ttf['last_price']:.2f} EUR/MWh" if ttf and ttf.get("last_price") else "—",
+                    "color": "#dc2626" if (ttf or {}).get("change_pct", 0) > 2 else "#374151",
+                    "sub": f"{ttf.get('change_pct')}%" if ttf and ttf.get("change_pct") is not None else "",
+                },
+                {
+                    "label": "Henry Hub",
+                    "value": f"{nh['last_price']:.3f} USD/MMBtu" if nh and nh.get("last_price") else "—",
+                    "sub": f"{nh.get('change_pct')}%" if nh and nh.get("change_pct") is not None else "",
+                },
+                {
+                    "label": "Carbón API2",
+                    "value": f"{coal['last_price']:.0f} USD/t" if coal and coal.get("last_price") else "—",
+                },
+            ],
+            "alerts": alerts,
+            "table": {
+                "columns": ["Commodity", "Exchange", "Último", "Var %", "Unidad"],
+                "rows": [
+                    [s["name"], s["exchange"], s.get("last_price"),
+                     s.get("change_pct"), s["unit"]]
+                    for s in snapshots
+                ],
+            },
+            "sources": ["commodities catalog (S14)", "Yahoo Finance v8", "ICE TTF/Brent"],
+            "generado_en": _now(),
+        }
+    except Exception as exc:
+        logger.exception("energia_overview falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
 @router.get("/index")
 def sectors_index() -> dict[str, Any]:
     """Índice rápido de qué sectores tienen overview disponible."""
     return {
         "available": [
             "banca", "farma", "defensa", "vivienda",
-            "telecom", "infraestructuras", "turismo", "agro",
+            "telecom", "infraestructuras", "turismo", "agro", "energia",
         ],
         "generado_en": _now(),
     }

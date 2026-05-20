@@ -25,6 +25,7 @@ import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SectorHero,
 } from '@/components/SectorialWidgets'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
 const ACCENT = '#16A34A'
 const ACCENT_DARK = '#0d4626'
@@ -203,6 +204,15 @@ export default function SectorAgroPage() {
             <AreasTematicas areas={AREAS_AGRO}/>
           </Panel>
         </div>
+
+        {/* Politeia intel · ENESA + commodities granos/aceites · compact (Vesper en /commodities) */}
+        <SectorIntelPanel
+          sector="agro"
+          accent={ACCENT}
+          compact
+          detailHref="/commodities"
+          detailLabel="Ver commodities · Vesper →"
+        />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos World Bank…</div>}
       </main>

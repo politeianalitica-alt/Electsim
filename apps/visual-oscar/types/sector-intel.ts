@@ -12,6 +12,7 @@ export type SectorIntelKey =
   | 'infraestructuras'
   | 'turismo'
   | 'agro'
+  | 'energia'
 
 export interface IntelKpi {
   label: string
@@ -53,4 +54,5 @@ export const SECTOR_INTEL_CONFIG: Record<SectorIntelKey, { accent: string; label
   infraestructuras: { accent: '#0e7490', label: 'Infraestructuras & Movilidad' },
   turismo: { accent: '#EA580C', label: 'Turismo & Hostelería' },
   agro: { accent: '#16A34A', label: 'Agroalimentario & Rural' },
+  energia: { accent: '#F59E0B', label: 'Energía & Utilities' },
 }

@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_DEFENSA, REGULADORES_DEFENSA, PROGRAMAS_DEFENSA } from '@/lib/sources/worldbank'
 import { Panel } from '@/components/SectorPanel'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { analizarPosicionamientoDefensa, calcularThreatRadar, generarBriefingDiario } from '@/lib/defense/analisis-defensa'
 import { ThreatRadarChart } from './_components/ThreatRadar'
 import { DailyBriefingCard } from './_components/DailyBriefing'
@@ -266,6 +267,14 @@ export default function SectorDefensaPage() {
       <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
         <AreasTematicas/>
       </Panel>
+
+      {/* Politeia intel · defense_programs próximos hitos · compact (la página ya tiene programas/presupuestos) */}
+      <SectorIntelPanel
+        sector="defensa"
+        compact
+        detailHref="/sector-defensa/programas"
+        detailLabel="Ver programas completos →"
+      />
 
       {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos…</div>}
     </div>

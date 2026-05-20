@@ -19,6 +19,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_ENERGIA, REGULADORES_ENERGIA } from '@/lib/sources/ree'
 import { Panel } from '@/components/SectorPanel'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
 // ─── Tipos de respuesta ──────────────────────────────────
 interface ResumenResp {
@@ -263,6 +264,14 @@ export default function SectorEnergiaPage() {
         <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
           <AreasTematicas/>
         </Panel>
+
+        {/* Politeia intel · commodities energía (Brent, TTF, Henry Hub, carbón) · compact */}
+        <SectorIntelPanel
+          sector="energia"
+          compact
+          detailHref="/commodities?category=energy"
+          detailLabel="Ver futuros · Vesper →"
+        />
 
         {loading && (
           <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>

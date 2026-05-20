@@ -20,6 +20,15 @@ interface Props {
   accent?: string
   /** Título opcional · default 'Inteligencia operativa Politeia'. */
   title?: string
+  /**
+   * Compact = solo KPIs + alertas (sin tabla). Útil cuando la página
+   * sectorial ya tiene su propia tabla principal y queremos un resumen
+   * complementario · no contenido duplicado.
+   */
+  compact?: boolean
+  /** Enlace 'ver detalle completo' opcional para guiar a otro módulo. */
+  detailHref?: string
+  detailLabel?: string
 }
 
 const SEVERITY_COLOR: Record<string, { bg: string; fg: string }> = {
@@ -29,7 +38,14 @@ const SEVERITY_COLOR: Record<string, { bg: string; fg: string }> = {
   info: { bg: '#e5e7eb', fg: '#374151' },
 }
 
-export function SectorIntelPanel({ sector, accent, title }: Props) {
+export function SectorIntelPanel({
+  sector,
+  accent,
+  title,
+  compact = false,
+  detailHref,
+  detailLabel,
+}: Props) {
   const cfg = SECTOR_INTEL_CONFIG[sector]
   const accentColor = accent ?? cfg?.accent ?? '#111827'
   const { data, loading, error, isLive, refresh, updatedAt } = useSectorIntel(sector)
@@ -118,6 +134,22 @@ export function SectorIntelPanel({ sector, accent, title }: Props) {
           </h2>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: '#6b7280' }}>
+          {detailHref ? (
+            <a
+              href={detailHref}
+              style={{
+                padding: '4px 10px',
+                fontSize: 11,
+                fontWeight: 600,
+                background: accentColor,
+                color: '#fff',
+                borderRadius: 4,
+                textDecoration: 'none',
+              }}
+            >
+              {detailLabel ?? 'Ver módulo completo →'}
+            </a>
+          ) : null}
           {isLive ? (
             <span style={{ color: '#16a34a', fontWeight: 600 }}>● LIVE</span>
           ) : (
@@ -238,8 +270,8 @@ export function SectorIntelPanel({ sector, accent, title }: Props) {
         </div>
       ) : null}
 
-      {/* Tabla */}
-      {data.table.rows.length > 0 ? (
+      {/* Tabla · oculta en modo compact (los datos suelen ya estar arriba) */}
+      {!compact && data.table.rows.length > 0 ? (
         <div style={{ overflowX: 'auto', marginBottom: 12 }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11.5 }}>
             <thead style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
