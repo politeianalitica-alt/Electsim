@@ -139,32 +139,23 @@ export async function POST(req: NextRequest) {
       content: m.content.slice(0, 4000),
     }))
 
-  // 1. Backend (con tools si se pidió o si está habilitado por env)
-  const useTools = body.use_tools ?? (process.env.BRAIN_USE_TOOLS === '1')
-  const fromB = await callBackendChat(clean, {
-    use_tools: useTools,
-    workspace_id: body.workspace_id,
-    session_id: body.session_id,
-    tools: body.tools,
-  })
-  if (fromB && 'reply' in fromB && fromB.reply) {
-    return NextResponse.json({
-      reply: fromB.reply,
-      source: 'backend',
-      model: fromB.model,
-      tools_used: fromB.tools_used,
-      citations: fromB.citations,
-      ms: Date.now() - started,
-      _meta: {
-        source: 'backend',
-        ts: new Date().toISOString(),
-        latency_ms: fromB.latency_ms,
-      },
-    })
+  // ── Detector: el backend a veces responde con un mensaje mock interno
+  // (cuando él mismo no tiene un LLM real). En ese caso preferimos
+  // saltar al siguiente fallback (Anthropic) en vez de mostrarlo al usuario.
+  const isBackendMockReply = (reply: string): boolean => {
+    const r = reply.toLowerCase()
+    return (
+      r.includes('modo demo') ||
+      r.includes('ollama ejecutándose') ||
+      r.includes('ollama ejecutandose') ||
+      r.includes('politeia-brain:latest') ||
+      r.includes('temporalmente en modo')
+    )
   }
-  const backendWarning = fromB && 'error' in fromB && fromB.error ? fromB.error : null
 
-  // 2. Anthropic Claude (Haiku para chat de alto volumen) si está configurado
+  // 1. Anthropic Claude (Haiku para chat) — PRIORIDAD MÁXIMA cuando
+  //    LLM_PROVIDER=anthropic, porque sabemos que el dashboard tiene un
+  //    LLM real configurado y queremos calidad antes que el backend mock.
   if (AI_CONFIG.provider === 'anthropic') {
     try {
       const reply = await generateText({
@@ -184,11 +175,7 @@ export async function POST(req: NextRequest) {
           tools_used: [],
           citations: [],
           ms: Date.now() - started,
-          _meta: {
-            source: 'anthropic',
-            ts: new Date().toISOString(),
-            warnings: backendWarning ? [`backend_unavailable:${backendWarning}`] : undefined,
-          },
+          _meta: { source: 'anthropic', ts: new Date().toISOString() },
         })
       }
     } catch (e) {
@@ -197,6 +184,36 @@ export async function POST(req: NextRequest) {
       console.warn('[brain/chat] anthropic failed:', err)
     }
   }
+
+  // 2. Backend (con tools si se pidió). Solo si Anthropic falló o no está.
+  //    Si el backend responde con un mensaje mock interno, lo descartamos.
+  const useTools = body.use_tools ?? (process.env.BRAIN_USE_TOOLS === '1')
+  const fromB = await callBackendChat(clean, {
+    use_tools: useTools,
+    workspace_id: body.workspace_id,
+    session_id: body.session_id,
+    tools: body.tools,
+  })
+  if (fromB && 'reply' in fromB && fromB.reply && !isBackendMockReply(fromB.reply)) {
+    return NextResponse.json({
+      reply: fromB.reply,
+      source: 'backend',
+      model: fromB.model,
+      tools_used: fromB.tools_used,
+      citations: fromB.citations,
+      ms: Date.now() - started,
+      _meta: {
+        source: 'backend',
+        ts: new Date().toISOString(),
+        latency_ms: fromB.latency_ms,
+      },
+    })
+  }
+  const backendWarning = fromB && 'error' in fromB && fromB.error
+    ? fromB.error
+    : (fromB && 'reply' in fromB && fromB.reply && isBackendMockReply(fromB.reply))
+      ? 'backend_in_demo_mode'
+      : null
 
   // 3. Ollama directo
   const fromO = await callOllama(clean)

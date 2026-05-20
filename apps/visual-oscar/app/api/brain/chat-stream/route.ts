@@ -173,7 +173,12 @@ export async function POST(req: NextRequest) {
     async start(controller) {
       try {
         let gen: AsyncGenerator<string>
-        if (backendConfigured()) {
+        // Prioridad invertida vs antes: si LLM_PROVIDER=anthropic, vamos
+        // DIRECTO a Claude (saltamos backend porque a veces responde con
+        // un mock "modo demo" que no queremos mostrar al usuario).
+        if (AI_CONFIG.provider === 'anthropic') {
+          gen = anthropicStream([...history, { role: 'user', content: question }])
+        } else if (backendConfigured()) {
           gen = proxyBackendStream({
             question,
             history,
@@ -183,8 +188,6 @@ export async function POST(req: NextRequest) {
             tools: body.tools,
             model: body.model,
           })
-        } else if (AI_CONFIG.provider === 'anthropic') {
-          gen = anthropicStream([...history, { role: 'user', content: question }])
         } else {
           gen = ollamaDirectStream(
             [...history, { role: 'user', content: question }],
