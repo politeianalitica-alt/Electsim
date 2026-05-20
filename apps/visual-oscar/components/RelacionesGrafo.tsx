@@ -1,6 +1,8 @@
 'use client'
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
 import { RELACIONES_EXPLICITAS, TIPO_META, TIPO_LABEL, type TipoRelacion } from '@/lib/relaciones-explicitas'
+import EmptyState from './EmptyState'
+import { InsightPill } from './InsightClassification'
 
 // Grafo de relaciones de actores políticos · v3
 // Mejoras sobre v2:
@@ -150,7 +152,14 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   const [focus, setFocus] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
   const [hoveredLink, setHoveredLink] = useState<number | null>(null)
-  const [filter, setFilter] = useState<'all' | 'pos' | 'neg'>('all')
+  // Modos de visualización (antes 'all'/'pos'/'neg' · ahora 6 modos analíticos)
+  // red       · todas las relaciones principales
+  // alianzas  · solo positivas (val>=0)
+  // conflicto · solo negativas (val<0)
+  // criticas  · solo intensidad >= 70 (alianzas o conflictos muy fuertes)
+  // puente    · solo relaciones entre actores con alto grado (puentes de red)
+  // curadas   · solo relaciones del dataset explícito (con evidencia)
+  const [filter, setFilter] = useState<'red' | 'alianzas' | 'conflicto' | 'criticas' | 'puente' | 'curadas'>('red')
   const [showLabels, setShowLabels] = useState(true)
   const [filterCat, setFilterCat] = useState<string>('Todas')
   const [searchQuery, setSearchQuery] = useState('')
@@ -179,6 +188,30 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   }, [actors, filterCat, maxActors])
 
   const allLinks = useMemo(() => buildLinks(visibleActors), [visibleActors])
+
+  // ─── Métricas de red · grado, puentes, actores emergentes/aislados ──────
+  const networkMetrics = useMemo(() => {
+    const degree: Record<string, number> = {}
+    const negDegree: Record<string, number> = {}
+    const posDegree: Record<string, number> = {}
+    visibleActors.forEach(a => { degree[a.id] = 0; negDegree[a.id] = 0; posDegree[a.id] = 0 })
+    for (const l of allLinks) {
+      degree[l.a]++; degree[l.b]++
+      if (l.val < 0) { negDegree[l.a]++; negDegree[l.b]++ }
+      else           { posDegree[l.a]++; posDegree[l.b]++ }
+    }
+    // Top puentes · actores con grado por encima de la media + 1σ
+    const grades = Object.values(degree)
+    const meanG = grades.reduce((s, v) => s + v, 0) / Math.max(1, grades.length)
+    const sdG = Math.sqrt(grades.reduce((s, v) => s + (v - meanG) ** 2, 0) / Math.max(1, grades.length))
+    const bridgeThreshold = meanG + sdG
+    const bridges = new Set(Object.keys(degree).filter(id => degree[id] > bridgeThreshold))
+    // Polarizadores · actores con >=3 conflictos directos
+    const polarizers = new Set(Object.keys(negDegree).filter(id => negDegree[id] >= 3))
+    // Aislados · grado 0
+    const isolated = new Set(Object.keys(degree).filter(id => degree[id] === 0))
+    return { degree, negDegree, posDegree, bridges, polarizers, isolated, meanG, bridgeThreshold }
+  }, [visibleActors, allLinks])
 
   // Posiciones BASE (sin zoom/pan/custom). Anti-collision.
   const basePosMap = useMemo(() => {
@@ -219,9 +252,12 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   }, [visibleActors, basePosMap, transformPos])
 
   const visibleLinks = allLinks.filter(l => {
-    if (filter === 'pos' && l.val < 0) return false
-    if (filter === 'neg' && l.val >= 0) return false
-    if (focus && l.a !== focus && l.b !== focus) return false
+    if (filter === 'alianzas'  && l.val < 0)              return false
+    if (filter === 'conflicto' && l.val >= 0)             return false
+    if (filter === 'criticas'  && Math.abs(l.val) < 70)   return false
+    if (filter === 'puente'    && !(networkMetrics.bridges.has(l.a) || networkMetrics.bridges.has(l.b))) return false
+    if (filter === 'curadas'   && !l.curado)              return false
+    if (focus && l.a !== focus && l.b !== focus)          return false
     return true
   })
 
@@ -229,7 +265,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   const focusStats = focusActor ? (() => {
     const links = allLinks
       .filter(l => l.a === focusActor.id || l.b === focusActor.id)
-      .map(l => ({ otherId: l.a === focusActor.id ? l.b : l.a, val: l.val, label: l.label }))
+      .map(l => ({ otherId: l.a === focusActor.id ? l.b : l.a, val: l.val, label: l.label, tipo: l.tipo, curado: l.curado }))
       .sort((a, b) => b.val - a.val)
     return { actor: focusActor, links }
   })() : null
@@ -354,9 +390,12 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
       }}>
         {/* Filtros */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-          <FilterBtn active={filter === 'all'} onClick={() => setFilter('all')}>Todas las relaciones</FilterBtn>
-          <FilterBtn active={filter === 'pos'} onClick={() => setFilter('pos')} accent="#16A34A">Solo alianzas</FilterBtn>
-          <FilterBtn active={filter === 'neg'} onClick={() => setFilter('neg')} accent="#DC2626">Solo conflictos</FilterBtn>
+          <FilterBtn active={filter === 'red'}       onClick={() => setFilter('red')}>Red completa</FilterBtn>
+          <FilterBtn active={filter === 'alianzas'}  onClick={() => setFilter('alianzas')}  accent="#16A34A">Alianzas</FilterBtn>
+          <FilterBtn active={filter === 'conflicto'} onClick={() => setFilter('conflicto')} accent="#DC2626">Conflictos</FilterBtn>
+          <FilterBtn active={filter === 'criticas'}  onClick={() => setFilter('criticas')}  accent="#B45309">Relaciones críticas</FilterBtn>
+          <FilterBtn active={filter === 'puente'}    onClick={() => setFilter('puente')}    accent="#7C3AED">Actores puente</FilterBtn>
+          <FilterBtn active={filter === 'curadas'}   onClick={() => setFilter('curadas')}   accent="#0F766E">Con evidencia</FilterBtn>
           <span style={{ flex: 1 }}/>
           <button onClick={() => setShowLabels(s => !s)} style={btnGhost}>
             {showLabels ? 'Ocultar etiquetas' : 'Mostrar etiquetas'}
@@ -612,23 +651,37 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                       animation: (l.val < 0 && isHL) ? 'grafoEdgeFlow 1.4s linear infinite' : undefined,
                     }}
                   />
-                  {showLabels && isHL && (
-                    <g style={{ pointerEvents: 'none' }}>
-                      <rect
-                        x={cmx - (l.label.length * 3.4) - 7}
-                        y={cmy - 18}
-                        width={(l.label.length * 6.8) + 14}
-                        height={15}
-                        rx="7.5"
-                        fill="#fff"
-                        stroke={stroke}
-                        strokeOpacity="0.35"
-                      />
-                      <text x={cmx} y={cmy - 8} textAnchor="middle" fontSize="9.5" fontWeight="600" fill={stroke}>
-                        {l.label}
-                      </text>
-                    </g>
-                  )}
+                  {showLabels && isHL && (() => {
+                    // Tooltip enriquecido · tipo + intensidad + periodo + confianza
+                    const intensidadStr = Math.abs(l.val) >= 75 ? 'crítica' : Math.abs(l.val) >= 55 ? 'alta' : Math.abs(l.val) >= 35 ? 'media' : 'baja'
+                    const confianzaPct = l.curado ? 92 : 60
+                    const tipoTxt = l.tipo ? TIPO_LABEL[l.tipo] : (l.val >= 0 ? 'Alianza inferida' : 'Tensión inferida')
+                    const labelText = l.label
+                    const meta1 = `${tipoTxt} · intensidad ${intensidadStr} · |${Math.abs(l.val)}|/100`
+                    const meta2 = l.curado
+                      ? `Fuente · dataset curado Politeia · confianza ${confianzaPct}%`
+                      : `Inferida por algoritmo · confianza ${confianzaPct}% · validación pendiente`
+                    const maxLen = Math.max(labelText.length, meta1.length, meta2.length)
+                    const w = maxLen * 5.8 + 16
+                    return (
+                      <g style={{ pointerEvents: 'none' }}>
+                        <rect
+                          x={cmx - w / 2}
+                          y={cmy - 50}
+                          width={w}
+                          height={42}
+                          rx="8"
+                          fill="#fff"
+                          stroke={stroke}
+                          strokeOpacity="0.50"
+                          style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.08))' }}
+                        />
+                        <text x={cmx} y={cmy - 35} textAnchor="middle" fontSize="10" fontWeight="700" fill={stroke}>{labelText}</text>
+                        <text x={cmx} y={cmy - 22} textAnchor="middle" fontSize="8.5" fontWeight="500" fill="#3a3a3d">{meta1}</text>
+                        <text x={cmx} y={cmy - 11} textAnchor="middle" fontSize="8.5" fontWeight="500" fill="#86868b">{meta2}</text>
+                      </g>
+                    )
+                  })()}
                 </g>
               )
             })}
@@ -812,7 +865,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
         padding: '22px 22px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
       }}>
-        {focusStats ? <FocusPanel stats={focusStats} actors={visibleActors}/>
+        {focusStats ? <FocusPanel stats={focusStats} actors={visibleActors} metrics={networkMetrics}/>
                     : <LegendPanel actors={visibleActors} totalActors={actors.length} cats={cats.filter(c => c !== 'Todas')}/>}
       </div>
 
@@ -890,37 +943,183 @@ function FilterBtn({ active, onClick, accent, children }: { active: boolean; onC
   )
 }
 
-function FocusPanel({ stats, actors }: { stats: { actor: Actor; links: { otherId: string; val: number; label: string }[] }; actors: Actor[] }) {
+function FocusPanel({ stats, actors, metrics }: {
+  stats: { actor: Actor; links: { otherId: string; val: number; label: string; tipo?: TipoRelacion; curado?: boolean }[] }
+  actors: Actor[]
+  metrics: { degree: Record<string, number>; negDegree: Record<string, number>; posDegree: Record<string, number>; bridges: Set<string>; polarizers: Set<string>; isolated: Set<string>; meanG: number; bridgeThreshold: number }
+}) {
   const actorOf = (id: string) => actors.find(a => a.id === id)
   const cargo = stats.actor.cargo_actual || stats.actor.cargo || ''
   const partido = stats.actor.partido || ''
   const color = stats.actor.color || CAT_COLOR[stats.actor.cat || ''] || '#6e6e73'
+  const a = stats.actor
+  const grado = metrics.degree[a.id] || 0
+  const aliados = metrics.posDegree[a.id] || 0
+  const adversarios = metrics.negDegree[a.id] || 0
+  const isBridge = metrics.bridges.has(a.id)
+  const isPolar  = metrics.polarizers.has(a.id)
+  const isIsolat = metrics.isolated.has(a.id)
+  const inf = infOf(a)
+  const topAliados = stats.links.filter(l => l.val > 0).slice(0, 3)
+  const topAdvers  = stats.links.filter(l => l.val < 0).slice(0, 3).reverse()
+  const curados = stats.links.filter(l => l.curado).length
+
+  // Roles automáticos · etiquetas que el sistema deduce del análisis de red
+  const roles: Array<{ label: string; color: string }> = []
+  if (inf >= 75) roles.push({ label: 'Alta influencia',   color: '#0F766E' })
+  if (isBridge)  roles.push({ label: 'Actor puente',      color: '#7C3AED' })
+  if (isPolar)   roles.push({ label: 'Polarizador',       color: '#DC2626' })
+  if (grado >= 8) roles.push({ label: 'Hub conector',     color: '#0EA5E9' })
+  if (isIsolat)  roles.push({ label: 'Aislado',           color: '#86868b' })
+  if (curados >= 3) roles.push({ label: 'Trazabilidad alta', color: '#16A34A' })
+
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <div style={{
-          width: 44, height: 44, borderRadius: 999, background: color,
+          width: 48, height: 48, borderRadius: 999, background: color,
           color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700,
+          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
           boxShadow: `0 4px 14px ${color}40`, flexShrink: 0,
         }}>
-          {initialsOf(stats.actor)}
+          {initialsOf(a)}
         </div>
         <div style={{ minWidth: 0, flex: 1 }}>
-          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>Foco</p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: '2px 0', lineHeight: 1.2 }}>
-            {nameOf(stats.actor)}
+          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>
+            Ficha de actor
+          </p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 600, letterSpacing: '-0.018em', margin: '2px 0', lineHeight: 1.2 }}>
+            {nameOf(a)}
           </h2>
         </div>
       </div>
-      <p style={{ fontSize: 12, color: '#515154', margin: '0 0 4px' }}>{cargo}</p>
-      <p style={{ fontSize: 11, color: '#6e6e73', margin: '0 0 16px' }}>
-        {partido}{partido && stats.actor.cat ? ' · ' : ''}{CAT_LABEL[stats.actor.cat || ''] || ''} · {stats.links.length} relaciones · influencia {infOf(stats.actor)}
+      <p style={{ fontSize: 12.5, color: '#515154', margin: '0 0 4px', lineHeight: 1.4 }}>{cargo}</p>
+      <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 12px' }}>
+        {partido}{partido && a.cat ? ' · ' : ''}{CAT_LABEL[a.cat || ''] || ''}
       </p>
-      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 10px' }}>
-        Afinidad bilateral
+
+      {/* Roles automáticos · clasificación de red */}
+      {roles.length > 0 && (
+        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 12 }}>
+          {roles.map(r => (
+            <span key={r.label} style={{
+              fontSize: 9.5, fontWeight: 700, color: '#fff', background: r.color,
+              padding: '2px 8px', borderRadius: 999, letterSpacing: '0.04em',
+            }}>{r.label.toUpperCase()}</span>
+          ))}
+        </div>
+      )}
+
+      {/* OBSERVADO · métricas de red derivadas de datos */}
+      <div style={{
+        background: 'rgba(15,118,110,0.06)', border: '1px solid rgba(15,118,110,0.20)',
+        borderLeft: '3px solid #0F766E', borderRadius: 10, padding: '10px 12px', marginBottom: 10,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#0F766E', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+          <span>●</span>MÉTRICAS DE RED · OBSERVADO
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+          <Metric label="Grado" value={grado}/>
+          <Metric label="Aliados" value={aliados} color="#16A34A"/>
+          <Metric label="Adversarios" value={adversarios} color="#DC2626"/>
+          <Metric label="Influencia" value={inf}/>
+          <Metric label="Curadas" value={curados}/>
+          <Metric label="Centralidad" value={Math.round((grado / Math.max(1, metrics.meanG)) * 50)}/>
+        </div>
+      </div>
+
+      {/* INFERIDO · top aliados y adversarios */}
+      <div style={{
+        background: 'rgba(37,99,235,0.06)', border: '1px solid rgba(37,99,235,0.20)',
+        borderLeft: '3px solid #2563EB', borderRadius: 10, padding: '10px 12px', marginBottom: 10,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#2563EB', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <span>◆</span>RELACIONES PRINCIPALES · INFERIDO
+        </div>
+        {topAliados.length > 0 && (
+          <div style={{ marginBottom: 6 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, color: '#16A34A', margin: '0 0 4px' }}>Aliados</p>
+            {topAliados.map(l => {
+              const o = actorOf(l.otherId); if (!o) return null
+              return (
+                <div key={l.otherId} style={{ fontSize: 12, color: '#1d1d1f', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 8 }}>
+                    {shortName(o)} <span style={{ fontSize: 10, color: '#86868b' }}>· {l.label}</span>
+                  </span>
+                  <span style={{ fontWeight: 700, color: '#16A34A', fontFamily: 'var(--font-display)' }}>+{l.val}</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+        {topAdvers.length > 0 && (
+          <div>
+            <p style={{ fontSize: 10, fontWeight: 700, color: '#DC2626', margin: '6px 0 4px' }}>Adversarios</p>
+            {topAdvers.map(l => {
+              const o = actorOf(l.otherId); if (!o) return null
+              return (
+                <div key={l.otherId} style={{ fontSize: 12, color: '#1d1d1f', display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginRight: 8 }}>
+                    {shortName(o)} <span style={{ fontSize: 10, color: '#86868b' }}>· {l.label}</span>
+                  </span>
+                  <span style={{ fontWeight: 700, color: '#DC2626', fontFamily: 'var(--font-display)' }}>{l.val}</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* PROYECTADO · escenario tactico */}
+      {(isPolar || isBridge || isIsolat) && (
+        <div style={{
+          background: 'rgba(180,83,9,0.06)', border: '1px solid rgba(180,83,9,0.22)',
+          borderLeft: '3px solid #B45309', borderRadius: 10, padding: '10px 12px', marginBottom: 10,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#B45309', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+            <span>◐</span>ESCENARIO · PROYECTADO
+          </div>
+          <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
+            {isPolar  && <>Su perfil de polarización ({adversarios} adversarios directos) sugiere que cualquier movimiento táctico tendrá <strong>resistencia organizada</strong>.{' '}</>}
+            {isBridge && <>Como <strong>actor puente</strong> con grado {grado} (umbral {metrics.bridgeThreshold.toFixed(1)}), su posición es estratégica para mediación o bloqueo.{' '}</>}
+            {isIsolat && <>Está <strong>aislado</strong> en el set actual · revisar filtros o ampliar el universo de análisis.</>}
+          </p>
+        </div>
+      )}
+
+      {/* RECOMENDADO · acción analista */}
+      <div style={{
+        background: 'rgba(91,33,182,0.06)', border: '1px solid rgba(91,33,182,0.22)',
+        borderLeft: '3px solid #5B21B6', borderRadius: 10, padding: '10px 12px', marginBottom: 12,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 9.5, fontWeight: 800, color: '#5B21B6', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+          <span>➤</span>ACCIÓN · RECOMENDADO
+        </div>
+        <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
+          {curados >= 3
+            ? <>Tiene {curados} relaciones con trazabilidad alta · usar como <strong>caso de estudio</strong> para validar el modelo de red en analista.</>
+            : isPolar
+              ? <>Vigilar mensajes públicos y prensa esta semana · cualquier movimiento elevará tensión en al menos {adversarios} actores.</>
+              : isBridge
+                ? <>Activar como <strong>canal de diálogo</strong> para acuerdos transversales. Su grado lo convierte en pieza táctica.</>
+                : inf >= 75
+                  ? <>Monitorización prioritaria · su exposición mediática amplifica cualquier movimiento del bloque.</>
+                  : <>Mantener seguimiento ordinario · sin urgencia táctica.</>}
+        </p>
+      </div>
+
+      {/* Métodologia · disclaimer compacto */}
+      <p style={{ fontSize: 10, color: '#86868b', margin: '0 0 10px', lineHeight: 1.4, fontStyle: 'italic' }}>
+        Las relaciones curadas tienen evidencia documental verificable. Las inferidas
+        provienen del algoritmo de afinidad bilateral (partido, bloque, categoría)
+        y requieren validación.
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 460, overflowY: 'auto', paddingRight: 4 }}>
+
+      {/* Todas las relaciones · listado completo */}
+      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, margin: '0 0 8px' }}>
+        Todas las relaciones · {stats.links.length}
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 280, overflowY: 'auto', paddingRight: 4 }}>
         {stats.links.length === 0 && (
           <div style={{ padding: '20px 6px', textAlign: 'center', color: '#9CA3AF', fontSize: 11.5 }}>
             Sin relaciones detectadas con los actores visibles.
@@ -938,6 +1137,7 @@ function FocusPanel({ stats, actors }: { stats: { actor: Actor; links: { otherId
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, minWidth: 0 }}>
                   <span style={{ width: 8, height: 8, borderRadius: 999, background: otherColor, flexShrink: 0 }}/>
                   <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shortName(other)}</span>
+                  {l.curado && <InsightPill variant="observed" label="evidencia"/>}
                 </span>
                 <span style={{
                   fontFamily: 'var(--font-display)', fontSize: 12.5, fontWeight: 600,
@@ -962,6 +1162,15 @@ function FocusPanel({ stats, actors }: { stats: { actor: Actor; links: { otherId
         })}
       </div>
     </>
+  )
+}
+
+function Metric({ label, value, color = '#1d1d1f' }: { label: string; value: number; color?: string }) {
+  return (
+    <div>
+      <div style={{ fontSize: 9, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontSize: 17, fontWeight: 700, color, fontFamily: 'var(--font-display)', lineHeight: 1 }}>{value}</div>
+    </div>
   )
 }
 

@@ -7,6 +7,7 @@ import { ACTORES, CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actore
 import { useApi } from '@/lib/useApi'
 import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
+import EmptyState from '@/components/EmptyState'
 
 type ActorView = 'mapa' | 'grafo' | 'dossier'
 
@@ -196,10 +197,27 @@ export default function MapaActoresPage() {
               )
             })}
           </div>
-          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{visible.length} actores visibles · burbuja = influencia</span>
+          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>
+            {visible.length} actores visibles · tamaño de burbuja = influencia
+          </span>
         </div>
 
-        {/* Cuadrante + panel detalle */}
+        {/* Empty state cuando filtros no devuelven resultados */}
+        {visible.length === 0 && (
+          <EmptyState
+            severity="neutral"
+            title="No hay actores que cumplan estos filtros"
+            description="Prueba a ampliar el universo de búsqueda · quita el filtro de categoría o reduce el término del buscador para ver más resultados."
+            reason={filterCat !== 'Todos' || query ? `Filtros activos · categoría '${filterCat}'${query ? ` · búsqueda '${query}'` : ''}` : 'Sin actores en el universo actual'}
+            source={`Catálogo Politeia · ${ACTORES.length} actores totales`}
+            primaryAction={{ label: 'Restablecer filtros', onClick: () => { setFilterCat('Todos'); setQuery('') } }}
+            secondaryAction={{ label: 'Ver dossier completo', onClick: () => setView('dossier') }}
+            style={{ marginBottom: 14 }}
+          />
+        )}
+
+        {/* Cuadrante + panel detalle · solo si hay actores */}
+        {visible.length > 0 && (
         <section style={{ display:'grid', gridTemplateColumns:'1fr 340px', gap:14, marginBottom:14 }}>
           <div style={{
             background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:14,
@@ -371,6 +389,7 @@ export default function MapaActoresPage() {
             )}
           </aside>
         </section>
+        )}
 
         {/* Ranking de los visibles · con buscador dedicado */}
         {(() => {
