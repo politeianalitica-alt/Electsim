@@ -23,6 +23,47 @@ from agents.tools import ToolRegistry
 logger = logging.getLogger(__name__)
 
 
+@ToolRegistry.register("sector_briefing_extended")
+def sector_briefing_extended(
+    sector: str,
+    days_back: int = 7,
+    use_llm: bool = False,
+) -> dict[str, Any]:
+    """Briefing sectorial EXTENDIDO · S6 (BOE+BDNS+TED) + tracker S7-S15.
+
+    Devuelve el briefing completo incluyendo:
+      · KPIs sector + actores reguladores
+      · Convocatorias BDNS recientes
+      · Licitaciones TED EU
+      · BOE novedades regulatorias
+      · Tracker dedicado del sector:
+        - banca → regulatory_obligations
+        - farma → pharma_signals activas
+        - defensa → defense_programs + próximos hitos
+        - vivienda → housing_markets ZMT + tensión
+        - telecom → telecom_operators + última subasta espectro
+        - infraestructuras → infra_projects retrasados
+        - turismo → tourism_destinations en presión
+        - agroalimentario → ENESA + commodities granos/aceites
+        - energia → commodities energy live (Brent/TTF/Henry Hub)
+      · Resumen LLM ejecutivo opcional
+
+    Args:
+      sector: clave o alias (salud=farma, inmobiliario=vivienda,
+              telecomunicaciones=telecom, transporte=infraestructuras,
+              agricultura=agroalimentario)
+      days_back: 1-30
+      use_llm: opt-in resumen LLM
+    """
+    try:
+        from agents.brain.pipelines.sector_briefing_extended import (
+            build_briefing_extended,
+        )
+        return build_briefing_extended(sector, days_back=days_back, use_llm=use_llm)
+    except Exception as exc:
+        return {"sector_id": sector, "error": str(exc), "errors": [str(exc)]}
+
+
 @ToolRegistry.register("sector_briefing")
 def sector_briefing(
     sector: str,

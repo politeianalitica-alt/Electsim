@@ -343,6 +343,44 @@ def get_sector_briefing(
     return briefing
 
 
+# ─────────────────────────────────────────────────────────────────
+# Extended briefing · S6 (BOE+BDNS+TED) + tracker S7-S15
+# ─────────────────────────────────────────────────────────────────
+
+@router.get("/{sector_id}/briefing-extended")
+def get_sector_briefing_extended(
+    sector_id: str,
+    days_back: int = Query(default=7, ge=1, le=30),
+    use_llm: bool = Query(default=False),
+) -> dict[str, Any]:
+    """Briefing extended · combina briefing S6 con el tracker dedicado S7-S15.
+
+    Devuelve TODO el contenido del endpoint `/briefing` (BOE + BDNS + TED +
+    actores + KPIs) más un bloque `tracker` con el dataset operativo del
+    sector (regulatory_obligations, pharma_signals, defense_programs,
+    housing_markets, telecom_operators, infra_projects, tourism_destinations,
+    ENESA, commodities energy).
+
+    Mapeo de trackers (case-insensitive · soporta alias):
+      banca / farma·salud / defensa / vivienda·inmobiliario /
+      telecom·telecomunicaciones / infraestructuras·transporte / turismo /
+      agroalimentario·agricultura / energia
+    """
+    try:
+        from agents.brain.pipelines.sector_briefing_extended import (
+            build_briefing_extended,
+        )
+        return build_briefing_extended(
+            sector_id, days_back=days_back, use_llm=use_llm,
+        )
+    except Exception as exc:
+        logger.exception("briefing_extended falló · %s", sector_id)
+        raise HTTPException(
+            status_code=500,
+            detail=f"{type(exc).__name__}: {str(exc)[:200]}",
+        ) from exc
+
+
 def _generate_executive_summary(briefing: dict[str, Any]) -> str:
     """Genera resumen ejecutivo del briefing usando el LLM disponible.
 

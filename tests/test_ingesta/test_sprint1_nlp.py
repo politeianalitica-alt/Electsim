@@ -2052,3 +2052,110 @@ def test_forecast_client_genera_serie_creciente_drift_positivo():
     res = _local_naive_drift(closes, horizon=10, start=date(2026, 1, 1))
     assert res["forecast"][0]["value"] > closes[-1]
     assert res["forecast"][-1]["value"] > res["forecast"][0]["value"]
+
+
+# ── Briefing extended · S6 + tracker S7-S15 ──────────────────────────
+
+def test_briefing_extended_endpoint_registrado():
+    """Endpoint /api/v1/sectores/{id}/briefing-extended activo."""
+    import os
+    os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    from api.main import app
+    paths = {r.path for r in app.routes if hasattr(r, "path")}
+    assert "/api/v1/sectores/{sector_id}/briefing-extended" in paths
+
+
+def test_briefing_extended_tool_registrada():
+    """Brain tool sector_briefing_extended registrada · original también."""
+    from agents.tools import ToolRegistry
+    import agents.tools.sector_briefing_tools  # noqa: F401
+    tools = ToolRegistry.list_tools()
+    assert "sector_briefing_extended" in tools
+    assert "sector_briefing" in tools
+
+
+def test_tracker_functions_mapeo_completo():
+    """build_sector_tracker · 9 sectores Politeia + 5 alias mapeados."""
+    from agents.brain.pipelines.sector_briefing_extended import TRACKER_FUNCTIONS
+    for s in (
+        "banca", "farma", "defensa", "vivienda", "telecom",
+        "infraestructuras", "turismo", "agroalimentario", "energia",
+    ):
+        assert s in TRACKER_FUNCTIONS, f"sector '{s}' falta"
+    for alias in (
+        "salud", "inmobiliario", "telecomunicaciones", "transporte", "agricultura",
+    ):
+        assert alias in TRACKER_FUNCTIONS, f"alias '{alias}' falta"
+
+
+def test_tracker_sector_inexistente_no_rompe():
+    """Sector desconocido devuelve estructura warning, sin exception."""
+    from agents.brain.pipelines.sector_briefing_extended import build_sector_tracker
+    res = build_sector_tracker("sector_inexistente_xyz")
+    assert res["key"] == "none"
+    assert "warning" in res
+    assert res["kpis"] == []
+    assert res["items"] == []
+
+
+def test_tracker_falla_cerrado_sin_bd():
+    """Tracker S7-S15 sin BD devuelve estructura limpia sin crash."""
+    from etl.sources.regulatory import service as svc_reg
+    original = svc_reg._get_engine
+    svc_reg._get_engine = lambda: None
+    try:
+        from agents.brain.pipelines.sector_briefing_extended import build_sector_tracker
+        res = build_sector_tracker("banca")
+        assert res["key"] == "regulatory_obligations"
+        assert isinstance(res.get("kpis"), list)
+        assert res.get("items") == []
+    finally:
+        svc_reg._get_engine = original
+
+
+def test_briefing_extended_estructura_completa():
+    """build_briefing_extended devuelve briefing base + tracker + sources."""
+    from etl.sources.regulatory import service as svc_reg
+    original = svc_reg._get_engine
+    svc_reg._get_engine = lambda: None
+    try:
+        from agents.brain.pipelines.sector_briefing_extended import build_briefing_extended
+        res = build_briefing_extended("banca", days_back=7, use_llm=False)
+        assert "sources" in res
+        assert "tracker" in res
+        assert res["briefing_version"] == "extended_v1"
+        assert res["tracker"]["key"] == "regulatory_obligations"
+        assert "tracker" in res["sources"]
+    finally:
+        svc_reg._get_engine = original
+
+
+def test_briefing_extended_alias_resuelven_tracker_correcto():
+    """Alias resuelven al tracker correcto · todos los servicios sin BD."""
+    from agents.brain.pipelines.sector_briefing_extended import build_sector_tracker
+    from etl.sources.pharma import service as svc_pharma
+    from etl.sources.housing import markets_service as svc_house
+    from etl.sources.telecom import operators_service as svc_tel
+    from etl.sources.infra import service as svc_infra
+
+    originals: list[tuple] = []
+    for mod in (svc_pharma, svc_house, svc_tel, svc_infra):
+        originals.append((mod, mod._get_engine))
+        mod._get_engine = lambda: None  # type: ignore
+    try:
+        pairs = [
+            ("salud", "pharma_signals"),
+            ("inmobiliario", "housing_markets"),
+            ("telecomunicaciones", "telecom_operators"),
+            ("transporte", "infra_projects"),
+            ("agricultura", "agro_indicators"),
+        ]
+        for alias, expected_key in pairs:
+            res = build_sector_tracker(alias)
+            assert res["key"] == expected_key, (
+                f"alias '{alias}' → debe ser '{expected_key}', got '{res['key']}'"
+            )
+    finally:
+        for mod, original in originals:
+            mod._get_engine = original  # type: ignore
