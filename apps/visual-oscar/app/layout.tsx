@@ -7,6 +7,7 @@ import { QueryProvider } from '@/lib/api/query-provider';
 import { DomoProvider } from '@/context/DomoContext';
 import { NotificationsProvider } from '@/context/NotificationsContext';
 import CuadernoTracker from '@/components/CuadernoTracker';
+import { CommandPalette } from './_components/CommandPalette';
 
 export const metadata: Metadata = {
   title: 'Politeia Analítica',
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <DomoProvider>
                 <NotificationsProvider>
                   <CuadernoTracker />
+                  <CommandPalette />
                   {children}
                   <BottomAgenteBar />
                 </NotificationsProvider>

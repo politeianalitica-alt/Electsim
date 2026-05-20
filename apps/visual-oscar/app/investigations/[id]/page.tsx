@@ -28,7 +28,7 @@ import { EventsRail } from './_components/EventsRail'
 import { EntitySearchModal } from './_components/EntitySearchModal'
 import { BrainCopilotPanel } from './_components/BrainCopilotPanel'
 
-type Tab = 'notebook' | 'hypothesis' | 'evidence' | 'canvas' | 'briefs'
+type Tab = 'notebook' | 'hypothesis' | 'evidence' | 'graph' | 'canvas' | 'briefs'
 
 export default function InvestigationDetailPage() {
   const router = useRouter()

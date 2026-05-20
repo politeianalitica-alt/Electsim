@@ -2,16 +2,19 @@
 import { useState } from 'react'
 import { investigationsApi } from '@/lib/api/investigations'
 import type { InvestigationDetail, ArtifactKind, Artifact } from '@/types/investigations'
+import { CanvasView } from './CanvasView'
+import { EntityGraphView } from './EntityGraphView'
 
 const TABS: { key: Tab; label: string; kind: ArtifactKind | null }[] = [
   { key: 'notebook',   label: 'Notebook',     kind: 'notebook_block' },
   { key: 'hypothesis', label: 'Hipótesis',    kind: 'hypothesis' },
   { key: 'evidence',   label: 'Evidencias',   kind: 'evidence' },
+  { key: 'graph',      label: 'Grafo',        kind: null },
   { key: 'canvas',     label: 'Canvas',       kind: 'canvas_state' },
   { key: 'briefs',     label: 'Briefings',    kind: 'brief_version' },
 ]
 
-type Tab = 'notebook' | 'hypothesis' | 'evidence' | 'canvas' | 'briefs'
+type Tab = 'notebook' | 'hypothesis' | 'evidence' | 'graph' | 'canvas' | 'briefs'
 
 export function ArtifactTabs({
   tab, onTabChange, detail, onArtifactsChanged,
@@ -91,7 +94,19 @@ export function ArtifactTabs({
             onAdded={onArtifactsChanged}
           />
         )}
-        {tab === 'canvas' && <PlaceholderTab name="Canvas" />}
+        {tab === 'graph' && (
+          <EntityGraphView
+            pinnedEntities={detail.pinned
+              .filter((p) => p.entity)
+              .map((p) => ({
+                id: String(p.entity_id),
+                name: p.entity?.display_name ?? `#${p.entity_id}`,
+                kind: p.entity?.kind ?? 'organization',
+                slug: p.entity?.slug ?? '',
+              }))}
+          />
+        )}
+        {tab === 'canvas' && <CanvasView investigationId={detail.id} />}
         {tab === 'briefs' && (
           <BriefsTab
             artifacts={artifacts}
