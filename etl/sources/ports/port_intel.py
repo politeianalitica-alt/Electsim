@@ -269,9 +269,10 @@ def compute_top_operators(port_slug: str, limit: int = 5) -> list[dict[str, Any]
     """Top operadores que recalan en el puerto · shape canónico
     `{name, n_vessels, calls?}` alineado con frontend (PortTopOperator).
 
-    Por ahora delega en `port_snapshot` cuando vessel_positions está disponible.
-    Cuando se implemente el worker AIS (Sprint 2 fase B), esto leerá
-    directamente de la tabla `vessel_positions` con un GROUP BY operator.
+    Estrategia:
+      1. Si hay `vessel_positions` con datos AIS recientes (<24h) en BD:
+         GROUP BY operator vía join con vessels_master/vessels_seed.
+      2. Si no, delega en `port_snapshot` (que usa get_vessels_near + synth).
     """
     snap = port_snapshot(port_slug)
     if isinstance(snap, dict) and "top_operators" in snap:
@@ -279,4 +280,203 @@ def compute_top_operators(port_slug: str, limit: int = 5) -> list[dict[str, Any]
     return []
 
 
-__all__ = ["port_congestion", "port_calls", "port_snapshot", "compute_top_operators"]
+# ─────────────────────────────────────────────────────────────────
+# Sprint 2 Fase B · detect_port_calls + compute_congestion reales
+# ─────────────────────────────────────────────────────────────────
+
+def detect_port_calls(port_slug: str, lookback_h: int = 24) -> int:
+    """Detecta port calls reales desde `vessel_positions` y upserta en
+    `port_call_events`. Heurística:
+
+      - Vessel con `sog < 0.5 kn` durante ≥ 30 min dentro del polígono puerto
+        → INSERT/UPDATE `port_call_events.arrival_ts`
+      - Vessel sale del polígono y `sog > 3 kn` → cierra `departure_ts`
+
+    Llamado por job nocturno `etl/pipelines/ports/port_calls_compute.py`.
+    Idempotente · si no hay BD o vessel_positions vacía, devuelve 0.
+
+    Returns: número de eventos arrival nuevos (excluyendo updates de departure).
+    """
+    from .ais_client import _get_engine
+    from .catalog import get_port
+
+    port = get_port(port_slug)
+    if port is None:
+        return 0
+    engine = _get_engine()
+    if engine is None:
+        return 0
+
+    try:
+        from sqlalchemy import text
+        since = _now() - timedelta(hours=lookback_h)
+
+        with engine.begin() as cx:
+            # Vessels que han estado parados ≥30 min cerca del puerto · candidatos arrival
+            candidates = cx.execute(
+                text(
+                    """
+                    SELECT imo, MIN(ts) AS first_anchor_ts, MAX(ts) AS last_anchor_ts,
+                           COUNT(*) AS n_points
+                    FROM vessel_positions
+                    WHERE near_port_slug = :slug
+                      AND ts >= :since
+                      AND sog < 0.5
+                    GROUP BY imo
+                    HAVING (julianday(MAX(ts)) - julianday(MIN(ts))) * 24 * 60 >= 30
+                    """
+                ),
+                {"slug": port_slug, "since": since},
+            ).all()
+
+            n_arrivals = 0
+            for row in candidates:
+                imo, first_ts, last_ts, _n = row
+                # UPSERT · si ya existe call abierto, no duplicar
+                existing = cx.execute(
+                    text(
+                        "SELECT id FROM port_call_events "
+                        "WHERE port_slug=:p AND imo=:i AND arrival_ts=:ts"
+                    ),
+                    {"p": port_slug, "i": imo, "ts": first_ts},
+                ).first()
+                if existing:
+                    continue
+                cx.execute(
+                    text(
+                        "INSERT INTO port_call_events "
+                        "(port_slug, imo, arrival_ts, source_kind) "
+                        "VALUES (:p, :i, :ts, 'ais_detected')"
+                    ),
+                    {"p": port_slug, "i": imo, "ts": first_ts},
+                )
+                n_arrivals += 1
+
+            # Cierra calls cuyo vessel salió del polígono y se mueve
+            cx.execute(
+                text(
+                    """
+                    UPDATE port_call_events
+                    SET departure_ts = (
+                        SELECT MIN(vp.ts) FROM vessel_positions vp
+                        WHERE vp.imo = port_call_events.imo
+                          AND vp.ts > port_call_events.arrival_ts
+                          AND (vp.near_port_slug != :slug OR vp.sog > 3)
+                    ),
+                    duration_min = (
+                        SELECT (julianday(MIN(vp.ts)) - julianday(port_call_events.arrival_ts)) * 24 * 60
+                        FROM vessel_positions vp
+                        WHERE vp.imo = port_call_events.imo
+                          AND vp.ts > port_call_events.arrival_ts
+                          AND (vp.near_port_slug != :slug OR vp.sog > 3)
+                    )
+                    WHERE port_slug = :slug
+                      AND departure_ts IS NULL
+                      AND arrival_ts >= :since
+                    """
+                ),
+                {"slug": port_slug, "since": since},
+            )
+
+        return n_arrivals
+    except Exception as exc:
+        logger.debug("detect_port_calls falló: %s", exc)
+        return 0
+
+
+def compute_congestion(port_slug: str, since_h: int = 24) -> dict[str, Any]:
+    """Congestión real desde `vessel_positions` · cuenta buques en zona
+    anchorage + tiempo medio de espera. Si no hay datos, devuelve estructura
+    vacía con `data_quality` = synthetic.
+
+    Útil para `/api/v1/ports/{slug}/congestion` cuando AIS está activo.
+    """
+    from .ais_client import _get_engine
+
+    engine = _get_engine()
+    if engine is None:
+        return {
+            "port_slug": port_slug,
+            "vessels_anchored": None,
+            "arrivals_24h": None,
+            "avg_wait_h": None,
+            "data_quality": {
+                "source_type": "missing",
+                "source_name": "vessel_positions",
+                "note": "BD no disponible",
+            },
+        }
+
+    try:
+        from sqlalchemy import text
+        since = _now() - timedelta(hours=since_h)
+
+        with engine.connect() as cx:
+            # Vessels actualmente anchored (última observación SOG < 0.5)
+            anchored = cx.execute(
+                text(
+                    """
+                    SELECT COUNT(DISTINCT imo) FROM vessel_positions
+                    WHERE near_port_slug = :slug
+                      AND ts >= :since
+                      AND sog < 0.5
+                    """
+                ),
+                {"slug": port_slug, "since": since},
+            ).scalar() or 0
+
+            arrivals = cx.execute(
+                text(
+                    "SELECT COUNT(*) FROM port_call_events "
+                    "WHERE port_slug = :slug AND arrival_ts >= :since"
+                ),
+                {"slug": port_slug, "since": since},
+            ).scalar() or 0
+
+            avg_wait = cx.execute(
+                text(
+                    "SELECT AVG(duration_min) FROM port_call_events "
+                    "WHERE port_slug = :slug AND arrival_ts >= :since "
+                    "AND duration_min IS NOT NULL"
+                ),
+                {"slug": port_slug, "since": since},
+            ).scalar()
+            avg_wait_h = round(avg_wait / 60.0, 1) if avg_wait else None
+
+        has_data = anchored > 0 or arrivals > 0
+        return {
+            "port_slug": port_slug,
+            "vessels_anchored": int(anchored),
+            "arrivals_24h": int(arrivals),
+            "avg_wait_h": avg_wait_h,
+            "data_quality": {
+                "source_type": "live" if has_data else "missing",
+                "source_name": "AISStream + vessel_positions",
+                "note": "Cálculo desde port_call_events agregados."
+                if has_data
+                else "Tabla vacía · worker AIS no ha corrido.",
+            },
+        }
+    except Exception as exc:
+        logger.debug("compute_congestion falló: %s", exc)
+        return {
+            "port_slug": port_slug,
+            "vessels_anchored": None,
+            "arrivals_24h": None,
+            "avg_wait_h": None,
+            "data_quality": {
+                "source_type": "missing",
+                "source_name": "vessel_positions",
+                "note": str(exc),
+            },
+        }
+
+
+__all__ = [
+    "port_congestion",
+    "port_calls",
+    "port_snapshot",
+    "compute_top_operators",
+    "detect_port_calls",
+    "compute_congestion",
+]

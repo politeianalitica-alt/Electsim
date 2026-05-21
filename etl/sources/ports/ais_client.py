@@ -354,6 +354,108 @@ async def aisstream_subscribe_demo(
     return processed
 
 
+def persist_position(msg: dict[str, Any]) -> bool:
+    """Inserta una posición AIS en `vessel_positions` desde un mensaje AISStream.
+
+    Shape esperado del mensaje AISStream (PositionReport):
+      {
+        "MetaData": {"MMSI": ..., "ShipName": ..., "time_utc": "...", ...},
+        "Message": {"PositionReport": {"UserID": int, "Latitude": float,
+                    "Longitude": float, "Sog": float, "Cog": float,
+                    "TrueHeading": int, "NavigationalStatus": int,
+                    "Timestamp": int, ...}}
+      }
+
+    El `UserID` es el MMSI; el IMO no viaja en cada PositionReport sino en
+    ShipStaticData. Para Sprint 2 guardamos por MMSI y resolvemos IMO via
+    `vessels_master` cuando exista. Si no, el campo `imo` queda con prefijo
+    `MMSI:<n>` para reconciliar posteriormente.
+
+    Devuelve True si insertó, False si falló (sin lanzar · falla cerrado).
+    """
+    try:
+        meta = msg.get("MetaData") or {}
+        body = (msg.get("Message") or {}).get("PositionReport") or {}
+        if not body:
+            return False
+
+        mmsi = str(meta.get("MMSI") or body.get("UserID") or "")
+        if not mmsi:
+            return False
+
+        lat = body.get("Latitude")
+        lon = body.get("Longitude")
+        if lat is None or lon is None:
+            return False
+
+        # Timestamp · preferir MetaData.time_utc (ISO) sobre PositionReport.Timestamp
+        ts_iso = meta.get("time_utc")
+        if ts_iso:
+            try:
+                ts = datetime.fromisoformat(ts_iso.replace("Z", "+00:00"))
+            except Exception:
+                ts = _now()
+        else:
+            ts = _now()
+
+        # IMO · resolver desde vessels_master por MMSI, sino placeholder
+        engine = _get_engine()
+        if engine is None:
+            return False
+
+        imo_resolved: str | None = None
+        try:
+            from sqlalchemy import text
+            with engine.connect() as cx:
+                row = cx.execute(
+                    text("SELECT imo FROM vessels_master WHERE mmsi=:m LIMIT 1"),
+                    {"m": mmsi},
+                ).first()
+                if row:
+                    imo_resolved = row[0]
+        except Exception:
+            pass
+
+        imo = imo_resolved or f"MMSI:{mmsi}"
+
+        # near_port_slug · best-effort vía catálogo (radio 30nm fijo)
+        from .catalog import list_ports
+        near_port_slug: str | None = None
+        for p in list_ports():
+            if _haversine_km(lat, lon, p["lat"], p["lon"]) < 55:  # ~30nm
+                near_port_slug = p["slug"]
+                break
+
+        from sqlalchemy import text as _text
+        with engine.begin() as cx:
+            cx.execute(
+                _text(
+                    "INSERT INTO vessel_positions "
+                    "(imo, mmsi, ts, lat, lon, sog, cog, nav_status, "
+                    " draught, near_port_slug, source) "
+                    "VALUES (:imo, :mmsi, :ts, :lat, :lon, :sog, :cog, :nav, "
+                    " :draught, :port, 'aisstream') "
+                    "ON CONFLICT (imo, ts) DO NOTHING"
+                ),
+                {
+                    "imo": imo,
+                    "mmsi": mmsi,
+                    "ts": ts,
+                    "lat": float(lat),
+                    "lon": float(lon),
+                    "sog": body.get("Sog"),
+                    "cog": body.get("Cog"),
+                    "nav": str(body.get("NavigationalStatus") or ""),
+                    "draught": None,
+                    "port": near_port_slug,
+                },
+            )
+        return True
+    except Exception as exc:
+        logger.debug("persist_position failed: %s", exc)
+        return False
+
+
 __all__ = [
     "is_realtime_available",
     "get_vessels_near",
@@ -361,4 +463,5 @@ __all__ = [
     "get_vessel_track",
     "synth_positions_around",
     "aisstream_subscribe_demo",
+    "persist_position",
 ]

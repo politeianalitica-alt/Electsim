@@ -16,6 +16,9 @@ pyyaml>=6.0.2
 fastapi>=0.115.0
 uvicorn>=0.30.0
 httpx>=0.27.0
+# WebSocket client para AIS ingestion worker (etl/workers/ais_ingest_worker.py).
+# Opt-in: si AISSTREAM_API_KEY no está, el worker no se conecta.
+websockets>=12.0
 anthropic>=0.25.0
 python-multipart>=0.0.9
 pyjwt>=2.9.0
