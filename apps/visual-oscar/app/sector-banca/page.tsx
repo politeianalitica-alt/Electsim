@@ -17,6 +17,7 @@ import {
   EMPRESAS_BANCA, REGULADORES_BANCA, AREAS_BANCA, PROGRAMAS_BANCA,
 } from '@/lib/sources/sectorial-data'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
+import { BisBankingPanel } from '@/components/macro/BisBankingPanel'
 import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SectorHero,
@@ -127,6 +128,11 @@ export default function SectorBancaPage() {
             sector="banca_es"
             title="ADRs banca España · cotización live Finnhub"
           />
+        </div>
+
+        {/* BIS Effective Exchange Rates · Sprint 1 macro arsenal */}
+        <div style={{ marginBottom: 14 }}>
+          <BisBankingPanel country="ES" />
         </div>
 
         {/* ROW 1: Tipos ECB + EURIBOR */}

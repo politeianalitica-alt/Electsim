@@ -8,6 +8,10 @@ import { useMacroDataset } from '@/hooks/useMacroDataset'
 import type { Indic } from '@/data/macro-fixture'
 import MacroFinanceDashboard from '@/components/MacroFinanceDashboard'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
+import { ImfWeoForecast } from '@/components/macro/ImfWeoForecast'
+import { OecdMacroPanel } from '@/components/macro/OecdMacroPanel'
+import { BisBankingPanel } from '@/components/macro/BisBankingPanel'
+import { EurostatRegionsMap } from '@/components/macro/EurostatRegionsMap'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Termómetro macro-político · score 0-100
@@ -85,6 +89,16 @@ export default function MacroPage() {
             <Termometro value={termometro}/>
             <div className="mac-hero-termo-label">Termómetro macro-político</div>
             <div className="mac-hero-termo-status">{termometro >= 70 ? 'Coyuntura favorable' : termometro >= 55 ? 'Coyuntura mixta' : termometro >= 40 ? 'Tensiones crecientes' : 'Coyuntura adversa'}</div>
+          </div>
+        </section>
+
+        {/* ───── Sprint 1 · Datos oficiales TSO ───── */}
+        <section style={{ margin: '24px 0', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 14 }}>
+          <ImfWeoForecast />
+          <OecdMacroPanel />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: 14 }}>
+            <BisBankingPanel country="ES" />
+            <EurostatRegionsMap defaultMetric="gdp_per_capita" />
           </div>
         </section>
 
