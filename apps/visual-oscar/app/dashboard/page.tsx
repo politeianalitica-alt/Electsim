@@ -17,13 +17,23 @@ import MetricTrace from '@/components/MetricTrace'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
-// ── Trends types ─────────────────────────────────────────────────────────────
+// ── News feed types (backend Ollama-analyzed, sin HTML escapado) ─────────────
 
-interface TrendItem {
-  id: string; termino: string; fuente: string; rank: number
-  score_norm: number; categoria: string | null; es_evento_geo: boolean
-  paises_mencionados: string[]; url: string; resumen: string | null
-  timestamp: string
+interface NewsFeedArticle {
+  id: number
+  title: string
+  url: string
+  source_name: string
+  source_country?: string
+  source_region?: string
+  published_at: string | null
+  ai_summary?: string
+  ai_topics?: string[]
+  ai_sentiment?: 'positivo' | 'negativo' | 'neutro' | 'mixto'
+  ai_relevance: number
+  ai_category?: string
+  ai_geo_location?: string
+  ai_spain_impact?: 'ninguno' | 'bajo' | 'medio' | 'alto' | 'critico'
 }
 
 // ── Static CCAA metadata ──────────────────────────────────────────────────────
@@ -168,8 +178,11 @@ export default function DashboardPage() {
     { refreshInterval: 60_000 }
   )
 
-  const { data: trendsRaw, loading: trendsLoading } = useApi<{ items?: TrendItem[]; source?: string; timestamp?: string } | TrendItem[]>(
- '/api/trends',
+  // Antes usaba /api/trends (Google News RSS sin sanear, llegaba HTML escapado
+  // como <ol><li><a href=...). Ahora apuntamos a /api/news/feed que devuelve
+  // artículos ya analizados por Ollama (ai_summary limpio, ai_relevance, etc).
+  const { data: newsRaw, loading: trendsLoading } = useApi<{ articles?: NewsFeedArticle[]; count?: number }>(
+ '/api/news/feed?limit=12&min_relevance=0.5',
     { refreshInterval: 120_000 }
   )
 
@@ -446,20 +459,37 @@ export default function DashboardPage() {
           })()}
  </section>
 
-        {/* Tendencias ahora */}
+        {/* Lo que se está moviendo ahora · artículos analizados por IA del backend */}
         {(() => {
+          // Color por categoría detectada por IA
           const CATEGORIA_COLOR: Record<string, string> = {
-            geopolitica: '#c42c2c',
             politica: '#1F4E8C',
+            geopolitica: '#c42c2c',
             economia: '#2d8a39',
+            sociedad: '#7C3AED',
+            sucesos: '#D97706',
+            deporte: '#0E7490',
+            cultura: '#7C2D12',
           }
-          // API returns { items: TrendItem[] } OR a plain TrendItem[] — normalise both
-          const trends: TrendItem[] = Array.isArray(trendsRaw)
-            ? (trendsRaw as TrendItem[])
-            : ((trendsRaw as { items?: TrendItem[] })?.items ?? [])
-          const geoItems = trends.filter(t => t.es_evento_geo).slice(0, 3)
-          const sourcePills = Array.from(new Set(trends.map(t => t.fuente))).slice(0, 5)
-          const lastTs = trends.length > 0 ? trends[0].timestamp : null
+          // Color del sentimiento detectado por IA
+          const SENT_COLOR: Record<string, string> = {
+            positivo: '#16A34A', negativo: '#DC2626', neutro: '#6e6e73', mixto: '#D97706',
+          }
+          // Bandera por país (subset común)
+          const COUNTRY_FLAG: Record<string, string> = {
+            ES: '🇪🇸', US: '🇺🇸', UK: '🇬🇧', FR: '🇫🇷', DE: '🇩🇪', IT: '🇮🇹',
+            UA: '🇺🇦', RU: '🇷🇺', CN: '🇨🇳', IL: '🇮🇱', PS: '🇵🇸',
+          }
+
+          const articles: NewsFeedArticle[] = (newsRaw?.articles ?? [])
+            .slice()
+            .sort((a, b) => (b.ai_relevance ?? 0) - (a.ai_relevance ?? 0))
+            .slice(0, 12)
+          const highImpact = articles.filter(a =>
+            a.ai_spain_impact === 'alto' || a.ai_spain_impact === 'critico'
+          ).slice(0, 3)
+          const sourcePills = Array.from(new Set(articles.map(a => a.source_name))).slice(0, 5)
+          const lastTs = articles.length > 0 ? articles[0].published_at : null
           const formattedTs = lastTs
             ? new Date(lastTs).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
             : null
@@ -467,11 +497,11 @@ export default function DashboardPage() {
           return (
  <section style={{ marginBottom: 20 }}>
               {/* Section header */}
- <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap', gap: 8 }}>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
                   Lo que se está moviendo ahora
  </h2>
- <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                   {formattedTs && (
  <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>
                       {formattedTs}
@@ -489,12 +519,12 @@ export default function DashboardPage() {
  </div>
  </div>
 
-              {/* Horizontal scroll row */}
+              {/* Horizontal scroll row · artículos */}
               {trendsLoading ? (
  <div style={{ display: 'flex', gap: 8, overflowX: 'hidden' }}>
                   {[0,1,2,3,4,5].map(i => (
  <div key={i} style={{
-                      minWidth: 220, maxWidth: 280, flexShrink: 0,
+                      minWidth: 240, maxWidth: 280, flexShrink: 0,
                       background: '#fff', borderRadius: 10, padding: '12px 13px',
                       boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                       border: '1px solid #ECECEF', borderLeft: '3px solid #e8e8ed',
@@ -507,13 +537,13 @@ export default function DashboardPage() {
  </div>
                   ))}
  </div>
-              ) : trends.length === 0 ? (
+              ) : articles.length === 0 ? (
  <div style={{
                   background: '#fff', borderRadius: 10, padding: '18px 20px',
                   boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF',
                   textAlign: 'center', color: '#6e6e73', fontSize: 13,
                 }}>
-                  No tenemos tendencias claras ahora mismo
+                  No tenemos artículos analizados ahora mismo
  </div>
               ) : (
  <div style={{
@@ -521,87 +551,98 @@ export default function DashboardPage() {
                   paddingBottom: 4,
                   msOverflowStyle: 'none',
                 } as React.CSSProperties}>
-                  {trends.map(t => {
-                    const accentColor = t.categoria ? (CATEGORIA_COLOR[t.categoria] ?? '#6e6e73') : '#6e6e73'
-                    const borderLeft = t.es_evento_geo ? '3px solid #c42c2c' : '3px solid #e8e8ed'
+                  {articles.map(a => {
+                    const accentColor = a.ai_category ? (CATEGORIA_COLOR[a.ai_category] ?? '#6e6e73') : '#6e6e73'
+                    const isHigh = a.ai_spain_impact === 'alto' || a.ai_spain_impact === 'critico'
+                    const borderLeft = isHigh ? '3px solid #c42c2c' : `3px solid ${accentColor}`
                     return (
- <div key={t.id}
-                        onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
+ <div key={a.id}
+                        onClick={() => a.url ? window.open(a.url, '_blank', 'noopener,noreferrer') : undefined}
                         style={{
-                          minWidth: 220, maxWidth: 280, flexShrink: 0,
+                          minWidth: 240, maxWidth: 280, flexShrink: 0,
                           background: '#fff', borderRadius: 10, padding: '11px 13px',
                           boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                           border: '1px solid #ECECEF', borderLeft,
-                          cursor: t.url ? 'pointer' : 'default',
+                          cursor: a.url ? 'pointer' : 'default',
                           display: 'flex', flexDirection: 'column', gap: 5,
                           position: 'relative',
                           transition: 'box-shadow 150ms',
                         }}
-                        onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
+                        onMouseEnter={e => { if (a.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
                         onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                       >
-                        {/* Rank + geo badge row */}
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        {/* Badges: categoría + impacto España */}
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 4 }}>
  <span style={{
-                            fontSize: 10.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                            background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.04em',
+                            fontSize: 9.5, fontWeight: 700, padding: '2px 6px', borderRadius: 4,
+                            background: `${accentColor}14`, color: accentColor, letterSpacing: '0.06em',
+                            textTransform: 'uppercase',
                           }}>
-                            #{t.rank}
+                            {a.ai_category ?? 'noticia'}
  </span>
-                          {t.es_evento_geo && (
+                          {isHigh && (
  <span style={{
-                              fontSize: 10, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                              background: '#c42c2c18', color: '#c42c2c', letterSpacing: '0.04em',
+                              fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4,
+                              background: '#FEE2E2', color: '#991B1B', letterSpacing: '0.06em',
+                              textTransform: 'uppercase',
                             }}>
-                              GEO
+                              Impacto ES {a.ai_spain_impact}
  </span>
                           )}
  </div>
 
-                        {/* Termino */}
- <div style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
-                          {t.termino}
+                        {/* Título de la noticia */}
+ <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.3, letterSpacing: '-0.01em', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>
+                          {a.title}
  </div>
 
-                        {/* Fuente */}
- <div style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>
-                          {t.fuente}
+                        {/* Fuente + país */}
+ <div style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 4 }}>
+                          {a.source_country && COUNTRY_FLAG[a.source_country] && (
+ <span>{COUNTRY_FLAG[a.source_country]}</span>
+                          )}
+ <span>{a.source_name}</span>
  </div>
 
-                        {/* Resumen */}
-                        {t.resumen && (
+                        {/* Resumen IA (limpio, sin HTML) */}
+                        {a.ai_summary && (
  <div style={{
-                            fontSize: 13, color: '#444', lineHeight: 1.4,
+                            fontSize: 12, color: '#444', lineHeight: 1.4,
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: 'vertical',
                             overflow: 'hidden',
                           } as React.CSSProperties}>
-                            {t.resumen}
+                            {a.ai_summary}
  </div>
                         )}
 
-                        {/* Country chips */}
-                        {t.paises_mencionados && t.paises_mencionados.length > 0 && (
+                        {/* Topics IA (chips) */}
+                        {a.ai_topics && a.ai_topics.length > 0 && (
  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
-                            {t.paises_mencionados.slice(0, 3).map(p => (
- <span key={p} style={{
-                                fontSize: 10.5, padding: '1px 5px', borderRadius: 999,
+                            {a.ai_topics.slice(0, 3).map(t => (
+ <span key={t} style={{
+                                fontSize: 10, padding: '1px 5px', borderRadius: 999,
                                 background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
                                 border: '1px solid #dce6ff',
                               }}>
-                                {p}
+                                {t}
  </span>
                             ))}
  </div>
                         )}
 
-                        {/* Score bar + link arrow */}
+                        {/* Footer: relevancia + sentimiento + flecha */}
  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
  <div style={{ flex: 1, height: 3, background: '#F5F5F7', borderRadius: 3, overflow: 'hidden' }}>
- <div style={{ width: `${Math.min(100, t.score_norm * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
+ <div style={{ width: `${Math.min(100, (a.ai_relevance ?? 0) * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
  </div>
-                          {t.url && (
+                          {a.ai_sentiment && (
+ <span style={{ fontSize: 10, color: SENT_COLOR[a.ai_sentiment] ?? '#6e6e73', fontWeight: 700, letterSpacing: '0.04em' }}>
+                              ●
+ </span>
+                          )}
+                          {a.url && (
  <span style={{ fontSize: 13, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
                           )}
  </div>
@@ -611,26 +652,31 @@ export default function DashboardPage() {
  </div>
               )}
 
-              {/* Geo highlights */}
-              {geoItems.length > 0 && !trendsLoading && (
- <div style={{ display: 'grid', gridTemplateColumns: `repeat(${geoItems.length}, 1fr)`, gap: 8, marginTop: 8 }}>
-                  {geoItems.map(t => (
- <div key={`geo-${t.id}`}
-                      onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
+              {/* Highlights · noticias con alto impacto en España */}
+              {highImpact.length > 0 && !trendsLoading && (
+ <div style={{ display: 'grid', gridTemplateColumns: `repeat(${highImpact.length}, 1fr)`, gap: 8, marginTop: 8 }}>
+                  {highImpact.map(a => (
+ <div key={`hi-${a.id}`}
+                      onClick={() => a.url ? window.open(a.url, '_blank', 'noopener,noreferrer') : undefined}
                       style={{
                         background: '#fff', borderRadius: 10, padding: '13px 15px',
                         boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                         border: '1px solid #f0d0d0', borderLeft: '3px solid #c42c2c',
-                        cursor: t.url ? 'pointer' : 'default',
+                        cursor: a.url ? 'pointer' : 'default',
                         transition: 'box-shadow 150ms',
                       }}
-                      onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
+                      onMouseEnter={e => { if (a.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
                       onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                     >
- <div style={{ fontWeight: 700, fontSize: 13, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
-                        {t.termino}
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+ <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: '#FEE2E2', color: '#991B1B', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                          Impacto ES {a.ai_spain_impact}
+ </span>
  </div>
-                      {t.resumen && (
+ <div style={{ fontWeight: 700, fontSize: 13, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em', lineHeight: 1.3 }}>
+                        {a.title}
+ </div>
+                      {a.ai_summary && (
  <div style={{
                           fontSize: 12, color: '#444', lineHeight: 1.4, marginBottom: 6,
                           display: '-webkit-box',
@@ -638,23 +684,10 @@ export default function DashboardPage() {
                           WebkitBoxOrient: 'vertical',
                           overflow: 'hidden',
                         } as React.CSSProperties}>
-                          {t.resumen}
+                          {a.ai_summary}
  </div>
                       )}
-                      {t.paises_mencionados && t.paises_mencionados.length > 0 && (
- <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
-                          {t.paises_mencionados.map(p => (
- <span key={p} style={{
-                              fontSize: 10.5, padding: '1px 5px', borderRadius: 999,
-                              background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
-                              border: '1px solid #dce6ff',
-                            }}>
-                              {p}
- </span>
-                          ))}
- </div>
-                      )}
- <div style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
+ <div style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>{a.source_name}</div>
  </div>
                   ))}
  </div>
