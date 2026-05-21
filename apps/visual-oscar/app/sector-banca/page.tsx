@@ -16,6 +16,7 @@ import { isAuthenticated } from '@/lib/auth'
 import {
   EMPRESAS_BANCA, REGULADORES_BANCA, AREAS_BANCA, PROGRAMAS_BANCA,
 } from '@/lib/sources/sectorial-data'
+import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SectorHero,
@@ -118,6 +119,15 @@ export default function SectorBancaPage() {
               value={resumen?.kpis.bond_10y_esp} unit="%" decimals={3} accent="#FCA5A5"/>
  </>}
         />
+
+        {/* Cotizaciones live ADRs banca España vía Finnhub */}
+        <div style={{ marginBottom: 14 }}>
+          <MarketSnapshot
+            variant="sector"
+            sector="banca_es"
+            title="ADRs banca España · cotización live Finnhub"
+          />
+        </div>
 
         {/* ROW 1: Tipos ECB + EURIBOR */}
  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>

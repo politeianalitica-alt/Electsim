@@ -37,6 +37,21 @@ interface Source {
 }
 
 const SOURCES: Source[] = [
+  // ─── Mercados financieros live ──────────────────────────────────
+  {
+    slug: 'finnhub',
+    name: 'Finnhub · Stocks + Crypto + News',
+    category: 'mercados',
+    status: 'live',
+    coverage: 'global',
+    description: 'Cotizaciones en tiempo real US stocks (NYSE/NASDAQ) + ADRs IBEX (SAN, BBVA, TEF, FER) + crypto Binance + company profiles + earnings calendar + company news.',
+    why_useful: 'Snapshot de mercados live en /dashboard, /macro y /sector-banca. ADRs de bancos españoles cotizan en NYSE → quote real cada 5 min. Reutilizado vía <MarketSnapshot /> en 3 páginas.',
+    endpoint: 'https://finnhub.io/api/v1',
+    module: 'etl/sources/global_intel/finnhub_client.py · app/api/finnhub/[...path] · components/markets/MarketSnapshot.tsx',
+    env_var: 'FINNHUB_API_KEY',
+    docs_url: 'https://finnhub.io/docs/api',
+    free_tier: '60 calls/min · US stocks + crypto · no bolsas EU directas (.MC, .PA)',
+  },
   // ─── Comercio multilateral ──────────────────────────────────────
   {
     slug: 'wto',

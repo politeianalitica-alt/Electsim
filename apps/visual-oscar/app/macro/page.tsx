@@ -7,6 +7,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { useMacroDataset } from '@/hooks/useMacroDataset'
 import type { Indic } from '@/data/macro-fixture'
 import MacroFinanceDashboard from '@/components/MacroFinanceDashboard'
+import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Termómetro macro-político · score 0-100
@@ -443,6 +444,11 @@ export default function MacroPage() {
 
         {/* ── Macro & Financial dashboard (live international data) ── */}
         <MacroFinanceDashboard/>
+
+        {/* ── Markets snapshot · Finnhub live · ADRs IBEX + US tech + EU + crypto ── */}
+        <div style={{ marginTop: 22 }}>
+          <MarketSnapshot variant="dashboard" />
+        </div>
 
       </main>
       <footer className="mac-footer">

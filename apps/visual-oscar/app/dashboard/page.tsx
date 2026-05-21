@@ -14,6 +14,7 @@ import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/comp
 import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
+import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Trends types ─────────────────────────────────────────────────────────────
@@ -920,6 +921,12 @@ export default function DashboardPage() {
            Navegación principal · 12 módulos. Va al final porque es navegación,
            no contenido en vivo (los KPIs y tendencias se ven antes).
         */}
+
+        {/* ─── Markets · Finnhub live · cotizaciones empresas relevantes ─── */}
+        <section style={{ marginTop: 24, marginBottom: 24 }}>
+          <MarketSnapshot variant="dashboard" compact={false} />
+        </section>
+
  <section style={{ marginTop: 24 }}>
  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>

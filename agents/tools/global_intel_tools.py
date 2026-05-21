@@ -259,6 +259,49 @@ def bris_company(name: str, country: str | None = None, limit: int = 10) -> dict
 # News
 # ─────────────────────────────────────────────────────────────────
 
+@ToolRegistry.register("finnhub_quote")
+def finnhub_quote(symbol: str) -> dict[str, Any]:
+    """Cotización actual de un ticker · US stocks + ADRs + crypto.
+
+    Args:
+        symbol: 'SAN' (Santander ADR), 'BBVA', 'TEF' (Telefónica),
+                'AAPL', 'TSLA', 'BINANCE:BTCUSDT', etc.
+    """
+    try:
+        from etl.sources.global_intel.finnhub_client import quote
+        q = quote(symbol)
+        if q is None:
+            return {"error": "no quote", "symbol": symbol}
+        return q
+    except Exception as exc:
+        return {"error": str(exc), "symbol": symbol}
+
+
+@ToolRegistry.register("finnhub_company_profile")
+def finnhub_company_profile(symbol: str) -> dict[str, Any]:
+    """Perfil empresarial · sector, IPO, employees, market cap."""
+    try:
+        from etl.sources.global_intel.finnhub_client import profile
+        p = profile(symbol)
+        if p is None:
+            return {"error": "no profile", "symbol": symbol}
+        return p
+    except Exception as exc:
+        return {"error": str(exc), "symbol": symbol}
+
+
+@ToolRegistry.register("finnhub_dashboard_snapshot")
+def finnhub_dashboard_snapshot() -> dict[str, Any]:
+    """Snapshot multi-categoría · ADRs ES (SAN, BBVA, TEF, FER) + US tech +
+    EU large caps + crypto en una sola llamada agregada.
+    """
+    try:
+        from etl.sources.global_intel.finnhub_client import dashboard_snapshot
+        return dashboard_snapshot()
+    except Exception as exc:
+        return {"error": str(exc)}
+
+
 @ToolRegistry.register("newsapi_search")
 def newsapi_search(q: str, language: str = "es", limit: int = 15) -> dict[str, Any]:
     """Búsqueda full-text en NewsAPI (≤30 días de archivo)."""
@@ -284,4 +327,7 @@ __all__ = [
     "iati_country_aid",
     "bris_company",
     "newsapi_search",
+    "finnhub_quote",
+    "finnhub_company_profile",
+    "finnhub_dashboard_snapshot",
 ]
