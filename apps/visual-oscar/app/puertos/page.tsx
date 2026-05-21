@@ -27,6 +27,8 @@ import { FreightSnapshotGrid } from '@/components/ports/FreightSnapshotGrid'
 import { ChokepointRiskCard } from '@/components/ports/ChokepointRiskCard'
 import { DataSourcesBanner } from '@/components/ports/DataSourcesBanner'
 import { PortWatchSpainPanel } from '@/components/ports/PortWatchSpainPanel'
+import { ChokepointsDashboard } from '@/components/ports/ChokepointsDashboard'
+import { DailyTradePanel } from '@/components/ports/DailyTradePanel'
 import { useCommoditySnapshot } from '@/hooks/useCommodities'
 import { PriceCard } from '@/components/commodities/PriceCard'
 import { useCommodityWatchlist } from '@/hooks/useCommodityWatchlist'
@@ -167,6 +169,16 @@ export default function PortsDashboard() {
         {/* IMF PortWatch · actividad portuaria oficial */}
         <div style={{ margin: '14px 0' }}>
           <PortWatchSpainPanel />
+        </div>
+
+        {/* Comercio marítimo diario · Mundo vs España */}
+        <div style={{ margin: '14px 0' }}>
+          <DailyTradePanel country="Spain" />
+        </div>
+
+        {/* Chokepoints marítimos · series diarias 37d */}
+        <div style={{ margin: '14px 0' }}>
+          <ChokepointsDashboard />
         </div>
 
         {/* Tabs internos */}

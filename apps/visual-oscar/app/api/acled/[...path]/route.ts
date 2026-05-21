@@ -55,6 +55,9 @@ function quality(t: 'live' | 'cache' | 'missing' | 'rate_limited', name: string,
 
 let _cachedToken: { token: string; expires_at: number } | null = null
 
+// Memoria de qué pasó en el último intento, para empty state didáctico
+let _lastOAuthError: string | null = null
+
 async function getOAuthToken(): Promise<string | null> {
   // Cache de token in-memory (Vercel functions son reutilizables ~5min)
   if (_cachedToken && Date.now() < _cachedToken.expires_at) {
@@ -62,11 +65,16 @@ async function getOAuthToken(): Promise<string | null> {
   }
   const email = process.env.ACLED_EMAIL
   const password = process.env.ACLED_PASSWORD
-  if (!email || !password) return null
+  if (!email || !password) {
+    _lastOAuthError = 'no_credentials'
+    return null
+  }
   try {
     // scope=authenticated es OBLIGATORIO según docs ACLED.
     // Sin él, /oauth/token devuelve 400 invalid_grant aunque las
-    // credenciales sean correctas.
+    // credenciales sean correctas. Y aun con scope, devuelve
+    // invalid_grant si la cuenta NO tiene "API Access" habilitado
+    // (que es lo que se solicita por email a access@acleddata.com).
     const body = new URLSearchParams({
       username: email,
       password: password,
@@ -79,18 +87,34 @@ async function getOAuthToken(): Promise<string | null> {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body,
     })
-    if (!r.ok) return null
+    if (!r.ok) {
+      const txt = await r.text().catch(() => '')
+      try {
+        const errJson = JSON.parse(txt)
+        _lastOAuthError = errJson?.error ?? `HTTP ${r.status}`
+      } catch {
+        _lastOAuthError = `HTTP ${r.status}`
+      }
+      return null
+    }
     const j: any = await r.json()
-    if (!j?.access_token) return null
+    if (!j?.access_token) {
+      _lastOAuthError = 'no_access_token_in_response'
+      return null
+    }
     _cachedToken = {
       token: j.access_token,
       expires_at: Date.now() + (j.expires_in - 60) * 1000,
     }
+    _lastOAuthError = null
     return j.access_token
-  } catch {
+  } catch (e: any) {
+    _lastOAuthError = String(e?.message ?? e).slice(0, 100)
     return null
   }
 }
+
+// (no exportar funciones · Next.js route handlers solo aceptan GET/POST/etc.)
 
 interface AcledAuth {
   method: 'api_key' | 'oauth' | 'none'
@@ -158,8 +182,11 @@ export async function GET(
       has_api_key: !!process.env.ACLED_API_KEY,
       has_email: !!process.env.ACLED_EMAIL,
       has_password: !!process.env.ACLED_PASSWORD,
+      last_oauth_error: _lastOAuthError,
       hint: auth.method === 'none'
-        ? 'Configura ACLED_API_KEY (preferido) o pareja ACLED_EMAIL+ACLED_PASSWORD con cuenta API-enabled.'
+        ? _lastOAuthError === 'invalid_grant'
+          ? 'invalid_grant: tu cuenta web está pero NO tiene "API Access" habilitado. ACLED no autogenera la API key; debes escribir a access@acleddata.com solicitando "API Access for academic/research use" con tu email politeianalitica@gmail.com.'
+          : 'Configura ACLED_API_KEY (preferido) o pareja ACLED_EMAIL+ACLED_PASSWORD con cuenta API-enabled (escribir a access@acleddata.com para activarla).'
         : null,
     })
   }
@@ -177,11 +204,24 @@ export async function GET(
       limit: String(limit),
     })
     if (data.error) {
+      const isAuthFail = data.error === 'no_credentials' || data._auth_status === 'none'
       return NextResponse.json({
         ok: false,
-        data_quality: quality('missing', 'ACLED', data.error),
+        data_quality: quality('missing', 'ACLED', _lastOAuthError === 'invalid_grant'
+          ? 'ACLED OAuth devuelve invalid_grant — la cuenta web politeianalitica@gmail.com no tiene "API Access" activado todavía. ACLED requiere solicitarlo manualmente.'
+          : data.error),
         items: [],
         auth_method: data._auth_status,
+        last_oauth_error: _lastOAuthError,
+        ...(isAuthFail ? {
+          activation_steps: [
+            '1. Escribir email a access@acleddata.com (tema "API Access request")',
+            '2. Mencionar email politeianalitica@gmail.com y uso académico/research',
+            '3. Cuando confirmen activación, este endpoint pasa de empty state a LIVE',
+            '4. Alternativa: generar API Key explícita en portal acleddata.com (no en el menú actual)',
+          ],
+          email_template: 'Hello, I have registered an ACLED account at politeianalitica@gmail.com for academic/research use of conflict event data. I would like to enable API Access for my account so I can use the /api/acled/read endpoint. Thank you.',
+        } : {}),
       })
     }
     const items = (data.data || []) as any[]

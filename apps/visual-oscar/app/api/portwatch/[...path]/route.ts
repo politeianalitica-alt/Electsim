@@ -47,6 +47,22 @@ export const revalidate = 21600 // 6h
 const FS_PORTS = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_ports_database/FeatureServer/0/query'
 const FS_CHOKEPOINTS = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_chokepoints_database/FeatureServer/0/query'
 const FS_DISRUPTIONS = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/portwatch_disruptions_database/FeatureServer/0/query'
+// Daily datasets (port-watch updates Tuesdays 9am ET, ~90K vessels tracked)
+const FS_DAILY_CHOKE = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query'
+const FS_DAILY_REGIONAL = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Regional_Data/FeatureServer/0/query'
+const FS_DAILY_TRADE_WLD = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data_WLD/FeatureServer/0/query'
+
+// Top chokepoints maritimos (id PortWatch + label + región)
+const TOP_CHOKEPOINTS = [
+  { id: 'chokepoint1', name: 'Suez Canal',         region: 'Egypt · Red Sea / Mediterranean' },
+  { id: 'chokepoint2', name: 'Panama Canal',       region: 'Panama · Atlantic / Pacific' },
+  { id: 'chokepoint4', name: 'Bab el-Mandeb',      region: 'Djibouti / Yemen · Red Sea' },
+  { id: 'chokepoint5', name: 'Strait of Malacca',  region: 'Singapore · Asia maritime' },
+  { id: 'chokepoint6', name: 'Strait of Hormuz',   region: 'Iran / Oman · Persian Gulf' },
+  { id: 'chokepoint7', name: 'Strait of Gibraltar',region: 'Spain / Morocco · Atlantic-Med' },
+  { id: 'chokepoint8', name: 'Bosphorus Strait',   region: 'Turkey · Black Sea-Med' },
+  { id: 'chokepoint9', name: 'Cape of Good Hope',  region: 'South Africa · alternative to Suez' },
+]
 
 function quality(t: 'live' | 'cache' | 'missing', name: string, note?: string) {
   return { source_type: t, source_name: name, ...(note ? { note } : {}) }
@@ -239,6 +255,239 @@ export async function GET(
     })
   }
 
+  // /api/portwatch/chokepoint-timeseries?portid=chokepoint1&days=37
+  if (action === 'chokepoint-timeseries') {
+    const portid = url.searchParams.get('portid') || 'chokepoint1'
+    const days = parseInt(url.searchParams.get('days') || '37', 10)
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - days)
+    const ds = cutoff.toISOString().slice(0, 10)
+    const data = await arcgisQuery(FS_DAILY_CHOKE, {
+      where: `portid='${portid.replace(/'/g, "''")}' AND date >= timestamp '${ds} 00:00:00'`,
+      outFields: 'date,n_total,n_container,n_dry_bulk,n_tanker,n_roro,n_general_cargo,n_cargo,capacity_container,capacity_tanker,capacity_dry_bulk',
+      orderByFields: 'date ASC',
+      resultRecordCount: 2000,
+    })
+    if (data.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'IMF PortWatch · Daily_Chokepoints', data.error),
+      })
+    }
+    const meta = TOP_CHOKEPOINTS.find((c) => c.id === portid)
+    const points = (data?.features || []).map((f: any) => ({
+      date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+      n_total: f.attributes.n_total ?? 0,
+      n_container: f.attributes.n_container ?? 0,
+      n_dry_bulk: f.attributes.n_dry_bulk ?? 0,
+      n_tanker: f.attributes.n_tanker ?? 0,
+      n_roro: f.attributes.n_roro ?? 0,
+      n_general_cargo: f.attributes.n_general_cargo ?? 0,
+      n_cargo: f.attributes.n_cargo ?? 0,
+      capacity_container: f.attributes.capacity_container ?? 0,
+      capacity_tanker: f.attributes.capacity_tanker ?? 0,
+      capacity_dry_bulk: f.attributes.capacity_dry_bulk ?? 0,
+    }))
+    // Stats
+    const last7 = points.slice(-7)
+    const prev7 = points.slice(-14, -7)
+    const avg7 = last7.length ? last7.reduce((a: number, p: any) => a + p.n_total, 0) / last7.length : 0
+    const avgPrev7 = prev7.length ? prev7.reduce((a: number, p: any) => a + p.n_total, 0) / prev7.length : 0
+    const wow_pct = avgPrev7 > 0 ? ((avg7 - avgPrev7) / avgPrev7) * 100 : 0
+    return NextResponse.json({
+      ok: true,
+      portid,
+      name: meta?.name ?? portid,
+      region: meta?.region ?? '',
+      data_quality: quality('live', 'IMF PortWatch · Daily Chokepoints'),
+      n_points: points.length,
+      stats: {
+        avg_7d: +avg7.toFixed(1),
+        avg_prev_7d: +avgPrev7.toFixed(1),
+        wow_pct: +wow_pct.toFixed(2),
+      },
+      points,
+    })
+  }
+
+  // /api/portwatch/chokepoints-overview · todos los choke en una llamada (compact stats)
+  if (action === 'chokepoints-overview') {
+    const days = parseInt(url.searchParams.get('days') || '14', 10)
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - days)
+    const ds = cutoff.toISOString().slice(0, 10)
+    const ids = TOP_CHOKEPOINTS.map((c) => `'${c.id}'`).join(',')
+    const data = await arcgisQuery(FS_DAILY_CHOKE, {
+      where: `portid IN (${ids}) AND date >= timestamp '${ds} 00:00:00'`,
+      outFields: 'date,portid,n_total,n_container,n_tanker',
+      orderByFields: 'portid ASC, date ASC',
+      resultRecordCount: 2000,
+    })
+    if (data.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'IMF PortWatch', data.error),
+      })
+    }
+    // Agrupar por portid
+    const byPort: Record<string, any[]> = {}
+    for (const f of (data?.features || [])) {
+      const p = f.attributes.portid
+      if (!byPort[p]) byPort[p] = []
+      byPort[p].push({
+        date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+        n_total: f.attributes.n_total ?? 0,
+        n_container: f.attributes.n_container ?? 0,
+        n_tanker: f.attributes.n_tanker ?? 0,
+      })
+    }
+    const overview = TOP_CHOKEPOINTS.map((c) => {
+      const pts = byPort[c.id] || []
+      const total = pts.reduce((a, p) => a + p.n_total, 0)
+      const avg = pts.length ? total / pts.length : 0
+      const latest = pts[pts.length - 1]
+      return {
+        portid: c.id,
+        name: c.name,
+        region: c.region,
+        n_days: pts.length,
+        latest_date: latest?.date,
+        latest_n_total: latest?.n_total ?? 0,
+        avg_daily: +avg.toFixed(1),
+        total_period: total,
+      }
+    })
+    return NextResponse.json({
+      ok: true,
+      days,
+      data_quality: quality('live', 'IMF PortWatch · Chokepoints Overview'),
+      n_chokepoints: overview.length,
+      chokepoints: overview,
+    })
+  }
+
+  // /api/portwatch/spain-port-timeseries?portid=port31&days=37
+  if (action === 'spain-port-timeseries') {
+    const portid = url.searchParams.get('portid')
+    const days = parseInt(url.searchParams.get('days') || '37', 10)
+    if (!portid) {
+      return NextResponse.json({ ok: false, error: 'portid required' })
+    }
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - days)
+    const ds = cutoff.toISOString().slice(0, 10)
+    const data = await arcgisQuery(FS_DAILY_CHOKE, {
+      where: `portid='${portid.replace(/'/g, "''")}' AND date >= timestamp '${ds} 00:00:00'`,
+      outFields: 'date,n_total,n_container,n_dry_bulk,n_tanker,n_roro,n_general_cargo',
+      orderByFields: 'date ASC',
+      resultRecordCount: 1000,
+    })
+    if (data.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'IMF PortWatch · Daily Port', data.error),
+      })
+    }
+    const points = (data?.features || []).map((f: any) => ({
+      date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+      n_total: f.attributes.n_total ?? 0,
+      n_container: f.attributes.n_container ?? 0,
+      n_dry_bulk: f.attributes.n_dry_bulk ?? 0,
+      n_tanker: f.attributes.n_tanker ?? 0,
+      n_roro: f.attributes.n_roro ?? 0,
+      n_general_cargo: f.attributes.n_general_cargo ?? 0,
+    }))
+    return NextResponse.json({
+      ok: true,
+      portid,
+      data_quality: quality('live', 'IMF PortWatch · Daily Port'),
+      n_points: points.length,
+      points,
+    })
+  }
+
+  // /api/portwatch/world-trade-daily?days=90
+  if (action === 'world-trade-daily') {
+    const days = parseInt(url.searchParams.get('days') || '90', 10)
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - days)
+    const ds = cutoff.toISOString().slice(0, 10)
+    const data = await arcgisQuery(FS_DAILY_TRADE_WLD, {
+      where: `date >= timestamp '${ds} 00:00:00'`,
+      outFields: 'date,portcalls,portcalls_container,portcalls_tanker,portcalls_dry_bulk,import,export',
+      orderByFields: 'date ASC',
+      resultRecordCount: 1000,
+    })
+    if (data.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'IMF PortWatch · Daily World Trade', data.error),
+      })
+    }
+    const points = (data?.features || []).map((f: any) => ({
+      date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+      portcalls: f.attributes.portcalls ?? 0,
+      portcalls_container: f.attributes.portcalls_container ?? 0,
+      portcalls_tanker: f.attributes.portcalls_tanker ?? 0,
+      portcalls_dry_bulk: f.attributes.portcalls_dry_bulk ?? 0,
+      import: f.attributes.import ?? 0,
+      export: f.attributes.export ?? 0,
+    }))
+    const last30 = points.slice(-30)
+    const prev30 = points.slice(-60, -30)
+    const avg30 = last30.length ? last30.reduce((a: number, p: any) => a + p.portcalls, 0) / last30.length : 0
+    const avgPrev30 = prev30.length ? prev30.reduce((a: number, p: any) => a + p.portcalls, 0) / prev30.length : 0
+    const trend_pct = avgPrev30 > 0 ? ((avg30 - avgPrev30) / avgPrev30) * 100 : 0
+    return NextResponse.json({
+      ok: true,
+      data_quality: quality('live', 'IMF PortWatch · Daily World Trade'),
+      n_points: points.length,
+      stats: {
+        avg_portcalls_30d: +avg30.toFixed(0),
+        avg_portcalls_prev_30d: +avgPrev30.toFixed(0),
+        trend_pct: +trend_pct.toFixed(2),
+      },
+      points,
+    })
+  }
+
+  // /api/portwatch/country-trade-daily?country=Spain&days=90
+  if (action === 'country-trade-daily') {
+    const country = url.searchParams.get('country') || 'Spain'
+    const days = parseInt(url.searchParams.get('days') || '90', 10)
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - days)
+    const ds = cutoff.toISOString().slice(0, 10)
+    const data = await arcgisQuery(FS_DAILY_REGIONAL, {
+      where: `country='${country.replace(/'/g, "''")}' AND date >= timestamp '${ds} 00:00:00'`,
+      outFields: 'date,portcalls,portcalls_container,portcalls_tanker,portcalls_dry_bulk,import,export',
+      orderByFields: 'date ASC',
+      resultRecordCount: 1000,
+    })
+    if (data.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'IMF PortWatch · Daily Regional', data.error),
+      })
+    }
+    const points = (data?.features || []).map((f: any) => ({
+      date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+      portcalls: f.attributes.portcalls ?? 0,
+      portcalls_container: f.attributes.portcalls_container ?? 0,
+      portcalls_tanker: f.attributes.portcalls_tanker ?? 0,
+      portcalls_dry_bulk: f.attributes.portcalls_dry_bulk ?? 0,
+      import: f.attributes.import ?? 0,
+      export: f.attributes.export ?? 0,
+    }))
+    return NextResponse.json({
+      ok: true,
+      country,
+      data_quality: quality('live', 'IMF PortWatch · Daily Regional'),
+      n_points: points.length,
+      points,
+    })
+  }
+
   // /api/portwatch/disruptions
   if (action === 'disruptions') {
     const data = await arcgisQuery(FS_DISRUPTIONS, {
@@ -267,12 +516,18 @@ export async function GET(
       available_endpoints: [
         'GET /api/portwatch/health',
         'GET /api/portwatch/spain-ports',
-        'GET /api/portwatch/port?portid=port31 (Algeciras) | port?name=Valencia',
+        'GET /api/portwatch/port?portid=port31 | port?name=Algeciras',
         'GET /api/portwatch/ports?iso3=MAR&limit=30',
         'GET /api/portwatch/top-global?metric=vessel_count_total&limit=20',
         'GET /api/portwatch/chokepoints',
+        'GET /api/portwatch/chokepoints-overview?days=14',
+        'GET /api/portwatch/chokepoint-timeseries?portid=chokepoint1&days=37',
+        'GET /api/portwatch/spain-port-timeseries?portid=port31&days=37',
+        'GET /api/portwatch/world-trade-daily?days=90',
+        'GET /api/portwatch/country-trade-daily?country=Spain&days=90',
         'GET /api/portwatch/disruptions',
       ],
+      top_chokepoints: TOP_CHOKEPOINTS,
     },
     { status: 404 },
   )

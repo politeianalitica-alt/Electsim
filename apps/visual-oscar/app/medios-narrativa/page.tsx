@@ -7,6 +7,7 @@ import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import NarrativeLifecycle from '@/components/NarrativeLifecycle'
 import SourceHealthDetail from '@/components/SourceHealthDetail'
+import { NewsApiHeadlinesPanel } from '@/components/media/NewsApiHeadlinesPanel'
 import { loadPrefs, setWeight, weightMultiplier, levelLabel, levelColor, type WeightLevel } from '@/lib/media-prefs'
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -222,6 +223,11 @@ export default function MediosNarrativaPage() {
             <MiniK label="REVISTA"  n={counts.byTipo['Revista']  || 0}/>
           </div>
         </section>
+
+        {/* NewsAPI · Headlines tiempo real (4 tabs) */}
+        <div style={{ marginBottom: 18 }}>
+          <NewsApiHeadlinesPanel />
+        </div>
 
         {/* Filtros */}
         <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>

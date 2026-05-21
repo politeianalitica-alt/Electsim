@@ -71,13 +71,16 @@ interface ComtradeQuery {
   partner2Code?: string
 }
 
-async function comtradeFetch(path: string, query: ComtradeQuery): Promise<any> {
+async function comtradeFetch(_pathIgnored: string, query: ComtradeQuery): Promise<any> {
   const apiKey = process.env.COMTRADE_API_KEY
-  // Defaults sensatos para España, anual, HS
+  // FIX 2026-05-21: la URL canónica de UN Comtrade es:
+  //   /data/v1/get/{typeCode}/{freqCode}/{clCode}?reporterCode=...
+  // typeCode/freqCode/classification van en el PATH (no en query params),
+  // si no devuelve HTTP 404. Esto rompía Comtrade en producción.
+  const typeCode = query.typeCode || 'C'    // C=commodities, S=services
+  const freqCode = query.freqCode || 'A'    // A=annual, M=monthly
+  const clCode   = query.clCode   || 'HS'   // HS, SITC, BEC, EBOPS
   const params: Record<string, string> = {
-    typeCode: 'C',
-    freqCode: 'A',
-    clCode: 'HS',
     reporterCode: SPAIN_ISO,
     cmdCode: 'TOTAL',
     flowCode: 'X',
@@ -86,7 +89,9 @@ async function comtradeFetch(path: string, query: ComtradeQuery): Promise<any> {
     customsCode: 'C00',
     partner2Code: '0',
     ...Object.fromEntries(
-      Object.entries(query).filter(([, v]) => v !== undefined) as [string, string][],
+      Object.entries(query).filter(
+        ([k, v]) => v !== undefined && !['typeCode', 'freqCode', 'clCode'].includes(k),
+      ) as [string, string][],
     ),
   }
   // Default period si no se da
@@ -95,8 +100,9 @@ async function comtradeFetch(path: string, query: ComtradeQuery): Promise<any> {
   }
   const qs = new URLSearchParams(params)
   if (apiKey) qs.set('subscription-key', apiKey)
+  const url = `${COMTRADE_API}/${typeCode}/${freqCode}/${clCode}?${qs}`
   try {
-    const r = await fetch(`${COMTRADE_API}${path}?${qs}`, {
+    const r = await fetch(url, {
       headers: {
         Accept: 'application/json',
         ...(apiKey ? { 'Ocp-Apim-Subscription-Key': apiKey } : {}),
