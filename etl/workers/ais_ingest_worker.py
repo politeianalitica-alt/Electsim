@@ -121,6 +121,18 @@ async def _stream_loop(
         )
         return 1
 
+    # SSL context · usa el bundle de certifi cuando esté disponible para evitar
+    # problemas con trust stores del sistema desactualizados. En producción
+    # (Vercel/Railway) suelen tener trust stores válidos · certifi es redundante
+    # pero no daña. NUNCA desactivamos verify_mode con la key real en wire ·
+    # si el upstream tiene cert problem, fallamos cerrado y dejamos badges en SYNTH.
+    import ssl as _ssl
+    try:
+        import certifi  # type: ignore
+        ssl_ctx = _ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        ssl_ctx = _ssl.create_default_context()
+
     from etl.sources.ports.ais_client import persist_position
 
     bboxes = _build_bboxes(port_slugs, bbox_deg)
@@ -149,7 +161,9 @@ async def _stream_loop(
                 len(bboxes),
                 bbox_deg,
             )
-            async with websockets.connect(AISSTREAM_URL, ping_interval=20) as ws:
+            async with websockets.connect(
+                AISSTREAM_URL, ping_interval=20, ssl=ssl_ctx
+            ) as ws:
                 await ws.send(json.dumps(subscribe_msg))
                 backoff = INITIAL_BACKOFF_S  # reset al reconectar OK
 
