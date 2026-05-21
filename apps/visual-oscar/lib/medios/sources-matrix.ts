@@ -45,7 +45,7 @@ export const MEDIOS_TABS: MediosTab[] = [
     sources: [
       { key: 'rss',     name: 'RSS · 219 medios ES + UE', status: 'live',    endpoint: '/api/medios/intel' },
       { key: 'newsapi', name: 'NewsAPI · top-headlines',  status: 'live',    endpoint: '/api/newsapi/top-spain' },
-      { key: 'gdelt',   name: 'GDELT · DOC API',          status: 'planned', endpoint: '/api/gdelt/doc' },
+      { key: 'gdelt',   name: 'GDELT · DOC API',          status: 'live', endpoint: '/api/gdelt/doc' },
     ],
     themeAccent: '#1F4E8C',
   },
@@ -58,7 +58,7 @@ export const MEDIOS_TABS: MediosTab[] = [
     sources: [
       { key: 'newsapi',    name: 'NewsAPI · everything (q + booleans + dominios)', status: 'live', endpoint: '/api/medios/search' },
       { key: 'rss',        name: 'RSS · 219 medios ES + UE',                       status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'gdelt',      name: 'GDELT · multilingüe global',                     status: 'planned' },
+      { key: 'gdelt',      name: 'GDELT · multilingüe global',                     status: 'live' },
       { key: 'mediacloud', name: 'Media Cloud · framing histórico',                status: 'planned' },
     ],
     themeAccent: '#DC2626',
@@ -98,7 +98,7 @@ export const MEDIOS_TABS: MediosTab[] = [
     description: 'Personas, partidos, instituciones, empresas, países · menciones, temas asociados, tono.',
     sources: [
       { key: 'rss',      name: 'RSS · taxonomía actores interna',   status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'wikidata', name: 'Wikidata · alias + cargos',          status: 'planned' },
+      { key: 'wikidata', name: 'Wikidata · alias + cargos',          status: 'live' },
       { key: 'gdelt',    name: 'GDELT · cobertura internacional',    status: 'planned' },
     ],
     themeAccent: '#0891B2',
@@ -151,7 +151,7 @@ export const MEDIOS_TABS: MediosTab[] = [
     description: 'Claims dudosos · bulos · verificaciones · narrativas falsas · fact-checkers ES.',
     sources: [
       { key: 'rss-fc',         name: 'RSS · Maldita, Newtral, EFE Verifica', status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'gfact',          name: 'Google Fact Check Tools API',           status: 'planned' },
+      { key: 'gfact',          name: 'Google Fact Check Tools API',           status: 'live' },
       { key: 'newsapi-disinfo', name: 'NewsAPI · queries de desinformación',  status: 'live' },
     ],
     themeAccent: '#B91C1C',
@@ -163,10 +163,10 @@ export const MEDIOS_TABS: MediosTab[] = [
     shortLabel: 'Informes',
     description: 'Búsquedas guardadas · monitores · alertas por pico · dossier PDF · resumen ejecutivo IA.',
     sources: [
-      { key: 'internal-saves', name: 'Búsquedas y monitores guardados',       status: 'live' },
-      { key: 'pdf-export',     name: 'PDF dossier · WeasyPrint',              status: 'planned' },
-      { key: 'brain',          name: 'Brain LLM · resumen ejecutivo',         status: 'planned' },
-      { key: 'alerts-cron',    name: 'Alertas cron · webhook + email',        status: 'planned' },
+      { key: 'internal-saves', name: 'Búsquedas y monitores guardados',         status: 'live' },
+      { key: 'dossier-md',     name: 'Dossier export · Markdown + HTML print', status: 'live', endpoint: '/api/medios/dossier' },
+      { key: 'brain',          name: 'Brain LLM · Lectura Politeia',           status: 'live', endpoint: '/api/medios/lectura' },
+      { key: 'alerts-cron',    name: 'Alertas cron · webhook + email',         status: 'planned' },
     ],
     themeAccent: '#475569',
   },

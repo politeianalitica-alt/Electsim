@@ -10,6 +10,7 @@
  */
 import { useState, useEffect, useCallback } from 'react'
 import { useMediosDrawer } from './MediosDrawerProvider'
+import { LecturaPoliteia } from './LecturaPoliteia'
 import type { SourceGroup } from '@/lib/medios/sources-matrix'
 import { IDEOLOGY_RANGES } from '@/lib/medios/sources-matrix'
 
@@ -306,6 +307,86 @@ export function BusquedaPuntual() {
       {/* Resultados */}
       {result?.ok && (
         <>
+          {/* Acciones rápidas: dossier + lectura IA */}
+          <section style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button
+              onClick={async () => {
+                const r = await fetch('/api/medios/dossier', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ query: result.query, search_response: result }),
+                })
+                const blob = await r.blob()
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                const ds = new Date().toISOString().slice(0, 10)
+                a.download = `politeia-dossier-${result.query.toLowerCase().replace(/[^\w]+/g, '-').slice(0, 40)}-${ds}.md`
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              style={{ background: '#fff', color: '#DC2626', border: '1px solid #DC2626', borderRadius: 8, padding: '7px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+            >
+              ↓ Exportar dossier (Markdown)
+            </button>
+            <button
+              onClick={async () => {
+                const r = await fetch('/api/medios/dossier?format=html', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ query: result.query, search_response: result }),
+                })
+                const html = await r.text()
+                const w = window.open('', '_blank')
+                if (w) { w.document.write(html); w.document.close(); setTimeout(() => w.print(), 500) }
+              }}
+              style={{ background: '#fff', color: '#1F4E8C', border: '1px solid #1F4E8C', borderRadius: 8, padding: '7px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+            >
+              🖨 Imprimir/PDF (HTML)
+            </button>
+            <button
+              onClick={() => {
+                const stored = JSON.parse(localStorage.getItem('politeia.medios.monitors.v1') || '[]')
+                stored.unshift({
+                  id: Math.random().toString(36).slice(2, 10),
+                  query: result.query,
+                  sourceGroups: result.params_applied?.sourceGroups || [],
+                  language: result.params_applied?.language || 'es',
+                  createdAt: Date.now(),
+                })
+                localStorage.setItem('politeia.medios.monitors.v1', JSON.stringify(stored))
+                alert('Guardado como monitor · Ve a Tab 10 Informes')
+              }}
+              style={{ background: '#fff', color: '#475569', border: '1px solid #cbd5e1', borderRadius: 8, padding: '7px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+            >
+              ☆ Guardar como monitor
+            </button>
+          </section>
+
+          {/* Lectura Politeia IA */}
+          <LecturaPoliteia
+            tabId="busqueda"
+            query={result.query}
+            accent="#DC2626"
+            context={{
+              n_articles: result.n_articles,
+              total_results: result.totalResults,
+              top_sources: result.topSources,
+              actors: result.actors,
+              topics: result.topics,
+              narratives: result.narratives,
+              sentiment: result.sentiment,
+              ideologicalComparison: result.ideologicalComparison || [],
+              sample_titles: (result.articles || []).slice(0, 8).map((a: any) => a.title),
+              timeline_summary: result.timeline?.length ? {
+                from: result.timeline[0].date,
+                to: result.timeline[result.timeline.length - 1].date,
+                peak_date: result.timeline.reduce((m: any, p: any) => (p.count > (m?.count ?? 0) ? p : m), null)?.date,
+                peak_value: result.timeline.reduce((m: any, p: any) => (p.count > (m?.count ?? 0) ? p : m), null)?.count,
+              } : undefined,
+            }}
+          />
+
           {/* Sumario */}
           <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 16 }}>
             <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase' }}>

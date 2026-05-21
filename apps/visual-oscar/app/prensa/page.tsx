@@ -41,6 +41,8 @@ import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
 import { BusquedaPuntual } from './_components/BusquedaPuntual'
 import { ViralidadDifusion } from './_components/ViralidadDifusion'
 import { InformesAlertas } from './_components/InformesAlertas'
+import { DesinformacionLive } from './_components/DesinformacionLive'
+import { GdeltGlobalPanel } from './_components/GdeltGlobalPanel'
 import { MEDIOS_TAB_IDS, getMediosTab, MediosTabId } from '@/lib/medios/sources-matrix'
 
 import type {
@@ -162,10 +164,11 @@ export default function PrensaPage() {
             </div>
           ) : (
             <>
-              {/* Tab 1: Radar en vivo · feed + mapa CCAA inline */}
+              {/* Tab 1: Radar en vivo · feed + GDELT global + mapa CCAA */}
               {safeActiveTab === 'radar' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <FeedTiered feed={data?.feed} />
+                  <GdeltGlobalPanel query="Spain" />
                   {data?.ccaa && (
                     <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 14 }}>
                       <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase' }}>
@@ -222,34 +225,8 @@ export default function PrensaPage() {
               {/* Tab 8: Viralidad & difusión */}
               {safeActiveTab === 'viralidad' && <ViralidadDifusion />}
 
-              {/* Tab 9: Desinformación & verificación */}
-              {safeActiveTab === 'desinformacion' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                  <section style={{ padding: 16, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, borderLeft: `4px solid ${tab.themeAccent}` }}>
-                    <p style={{ fontSize: 11, color: tab.themeAccent, fontWeight: 700, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
-                      Desinformación & verificación
-                    </p>
-                    <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 12px', lineHeight: 1.5 }}>
-                      Observatorio de claims verificados por fact-checkers ES (Maldita, Newtral, EFE Verifica, Verificat). Google Fact Check Tools API planned.
-                    </p>
-                    <a
-                      href="/prensa/desinformacion"
-                      style={{
-                        display: 'inline-block',
-                        padding: '8px 16px',
-                        background: tab.themeAccent,
-                        color: '#fff',
-                        borderRadius: 8,
-                        textDecoration: 'none',
-                        fontSize: 12,
-                        fontWeight: 600,
-                      }}
-                    >
-                      Abrir observatorio completo →
-                    </a>
-                  </section>
-                </div>
-              )}
+              {/* Tab 9: Desinformación & verificación · LIVE Google Fact Check */}
+              {safeActiveTab === 'desinformacion' && <DesinformacionLive />}
 
               {/* Tab 10: Informes, alertas & dossiers */}
               {safeActiveTab === 'informes' && <InformesAlertas />}
