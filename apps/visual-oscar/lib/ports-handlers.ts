@@ -29,11 +29,54 @@ function hashStr(s: string): number {
   return h
 }
 
+/**
+ * Convergencia env-vars · una sola variable canónica.
+ *
+ *   PORTS_SYNTH_MODE=allow     · default · permite synthetic (modo demo)
+ *   PORTS_SYNTH_MODE=disallow  · KPIs reales o missing (recomendado prod backend)
+ *   PORTS_SYNTH_MODE=force     · siempre sintético (testing/QA visual)
+ *
+ * Backward-compat:
+ *   - `PORTS_FORCE_NO_SYNTH=1` → mapea a 'disallow'
+ *   - `PORTS_ALLOW_SYNTH=1`    → mapea a 'allow'
+ */
+type SynthMode = 'allow' | 'disallow' | 'force'
+function synthMode(): SynthMode {
+  const explicit = (process.env.PORTS_SYNTH_MODE || '').toLowerCase()
+  if (explicit === 'allow' || explicit === 'disallow' || explicit === 'force') {
+    return explicit
+  }
+  if (process.env.PORTS_FORCE_NO_SYNTH === '1') return 'disallow'
+  if (process.env.PORTS_ALLOW_SYNTH === '1') return 'allow'
+  return 'allow'
+}
 function isAllowSynth(): boolean {
-  // En el frontend serverless · siempre sintético opt-in (ON por default cuando
-  // no hay backend, para que /puertos no esté vacío). El usuario puede
-  // configurar AISSTREAM_API_KEY en el backend cuando esté desplegado.
-  return process.env.PORTS_FORCE_NO_SYNTH !== '1'
+  const m = synthMode()
+  return m === 'allow' || m === 'force'
+}
+
+/**
+ * Helper `quality(source_type, source_name, opts?)` → embebido en cada response
+ * para que el frontend pinte el `<DataQualityBadge />` correcto sin adivinar.
+ *
+ * Convenciones:
+ *   - 'live'      → datos del proveedor en esta request (httpx/fetch OK)
+ *   - 'cache'     → DB/memoria con TTL fresco
+ *   - 'seed'      → catálogo curado estático
+ *   - 'synthetic' → calculado por hash determinista (NO real)
+ *   - 'missing'   → no disponible
+ */
+type QualityKind = 'live' | 'cache' | 'seed' | 'synthetic' | 'missing'
+function quality(
+  source_type: QualityKind,
+  source_name: string,
+  opts: { retrieved_at?: string; confidence_score?: number; note?: string } = {},
+) {
+  const base: Record<string, any> = { source_type, source_name }
+  if (opts.retrieved_at) base.retrieved_at = opts.retrieved_at
+  if (opts.confidence_score != null) base.confidence_score = opts.confidence_score
+  if (opts.note) base.note = opts.note
+  return base
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -65,7 +108,13 @@ export function catalogPorts(params: URLSearchParams) {
   if (country) items = items.filter((p) => p.country_iso === country.toUpperCase())
   if (type_) items = items.filter((p) => p.type === type_)
   if (region) items = items.filter((p) => normalizeRegion(p.region) === region)
-  return { n_items: items.length, items }
+  return {
+    n_items: items.length,
+    items,
+    data_quality: quality('seed', 'Catálogo curado', {
+      note: '40 puertos críticos · ampliable con World Port Index (NGA Pub. 150)',
+    }),
+  }
 }
 
 export function catalogVessels(params: URLSearchParams) {
@@ -99,6 +148,9 @@ export function snapshotAll(params: URLSearchParams) {
         congestion_pct: null,
         data_source: 'requires_aisstream',
         available: false,
+        data_quality: quality('missing', 'AISStream', {
+          note: 'AISSTREAM_API_KEY no configurada · activar para KPIs live.',
+        }),
       }
     }
     const h = hashStr(p.slug)
@@ -109,6 +161,9 @@ export function snapshotAll(params: URLSearchParams) {
       congestion_pct: ((h >>> 14) % 50) + 10,
       data_source: 'synthetic',
       available: true,
+      data_quality: quality('synthetic', 'Hash determinista', {
+        note: 'Sin AIS real · KPIs generados desde slug del puerto.',
+      }),
     }
   })
   return {
@@ -116,6 +171,11 @@ export function snapshotAll(params: URLSearchParams) {
     items,
     data_source: allow ? 'synthetic' : 'requires_aisstream',
     ais_live: false,
+    data_quality: quality(allow ? 'synthetic' : 'missing', 'AISStream', {
+      note: allow
+        ? 'Sin AISSTREAM_API_KEY · KPIs estimados con hash determinista.'
+        : 'AIS no disponible · configurar AISSTREAM_API_KEY en backend.',
+    }),
     note: allow
       ? 'Sin AISSTREAM_API_KEY en backend · KPIs estimados (deterministic seed).'
       : null,
@@ -131,6 +191,7 @@ export function portOverview(slug: string) {
   const ar = allow ? ((h >>> 7) % 40) + 2 : null
   const cp = allow ? ((h >>> 14) % 50) + 10 : null
   const operators = ['Maersk', 'MSC', 'CMA CGM', 'Hapag-Lloyd', 'COSCO', 'Evergreen', 'ONE', 'Yang Ming']
+  // Shape canónico: { name, n_vessels, calls? } · alineado con etl/sources/ports/port_intel.compute_top_operators
   const top_operators = operators.slice(0, 5).map((name, i) => ({
     name,
     n_vessels: allow ? Math.max(1, ((h >>> (i * 3)) % 12) + 1) : 0,
@@ -153,6 +214,11 @@ export function portOverview(slug: string) {
         ]
       : [],
     data_source: allow ? 'synthetic' : 'requires_aisstream',
+    data_quality: quality(allow ? 'synthetic' : 'missing', 'AISStream + seed', {
+      note: allow
+        ? 'KPIs y top_operators estimados con hash · ficha base (lat/lon/UNLOCODE) viene de seed.'
+        : 'AIS no disponible · activar AISSTREAM_API_KEY para datos reales.',
+    }),
   }
 }
 
@@ -181,9 +247,18 @@ export function portVessels(slug: string, params: URLSearchParams) {
       flag_iso: v.flag_iso,
       type: v.type,
       operator: v.operator,
+      is_synthetic: true, // Marca visible · UI lo pinta en ámbar punteado
     }
   })
-  return { port_slug: slug, n_vessels: items.length, data_source: 'synthetic', items }
+  return {
+    port_slug: slug,
+    n_vessels: items.length,
+    data_source: 'synthetic',
+    items,
+    data_quality: quality('synthetic', 'AISStream', {
+      note: 'Buques posicionados sinteticamente alrededor del puerto · NO son AIS real.',
+    }),
+  }
 }
 
 export function portCalls(slug: string, params: URLSearchParams) {
@@ -297,7 +372,15 @@ export function freightSnapshot() {
   const allow = isAllowSynth()
   const items = (FREIGHT_SEED as any[]).map((idx) => {
     if (!allow) {
-      return { ...idx, last_price: null, change_pct: null, signal: 'unknown' }
+      return {
+        ...idx,
+        last_price: null,
+        change_pct: null,
+        signal: 'estable',
+        data_quality: quality('missing', 'Yahoo Finance', {
+          note: 'Activar fetch real desde yfinance para precios actualizados.',
+        }),
+      }
     }
     const h = hashStr(idx.slug)
     const lastPrice = idx.base_level * (1 + (((h % 1000) - 500) / 5000))
@@ -312,9 +395,19 @@ export function freightSnapshot() {
       last_price: Math.round(lastPrice * 100) / 100,
       change_pct: Math.round(changePct * 100) / 100,
       signal,
+      data_quality: quality('synthetic', 'Yahoo Finance', {
+        note: `Precio estimado · activar yfinance para ${idx.yahoo_ticker ?? idx.slug}`,
+      }),
     }
   })
-  return { n_items: items.length, data_source: allow ? 'synthetic' : 'requires_yahoo', items }
+  return {
+    n_items: items.length,
+    data_source: allow ? 'synthetic' : 'requires_yahoo',
+    items,
+    data_quality: quality(allow ? 'synthetic' : 'missing', 'Yahoo Finance', {
+      note: allow ? 'Snapshot fletes con hash determinista.' : 'Yahoo no accesible.',
+    }),
+  }
 }
 
 export function freightPrice(slug: string, params: URLSearchParams) {
@@ -357,10 +450,27 @@ export function chokepointsList(params: URLSearchParams) {
       else if (score >= 60) level = 'alto'
       else if (score >= 40) level = 'medio'
       else if (score >= 20) level = 'bajo'
-      return { ...ck, risk_score: score, risk_level: level, n_events_30d: events, recent_events: [], data_source: 'synthetic' }
+      return {
+        ...ck,
+        risk_score: score,
+        risk_level: level,
+        n_events_30d: events,
+        recent_events: [],
+        data_source: 'synthetic',
+        data_quality: quality('synthetic', 'ACLED + seed', {
+          note: 'Score base de seed + boost determinista · activar ACLED_API_KEY para eventos reales.',
+        }),
+      }
     })
     .sort((a, b) => b.risk_score - a.risk_score)
-  return { n_items: items.length, days, items }
+  return {
+    n_items: items.length,
+    days,
+    items,
+    data_quality: quality('seed', 'Chokepoints curados', {
+      note: '6 corredores marítimos críticos · score base curado, boost sintético sin ACLED real.',
+    }),
+  }
 }
 
 export function chokepointDetail(slug: string, params: URLSearchParams) {
@@ -389,6 +499,9 @@ export function chokepointDetail(slug: string, params: URLSearchParams) {
     recent_events,
     days,
     data_source: 'synthetic',
+    data_quality: quality('synthetic', 'ACLED + seed', {
+      note: 'Eventos placeholder · activar ACLED para detalle real.',
+    }),
   }
 }
 

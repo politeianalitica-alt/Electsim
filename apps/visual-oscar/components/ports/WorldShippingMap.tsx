@@ -12,24 +12,33 @@ import type { Port, VesselPosition } from '@/types/ports'
 const WORLD_GEOJSON =
   'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
+interface MapVessel extends VesselPosition {
+  /** true cuando el buque viene de fallback sintético · UI lo pinta en ámbar */
+  is_synthetic?: boolean
+}
+
 interface Props {
   ports: Array<Pick<Port, 'slug' | 'name' | 'lat' | 'lon' | 'type' | 'country_iso'> & {
     congestion_pct?: number
     vessels_anchored?: number
   }>
-  vessels?: VesselPosition[]
+  vessels?: MapVessel[]
   height?: number
   onSelectPort?: (slug: string) => void
 }
 
+/** Colores por PortType canónico (10 valores) · alineado con catalog.py:PORT_TYPES */
 const TYPE_COLOR: Record<string, string> = {
   container: '#2563eb',
   bulk: '#a16207',
   tanker: '#dc2626',
   lng: '#0891b2',
+  roro: '#7c3aed',
   cruise: '#9333ea',
-  mixed: '#475569',
+  multipurpose: '#475569',
   chokepoint: '#ea580c',
+  energy: '#b45309',
+  fishing: '#0d9488',
 }
 
 export function WorldShippingMap({ ports, vessels = [], height = 480, onSelectPort }: Props) {
@@ -116,12 +125,28 @@ export function WorldShippingMap({ ports, vessels = [], height = 480, onSelectPo
             }
           </Geographies>
 
-          {/* Buques activos (puntos pequeños) */}
-          {vessels.slice(0, 200).map((v) => (
-            <Marker key={`v-${v.imo}-${v.ts}`} coordinates={[v.lon, v.lat]}>
-              <circle r={1.6} fill="#10b981" opacity={0.55} />
-            </Marker>
-          ))}
+          {/* Buques activos · verde = LIVE (AISStream), ámbar punteado = synthetic.
+              Cuando el worker AIS persistente esté corriendo, todas las marcas
+              dejarán de tener is_synthetic. */}
+          {vessels.slice(0, 200).map((v) => {
+            const isSynth = !!v.is_synthetic
+            return (
+              <Marker key={`v-${v.imo}-${v.ts}`} coordinates={[v.lon, v.lat]}>
+                <circle
+                  r={1.6}
+                  fill={isSynth ? '#d97706' : '#10b981'}
+                  opacity={isSynth ? 0.45 : 0.65}
+                  stroke={isSynth ? '#92400e' : 'none'}
+                  strokeWidth={isSynth ? 0.4 : 0}
+                  strokeDasharray={isSynth ? '0.6 0.4' : undefined}
+                />
+                <title>
+                  {v.name ?? v.imo}
+                  {isSynth ? ' · posición sintética (no AIS real)' : ' · AIS live'}
+                </title>
+              </Marker>
+            )
+          })}
 
           {/* Puertos críticos */}
           {ports.map((p) => {
@@ -166,6 +191,14 @@ export function WorldShippingMap({ ports, vessels = [], height = 480, onSelectPo
             {k}
           </span>
         ))}
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginLeft: 12 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
+          buque (AIS live)
+        </span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#d97706', display: 'inline-block', border: '1px dashed #92400e' }} />
+          sintético
+        </span>
         <span style={{ marginLeft: 'auto', color: '#64748b' }}>
           ⊙ {vessels.length} buques · ◯ {ports.length} puertos
         </span>

@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import type { ChokepointRisk } from '@/types/ports'
+import { DataQualityBadge } from './DataQualityBadge'
 
 const LEVEL_STYLE: Record<string, { bg: string; fg: string; ring: string }> = {
   critico: { bg: '#fef2f2', fg: '#991b1b', ring: '#dc2626' },
@@ -49,8 +50,13 @@ export function ChokepointRiskCard({ ck }: { ck: ChokepointRisk }) {
         <span style={{ fontSize: 28, fontWeight: 800, color: lv.ring }}>{ck.risk_score}</span>
         <span style={{ fontSize: 11, color: '#9ca3af' }}>/ 100 risk</span>
       </div>
-      <div style={{ marginTop: 8, fontSize: 11, color: '#6b7280' }}>
-        Base {ck.score_base} · Eventos {ck.n_events_30d ?? 0} (30d) · {ck.data_source}
+      <div style={{ marginTop: 8, fontSize: 11, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+        <span>Base {ck.score_base} · Eventos {ck.n_events_30d ?? 0} (30d)</span>
+        {ck.data_quality ? (
+          <DataQualityBadge quality={ck.data_quality} />
+        ) : (
+          <span>· {ck.data_source}</span>
+        )}
       </div>
     </Link>
   )

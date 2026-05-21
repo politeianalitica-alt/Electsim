@@ -220,10 +220,22 @@ def port_snapshot(port_slug: str) -> dict[str, Any]:
     calls_recent = port_calls(port_slug, days_back=1, limit=200)
     congestion = port_congestion(port_slug, days=7)
 
-    # Top operadores en escalas últimas 24h
+    # Top operadores en escalas últimas 24h.
+    # Shape canónico: {name, n_vessels, calls} · alineado con
+    # apps/visual-oscar/types/ports.ts:PortTopOperator y handler standalone.
+    # `n_vessels` = buques únicos del operador en zona; `calls` = total escalas 24h.
     ops_counter = Counter([c["operator"] for c in calls_recent if c.get("operator")])
+    ops_unique_vessels: dict[str, set] = {}
+    for c in calls_recent:
+        op = c.get("operator")
+        if op and c.get("imo"):
+            ops_unique_vessels.setdefault(op, set()).add(c["imo"])
     top_operators = [
-        {"operator": op, "calls": n}
+        {
+            "name": op,
+            "n_vessels": len(ops_unique_vessels.get(op, set())) or n,
+            "calls": n,
+        }
         for op, n in ops_counter.most_common(5)
     ]
 
@@ -253,4 +265,18 @@ def port_snapshot(port_slug: str) -> dict[str, Any]:
     }
 
 
-__all__ = ["port_congestion", "port_calls", "port_snapshot"]
+def compute_top_operators(port_slug: str, limit: int = 5) -> list[dict[str, Any]]:
+    """Top operadores que recalan en el puerto · shape canónico
+    `{name, n_vessels, calls?}` alineado con frontend (PortTopOperator).
+
+    Por ahora delega en `port_snapshot` cuando vessel_positions está disponible.
+    Cuando se implemente el worker AIS (Sprint 2 fase B), esto leerá
+    directamente de la tabla `vessel_positions` con un GROUP BY operator.
+    """
+    snap = port_snapshot(port_slug)
+    if isinstance(snap, dict) and "top_operators" in snap:
+        return snap["top_operators"][:limit]
+    return []
+
+
+__all__ = ["port_congestion", "port_calls", "port_snapshot", "compute_top_operators"]

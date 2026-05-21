@@ -802,13 +802,43 @@ def port_congestion_endpoint(
 
 @router.get("/{port_slug}")
 def port_overview_endpoint(port_slug: str) -> dict[str, Any]:
-    """Detalle puerto · metadata + KPIs 24h. (DEBE ir al final · catch-all)"""
+    """Detalle puerto · metadata + KPIs 24h + top_operators canónico.
+
+    DEBE ir al final del router · catch-all sobre paths sin prefijo conocido.
+    Cuando AIS está disponible delega en `port_intel.port_snapshot` (KPIs reales).
+    Si no, sintetiza KPIs con hash + lista de operadores comerciales típicos.
+    """
     try:
         from etl.sources.ports.catalog import get_port
+        from etl.sources.ports.ais_client import is_realtime_available
+
         p = get_port(port_slug)
         if p is None:
             raise HTTPException(status_code=404, detail=f"puerto '{port_slug}' no existe")
+
+        ais_live = bool(is_realtime_available())
+        if ais_live:
+            try:
+                from etl.sources.ports.port_intel import port_snapshot as _ps
+                snap = _ps(port_slug)
+                if isinstance(snap, dict) and "kpis_24h" in snap:
+                    snap.setdefault("data_quality", {
+                        "source_type": "live",
+                        "source_name": "AISStream",
+                        "note": "KPIs y top_operators derivados de vessel_positions live.",
+                    })
+                    return snap
+            except Exception as exc:
+                logger.debug("port_snapshot live falló %s: %s", port_slug, exc)
+
+        # Sintético determinista (sin AIS) · top_operators con shape canónico
         h = abs(hash(port_slug))
+        operators_pool = ["Maersk", "MSC", "CMA CGM", "Hapag-Lloyd", "COSCO",
+                          "Evergreen", "ONE", "Yang Ming", "ZIM", "HMM"]
+        top_operators = [
+            {"name": op, "n_vessels": max(1, ((h >> (i * 3)) & 0xF) % 12 + 1)}
+            for i, op in enumerate(operators_pool[:5])
+        ]
         return {
             **p,
             "kpis_24h": {
@@ -816,9 +846,21 @@ def port_overview_endpoint(port_slug: str) -> dict[str, Any]:
                 "arrivals_24h": (h // 80 % 40) + 2,
                 "departures_24h": (h // 3200 % 40) + 2,
                 "congestion_pct": (h // 6400 % 50) + 10,
-                "avg_wait_hours": round((h // 12800 % 40) / 2.0 + 4.0, 1),
+                "avg_wait_h": round((h // 12800 % 40) / 2.0 + 4.0, 1),
+                "teu_estimated": (h % 8000 + 4000) * 30 if p.get("type") == "container" else None,
             },
+            "top_operators": top_operators,
+            "cargo_mix": [
+                {"cargo": "container", "pct": (h % 40) + 20},
+                {"cargo": "bulk", "pct": (h // 16 % 30) + 10},
+                {"cargo": "tanker", "pct": (h // 256 % 25) + 5},
+            ],
             "data_source": "synthetic",
+            "data_quality": {
+                "source_type": "synthetic",
+                "source_name": "AISStream + seed",
+                "note": "KPIs estimados con hash · activar AISSTREAM_API_KEY para datos reales.",
+            },
         }
     except HTTPException:
         raise

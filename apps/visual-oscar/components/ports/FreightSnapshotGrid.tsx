@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import type { FreightIndex } from '@/types/ports'
 import { fmtNum } from '@/lib/ports-utils'
+import { DataQualityBadge } from './DataQualityBadge'
 
 const SIGNAL_STYLE: Record<string, { bg: string; fg: string; arrow: string }> = {
   fuerte_subida: { bg: '#dcfce7', fg: '#166534', arrow: '⇈' },
@@ -93,6 +94,11 @@ export function FreightSnapshotGrid({ items, compact = false }: { items: Freight
                 {(it.category ?? '').replace('_', ' ')}
               </span>
             </p>
+            {it.data_quality && (
+              <div style={{ marginTop: 6 }}>
+                <DataQualityBadge quality={it.data_quality} />
+              </div>
+            )}
           </Link>
         )
       })}

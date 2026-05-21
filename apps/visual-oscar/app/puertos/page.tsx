@@ -71,10 +71,13 @@ export default function PortsDashboard() {
     })
   }, [catalog, snapshot])
 
-  // Síntesis de buques mock para el mapa · posicionados sobre puertos
+  // Síntesis de buques mock para el mapa · posicionados sobre puertos.
+  // Cada vessel lleva la bandera `is_synthetic: true` para que el mapa los
+  // pinte en gris/ámbar punteado y el usuario sepa que NO son AIS real.
+  // Cuando AISStream esté activo, el worker poblará `vessel_positions` y este
+  // bloque se sustituirá por una lectura real.
   const mapVessels = useMemo(() => {
     if (!catalog.length || !vessels.length) return []
-    // Asigna cada vessel a un puerto aleatorio (hash) y le da una posición cercana
     return vessels.slice(0, 80).map((v, i) => {
       const p = catalog[(i * 7) % catalog.length]
       const offsetLat = ((i * 13) % 11 - 5) / 6
@@ -85,6 +88,7 @@ export default function PortsDashboard() {
         ts: new Date().toISOString(),
         lat: p.lat + offsetLat,
         lon: p.lon + offsetLon,
+        is_synthetic: true,
       }
     })
   }, [catalog, vessels])

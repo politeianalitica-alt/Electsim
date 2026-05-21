@@ -17,6 +17,7 @@ import {
   usePortCongestion,
 } from '@/hooks/usePorts'
 import { fmtNum, fmtInt } from '@/lib/ports-utils'
+import { DataQualityBadge } from '@/components/ports/DataQualityBadge'
 
 const ACCENT = '#0e7490'
 
@@ -75,7 +76,9 @@ export default function PortDetailPage() {
           <p style={{ fontSize: 11, letterSpacing: 1.2, color: ACCENT, fontWeight: 700, margin: 0 }}>
             PUERTO · {port.unlocode} · {port.country_iso}
           </p>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', margin: '4px 0' }}>{port.name}</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', margin: '4px 0' }}>
+            {port.name} {port.data_quality && <DataQualityBadge quality={port.data_quality} />}
+          </h1>
           <p style={{ fontSize: 13, color: '#475569', margin: 0 }}>
             {port.type ?? '—'} · {port.region ?? '—'} · lat {fmtNum(port.lat, 3)} / lon {fmtNum(port.lon, 3)} · datos {port.data_source ?? '—'}
           </p>

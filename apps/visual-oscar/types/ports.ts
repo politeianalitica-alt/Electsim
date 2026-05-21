@@ -5,6 +5,26 @@
  */
 
 /**
+ * Trazabilidad de calidad de dato · embebido en TODAS las respuestas.
+ * El frontend pinta un badge LIVE/CACHE/SEED/SYNTH/MISSING basado en
+ * `source_type`. Permite al usuario distinguir KPIs reales de seeds o
+ * estimaciones sintéticas sin perder el contexto visual.
+ */
+export type DataQualitySource = 'live' | 'cache' | 'seed' | 'synthetic' | 'missing'
+
+export interface DataQuality {
+  source_type: DataQualitySource
+  source_name: string         // ej. 'AISStream', 'UN Comtrade', 'World Bank', 'seed catálogo'
+  retrieved_at?: string       // ISO timestamp (live/cache) cuando aplique
+  confidence_score?: number   // 0..1 · estimación interna
+  note?: string               // contexto adicional para el tooltip
+}
+
+export interface WithQuality {
+  data_quality?: DataQuality
+}
+
+/**
  * Tipo canónico de puerto · alineado con `etl/sources/ports/catalog.py:PORT_TYPES`.
  * 10 valores cubren todos los perfiles operativos.
  *
@@ -140,7 +160,18 @@ export interface PortCongestionResponse {
   data_source: 'synthetic' | 'live'
 }
 
-export interface PortSnapshot {
+/**
+ * Top operadores que recalan en un puerto · shape canónico unificado
+ * frontend ↔ backend (apps/visual-oscar/components/ports/[port]/page.tsx
+ * + etl/sources/ports/port_intel.py:compute_top_operators).
+ */
+export interface PortTopOperator {
+  name: string
+  n_vessels: number
+  calls?: number // opcional · derivado de port_call_events cuando AIS está activo
+}
+
+export interface PortSnapshot extends WithQuality {
   slug: string
   unlocode: string
   name: string
@@ -156,12 +187,12 @@ export interface PortSnapshot {
     avg_wait_h?: number | null
     teu_estimated?: number | null
   }
-  top_operators?: Array<{ name: string; n_vessels: number }>
+  top_operators?: PortTopOperator[]
   cargo_mix?: Array<{ cargo: string; pct: number }>
   data_source: string
 }
 
-export interface SnapshotAllResponse {
+export interface SnapshotAllResponse extends WithQuality {
   n_items: number
   data_source: string
   items: Array<{
@@ -172,9 +203,11 @@ export interface SnapshotAllResponse {
     type: PortType
     lat: number
     lon: number
-    vessels_anchored: number
-    arrivals_24h: number
-    congestion_pct: number
+    vessels_anchored: number | null
+    arrivals_24h: number | null
+    congestion_pct: number | null
+    data_quality?: DataQuality
+    available?: boolean
   }>
 }
 
@@ -242,18 +275,18 @@ export type FreightSignal =
   | 'bajada'
   | 'fuerte_bajada'
 
-export interface FreightIndex {
+export interface FreightIndex extends WithQuality {
   slug: string
   name: string
   unit: string
   category: 'dry_bulk' | 'tanker' | 'container'
-  last_price: number
-  change_pct: number
+  last_price: number | null
+  change_pct: number | null
   signal: FreightSignal
   yahoo_ticker?: string | null
 }
 
-export interface FreightSnapshotResponse {
+export interface FreightSnapshotResponse extends WithQuality {
   n_items: number
   data_source: 'synthetic' | 'yahoo'
   items: FreightIndex[]
@@ -276,7 +309,7 @@ export interface FreightPriceResponse {
   data_source: 'synthetic' | 'yahoo'
 }
 
-export interface ChokepointRisk {
+export interface ChokepointRisk extends WithQuality {
   slug: string
   name: string
   region: string
