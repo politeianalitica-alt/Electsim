@@ -7,6 +7,7 @@ import { useApi } from '@/lib/useApi'
 import { useUrlState } from '@/lib/useUrlState'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
+import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -457,6 +458,11 @@ export default function GeopoliticaPage() {
           {kpiCards.map((k) => (
             <KPICard key={k.label} label={k.label} value={k.value} accent={k.accent} sub={k.sub}/>
           ))}
+        </div>
+
+        {/* ───── ACLED · Conflictos en entorno geopolítico ES ───── */}
+        <div style={{ margin: '18px 0' }}>
+          <AcledSpainContext days={30} />
         </div>
 
         <TabBar

@@ -15,6 +15,7 @@ import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
+import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Trends types ─────────────────────────────────────────────────────────────
@@ -922,9 +923,18 @@ export default function DashboardPage() {
            no contenido en vivo (los KPIs y tendencias se ven antes).
         */}
 
-        {/* ─── Markets · Finnhub live · cotizaciones empresas relevantes ─── */}
-        <section style={{ marginTop: 24, marginBottom: 24 }}>
+        {/* ─── Mercados live (Finnhub) + Conflictos contexto España (ACLED) ─── */}
+        <section
+          style={{
+            marginTop: 24,
+            marginBottom: 24,
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr)',
+            gap: 14,
+          }}
+        >
           <MarketSnapshot variant="dashboard" compact={false} />
+          <AcledSpainContext days={30} compact />
         </section>
 
  <section style={{ marginTop: 24 }}>

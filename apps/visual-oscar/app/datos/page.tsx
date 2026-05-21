@@ -18,7 +18,7 @@ import { isAuthenticated } from '@/lib/auth'
 
 const ACCENT = '#0e7490'
 
-type Category = 'politicos' | 'mercados' | 'corporate' | 'contratacion' | 'social' | 'macro' | 'medios' | 'comercio'
+type Category = 'politicos' | 'mercados' | 'corporate' | 'contratacion' | 'social' | 'macro' | 'medios' | 'comercio' | 'geopolitica'
 type Status = 'live' | 'requires_key' | 'opt_in'
 
 interface Source {
@@ -66,6 +66,21 @@ const SOURCES: Source[] = [
     env_var: 'WTO_API_KEY',
     docs_url: 'https://timeseries.wto.org',
     free_tier: 'Sin rate-limit publicado',
+  },
+  // ─── Geopolítica · conflictos ───────────────────────────────────
+  {
+    slug: 'acled',
+    name: 'ACLED · Conflictos armados',
+    category: 'geopolitica',
+    status: 'live',
+    coverage: 'global',
+    description: 'Armed Conflict Location & Event Data · 22M+ eventos georreferenciados (combates, violencia política, protestas, víctimas) desde 1997 · cobertura mundial completa.',
+    why_useful: 'Contexto geopolítico en /dashboard y /geopolitica para España: Marruecos, Argelia, Mali, Senegal, Ucrania, Venezuela, Israel/Palestina, Líbano, Cuba, México. Detección temprana de escaladas en entornos críticos para intereses ES.',
+    endpoint: 'https://api.acleddata.com/acled/read',
+    module: 'etl/sources/geopolitics/acled_client.py · app/api/acled/[...path] · components/geopolitics/AcledSpainContext.tsx',
+    env_var: 'ACLED_API_KEY + ACLED_EMAIL (o ACLED_EMAIL + ACLED_PASSWORD OAuth)',
+    docs_url: 'https://acleddata.com/access-acled-data/api-access/',
+    free_tier: 'Académico/no-comercial gratis · requiere registro y API key del portal · OAuth password como fallback',
   },
   // ─── Cooperación + tercer sector ────────────────────────────────
   {
@@ -339,6 +354,7 @@ const CATEGORY_STYLE: Record<Category, { label: string; bg: string; fg: string }
   macro:        { label: 'Macro',               bg: '#cffafe', fg: '#155e75' },
   medios:       { label: 'Medios',              bg: '#fce7f3', fg: '#9d174d' },
   comercio:     { label: 'Comercio',            bg: '#fef2f2', fg: '#991b1b' },
+  geopolitica:  { label: 'Geopolítica · Conflictos', bg: '#fee2e2', fg: '#7f1d1d' },
 }
 
 const STATUS_STYLE: Record<Status, { label: string; bg: string; fg: string }> = {
