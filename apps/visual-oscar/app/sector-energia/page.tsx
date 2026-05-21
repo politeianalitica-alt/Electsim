@@ -21,6 +21,7 @@ import { EMPRESAS_ENERGIA, REGULADORES_ENERGIA } from '@/lib/sources/ree'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
+import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
 
 // ─── Tipos de respuesta ──────────────────────────────────
 interface ResumenResp {
@@ -164,6 +165,11 @@ export default function SectorEnergiaPage() {
         {/* ───── Ember Energy · contexto histórico y comparado ───── */}
         <div style={{ marginBottom: 14 }}>
           <EmberSpainElectricity />
+        </div>
+
+        {/* ───── ENTSO-E · datos UE oficiales TSO ───── */}
+        <div style={{ marginBottom: 14 }}>
+          <EntsoeSpainPanel />
         </div>
 
         {/* ───── ROW 1: Mix de generación + Precio mercado ───── */}

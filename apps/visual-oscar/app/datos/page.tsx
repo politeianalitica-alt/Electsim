@@ -69,6 +69,20 @@ const SOURCES: Source[] = [
   },
   // ─── Energía · transición & mix eléctrico ───────────────────────
   {
+    slug: 'entsoe',
+    name: 'ENTSO-E Transparency · Electricidad UE',
+    category: 'energia',
+    status: 'requires_key',
+    coverage: 'eu',
+    description: 'Plataforma oficial TSOs europeos · precios día-anterior, generación por tecnología, demanda, flujos transfronterizos (ES↔PT, ES↔FR), indisponibilidades, capacidad interconexión · granularidad horaria.',
+    why_useful: 'Datos oficiales del operador europeo para /sector-energia: precios mayoristas mercado spot, mix renovable vs fósil hora a hora, saldo interconexiones críticas (Francia=cuello botella ES). Complementa REE (España) con vista UE-27.',
+    endpoint: 'https://web-api.tp.entsoe.eu/api',
+    module: 'app/api/entsoe/[...path] · components/energy/EntsoeSpainPanel.tsx',
+    env_var: 'ENTSOE_API_KEY (Web API) + ENTSOE_USERNAME/PASSWORD (File Library)',
+    docs_url: 'https://transparency.entsoe.eu/',
+    free_tier: 'Web API: token manual vía email a transparency@entsoe.eu · File Library: ya activa con usuario+password',
+  },
+  {
     slug: 'ember',
     name: 'Ember Energy · Mix eléctrico global',
     category: 'energia',
