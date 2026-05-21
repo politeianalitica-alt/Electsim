@@ -136,6 +136,47 @@ export function useVesselTrack(imo: string | null, hours = 48, maxPoints = 100) 
   return { data: imo ? data : undefined, loading, error, refresh }
 }
 
+export function useVesselSisters(imo: string | null) {
+  const path = imo ? `/api/ports/vessels/${imo}/sisters` : '/api/ports/vessels/__none__/sisters'
+  const { data, loading, error, refresh } = useApi<any>(path, {
+    refreshInterval: 24 * HOUR,
+  })
+  return {
+    items: imo ? (data?.items ?? []) : [],
+    total: data?.n_items ?? 0,
+    dataQuality: data?.data_quality,
+    loading, error, refresh,
+  }
+}
+
+export function useVesselAnomalies(imo: string | null) {
+  const path = imo
+    ? `/api/ports/vessels/${imo}/anomalies`
+    : '/api/ports/vessels/__none__/anomalies'
+  const { data, loading, error, refresh } = useApi<any>(path, {
+    refreshInterval: HOUR,
+  })
+  return {
+    items: imo ? (data?.items ?? []) : [],
+    dataQuality: data?.data_quality,
+    loading, error, refresh,
+  }
+}
+
+export function useVesselFlagHistory(imo: string | null) {
+  const path = imo
+    ? `/api/ports/vessels/${imo}/flag-history`
+    : '/api/ports/vessels/__none__/flag-history'
+  const { data, loading, error, refresh } = useApi<any>(path, {
+    refreshInterval: 24 * HOUR,
+  })
+  return {
+    history: imo ? (data?.history ?? []) : [],
+    currentFlag: data?.current_flag,
+    loading, error, refresh,
+  }
+}
+
 export function useVesselScreen(imo: string | null) {
   const path = imo ? `/api/ports/vessels/${imo}/screen` : '/api/ports/vessels/__none__/screen'
   const { data, loading, error, refresh } = useApi<SanctionsScreenResult>(path, {

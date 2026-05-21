@@ -1059,6 +1059,93 @@ const CONNECTIVITY_SEED: Record<string, string[]> = {
 }
 
 // ─────────────────────────────────────────────────────────────────
+// Sprint 2 Fase F · vessel sisters + AIS anomalies
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Sister vessels · buques de la misma clase, builder y year ±2.
+ *
+ * Sin tabla `vessels_master` poblada, heurística sobre VESSELS_SEED:
+ * mismo `type` + mismo `operator` + año de construcción dentro de ±3 años.
+ */
+export function vesselSisters(imo: string) {
+  const ref = (VESSELS_SEED as any[]).find((v) => v.imo === imo)
+  if (!ref) return { __404: true }
+  const sisters = (VESSELS_SEED as any[]).filter(
+    (v) =>
+      v.imo !== imo &&
+      v.type === ref.type &&
+      v.operator &&
+      ref.operator &&
+      v.operator === ref.operator &&
+      v.built_year &&
+      ref.built_year &&
+      Math.abs(v.built_year - ref.built_year) <= 3,
+  )
+  return {
+    imo,
+    name_current: ref.name,
+    n_items: sisters.length,
+    items: sisters.map((v: any) => ({
+      imo: v.imo,
+      name: v.name,
+      type: v.type,
+      flag_iso: v.flag_iso,
+      built_year: v.built_year,
+      dwt: v.dwt,
+      operator: v.operator,
+    })),
+    data_quality: quality('seed', 'vessels_seed heuristic', {
+      note: 'Heurística: mismo type+operator + year ±3. Mejor con vessels_master populated.',
+      confidence_score: 0.6,
+    }),
+  }
+}
+
+/**
+ * Anomalías AIS · dark periods, flag changes y outliers.
+ *
+ * Sin `vessel_positions` con histórico AIS, devuelve estructura vacía y
+ * marca data_quality=missing. Cuando el worker AIS lleve tiempo corriendo,
+ * el backend Python `port_intel.detect_ais_anomalies` lo calculará real.
+ */
+export function vesselAnomalies(imo: string) {
+  const ref = (VESSELS_SEED as any[]).find((v) => v.imo === imo)
+  if (!ref) return { __404: true }
+  return {
+    imo,
+    n_items: 0,
+    items: [] as any[],
+    data_quality: quality('missing', 'vessel_positions', {
+      note: 'Requiere worker AIS persistido durante ≥30 días para detectar anomalías reales.',
+    }),
+  }
+}
+
+/**
+ * Banderas históricas · `flag_history` desde vessels_master.
+ * Sin tabla poblada, devuelve solo flag_current del seed.
+ */
+export function vesselFlagHistory(imo: string) {
+  const ref = (VESSELS_SEED as any[]).find((v) => v.imo === imo)
+  if (!ref) return { __404: true }
+  return {
+    imo,
+    current_flag: ref.flag_iso,
+    history: [
+      {
+        flag: ref.flag_iso,
+        since: ref.built_year ? `${ref.built_year}-01` : 'unknown',
+        until: null,
+      },
+    ],
+    data_quality: quality('seed', 'vessels_seed', {
+      note: 'flag_history real requiere vessels_master populated desde fuentes (Equasis, IHS Markit).',
+    }),
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
 // Sprint 2 Fase D · shipping_lines / carrier_services / routes
 // ─────────────────────────────────────────────────────────────────
 

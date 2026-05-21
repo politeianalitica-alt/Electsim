@@ -38,13 +38,16 @@ async function standaloneGet(
   if (head === 'snapshot-all') return H.snapshotAll(params)
   if (head === 'data-sources' && rest[0] === 'status') return H.dataSourcesStatus()
 
-  // Vessels endpoints
+  // Vessels endpoints · ficha + sisters + anomalies + flag-history (Sprint 2 Fase F)
   if (head === 'vessels' && rest.length >= 1) {
     const imo = rest[0]
     const action = rest[1]
     if (!action) return wrap404(H.vesselLookup(imo))
     if (action === 'track') return wrap404(H.vesselTrack(imo, params))
     if (action === 'screen') return wrap404(H.vesselScreen(imo))
+    if (action === 'sisters') return wrap404(H.vesselSisters(imo))
+    if (action === 'anomalies') return wrap404(H.vesselAnomalies(imo))
+    if (action === 'flag-history') return wrap404(H.vesselFlagHistory(imo))
   }
 
   // Trade
