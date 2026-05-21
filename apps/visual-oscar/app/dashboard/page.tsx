@@ -194,22 +194,16 @@ export default function DashboardPage() {
 
  <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
 
-        {/* Morning briefing */}
- <BrainBriefing/>
-
-        {/* Descargar briefing en PDF o escuchar en audio */}
- <BriefingExports/>
-
-        {/* ═══════════════ PANEL EJECUTIVO ═══════════════
-           Bloque destacado · KPIs principales + risk + macro + alertas.
+        {/* ═══════════════ PANEL EJECUTIVO (arriba del todo) ═══════════════
+           Bloque destacado · KPIs principales + risk + macro.
+           Las alertas tienen ahora sección propia debajo (mejor organizada).
            Layout interno:
              [ Risk Hero (1.2fr) | KPIs 2x2 (1fr × 2) ]
              [ Macro strip (4 cols con sparklines) ]
-             [ Alertas críticas (chips inline) ]
         */}
  <section style={{
           background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)',
-          borderRadius: 16, padding: '20px 22px', marginTop: 18, marginBottom: 18,
+          borderRadius: 16, padding: '20px 22px', marginBottom: 18,
           border: '1px solid #ECECEF',
           boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
         }}>
@@ -351,51 +345,104 @@ export default function DashboardPage() {
  </div>
           )}
 
-          {/* Row 3: Top 5 alertas prioritarias · misma visual que /alertas */}
-          {top5Alerts.length === 0 && !loading && (
- <EmptyState
-              severity="success"
-              compact
-              title="Hoy todo en calma"
-              description="No hay nada raro en las últimas 24 horas. Si algo se mueve, te avisamos aquí mismo."
-              source="Politeia · revisando todas las fuentes"
-              lastUpdated={data?.last_updated ?? null}
-              secondaryAction={{ label: 'Ver alertas anteriores', href: '/alertas' }}
-            />
-          )}
-          {top5Alerts.length > 0 && (
- <div>
- <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
- <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
- <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                    Lo más urgente de hoy
+ </section>
+
+        {/* ═══════════════ ALERTAS · sección propia mejor organizada ═══════════════
+           Antes estaban dentro del panel ejecutivo (Row 3) — ahora tienen su
+           propio espacio para destacarlas y dar contexto: contador con
+           desglose por nivel (críticas/altas/medias), CTA prominente.
+        */}
+ <section style={{
+          background: '#fff', borderRadius: 16, padding: '20px 24px', marginBottom: 18,
+          border: '1px solid #ECECEF',
+          borderLeft: top5Alerts.length > 0 ? '4px solid #DC2626' : '4px solid #16A34A',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+        }}>
+          {(() => {
+            const criticas = richAlerts.filter(a => a.level === 'CRITICA' || (a.level as string) === 'critica').length
+            const altas = richAlerts.filter(a => a.level === 'ALTA' || (a.level as string) === 'alta').length
+            const medias = richAlerts.filter(a => a.level === 'MEDIA' || (a.level as string) === 'media').length
+            return (
+              <>
+                {/* Header con contador desglosado */}
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f' }}>
+                      {top5Alerts.length > 0 ? 'Lo urgente de hoy' : 'Hoy todo en calma'}
+ </h2>
+                    {top5Alerts.length > 0 && (
+ <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        {criticas > 0 && (
+ <span style={{ fontSize: 10.5, padding: '3px 9px', borderRadius: 999, background: '#FEE2E2', color: '#991B1B', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                            {criticas} {criticas === 1 ? 'crítica' : 'críticas'}
  </span>
- <span style={{
-                    fontSize: 11, padding: '2px 7px', borderRadius: 999,
-                    background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
-                  }}>
-                    {richAlerts.length} activas
+                        )}
+                        {altas > 0 && (
+ <span style={{ fontSize: 10.5, padding: '3px 9px', borderRadius: 999, background: '#FEF3C7', color: '#92400E', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                            {altas} altas
  </span>
+                        )}
+                        {medias > 0 && (
+ <span style={{ fontSize: 10.5, padding: '3px 9px', borderRadius: 999, background: '#DBEAFE', color: '#1E40AF', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                            {medias} medias
+ </span>
+                        )}
  </div>
+                    )}
+ </div>
+                  {top5Alerts.length > 0 && (
  <button onClick={() => router.push('/alertas')} style={{
-                  background: '#0071e3', border: 'none', cursor: 'pointer',
-                  fontSize: 12, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
-                  padding: '5px 12px', borderRadius: 999,
-                  display: 'inline-flex', alignItems: 'center', gap: 4,
-                }}>
-                  Ver más
- <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      background: '#1d1d1f', border: 'none', cursor: 'pointer',
+                      fontSize: 12.5, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
+                      padding: '7px 16px', borderRadius: 999,
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      transition: 'transform 150ms',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}>
+                      Ver las {richAlerts.length} alertas
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
  </button>
+                  )}
  </div>
- <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {top5Alerts.map(a => (
+
+                {/* Lista */}
+                {top5Alerts.length === 0 && !loading ? (
+ <EmptyState
+                    severity="success"
+                    compact
+                    title="Sin alertas en este momento"
+                    description="No vemos nada raro en las últimas 24 horas. Si algo se mueve, te lo decimos aquí."
+                    source="Politeia · revisando todas las fuentes"
+                    lastUpdated={data?.last_updated ?? null}
+                    secondaryAction={{ label: 'Ver alertas anteriores', href: '/alertas' }}
+                  />
+                ) : (
+                  <>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      {top5Alerts.map(a => (
  <AlertCard key={a.id} alert={a} compact onDetailClick={() => router.push('/alertas')}/>
-                ))}
+                      ))}
  </div>
  <AlertKeyframes/>
- </div>
-          )}
+                  </>
+                )}
+              </>
+            )
+          })()}
  </section>
+
+        {/* ═══════════════ BRIEFING · PDF + audio ═══════════════
+           Debajo del panel ejecutivo y las alertas. Para descargar el
+           briefing diario en PDF o escucharlo en audio (TTS).
+        */}
+ <BriefingExports/>
+
+        {/* ═══════════════ BRIEFING CONVERSACIONAL · chat con PoliteIA ═══════════════
+           Más abajo porque es secundario al panel ejecutivo. Sirve para
+           profundizar en cualquier tema del briefing tras leerlo.
+        */}
+ <BrainBriefing/>
 
         {/* Tendencias ahora */}
         {(() => {
