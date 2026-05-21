@@ -183,6 +183,9 @@ export default function SectorTercerSectorPage() {
           </label>
         </div>
 
+        {/* IATI · Cooperación internacional declarada */}
+        <IatiCooperationPanel />
+
         {/* Programas y políticas */}
         <Panel title="Programas y políticas activas" subtitle="Marco regulatorio + ayudas estatales 2025-2026">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 10 }}>
@@ -297,6 +300,176 @@ const PROGRAMAS = [
     dotacion: '~ 690 M €',
   },
 ]
+
+// ─────────────────────────────────────────────────────────────────
+// Panel IATI · Cooperación internacional declarada
+// ─────────────────────────────────────────────────────────────────
+
+interface IatiData {
+  total_activities: number
+  by_org: Array<{ ref: string; count: number; name?: string }>
+  top_countries: Array<{ iso2: string; count: number }>
+  top_sectors: Array<{ code: string; count: number }>
+  fetched_at: string
+  data_quality: { source_type: string; source_name: string; note?: string }
+}
+
+// IATI DAC 3-digit sector codes · subset más común en cooperación ES
+const IATI_SECTOR_NAMES: Record<string, string> = {
+  '111': 'Educación',
+  '112': 'Educación básica',
+  '121': 'Salud general',
+  '122': 'Salud básica',
+  '130': 'Población y salud reproductiva',
+  '140': 'Agua y saneamiento',
+  '151': 'Gobierno y sociedad civil',
+  '152': 'Prevención de conflictos',
+  '160': 'Otros sociales',
+  '210': 'Transporte',
+  '230': 'Energía',
+  '240': 'Servicios bancarios',
+  '311': 'Agricultura',
+  '410': 'Medio ambiente',
+  '430': 'Otros productivos',
+  '510': 'Ayuda presupuestaria',
+  '520': 'Ayuda alimentaria',
+  '720': 'Ayuda de emergencia',
+  '730': 'Reconstrucción',
+  '740': 'Prevención de desastres',
+  '910': 'Costes administrativos',
+  '998': 'Sin asignación',
+}
+
+// ISO-2 → nombre país (subset cooperación)
+const COUNTRY_NAMES: Record<string, string> = {
+  UA: 'Ucrania', MA: 'Marruecos', SN: 'Senegal', HT: 'Haití',
+  CO: 'Colombia', PE: 'Perú', NI: 'Nicaragua', GT: 'Guatemala',
+  ET: 'Etiopía', MZ: 'Mozambique', BO: 'Bolivia', PS: 'Palestina',
+  SY: 'Siria', YE: 'Yemen', AF: 'Afganistán', MM: 'Myanmar',
+  CD: 'RD Congo', SS: 'Sudán del Sur', CU: 'Cuba', DO: 'R. Dominicana',
+  EC: 'Ecuador', SV: 'El Salvador', HN: 'Honduras', PY: 'Paraguay',
+  LB: 'Líbano', JO: 'Jordania', TN: 'Túnez', DZ: 'Argelia',
+  MR: 'Mauritania', BF: 'Burkina Faso', ML: 'Malí', NE: 'Níger',
+  MX: 'México', BR: 'Brasil', AR: 'Argentina', CL: 'Chile',
+}
+
+function IatiCooperationPanel() {
+  const [data, setData] = useState<IatiData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let alive = true
+    fetch('/api/iati/spain-overview', { cache: 'force-cache' })
+      .then((r) => r.json())
+      .then((j: IatiData) => alive && setData(j))
+      .catch(() => alive && setData(null))
+      .finally(() => alive && setLoading(false))
+    return () => { alive = false }
+  }, [])
+
+  const isLive = data?.data_quality?.source_type === 'live'
+  const subtitle = isLive
+    ? `Datos en vivo · ${data?.total_activities.toLocaleString('es-ES')} actividades reportadas por orgs españolas a IATI · cache 1h`
+    : 'IATI · International Aid Transparency Initiative'
+
+  return (
+    <Panel title="Cooperación internacional · IATI" subtitle={subtitle}>
+      {loading && <p style={{ fontSize: 12, color: '#94a3b8' }}>Cargando datos IATI…</p>}
+      {!loading && !isLive && (
+        <p style={{ fontSize: 12, color: '#94a3b8' }}>
+          IATI no disponible · {data?.data_quality?.note ?? 'configurar IATI_API_KEY'}
+        </p>
+      )}
+      {!loading && isLive && data && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 12,
+          }}
+        >
+          {/* Top organizaciones */}
+          <div style={{ background: '#f8fafc', borderRadius: 8, padding: 12 }}>
+            <p style={{ fontSize: 11, letterSpacing: 0.6, color: '#475569', fontWeight: 700, margin: 0 }}>
+              TOP ORGS REPORTANTES (ES)
+            </p>
+            <ul style={{ margin: '8px 0 0', padding: 0, listStyle: 'none', fontSize: 12 }}>
+              {data.by_org.slice(0, 8).map((o) => (
+                <li key={o.ref} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #e5e7eb' }}>
+                  <span style={{ color: '#0f172a', fontWeight: 600 }}>{o.name ?? o.ref}</span>
+                  <span style={{ color: ACCENT_DARK, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+                    {o.count.toLocaleString('es-ES')}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Top países beneficiarios */}
+          <div style={{ background: '#f8fafc', borderRadius: 8, padding: 12 }}>
+            <p style={{ fontSize: 11, letterSpacing: 0.6, color: '#475569', fontWeight: 700, margin: 0 }}>
+              TOP PAÍSES BENEFICIARIOS
+            </p>
+            <ul style={{ margin: '8px 0 0', padding: 0, listStyle: 'none', fontSize: 12 }}>
+              {data.top_countries.slice(0, 10).map((c) => (
+                <li key={c.iso2} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #e5e7eb' }}>
+                  <span style={{ color: '#0f172a' }}>
+                    <code style={{ fontSize: 10, background: '#e2e8f0', padding: '1px 4px', borderRadius: 3, marginRight: 6 }}>
+                      {c.iso2}
+                    </code>
+                    {COUNTRY_NAMES[c.iso2] ?? c.iso2}
+                  </span>
+                  <span style={{ color: '#475569', fontVariantNumeric: 'tabular-nums' }}>
+                    {c.count.toLocaleString('es-ES')}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Top sectores */}
+          <div style={{ background: '#f8fafc', borderRadius: 8, padding: 12 }}>
+            <p style={{ fontSize: 11, letterSpacing: 0.6, color: '#475569', fontWeight: 700, margin: 0 }}>
+              TOP SECTORES DAC (CAD)
+            </p>
+            <ul style={{ margin: '8px 0 0', padding: 0, listStyle: 'none', fontSize: 12 }}>
+              {data.top_sectors.slice(0, 10).map((s) => {
+                const sectorRoot = s.code.slice(0, 3)
+                const sectorName = IATI_SECTOR_NAMES[sectorRoot] || IATI_SECTOR_NAMES[s.code] || `Sector ${s.code}`
+                return (
+                  <li key={s.code} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #e5e7eb' }}>
+                    <span style={{ color: '#0f172a' }}>
+                      <code style={{ fontSize: 10, background: '#e2e8f0', padding: '1px 4px', borderRadius: 3, marginRight: 6 }}>
+                        {s.code}
+                      </code>
+                      {sectorName}
+                    </span>
+                    <span style={{ color: '#475569', fontVariantNumeric: 'tabular-nums' }}>
+                      {s.count.toLocaleString('es-ES')}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
+      {data?.fetched_at && (
+        <p style={{ fontSize: 10, color: '#94a3b8', marginTop: 8, textAlign: 'right' }}>
+          Última actualización · {new Date(data.fetched_at).toLocaleString('es-ES')} ·{' '}
+          <a
+            href="https://iatistandard.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: ACCENT, textDecoration: 'none' }}
+          >
+            iatistandard.org →
+          </a>
+        </p>
+      )}
+    </Panel>
+  )
+}
 
 function KPI({ label, value, accent }: { label: string; value: string; accent: string }) {
   return (

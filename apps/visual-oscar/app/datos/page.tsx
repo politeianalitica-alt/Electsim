@@ -37,6 +37,21 @@ interface Source {
 }
 
 const SOURCES: Source[] = [
+  // ─── Cooperación + tercer sector ────────────────────────────────
+  {
+    slug: 'iati',
+    name: 'IATI · Aid Transparency',
+    category: 'social',
+    status: 'live',
+    coverage: 'global',
+    description: 'International Aid Transparency Initiative · 1000+ organizaciones reportantes · millones de actividades de cooperación con presupuestos y transacciones.',
+    why_useful: 'Tracking cooperación internacional España (AECID, ACF, Cruz Roja, Cáritas…) · destinos top, sectores DAC, comparativa UE.',
+    endpoint: 'https://api.iatistandard.org/datastore',
+    module: 'etl/sources/global_intel/iati_client.py · app/api/iati/spain-overview',
+    env_var: 'IATI_API_KEY',
+    docs_url: 'https://developer.iatistandard.org/api-details',
+    free_tier: '1000 req/día · 2 req/seg',
+  },
   // ─── Políticos + actores ───────────────────────────────────────────
   {
     slug: 'wikidata',
