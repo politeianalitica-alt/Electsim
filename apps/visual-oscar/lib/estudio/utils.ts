@@ -58,36 +58,36 @@ export function getStatusColor(status: DomoStatus | string): string {
 export function getStatusLabel(status: string): string {
   const labels: Record<string, string> = {
     // sync
-    connected:    'Conectado',
-    error:        'Error',
-    syncing:      'Sincronizando',
-    idle:         'Inactivo',
-    paused:       'Pausado',
+    connected: 'Conectado',
+    error: 'Error',
+    syncing: 'Sincronizando',
+    idle: 'Inactivo',
+    paused: 'Pausado',
     // run
-    running:      'Ejecutando',
-    success:      'Completado',
-    queued:       'En cola',
-    pending:      'Pendiente',
-    cancelled:    'Cancelado',
+    running: 'Ejecutando',
+    success: 'Completado',
+    queued: 'En cola',
+    pending: 'Pendiente',
+    cancelled: 'Cancelado',
     // alert
-    ok:           'OK',
-    triggered:    'Disparada',
-    silenced:     'Silenciada',
+    ok: 'OK',
+    triggered: 'Disparada',
+    silenced: 'Silenciada',
     // pipeline / dataset
-    active:       'Activo',
-    draft:        'Borrador',
-    ready:        'Listo',
-    building:     'Construyendo',
-    stale:        'Desactualizado',
-    empty:        'Vacío',
+    active: 'Activo',
+    draft: 'Borrador',
+    ready: 'Listo',
+    building: 'Construyendo',
+    stale: 'Desactualizado',
+    empty: 'Vacío',
     // quality
-    passing:      'Pasando',
-    failing:      'Fallando',
-    warning:      'Advertencia',
-    skipped:      'Saltado',
+    passing: 'Pasando',
+    failing: 'Fallando',
+    warning: 'Advertencia',
+    skipped: 'Saltado',
     // connection extras
     disconnected: 'Desconectado',
-    testing:      'Probando',
+    testing: 'Probando',
   }
   return labels[status] ?? status
 }
@@ -150,13 +150,13 @@ export function truncate(text: string, max: number): string {
 // ─── Schedule humanizado ─────────────────────────────────────────────────────
 export function scheduleLabel(schedule: string): string {
   const map: Record<string, string> = {
-    realtime:     'Tiempo real',
-    every_5min:   'Cada 5 min',
-    every_15min:  'Cada 15 min',
-    hourly:       'Cada hora',
-    daily:        'Diario',
-    weekly:       'Semanal',
-    manual:       'Manual',
+    realtime: 'Tiempo real',
+    every_5min: 'Cada 5 min',
+    every_15min: 'Cada 15 min',
+    hourly: 'Cada hora',
+    daily: 'Diario',
+    weekly: 'Semanal',
+    manual: 'Manual',
   }
   return map[schedule] ?? schedule
 }

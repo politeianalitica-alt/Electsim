@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJSON, OllamaUnavailableError } from "@/lib/ai/ollama-client";
-import { isAiEnabled } from "@/lib/ai/ai-config";
+import { generateJSON, OllamaUnavailableError, isAiEnabled, AI_CONFIG } from "@/lib/ai";
 import { DeckPayloadSchema, SLIDES_SCHEMA_HINT } from "@/lib/slides/slides-schema";
 import { buildMockDeck } from "@/lib/slides/slides-mock";
 import type { Deck } from "@/types/slides";
@@ -29,7 +28,7 @@ export async function POST(req: NextRequest) {
     id: `deck_${Date.now()}`,
     workspaceId,
     title: inferredTitle,
-    subtitle: "Mock determinista — configura OLLAMA_URL para generación live",
+    subtitle: "Vista de muestra · PoliteIA generará el deck en vivo",
     client: workspaceName,
     generatedAt: new Date().toISOString(),
     source: "mock",
@@ -39,17 +38,17 @@ export async function POST(req: NextRequest) {
   if (!isAiEnabled()) return NextResponse.json(fallback);
 
   const system = [
-    `Eres un consultor político senior. Genera presentaciones ejecutivas en español, sin emojis.`,
-    `Tono: profesional, denso, accionable. Frases cortas. Sin disclaimers.`,
-    `Workspace: "${workspaceName}".`,
+ `Eres un consultor político senior. Genera presentaciones ejecutivas en español, sin emojis.`,
+ `Tono: profesional, denso, accionable. Frases cortas. Sin disclaimers.`,
+ `Workspace: "${workspaceName}".`,
   ].join("\n");
 
   const user = [
-    `Encargo: ${brief || "Brief ejecutivo del workspace"}.`,
-    `Datos disponibles del workspace:`,
+ `Encargo: ${brief || "Brief ejecutivo del workspace"}.`,
+ `Datos disponibles del workspace:`,
     context || "(sin contexto adicional)",
-    ``,
-    `Genera 8-12 slides con la estructura indicada.`,
+ ``,
+ `Genera 8-12 slides con la estructura indicada.`,
   ].join("\n");
 
   try {
@@ -70,7 +69,7 @@ export async function POST(req: NextRequest) {
       subtitle: parsed.data.subtitle,
       client: workspaceName,
       generatedAt: new Date().toISOString(),
-      source: "ollama",
+      source: AI_CONFIG.provider === "anthropic" ? "anthropic" : "ollama",
       slides: parsed.data.slides,
     };
     return NextResponse.json(deck);

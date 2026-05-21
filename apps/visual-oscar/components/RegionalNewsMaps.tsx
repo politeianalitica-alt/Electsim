@@ -19,23 +19,23 @@ interface EuropeCountry { n: number; pos: number; neg: number; spain_imp: number
 
 // API name → GeoJSON name (actual names from spain-ccaa.geojson)
 const API_TO_GEO: Record<string, string> = {
-  'Madrid':               'Madrid',
-  'Cataluña':             'Cataluña',
-  'Andalucía':            'Andalucia',
-  'Galicia':              'Galicia',
-  'Castilla y León':      'Castilla-Leon',
-  'Castilla-La Mancha':   'Castilla-La Mancha',
-  'C. Valenciana':        'Valencia',
-  'País Vasco':           'Pais Vasco',
-  'Aragón':               'Aragon',
-  'Asturias':             'Asturias',
-  'Cantabria':            'Cantabria',
-  'La Rioja':             'La Rioja',
-  'Navarra':              'Navarra',
-  'Extremadura':          'Extremadura',
-  'Murcia':               'Murcia',
-  'Baleares':             'Baleares',
-  'Canarias':             'Canarias',
+ 'Madrid': 'Madrid',
+ 'Cataluña': 'Cataluña',
+ 'Andalucía': 'Andalucia',
+ 'Galicia': 'Galicia',
+ 'Castilla y León': 'Castilla-Leon',
+ 'Castilla-La Mancha': 'Castilla-La Mancha',
+ 'C. Valenciana': 'Valencia',
+ 'País Vasco': 'Pais Vasco',
+ 'Aragón': 'Aragon',
+ 'Asturias': 'Asturias',
+ 'Cantabria': 'Cantabria',
+ 'La Rioja': 'La Rioja',
+ 'Navarra': 'Navarra',
+ 'Extremadura': 'Extremadura',
+ 'Murcia': 'Murcia',
+ 'Baleares': 'Baleares',
+ 'Canarias': 'Canarias',
 }
 // Reverse: GeoJSON name → API name
 const GEO_TO_API: Record<string, string> = Object.fromEntries(Object.entries(API_TO_GEO).map(([a, g]) => [g, a]))
@@ -71,30 +71,30 @@ export default function RegionalNewsMaps() {
   const [selected, setSelected] = useState<string | null>(null)
 
   const { data, source } = useApi<{ spain_ccaa: Record<string, CCAARegion>; europe: Record<string, EuropeCountry> }>(
-    '/api/narratives/by-region?hours_back=72',
+ '/api/narratives/by-region?hours_back=72',
     { refreshInterval: 180_000 },
   )
   const spain  = data?.spain_ccaa ?? {}
   const europe = data?.europe ?? {}
 
   return (
-    <section style={{ marginTop: 22 }}>
+ <section style={{ marginTop: 22 }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 14, flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 14, flexWrap: 'wrap', gap: 12 }}>
+ <div>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+ <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
             Geografía de los debates
-          </h2>
-          <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+ </h2>
+ <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {view === 'spain'
               ? <><CountUp value={Object.values(spain).reduce((s, v) => s + v.n, 0)} /> noticias regionales</>
               : <><CountUp value={Object.values(europe).reduce((s, v) => s + v.n, 0)} /> noticias europeas</>}
-          </p>
-        </div>
-        <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ </p>
+ </div>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
           {(['spain', 'europe'] as const).map(v => (
-            <button key={v} onClick={() => { setView(v); setSelected(null) }} style={{
+ <button key={v} onClick={() => { setView(v); setSelected(null) }} style={{
               background: view === v ? '#fff' : 'transparent',
               color: view === v ? '#1d1d1f' : '#6e6e73',
               border: 'none', borderRadius: 999, padding: '5px 14px',
@@ -102,31 +102,31 @@ export default function RegionalNewsMaps() {
               boxShadow: view === v ? '0 1px 2px rgba(0,0,0,0.06)' : 'none', transition: 'all 160ms',
             }}>
               {v === 'spain' ? 'España (CCAA)' : 'Europa'}
-            </button>
+ </button>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 18 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 18 }}>
         {/* Map */}
-        <div style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+ <div style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           {view === 'spain'
             ? <SpainCCAAMap spain={spain} selected={selected} onSelect={setSelected} />
             : <EuropeMap europe={europe} selected={selected} onSelect={setSelected} />}
-        </div>
+ </div>
 
         {/* Detail panel */}
-        <div style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+ <div style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           {selected
             ? view === 'spain'
               ? <CCAADetail name={selected} data={spain[selected]} />
               : <CountryDetail name={selected} data={europe[selected]} />
             : (
-              <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, margin: '0 0 10px', letterSpacing: '-0.01em' }}>
+ <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+ <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, margin: '0 0 10px', letterSpacing: '-0.01em' }}>
                   {view === 'spain' ? 'Top CCAA por volumen' : 'Top países por volumen'}
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+ </h3>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {(view === 'spain'
                     ? Object.entries(spain).sort((a, b) => b[1].n - a[1].n).slice(0, 8)
                     : Object.entries(europe).sort((a, b) => b[1].n - a[1].n).slice(0, 8)
@@ -134,31 +134,31 @@ export default function RegionalNewsMaps() {
                     const total = info.pos + info.neg + ((info as CCAARegion).neu ?? 0)
                     const polarity = total > 0 ? (info.pos - info.neg) / total : 0
                     return (
-                      <button key={name} onClick={() => setSelected(name)} style={{
+ <button key={name} onClick={() => setSelected(name)} style={{
                         display: 'grid', gridTemplateColumns: '1fr 50px 70px', gap: 8, alignItems: 'center',
                         padding: '7px 10px', background: '#FAFAFB', border: '1px solid #ECECEF',
                         borderRadius: 8, cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
                       }}>
-                        <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</span>
-                        <span style={{ fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--ink-2)' }}><CountUp value={info.n} /></span>
-                        <span style={{ fontSize: 10, color: polarity > 0.1 ? '#16A34A' : polarity < -0.1 ? '#DC2626' : 'var(--ink-4)', fontWeight: 600, textAlign: 'right' }}>
+ <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</span>
+ <span style={{ fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--ink-2)' }}><CountUp value={info.n} /></span>
+ <span style={{ fontSize: 10, color: polarity > 0.1 ? '#16A34A' : polarity < -0.1 ? '#DC2626' : 'var(--ink-4)', fontWeight: 600, textAlign: 'right' }}>
                           {polarity > 0 ? '+' : ''}{polarity.toFixed(2)} sent
-                        </span>
-                      </button>
+ </span>
+ </button>
                     )
                   })}
                   {(view === 'spain' ? Object.keys(spain) : Object.keys(europe)).length === 0 && (
-                    <Skeleton width="100%" height={200} radius={8} />
+ <Skeleton width="100%" height={200} radius={8} />
                   )}
-                </div>
-                <p style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 'auto', paddingTop: 12, fontStyle: 'italic' }}>
+ </div>
+ <p style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 'auto', paddingTop: 12, fontStyle: 'italic' }}>
                   Click en una región del mapa para ver el detalle.
-                </p>
-              </div>
+ </p>
+ </div>
             )}
-        </div>
-      </div>
-    </section>
+ </div>
+ </div>
+ </section>
   )
 }
 
@@ -204,12 +204,12 @@ function SpainCCAAMap({ spain, selected, onSelect }: { spain: Record<string, CCA
   if (!geoData)  return <MapSkeleton height={340} />
 
   return (
-    <div>
-      <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 8 }}>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 8 }}>
         Mapa de España · click para detalle
-      </div>
-      <div style={{ position: 'relative' }}>
-        <svg
+ </div>
+ <div style={{ position: 'relative' }}>
+ <svg
           viewBox={`0 0 ${MAP_W} ${MAP_H}`}
           style={{ width: '100%', height: 'auto' }}
           role="img"
@@ -225,7 +225,7 @@ function SpainCCAAMap({ spain, selected, onSelect }: { spain: Record<string, CCA
             const isSelected = selected === apiName
             const isHover    = hoverName === geoName
             return (
-              <path
+ <path
                 key={i}
                 d={d}
                 fill={n > 0 ? colorFn(n) : '#e2e8f0'}
@@ -240,20 +240,20 @@ function SpainCCAAMap({ spain, selected, onSelect }: { spain: Record<string, CCA
                 onClick={() => onSelect(apiName)}
                 onKeyDown={e => e.key === 'Enter' && onSelect(apiName)}
               >
-                <title>{`${apiName} · ${n} artículos · sentimiento ${region?.sent_score?.toFixed(2) ?? '—'}`}</title>
-              </path>
+ <title>{`${apiName} · ${n} artículos · sentimiento ${region?.sent_score?.toFixed(2) ?? '—'}`}</title>
+ </path>
             )
           })}
-        </svg>
+ </svg>
 
         {/* Canarias inset */}
         {canariasFC && canPath && (
-          <div style={{
+ <div style={{
             position: 'absolute', bottom: 0, left: 0,
             background: 'rgba(255,255,255,0.92)', borderRadius: 6, border: '1px solid #cbd5e1', padding: 2,
           }}>
-            <div style={{ fontSize: 8, color: '#6e6e73', textAlign: 'center', fontWeight: 600, marginBottom: 1 }}>Canarias</div>
-            <svg viewBox={`0 0 ${INS_W} ${INS_H}`} width={INS_W} height={INS_H} role="img" aria-label="Canarias">
+ <div style={{ fontSize: 8, color: '#6e6e73', textAlign: 'center', fontWeight: 600, marginBottom: 1 }}>Canarias</div>
+ <svg viewBox={`0 0 ${INS_W} ${INS_H}`} width={INS_W} height={INS_H} role="img" aria-label="Canarias">
               {canariasFC.features.map((f, i) => {
                 const d = canPath(f as unknown as GeoPermissibleObjects)
                 if (!d) return null
@@ -261,7 +261,7 @@ function SpainCCAAMap({ spain, selected, onSelect }: { spain: Record<string, CCA
                 const apiName = getApiName(geoName)
                 const n = spain[apiName]?.n ?? 0
                 return (
-                  <path
+ <path
                     key={i} d={d}
                     fill={n > 0 ? colorFn(n) : '#e2e8f0'}
                     stroke={selected === apiName ? '#1F4E8C' : '#cbd5e1'}
@@ -269,17 +269,17 @@ function SpainCCAAMap({ spain, selected, onSelect }: { spain: Record<string, CCA
                     style={{ cursor: 'pointer' }}
                     onClick={() => onSelect(apiName)}
                   >
-                    <title>{`${apiName} · ${n} artículos`}</title>
-                  </path>
+ <title>{`${apiName} · ${n} artículos`}</title>
+ </path>
                 )
               })}
-            </svg>
-          </div>
+ </svg>
+ </div>
         )}
-      </div>
+ </div>
 
-      <MapLegend scale={colorFn} min={0} max={maxN} unit="arts." />
-    </div>
+ <MapLegend scale={colorFn} min={0} max={maxN} unit="arts." />
+ </div>
   )
 }
 
@@ -300,11 +300,11 @@ function EuropeMap({ europe, selected, onSelect }: { europe: Record<string, Euro
   }
 
   return (
-    <div>
-      <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 8 }}>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 8 }}>
         Mapa de Europa · click para detalle
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', background: '#FAFAFB', borderRadius: 12 }} role="img" aria-label="Mapa Europa">
+ </div>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', background: '#FAFAFB', borderRadius: 12 }} role="img" aria-label="Mapa Europa">
         {/* Graticule */}
         {[40, 50, 60].map(lat => { const [,y] = px(lat, 0); return <line key={lat} x1={0} x2={W} y1={y} y2={y} stroke="#ECECEF" strokeWidth={0.5} /> })}
         {[-10, 0, 10, 20, 30, 40].map(lon => { const [x] = px(0, lon); return <line key={lon} y1={0} y2={H} x1={x} x2={x} stroke="#ECECEF" strokeWidth={0.5} /> })}
@@ -322,16 +322,16 @@ function EuropeMap({ europe, selected, onSelect }: { europe: Record<string, Euro
           const fill = polarity > 0 ? '#16A34A' : polarity < 0 ? '#DC2626' : '#6E6E73'
           const isSel = selected === c.name
           return (
-            <g key={c.name} style={{ cursor: 'pointer' }} onClick={() => onSelect(c.name)}>
-              <circle cx={x} cy={y} r={r} fill={fill} fillOpacity={0.55} stroke={isSel ? '#1d1d1f' : fill} strokeWidth={isSel ? 2 : 0.8} />
+ <g key={c.name} style={{ cursor: 'pointer' }} onClick={() => onSelect(c.name)}>
+ <circle cx={x} cy={y} r={r} fill={fill} fillOpacity={0.55} stroke={isSel ? '#1d1d1f' : fill} strokeWidth={isSel ? 2 : 0.8} />
               {cdata.spain_imp > 0 && <circle cx={x} cy={y} r={r + 3} fill="none" stroke="#DC2626" strokeWidth={1} strokeDasharray="2 2" opacity={0.7} />}
-              <title>{`${c.name} · ${cdata.n} arts · pos ${cdata.pos} / neg ${cdata.neg}`}</title>
+ <title>{`${c.name} · ${cdata.n} arts · pos ${cdata.pos} / neg ${cdata.neg}`}</title>
               {r > 10 && <text x={x} y={y + 3} textAnchor="middle" style={{ fontSize: 9, fontFamily: 'var(--font-display)', fill: '#fff', fontWeight: 600, pointerEvents: 'none' }}>{cdata.n}</text>}
-            </g>
+ </g>
           )
         })}
-      </svg>
-    </div>
+ </svg>
+ </div>
   )
 }
 
@@ -340,76 +340,76 @@ function CCAADetail({ name, data }: { name: string; data?: CCAARegion }) {
   if (!data) return <p style={{ fontSize: 12, color: 'var(--ink-4)' }}>Sin datos para {name}</p>
   const total = data.pos + data.neg + data.neu || 1
   return (
-    <div>
-      <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>Comunidad autónoma</div>
-      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.015em', color: '#1d1d1f' }}>{name}</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 14 }}>
-        <Stat label="Noticias 72h" value={data.n} accent="#1F4E8C" />
-        <Stat label="Polaridad" value={data.sent_score} accent={data.sent_score > 0.1 ? '#16A34A' : data.sent_score < -0.1 ? '#DC2626' : '#6E6E73'} decimals={2} />
-      </div>
-      <div style={{ marginBottom: 14 }}>
-        <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Distribución sentimiento</div>
-        <div style={{ display: 'flex', height: 6, borderRadius: 3, overflow: 'hidden', background: '#F5F5F7' }}>
-          <div style={{ width: `${(data.pos / total) * 100}%`, background: '#16A34A', transition: 'width 600ms' }} />
-          <div style={{ width: `${(data.neu / total) * 100}%`, background: '#9CA3AF', transition: 'width 600ms' }} />
-          <div style={{ width: `${(data.neg / total) * 100}%`, background: '#DC2626', transition: 'width 600ms' }} />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--ink-3)', marginTop: 4 }}>
-          <span style={{ color: '#16A34A', fontWeight: 600 }}>{data.pos}+</span>
-          <span>{data.neu}=</span>
-          <span style={{ color: '#DC2626', fontWeight: 600 }}>{data.neg}−</span>
-        </div>
-      </div>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>Comunidad autónoma</div>
+ <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.015em', color: '#1d1d1f' }}>{name}</h3>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 14 }}>
+ <Stat label="Noticias 72h" value={data.n} accent="#1F4E8C" />
+ <Stat label="Polaridad" value={data.sent_score} accent={data.sent_score > 0.1 ? '#16A34A' : data.sent_score < -0.1 ? '#DC2626' : '#6E6E73'} decimals={2} />
+ </div>
+ <div style={{ marginBottom: 14 }}>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Distribución sentimiento</div>
+ <div style={{ display: 'flex', height: 6, borderRadius: 3, overflow: 'hidden', background: '#F5F5F7' }}>
+ <div style={{ width: `${(data.pos / total) * 100}%`, background: '#16A34A', transition: 'width 600ms' }} />
+ <div style={{ width: `${(data.neu / total) * 100}%`, background: '#9CA3AF', transition: 'width 600ms' }} />
+ <div style={{ width: `${(data.neg / total) * 100}%`, background: '#DC2626', transition: 'width 600ms' }} />
+ </div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--ink-3)', marginTop: 4 }}>
+ <span style={{ color: '#16A34A', fontWeight: 600 }}>{data.pos}+</span>
+ <span>{data.neu}=</span>
+ <span style={{ color: '#DC2626', fontWeight: 600 }}>{data.neg}−</span>
+ </div>
+ </div>
       {data.top_topics.length > 0 && (
-        <div>
-          <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Debates dominantes</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Debates dominantes</div>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
             {data.top_topics.map(t => <span key={t} style={{ fontSize: 11, padding: '3px 9px', borderRadius: 999, background: '#EFF6FF', color: '#1F4E8C', fontWeight: 500, border: '1px solid #DBEAFE' }}>{t}</span>)}
-          </div>
-        </div>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
 function CountryDetail({ name, data }: { name: string; data?: EuropeCountry }) {
   if (!data) return <p style={{ fontSize: 12, color: 'var(--ink-4)' }}>Sin datos para {name}</p>
   return (
-    <div>
-      <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>País</div>
-      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.015em', color: '#1d1d1f' }}>{name}</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
-        <Stat label="Artículos"   value={data.n}   accent="#1F4E8C" />
-        <Stat label="Sentiment +" value={data.pos}  accent="#16A34A" />
-        <Stat label="Sentiment −" value={data.neg}  accent="#DC2626" />
-      </div>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>País</div>
+ <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.015em', color: '#1d1d1f' }}>{name}</h3>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
+ <Stat label="Artículos" value={data.n}   accent="#1F4E8C" />
+ <Stat label="Sentiment +" value={data.pos}  accent="#16A34A" />
+ <Stat label="Sentiment −" value={data.neg}  accent="#DC2626" />
+ </div>
       {data.spain_imp > 0 && (
-        <div style={{ padding: '8px 12px', background: '#FEF2F2', border: '1px solid #FEE2E2', borderRadius: 8, marginBottom: 12 }}>
-          <div style={{ fontSize: 10, color: '#991B1B', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>Impacto España</div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#991B1B', marginTop: 2 }}>
-            <CountUp value={data.spain_imp} /> noticias con repercusión alta/crítica
-          </div>
-        </div>
+ <div style={{ padding: '8px 12px', background: '#FEF2F2', border: '1px solid #FEE2E2', borderRadius: 8, marginBottom: 12 }}>
+ <div style={{ fontSize: 10, color: '#991B1B', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>Impacto España</div>
+ <div style={{ fontSize: 13, fontWeight: 600, color: '#991B1B', marginTop: 2 }}>
+ <CountUp value={data.spain_imp} /> noticias con repercusión alta/crítica
+ </div>
+ </div>
       )}
       {data.sample_titles.length > 0 && (
-        <div>
-          <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Titulares relevantes</div>
+ <div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>Titulares relevantes</div>
           {data.sample_titles.slice(0, 4).map((t, i) => (
-            <div key={i} style={{ fontSize: 11.5, color: 'var(--ink-2)', padding: '6px 0', borderBottom: '1px solid var(--hairline)', lineHeight: 1.4 }}>{t}</div>
+ <div key={i} style={{ fontSize: 11.5, color: 'var(--ink-2)', padding: '6px 0', borderBottom: '1px solid var(--hairline)', lineHeight: 1.4 }}>{t}</div>
           ))}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
 function Stat({ label, value, accent, decimals = 0 }: { label: string; value: number; accent: string; decimals?: number }) {
   return (
-    <div style={{ padding: '8px 10px', background: '#FAFAFB', borderRadius: 8, border: '1px solid #ECECEF' }}>
-      <div style={{ fontSize: 9.5, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 2 }}>{label}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em', color: accent, lineHeight: 1 }}>
-        <CountUp value={value} decimals={decimals} />
-      </div>
-    </div>
+ <div style={{ padding: '8px 10px', background: '#FAFAFB', borderRadius: 8, border: '1px solid #ECECEF' }}>
+ <div style={{ fontSize: 9.5, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 2 }}>{label}</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em', color: accent, lineHeight: 1 }}>
+ <CountUp value={value} decimals={decimals} />
+ </div>
+ </div>
   )
 }

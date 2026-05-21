@@ -7,7 +7,7 @@ export const runtime = 'nodejs'
 export async function GET(req: NextRequest) {
   const horas = req.nextUrl.searchParams.get('horas') || '24'
   const r = await callBackend(
-    `/api/media-intel/alertas-narrativas?horas=${encodeURIComponent(horas)}`,
+ `/api/media-intel/alertas-narrativas?horas=${encodeURIComponent(horas)}`,
     { cache: 'no-store' },
   )
   if (r.data !== null && r.data !== undefined) {
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     [],
-    'mock',
+ 'mock',
     { warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms },
   ))

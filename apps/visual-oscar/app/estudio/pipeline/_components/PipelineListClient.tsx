@@ -49,84 +49,84 @@ export default function PipelineListClient() {
   const totalRecords = pipelines.reduce((a, p) => a + (p.lastRunRecords ?? 0), 0)
 
   return (
-    <div className={styles.root}>
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Pipelines ETL</h1>
-          <p className={styles.subtitle}>Transforma y enruta datos entre fuentes y datasets</p>
-        </div>
-        <Link href="/estudio/pipeline/nuevo" className={styles.btnPrimary}>
+ <div className={styles.root}>
+ <div className={styles.header}>
+ <div>
+ <h1 className={styles.title}>Pipelines ETL</h1>
+ <p className={styles.subtitle}>Transforma y enruta datos entre fuentes y datasets</p>
+ </div>
+ <Link href="/estudio/pipeline/nuevo" className={styles.btnPrimary}>
           + Nuevo pipeline
-        </Link>
-      </div>
+ </Link>
+ </div>
 
-      <div className={styles.kpiStrip}>
+ <div className={styles.kpiStrip}>
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} style={{ height: 72, borderRadius: 12 }} />)
         ) : (
-          <>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue}>{pipelines.length}</span>
-              <span className={styles.kpiLabel}>Total pipelines</span>
-            </div>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue} style={{ color: 'var(--color-success,#22c55e)' }}>{active}</span>
-              <span className={styles.kpiLabel}>Activos</span>
-            </div>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue} style={{ color: errors > 0 ? 'var(--color-danger,#ef4444)' : undefined }}>{errors}</span>
-              <span className={styles.kpiLabel}>Con error</span>
-            </div>
-            <div className={styles.kpiCard}>
-              <span className={styles.kpiValue}>{formatNumber(totalRecords)}</span>
-              <span className={styles.kpiLabel}>Registros última ejecución</span>
-            </div>
-          </>
+ <>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue}>{pipelines.length}</span>
+ <span className={styles.kpiLabel}>Total pipelines</span>
+ </div>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue} style={{ color: 'var(--color-success,#22c55e)' }}>{active}</span>
+ <span className={styles.kpiLabel}>Activos</span>
+ </div>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue} style={{ color: errors > 0 ? 'var(--color-danger,#ef4444)' : undefined }}>{errors}</span>
+ <span className={styles.kpiLabel}>Con error</span>
+ </div>
+ <div className={styles.kpiCard}>
+ <span className={styles.kpiValue}>{formatNumber(totalRecords)}</span>
+ <span className={styles.kpiLabel}>Registros última ejecución</span>
+ </div>
+ </>
         )}
-      </div>
+ </div>
 
-      <div className={styles.filters}>
-        <input
+ <div className={styles.filters}>
+ <input
           type="search"
           placeholder="Buscar pipeline…"
           value={search}
           onChange={e => setSearch(e.target.value)}
           className={styles.searchInput}
         />
-        <div className={styles.filterGroup}>
+ <div className={styles.filterGroup}>
           {STATUS_FILTERS.map(f => (
-            <button
+ <button
               key={f.value}
               onClick={() => setStatusFilter(f.value)}
               className={`${styles.filterBtn} ${statusFilter === f.value ? styles.filterActive : ''}`}
             >
               {f.label}
-            </button>
+ </button>
           ))}
-        </div>
-        <button onClick={() => refetch()} className={styles.btnSecondary} title="Refrescar">↻</button>
-      </div>
+ </div>
+ <button onClick={() => refetch()} className={styles.btnSecondary} title="Refrescar">↻</button>
+ </div>
 
       {isLoading && (
-        <div className={styles.list}>
+ <div className={styles.list}>
           {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} style={{ height: 88, borderRadius: 12 }} />)}
-        </div>
+ </div>
       )}
 
       {!isLoading && !isError && filtered.length === 0 && (
-        <div className={styles.emptyState}>
-          <span style={{ fontSize: '2rem', opacity: 0.4 }}>⟶</span>
-          <p>{pipelines.length === 0 ? 'Todavía no hay pipelines configurados.' : 'Ningún pipeline coincide con los filtros.'}</p>
+ <div className={styles.emptyState}>
+ <span style={{ fontSize: '2rem', opacity: 0.4 }}>⟶</span>
+ <p>{pipelines.length === 0 ? 'Todavía no hay pipelines configurados.' : 'Ningún pipeline coincide con los filtros.'}</p>
           {pipelines.length === 0 && (
-            <Link href="/estudio/pipeline/nuevo" className={styles.btnPrimary}>Crear primer pipeline</Link>
+ <Link href="/estudio/pipeline/nuevo" className={styles.btnPrimary}>Crear primer pipeline</Link>
           )}
-        </div>
+ </div>
       )}
 
       {!isLoading && !isError && filtered.length > 0 && (
-        <div className={styles.list}>
+ <div className={styles.list}>
           {filtered.map(pipeline => (
-            <PipelineRow
+ <PipelineRow
               key={pipeline.id}
               pipeline={pipeline}
               onRun={() => runMutation.mutate(pipeline.id)}
@@ -136,9 +136,9 @@ export default function PipelineListClient() {
               isRunning={runMutation.isPending && runMutation.variables === pipeline.id}
             />
           ))}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
@@ -154,43 +154,43 @@ function PipelineRow({
   const runColor    = pipeline.lastRunStatus ? getStatusColor(pipeline.lastRunStatus) : undefined
 
   return (
-    <div className={styles.row}>
-      <div className={styles.rowLeft}>
-        <div className={styles.rowIcon}>⟶</div>
-        <div className={styles.rowInfo}>
-          <div className={styles.rowTitleRow}>
-            <span className={styles.rowName}>{pipeline.name}</span>
-            <span className={styles.rowStatus} style={{ color: statusColor, background: `${statusColor}15`, borderColor: `${statusColor}35` }}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: statusColor, display: 'inline-block', marginRight: 4 }} />
+ <div className={styles.row}>
+ <div className={styles.rowLeft}>
+ <div className={styles.rowIcon}>⟶</div>
+ <div className={styles.rowInfo}>
+ <div className={styles.rowTitleRow}>
+ <span className={styles.rowName}>{pipeline.name}</span>
+ <span className={styles.rowStatus} style={{ color: statusColor, background: `${statusColor}15`, borderColor: `${statusColor}35` }}>
+ <span style={{ width: 5, height: 5, borderRadius: '50%', background: statusColor, display: 'inline-block', marginRight: 4 }} />
               {getStatusLabel(pipeline.status)}
-            </span>
+ </span>
             {pipeline.lastRunStatus && (
-              <span className={styles.rowStatus} style={{ color: runColor, background: `${runColor}15`, borderColor: `${runColor}35` }}>
+ <span className={styles.rowStatus} style={{ color: runColor, background: `${runColor}15`, borderColor: `${runColor}35` }}>
                 Último run: {getStatusLabel(pipeline.lastRunStatus)}
-              </span>
+ </span>
             )}
-          </div>
+ </div>
           {pipeline.description && <p className={styles.rowDesc}>{pipeline.description}</p>}
-          <div className={styles.rowMeta}>
-            <span>{pipeline.nodes.length} nodos</span>
+ <div className={styles.rowMeta}>
+ <span>{pipeline.nodes.length} nodos</span>
             {pipeline.lastRunAt          && <span>· ejecutado {timeAgo(pipeline.lastRunAt)}</span>}
             {pipeline.lastRunDurationMs  && <span>· {formatDuration(pipeline.lastRunDurationMs)}</span>}
             {pipeline.lastRunRecords !== undefined && <span>· {formatNumber(pipeline.lastRunRecords)} registros</span>}
-            <span>· {pipeline.schedule}</span>
-          </div>
-        </div>
-      </div>
-      <div className={styles.rowActions}>
-        <Link href={`/estudio/pipeline/${pipeline.id}`} className={styles.btnView}>Editar</Link>
-        <button
+ <span>· {pipeline.schedule}</span>
+ </div>
+ </div>
+ </div>
+ <div className={styles.rowActions}>
+ <Link href={`/estudio/pipeline/${pipeline.id}`} className={styles.btnView}>Editar</Link>
+ <button
           onClick={onRun}
           disabled={isRunning || pipeline.lastRunStatus === 'running'}
           className={styles.btnRun}
         >
           {isRunning || pipeline.lastRunStatus === 'running' ? '⟳' : '▶'}
-        </button>
-        <button onClick={onDelete} className={styles.btnDelete} title="Eliminar">×</button>
-      </div>
-    </div>
+ </button>
+ <button onClick={onDelete} className={styles.btnDelete} title="Eliminar">×</button>
+ </div>
+ </div>
   )
 }

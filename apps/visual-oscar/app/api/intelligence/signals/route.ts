@@ -70,7 +70,7 @@ export async function GET(req: Request) {
     withMeta(
       { items, total: items.length, generado_en: nowIso(), signals: LEGACY_SIGNALS } as
         SignalsSnapshot & { signals: LegacySignal[] },
-      'mock',
+ 'mock',
       { warnings, latency_ms: result.latency_ms },
     ),
   )

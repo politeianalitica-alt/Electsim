@@ -72,27 +72,27 @@ export function PoliteiTable({ table, onRowClick, onColumnSelect }: PoliteiTable
   }
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900">
+ <div className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900">
       {/* Toolbar */}
-      <div className="flex items-center gap-2 border-b border-slate-800 px-3 py-2">
-        <input
+ <div className="flex items-center gap-2 border-b border-slate-800 px-3 py-2">
+ <input
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Buscar…"
           className="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 focus:border-slate-500 focus:outline-none"
         />
-        <span className="text-[11px] text-slate-500">
+ <span className="text-[11px] text-slate-500">
           {filtered.length} / {table.rows.length} filas
-        </span>
-      </div>
+ </span>
+ </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-auto">
-        <table className="w-full">
-          <thead className="sticky top-0 bg-slate-900 z-10">
-            <tr className="border-b border-slate-800">
+ <div className="flex-1 overflow-auto">
+ <table className="w-full">
+ <thead className="sticky top-0 bg-slate-900 z-10">
+ <tr className="border-b border-slate-800">
               {table.columns.map(col => (
-                <th
+ <th
                   key={col.id}
                   onClick={() => {
                     handleSort(col);
@@ -103,38 +103,38 @@ export function PoliteiTable({ table, onRowClick, onColumnSelect }: PoliteiTable
                   className="px-3 py-2 text-left text-[10px] font-bold uppercase tracking-wider text-slate-400 cursor-pointer select-none hover:text-slate-200"
                   style={{ width: col.width }}
                 >
-                  <span className="inline-flex items-center gap-1">
+ <span className="inline-flex items-center gap-1">
                     {col.label}
                     {sortKey === col.key && <span>{sortDir === "asc" ? "↑" : "↓"}</span>}
-                  </span>
-                </th>
+ </span>
+ </th>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+ </tr>
+ </thead>
+ <tbody>
             {filtered.map(row => (
-              <tr
+ <tr
                 key={row.id}
                 onClick={() => onRowClick?.(row)}
                 className="border-b border-slate-800 hover:bg-slate-800/50 transition-colors cursor-pointer"
               >
                 {table.columns.map(col => (
-                  <td key={col.id} className="px-3 py-2 align-middle">
+ <td key={col.id} className="px-3 py-2 align-middle">
                     {renderCell(col, row[col.key])}
-                  </td>
+ </td>
                 ))}
-              </tr>
+ </tr>
             ))}
             {filtered.length === 0 && (
-              <tr>
-                <td colSpan={table.columns.length} className="p-6 text-center text-sm text-slate-400">
+ <tr>
+ <td colSpan={table.columns.length} className="p-6 text-center text-sm text-slate-400">
                   Sin filas para esta búsqueda.
-                </td>
-              </tr>
+ </td>
+ </tr>
             )}
-          </tbody>
-        </table>
-      </div>
-    </div>
+ </tbody>
+ </table>
+ </div>
+ </div>
   );
 }

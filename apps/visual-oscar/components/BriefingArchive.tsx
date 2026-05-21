@@ -95,19 +95,19 @@ export default function BriefingArchive() {
   const filtered = filter === 'all' ? items : items.filter(it => it.type === filter)
 
   return (
-    <section style={{
+ <section style={{
       background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '24px 28px', marginTop: 22,
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-        <div>
-          <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+ <div>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
             Archivo
-          </p>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>
+ </p>
+ <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em' }}>
             Briefings anteriores
-          </h3>
-        </div>
-        <div style={{ display: 'flex', gap: 6 }}>
+ </h3>
+ </div>
+ <div style={{ display: 'flex', gap: 6 }}>
           {[
             { v: 'all', l: 'Todos' },
             { v: 'matinal', l: 'Matinal' },
@@ -115,45 +115,45 @@ export default function BriefingArchive() {
             { v: 'mensual', l: 'Mensual' },
             { v: 'flash', l: 'Flash' },
           ].map(t => (
-            <button key={t.v} onClick={() => setFilter(t.v)} style={{
+ <button key={t.v} onClick={() => setFilter(t.v)} style={{
               padding: '6px 12px', borderRadius: 999, border: '1px solid #e8e8ed',
               background: filter === t.v ? '#1d1d1f' : '#fff',
               color: filter === t.v ? '#fff' : '#6e6e73',
               fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>{t.l}</button>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {filtered.map((b) => {
           const ts = typeStyle(b.type)
           const isDl = downloading === b.id
           return (
-            <div key={b.id} style={{
+ <div key={b.id} style={{
               display: 'grid', gridTemplateColumns: '90px 1fr 130px 70px 110px',
               gap: 14, alignItems: 'center', padding: '14px 16px',
               background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12,
             }}>
-              <span style={{
+ <span style={{
                 fontSize: 9.5, fontWeight: 700, padding: '3px 9px', borderRadius: 999,
                 color: ts.color, background: ts.bg, textAlign: 'center', letterSpacing: '0.06em',
               }}>{ts.label}</span>
-              <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{b.title ?? b.id}</div>
+ <div>
+ <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{b.title ?? b.id}</div>
                 {b.highlights && b.highlights.length > 0 && (
-                  <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 4, lineHeight: 1.5 }}>
+ <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 4, lineHeight: 1.5 }}>
                     {b.highlights.slice(0, 3).map((h, i) => <span key={i}>{i > 0 ? ' · ' : ''}{h}</span>)}
-                  </div>
+ </div>
                 )}
-              </div>
-              <span style={{ fontSize: 12, color: '#6e6e73', fontVariantNumeric: 'tabular-nums' }}>
+ </div>
+ <span style={{ fontSize: 12, color: '#6e6e73', fontVariantNumeric: 'tabular-nums' }}>
                 {b.date ?? (b.created_at ? new Date(b.created_at).toLocaleDateString('es-ES') : '—')}
-              </span>
-              <span style={{ fontSize: 11, color: '#6e6e73', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+ </span>
+ <span style={{ fontSize: 11, color: '#6e6e73', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
                 {b.size_kb ? `${(b.size_kb / 1024).toFixed(1)} MB` : '—'}
-              </span>
-              <button
+ </span>
+ <button
                 onClick={async () => {
                   if (isDl) return
                   setDownloading(b.id)
@@ -173,24 +173,24 @@ export default function BriefingArchive() {
                   fontSize: 11, fontWeight: 600, cursor: isDl ? 'wait' : 'pointer', fontFamily: 'inherit',
                 }}>
                 {isDl ? 'Descargando…' : `↓ ${(b.format ?? 'PDF').toUpperCase()}`}
-              </button>
-            </div>
+ </button>
+ </div>
           )
         })}
-      </div>
+ </div>
 
       {filtered.length === 0 && (
-        <p style={{ fontSize: 12, color: '#6e6e73', fontStyle: 'italic', textAlign: 'center', padding: '24px 0' }}>
+ <p style={{ fontSize: 12, color: '#6e6e73', fontStyle: 'italic', textAlign: 'center', padding: '24px 0' }}>
           No hay briefings de tipo "{filter}".
-        </p>
+ </p>
       )}
 
-      <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #f5f5f7', display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#6e6e73' }}>
-        <span>{filtered.length} briefings · ordenados por fecha desc.</span>
-        <a href="/api/briefings/archive.zip" style={{ color: '#1F4E8C', fontWeight: 600, textDecoration: 'none' }}>
+ <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #f5f5f7', display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#6e6e73' }}>
+ <span>{filtered.length} briefings · ordenados por fecha desc.</span>
+ <a href="/api/briefings/archive.zip" style={{ color: '#1F4E8C', fontWeight: 600, textDecoration: 'none' }}>
           ↓ Descargar todo (ZIP)
-        </a>
-      </div>
-    </section>
+ </a>
+ </div>
+ </section>
   )
 }

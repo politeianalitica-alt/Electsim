@@ -127,20 +127,20 @@ export default function PipelineEditorClient({ id }: { id: string }) {
 
   if (isLoading) {
     return (
-      <div style={{ padding: '2rem' }}>
-        <Skeleton style={{ height: 32, width: 300, marginBottom: 16 }} />
-        <Skeleton style={{ height: 600, borderRadius: 14 }} />
-      </div>
+ <div style={{ padding: '2rem' }}>
+ <Skeleton style={{ height: 32, width: 300, marginBottom: 16 }} />
+ <Skeleton style={{ height: 600, borderRadius: 14 }} />
+ </div>
     )
   }
 
   return (
-    <div className={styles.editorRoot}>
-      <div className={styles.toolbar}>
-        <div className={styles.toolbarLeft}>
-          <Link href="/estudio/pipeline" className={styles.breadcrumbLink}>← Pipelines</Link>
-          <span className={styles.toolbarSep}>›</span>
-          <input
+ <div className={styles.editorRoot}>
+ <div className={styles.toolbar}>
+ <div className={styles.toolbarLeft}>
+ <Link href="/estudio/pipeline" className={styles.breadcrumbLink}>← Pipelines</Link>
+ <span className={styles.toolbarSep}>›</span>
+ <input
             type="text"
             value={name}
             onChange={e => { setName(e.target.value); setIsDirty(true) }}
@@ -148,66 +148,66 @@ export default function PipelineEditorClient({ id }: { id: string }) {
             className={styles.nameInput}
           />
           {isDirty && <span className={styles.dirtyBadge}>Sin guardar</span>}
-        </div>
-        <div className={styles.toolbarRight}>
-          <select
+ </div>
+ <div className={styles.toolbarRight}>
+ <select
             value={schedule}
             onChange={e => { setSchedule(e.target.value as ScheduleFrequency); setIsDirty(true) }}
             className={styles.scheduleSelect}
           >
             {SCHEDULE_OPTIONS.map(o => (
-              <option key={o.value} value={o.value}>{o.label}</option>
+ <option key={o.value} value={o.value}>{o.label}</option>
             ))}
-          </select>
+ </select>
           {!isNew && (
-            <button
+ <button
               onClick={() => setRightPanel(rightPanel === 'runs' ? null : 'runs')}
               className={styles.btnSecondary}
             >
               Historial
-            </button>
+ </button>
           )}
           {!isNew && (
-            <button
+ <button
               onClick={() => runMutation.mutate()}
               disabled={runMutation.isPending}
               className={styles.btnRun}
             >
               {runMutation.isPending ? '⟳ Ejecutando…' : '▶ Ejecutar'}
-            </button>
+ </button>
           )}
-          <button
+ <button
             onClick={handleSave}
             disabled={saveMutation.isPending || !name.trim()}
             className={styles.btnSave}
           >
-            {saveMutation.isPending ? '⟳ Guardando…' : isDirty ? '● Guardar' : '✓ Guardado'}
-          </button>
-        </div>
-      </div>
+            {saveMutation.isPending ? '⟳ Guardando…' : isDirty ? '● Guardar' : ' Guardado'}
+ </button>
+ </div>
+ </div>
 
-      <div className={styles.editorMain}>
-        <div className={styles.palette}>
-          <div className={styles.paletteTitle}>Nodos</div>
+ <div className={styles.editorMain}>
+ <div className={styles.palette}>
+ <div className={styles.paletteTitle}>Nodos</div>
           {(Object.entries(NODE_TYPE_LABELS) as Array<[NodeType, string]>).map(([type, label]) => (
-            <button
+ <button
               key={type}
               onClick={() => handleAddNode(type)}
               className={styles.paletteItem}
               style={{ borderLeftColor: NODE_TYPE_COLORS[type] }}
               title={`Añadir nodo ${label}`}
             >
-              <span
+ <span
                 className={styles.paletteItemDot}
                 style={{ background: NODE_TYPE_COLORS[type] }}
               />
               {label}
-            </button>
+ </button>
           ))}
-        </div>
+ </div>
 
-        <div className={styles.canvasWrapper}>
-          <PipelineCanvas
+ <div className={styles.canvasWrapper}>
+ <PipelineCanvas
             nodes={nodes}
             edges={edges}
             selectedNodeId={selectedNodeId}
@@ -217,21 +217,21 @@ export default function PipelineEditorClient({ id }: { id: string }) {
           />
 
           {selectedNode && !isNew && (
-            <div className={styles.previewStrip}>
-              <button
+ <div className={styles.previewStrip}>
+ <button
                 onClick={handlePreview}
                 disabled={previewLoading}
                 className={styles.btnPreview}
               >
                 {previewLoading ? '⟳ Cargando preview…' : '⬡ Preview de datos del nodo'}
-              </button>
+ </button>
               {previewData && <PreviewTable data={previewData} />}
-            </div>
+ </div>
           )}
-        </div>
+ </div>
 
         {rightPanel === 'node' && selectedNode && (
-          <NodeConfigPanel
+ <NodeConfigPanel
             node={selectedNode}
             onUpdate={(config) => handleNodeUpdate(selectedNode.id, config)}
             onDelete={() => handleNodeDelete(selectedNode.id)}
@@ -239,46 +239,46 @@ export default function PipelineEditorClient({ id }: { id: string }) {
           />
         )}
         {rightPanel === 'runs' && !isNew && (
-          <RunHistoryPanel
+ <RunHistoryPanel
             pipelineId={id}
             onClose={() => setRightPanel(null)}
           />
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }
 
 function PreviewTable({ data }: { data: { columns: string[]; rows: Record<string, unknown>[] } }) {
   return (
-    <div className={styles.previewTable}>
-      <div style={{ overflowX: 'auto', maxHeight: 200 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
-          <thead>
-            <tr>
+ <div className={styles.previewTable}>
+ <div style={{ overflowX: 'auto', maxHeight: 200 }}>
+ <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.75rem' }}>
+ <thead>
+ <tr>
               {data.columns.map(col => (
-                <th key={col} style={{ padding: '4px 8px', textAlign: 'left', background: 'var(--bg-secondary,#f9fafb)', borderBottom: '1px solid var(--color-border,#e5e7eb)', fontWeight: 600, whiteSpace: 'nowrap' }}>
+ <th key={col} style={{ padding: '4px 8px', textAlign: 'left', background: 'var(--bg-secondary,#f9fafb)', borderBottom: '1px solid var(--color-border,#e5e7eb)', fontWeight: 600, whiteSpace: 'nowrap' }}>
                   {col}
-                </th>
+ </th>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+ </tr>
+ </thead>
+ <tbody>
             {data.rows.slice(0, 5).map((row, i) => (
-              <tr key={i} style={{ borderBottom: '1px solid var(--color-border,#e5e7eb)' }}>
+ <tr key={i} style={{ borderBottom: '1px solid var(--color-border,#e5e7eb)' }}>
                 {data.columns.map(col => (
-                  <td key={col} style={{ padding: '4px 8px', whiteSpace: 'nowrap', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+ <td key={col} style={{ padding: '4px 8px', whiteSpace: 'nowrap', maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {String(row[col] ?? '—')}
-                  </td>
+ </td>
                 ))}
-              </tr>
+ </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
-      <span style={{ fontSize: '0.7rem', color: 'var(--color-muted,#6b7280)', padding: '4px 8px', display: 'block' }}>
+ </tbody>
+ </table>
+ </div>
+ <span style={{ fontSize: '0.7rem', color: 'var(--color-muted,#6b7280)', padding: '4px 8px', display: 'block' }}>
         Mostrando {Math.min(5, data.rows.length)} de {data.rows.length} filas
-      </span>
-    </div>
+ </span>
+ </div>
   )
 }

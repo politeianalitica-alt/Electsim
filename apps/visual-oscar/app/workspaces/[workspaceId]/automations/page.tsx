@@ -20,8 +20,9 @@ export default function AutomationsPage({ params }: { params: { workspaceId: str
 
   if (isEmpty || !automations) {
     return (
-      <WorkspaceEmptyState
+ <WorkspaceEmptyState
         view="automations"
+        eyebrow="Workspace · Automatizaciones"
         title="Sin automatizaciones aún"
         description="Crea reglas que disparen acciones automáticas en el workspace."
         cta="+ Nueva automatización"
@@ -32,8 +33,8 @@ export default function AutomationsPage({ params }: { params: { workspaceId: str
   const active = getActiveAutomations(automations);
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="automations"
         title="Automations"
         description="Reglas activas e integraciones automáticas del workspace"
@@ -41,22 +42,22 @@ export default function AutomationsPage({ params }: { params: { workspaceId: str
         actions={<button style={btnStyle}>+ Nueva automatización</button>}
       />
 
-      <SectionLabel>Reglas configuradas</SectionLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
+ <SectionLabel>Reglas configuradas</SectionLabel>
+ <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
         {automations.map(a => <AutomationCard key={a.id} automation={a} />)}
-      </div>
+ </div>
 
-      <SectionLabel>Plantillas de automatización</SectionLabel>
-      <TemplateGrid templates={TEMPLATES} />
-    </div>
+ <SectionLabel>Plantillas de automatización</SectionLabel>
+ <TemplateGrid templates={TEMPLATES} />
+ </div>
   );
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 12 }}>
+ <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3, textTransform: "uppercase", marginBottom: 12 }}>
       {children}
-    </div>
+ </div>
   );
 }
 

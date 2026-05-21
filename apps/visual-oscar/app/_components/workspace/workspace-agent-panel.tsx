@@ -38,7 +38,7 @@ export function WorkspaceAgentPanel({ workspaceId }: WorkspaceAgentPanelProps) {
   } = useWorkspaceAgent({ workspaceId, context });
 
   return (
-    <aside
+ <aside
       style={{
         width: WS.agentW,
         flexShrink: 0,
@@ -50,23 +50,23 @@ export function WorkspaceAgentPanel({ workspaceId }: WorkspaceAgentPanelProps) {
         color: WS.ink,
       }}
     >
-      <AgentHeader
+ <AgentHeader
         mode={activeMode}
         onModeChange={setActiveMode}
         onClear={clearConversation}
       />
-      <AgentContextBar items={contextItems} />
-      <AgentConversation messages={conversation.messages} isLoading={isLoading} />
-      <AgentQuickActions
+ <AgentContextBar items={contextItems} />
+ <AgentConversation messages={conversation.messages} isLoading={isLoading} />
+ <AgentQuickActions
         onAction={(message, mode) => sendMessage(message, mode)}
         isLoading={isLoading}
       />
-      <AgentInput
+ <AgentInput
         onSend={msg => sendMessage(msg)}
         onStop={stopStreaming}
         isLoading={isLoading}
         mode={activeMode}
       />
-    </aside>
+ </aside>
   );
 }

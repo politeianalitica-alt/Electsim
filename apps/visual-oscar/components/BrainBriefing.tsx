@@ -1,11 +1,32 @@
 'use client'
-import { useState, FormEvent, useRef, useEffect } from 'react'
+import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
+import BrainRouteActions from '@/components/BrainRouteActions'
 import Link from 'next/link'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import type { MorningBriefing } from '@/lib/api-types'
 
-type Msg = { role: 'user' | 'brain'; text: string; ts: number }
+type Msg = {
+  role: 'user' | 'brain'
+  text: string
+  ts: number
+  /** Modelo que respondió (ej: 'claude-haiku-4-5-20251001'). */
+  model?: string
+  /** Tier que se usó ('fast' = Haiku · 'premium' = Sonnet). */
+  tier?: 'fast' | 'premium'
+  /** Tools que el modelo usó para responder. */
+  toolsUsed?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
+  /** Provider del LLM ('anthropic', 'backend', 'ollama', 'fallback'). */
+  source?: string
+  /** Latencia total en ms. */
+  ms?: number
+  /** Coste de la respuesta. */
+  cost?: { usd: number; cents: number }
+  /** True si Claude usó conocimiento general (no datos de Politeia). */
+  fromGeneralKnowledge?: boolean
+  /** Preguntas de seguimiento sugeridas (solo en mensajes de brain). */
+  followUps?: string[]
+}
 
 // Preguntas predefinidas del briefing matinal — usadas como fallback
 // si el backend no está conectado. Cuando hay backend, se reemplazan
@@ -13,22 +34,94 @@ type Msg = { role: 'user' | 'brain'; text: string; ts: number }
 const PRESET_QUESTIONS = [
   {
     n: 1,
-    q: '¿Mantendrá el PP el liderazgo si la narrativa de vivienda erosiona su electorado urbano?',
-    a: 'Análisis de elasticidad: el PP mantiene un colchón de **+6,4 pp** sobre el PSOE. Una erosión completa del voto urbano joven (≈12% del electorado PP en grandes ciudades) reduciría su ventaja a **+1,8 pp** pero seguiría liderando.\n\n**Riesgo medio**. Madrid capital y zonas turísticas costeras son los focos a vigilar. Recomiendo cruzar con `/microdatos` para ver el voto blando por franja 25-44 años.',
+    q: '¿Aguanta el PP arriba si la vivienda le sigue comiendo voto en las ciudades?',
+    a: 'Te lo cuento rápido: el PP tiene un colchón de **+6,4 pp** sobre el PSOE. Si pierde del todo el voto urbano joven (más o menos un 12% de su electorado en ciudades grandes), su ventaja se queda en **+1,8 pp** — sigue arriba, pero por los pelos.\n\n**Riesgo medio**. Mira sobre todo Madrid capital y las zonas turísticas de costa. Para profundizar, cruza con `/microdatos` y revisa el voto blando entre 25 y 44 años.',
   },
   {
     n: 2,
-    q: '¿Activará el PSOE una iniciativa fiscal antes del cierre del semestre?',
-    a: 'Probabilidad estimada: **62%**. Indicadores: Hacienda ha movido a 3 técnicos a Presupuestos esta semana, Montero canceló agenda exterior del 14-18 mayo, y el filtrado a *El País* del lunes apunta a una rebaja en el IRPF de tramos bajos.\n\nVentana óptima política: **18-25 mayo** (antes del Consejo Europeo del 27). Detalle en `/proyectos`.',
+    q: '¿Se atreverá el PSOE a mover ficha en lo fiscal antes de que acabe el semestre?',
+    a: 'Yo lo veo en un **62%**. ¿Por qué? Hacienda ha mandado a 3 técnicos a Presupuestos esta semana, Montero ha cancelado su agenda fuera del 14 al 18 de mayo, y el filtrado a *El País* del lunes apunta a una rebaja del IRPF en los tramos bajos.\n\nLa mejor ventana política: **del 18 al 25 de mayo**, antes del Consejo Europeo del 27. Más detalle en `/proyectos`.',
   },
   {
     n: 3,
-    q: '¿Qué impacto tiene el bloqueo de Junts en la coalición de investidura a 12 meses?',
-    a: 'Sin Junts el bloque de investidura cae a **172 escaños** (insuficiente). Tres caminos a 12 meses:\n\n• **45%** Junts vuelve con concesión fiscal (transferencia IRPF)\n• **30%** Reformulación de mayoría con CC + abstención de PNV en clave (170-175)\n• **25%** Adelanto electoral antes de Q1 2027\n\nVer escenarios completos en `/escenarios` y simular votación en `/congreso`.',
+    q: '¿Cuánto daña a la coalición si Junts sigue bloqueando? Pensemos a 12 meses.',
+    a: 'Sin Junts, el bloque de investidura se cae a **172 escaños** — insuficiente. Tres caminos posibles a 12 meses:\n\n• **45%** Junts vuelve a la mesa con una concesión fiscal (transferencia del IRPF)\n• **30%** Se rehace la mayoría con CC + abstención clave del PNV (170-175)\n• **25%** Elecciones anticipadas antes del primer trimestre de 2027\n\nMira los escenarios completos en `/escenarios` y simula la votación en `/congreso`.',
   },
 ]
 
-const WELCOME_TEXT = 'El PP consolida su liderazgo en intención de voto (+0,4 pp esta semana) mientras el PSOE mantiene posiciones tras la última intervención del presidente. La narrativa de vivienda continúa en aceleración (+18% menciones 24h) con una emoción dominante de frustración. La amnistía vuelve al primer plano tras dos decisiones judiciales que dividen al socio Junts. En lo económico, el IPC subyacente sorprende a la baja, lo que abre margen al gobierno para una intervención en política fiscal antes del cierre del semestre.'
+const WELCOME_TEXT = 'Buenos días. Te resumo cómo está la mañana. El PP sigue por delante — sube 0,4 puntos esta semana — y el PSOE aguanta el tipo tras la rueda de prensa del presidente. La vivienda no afloja: las menciones se han disparado un 18% en 24 horas y la conversación pública está más cabreada que asustada. La amnistía vuelve a portada por dos decisiones judiciales que están dividiendo a Junts. Y una buena noticia para Moncloa: el IPC subyacente ha bajado más de lo esperado, así que tienen margen para mover algo en lo fiscal antes de que acabe el semestre.'
+
+/**
+ * Renderer ligero de markdown para respuestas del Brain.
+ * Soporta:
+ *   - **negrita** → <strong style="color:#fbbf24">
+ *   - `código` → <code>
+ *   - [texto](url) → <a target="_blank">
+ *   - /rutas-del-dashboard (autodetectado) → <a>
+ *   - · bullets, líneas con "- " al inicio
+ *   - números: 12,4%, +0,3pp, +18% son resaltados sutilmente
+ * No usa una librería para minimizar bundle size (esto pesa ~80 líneas).
+ */
+function renderBrainMarkdown(text: string): React.ReactNode {
+  const lines = text.split('\n')
+  return lines.map((line, lineIdx) => {
+    const trimmed = line.trim()
+    const isBullet = trimmed.startsWith('- ') || trimmed.startsWith('• ') || trimmed.startsWith('· ')
+    const content = isBullet ? trimmed.slice(2) : line
+    const rendered = renderInline(content)
+    return (
+ <div key={lineIdx} style={{
+        marginTop: lineIdx === 0 ? 0 : 2,
+        paddingLeft: isBullet ? 14 : 0,
+        position: 'relative',
+      }}>
+        {isBullet && (
+ <span style={{
+            position: 'absolute', left: 2, top: 0,
+            color: 'rgba(167,139,250,0.7)', fontWeight: 700,
+          }}>·</span>
+        )}
+        {rendered}
+        {/* No insertar <br/> si la línea está vacía solo (espaciado natural) */}
+        {line === '' && <span>&nbsp;</span>}
+ </div>
+    )
+  })
+}
+
+function renderInline(text: string): React.ReactNode {
+  // Pattern: **bold**, `code`, [text](url), /rutas/del/dashboard, 12,4% (sutil)
+  const parts: Array<{ type: 'text' | 'bold' | 'code' | 'link' | 'route' | 'num'; value: string; href?: string }> = []
+  let remaining = text
+  // Regex unified: matches first occurrence of any pattern
+  const PATTERN = /(\*\*([^*]+)\*\*)|(`([^`]+)`)|(\[([^\]]+)\]\(([^)]+)\))|(\/[a-z][a-z0-9/-]*[a-z0-9])|(\b\d+(?:[,.]\d+)?(?:%|pp)\b)|([+-]\d+(?:[,.]\d+)?(?:pp|%)?)/
+
+  while (remaining.length > 0) {
+    const m = remaining.match(PATTERN)
+    if (!m || m.index === undefined) {
+      parts.push({ type: 'text', value: remaining })
+      break
+    }
+    if (m.index > 0) {
+      parts.push({ type: 'text', value: remaining.slice(0, m.index) })
+    }
+    if (m[1]) parts.push({ type: 'bold', value: m[2] })
+    else if (m[3]) parts.push({ type: 'code', value: m[4] })
+    else if (m[5]) parts.push({ type: 'link', value: m[6], href: m[7] })
+    else if (m[8]) parts.push({ type: 'route', value: m[8] })
+    else if (m[9] || m[10]) parts.push({ type: 'num', value: m[9] || m[10] })
+    remaining = remaining.slice(m.index + m[0].length)
+  }
+
+  return parts.map((p, i) => {
+    if (p.type === 'bold') return <strong key={i} style={{ color: '#fbbf24', fontWeight: 700 }}>{p.value}</strong>
+    if (p.type === 'code') return <code key={i} style={{ background: 'rgba(255,255,255,0.10)', padding: '1px 5px', borderRadius: 4, fontSize: 11.5, fontFamily: 'ui-monospace,monospace' }}>{p.value}</code>
+    if (p.type === 'link') return <a key={i} href={p.href} target="_blank" rel="noopener noreferrer" style={{ color: '#a78bfa', textDecoration: 'underline', textUnderlineOffset: 2 }}>{p.value}</a>
+    if (p.type === 'route') return <a key={i} href={p.value} style={{ color: '#a78bfa', textDecoration: 'none', fontFamily: 'ui-monospace,monospace', fontSize: 11.5, padding: '1px 4px', borderRadius: 3, background: 'rgba(167,139,250,0.12)' }}>{p.value}</a>
+    if (p.type === 'num') return <span key={i} style={{ color: '#fde68a', fontWeight: 600 }}>{p.value}</span>
+    return <span key={i}>{p.value}</span>
+  })
+}
 
 function fakeReply(q: string): string {
   const lower = q.toLowerCase()
@@ -49,7 +142,7 @@ export default function BrainBriefing() {
 
   // Briefing real desde el backend ElectSim · refresh cada 5 min
   const { data: briefing, source, updatedAt, refresh } = useApi<BriefingResponse>(
-    '/api/briefings/morning?workspace_id=default',
+ '/api/briefings/morning?workspace_id=default',
     { refreshInterval: 300_000 }
   )
 
@@ -62,9 +155,46 @@ export default function BrainBriefing() {
   const analystNote = briefing?.analyst_note
   const briefingMode = briefing?.mode
 
-  const [messages, setMessages] = useState<Msg[]>([])
+  // ─── Persistencia de conversación en localStorage ─────────────────────
+  // Se carga lazy en el primer render y se sincroniza en cada cambio.
+  // Clave por día para que cada mañana empiece limpia.
+  const sessionKey = useMemo(() => {
+    const d = new Date()
+    return `politeia.brain.${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
+  }, [])
+
+  const [messages, setMessages] = useState<Msg[]>(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      const raw = window.localStorage.getItem(sessionKey)
+      if (!raw) return []
+      const parsed = JSON.parse(raw) as Msg[]
+      return Array.isArray(parsed) ? parsed.slice(-30) : []
+    } catch {
+      return []
+    }
+  })
+
+  // Sync messages → localStorage (debounced via React batching)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      window.localStorage.setItem(sessionKey, JSON.stringify(messages.slice(-30)))
+    } catch {
+      // localStorage lleno o desactivado, ignorar
+    }
+  }, [messages, sessionKey])
+
+  // Pre-warm del context builder al montar — así la primera pregunta del
+  // usuario tiene el contexto ya cacheado (latencia -1 a -2s).
+  useEffect(() => {
+    fetch('/api/brain/warmup').catch(() => {/* silent */})
+  }, [])
+
   const [input, setInput] = useState('')
   const [thinking, setThinking] = useState(false)
+  // Qué tool está ejecutándose en este momento (para indicador visual)
+  const [activeTool, setActiveTool] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -92,7 +222,10 @@ export default function BrainBriefing() {
       return
     }
 
-    // Texto libre → llamamos al LLM (Ollama o backend según config).
+    // Texto libre → llamamos al LLM (Anthropic / backend / Ollama / mock
+    // según LLM_PROVIDER en Vercel). El endpoint inyecta contexto vivo
+    // del dashboard y puede invocar tools (get_polls, get_actor_profile,
+    // etc.) si la pregunta lo requiere.
     try {
       const res = await fetch('/api/brain/chat', {
         method: 'POST',
@@ -104,11 +237,54 @@ export default function BrainBriefing() {
           })),
         }),
       })
-      const data: { reply: string; source: 'ollama' | 'backend' | 'fallback' } = await res.json()
+      const data: {
+        reply: string
+        source: 'anthropic' | 'ollama' | 'backend' | 'fallback'
+        model?: string
+        tier?: 'fast' | 'premium'
+        tools_used?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
+        ms?: number
+        cost?: { usd: number; cents: number }
+        from_general_knowledge?: boolean
+      } = await res.json()
       const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
         ? data.reply
         : fakeReply(text)
-      setMessages(m => [...m, { role: 'brain', text: reply, ts: Date.now() }])
+      const newBrainMsg: Msg = {
+        role: 'brain',
+        text: reply,
+        ts: Date.now(),
+        model: data.model,
+        tier: data.tier,
+        source: data.source,
+        toolsUsed: data.tools_used,
+        ms: data.ms,
+        cost: data.cost,
+        fromGeneralKnowledge: data.from_general_knowledge,
+      }
+      setMessages(m => [...m, newBrainMsg])
+
+      // Auto-generar 3 sugerencias de follow-up en background (no bloquea)
+      // Solo cuando la respuesta vino de Anthropic (real LLM)
+      if (data.source === 'anthropic' && reply.length > 30) {
+        fetch('/api/brain/followups', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_question: text,
+            brain_answer: reply.slice(0, 600),
+          }),
+        })
+          .then(r => r.ok ? r.json() : null)
+          .then((fu: { suggestions?: string[] } | null) => {
+            if (fu?.suggestions && fu.suggestions.length > 0) {
+              setMessages(prev => prev.map(m =>
+                m.ts === newBrainMsg.ts ? { ...m, followUps: fu.suggestions } : m
+              ))
+            }
+          })
+          .catch(() => {/* silent */})
+      }
     } catch {
       setMessages(m => [...m, { role: 'brain', text: fakeReply(text), ts: Date.now() }])
     } finally {
@@ -119,123 +295,359 @@ export default function BrainBriefing() {
   function onSubmit(e: FormEvent) { e.preventDefault(); ask(input) }
 
   return (
-    <section style={{
+ <section style={{
       background: 'linear-gradient(135deg,#0F1F3D 0%,#0A1428 100%)',
       borderRadius: 22, padding: '28px 32px 24px', marginBottom: 22, color: '#e8e8ed',
       position: 'relative', overflow: 'hidden',
     }}>
       {/* Glow decorativo */}
-      <div style={{ position: 'absolute', top: -120, right: -120, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(91,33,182,0.35) 0%, transparent 70%)', pointerEvents: 'none' }}/>
-      <div style={{ position: 'absolute', bottom: -100, left: -80, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(31,78,140,0.25) 0%, transparent 70%)', pointerEvents: 'none' }}/>
+ <div style={{ position: 'absolute', top: -120, right: -120, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(91,33,182,0.35) 0%, transparent 70%)', pointerEvents: 'none' }}/>
+ <div style={{ position: 'absolute', bottom: -100, left: -80, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(31,78,140,0.25) 0%, transparent 70%)', pointerEvents: 'none' }}/>
 
-      <div style={{ position: 'relative' }}>
+ <div style={{ position: 'relative' }}>
 
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 16, flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
-                BRIEFING MATINAL · POLITEIA
-              </span>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 16, flexWrap: 'wrap' }}>
+ <div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
+                TU BRIEFING DE LA MAÑANA · POLITEIA
+ </span>
               {briefingMode === 'real' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#fff', background: '#10b981', padding: '2px 6px', borderRadius: 4 }}>LIVE</span>}
               {briefingMode === 'demo' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#0F1F3D', background: '#fbbf24', padding: '2px 6px', borderRadius: 4 }}>DEMO</span>}
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </div>
-            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 28, letterSpacing: '-0.022em', lineHeight: 1.1, color: '#fff' }}>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+ </div>
+ <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 28, letterSpacing: '-0.022em', lineHeight: 1.1, color: '#fff' }}>
               Buenos días, <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>Analista</em>
-            </h2>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span style={{ textTransform: 'capitalize' }}>{today}</span>
-            </div>
-          </div>
-          <Link href="/briefing" style={{
+ </h2>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+ <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+ </svg>
+ <span style={{ textTransform: 'capitalize' }}>{today}</span>
+ </div>
+ </div>
+ <Link href="/briefing" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
             color: '#fff', padding: '7px 14px', borderRadius: 999,
             fontSize: 11.5, fontWeight: 600, textDecoration: 'none', flexShrink: 0,
           }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Ver briefing completo
-          </Link>
-        </div>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Ver todo el briefing
+ </Link>
+ </div>
 
-        {/* Texto narrativo · viene del backend si está conectado */}
-        <p style={{ margin: '0 0 18px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.78)', maxWidth: 980 }}>
-          {welcomeText}
-        </p>
+        {/* Texto narrativo · viene del backend si está conectado.
+            Marcado como INFERIDO para que el usuario sepa que es lectura
+            analítica generada por el modelo, no datos crudos. */}
+ <div style={{
+          margin: '0 0 14px', padding: '12px 16px', borderRadius: 10,
+          background: 'rgba(37,99,235,0.10)', borderLeft: '3px solid #60A5FA',
+          border: '1px solid rgba(96,165,250,0.25)',
+        }}>
+ <div style={{
+            display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6,
+            fontSize: 10, fontWeight: 800, color: '#93C5FD',
+            letterSpacing: '0.10em', textTransform: 'uppercase',
+          }}>
+ <span>◆</span>NUESTRA LECTURA · INTERPRETADO
+ <span title="Esto es nuestra interpretación a partir de las señales que vemos. Conviene validarlo antes de tomar decisiones grandes."
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    width: 12, height: 12, borderRadius: '50%',
+                    background: 'rgba(147,197,253,0.20)', color: '#93C5FD',
+                    fontSize: 8, fontWeight: 800, cursor: 'help', marginLeft: 2,
+                  }}>?</span>
+ </div>
+ <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.6, color: '#fff', maxWidth: 980 }}>
+            {welcomeText}
+ </p>
+ </div>
 
-        {/* Preguntas predefinidas · 3 del backend o las locales como fallback */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+        {/* Preguntas predefinidas · 3 del backend o las locales como fallback.
+            Marcadas como PROYECTADO (escenarios para explorar) */}
+ <div style={{
+          display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8,
+          fontSize: 10, fontWeight: 800, color: 'rgba(252,211,77,0.95)',
+          letterSpacing: '0.10em', textTransform: 'uppercase',
+        }}>
+ <span>◐</span>PREGUNTAS PARA DARLE VUELTAS · ESCENARIOS
+ <span title="Estas son hipótesis para explorar, no predicciones cerradas. Te ayudan a pensar el día."
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: 12, height: 12, borderRadius: '50%',
+                  background: 'rgba(252,211,77,0.20)', color: 'rgba(252,211,77,0.95)',
+                  fontSize: 8, fontWeight: 800, cursor: 'help', marginLeft: 2,
+                }}>?</span>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
           {threeQuestions.map(p => (
-            <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
+ <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
               background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)',
               color: '#fff', padding: '12px 14px', borderRadius: 12,
               cursor: thinking ? 'not-allowed' : 'pointer', textAlign: 'left',
               fontFamily: 'inherit', transition: 'all 160ms',
               display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 10, alignItems: 'flex-start',
             }}>
-              <div style={{
+ <div style={{
                 width: 22, height: 22, borderRadius: 6,
                 background: 'rgba(91,33,182,0.4)', border: '1px solid rgba(139,92,246,0.4)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0,
               }}>{p.n}</div>
-              <span style={{ fontSize: 12, lineHeight: 1.45, color: 'rgba(255,255,255,0.85)' }}>{p.q}</span>
-            </button>
+ <span style={{ fontSize: 12, lineHeight: 1.45, color: 'rgba(255,255,255,0.85)' }}>{p.q}</span>
+ </button>
           ))}
-        </div>
+ </div>
 
         {/* Conversación inline (si hay) */}
         {(messages.length > 0 || thinking) && (
-          <div ref={scrollRef} style={{
+ <div ref={scrollRef} style={{
             background: 'rgba(0,0,0,0.18)', border: '1px solid rgba(255,255,255,0.06)',
             borderRadius: 12, padding: '12px 14px', marginBottom: 14,
             maxHeight: 320, overflowY: 'auto',
             display: 'flex', flexDirection: 'column', gap: 10,
           }}>
             {messages.map((m, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                <div style={{
+ <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '100%' }}>
+                {/* Warning banner para respuestas de conocimiento general */}
+                {m.role === 'brain' && m.fromGeneralKnowledge && (
+ <div style={{
+                    maxWidth: '88%',
+                    background: 'rgba(251,191,36,0.10)',
+                    border: '1px solid rgba(251,191,36,0.4)',
+                    borderRadius: '10px 10px 0 0',
+                    padding: '6px 10px',
+                    fontSize: 10.5,
+                    color: '#fbbf24',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    marginBottom: -1,
+                  }}>
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+ <circle cx="12" cy="12" r="10"/>
+ <line x1="12" y1="8" x2="12" y2="12"/>
+ <line x1="12" y1="16" x2="12.01" y2="16"/>
+ </svg>
+                    SIN DATOS DE POLITEIA · RESPUESTA BASADA EN CONOCIMIENTO GENERAL
+ </div>
+                )}
+ <div style={{
                   maxWidth: '88%',
-                  padding: '8px 12px', borderRadius: 12,
-                  background: m.role === 'user' ? 'rgba(91,33,182,0.5)' : 'rgba(255,255,255,0.06)',
-                  border: m.role === 'user' ? '1px solid rgba(139,92,246,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                  color: '#fff', fontSize: 12.5, lineHeight: 1.55, whiteSpace: 'pre-wrap',
+                  padding: '8px 12px',
+                  borderRadius: m.fromGeneralKnowledge ? '0 0 12px 12px' : 12,
+                  background: m.role === 'user'
+                    ? 'rgba(91,33,182,0.5)'
+                    : m.fromGeneralKnowledge
+                      ? 'rgba(251,191,36,0.06)'
+                      : 'rgba(255,255,255,0.06)',
+                  border: m.role === 'user'
+                    ? '1px solid rgba(139,92,246,0.4)'
+                    : m.fromGeneralKnowledge
+                      ? '1px solid rgba(251,191,36,0.4)'
+                      : '1px solid rgba(255,255,255,0.08)',
+                  borderTop: m.fromGeneralKnowledge ? 'none' : undefined,
+                  color: '#fff', fontSize: 12.5, lineHeight: 1.55,
                 }}>
-                  {m.text.split('**').map((seg, j) => j % 2 === 1
-                    ? <strong key={j} style={{ color:'#fbbf24' }}>{seg}</strong>
-                    : <span key={j}>{seg.split('`').map((s, k) => k % 2 === 1
-                        ? <code key={k} style={{ background:'rgba(255,255,255,0.1)', padding:'1px 5px', borderRadius:4, fontSize:11.5, fontFamily:'ui-monospace,monospace' }}>{s}</code>
-                        : s)}</span>
-                  )}
-                </div>
-              </div>
+                  {renderBrainMarkdown(m.text)}
+ </div>
+                {/* Botones CTA · rutas del dashboard mencionadas */}
+                {m.role === 'brain' && (
+ <BrainRouteActions text={m.text} theme="dark"/>
+                )}
+                {/* Metadata: tools usadas + modelo + latencia (solo brain) */}
+                {m.role === 'brain' && (m.toolsUsed?.length || m.model || m.ms) && (
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4, maxWidth: '88%' }}>
+                    {m.toolsUsed?.map((t, k) => (
+ <span key={k} title={`${t.name}(${JSON.stringify(t.input)}) · ${t.ms}ms`} style={{
+                        fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                        background: 'rgba(167,139,250,0.15)', color: '#c4b5fd',
+                        border: '1px solid rgba(167,139,250,0.3)', letterSpacing: '0.02em',
+                        fontFamily: 'ui-monospace,monospace',
+                      }}>
+                         {t.name}
+ </span>
+                    ))}
+                    {m.source === 'anthropic' && m.model && (
+ <span
+                        title={`Motor PoliteIA · ${m.tier === 'premium' ? 'modo profundo' : 'modo rápido'}${m.cost ? ` · Coste: ${m.cost.usd < 0.001 ? '<0,1¢' : (m.cost.usd * 100).toFixed(2).replace('.', ',') + '¢'}` : ''}`}
+                        style={{
+                          fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                          background: m.tier === 'premium' ? 'rgba(168,85,247,0.18)' : 'rgba(16,185,129,0.15)',
+                          color: m.tier === 'premium' ? '#d8b4fe' : '#6ee7b7',
+                          border: m.tier === 'premium' ? '1px solid rgba(168,85,247,0.35)' : '1px solid rgba(16,185,129,0.3)',
+                          letterSpacing: '0.02em', cursor: 'help',
+                        }}
+                      >
+                        PoliteIA {m.tier === 'premium' ? '· profundo' : '· rápido'}
+ </span>
+                    )}
+                    {m.cost && m.cost.usd > 0 && (
+ <span
+                        title="Coste estimado de esta respuesta"
+                        style={{
+                          fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                          background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.55)',
+                          border: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.02em',
+                          fontFamily: 'ui-monospace,monospace', cursor: 'help',
+                        }}
+                      >
+                        {m.cost.usd < 0.001
+                          ? '<0,1¢'
+                          : m.cost.usd < 0.01
+                            ? `${(m.cost.usd * 100).toFixed(1).replace('.', ',')}¢`
+                            : m.cost.usd < 1
+                              ? `${Math.round(m.cost.usd * 100)}¢`
+                              : `$${m.cost.usd.toFixed(2)}`}
+ </span>
+                    )}
+                    {m.ms && m.ms > 0 && (
+ <span style={{
+                        fontSize: 9.5, color: 'rgba(255,255,255,0.45)',
+                        letterSpacing: '0.02em',
+                      }}>
+                        {m.ms < 1000 ? `${m.ms}ms` : `${(m.ms/1000).toFixed(1)}s`}
+ </span>
+                    )}
+ </div>
+                )}
+                {/* Follow-ups: sugerencias de pregunta de seguimiento */}
+                {m.role === 'brain' && m.followUps && m.followUps.length > 0 && (
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 6, maxWidth: '88%' }}>
+                    {m.followUps.slice(0, 3).map((fu, k) => (
+ <button
+                        key={k}
+                        type="button"
+                        onClick={() => ask(fu)}
+                        disabled={thinking}
+                        style={{
+                          background: 'rgba(255,255,255,0.04)',
+                          border: '1px solid rgba(255,255,255,0.10)',
+                          color: 'rgba(255,255,255,0.75)',
+                          fontSize: 10.5,
+                          padding: '3px 8px',
+                          borderRadius: 6,
+                          cursor: thinking ? 'not-allowed' : 'pointer',
+                          fontFamily: 'inherit',
+                          textAlign: 'left',
+                          maxWidth: '100%',
+                          lineHeight: 1.4,
+                          transition: 'all 150ms',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!thinking) {
+                            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(167,139,250,0.15)'
+                            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(167,139,250,0.3)'
+                            ;(e.currentTarget as HTMLButtonElement).style.color = '#fff'
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'
+                          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.10)'
+                          ;(e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'
+                        }}
+                      >
+                        → {fu}
+ </button>
+                    ))}
+ </div>
+                )}
+ </div>
             ))}
             {thinking && (
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <div style={{ padding:'8px 12px', borderRadius:12, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', display:'inline-flex', gap:4, alignItems:'center' }}>
+ <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+ <div style={{ padding:'8px 12px', borderRadius:12, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', display:'inline-flex', gap:4, alignItems:'center' }}>
                   {[0,1,2].map(i => <span key={i} style={{ width:5, height:5, borderRadius:'50%', background:'#a78bfa', animation:`brainDot 1.2s ${i*0.15}s infinite` }}/>)}
-                </div>
-              </div>
+ </div>
+ </div>
             )}
-          </div>
+ </div>
         )}
 
+        {/* Quick actions · botones de prompt rápido */}
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+          {[
+            { label: ' Cuéntame lo de hoy', prompt: 'Resume lo más importante del día en 3 frases.' },
+            { label: ' ¿Qué dicen las encuestas?', prompt: '¿Cómo va la última encuesta?' },
+            { label: ' Lo urgente ahora', prompt: '¿Qué alertas críticas hay activas ahora?' },
+            { label: ' Lo que se está moviendo', prompt: '¿Qué narrativas están acelerándose?' },
+            { label: ' ¿Cómo está el gobierno?', prompt: '¿Cómo está la coalición de gobierno?' },
+            { label: ' ¿Y el riesgo político?', prompt: '¿Cómo va el índice de riesgo?' },
+          ].map((qa) => (
+ <button
+              key={qa.label}
+              type="button"
+              disabled={thinking}
+              onClick={() => ask(qa.prompt)}
+              style={{
+                background: 'rgba(167,139,250,0.10)',
+                border: '1px solid rgba(167,139,250,0.25)',
+                color: '#c4b5fd',
+                fontSize: 11,
+                fontWeight: 600,
+                padding: '4px 9px',
+                borderRadius: 999,
+                cursor: thinking ? 'not-allowed' : 'pointer',
+                fontFamily: 'inherit',
+                letterSpacing: '0.02em',
+                transition: 'all 150ms',
+                opacity: thinking ? 0.5 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!thinking) {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(167,139,250,0.20)'
+                  ;(e.currentTarget as HTMLButtonElement).style.color = '#fff'
+                }
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(167,139,250,0.10)'
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#c4b5fd'
+              }}
+            >
+              {qa.label}
+ </button>
+          ))}
+          {messages.length > 0 && (
+ <button
+              type="button"
+              onClick={() => {
+                setMessages([])
+                if (typeof window !== 'undefined') window.localStorage.removeItem(sessionKey)
+              }}
+              style={{
+                background: 'transparent',
+                border: '1px solid rgba(255,255,255,0.10)',
+                color: 'rgba(255,255,255,0.4)',
+                fontSize: 10.5,
+                padding: '4px 9px',
+                borderRadius: 999,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                marginLeft: 'auto',
+              }}
+              title="Limpiar conversación"
+            >
+               Limpiar
+ </button>
+          )}
+ </div>
+
         {/* Input + footer */}
-        <form onSubmit={onSubmit} style={{
+ <form onSubmit={onSubmit} style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
           borderRadius: 12, padding: '6px 6px 6px 14px',
         }}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="#a78bfa">
-            <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
-          </svg>
-          <input
+ <svg width="14" height="14" viewBox="0 0 16 16" fill="#a78bfa">
+ <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
+ </svg>
+ <input
             type="text"
-            placeholder="Pregunta a Politeia sobre lo que ha pasado hoy…"
+            placeholder="Pregúntame lo que quieras sobre el día…"
             value={input}
             onChange={e => setInput(e.target.value)}
             style={{
@@ -243,7 +655,7 @@ export default function BrainBriefing() {
               color: '#fff', fontFamily: 'inherit', fontSize: 13, padding: '8px 0',
             }}
           />
-          <button type="submit" disabled={!input.trim() || thinking} style={{
+ <button type="submit" disabled={!input.trim() || thinking} style={{
             background: input.trim() && !thinking ? 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)' : 'rgba(255,255,255,0.08)',
             color: input.trim() && !thinking ? '#fff' : 'rgba(255,255,255,0.3)',
             border: 'none', borderRadius: 8, padding: '7px 14px',
@@ -253,23 +665,46 @@ export default function BrainBriefing() {
             transition: 'all 160ms',
           }}>
             Preguntar
-            <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M2 8l12-6-3 6 3 6L2 8z"/></svg>
-          </button>
-        </form>
+ <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M2 8l12-6-3 6 3 6L2 8z"/></svg>
+ </button>
+ </form>
 
-        <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>
-            {analystNote || 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.'}
-          </span>
-          <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
-            Profundizar con Politeia →
-          </Link>
-        </div>
+ <div style={{
+          marginTop: 12, padding: '10px 14px', borderRadius: 8,
+          background: 'rgba(167,139,250,0.10)', borderLeft: '3px solid #A78BFA',
+          border: '1px solid rgba(167,139,250,0.25)',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          flexWrap: 'wrap', gap: 8,
+        }}>
+ <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flex: 1, minWidth: 0 }}>
+ <span style={{
+              fontSize: 9, fontWeight: 800, color: '#C4B5FD', letterSpacing: '0.10em',
+              textTransform: 'uppercase', flexShrink: 0, marginTop: 1,
+              display: 'inline-flex', alignItems: 'center', gap: 4,
+            }}>
+ <span></span>UNA ÚLTIMA COSA
+ </span>
+ <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.85)', lineHeight: 1.45 }}>
+              {analystNote || 'Semana clave. Quien mueva el voto de los +55 marca el ritmo. Atención ahí.'}
+ </span>
+ </div>
+ <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600, flexShrink: 0 }}>
+            Sigue hablando con Politeia →
+ </Link>
+ </div>
+ <p style={{
+          marginTop: 8, fontSize: 10.5, color: 'rgba(255,255,255,0.4)',
+          lineHeight: 1.45, fontStyle: 'italic',
+        }}>
+          Una nota honesta · El briefing mezcla lo que <em>vemos</em> con
+          nuestra <em>interpretación</em> y algunos <em>escenarios</em> generados por IA.
+          No es una bola de cristal — úsalo como punto de partida, no como decisión cerrada.
+ </p>
 
-        <style>{`
+ <style>{`
           @keyframes brainDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
-        `}</style>
-      </div>
-    </section>
+ `}</style>
+ </div>
+ </section>
   )
 }

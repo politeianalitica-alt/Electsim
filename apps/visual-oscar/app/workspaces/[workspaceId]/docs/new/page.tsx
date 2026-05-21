@@ -17,47 +17,47 @@ export default function NewDocPage({ params }: { params: { workspaceId: string }
   };
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="docs"
         title="Nuevo documento"
         description="Selecciona una plantilla para empezar"
         actions={
-          <Link
+ <Link
             href={`/workspaces/${params.workspaceId}/docs`}
-            className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-300 hover:text-slate-100 transition-colors"
+            className="rounded-lg border border-[#e8e8ed] px-3 py-1.5 text-xs text-[#3a3a3d] hover:text-[#1d1d1f] transition-colors"
           >
             Cancelar
-          </Link>
+ </Link>
         }
       />
 
-      <div className="grid grid-cols-2 gap-3">
+ <div className="grid grid-cols-2 gap-3">
         {DOC_TEMPLATES.map(tpl => (
-          <button
+ <button
             key={tpl.id}
             onClick={() => handleSelect(tpl.id)}
-            className="text-left rounded-xl border border-slate-800 bg-slate-900 p-4 hover:border-indigo-500/50 hover:bg-slate-800/60 transition-colors"
+            className="text-left rounded-xl border border-[#e8e8ed] bg-white p-4 hover:border-indigo-500/50 hover:bg-[#f5f5f7]/60 transition-colors"
           >
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <p className="text-sm font-semibold text-slate-100 mb-1">{tpl.name}</p>
-                <p className="text-xs text-slate-400 leading-relaxed">{tpl.description}</p>
-              </div>
-              <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] text-slate-400">
+ <div className="flex items-start justify-between mb-2">
+ <div>
+ <p className="text-sm font-semibold text-[#1d1d1f] mb-1">{tpl.name}</p>
+ <p className="text-xs text-[#6e6e73] leading-relaxed">{tpl.description}</p>
+ </div>
+ <span className="rounded-full bg-[#f5f5f7] px-2 py-0.5 text-[10px] text-[#6e6e73]">
                 {tpl.estimatedMinutes}m
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-1 mt-3">
+ </span>
+ </div>
+ <div className="flex flex-wrap gap-1 mt-3">
               {tpl.tags.map(t => (
-                <span key={t} className="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-500">
+ <span key={t} className="rounded bg-[#f5f5f7] px-1.5 py-0.5 text-[10px] text-[#6e6e73]">
                   {t}
-                </span>
+ </span>
               ))}
-            </div>
-          </button>
+ </div>
+ </button>
         ))}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }

@@ -6,7 +6,7 @@
  *   - <Panel> · sección con título + subtítulo + badges de fuente opcionales
  *   - <SourceBadge> · pill clickable hacia la fuente original (página oficial
  *     del organismo emisor) con hover state. Variantes 'primary' (azul) y
- *     'ghost' (gris) — esta última se usa para enlazar al endpoint JSON local.
+ * 'ghost' (gris) — esta última se usa para enlazar al endpoint JSON local.
  *
  * Cuando un Panel muestra datos en vivo de un organismo externo (ECB, Banco
  * Mundial, INE, AEMPS, REE, OTAN, etc.) se le pasa `sourceUrl` con la URL
@@ -24,50 +24,44 @@ interface PanelProps {
   sourceUrl?: string
   sourceLabel?: string       // texto del badge primary, default: "Fuente"
   sourceTooltip?: string     // tooltip al hover
-  apiUrl?: string            // segundo badge ghost que enlaza al endpoint JSON local
+  /** @deprecated · ya no se renderiza el badge JSON, prop aceptado para
+   *  no romper firmas existentes durante la transición. */
+  apiUrl?: string
 }
 
 export function Panel({
   title, subtitle, children, marginBottom,
-  sourceUrl, sourceLabel, sourceTooltip, apiUrl,
+  sourceUrl, sourceLabel, sourceTooltip,
 }: PanelProps) {
   return (
-    <section style={{
+ <section style={{
       background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
       marginBottom: marginBottom ? 14 : 0,
     }}>
-      <header style={{
+ <header style={{
         marginBottom:14, display:'flex', justifyContent:'space-between',
         alignItems:'baseline', flexWrap:'wrap', gap:8,
       }}>
-        <h2 style={{
+ <h2 style={{
           margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600,
           letterSpacing:'-0.013em', color:'#1d1d1f',
         }}>
           {title}
-        </h2>
-        <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
+ </h2>
+ <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
           {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-          {apiUrl && (
-            <SourceBadge
-              href={apiUrl}
-              label="JSON"
-              tooltip="Endpoint API local · respuesta JSON"
-              variant="ghost"
-            />
-          )}
           {sourceUrl && (
-            <SourceBadge
+ <SourceBadge
               href={sourceUrl}
               label={sourceLabel || 'Fuente'}
               tooltip={sourceTooltip || 'Abrir página oficial del organismo emisor'}
               variant="primary"
             />
           )}
-        </div>
-      </header>
+ </div>
+ </header>
       {children}
-    </section>
+ </section>
   )
 }
 
@@ -84,7 +78,7 @@ export function SourceBadge({ href, label, tooltip, variant }: SourceBadgeProps)
     ? { bg:'#F5F8FC', bgHover:'#E8F0FA', border:'#D8E5F4', borderHover:'#B6CFEA', color:'#1F4E8C' }
     : { bg:'#FAFAFA', bgHover:'#F0F0F1', border:'#ECECEF', borderHover:'#D6D6DA', color:'#6e6e73' }
   return (
-    <a
+ <a
       href={href}
       target="_blank"
       rel="noreferrer"
@@ -104,7 +98,7 @@ export function SourceBadge({ href, label, tooltip, variant }: SourceBadgeProps)
       }}
     >
       {label}
-      <span aria-hidden="true" style={{ fontSize:9, opacity:0.85 }}>↗</span>
-    </a>
+ <span aria-hidden="true" style={{ fontSize:9, opacity:0.85 }}>↗</span>
+ </a>
   )
 }

@@ -20,7 +20,7 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
   const workspace = demoWorkspace;
 
   return (
-    <div data-workspace-light style={{
+ <div data-workspace-light style={{
       // Render inline within the dashboard chrome (AppHeader is shown
       // above by the workspace layout). Do NOT cover the dashboard.
       minHeight: "calc(100vh - 60px)", // leave room for AppHeader
@@ -31,46 +31,46 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
       color: WS.ink,
     }}>
       {/* Topbar */}
-      <WorkspaceTopbar workspace={workspace} workspaceId={workspaceId} />
+ <WorkspaceTopbar workspace={workspace} workspaceId={workspaceId} />
 
       {/* Body: sidebar + content + agent */}
-      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
+ <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
 
         {/* Left sidebar */}
-        <WorkspaceSidebar workspaceId={workspaceId} workspace={workspace} />
+ <WorkspaceSidebar workspaceId={workspaceId} workspace={workspace} />
 
         {/* Main column */}
-        <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
+ <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
 
           {/* Tabs */}
-          <WorkspaceTabs workspaceId={workspaceId} />
+ <WorkspaceTabs workspaceId={workspaceId} />
 
           {/* Content area */}
-          <main style={{
+ <main style={{
             flex: 1,
             overflowY: "auto",
             overflowX: "hidden",
             background: WS.bg,
           }}>
-            <div style={{
+ <div style={{
               maxWidth: 1400,
               margin: "0 auto",
               padding: "24px 28px 48px",
               minHeight: "100%",
             }}>
               {children}
-            </div>
-          </main>
-        </div>
+ </div>
+ </main>
+ </div>
 
         {/* Right agent panel */}
         {isAgentOpen && (
-          <WorkspaceAgentPanel workspaceId={workspaceId} />
+ <WorkspaceAgentPanel workspaceId={workspaceId} />
         )}
-      </div>
+ </div>
 
       {/* Command palette (portal-like, fixed) */}
-      <WorkspaceCommandPalette workspaceId={workspaceId} />
-    </div>
+ <WorkspaceCommandPalette workspaceId={workspaceId} />
+ </div>
   );
 }

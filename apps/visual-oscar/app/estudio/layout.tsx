@@ -6,25 +6,25 @@ import DomoChrome from './_components/DomoChrome'
 import styles from './estudio.module.css'
 
 export const metadata: Metadata = {
-  title:       'Estudio Politeia | Politeia Analítica',
+  title: 'Estudio Politeia | Politeia Analítica',
   description: 'Tu espacio personal para conectar fuentes, crear paneles y explorar tus datos.',
 }
 
 export default function EstudioLayout({ children }: { children: ReactNode }) {
   return (
-    <>
+ <>
       {/* Chrome del dashboard arriba: el Estudio es una sección más
           dentro de Politeia, no una app independiente. */}
-      <AppHeader />
-      <div className={styles.domoShell}>
-        <DomoSidebar />
-        <div className={styles.domoContent}>
-          <DomoChrome />
-          <div className={styles.domoMain}>
+ <AppHeader />
+ <div className={styles.domoShell}>
+ <DomoSidebar />
+ <div className={styles.domoContent}>
+ <DomoChrome />
+ <div className={styles.domoMain}>
             {children}
-          </div>
-        </div>
-      </div>
-    </>
+ </div>
+ </div>
+ </div>
+ </>
   )
 }

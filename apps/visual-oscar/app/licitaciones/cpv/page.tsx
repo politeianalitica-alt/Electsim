@@ -10,12 +10,12 @@ export default function CpvScreenerPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
-        <LicitacionesNav/>
-        <LicitacionesScreener modo="cpv"/>
-      </main>
-    </div>
+ <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+ <AppHeader/>
+ <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+ <LicitacionesNav/>
+ <LicitacionesScreener modo="cpv"/>
+ </main>
+ </div>
   )
 }

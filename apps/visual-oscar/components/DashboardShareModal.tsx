@@ -90,36 +90,36 @@ export default function DashboardShareModal({ dashboardId, dashboardName, onClos
   }
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={e => e.stopPropagation()}>
-        <div className={styles.header}>
-          <div>
-            <span className={styles.title}>Compartir</span>
-            <span className={styles.dashName}>{dashboardName}</span>
-          </div>
-          <button onClick={onClose} className={styles.closeBtn}>✕</button>
-        </div>
+ <div className={styles.overlay} onClick={onClose}>
+ <div className={styles.modal} onClick={e => e.stopPropagation()}>
+ <div className={styles.header}>
+ <div>
+ <span className={styles.title}>Compartir</span>
+ <span className={styles.dashName}>{dashboardName}</span>
+ </div>
+ <button onClick={onClose} className={styles.closeBtn}></button>
+ </div>
 
-        <div className={styles.tabs}>
-          <button onClick={() => setTab('people')} className={`${styles.tab} ${tab === 'people' ? styles.tabActive : ''}`}>
+ <div className={styles.tabs}>
+ <button onClick={() => setTab('people')} className={`${styles.tab} ${tab === 'people' ? styles.tabActive : ''}`}>
             Personas y equipos
-          </button>
-          <button onClick={() => setTab('link')} className={`${styles.tab} ${tab === 'link' ? styles.tabActive : ''}`}>
+ </button>
+ <button onClick={() => setTab('link')} className={`${styles.tab} ${tab === 'link' ? styles.tabActive : ''}`}>
             Enlace público
             {publicLink && <span className={styles.activeLinkDot} />}
-          </button>
-        </div>
+ </button>
+ </div>
 
-        <div className={styles.body}>
+ <div className={styles.body}>
           {tab === 'people' && (
-            <>
-              <div className={styles.addShare}>
-                <select value={newSubjectType} onChange={e => setNewSubjectType(e.target.value as ShareSubjectType)} className={styles.input} style={{ width: 100 }}>
-                  <option value="user">Usuario</option>
-                  <option value="team">Equipo</option>
-                  <option value="org">Organización</option>
-                </select>
-                <input
+ <>
+ <div className={styles.addShare}>
+ <select value={newSubjectType} onChange={e => setNewSubjectType(e.target.value as ShareSubjectType)} className={styles.input} style={{ width: 100 }}>
+ <option value="user">Usuario</option>
+ <option value="team">Equipo</option>
+ <option value="org">Organización</option>
+ </select>
+ <input
                   type="text"
                   placeholder={newSubjectType === 'user' ? 'email o ID…' : 'ID del equipo/org…'}
                   value={newSubjectId}
@@ -127,7 +127,7 @@ export default function DashboardShareModal({ dashboardId, dashboardName, onClos
                   className={styles.input}
                   style={{ flex: 1 }}
                 />
-                <input
+ <input
                   type="text"
                   placeholder="Nombre visible (opcional)"
                   value={newSubjectName}
@@ -135,95 +135,95 @@ export default function DashboardShareModal({ dashboardId, dashboardName, onClos
                   className={styles.input}
                   style={{ flex: 1 }}
                 />
-                <select value={newRole} onChange={e => setNewRole(e.target.value as ShareRole)} className={styles.input} style={{ width: 120 }}>
+ <select value={newRole} onChange={e => setNewRole(e.target.value as ShareRole)} className={styles.input} style={{ width: 120 }}>
                   {Object.entries(ROLE_META).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
-                </select>
-                <button onClick={handleAddShare} disabled={!newSubjectId.trim() || addShareMutation.isPending} className={styles.addBtn}>
+ </select>
+ <button onClick={handleAddShare} disabled={!newSubjectId.trim() || addShareMutation.isPending} className={styles.addBtn}>
                   {addShareMutation.isPending ? '⟳' : '+ Añadir'}
-                </button>
-              </div>
+ </button>
+ </div>
 
               {isLoading ? (
-                <div style={{ padding: '1rem' }}>Cargando…</div>
+ <div style={{ padding: '1rem' }}>Cargando…</div>
               ) : peopleShares.length === 0 ? (
-                <div className={styles.empty}>Sin accesos configurados. Usa el formulario de arriba para invitar.</div>
+ <div className={styles.empty}>Sin accesos configurados. Usa el formulario de arriba para invitar.</div>
               ) : (
-                <div className={styles.shareList}>
+ <div className={styles.shareList}>
                   {peopleShares.map(share => (
-                    <div key={share.id} className={styles.shareRow}>
-                      <span className={styles.shareIcon}>{SUBJ_GLYPH[share.subjectType]}</span>
-                      <div className={styles.shareInfo}>
-                        <span className={styles.shareName}>{share.subjectName ?? share.subjectId}</span>
-                        <span className={styles.shareMeta}>{share.subjectType} · desde {timeAgo(share.createdAt)}</span>
-                      </div>
-                      <select
+ <div key={share.id} className={styles.shareRow}>
+ <span className={styles.shareIcon}>{SUBJ_GLYPH[share.subjectType]}</span>
+ <div className={styles.shareInfo}>
+ <span className={styles.shareName}>{share.subjectName ?? share.subjectId}</span>
+ <span className={styles.shareMeta}>{share.subjectType} · desde {timeAgo(share.createdAt)}</span>
+ </div>
+ <select
                         value={share.role}
                         onChange={e => updateShareMutation.mutate({ shareId: share.id, role: e.target.value as ShareRole })}
                         className={styles.roleSelect}
                       >
                         {Object.entries(ROLE_META).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
-                      </select>
-                      <button
+ </select>
+ <button
                         onClick={() => removeShareMutation.mutate(share.id)}
                         className={styles.removeBtn}
                         title="Revocar acceso"
-                      >✕</button>
-                    </div>
+                      ></button>
+ </div>
                   ))}
-                </div>
+ </div>
               )}
-            </>
+ </>
           )}
 
           {tab === 'link' && (
-            <div className={styles.linkTab}>
+ <div className={styles.linkTab}>
               {publicLink ? (
-                <>
-                  <div className={styles.linkActive}>
-                    <span className={styles.linkActiveIcon}>⊙</span>
-                    <div className={styles.linkInfo}>
-                      <span className={styles.linkStatus}>Enlace activo</span>
+ <>
+ <div className={styles.linkActive}>
+ <span className={styles.linkActiveIcon}>⊙</span>
+ <div className={styles.linkInfo}>
+ <span className={styles.linkStatus}>Enlace activo</span>
                       {publicLink.expiresAt && (
-                        <span className={styles.linkExpiry}>Expira {timeAgo(publicLink.expiresAt)}</span>
+ <span className={styles.linkExpiry}>Expira {timeAgo(publicLink.expiresAt)}</span>
                       )}
-                    </div>
-                  </div>
-                  <div className={styles.linkRow}>
-                    <code className={styles.linkCode}>
+ </div>
+ </div>
+ <div className={styles.linkRow}>
+ <code className={styles.linkCode}>
                       {typeof window !== 'undefined' ? window.location.origin : ''}/estudio/dashboard/public/{publicLink.token}
-                    </code>
-                    <button onClick={() => copyLink(publicLink.token!)} className={styles.copyBtn}>
-                      {copiedLink ? '✓ Copiado' : '⎘ Copiar'}
-                    </button>
-                  </div>
-                  <button onClick={() => revokeLinkMutation.mutate()} className={styles.revokeBtn}>
+ </code>
+ <button onClick={() => copyLink(publicLink.token!)} className={styles.copyBtn}>
+                      {copiedLink ? ' Copiado' : '⎘ Copiar'}
+ </button>
+ </div>
+ <button onClick={() => revokeLinkMutation.mutate()} className={styles.revokeBtn}>
                     Revocar enlace
-                  </button>
-                </>
+ </button>
+ </>
               ) : (
-                <>
-                  <p className={styles.linkDesc}>
+ <>
+ <p className={styles.linkDesc}>
                     Genera un enlace público para que cualquier persona pueda ver este dashboard sin necesidad de cuenta.
-                  </p>
-                  <div className={styles.linkOptions}>
-                    <label className={styles.linkLabel}>Expiración</label>
-                    <select value={linkExpireDays} onChange={e => setLinkExpireDays(e.target.value)} className={styles.input}>
-                      <option value="">Sin expiración</option>
-                      <option value="1">1 día</option>
-                      <option value="7">7 días</option>
-                      <option value="30">30 días</option>
-                      <option value="90">90 días</option>
-                    </select>
-                  </div>
-                  <button onClick={() => createLinkMutation.mutate()} disabled={createLinkMutation.isPending} className={styles.createLinkBtn}>
+ </p>
+ <div className={styles.linkOptions}>
+ <label className={styles.linkLabel}>Expiración</label>
+ <select value={linkExpireDays} onChange={e => setLinkExpireDays(e.target.value)} className={styles.input}>
+ <option value="">Sin expiración</option>
+ <option value="1">1 día</option>
+ <option value="7">7 días</option>
+ <option value="30">30 días</option>
+ <option value="90">90 días</option>
+ </select>
+ </div>
+ <button onClick={() => createLinkMutation.mutate()} disabled={createLinkMutation.isPending} className={styles.createLinkBtn}>
                     {createLinkMutation.isPending ? '⟳ Generando…' : '+ Generar enlace público'}
-                  </button>
-                </>
+ </button>
+ </>
               )}
-            </div>
+ </div>
           )}
-        </div>
-      </div>
-    </div>
+ </div>
+ </div>
+ </div>
   )
 }

@@ -54,8 +54,8 @@ async function scrapeCongresoAgenda(): Promise<AgendaItem[]> {
     const res = await fetch('https://www.congreso.es/es/agenda-parlamentaria', {
       signal: controller.signal,
       headers: {
-        'Accept': 'text/html,application/xhtml+xml',
-        'User-Agent': 'Mozilla/5.0 (compatible; ElectSim/1.0)',
+ 'Accept': 'text/html,application/xhtml+xml',
+ 'User-Agent': 'Mozilla/5.0 (compatible; ElectSim/1.0)',
       },
       cache: 'no-store',
     })
@@ -68,8 +68,8 @@ async function scrapeCongresoAgenda(): Promise<AgendaItem[]> {
     // Congreso agenda uses ISO dates in data attributes or structured content
     // Regex patterns for Spanish date formats: "dd de MMMM" or "dd/MM/yyyy"
     const MONTHS: Record<string, string> = {
-      'enero':'01','febrero':'02','marzo':'03','abril':'04','mayo':'05','junio':'06',
-      'julio':'07','agosto':'08','septiembre':'09','octubre':'10','noviembre':'11','diciembre':'12',
+ 'enero':'01','febrero':'02','marzo':'03','abril':'04','mayo':'05','junio':'06',
+ 'julio':'07','agosto':'08','septiembre':'09','octubre':'10','noviembre':'11','diciembre':'12',
     }
 
     // Pattern: <time datetime="YYYY-MM-DD"> or text like "9 de mayo"

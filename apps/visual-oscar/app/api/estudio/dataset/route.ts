@@ -24,10 +24,10 @@ export async function POST(req: NextRequest) {
   } catch {
     const body = await req.json().catch(() => ({}))
     return NextResponse.json({
-      id:        `ds-${Date.now().toString(36)}`,
+      id: `ds-${Date.now().toString(36)}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      status:    'empty',
+      status: 'empty',
       rowCount:  0,
       columnCount: 0,
       sizeBytes:   0,
@@ -40,10 +40,10 @@ export async function POST(req: NextRequest) {
 function getMockDatasets() {
   return [
     {
-      id:           'ds-1',
-      name:         'Resultados electorales 2024',
-      description:  'Resultados completos municipio-partido de las elecciones generales de 2024',
-      status:       'ready',
+      id: 'ds-1',
+      name: 'Resultados electorales 2024',
+      description: 'Resultados completos municipio-partido de las elecciones generales de 2024',
+      status: 'ready',
       rowCount:     179_852,
       columnCount:  8,
       sizeBytes:    14_680_064,
@@ -66,10 +66,10 @@ function getMockDatasets() {
       updatedAt: new Date().toISOString(),
     },
     {
-      id:           'ds-2',
-      name:         'Serie demoscópica semanal',
-      description:  'Intención de voto agregada semanalmente desde todas las encuestas disponibles',
-      status:       'ready',
+      id: 'ds-2',
+      name: 'Serie demoscópica semanal',
+      description: 'Intención de voto agregada semanalmente desde todas las encuestas disponibles',
+      status: 'ready',
       rowCount:     2_860,
       columnCount:  6,
       sizeBytes:    204_800,
@@ -90,10 +90,10 @@ function getMockDatasets() {
       updatedAt: new Date().toISOString(),
     },
     {
-      id:           'ds-3',
-      name:         'Empresas Ibex35 — Contratos públicos',
-      description:  'Contratos públicos adjudicados a empresas del Ibex35 desde 2018',
-      status:       'stale',
+      id: 'ds-3',
+      name: 'Empresas Ibex35 — Contratos públicos',
+      description: 'Contratos públicos adjudicados a empresas del Ibex35 desde 2018',
+      status: 'stale',
       rowCount:     48_210,
       columnCount:  12,
       sizeBytes:    8_388_608,

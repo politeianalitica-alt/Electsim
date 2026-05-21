@@ -25,22 +25,15 @@ export type NavModule = {
 
 export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
-  // Módulo OCULTO de la barra superior: no se renderiza como tab. Su
-  // contenido (Morning Briefing · Panel Ejecutivo · Alertas Prioritarias)
-  // aparece en el subnav cuando el usuario llega a /inicio (vía logo
-  // POLITEIA ANALÍTICA), /briefing, /dashboard o /alertas.
+  // Módulo OCULTO · /dashboard es la home post-login (Panel Ejecutivo).
+  // /inicio redirige a /dashboard para mantener compat con bookmarks.
   {
     id: 'inicio',
     label: 'Inicio',
     full: 'Inicio / Overview',
     hideFromTopBar: true,
     items: [
-      // /inicio se mantiene como item HIDDEN para que moduleOfPath('/inicio')
-      // resuelva al módulo y el subnav aparezca, pero no se renderiza pill.
-      { label: 'Inicio',              href: '/inicio',   hidden: true },
-      { label: 'Morning Briefing',    href: '/briefing'  },
-      { label: 'Panel Ejecutivo',     href: '/dashboard' },
-      { label: 'Alertas Prioritarias',href: '/alertas'   },
+      { label: 'Panel Ejecutivo', href: '/dashboard' },
     ],
   },
 
@@ -87,7 +80,7 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Termómetro de Riesgo',         href: '/riesgo' },
       { label: 'Crisis Intelligence',          href: '/crisis' },
-      { label: 'Detección de Ataques',         href: '/ataques-narrativos' },
+      { label: 'Detección de Ataques',         href: '/deteccion-ataques' },
     ],
   },
 
@@ -131,6 +124,7 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Pulso de Prensa', href: '/prensa' },
       { label: 'Mapa de Medios',  href: '/medios-narrativa' },
+      { label: 'Desinformación',  href: '/desinformacion' },
     ],
   },
 

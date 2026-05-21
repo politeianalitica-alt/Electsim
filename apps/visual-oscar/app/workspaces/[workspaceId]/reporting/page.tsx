@@ -33,26 +33,27 @@ export default function ReportingPage({ params }: { params: { workspaceId: strin
 
   if (!data || isLoading) {
     return (
-      <div style={{ padding: 24, color: WS.ink3, fontSize: 13 }}>Cargando analytics…</div>
+ <div style={{ padding: 24, color: WS.ink3, fontSize: 13 }}>Cargando analytics…</div>
     );
   }
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="reporting"
+        eyebrow="Workspace · Reportes"
         title="Dashboard & Reporting"
-        description="Analytics ejecutivo del workspace · gráficos en tiempo real · síntesis Ollama"
+        description="Analytics ejecutivo del workspace · gráficos en tiempo real · síntesis PoliteIA"
         badge={`${data.kpis.reduce((s, k) => s + k.value, 0)} señales`}
       />
 
       {/* KPI strip */}
-      <div style={{ marginBottom: 18 }}>
-        <DashboardKpiStrip kpis={data.kpis} />
-      </div>
+ <div style={{ marginBottom: 18 }}>
+ <DashboardKpiStrip kpis={data.kpis} />
+ </div>
 
       {/* Charts grid */}
-      <div
+ <div
         style={{
           display: "grid",
           gridTemplateColumns: "2fr 1fr",
@@ -60,11 +61,11 @@ export default function ReportingPage({ params }: { params: { workspaceId: strin
           marginBottom: 14,
         }}
       >
-        <ActivityArea data={data.weeklyActivity} />
-        <PieBlock title="Documentos por tipo" hint={`${data.documentsByKind.reduce((s, d) => s + d.value, 0)} docs`} data={data.documentsByKind} />
-      </div>
+ <ActivityArea data={data.weeklyActivity} />
+ <PieBlock title="Documentos por tipo" hint={`${data.documentsByKind.reduce((s, d) => s + d.value, 0)} docs`} data={data.documentsByKind} />
+ </div>
 
-      <div
+ <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
@@ -72,14 +73,14 @@ export default function ReportingPage({ params }: { params: { workspaceId: strin
           marginBottom: 14,
         }}
       >
-        <BarBlock title="Issues por severidad" data={data.issuesBySeverity} />
-        <BarBlock title="Acciones por estado"  data={data.actionsByStatus} />
-        <BarBlock title="Proyectos por riesgo" data={data.projectsRisk} />
-      </div>
+ <BarBlock title="Issues por severidad" data={data.issuesBySeverity} />
+ <BarBlock title="Acciones por estado" data={data.actionsByStatus} />
+ <BarBlock title="Proyectos por riesgo" data={data.projectsRisk} />
+ </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
-        <BarBlock title="Top oportunidades" hint="score 0-100" data={data.opportunityScore} />
-        <div
+ <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+ <BarBlock title="Top oportunidades" hint="score 0-100" data={data.opportunityScore} />
+ <div
           style={{
             background: WS.surface,
             border: `1px solid ${WS.border}`,
@@ -90,18 +91,18 @@ export default function ReportingPage({ params }: { params: { workspaceId: strin
             gap: 8,
           }}
         >
-          <div style={{ fontSize: 11, fontWeight: 700, color: WS.ink2, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+ <div style={{ fontSize: 11, fontWeight: 700, color: WS.ink2, letterSpacing: "0.06em", textTransform: "uppercase" }}>
             Proyectos top
-          </div>
+ </div>
           {data.topProjects.map(p => (
-            <div key={p.id} style={{ display: "grid", gridTemplateColumns: "1fr 60px 110px", alignItems: "center", gap: 10, fontSize: 12 }}>
-              <span style={{ color: WS.ink, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+ <div key={p.id} style={{ display: "grid", gridTemplateColumns: "1fr 60px 110px", alignItems: "center", gap: 10, fontSize: 12 }}>
+ <span style={{ color: WS.ink, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {p.name}
-              </span>
-              <span style={{ color: WS.ink3, fontSize: 11 }}>{p.progress}%</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ flex: 1, height: 5, borderRadius: 99, background: WS.surface2, overflow: "hidden" }}>
-                  <div
+ </span>
+ <span style={{ color: WS.ink3, fontSize: 11 }}>{p.progress}%</span>
+ <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+ <div style={{ flex: 1, height: 5, borderRadius: 99, background: WS.surface2, overflow: "hidden" }}>
+ <div
                     style={{
                       width: `${p.progress}%`,
                       height: "100%",
@@ -111,18 +112,18 @@ export default function ReportingPage({ params }: { params: { workspaceId: strin
                         : WS.accent,
                     }}
                   />
-                </div>
-              </div>
-            </div>
+ </div>
+ </div>
+ </div>
           ))}
           {data.topProjects.length === 0 && (
-            <span style={{ fontSize: 12, color: WS.ink3 }}>Sin proyectos activos.</span>
+ <span style={{ fontSize: 12, color: WS.ink3 }}>Sin proyectos activos.</span>
           )}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* Executive summary */}
-      <ExecutiveSummaryPanel workspaceName={workspaceName} context={context} />
-    </div>
+ <ExecutiveSummaryPanel workspaceName={workspaceName} context={context} />
+ </div>
   );
 }

@@ -90,133 +90,133 @@ export default function VotoBlandoPanel() {
   const avgProb = records.length ? records.reduce((a, r) => a + (r.prob_blando ?? 0), 0) / records.length : 0
 
   return (
-    <section style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+ <section style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       {/* Section 1: Calcular */}
-      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
-        <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Cálculo</p>
-        <h3 style={{ margin: '0 0 14px', fontSize: 16, fontWeight: 600 }}>Calcular voto blando</h3>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap', marginBottom: 14 }}>
-          <Field label="Partido referencia">
-            <select value={partidoRef} onChange={e => setPartidoRef(e.target.value as Partido)} style={selectStyle}>
+ <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Cálculo</p>
+ <h3 style={{ margin: '0 0 14px', fontSize: 16, fontWeight: 600 }}>Calcular voto blando</h3>
+ <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap', marginBottom: 14 }}>
+ <Field label="Partido referencia">
+ <select value={partidoRef} onChange={e => setPartidoRef(e.target.value as Partido)} style={selectStyle}>
               {PARTIDOS.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-          </Field>
-          <Field label="Tipo elección">
-            <select value={tipoEleccion} onChange={e => setTipoEleccion(e.target.value)} style={selectStyle}>
-              <option value="generales">Generales</option>
-              <option value="europeas">Europeas</option>
-              <option value="autonomicas">Autonómicas</option>
-            </select>
-          </Field>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#1d1d1f', cursor: 'pointer' }}>
-            <input type="checkbox" checked={recalcular} onChange={e => setRecalcular(e.target.checked)} /> Forzar recálculo
-          </label>
-          <button onClick={calcular} disabled={running} style={{
+ </select>
+ </Field>
+ <Field label="Tipo elección">
+ <select value={tipoEleccion} onChange={e => setTipoEleccion(e.target.value)} style={selectStyle}>
+ <option value="generales">Generales</option>
+ <option value="europeas">Europeas</option>
+ <option value="autonomicas">Autonómicas</option>
+ </select>
+ </Field>
+ <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#1d1d1f', cursor: 'pointer' }}>
+ <input type="checkbox" checked={recalcular} onChange={e => setRecalcular(e.target.checked)} /> Forzar recálculo
+ </label>
+ <button onClick={calcular} disabled={running} style={{
             padding: '8px 16px', borderRadius: 10, border: 'none',
             background: running ? '#e8e8ed' : '#1d1d1f', color: running ? '#6e6e73' : '#fff',
             fontSize: 12, fontWeight: 600, cursor: running ? 'wait' : 'pointer', fontFamily: 'inherit',
           }}>{running ? 'Calculando…' : 'Calcular'}</button>
-        </div>
+ </div>
 
         {/* KPIs */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
           {[
             { l: 'Registros', v: records.length, c: '#1F4E8C' },
             { l: 'Probabilidad media', v: `${(avgProb * 100).toFixed(1)}%`, c: avgProb > 0.4 ? '#c42c2c' : avgProb > 0.25 ? '#b25000' : '#2d8a39' },
             { l: 'Partido analizado', v: partidoRef, c: '#5B21B6' },
           ].map(k => (
-            <div key={k.l} style={{ background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12, padding: '12px 14px' }}>
-              <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>{k.l}</div>
-              <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: k.c, letterSpacing: '-0.02em' }}>{k.v}</div>
-            </div>
+ <div key={k.l} style={{ background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12, padding: '12px 14px' }}>
+ <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>{k.l}</div>
+ <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: k.c, letterSpacing: '-0.02em' }}>{k.v}</div>
+ </div>
           ))}
-        </div>
+ </div>
 
         {fuente && (
-          <div style={{ marginBottom: 12 }}>
-            <span style={{
+ <div style={{ marginBottom: 12 }}>
+ <span style={{
               padding: '3px 10px', borderRadius: 999, fontSize: 10.5, fontWeight: 600,
               background: fuente === 'cache_db' ? 'rgba(31,78,140,0.10)' : fuente === 'calculado' ? 'rgba(45,138,57,0.12)' : 'rgba(196,44,44,0.12)',
               color: fuente === 'cache_db' ? '#1F4E8C' : fuente === 'calculado' ? '#2d8a39' : '#c42c2c',
             }}>fuente: {fuente}</span>
-          </div>
+ </div>
         )}
 
         {/* Table */}
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11.5 }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid #f0f0f3', textAlign: 'left', color: '#6e6e73' }}>
+ <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11.5 }}>
+ <thead>
+ <tr style={{ borderBottom: '1px solid #f0f0f3', textAlign: 'left', color: '#6e6e73' }}>
               {['Sección', 'Provincia', 'CCAA', 'P(blando)', 'PP', 'PSOE', 'VOX', 'Sumar', 'Votantes'].map(h => (
-                <th key={h} style={{ padding: '8px 6px', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
+ <th key={h} style={{ padding: '8px 6px', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+ </tr>
+ </thead>
+ <tbody>
             {records.slice(0, 10).map((r, i) => (
-              <tr key={i} style={{ borderBottom: i < 9 ? '1px solid #f5f5f7' : 'none' }}>
-                <td style={{ padding: '8px 6px', fontFamily: 'ui-monospace,monospace', color: '#6e6e73' }}>{r.seccion}</td>
-                <td style={{ padding: '8px 6px', color: '#1d1d1f' }}>{r.provincia}</td>
-                <td style={{ padding: '8px 6px', color: '#6e6e73' }}>{r.ccaa}</td>
-                <td style={{ padding: '8px 6px', fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, color: probColor(r.prob_blando ?? 0) }}>
+ <tr key={i} style={{ borderBottom: i < 9 ? '1px solid #f5f5f7' : 'none' }}>
+ <td style={{ padding: '8px 6px', fontFamily: 'ui-monospace,monospace', color: '#6e6e73' }}>{r.seccion}</td>
+ <td style={{ padding: '8px 6px', color: '#1d1d1f' }}>{r.provincia}</td>
+ <td style={{ padding: '8px 6px', color: '#6e6e73' }}>{r.ccaa}</td>
+ <td style={{ padding: '8px 6px', fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, color: probColor(r.prob_blando ?? 0) }}>
                   {((r.prob_blando ?? 0) * 100).toFixed(1)}%
-                </td>
-                <td style={{ padding: '8px 6px', color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_pp ?? 0) * 100).toFixed(0)}%</td>
-                <td style={{ padding: '8px 6px', color: '#E1322D', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_psoe ?? 0) * 100).toFixed(0)}%</td>
-                <td style={{ padding: '8px 6px', color: '#5BA02E', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_vox ?? 0) * 100).toFixed(0)}%</td>
-                <td style={{ padding: '8px 6px', color: '#D43F8D', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_sumar ?? 0) * 100).toFixed(0)}%</td>
-                <td style={{ padding: '8px 6px', color: '#6e6e73', fontVariantNumeric: 'tabular-nums' }}>{(r.n_votantes ?? 0).toLocaleString('es-ES')}</td>
-              </tr>
+ </td>
+ <td style={{ padding: '8px 6px', color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_pp ?? 0) * 100).toFixed(0)}%</td>
+ <td style={{ padding: '8px 6px', color: '#E1322D', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_psoe ?? 0) * 100).toFixed(0)}%</td>
+ <td style={{ padding: '8px 6px', color: '#5BA02E', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_vox ?? 0) * 100).toFixed(0)}%</td>
+ <td style={{ padding: '8px 6px', color: '#D43F8D', fontVariantNumeric: 'tabular-nums' }}>{((r.voto_sumar ?? 0) * 100).toFixed(0)}%</td>
+ <td style={{ padding: '8px 6px', color: '#6e6e73', fontVariantNumeric: 'tabular-nums' }}>{(r.n_votantes ?? 0).toLocaleString('es-ES')}</td>
+ </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
+ </tbody>
+ </table>
+ </div>
 
       {/* Section 2: Transferencias */}
-      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-          <div>
-            <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Matriz</p>
-            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Transferencias de voto</h3>
-          </div>
-          <button style={{
+ <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+ <div>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Matriz</p>
+ <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Transferencias de voto</h3>
+ </div>
+ <button style={{
             padding: '6px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
             fontSize: 11, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
           }}>Recalcular</button>
-        </div>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-          <thead>
-            <tr>
-              <th style={{ padding: '8px 10px', fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', textAlign: 'left' }}>Origen ↓ / Destino →</th>
+ </div>
+ <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+ <thead>
+ <tr>
+ <th style={{ padding: '8px 10px', fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', textAlign: 'left' }}>Origen ↓ / Destino →</th>
               {destinos.map(d => (
-                <th key={d} style={{ padding: '8px 10px', fontSize: 11, color: '#1d1d1f', fontWeight: 700, textAlign: 'center' }}>{d}</th>
+ <th key={d} style={{ padding: '8px 10px', fontSize: 11, color: '#1d1d1f', fontWeight: 700, textAlign: 'center' }}>{d}</th>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+ </tr>
+ </thead>
+ <tbody>
             {origenes.map(o => (
-              <tr key={o}>
-                <td style={{ padding: '6px 10px', fontWeight: 600, color: '#1d1d1f' }}>{o}</td>
+ <tr key={o}>
+ <td style={{ padding: '6px 10px', fontWeight: 600, color: '#1d1d1f' }}>{o}</td>
                 {destinos.map(d => {
                   const v = matrix[o]?.[d] ?? 0
                   const c = probColor(v)
                   return (
-                    <td key={d} style={{ padding: 4, textAlign: 'center' }}>
-                      <div style={{
+ <td key={d} style={{ padding: 4, textAlign: 'center' }}>
+ <div style={{
                         height: 32, borderRadius: 6,
                         background: v > 0 ? `${c}25` : '#fafafc',
                         border: '1px solid ' + (v > 0 ? `${c}50` : '#f0f0f3'),
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 12, color: c,
                       }}>{v > 0 ? `${(v * 100).toFixed(0)}%` : '—'}</div>
-                    </td>
+ </td>
                   )
                 })}
-              </tr>
+ </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
+ </tbody>
+ </table>
+ </div>
+ </section>
   )
 }
 
@@ -226,9 +226,9 @@ const selectStyle = {
 }
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div>
-      <label style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4, display: 'block' }}>{label}</label>
+ <div>
+ <label style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4, display: 'block' }}>{label}</label>
       {children}
-    </div>
+ </div>
   )
 }

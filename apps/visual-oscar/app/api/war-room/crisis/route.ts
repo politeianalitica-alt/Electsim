@@ -6,8 +6,8 @@ export const runtime = 'nodejs'
 
 const MOCK: CrisisWarRoom[] = [
   { id:'c1', titulo:'Deepfake Feijóo en TikTok · "elecciones anticipadas"',     severidad:'ALTA',  tipo:'Tecnológica', estado:'Contenida' },
-  { id:'c2', titulo:'Ataque coordinado #FeijóoElecciones · 412 cuentas',        severidad:'MEDIA', tipo:'Mediática',   estado:'Activa'    },
-  { id:'c3', titulo:'Tensión interna pacto autonómico Castilla y León con VOX', severidad:'MEDIA', tipo:'Política',    estado:'Activa'    },
+  { id:'c2', titulo:'Ataque coordinado #FeijóoElecciones · 412 cuentas',        severidad:'MEDIA', tipo:'Mediática',   estado:'Activa' },
+  { id:'c3', titulo:'Tensión interna pacto autonómico Castilla y León con VOX', severidad:'MEDIA', tipo:'Política',    estado:'Activa' },
 ]
 
 export async function GET() {

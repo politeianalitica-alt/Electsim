@@ -20,7 +20,7 @@ export default function SettingsTabs({ active, onChange }: SettingsTabsProps) {
   }
   const tabs: SettingsTab[] = ['perfil', 'workspace', 'fuentes', 'equipo']
   return (
-    <div style={wrap}>
+ <div style={wrap}>
       {tabs.map(t => {
         const isActive = active === t
         const style: CSSProperties = {
@@ -32,6 +32,6 @@ export default function SettingsTabs({ active, onChange }: SettingsTabsProps) {
         }
         return <button key={t} type="button" style={style} onClick={() => onChange(t)}>{LABELS[t]}</button>
       })}
-    </div>
+ </div>
   )
 }

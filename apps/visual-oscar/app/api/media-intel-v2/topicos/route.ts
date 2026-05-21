@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const horas = req.nextUrl.searchParams.get('horas') || '24'
   const limit = req.nextUrl.searchParams.get('limit') || '50'
   const r = await callBackend(
-    `/api/media-intel/topicos?horas=${encodeURIComponent(horas)}&limit=${encodeURIComponent(limit)}`,
+ `/api/media-intel/topicos?horas=${encodeURIComponent(horas)}&limit=${encodeURIComponent(limit)}`,
     { cache: 'no-store' },
   )
   if (r.data !== null && r.data !== undefined) {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     [],
-    'mock',
+ 'mock',
     { warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms },
   ))

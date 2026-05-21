@@ -35,9 +35,9 @@ export async function POST(req: NextRequest) {
       .replace(/[^a-z0-9]+/g, "-").slice(0, 60) + ".pdf";
     return new NextResponse(buf, {
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${filename}"`,
-        "Cache-Control": "no-store",
+ "Content-Type": "application/pdf",
+ "Content-Disposition": `attachment; filename="${filename}"`,
+ "Cache-Control": "no-store",
       },
     });
   } catch (err) {

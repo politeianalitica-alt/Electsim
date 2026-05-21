@@ -9,7 +9,7 @@ export interface NTLData { countries: string[]; series: Record<string, Array<{ d
 export async function GET(req: NextRequest) {
   const countries = req.nextUrl.searchParams.get('countries') || 'ES,FR,IT,DE,PT'
   const r = await callBackend<NTLData>(
-    `/api/macro-finance/ntl?countries=${encodeURIComponent(countries)}`,
+ `/api/macro-finance/ntl?countries=${encodeURIComponent(countries)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { countries: [], series: {} },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

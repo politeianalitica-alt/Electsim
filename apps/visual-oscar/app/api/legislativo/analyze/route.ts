@@ -44,12 +44,12 @@ function buildPrompt(req: AnalyzeRequest): string {
 Acabas de recibir una disposición publicada hoy en el BOE. Analízala y devuelve EXCLUSIVAMENTE un objeto JSON válido (sin markdown, sin texto antes ni después) con estos campos:
 
 {
-  "resumen": "...",                       // 2-3 frases · qué hace la norma · castellano de España
-  "sectores_afectados": ["...","..."],    // máx 5 · sectores económicos o áreas afectadas
-  "actores_politicos": ["...","..."],     // máx 5 · partidos / ministerios / instituciones implicados
-  "impacto_politico": 0,                  // entero -100 a +100 · negativo = polariza · positivo = consenso
-  "urgencia": "media",                    // baja | media | alta | crítica
-  "pronostico": "aprobación probable"     // aprobación probable | controversia | rechazo previsible | sin oposición
+ "resumen": "...",                       // 2-3 frases · qué hace la norma · castellano de España
+ "sectores_afectados": ["...","..."],    // máx 5 · sectores económicos o áreas afectadas
+ "actores_politicos": ["...","..."],     // máx 5 · partidos / ministerios / instituciones implicados
+ "impacto_politico": 0,                  // entero -100 a +100 · negativo = polariza · positivo = consenso
+ "urgencia": "media",                    // baja | media | alta | crítica
+ "pronostico": "aprobación probable" // aprobación probable | controversia | rechazo previsible | sin oposición
 }
 
 Disposición:

@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 export async function GET() {
   return listDomain<Notebook>(
-    '/api/intelligence/notebooks',
+ '/api/intelligence/notebooks',
     MOCK_NOTEBOOKS.map(n => ({ ...n, blocks: undefined } as Notebook)),
   )
 }
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as { titulo: string; tags?: string[] }
     return createInDomain(
-      '/api/intelligence/notebooks',
+ '/api/intelligence/notebooks',
       { title: body.titulo, tags: body.tags ?? [] },
       (): Notebook => ({
         id: `nb-${Date.now()}`,

@@ -62,9 +62,9 @@ export async function triggerIngest(): Promise<IngestSummary | null> {
 }
 
 export interface HealthStatus {
-  backend:   "ok" | "degraded" | "down" | "unconfigured";
+  backend: "ok" | "degraded" | "down" | "unconfigured";
   database?: "ok" | "degraded" | "down" | "unconfigured";
-  ollama?:   "ok" | "down" | "unconfigured";
+  ollama?: "ok" | "down" | "unconfigured";
   latencyMs: number;
   timestamp: string;
 }

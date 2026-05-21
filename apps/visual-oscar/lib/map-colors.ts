@@ -39,14 +39,14 @@ export function riskColorScale(domain: [number, number]): (value: number) => str
 /** Fixed palette for the 9 narrative categories used across all Spain maps. */
 export function categoricalColor(category: string): string {
   const PALETTE: Record<string, string> = {
-    politica:    '#4a90e2',
-    economia:    '#27ae60',
-    justicia:    '#e74c3c',
-    vivienda:    '#e67e22',
-    sanidad:     '#9b59b6',
+    politica: '#4a90e2',
+    economia: '#27ae60',
+    justicia: '#e74c3c',
+    vivienda: '#e67e22',
+    sanidad: '#9b59b6',
     inmigracion: '#c0392b',
-    energia:     '#f39c12',
-    educacion:   '#2ecc71',
+    energia: '#f39c12',
+    educacion: '#2ecc71',
     generalista: '#6c7480',
   }
   return PALETTE[category] ?? '#6c7480'

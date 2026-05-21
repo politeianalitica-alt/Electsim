@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       credibilidad_default?: CredibilidadFuente; descripcion?: string
     }
     return createInDomain(
-      '/api/intelligence/fuentes',
+ '/api/intelligence/fuentes',
       {
         name: body.nombre,
         url: body.url,

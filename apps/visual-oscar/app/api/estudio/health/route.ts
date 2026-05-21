@@ -14,7 +14,7 @@ export async function GET() {
   } catch {
     const elapsed = Date.now() - start
     return NextResponse.json({
-      status:        'healthy',
+      status: 'healthy',
       services: {
         database:        { status: 'up', latencyMs: 4 },
         redis:           { status: 'up', latencyMs: 1 },
@@ -22,7 +22,7 @@ export async function GET() {
         ai_engine:       { status: 'up', latencyMs: 340 },
         storage:         { status: 'up', latencyMs: 8 },
       },
-      version:       '0.8.0',
+      version: '0.8.0',
       uptimeSeconds: 86_400,
       checkedAt:     new Date().toISOString(),
       _mock:         true,

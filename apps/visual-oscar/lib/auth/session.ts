@@ -47,7 +47,7 @@ function getSecret(): string {
 
 async function importKey(secret: string): Promise<CryptoKey> {
   return crypto.subtle.importKey(
-    'raw', ENC.encode(secret),
+ 'raw', ENC.encode(secret),
     { name: 'HMAC', hash: 'SHA-256' },
     false, ['sign', 'verify'],
   )
@@ -74,7 +74,7 @@ export async function verifyToken(token: string): Promise<SessionPayload | null>
   const [header, body, sig] = parts
   const key   = await importKey(getSecret())
   const valid = await crypto.subtle.verify(
-    'HMAC', key,
+ 'HMAC', key,
     fromB64url(sig),
     ENC.encode(`${header}.${body}`),
   )

@@ -36,16 +36,16 @@ export default function DomoChrome() {
   }, [])
 
   return (
-    <>
-      <div className={styles.topBar}>
-        <button onClick={() => setPaletteOpen(true)} className={styles.searchBtn} aria-label="Buscar">
-          <span className={styles.searchGlyph}>⌕</span>
-          <span className={styles.searchText}>Buscar en tu Estudio…</span>
-          <kbd className={styles.kbd}>⌘K</kbd>
-        </button>
-        <NotificationBell />
-      </div>
-      <DomoCommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
-    </>
+ <>
+ <div className={styles.topBar}>
+ <button onClick={() => setPaletteOpen(true)} className={styles.searchBtn} aria-label="Buscar">
+ <span className={styles.searchGlyph}>⌕</span>
+ <span className={styles.searchText}>Buscar en tu Estudio…</span>
+ <kbd className={styles.kbd}>⌘K</kbd>
+ </button>
+ <NotificationBell />
+ </div>
+ <DomoCommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+ </>
   )
 }

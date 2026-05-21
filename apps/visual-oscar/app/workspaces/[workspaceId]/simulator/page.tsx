@@ -11,10 +11,10 @@ const STORAGE_KEY = (ws: string) => `politeia:simulator:log:${ws}`;
 const HISTORY_LIMIT = 12;
 
 const EXAMPLES = [
-  "¿Qué pasa si apoyo la enmienda de Junts a la senda de estabilidad?",
-  "¿Qué pasa si salgo a responder en Twitter al líder de la oposición esta tarde?",
-  "¿Qué pasa si bloqueo la moción de censura en la Comisión?",
-  "¿Qué pasa si pacto con ERC el calendario de presupuestos?",
+ "¿Qué pasa si apoyo la enmienda de Junts a la senda de estabilidad?",
+ "¿Qué pasa si salgo a responder en Twitter al líder de la oposición esta tarde?",
+ "¿Qué pasa si bloqueo la moción de censura en la Comisión?",
+ "¿Qué pasa si pacto con ERC el calendario de presupuestos?",
 ];
 
 export default function SimulatorPage({ params }: { params: { workspaceId: string } }) {
@@ -78,26 +78,27 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
   }, [context, history, params.workspaceId, workspaceName]);
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="simulator"
+        eyebrow="Workspace · Simulador"
         title="Simulador de Decisión"
-        description="Antes de actuar · 3 outcomes con probabilidades + contramovimientos · Ollama"
+        description="Antes de actuar · 3 outcomes con probabilidades + contramovimientos · PoliteIA"
         badge={sim ? `${sim.outcomes.length} outcomes` : ""}
       />
 
       {/* Input */}
-      <div style={{
+ <div style={{
         background: WS.surface, border: `1px solid ${WS.border}`,
         borderRadius: 14, padding: 16, marginBottom: 14,
       }}>
-        <label style={{
+ <label style={{
           display: "block", fontSize: 10.5, fontWeight: 700, color: WS.ink3,
           letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8,
         }}>
           Escenario a simular
-        </label>
-        <textarea
+ </label>
+ <textarea
           value={scenario}
           onChange={e => setScenario(e.target.value)}
           placeholder="Ej: ¿Qué pasa si apoyo esta enmienda? · ¿Qué pasa si salgo a responder en Twitter?"
@@ -109,8 +110,8 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
             fontSize: 13.5, resize: "vertical", outline: "none",
           }}
         />
-        <div style={{ display: "flex", gap: 8, marginTop: 10, alignItems: "center", flexWrap: "wrap" }}>
-          <button
+ <div style={{ display: "flex", gap: 8, marginTop: 10, alignItems: "center", flexWrap: "wrap" }}>
+ <button
             onClick={() => run(scenario)}
             disabled={isBusy || !scenario.trim()}
             style={{
@@ -120,10 +121,10 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
             }}
           >
             {isBusy ? "Simulando…" : "Ejecutar simulación"}
-          </button>
-          <span style={{ fontSize: 10.5, color: WS.ink3, marginLeft: 4 }}>o prueba:</span>
+ </button>
+ <span style={{ fontSize: 10.5, color: WS.ink3, marginLeft: 4 }}>o prueba:</span>
           {EXAMPLES.map(ex => (
-            <button
+ <button
               key={ex}
               onClick={() => { setScenario(ex); void run(ex); }}
               style={{
@@ -132,114 +133,114 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
               }}
             >
               {ex}
-            </button>
+ </button>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {error && (
-        <div style={{ background: WS.dangerSub, color: WS.danger, padding: 12, borderRadius: 10, fontSize: 12.5, marginBottom: 12 }}>
+ <div style={{ background: WS.dangerSub, color: WS.danger, padding: 12, borderRadius: 10, fontSize: 12.5, marginBottom: 12 }}>
           {error}
-        </div>
+ </div>
       )}
 
       {/* Outcomes */}
       {sim && (
-        <>
-          <div style={{
+ <>
+ <div style={{
             display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 14,
           }}>
             {sim.outcomes.map(o => <OutcomeCard key={o.id} outcome={o} />)}
-          </div>
+ </div>
 
           {/* Recomendación + flags */}
-          <div style={{
+ <div style={{
             display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12, marginBottom: 14,
           }}>
-            <div style={{
+ <div style={{
               background: WS.accentSubtle, border: `1px solid ${WS.accent}33`,
               borderRadius: 14, padding: 16,
             }}>
-              <div style={{
+ <div style={{
                 fontSize: 10.5, fontWeight: 700, color: WS.accent, letterSpacing: "0.08em",
                 textTransform: "uppercase", marginBottom: 8,
               }}>
                 Recomendación del agente
-              </div>
-              <p style={{ fontSize: 13.5, color: WS.ink, lineHeight: 1.55, margin: 0 }}>
+ </div>
+ <p style={{ fontSize: 13.5, color: WS.ink, lineHeight: 1.55, margin: 0 }}>
                 {sim.recommendation}
-              </p>
-            </div>
-            <div style={{
+ </p>
+ </div>
+ <div style={{
               background: WS.dangerSub, border: `1px solid ${WS.danger}33`,
               borderRadius: 14, padding: 16,
             }}>
-              <div style={{
+ <div style={{
                 fontSize: 10.5, fontWeight: 700, color: WS.danger, letterSpacing: "0.08em",
                 textTransform: "uppercase", marginBottom: 8,
               }}>
                 Banderas rojas
-              </div>
+ </div>
               {sim.riskFlags.length === 0
                 ? <span style={{ fontSize: 12, color: WS.ink3 }}>Sin riesgos materiales detectados.</span>
                 : <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, color: WS.ink2, lineHeight: 1.5 }}>
                     {sim.riskFlags.map((r, i) => <li key={i}>{r}</li>)}
-                  </ul>}
-            </div>
-          </div>
+ </ul>}
+ </div>
+ </div>
 
           {/* Contramovimientos */}
-          <div style={{
+ <div style={{
             background: WS.surface, border: `1px solid ${WS.border}`,
             borderRadius: 14, padding: 16, marginBottom: 14,
           }}>
-            <div style={{
+ <div style={{
               fontSize: 10.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.08em",
               textTransform: "uppercase", marginBottom: 10,
             }}>
               War gaming · contramovimientos previstos
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+ </div>
+ <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {sim.counterMoves.map((c, i) => (
-                <div key={i} style={{
+ <div key={i} style={{
                   display: "grid", gridTemplateColumns: "120px 1fr",
                   gap: 12, padding: "10px 12px", background: WS.surface2,
                   border: `1px solid ${WS.border}`, borderRadius: 10,
                 }}>
-                  <span style={{ fontSize: 11.5, fontWeight: 700, color: WS.accent, alignSelf: "start", marginTop: 2 }}>
+ <span style={{ fontSize: 11.5, fontWeight: 700, color: WS.accent, alignSelf: "start", marginTop: 2 }}>
                     {c.actor}
-                  </span>
-                  <div>
-                    <div style={{ fontSize: 12.5, fontWeight: 600, color: WS.ink, marginBottom: 3 }}>{c.move}</div>
-                    <div style={{ fontSize: 11.5, color: WS.ink3, lineHeight: 1.4 }}>{c.rationale}</div>
-                  </div>
-                </div>
+ </span>
+ <div>
+ <div style={{ fontSize: 12.5, fontWeight: 600, color: WS.ink, marginBottom: 3 }}>{c.move}</div>
+ <div style={{ fontSize: 11.5, color: WS.ink3, lineHeight: 1.4 }}>{c.rationale}</div>
+ </div>
+ </div>
               ))}
-            </div>
-          </div>
+ </div>
+ </div>
 
-          <div style={{ fontSize: 11, color: WS.ink3, marginBottom: 24 }}>
+ <div style={{ fontSize: 11, color: WS.ink3, marginBottom: 24 }}>
             Generado {new Date(sim.generatedAt).toLocaleString("es-ES")} · fuente: {sim.source}
             {sim.source === "mock" && " · configura OLLAMA_URL para simulación real"}
-          </div>
-        </>
+ </div>
+ </>
       )}
 
       {/* Decision log */}
       {history.length > 0 && (
-        <div style={{
+ <div style={{
           background: WS.surface, border: `1px solid ${WS.border}`,
           borderRadius: 14, padding: 16,
         }}>
-          <div style={{
+ <div style={{
             fontSize: 10.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.08em",
             textTransform: "uppercase", marginBottom: 10,
           }}>
             Decision log · últimas {history.length} simulaciones
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+ </div>
+ <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {history.map(h => (
-              <button
+ <button
                 key={h.id}
                 onClick={() => { setScenario(h.scenario); setSim(h); }}
                 style={{
@@ -249,36 +250,36 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
                   textAlign: "left", cursor: "pointer", fontFamily: WS.font,
                 }}
               >
-                <span style={{ fontSize: 11, color: WS.ink3 }}>
+ <span style={{ fontSize: 11, color: WS.ink3 }}>
                   {new Date(h.loggedAt ?? h.generatedAt).toLocaleString("es-ES", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}
-                </span>
-                <span style={{ fontSize: 12.5, color: WS.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+ </span>
+ <span style={{ fontSize: 12.5, color: WS.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {h.scenario}
-                </span>
-                <span style={{ fontSize: 10, color: WS.ink3, textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>
+ </span>
+ <span style={{ fontSize: 10, color: WS.ink3, textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>
                   {h.source}
-                </span>
-              </button>
+ </span>
+ </button>
             ))}
-          </div>
-        </div>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   );
 }
 
 function OutcomeCard({ outcome }: { outcome: DecisionOutcome }) {
   const accent =
-    outcome.id === "optimo"  ? WS.success
+    outcome.id === "optimo" ? WS.success
     : outcome.id === "adverso" ? WS.danger
     : WS.accent;
   const accentSub =
-    outcome.id === "optimo"  ? WS.successSub
+    outcome.id === "optimo" ? WS.successSub
     : outcome.id === "adverso" ? WS.dangerSub
     : WS.accentSubtle;
 
   return (
-    <div style={{
+ <div style={{
       background: WS.surface,
       border: `1px solid ${WS.border}`,
       borderTop: `3px solid ${accent}`,
@@ -287,50 +288,50 @@ function OutcomeCard({ outcome }: { outcome: DecisionOutcome }) {
       display: "flex", flexDirection: "column", gap: 10,
       minHeight: 320,
     }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-        <div style={{
+ <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
+ <div style={{
           fontSize: 10.5, fontWeight: 700, color: accent, letterSpacing: "0.08em",
           textTransform: "uppercase",
         }}>
           {outcome.label}
-        </div>
-        <div style={{ fontSize: 26, fontWeight: 700, color: accent, letterSpacing: "-0.04em", lineHeight: 1 }}>
+ </div>
+ <div style={{ fontSize: 26, fontWeight: 700, color: accent, letterSpacing: "-0.04em", lineHeight: 1 }}>
           {outcome.probability}%
-        </div>
-      </div>
-      <div style={{ display: "flex", gap: 6 }}>
-        <span style={{
+ </div>
+ </div>
+ <div style={{ display: "flex", gap: 6 }}>
+ <span style={{
           fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 99,
           background: accentSub, color: accent, textTransform: "uppercase", letterSpacing: "0.04em",
         }}>
           {outcome.likelihood}
-        </span>
-      </div>
-      <p style={{ fontSize: 12.5, color: WS.ink2, lineHeight: 1.5, margin: 0, flex: 1 }}>
+ </span>
+ </div>
+ <p style={{ fontSize: 12.5, color: WS.ink2, lineHeight: 1.5, margin: 0, flex: 1 }}>
         {outcome.narrative}
-      </p>
+ </p>
 
       {/* Impactos */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-        <ImpactBar label="Opinión pública" value={outcome.impactPublic} />
-        <ImpactBar label="Interno" value={outcome.impactInternal} />
-      </div>
+ <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+ <ImpactBar label="Opinión pública" value={outcome.impactPublic} />
+ <ImpactBar label="Interno" value={outcome.impactInternal} />
+ </div>
 
       {/* Signals */}
       {outcome.signals.length > 0 && (
-        <div>
-          <div style={{
+ <div>
+ <div style={{
             fontSize: 9.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.06em",
             textTransform: "uppercase", marginBottom: 4,
           }}>
             Señales tempranas
-          </div>
-          <ul style={{ margin: 0, paddingLeft: 14, fontSize: 11, color: WS.ink3, lineHeight: 1.5 }}>
+ </div>
+ <ul style={{ margin: 0, paddingLeft: 14, fontSize: 11, color: WS.ink3, lineHeight: 1.5 }}>
             {outcome.signals.map((s, i) => <li key={i}>{s}</li>)}
-          </ul>
-        </div>
+ </ul>
+ </div>
       )}
-    </div>
+ </div>
   );
 }
 
@@ -339,22 +340,22 @@ function ImpactBar({ label, value }: { label: string; value: number }) {
   const color = value >= 0 ? WS.success : WS.danger;
   const sign = value >= 0 ? "+" : "";
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: WS.ink3, marginBottom: 4 }}>
-        <span style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</span>
-        <span style={{ fontWeight: 700, color }}>{sign}{value}</span>
-      </div>
-      <div style={{ position: "relative", height: 4, background: WS.surface2, borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
+ <div>
+ <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: WS.ink3, marginBottom: 4 }}>
+ <span style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</span>
+ <span style={{ fontWeight: 700, color }}>{sign}{value}</span>
+ </div>
+ <div style={{ position: "relative", height: 4, background: WS.surface2, borderRadius: 99, overflow: "hidden" }}>
+ <div style={{
           position: "absolute",
           left: value >= 0 ? "50%" : `${50 - abs / 2}%`,
           width: `${abs / 2}%`,
           height: "100%", background: color,
         }} />
-        <div style={{
+ <div style={{
           position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: WS.border,
         }} />
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }

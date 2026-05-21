@@ -11,6 +11,7 @@
  */
 
 import { AI_CONFIG, isAiEnabled } from "./ai-config";
+import { AiUnavailableError } from "./anthropic-client";
 
 export type OllamaRole = "system" | "user" | "assistant";
 
@@ -33,9 +34,12 @@ export interface OllamaChatOptions {
   signal?: AbortSignal;
 }
 
-export class OllamaUnavailableError extends Error {
-  constructor(message: string, public cause?: unknown) {
-    super(message);
+// OllamaUnavailableError ahora extiende AiUnavailableError para que las
+// rutas que hacen `if (err instanceof OllamaUnavailableError)` capturen
+// también los errores de Anthropic, manteniendo compatibilidad backwards.
+export class OllamaUnavailableError extends AiUnavailableError {
+  constructor(message: string, cause?: unknown) {
+    super(message, cause);
     this.name = "OllamaUnavailableError";
   }
 }

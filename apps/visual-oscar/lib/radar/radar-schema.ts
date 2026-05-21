@@ -31,20 +31,20 @@ export type RadarPayload = z.infer<typeof RadarPayloadSchema>;
  */
 export const RADAR_SCHEMA_HINT = `Devuelve ÚNICAMENTE un objeto JSON con la forma:
 {
-  "opportunities": [
+ "opportunities": [
     {
-      "id": "opp_001",
-      "title": "Título corto y accionable",
-      "score": 0-100,
-      "impact": "transformacional"|"alto"|"medio"|"bajo",
-      "confidence": 0.0-1.0,
-      "horizon": "now"|"week"|"month"|"quarter",
-      "category": "Legislativo|Mediático|Electoral|Sectorial|Geopolítico|Riesgo",
-      "rationale": "1-2 frases explicando por qué es oportunidad",
-      "actions": [
+ "id": "opp_001",
+ "title": "Título corto y accionable",
+ "score": 0-100,
+ "impact": "transformacional"|"alto"|"medio"|"bajo",
+ "confidence": 0.0-1.0,
+ "horizon": "now"|"week"|"month"|"quarter",
+ "category": "Legislativo|Mediático|Electoral|Sectorial|Geopolítico|Riesgo",
+ "rationale": "1-2 frases explicando por qué es oportunidad",
+ "actions": [
         { "label": "...", "timeline": "48h", "owner": "Comunicación" }
       ],
-      "relatedIds": ["iss_001"]
+ "relatedIds": ["iss_001"]
     }
   ]
 }

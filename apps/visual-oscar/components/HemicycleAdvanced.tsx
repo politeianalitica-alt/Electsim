@@ -102,17 +102,17 @@ export default function HemicycleAdvanced({ parties, total = 350, majority = 176
   const pctMajority = Math.min(100, (coalitionSeats / majority) * 100)
 
   return (
-    <div>
+ <div>
       {/* Mode switch */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-        <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
           {([
             { k: 'individual', label: 'Individual' },
             { k: 'coalition',  label: 'Calcular coalición' },
           ] as const).map(o => {
             const active = mode === o.k
             return (
-              <button key={o.k} onClick={() => switchMode(o.k)} style={{
+ <button key={o.k} onClick={() => switchMode(o.k)} style={{
                 background: active ? '#fff' : 'transparent',
                 color: active ? '#1d1d1f' : '#6e6e73',
                 border: 'none', borderRadius: 999, padding: '5px 12px',
@@ -122,12 +122,12 @@ export default function HemicycleAdvanced({ parties, total = 350, majority = 176
               }}>{o.label}</button>
             )
           })}
-        </div>
-      </div>
+ </div>
+ </div>
 
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
-        <line x1={cx} y1={cy - 305} x2={cx} y2={cy - 110} stroke="#1d1d1f" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.4"/>
-        <text x={cx} y={cy - 312} textAnchor="middle" fontSize="11" fill="#6e6e73" fontWeight="600" letterSpacing="0.06em">MAYORÍA · {majority}</text>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+ <line x1={cx} y1={cy - 305} x2={cx} y2={cy - 110} stroke="#1d1d1f" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.4"/>
+ <text x={cx} y={cy - 312} textAnchor="middle" fontSize="11" fill="#6e6e73" fontWeight="600" letterSpacing="0.06em">MAYORÍA · {majority}</text>
 
         {seats.map((s, i) => {
           const x = cx + Math.cos(s.angle) * s.radius
@@ -138,7 +138,7 @@ export default function HemicycleAdvanced({ parties, total = 350, majority = 176
           const dim = isDimmed(partyId)
           const high = isHighlighted(partyId)
           return (
-            <circle
+ <circle
               key={i}
               cx={x} cy={y} r="6.5"
               fill={p.color}
@@ -154,65 +154,65 @@ export default function HemicycleAdvanced({ parties, total = 350, majority = 176
         })}
 
         {mode === 'coalition' && coalition.size > 0 ? (
-          <g>
-            <text x={cx} y={cy - 70} textAnchor="middle" fontFamily="var(--font-display)" fontSize="12" fontWeight="600" fill={viable ? '#16A34A' : '#F38A19'} letterSpacing="0.08em">
+ <g>
+ <text x={cx} y={cy - 70} textAnchor="middle" fontFamily="var(--font-display)" fontSize="12" fontWeight="600" fill={viable ? '#16A34A' : '#F38A19'} letterSpacing="0.08em">
               {viable ? 'MAYORÍA ALCANZADA' : `FALTAN ${majority - coalitionSeats}`}
-            </text>
-            <text x={cx} y={cy - 30} textAnchor="middle" fontFamily="var(--font-display)" fontSize="56" fontWeight="600" letterSpacing="-0.03em" fill="#1d1d1f">{coalitionSeats}</text>
-            <text x={cx} y={cy - 8} textAnchor="middle" fontSize="10.5" fill="#6e6e73" letterSpacing="0.08em">ESCAÑOS · {coalition.size} {coalition.size === 1 ? 'partido' : 'partidos'}</text>
-          </g>
+ </text>
+ <text x={cx} y={cy - 30} textAnchor="middle" fontFamily="var(--font-display)" fontSize="56" fontWeight="600" letterSpacing="-0.03em" fill="#1d1d1f">{coalitionSeats}</text>
+ <text x={cx} y={cy - 8} textAnchor="middle" fontSize="10.5" fill="#6e6e73" letterSpacing="0.08em">ESCAÑOS · {coalition.size} {coalition.size === 1 ? 'partido' : 'partidos'}</text>
+ </g>
         ) : focusedSingleParty ? (
-          <g>
-            <text x={cx} y={cy - 70} textAnchor="middle" fontFamily="var(--font-display)" fontSize="14" fontWeight="600" fill={focusedSingleParty.color} letterSpacing="0.04em">{focusedSingleParty.name}</text>
-            <text x={cx} y={cy - 30} textAnchor="middle" fontFamily="var(--font-display)" fontSize="56" fontWeight="600" letterSpacing="-0.03em" fill="#1d1d1f">{focusedSingleParty.seats}</text>
-            <text x={cx} y={cy - 8} textAnchor="middle" fontSize="10.5" fill="#6e6e73" letterSpacing="0.08em">ESCAÑOS · {(focusedSingleParty.seats / total * 100).toFixed(1)}%</text>
-          </g>
+ <g>
+ <text x={cx} y={cy - 70} textAnchor="middle" fontFamily="var(--font-display)" fontSize="14" fontWeight="600" fill={focusedSingleParty.color} letterSpacing="0.04em">{focusedSingleParty.name}</text>
+ <text x={cx} y={cy - 30} textAnchor="middle" fontFamily="var(--font-display)" fontSize="56" fontWeight="600" letterSpacing="-0.03em" fill="#1d1d1f">{focusedSingleParty.seats}</text>
+ <text x={cx} y={cy - 8} textAnchor="middle" fontSize="10.5" fill="#6e6e73" letterSpacing="0.08em">ESCAÑOS · {(focusedSingleParty.seats / total * 100).toFixed(1)}%</text>
+ </g>
         ) : (
-          <g>
-            <text x={cx} y={cy - 50} textAnchor="middle" fontFamily="var(--font-display)" fontSize="60" fontWeight="600" letterSpacing="-0.03em" fill="#1d1d1f">{total}</text>
-            <text x={cx} y={cy - 22} textAnchor="middle" fontSize="11" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">DIPUTADOS · TOTAL</text>
-          </g>
+ <g>
+ <text x={cx} y={cy - 50} textAnchor="middle" fontFamily="var(--font-display)" fontSize="60" fontWeight="600" letterSpacing="-0.03em" fill="#1d1d1f">{total}</text>
+ <text x={cx} y={cy - 22} textAnchor="middle" fontSize="11" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">DIPUTADOS · TOTAL</text>
+ </g>
         )}
-      </svg>
+ </svg>
 
       {/* Coalition summary */}
       {mode === 'coalition' && (
-        <div style={{ marginTop: 14, padding: '14px 16px', borderRadius: 12, background: viable ? 'rgba(22,163,74,0.06)' : '#F5F5F7', border: `1px solid ${viable ? 'rgba(22,163,74,0.22)' : '#e8e8ed'}` }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minHeight: 22 }}>
+ <div style={{ marginTop: 14, padding: '14px 16px', borderRadius: 12, background: viable ? 'rgba(22,163,74,0.06)' : '#F5F5F7', border: `1px solid ${viable ? 'rgba(22,163,74,0.22)' : '#e8e8ed'}` }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minHeight: 22 }}>
               {coalitionParties.length === 0 ? (
-                <span style={{ fontSize: 12, color: '#6e6e73' }}>Selecciona partidos para sumar escaños…</span>
+ <span style={{ fontSize: 12, color: '#6e6e73' }}>Selecciona partidos para sumar escaños…</span>
               ) : coalitionParties.map(p => (
-                <span key={p.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, padding: '3px 9px', borderRadius: 999, background: '#fff', border: `1px solid ${p.color}55`, color: '#1d1d1f' }}>
-                  <span style={{ width: 8, height: 8, borderRadius: 999, background: p.color }}/>
+ <span key={p.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, padding: '3px 9px', borderRadius: 999, background: '#fff', border: `1px solid ${p.color}55`, color: '#1d1d1f' }}>
+ <span style={{ width: 8, height: 8, borderRadius: 999, background: p.color }}/>
                   {p.name} · {p.seats}
-                </span>
+ </span>
               ))}
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: viable ? '#16A34A' : '#1d1d1f', lineHeight: 1 }}>
+ </div>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: viable ? '#16A34A' : '#1d1d1f', lineHeight: 1 }}>
                 {coalitionSeats}<span style={{ fontSize: 13, color: '#6e6e73', fontWeight: 600 }}>/{majority}</span>
-              </div>
-              <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 999, letterSpacing: '0.06em', background: viable ? '#16A34A' : '#F38A19', color: '#fff' }}>
+ </div>
+ <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 999, letterSpacing: '0.06em', background: viable ? '#16A34A' : '#F38A19', color: '#fff' }}>
                 {viable ? 'VIABLE' : 'INSUF.'}
-              </span>
-              <button onClick={() => setCoalition(new Set())} style={{ fontSize: 11, color: '#6e6e73', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' }}>Limpiar</button>
-            </div>
-          </div>
-          <div style={{ position: 'relative', height: 6, background: '#fff', borderRadius: 999, overflow: 'hidden' }}>
-            <div style={{ width: `${pctMajority}%`, height: '100%', background: viable ? '#16A34A' : '#1d1d1f', transition: 'width 220ms' }}/>
-          </div>
-        </div>
+ </span>
+ <button onClick={() => setCoalition(new Set())} style={{ fontSize: 11, color: '#6e6e73', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit' }}>Limpiar</button>
+ </div>
+ </div>
+ <div style={{ position: 'relative', height: 6, background: '#fff', borderRadius: 999, overflow: 'hidden' }}>
+ <div style={{ width: `${pctMajority}%`, height: '100%', background: viable ? '#16A34A' : '#1d1d1f', transition: 'width 220ms' }}/>
+ </div>
+ </div>
       )}
 
       {/* Legend — sorted by seats DESC */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6, marginTop: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6, marginTop: 14 }}>
         {legendOrder.map(p => {
           const active = isHighlighted(p.id)
           const inCoalition = mode === 'coalition' && coalition.has(p.id)
           const dim = isDimmed(p.id)
           return (
-            <button
+ <button
               key={p.id}
               onMouseEnter={() => setHover(p.id)}
               onMouseLeave={() => setHover(null)}
@@ -231,21 +231,21 @@ export default function HemicycleAdvanced({ parties, total = 350, majority = 176
                 minWidth: 0,
                 position: 'relative',
               }}>
-              <span style={{ width: 9, height: 9, borderRadius: 999, background: p.color, flexShrink: 0 }}/>
-              <span style={{ display: 'flex', alignItems: 'baseline', gap: 6, minWidth: 0, flex: 1 }}>
-                <span style={{ fontSize: 11.5, fontWeight: 600, color: '#3a3a3d', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.012em', lineHeight: 1, color: '#1d1d1f', marginLeft: 'auto' }}>{p.seats}</span>
-              </span>
+ <span style={{ width: 9, height: 9, borderRadius: 999, background: p.color, flexShrink: 0 }}/>
+ <span style={{ display: 'flex', alignItems: 'baseline', gap: 6, minWidth: 0, flex: 1 }}>
+ <span style={{ fontSize: 11.5, fontWeight: 600, color: '#3a3a3d', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.012em', lineHeight: 1, color: '#1d1d1f', marginLeft: 'auto' }}>{p.seats}</span>
+ </span>
               {inCoalition && (
-                <span style={{ position: 'absolute', top: 4, right: 4, width: 8, height: 8, borderRadius: 999, background: p.color }}/>
+ <span style={{ position: 'absolute', top: 4, right: 4, width: 8, height: 8, borderRadius: 999, background: p.color }}/>
               )}
-            </button>
+ </button>
           )
         })}
-      </div>
+ </div>
 
       {/* Slot opcional justo debajo de la leyenda (p.ej. tabla con datos del hemiciclo) */}
       {belowLegend}
-    </div>
+ </div>
   )
 }

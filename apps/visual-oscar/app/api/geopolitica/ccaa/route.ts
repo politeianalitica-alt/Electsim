@@ -51,7 +51,7 @@ function calcularScore(exp: CcaaExposicion): {
   const explicacion = `Exposición dominada por ${factor_dominante}. ` +
     (exp.bases_militares.length > 0 ? `Bases: ${exp.bases_militares.join(', ')}. ` : '') +
     (exp.puertos.length > 0 ? `Puertos: ${exp.puertos.join(', ')}. ` : '') +
-    `Dependencia gas: ${exp.dependencia_gas_pct}%. Exportaciones a países en riesgo: ${exp.exportaciones_riesgo_pct}%.`
+ `Dependencia gas: ${exp.dependencia_gas_pct}%. Exportaciones a países en riesgo: ${exp.exportaciones_riesgo_pct}%.`
 
   return { score_energia, score_migracion, score_seguridad, score_comercio, score_total, factor_dominante, explicacion }
 }

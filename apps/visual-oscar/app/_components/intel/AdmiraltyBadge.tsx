@@ -42,9 +42,9 @@ export default function AdmiraltyBadge({ credibilidad, confianza }: AdmiraltyBad
     padding: '2px 8px', background: '#fff', color: '#3a3a3d', lineHeight: 1.5, borderLeft: `1px solid ${color}30`,
   }
   return (
-    <span style={wrap} title={`${CRED_LABEL[credibilidad]} - ${CONF_LABEL[confianza]}`}>
-      <span style={left}>{credibilidad}</span>
-      <span style={right}>{confianza}</span>
-    </span>
+ <span style={wrap} title={`${CRED_LABEL[credibilidad]} - ${CONF_LABEL[confianza]}`}>
+ <span style={left}>{credibilidad}</span>
+ <span style={right}>{confianza}</span>
+ </span>
   )
 }

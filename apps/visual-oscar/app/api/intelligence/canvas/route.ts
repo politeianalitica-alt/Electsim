@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as { tipo: TipoCanvas; titulo: string; descripcion?: string; tags?: string[] }
     return createInDomain(
-      '/api/intelligence/canvas',
+ '/api/intelligence/canvas',
       { title: body.titulo, description: body.descripcion, data: { tipo: body.tipo, tags: body.tags ?? [] } },
       (): Canvas => ({
         id: `cnv-${Date.now()}`,

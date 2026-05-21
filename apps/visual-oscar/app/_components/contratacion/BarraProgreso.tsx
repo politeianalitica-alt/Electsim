@@ -12,9 +12,9 @@ export function BarraProgreso({
   label?: string
 }) {
   return (
-    <div>
+ <div>
       {label && (
-        <div style={{
+ <div style={{
           fontSize: 9,
           fontWeight: 800,
           color: '#6e6e73',
@@ -23,21 +23,21 @@ export function BarraProgreso({
           marginBottom: 3,
         }}>
           {label}
-        </div>
+ </div>
       )}
-      <div style={{
+ <div style={{
         height,
         background: '#F5F5F7',
         borderRadius: height / 2,
         overflow: 'hidden',
       }}>
-        <div style={{
+ <div style={{
           width: `${Math.min(100, Math.max(0, pct))}%`,
           height: '100%',
           background: color,
           borderRadius: height / 2,
         }} />
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }

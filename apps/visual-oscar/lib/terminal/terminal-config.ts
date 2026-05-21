@@ -65,10 +65,10 @@ export function layoutForMode(mode: TerminalMode): TerminalLayout {
 }
 
 export const TERMINAL_HOTKEYS: Record<string, string> = {
-  "g 1": "Modo Focus",
-  "g 2": "Modo War Room",
-  "g 3": "Modo Compact",
-  "?":   "Mostrar atajos",
-  "/":   "Foco a consola",
-  "esc": "Cerrar paneles modales",
+ "g 1": "Modo Focus",
+ "g 2": "Modo War Room",
+ "g 3": "Modo Compact",
+ "?": "Mostrar atajos",
+ "/": "Foco a consola",
+ "esc": "Cerrar paneles modales",
 };

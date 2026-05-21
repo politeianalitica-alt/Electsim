@@ -40,16 +40,16 @@ export default function PillSelect({
   const fontSize = size === 'sm' ? 11 : 13
 
   return (
-    <div style={{ width: fullWidth ? '100%' : 'auto' }}>
+ <div style={{ width: fullWidth ? '100%' : 'auto' }}>
       {label && (
-        <label htmlFor={id} style={{
+ <label htmlFor={id} style={{
           display:'block', fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
           color:'#6e6e73', textTransform:'uppercase', marginBottom:5,
         }}>
           {label}
-        </label>
+ </label>
       )}
-      <select
+ <select
         id={id}
         value={value}
         onChange={e => onChange(e.target.value)}
@@ -79,10 +79,10 @@ export default function PillSelect({
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map(o => (
-          <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>
+ <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>
         ))}
-      </select>
-    </div>
+ </select>
+ </div>
   )
 }
 
@@ -110,16 +110,16 @@ export function PillInput(props: {
   const padding = size === 'sm' ? '4px 10px' : '9px 14px'
   const fontSize = size === 'sm' ? 11 : 13
   return (
-    <div style={{ width: props.fullWidth !== false ? '100%' : 'auto' }}>
+ <div style={{ width: props.fullWidth !== false ? '100%' : 'auto' }}>
       {props.label && (
-        <label htmlFor={id} style={{
+ <label htmlFor={id} style={{
           display:'block', fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
           color:'#6e6e73', textTransform:'uppercase', marginBottom:5,
         }}>
           {props.label}
-        </label>
+ </label>
       )}
-      <input
+ <input
         id={id}
         type={props.type || 'text'}
         value={props.value}
@@ -141,7 +141,7 @@ export function PillInput(props: {
           transition:'all 160ms',
         }}
       />
-    </div>
+ </div>
   )
 }
 
@@ -156,11 +156,11 @@ export function PillTabs<T extends string>({
   options: Array<{ value: T; label: string }>
 }) {
   return (
-    <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:2 }}>
+ <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:2 }}>
       {options.map(o => {
         const active = value === o.value
         return (
-          <button key={o.value} type="button" onClick={() => onChange(o.value)} style={{
+ <button key={o.value} type="button" onClick={() => onChange(o.value)} style={{
             background: active ? '#fff' : 'transparent',
             color: active ? '#1d1d1f' : '#6e6e73',
             border:'none', borderRadius:999, padding:'4px 10px',
@@ -170,6 +170,6 @@ export function PillTabs<T extends string>({
           }}>{o.label}</button>
         )
       })}
-    </div>
+ </div>
   )
 }

@@ -37,7 +37,7 @@ export const inteligenciaApi = {
 
   getEscenarios: (estado?: string) =>
     get<{ escenarios: Escenario[] }>(
-      `${BASE}/escenarios${estado ? `?estado=${estado}` : ''}`,
+ `${BASE}/escenarios${estado ? `?estado=${estado}` : ''}`,
       600
     ),
 

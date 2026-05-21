@@ -25,7 +25,7 @@ export async function GET(
   const days = req.nextUrl.searchParams.get('days') || '90'
   const id = decodeURIComponent(params.id)
   const r = await callBackend<Payload>(
-    `/api/risk-v2/scenarios/${encodeURIComponent(id)}/history?country=${encodeURIComponent(country)}&days=${days}`,
+ `/api/risk-v2/scenarios/${encodeURIComponent(id)}/history?country=${encodeURIComponent(country)}&days=${days}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.series)) {

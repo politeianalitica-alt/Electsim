@@ -57,33 +57,33 @@ function darken(hex: string, amount = 0.45): string {
 // ── Componentes auxiliares ──────────────────────────────────────────────
 function KPICard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
   return (
-    <div style={{
+ <div style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 16,
       padding: '14px 16px 12px', position: 'relative', overflow: 'hidden',
       boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
-      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>{label}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, letterSpacing: '-0.022em', lineHeight: 1, color: accent, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
+ <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
+ <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>{label}</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, letterSpacing: '-0.022em', lineHeight: 1, color: accent, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
       {sub && <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 5 }}>{sub}</div>}
-    </div>
+ </div>
   )
 }
 function Card({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <section style={{
+ <section style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 18,
       padding: '20px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <h2 style={{
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+ <h2 style={{
           fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d', margin: 0,
         }}>{title}</h2>
         {action}
-      </div>
+ </div>
       {children}
-    </section>
+ </section>
   )
 }
 function fmtKpiValue(v: number | null, unidad: string): string {
@@ -108,16 +108,16 @@ export default function IndustryPage({ sectorId }: { sectorId: string }) {
   const [tab, setTab] = useState<TabId>('overview')
 
   const { data: report, source, updatedAt, refresh } = useApi<SectorReport>(
-    `/api/sectores/${sectorId}`, { refreshInterval: 300_000 }
+ `/api/sectores/${sectorId}`, { refreshInterval: 300_000 }
   )
   const { data: kpisRes } = useApi<{ kpis: KPISectorial[] }>(
-    `/api/sectores/${sectorId}/kpis`, { refreshInterval: 600_000 }
+ `/api/sectores/${sectorId}/kpis`, { refreshInterval: 600_000 }
   )
   const { data: actoresRes } = useApi<{ actores: ActorSectorial[] }>(
-    `/api/sectores/${sectorId}/actores`, { refreshInterval: 0 }
+ `/api/sectores/${sectorId}/actores`, { refreshInterval: 0 }
   )
   const { data: eventosRes } = useApi<{ eventos: EventoSectorial[] }>(
-    `/api/sectores/${sectorId}/eventos`, { refreshInterval: 600_000 }
+ `/api/sectores/${sectorId}/eventos`, { refreshInterval: 600_000 }
   )
 
   const kpis = kpisRes?.kpis ?? []
@@ -126,13 +126,13 @@ export default function IndustryPage({ sectorId }: { sectorId: string }) {
 
   if (!meta) {
     return (
-      <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-body,system-ui)' }}>
-        <AppHeader/>
-        <main style={{ maxWidth: 1500, margin: '0 auto', padding: '60px 28px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 600 }}>Sector no encontrado</h1>
-          <p style={{ color: '#6e6e73' }}>El sector <code>{sectorId}</code> no está registrado en la configuración.</p>
-        </main>
-      </div>
+ <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-body,system-ui)' }}>
+ <AppHeader/>
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '60px 28px', textAlign: 'center' }}>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 600 }}>Sector no encontrado</h1>
+ <p style={{ color: '#6e6e73' }}>El sector <code>{sectorId}</code> no está registrado en la configuración.</p>
+ </main>
+ </div>
     )
   }
 
@@ -144,78 +144,78 @@ export default function IndustryPage({ sectorId }: { sectorId: string }) {
   const iniciativasCount = report?.iniciativas_legislativas_ids?.length ?? 0
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
-      <AppHeader/>
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
+ <AppHeader/>
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* Hero · gradient con accent del sector */}
-        <section style={{
+ <section style={{
           background: `linear-gradient(135deg,${heroFrom} 0%,${heroTo} 100%)`,
           borderRadius: 18, padding: '28px 36px', marginBottom: 18, color: '#fff',
           display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 32, alignItems: 'center',
           position: 'relative', overflow: 'hidden',
         }}>
           {/* Glow decorativo */}
-          <div style={{
+ <div style={{
             position: 'absolute', top: -60, right: -60, width: 220, height: 220, borderRadius: '50%',
             background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 60%)',
             pointerEvents: 'none',
           }}/>
-          <div style={{ position: 'relative' }}>
-            <p style={{
+ <div style={{ position: 'relative' }}>
+ <p style={{
               fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.78,
               textTransform: 'uppercase', margin: '0 0 8px',
               display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
             }}>
-              <span>SECTORIAL · {meta.nombre_corto.toUpperCase()}</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </p>
-            <h1 style={{
+ <span>SECTORIAL · {meta.nombre_corto.toUpperCase()}</span>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+ </p>
+ <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700,
               letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1,
             }}>
               {meta.nombre.split(' ')[0]} <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.78)' }}>{meta.nombre.split(' ').slice(1).join(' ')}</em>
-            </h1>
-            <p style={{ fontSize: 13, opacity: 0.82, margin: 0, lineHeight: 1.5, maxWidth: 620 }}>
+ </h1>
+ <p style={{ fontSize: 13, opacity: 0.82, margin: 0, lineHeight: 1.5, maxWidth: 620 }}>
               {meta.descripcion}
-            </p>
-            <div style={{ display: 'flex', gap: 14, marginTop: 12, fontSize: 11.5, opacity: 0.85, flexWrap: 'wrap' }}>
-              <Link href="/licitaciones" style={{ color: '#fff', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+ </p>
+ <div style={{ display: 'flex', gap: 14, marginTop: 12, fontSize: 11.5, opacity: 0.85, flexWrap: 'wrap' }}>
+ <Link href="/licitaciones" style={{ color: '#fff', textDecoration: 'underline', textUnderlineOffset: 3 }}>
                 Ver licitaciones del sector →
-              </Link>
-              <span style={{ opacity: 0.4 }}>·</span>
-              <span>{meta.fuentes_datos.length} fuentes monitorizadas</span>
-            </div>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, position: 'relative' }}>
+ </Link>
+ <span style={{ opacity: 0.4 }}>·</span>
+ <span>{meta.fuentes_datos.length} fuentes monitorizadas</span>
+ </div>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, position: 'relative' }}>
             {[
               { l: 'Riesgo',       v: NIVEL_LABEL[nivel],       sub: TENDENCIA_LABEL[tendencia] },
               { l: 'Alertas',      v: String(alertasCount),     sub: alertasCount > 0 ? 'activas' : 'sin alertas' },
               { l: 'Iniciativas',  v: String(iniciativasCount), sub: 'legislativas vivas' },
               { l: 'Áreas',        v: String(meta.areas_tematicas.length), sub: 'temáticas' },
             ].map((k) => (
-              <div key={k.l} style={{
+ <div key={k.l} style={{
                 padding: '12px 14px', borderRadius: 12,
                 background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)',
               }}>
-                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', opacity: 0.75, textTransform: 'uppercase' }}>{k.l}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1.05, color: '#fff', marginTop: 4 }}>{k.v}</div>
-                <div style={{ fontSize: 10.5, opacity: 0.7, marginTop: 4 }}>{k.sub}</div>
-              </div>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', opacity: 0.75, textTransform: 'uppercase' }}>{k.l}</div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1.05, color: '#fff', marginTop: 4 }}>{k.v}</div>
+ <div style={{ fontSize: 10.5, opacity: 0.7, marginTop: 4 }}>{k.sub}</div>
+ </div>
             ))}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {/* KPI strip · scores agregados */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
-          <KPICard label="Score Riesgo"            value={score?.score_riesgo?.toFixed(0) ?? '0'} accent={nivelColor} sub={`/100 · ${NIVEL_LABEL[nivel]}`}/>
-          <KPICard label="Actividad legislativa"   value={score?.score_actividad_legislativa?.toFixed(0) ?? '0'} accent="#7C3AED" sub="/100"/>
-          <KPICard label="Volatilidad"             value={score?.score_volatilidad?.toFixed(0) ?? '0'} accent="#F97316" sub="/100"/>
-          <KPICard label="KPIs monitorizados"      value={kpis.length} accent={accent} sub={`${meta.fuentes_datos.length} fuentes`}/>
-        </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
+ <KPICard label="Score Riesgo" value={score?.score_riesgo?.toFixed(0) ?? '0'} accent={nivelColor} sub={`/100 · ${NIVEL_LABEL[nivel]}`}/>
+ <KPICard label="Actividad legislativa" value={score?.score_actividad_legislativa?.toFixed(0) ?? '0'} accent="#7C3AED" sub="/100"/>
+ <KPICard label="Volatilidad" value={score?.score_volatilidad?.toFixed(0) ?? '0'} accent="#F97316" sub="/100"/>
+ <KPICard label="KPIs monitorizados" value={kpis.length} accent={accent} sub={`${meta.fuentes_datos.length} fuentes`}/>
+ </div>
 
         {/* Tabs pill */}
-        <div style={{
+ <div style={{
           display: 'inline-flex', background: '#F5F5F7', borderRadius: 999,
           padding: 4, marginBottom: 18, overflowX: 'auto', maxWidth: '100%',
         }}>
@@ -227,7 +227,7 @@ export default function IndustryPage({ sectorId }: { sectorId: string }) {
           ] as const).map((t) => {
             const active = tab === t.k
             return (
-              <button key={t.k} onClick={() => setTab(t.k)} style={{
+ <button key={t.k} onClick={() => setTab(t.k)} style={{
                 background: active ? '#fff' : 'transparent',
                 color: active ? '#1d1d1f' : '#6e6e73',
                 border: 'none', borderRadius: 999, padding: '7px 16px',
@@ -238,178 +238,178 @@ export default function IndustryPage({ sectorId }: { sectorId: string }) {
               }}>{t.l}</button>
             )
           })}
-        </div>
+ </div>
 
         {/* TAB · Overview · KPIs en vivo + áreas temáticas */}
         {tab === 'overview' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 14 }}>
-            <Card title={`KPIs sectoriales · ${kpis.length}`}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 14 }}>
+ <Card title={`KPIs sectoriales · ${kpis.length}`}>
               {kpis.length === 0 ? (
-                <p style={{ fontSize: 12.5, color: '#9CA3AF', margin: 0 }}>
+ <p style={{ fontSize: 12.5, color: '#9CA3AF', margin: 0 }}>
                   Sin KPIs disponibles del backend en este momento. Las {meta.fuentes_datos.length} fuentes
                   configuradas se hidratarán cuando el backend FastAPI publique los datos.
-                </p>
+ </p>
               ) : (
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {kpis.map((k) => (
-                    <li key={k.id} style={{
+ <li key={k.id} style={{
                       padding: '10px 12px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #f0f0f3',
                       display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'center',
                     }}>
-                      <div>
-                        <div style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f' }}>{k.nombre}</div>
-                        <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 2 }}>
+ <div>
+ <div style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f' }}>{k.nombre}</div>
+ <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 2 }}>
                           {k.fuente_id} · {k.periodo || 'sin periodo'} · {TENDENCIA_LABEL[k.tendencia]}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{
+ </div>
+ </div>
+ <div style={{ textAlign: 'right' }}>
+ <div style={{
                           fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700,
                           color: k.tendencia === 'subida' ? '#16A34A' : k.tendencia === 'bajada' ? '#DC2626' : '#1d1d1f',
                           fontVariantNumeric: 'tabular-nums',
                         }}>{fmtKpiValue(k.valor, k.unidad)}</div>
                         {typeof k.variacion_pct === 'number' && (
-                          <div style={{ fontSize: 10.5, color: k.variacion_pct >= 0 ? '#16A34A' : '#DC2626', fontWeight: 600 }}>
+ <div style={{ fontSize: 10.5, color: k.variacion_pct >= 0 ? '#16A34A' : '#DC2626', fontWeight: 600 }}>
                             {k.variacion_pct >= 0 ? '+' : ''}{k.variacion_pct.toFixed(1)}%
-                          </div>
+ </div>
                         )}
-                      </div>
-                    </li>
+ </div>
+ </li>
                   ))}
-                </ul>
+ </ul>
               )}
-            </Card>
+ </Card>
 
-            <Card title="Áreas temáticas">
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+ <Card title="Áreas temáticas">
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {meta.areas_tematicas.map((a) => (
-                  <span key={a} style={{
+ <span key={a} style={{
                     padding: '5px 11px', borderRadius: 999,
                     background: `${accent}14`, color: accent, fontSize: 11.5, fontWeight: 600,
                     border: `1px solid ${accent}33`, textTransform: 'capitalize',
                   }}>{a.replace(/_/g, ' ')}</span>
                 ))}
-              </div>
+ </div>
               {report?.alertas && report.alertas.length > 0 && (
-                <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid #f5f5f7' }}>
-                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', margin: '0 0 8px' }}>Alertas activas · {report.alertas.length}</p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+ <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid #f5f5f7' }}>
+ <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase', margin: '0 0 8px' }}>Alertas activas · {report.alertas.length}</p>
+ <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
                     {report.alertas.slice(0, 5).map((a, i) => (
-                      <li key={i} style={{ fontSize: 12, color: '#1d1d1f', padding: '6px 10px', background: 'rgba(220,38,38,0.06)', borderLeft: '3px solid #DC2626', borderRadius: 6 }}>
+ <li key={i} style={{ fontSize: 12, color: '#1d1d1f', padding: '6px 10px', background: 'rgba(220,38,38,0.06)', borderLeft: '3px solid #DC2626', borderRadius: 6 }}>
                         {String(a)}
-                      </li>
+ </li>
                     ))}
-                  </ul>
-                </div>
+ </ul>
+ </div>
               )}
-            </Card>
-          </div>
+ </Card>
+ </div>
         )}
 
         {/* TAB · Actores */}
         {tab === 'actores' && (
-          <Card title={`${actores.length} actores del sector`}>
+ <Card title={`${actores.length} actores del sector`}>
             {actores.length === 0 ? (
-              <p style={{ fontSize: 12.5, color: '#9CA3AF', margin: 0 }}>
+ <p style={{ fontSize: 12.5, color: '#9CA3AF', margin: 0 }}>
                 Sin actores publicados todavía. Catálogo en construcción.
-              </p>
+ </p>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 10 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 10 }}>
                 {actores.map((a) => {
                   const c = ACTOR_TIPO_COLOR[a.tipo] || '#6e6e73'
                   return (
-                    <div key={a.id} style={{
+ <div key={a.id} style={{
                       padding: '12px 14px', borderRadius: 12, background: '#FAFAFB', border: '1px solid #f0f0f3',
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                        <span style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+ <span style={{
                           fontSize: 9.5, fontWeight: 800, letterSpacing: '0.08em', color: '#fff',
                           background: c, padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase',
                         }}>{a.tipo}</span>
-                      </div>
-                      <h3 style={{
+ </div>
+ <h3 style={{
                         fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600,
                         margin: '0 0 4px', color: '#1d1d1f',
                       }}>{a.nombre}</h3>
-                      <p style={{ fontSize: 11.5, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
+ <p style={{ fontSize: 11.5, color: '#3a3a3d', margin: 0, lineHeight: 1.4 }}>
                         {a.descripcion_corta}
-                      </p>
-                    </div>
+ </p>
+ </div>
                   )
                 })}
-              </div>
+ </div>
             )}
-          </Card>
+ </Card>
         )}
 
         {/* TAB · Eventos recientes */}
         {tab === 'eventos' && (
-          <Card title={`${eventos.length} eventos sectoriales`}>
+ <Card title={`${eventos.length} eventos sectoriales`}>
             {eventos.length === 0 ? (
-              <p style={{ fontSize: 12.5, color: '#9CA3AF', margin: 0 }}>
+ <p style={{ fontSize: 12.5, color: '#9CA3AF', margin: 0 }}>
                 Sin eventos recientes registrados para este sector.
-              </p>
+ </p>
             ) : (
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {eventos.slice(0, 20).map((e) => {
                   const c = EVENTO_TIPO_COLOR[e.tipo] || '#525258'
                   return (
-                    <li key={e.id} style={{
+ <li key={e.id} style={{
                       padding: '12px 14px', borderRadius: 12, background: '#FAFAFB',
                       border: '1px solid #f0f0f3', borderLeft: `3px solid ${c}`,
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', color: c, textTransform: 'uppercase' }}>{e.tipo}</span>
-                        <span style={{ fontSize: 11, color: '#6e6e73' }}>· {new Date(e.fecha).toLocaleDateString('es-ES')}</span>
-                      </div>
-                      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600, margin: '0 0 4px', color: '#1d1d1f' }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+ <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', color: c, textTransform: 'uppercase' }}>{e.tipo}</span>
+ <span style={{ fontSize: 11, color: '#6e6e73' }}>· {new Date(e.fecha).toLocaleDateString('es-ES')}</span>
+ </div>
+ <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 13.5, fontWeight: 600, margin: '0 0 4px', color: '#1d1d1f' }}>
                         {e.titulo}
-                      </h3>
-                      <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>{e.descripcion}</p>
+ </h3>
+ <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>{e.descripcion}</p>
                       {e.url_fuente && (
-                        <a href={e.url_fuente} target="_blank" rel="noopener noreferrer"
+ <a href={e.url_fuente} target="_blank" rel="noopener noreferrer"
                            style={{ fontSize: 11, color: c, textDecoration: 'none', fontWeight: 600, marginTop: 4, display: 'inline-block' }}>
                           {e.fuente} ↗
-                        </a>
+ </a>
                       )}
-                    </li>
+ </li>
                   )
                 })}
-              </ul>
+ </ul>
             )}
-          </Card>
+ </Card>
         )}
 
         {/* TAB · Fuentes monitorizadas */}
         {tab === 'fuentes' && (
-          <Card title={`${meta.fuentes_datos.length} fuentes monitorizadas`}>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 10 }}>
+ <Card title={`${meta.fuentes_datos.length} fuentes monitorizadas`}>
+ <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 10 }}>
               {meta.fuentes_datos.map((f) => (
-                <li key={f.id} style={{
+ <li key={f.id} style={{
                   padding: '12px 14px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #f0f0f3',
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+ <span style={{
                       fontSize: 9, fontWeight: 800, letterSpacing: '0.08em',
                       color: accent, background: `${accent}14`, padding: '2px 7px',
                       borderRadius: 4, textTransform: 'uppercase',
                     }}>{f.tipo}</span>
-                    <span style={{ fontSize: 10, color: '#6e6e73', fontFamily: 'ui-monospace,monospace' }}>{Math.floor(f.revalidate_s / 60)} min</span>
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{f.nombre}</div>
+ <span style={{ fontSize: 10, color: '#6e6e73', fontFamily: 'ui-monospace,monospace' }}>{Math.floor(f.revalidate_s / 60)} min</span>
+ </div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{f.nombre}</div>
                   {f.endpoint_variable && (
-                    <code style={{ fontSize: 10.5, color: '#6e6e73', fontFamily: 'ui-monospace,monospace' }}>{f.endpoint_variable}</code>
+ <code style={{ fontSize: 10.5, color: '#6e6e73', fontFamily: 'ui-monospace,monospace' }}>{f.endpoint_variable}</code>
                   )}
-                </li>
+ </li>
               ))}
-            </ul>
-          </Card>
+ </ul>
+ </Card>
         )}
 
-      </main>
-      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
+ </main>
+ <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
         Sectorial · {meta.nombre} · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }

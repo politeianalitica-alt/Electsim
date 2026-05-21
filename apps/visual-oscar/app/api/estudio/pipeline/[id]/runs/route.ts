@@ -14,7 +14,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
 
 function getMockRuns(pipelineId: string) {
   return Array.from({ length: 8 }, (_, i) => ({
-    id:           `run-${pipelineId}-${i}`,
+    id: `run-${pipelineId}-${i}`,
     pipelineId,
     status:       i === 0 ? 'success' : i === 2 ? 'error' : 'success',
     startedAt:    new Date(Date.now() - i * 3_600_000).toISOString(),

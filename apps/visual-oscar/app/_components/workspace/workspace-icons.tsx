@@ -10,11 +10,11 @@ interface IconProps {
 function icon(path: string) {
   return function WsIcon({ size = 14, style, color = "currentColor" }: IconProps) {
     return (
-      <svg width={size} height={size} viewBox="0 0 16 16" fill="none" style={style} aria-hidden>
+ <svg width={size} height={size} viewBox="0 0 16 16" fill="none" style={style} aria-hidden>
         {path.split("|").map((d, i) => (
-          <path key={i} d={d} fill={color} />
+ <path key={i} d={d} fill={color} />
         ))}
-      </svg>
+ </svg>
     );
   };
 }
@@ -22,69 +22,69 @@ function icon(path: string) {
 function iconStroke(paths: string) {
   return function WsIcon({ size = 14, style, color = "currentColor" }: IconProps) {
     return (
-      <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={style} aria-hidden>
+ <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={style} aria-hidden>
         {paths.split("|").map((d, i) => (
-          <path key={i} d={d} />
+ <path key={i} d={d} />
         ))}
-      </svg>
+ </svg>
     );
   };
 }
 
 export const IconOverview = icon(
-  "M1 1h6v6H1V1z|M9 1h6v6H9V1z|M1 9h6v6H1V9z|M9 9h6v6H9V9z"
+ "M1 1h6v6H1V1z|M9 1h6v6H9V1z|M1 9h6v6H1V9z|M9 9h6v6H9V9z"
 );
 
 export const IconDocs = iconStroke(
-  "M4 1h8l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z|M9 1v4h4|M5.5 8h5|M5.5 11h3"
+ "M4 1h8l3 3v10a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z|M9 1v4h4|M5.5 8h5|M5.5 11h3"
 );
 
 export const IconTables = iconStroke(
-  "M1 4h14|M1 8h14|M1 12h14|M5 1v14|M11 1v14|M2 1h12a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V2a1 1 0 011-1z"
+ "M1 4h14|M1 8h14|M1 12h14|M5 1v14|M11 1v14|M2 1h12a1 1 0 011 1v12a1 1 0 01-1 1H2a1 1 0 01-1-1V2a1 1 0 011-1z"
 );
 
 export const IconCanvas = iconStroke(
-  "M3 8a2 2 0 100-4 2 2 0 000 4z|M13 5a2 2 0 100-4 2 2 0 000 4z|M13 15a2 2 0 100-4 2 2 0 000 4z|M5 7l6-2|M5 9l6 4"
+ "M3 8a2 2 0 100-4 2 2 0 000 4z|M13 5a2 2 0 100-4 2 2 0 000 4z|M13 15a2 2 0 100-4 2 2 0 000 4z|M5 7l6-2|M5 9l6 4"
 );
 
 export const IconResearch = iconStroke(
-  "M7 13A6 6 0 107 1a6 6 0 000 12z|M15 15l-4-4"
+ "M7 13A6 6 0 107 1a6 6 0 000 12z|M15 15l-4-4"
 );
 
 export const IconProjects = iconStroke(
-  "M1 2h4v12H1V2z|M6 2h4v8H6V2z|M11 2h4v5h-4V2z"
+ "M1 2h4v12H1V2z|M6 2h4v8H6V2z|M11 2h4v5h-4V2z"
 );
 
 export const IconAutomations = icon(
-  "M8.5 1l1.5 4h4l-3.3 2.4L12 12l-3.5-2.5L5 12l1.3-4.6L3 5h4L8.5 1z"
+ "M8.5 1l1.5 4h4l-3.3 2.4L12 12l-3.5-2.5L5 12l1.3-4.6L3 5h4L8.5 1z"
 );
 
 export const IconKnowledge = iconStroke(
-  "M3 1h7l5 5v8a1 1 0 01-1 1H3a1 1 0 01-1-1V2a1 1 0 011-1z|M9 1v6h5|M5 10h6|M5 13h4"
+ "M3 1h7l5 5v8a1 1 0 01-1 1H3a1 1 0 01-1-1V2a1 1 0 011-1z|M9 1v6h5|M5 10h6|M5 13h4"
 );
 
 export const IconReporting = iconStroke(
-  "M2 12l3-4 3 2 3-5 3 3|M1 15h14|M1 1h14v11H1V1z"
+ "M2 12l3-4 3 2 3-5 3 3|M1 15h14|M1 1h14v11H1V1z"
 );
 
 export const IconTerminal = iconStroke(
-  "M2 2h12a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V3a1 1 0 011-1z|M4 6l3 2-3 2|M9 10h3"
+ "M2 2h12a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V3a1 1 0 011-1z|M4 6l3 2-3 2|M9 10h3"
 );
 
 export const IconRadar = iconStroke(
-  "M8 1a7 7 0 100 14 7 7 0 000-14z|M8 4a4 4 0 100 8 4 4 0 000-8z|M8 8l5-3"
+ "M8 1a7 7 0 100 14 7 7 0 000-14z|M8 4a4 4 0 100 8 4 4 0 000-8z|M8 8l5-3"
 );
 
 export const IconInbox = iconStroke(
-  "M2 9l2-6h8l2 6|M2 9h4l1 2h2l1-2h4|M2 9v5a1 1 0 001 1h10a1 1 0 001-1V9"
+ "M2 9l2-6h8l2 6|M2 9h4l1 2h2l1-2h4|M2 9v5a1 1 0 001 1h10a1 1 0 001-1V9"
 );
 
 export const IconSlides = iconStroke(
-  "M2 3h12a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V4a1 1 0 011-1z|M5 14l3-2 3 2"
+ "M2 3h12a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V4a1 1 0 011-1z|M5 14l3-2 3 2"
 );
 
 export const IconSimulator = iconStroke(
-  "M3 2v12h10|M5 11l3-4 2 2 3-5|M3 14l3-3 2 2 4-5"
+ "M3 2v12h10|M5 11l3-4 2 2 3-5|M3 14l3-3 2 2 4-5"
 );
 
 export const IconChevronRight = iconStroke("M6 3l5 5-5 5");

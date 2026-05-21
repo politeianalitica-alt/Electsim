@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as { nombre: string; terminos: string[]; descripcion?: string }
     return createInDomain(
-      '/api/intelligence/watchlists',
+ '/api/intelligence/watchlists',
       {
         name: body.nombre,
         description: body.descripcion,

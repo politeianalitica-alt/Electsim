@@ -103,8 +103,8 @@ export async function fetchRSS(url: string, timeoutMs = 8000): Promise<RSSResult
       signal: controller.signal,
       headers: {
         // User-Agent real para evitar bloqueos por bots
-        'User-Agent': 'PoliteiaAnalitica/1.0 (+https://politeia-visual-oscar.vercel.app)',
-        'Accept': 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
+ 'User-Agent': 'PoliteiaAnalitica/1.0 (+https://politeia-visual-oscar.vercel.app)',
+ 'Accept': 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
       },
       // Cache 10 min — reduce hits a los servidores de medios
       next: { revalidate: 600 },

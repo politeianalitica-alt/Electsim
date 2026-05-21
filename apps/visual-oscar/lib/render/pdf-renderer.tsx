@@ -41,15 +41,15 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
   const { Document, Page, Text, View, StyleSheet, Font, pdf } = mod;
 
   const C = {
-    ink:    "#1d1d1f",
-    ink2:   "#3a3a3d",
-    ink3:   "#6e6e73",
+    ink: "#1d1d1f",
+    ink2: "#3a3a3d",
+    ink3: "#6e6e73",
     border: "#d2d2d7",
-    bg:     "#fbfbfd",
+    bg: "#fbfbfd",
     accent: "#0071e3",
     danger: "#c42c2c",
-    warn:   "#d97706",
-    info:   "#0071e3",
+    warn: "#d97706",
+    info: "#0071e3",
   };
 
   const S = StyleSheet.create({
@@ -106,7 +106,7 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
         [
           spec.author ? `Autor: ${spec.author}` : "",
           spec.generatedAt ? `Generado: ${new Date(spec.generatedAt).toLocaleString("es-ES")}` : `Generado: ${new Date().toLocaleString("es-ES")}`,
-        ].filter(Boolean).join("  ·  ")
+        ].filter(Boolean).join(" · ")
       ),
 
       // Meta KV
@@ -151,7 +151,7 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
 
       // Fixed footer
       React.createElement(Text, { style: S.footer, fixed: true },
-        `Politeia · Workspace · ${new Date().toLocaleDateString("es-ES")} · documento confidencial`),
+ `Politeia · Workspace · ${new Date().toLocaleDateString("es-ES")} · documento confidencial`),
     )
   );
 

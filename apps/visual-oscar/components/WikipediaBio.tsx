@@ -41,16 +41,16 @@ export default function WikipediaBio({ name, party }: Props) {
 
   if (loading) {
     return (
-      <div style={{
+ <div style={{
         padding: '14px 16px', borderRadius: 12,
         background: 'linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)',
         border: '1px solid rgba(0,0,0,0.05)', marginBottom: 14,
       }}>
-        <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+ <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
         Wikipedia
-        </div>
-        <div style={{ fontSize: 12, color: '#64748b', marginTop: 6 }}>Buscando entrada para «{name}»…</div>
-      </div>
+ </div>
+ <div style={{ fontSize: 12, color: '#64748b', marginTop: 6 }}>Buscando entrada para «{name}»…</div>
+ </div>
     )
   }
   if (!bio || !bio.ok || !bio.summary) {
@@ -61,7 +61,7 @@ export default function WikipediaBio({ name, party }: Props) {
   const display = truncated ? bio.summary.slice(0, 380) + '…' : bio.summary
 
   return (
-    <div style={{
+ <div style={{
       padding: '16px 18px', borderRadius: 12,
       background: 'linear-gradient(180deg, #fefce8 0%, #fef9c3 100%)',
       border: '1px solid rgba(202,138,4,0.18)',
@@ -69,7 +69,7 @@ export default function WikipediaBio({ name, party }: Props) {
       display: 'flex', gap: 16,
     }}>
       {bio.thumbnail_url && (
-        <img
+ <img
           src={bio.thumbnail_url}
           alt={bio.title}
           style={{
@@ -79,39 +79,39 @@ export default function WikipediaBio({ name, party }: Props) {
           }}
         />
       )}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-          <span style={{ fontSize: 10, color: '#854d0e', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+ <span style={{ fontSize: 10, color: '#854d0e', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           Wikipedia
-          </span>
+ </span>
           {bio.birth_date && (
-            <span style={{ fontSize: 10, color: '#a16207' }}>
+ <span style={{ fontSize: 10, color: '#a16207' }}>
            n. {bio.birth_date}
-            </span>
+ </span>
           )}
           {bio.url && (
-            <a href={bio.url} target="_blank" rel="noopener noreferrer" style={{
+ <a href={bio.url} target="_blank" rel="noopener noreferrer" style={{
               marginLeft: 'auto', fontSize: 10, color: '#0c4a6e', textDecoration: 'none', fontWeight: 600,
             }}>Ver en Wikipedia →</a>
           )}
-        </div>
+ </div>
         {bio.description && (
-          <div style={{ fontSize: 11, color: '#854d0e', fontStyle: 'italic', marginBottom: 6 }}>
+ <div style={{ fontSize: 11, color: '#854d0e', fontStyle: 'italic', marginBottom: 6 }}>
             {bio.description}
-          </div>
+ </div>
         )}
-        <p style={{ fontSize: 12.5, color: '#422006', lineHeight: 1.6, margin: 0 }}>
+ <p style={{ fontSize: 12.5, color: '#422006', lineHeight: 1.6, margin: 0 }}>
           {display}
-        </p>
+ </p>
         {bio.summary.length > 380 && (
-          <button onClick={() => setExpanded(e => !e)} style={{
+ <button onClick={() => setExpanded(e => !e)} style={{
             background: 'transparent', border: 'none', color: '#854d0e',
             fontSize: 11, fontWeight: 700, cursor: 'pointer', padding: 0, marginTop: 6,
           }}>
             {expanded ? '← Resumir' : 'Leer más →'}
-          </button>
+ </button>
         )}
-      </div>
-    </div>
+ </div>
+ </div>
   )
 }

@@ -28,10 +28,10 @@ export async function POST(req: NextRequest) {
     const id = `session-${Date.now().toString(36)}`
     return NextResponse.json({
       id,
-      title:      `Consulta ${new Date().toLocaleDateString('es')}`,
+      title: `Consulta ${new Date().toLocaleDateString('es')}`,
       datasetIds: body.datasetIds ?? [],
       messages:   [],
-      createdBy:  'demo',
+      createdBy: 'demo',
       createdAt:  new Date().toISOString(),
       updatedAt:  new Date().toISOString(),
     })

@@ -19,7 +19,7 @@ export function TimelineExpediente({
 }) {
   const sorted = [...steps].sort((a, b) => a.orden - b.orden)
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       {sorted.map((s, i) => {
         const isLast = i === sorted.length - 1
         const dotColor =
@@ -30,9 +30,9 @@ export function TimelineExpediente({
             : s.color
         const active = activeOrden !== undefined && s.orden <= activeOrden
         return (
-          <div key={s.fase} style={{ display: 'flex', gap: 14, position: 'relative' }}>
+ <div key={s.fase} style={{ display: 'flex', gap: 14, position: 'relative' }}>
             {!isLast && (
-              <div style={{
+ <div style={{
                 position: 'absolute',
                 left: 7,
                 top: 18,
@@ -41,7 +41,7 @@ export function TimelineExpediente({
                 background: active ? s.color : '#ECECEF',
               }} />
             )}
-            <div style={{
+ <div style={{
               width: 16,
               height: 16,
               borderRadius: '50%',
@@ -51,8 +51,8 @@ export function TimelineExpediente({
               marginTop: 2,
               zIndex: 1,
             }} />
-            <div style={{ paddingBottom: 16 }}>
-              <div style={{
+ <div style={{ paddingBottom: 16 }}>
+ <div style={{
                 fontSize: 9,
                 fontWeight: 800,
                 color: active ? s.color : '#86868b',
@@ -60,20 +60,20 @@ export function TimelineExpediente({
                 textTransform: 'uppercase',
               }}>
                 {s.titulo}
-              </div>
-              <div style={{
+ </div>
+ <div style={{
                 fontSize: 12,
                 color: active ? '#1d1d1f' : '#6e6e73',
                 marginTop: 2,
                 fontWeight: active ? 600 : 400,
               }}>
                 {s.detalle}
-              </div>
-              <div style={{ fontSize: 10, color: '#86868b', marginTop: 2 }}>{s.fecha}</div>
-            </div>
-          </div>
+ </div>
+ <div style={{ fontSize: 10, color: '#86868b', marginTop: 2 }}>{s.fecha}</div>
+ </div>
+ </div>
         )
       })}
-    </div>
+ </div>
   )
 }

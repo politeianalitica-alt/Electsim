@@ -54,21 +54,21 @@ interface AndaluciaSearchResponse {
 
 // ─── Provincias Andalucía (códigos INE) ───────────────────
 const PROVINCIAS: Record<string, string> = {
-  '04': 'Almería', '11': 'Cádiz', '14': 'Córdoba', '18': 'Granada',
-  '21': 'Huelva',  '23': 'Jaén',  '29': 'Málaga',  '41': 'Sevilla',
+ '04': 'Almería', '11': 'Cádiz', '14': 'Córdoba', '18': 'Granada',
+ '21': 'Huelva', '23': 'Jaén', '29': 'Málaga', '41': 'Sevilla',
 }
 
 // ─── Procedimientos Andalucía (códigos SIREC) ─────────────
 const PROCEDIMIENTOS_AND: Record<string, string> = {
-  '1': 'Abierto',
-  '2': 'Restringido',
-  '3': 'Negociado con publicidad',
-  '4': 'Negociado sin publicidad',
-  '5': 'Diálogo competitivo',
-  '6': 'Acuerdo marco',
-  '7': 'Sistema dinámico',
-  '9': 'Contrato menor',
-  '13': 'Asociación para la innovación',
+ '1': 'Abierto',
+ '2': 'Restringido',
+ '3': 'Negociado con publicidad',
+ '4': 'Negociado sin publicidad',
+ '5': 'Diálogo competitivo',
+ '6': 'Acuerdo marco',
+ '7': 'Sistema dinámico',
+ '9': 'Contrato menor',
+ '13': 'Asociación para la innovación',
 }
 
 function normalize(e: AndaluciaExpediente): NormalizedContrato {
@@ -197,8 +197,8 @@ export async function searchAndalucia(
     const res = await fetch(ENDPOINT, {
       method: 'POST',
       headers: {
-        'User-Agent': UA,
-        'Content-Type': 'application/json',
+ 'User-Agent': UA,
+ 'Content-Type': 'application/json',
         Accept: 'application/json',
       },
       body: JSON.stringify(body),

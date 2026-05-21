@@ -87,7 +87,7 @@ export async function GET() {
           hist_cycles: backendInd!.hist_cycles ?? HIST_CYCLES,
           impacto_politico: backendInd!.impacto_politico ?? IMPACTO_POLITICO,
         },
-        'backend',
+ 'backend',
         { latency_ms: latency },
       ),
     )
@@ -114,7 +114,7 @@ export async function GET() {
         hist_cycles: HIST_CYCLES,
         impacto_politico: IMPACTO_POLITICO,
       },
-      'mock',
+ 'mock',
       {
         warnings,
         latency_ms: Math.max(kpisResult.latency_ms, indicatorsResult.latency_ms),

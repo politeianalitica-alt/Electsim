@@ -18,6 +18,7 @@ import { CanvasSummaryWidget } from "@/app/_components/workspace/widgets/canvas-
 import { RadarTopWidget } from "@/app/_components/workspace/widgets/radar-top-widget";
 import { CrmAlertsPanel } from "@/components/crm/crm-alerts-panel";
 import { InboxMiniWidget } from "@/app/_components/workspace/widgets/inbox-mini-widget";
+import WorkspacePoliticalOverview from "@/app/_components/workspace/political-overview";
 
 export default function WorkspaceOverviewPage({ params }: { params: { workspaceId: string } }) {
   const { workspaceId } = params;
@@ -42,7 +43,7 @@ export default function WorkspaceOverviewPage({ params }: { params: { workspaceI
   if (isLoading) return <OverviewSkeleton />;
   if (isEmpty || !data || !brief) {
     return (
-      <WorkspaceEmptyState
+ <WorkspaceEmptyState
         view="overview"
         title="Workspace sin datos"
         description={`No encontramos información para «${workspaceId}».`}
@@ -51,47 +52,53 @@ export default function WorkspaceOverviewPage({ params }: { params: { workspaceI
   }
 
   return (
-    <div className="grid grid-cols-12 grid-rows-[auto_auto_1fr_1fr] gap-3 h-full min-h-[800px]">
-      <div className="col-span-4 row-span-2">
-        <MorningBriefWidget
+ <div className="flex flex-col gap-6">
+      {/* Cabecera ejecutiva · overview de inteligencia política (España 2026) */}
+ <WorkspacePoliticalOverview />
+
+      {/* Grid operativo · widgets existentes (Morning Brief, KPIs, Agenda, etc.) */}
+ <div className="grid grid-cols-12 grid-rows-[auto_auto_1fr_1fr] gap-3 h-full min-h-[800px]">
+ <div className="col-span-4 row-span-2">
+ <MorningBriefWidget
           brief={brief}
           onRegenerate={() => setBriefSeed(s => s + 1)}
         />
-      </div>
-      <div className="col-span-8 h-28">
-        <KpiStripWidget data={data} workspaceId={workspaceId} />
-      </div>
-      <div className="col-span-8">
-        <AgendaWidget events={agendaEvents} workspaceId={workspaceId} />
-      </div>
+ </div>
+ <div className="col-span-8 h-28">
+ <KpiStripWidget data={data} workspaceId={workspaceId} />
+ </div>
+ <div className="col-span-8">
+ <AgendaWidget events={agendaEvents} workspaceId={workspaceId} />
+ </div>
 
-      <div className="col-span-4">
-        <IssuesWidget issues={criticalIssues} workspaceId={workspaceId} />
-      </div>
-      <div className="col-span-4">
-        <ActionsWidget actions={data.actions} workspaceId={workspaceId} />
-      </div>
-      <div className="col-span-4">
-        <TeamWidget members={data.members} />
-      </div>
+ <div className="col-span-4">
+ <IssuesWidget issues={criticalIssues} workspaceId={workspaceId} />
+ </div>
+ <div className="col-span-4">
+ <ActionsWidget actions={data.actions} workspaceId={workspaceId} />
+ </div>
+ <div className="col-span-4">
+ <TeamWidget members={data.members} />
+ </div>
 
-      <div className="col-span-4">
-        <DecisionsWidget decisions={data.decisions} workspaceId={workspaceId} />
-      </div>
-      <div className="col-span-4">
-        <CanvasSummaryWidget canvas={data.canvas} workspaceId={workspaceId} />
-      </div>
-      <div className="col-span-4">
-        <RadarTopWidget opportunities={topOpportunities} workspaceId={workspaceId} />
-      </div>
+ <div className="col-span-4">
+ <DecisionsWidget decisions={data.decisions} workspaceId={workspaceId} />
+ </div>
+ <div className="col-span-4">
+ <CanvasSummaryWidget canvas={data.canvas} workspaceId={workspaceId} />
+ </div>
+ <div className="col-span-4">
+ <RadarTopWidget opportunities={topOpportunities} workspaceId={workspaceId} />
+ </div>
 
       {/* Fila adicional: Inbox mini + CRM alerts */}
-      <div className="col-span-8">
-        <InboxMiniWidget workspaceId={workspaceId} />
-      </div>
-      <div className="col-span-4">
-        <CrmAlertsPanel workspaceId={workspaceId} />
-      </div>
-    </div>
+ <div className="col-span-8">
+ <InboxMiniWidget workspaceId={workspaceId} />
+ </div>
+ <div className="col-span-4">
+ <CrmAlertsPanel workspaceId={workspaceId} />
+ </div>
+ </div>
+ </div>
   );
 }

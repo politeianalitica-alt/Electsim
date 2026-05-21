@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
+import { generateText, generateWithTools, AI_CONFIG } from '@/lib/ai'
+import { buildLiveContext } from '@/lib/ai/context-builder'
+import { buildBrainSystemPrompt } from '@/lib/ai/system-prompts/politeia-brain'
+import { BRAIN_TOOLS, executeTool } from '@/lib/ai/tools'
+import { chooseTier, lastUserMessage } from '@/lib/ai/tier-router'
+import { calculateCost } from '@/lib/ai/cost-calculator'
 
 // POST /api/brain/chat
 //
@@ -8,8 +14,9 @@ import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
 //      del backend (Bloque P3 — tool-use con 8 herramientas reales: BOE, EUR-Lex,
 //      AI Act, Congreso, actores).
 //   2. Si BACKEND_URL configurado y sin tools → `/api/brain/chat`.
-//   3. Si backend no responde → Ollama directo (OLLAMA_URL).
-//   4. Si nada responde → `source: 'fallback'` con _meta.warnings.
+//   3. Anthropic Claude Haiku (si LLM_PROVIDER=anthropic + API key).
+//   4. Ollama directo (si OLLAMA_URL configurado).
+//   5. Si nada responde → `source: 'fallback'` con _meta.warnings.
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -18,6 +25,43 @@ export const maxDuration = 120
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434'
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:7b'
 const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 90_000)
+
+/**
+ * Limpia XML residual de tool calls que Claude pueda haber "leaked" en
+ * el texto visible. Esto pasa cuando el modelo (especialmente Haiku) decide
+ * imprimir la invocación XML en vez de usar el formato nativo tool_use.
+ * También filtra meta-comentarios tipo "Voy a buscar..." / "Déjame consultar..."
+ * que el system prompt prohíbe pero a veces se cuelan.
+ */
+function stripToolXml(text: string): string {
+  let cleaned = text
+  // 1. Bloques completos <function_calls>...</function_calls>
+  cleaned = cleaned.replace(/<function_calls>[\s\S]*?<\/function_calls>/gi, "")
+  // 2. Bloques <invoke>...</invoke> sueltos
+  cleaned = cleaned.replace(/<invoke[^>]*>[\s\S]*?<\/invoke>/gi, "")
+  // 3. Tags sueltas que puedan quedar (<parameter>, etc.)
+  cleaned = cleaned.replace(/<\/?(?:function_calls|invoke|parameter)[^>]*>/gi, "")
+  // 4. Meta-frases típicas del modelo ("Voy a buscar/llamar/consultar...")
+  //    al inicio de la respuesta. Solo si aparecen en las primeras 2 líneas.
+  const lines = cleaned.split("\n")
+  while (lines.length > 0) {
+    const first = lines[0].trim()
+    if (!first) {
+      lines.shift()
+      continue
+    }
+    const metaPattern = /^(voy a (buscar|llamar|consultar|revisar|comprobar|verificar)|d[eé]jame (buscar|consultar|comprobar)|llamar[ée] a|consultar[ée]|comprobar[ée])\b/i
+    if (metaPattern.test(first) && first.length < 120) {
+      lines.shift()
+    } else {
+      break
+    }
+  }
+  cleaned = lines.join("\n")
+  // 5. Compactar líneas en blanco consecutivas (>2) a 2
+  cleaned = cleaned.replace(/\n{3,}/g, "\n\n")
+  return cleaned.trim()
+}
 
 // SYSTEM_PROMPT centralizado — refleja la guía editorial de Politeia.
 // Cuando el backend nuevo `chat-with-tools` esté en producción, este prompt
@@ -137,7 +181,132 @@ export async function POST(req: NextRequest) {
       content: m.content.slice(0, 4000),
     }))
 
-  // 1. Backend (con tools si se pidió o si está habilitado por env)
+  // ── Detector: el backend a veces responde con un mensaje mock interno
+  // (cuando él mismo no tiene un LLM real). En ese caso preferimos
+  // saltar al siguiente fallback (Anthropic) en vez de mostrarlo al usuario.
+  const isBackendMockReply = (reply: string): boolean => {
+    const r = reply.toLowerCase()
+    return (
+      r.includes('modo demo') ||
+      r.includes('ollama ejecutándose') ||
+      r.includes('ollama ejecutandose') ||
+      r.includes('politeia-brain:latest') ||
+      r.includes('temporalmente en modo')
+    )
+  }
+
+  // 1. Anthropic Claude (Haiku · tool use loop) — PRIORIDAD MÁXIMA
+  //    cuando LLM_PROVIDER=anthropic. Inyecta contexto vivo del dashboard
+  //    + define tools que Claude puede llamar para profundizar.
+  if (AI_CONFIG.provider === 'anthropic') {
+    try {
+      const liveContext = await buildLiveContext()
+      const systemPrompt = buildBrainSystemPrompt(liveContext)
+
+      // Auto-router: decide Sonnet (premium) o Haiku (fast) según la
+      // complejidad de la última pregunta del usuario. Reduce coste 60%
+      // en preguntas simples sin sacrificar calidad en las complejas.
+      const tier = chooseTier(lastUserMessage(clean))
+
+      const result = await generateWithTools({
+        tier,
+        system: systemPrompt,
+        messages: clean.map(m => ({
+          role: m.role === 'system' ? 'system' : m.role,
+          content: m.content,
+        })),
+        temperature: 0.3,
+        maxTokens: tier === 'premium' ? 2000 : 1500,
+        tools: BRAIN_TOOLS,
+        executor: executeTool,
+        maxIterations: 4,
+      })
+      if (result.text) {
+        const cost = calculateCost(result.model, result.usage)
+
+        // Detectar si Claude usó el fallback de conocimiento general
+        // (marcador "GENERAL::" al inicio de la respuesta). Regex permisivo:
+        // detecta el marcador en las primeras líneas y limpia hasta el
+        // primer doble \n.
+        const trimmedText = result.text.trimStart()
+        const fromGeneralKnowledge = /^GENERAL::/i.test(trimmedText)
+        let cleanedReply = result.text
+        if (fromGeneralKnowledge) {
+          // Quita la primera línea (marcador) + posibles líneas en blanco
+          // hasta llegar al contenido real
+          cleanedReply = trimmedText
+            .replace(/^GENERAL::[^\n]*\n+/i, "")
+            .trim()
+        }
+        // Post-process: stripear XML de tool calls que Claude pueda haber
+        // "leaked" en el texto visible (bug ocasional del modelo, sobre
+        // todo Haiku). El system prompt lo prohíbe pero hacemos defensa.
+        cleanedReply = stripToolXml(cleanedReply)
+
+        return NextResponse.json({
+          reply: cleanedReply,
+          source: 'anthropic',
+          model: result.model,
+          tier,
+          from_general_knowledge: fromGeneralKnowledge,
+          tools_used: result.toolsUsed.map(t => ({
+            name: t.name,
+            input: t.input,
+            ms: t.ms,
+          })),
+          citations: [],
+          iterations: result.iterations,
+          usage: result.usage,
+          cost: { usd: cost.usd, cents: cost.cents, breakdown: cost.breakdown },
+          ms: Date.now() - started,
+          _meta: { source: 'anthropic', ts: new Date().toISOString() },
+        })
+      }
+    } catch (e) {
+      const err = e instanceof Error ? e.message : String(e)
+      // eslint-disable-next-line no-console
+      console.warn('[brain/chat] anthropic failed:', err)
+      // Fallback simple sin tools si tool use falla
+      try {
+        const reply = await generateText({
+          tier: 'fast',
+          system: buildBrainSystemPrompt(await buildLiveContext()),
+          messages: clean.map(m => ({
+            role: m.role === 'system' ? 'system' : m.role,
+            content: m.content,
+          })),
+          temperature: 0.4,
+          maxTokens: 1024,
+        })
+        if (reply) {
+          // También detectar marcador GENERAL:: en el fallback
+          const trimmedFb = reply.trimStart()
+          const fbGeneral = /^GENERAL::/i.test(trimmedFb)
+          let cleanedFb = fbGeneral
+            ? trimmedFb.replace(/^GENERAL::[^\n]*\n+/i, "").trim()
+            : reply
+          cleanedFb = stripToolXml(cleanedFb)
+          return NextResponse.json({
+            reply: cleanedFb,
+            source: 'anthropic',
+            model: AI_CONFIG.anthropicFastModel,
+            tier: 'fast',
+            from_general_knowledge: fbGeneral,
+            tools_used: [],
+            citations: [],
+            ms: Date.now() - started,
+            _meta: { source: 'anthropic', ts: new Date().toISOString(), fallback: 'no_tools' },
+          })
+        }
+      } catch (e2) {
+        // eslint-disable-next-line no-console
+        console.warn('[brain/chat] anthropic fallback also failed:', (e2 as Error).message)
+      }
+    }
+  }
+
+  // 2. Backend (con tools si se pidió). Solo si Anthropic falló o no está.
+  //    Si el backend responde con un mensaje mock interno, lo descartamos.
   const useTools = body.use_tools ?? (process.env.BRAIN_USE_TOOLS === '1')
   const fromB = await callBackendChat(clean, {
     use_tools: useTools,
@@ -145,7 +314,7 @@ export async function POST(req: NextRequest) {
     session_id: body.session_id,
     tools: body.tools,
   })
-  if (fromB && 'reply' in fromB && fromB.reply) {
+  if (fromB && 'reply' in fromB && fromB.reply && !isBackendMockReply(fromB.reply)) {
     return NextResponse.json({
       reply: fromB.reply,
       source: 'backend',
@@ -160,9 +329,13 @@ export async function POST(req: NextRequest) {
       },
     })
   }
-  const backendWarning = fromB && 'error' in fromB && fromB.error ? fromB.error : null
+  const backendWarning = fromB && 'error' in fromB && fromB.error
+    ? fromB.error
+    : (fromB && 'reply' in fromB && fromB.reply && isBackendMockReply(fromB.reply))
+      ? 'backend_in_demo_mode'
+      : null
 
-  // 2. Ollama directo
+  // 3. Ollama directo
   const fromO = await callOllama(clean)
   if (fromO) {
     return NextResponse.json({
@@ -193,7 +366,7 @@ export async function POST(req: NextRequest) {
       ts: new Date().toISOString(),
       warnings: [
         backendWarning ? `backend_unavailable:${backendWarning}` : 'backend_no_reply',
-        'ollama_unreachable',
+ 'ollama_unreachable',
       ],
     },
   })

@@ -7,7 +7,7 @@ type PatternKey = 'sur' | 'centro' | 'norte_pp' | 'cataluna' | 'pais_vasco' | 'g
 type Muni = { id: string; ccaa: string; provincia: string; municipio: string; pob: number; pattern: PatternKey }
 type RawMuni = { i: string; n: string; p: string; c: string; t: PatternKey }
 type RealResult = { v: Record<string, number>; t: number; c: number; p: number; b: number; n: number }
-type RealData = Record<string, Record<string, RealResult>>  // dataset → muniId → result
+type RealData = Record<string, Record<string, RealResult>> // dataset → muniId → result
 
 // Población aproximada para municipios sin dato real (se ajusta por seed determinista)
 function inferPob(name: string): number {
@@ -19,20 +19,20 @@ function inferPob(name: string): number {
 
 // Población real de las grandes ciudades (sobrescribe el inferido)
 const POB_CONOCIDAS: Record<string, number> = {
-  'Madrid':3324000, 'Barcelona':1660000, 'Valencia':794000, 'Sevilla':687000, 'Zaragoza':686000,
-  'Málaga':579000, 'Murcia':460000, 'Palma':419000, 'Las Palmas de Gran Canaria':380000,
-  'Bilbao':346000, 'Alicante':336000, 'Córdoba':323000, 'Valladolid':298000, 'Vigo':294000,
-  "L'Hospitalet de Llobregat":267000, 'Gijón':268000, 'A Coruña':246000, 'Vitoria-Gasteiz':253000,
-  'Granada':228000, 'Elche':234000, 'Oviedo':220000, 'Badalona':222000, 'Cartagena':217000,
-  'Terrassa':226000, 'Jerez de la Frontera':213000, 'Sabadell':215000, 'Móstoles':209000,
-  'Santa Cruz de Tenerife':209000, 'Pamplona/Iruña':201000, 'Almería':200000, 'Alcalá de Henares':196000,
-  'Fuenlabrada':191000, 'Donostia/San Sebastián':188000, 'Burgos':174000, 'Albacete':174000,
-  'Castellón de la Plana/Castelló de la Plana':170000, 'Santander':172000, 'Getafe':181000,
-  'Logroño':151000, 'Badajoz':151000, 'Salamanca':144000, 'Huelva':142000, 'Marbella':152000,
-  'Lleida':140000, 'Tarragona':135000, 'León':122000, 'Cádiz':113000, 'Jaén':111000,
-  'Ourense':104000, 'Girona':104000, 'Lugo':98000, 'Cáceres':96000, 'Guadalajara':89000,
-  'Toledo':86000, 'Ceuta':84000, 'Pontevedra':83000, 'Melilla':87000, 'Ciudad Real':75000,
-  'Cuenca':54000, 'Huesca':53000, 'Teruel':35000,
+ 'Madrid':3324000, 'Barcelona':1660000, 'Valencia':794000, 'Sevilla':687000, 'Zaragoza':686000,
+ 'Málaga':579000, 'Murcia':460000, 'Palma':419000, 'Las Palmas de Gran Canaria':380000,
+ 'Bilbao':346000, 'Alicante':336000, 'Córdoba':323000, 'Valladolid':298000, 'Vigo':294000,
+ "L'Hospitalet de Llobregat":267000, 'Gijón':268000, 'A Coruña':246000, 'Vitoria-Gasteiz':253000,
+ 'Granada':228000, 'Elche':234000, 'Oviedo':220000, 'Badalona':222000, 'Cartagena':217000,
+ 'Terrassa':226000, 'Jerez de la Frontera':213000, 'Sabadell':215000, 'Móstoles':209000,
+ 'Santa Cruz de Tenerife':209000, 'Pamplona/Iruña':201000, 'Almería':200000, 'Alcalá de Henares':196000,
+ 'Fuenlabrada':191000, 'Donostia/San Sebastián':188000, 'Burgos':174000, 'Albacete':174000,
+ 'Castellón de la Plana/Castelló de la Plana':170000, 'Santander':172000, 'Getafe':181000,
+ 'Logroño':151000, 'Badajoz':151000, 'Salamanca':144000, 'Huelva':142000, 'Marbella':152000,
+ 'Lleida':140000, 'Tarragona':135000, 'León':122000, 'Cádiz':113000, 'Jaén':111000,
+ 'Ourense':104000, 'Girona':104000, 'Lugo':98000, 'Cáceres':96000, 'Guadalajara':89000,
+ 'Toledo':86000, 'Ceuta':84000, 'Pontevedra':83000, 'Melilla':87000, 'Ciudad Real':75000,
+ 'Cuenca':54000, 'Huesca':53000, 'Teruel':35000,
 }
 
 // Lista hardcoded eliminada — ahora se carga el dataset completo del INE (8.132 municipios)
@@ -366,7 +366,7 @@ export default function MunicipiosHistorico() {
     // Partidos extra (regionales) que no están en la lista base
     const extras: Record<string, string> = {
       junts: ds.year >= 2017 ? 'Junts' : ds.year >= 1979 ? 'CiU' : 'PDC',
-      ciu:  'CiU', erc:'ERC', pnv:'PNV', bildu: ds.year >= 2011 ? 'EH Bildu' : 'HB',
+      ciu: 'CiU', erc:'ERC', pnv:'PNV', bildu: ds.year >= 2011 ? 'EH Bildu' : 'HB',
       bng:'BNG', cc: ds.year >= 1989 ? 'CC' : 'AIC', upn:'UPN',
     }
     return { ...extras, ...map }
@@ -375,15 +375,15 @@ export default function MunicipiosHistorico() {
   const labelOf = (pid: string) => partyLabels[pid] || pid.toUpperCase()
 
   return (
-    <div style={{ background: '#fff', borderRadius: 20, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>Resultados por municipio</h2>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 2 }}>
+ <div style={{ background: '#fff', borderRadius: 20, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.015em', margin: 0 }}>Resultados por municipio</h2>
+ <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 2 }}>
             {([{k:'estimacion',label:'Est. 2026'},{k:'g2023',label:'2023'}] as const).map(o => {
               const active = dataset === o.k
               return (
-                <button key={o.k} onClick={() => setDataset(o.k)} style={{
+ <button key={o.k} onClick={() => setDataset(o.k)} style={{
                   background: active ? '#fff' : 'transparent', color: active ? '#1d1d1f' : '#6e6e73',
                   border: 'none', borderRadius: 999, padding: '5px 11px', fontSize: 11.5,
                   fontWeight: active ? 600 : 500, cursor: 'pointer', fontFamily: 'inherit',
@@ -391,8 +391,8 @@ export default function MunicipiosHistorico() {
                 }}>{o.label}</button>
               )
             })}
-          </div>
-          <select
+ </div>
+ <select
             value={HISTORIC_KEYS.includes(dataset) ? dataset : ''}
             onChange={e => { if (e.target.value) setDataset(e.target.value) }}
             style={{
@@ -404,120 +404,120 @@ export default function MunicipiosHistorico() {
               backgroundImage:'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' viewBox=\'0 0 10 10\'%3E%3Cpath d=\'M2 4l3 3 3-3\' stroke=\'%236e6e73\' stroke-width=\'1.5\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")',
               backgroundRepeat: 'no-repeat', backgroundPosition: 'right 9px center',
             }}>
-            <option value="">Históricas…</option>
+ <option value="">Históricas…</option>
             {DATASETS.filter(d => HISTORIC_KEYS.includes(d.k)).map(d => (
-              <option key={d.k} value={d.k}>{d.label}</option>
+ <option key={d.k} value={d.k}>{d.label}</option>
             ))}
-          </select>
-        </div>
-      </div>
+ </select>
+ </div>
+ </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.4fr', gap: 6, marginBottom: 12 }}>
-        <select value={ccaa} onChange={e => setCcaa(e.target.value)} style={selectStyle}>
+ <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.4fr', gap: 6, marginBottom: 12 }}>
+ <select value={ccaa} onChange={e => setCcaa(e.target.value)} style={selectStyle}>
           {ccaas.map(c => <option key={c} value={c}>{c}</option>)}
-        </select>
-        <select value={safeProv} onChange={e => { setProvincia(e.target.value) }} style={selectStyle}>
+ </select>
+ <select value={safeProv} onChange={e => { setProvincia(e.target.value) }} style={selectStyle}>
           {provincias.map(p => <option key={p} value={p}>{p}</option>)}
-        </select>
-        <select value={safeMuni} onChange={e => setMunicipio(e.target.value)} style={selectStyle}>
+ </select>
+ <select value={safeMuni} onChange={e => setMunicipio(e.target.value)} style={selectStyle}>
           {munis.map(m => <option key={m.municipio} value={m.municipio}>{m.municipio}</option>)}
-        </select>
-      </div>
+ </select>
+ </div>
 
       {loading ? (
-        <div style={{ fontSize: 12, color: '#6e6e73', padding: 20, textAlign: 'center' }}>
+ <div style={{ fontSize: 12, color: '#6e6e73', padding: 20, textAlign: 'center' }}>
           Cargando 8.132 municipios…
-        </div>
+ </div>
       ) : muni && res ? (
-        <>
+ <>
           {/* Header con nombre + badges */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12, gap: 12, flexWrap: 'wrap' }}>
-            <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 600, letterSpacing: '-0.014em', color: '#1d1d1f', lineHeight: 1.15 }}>{muni.municipio}</div>
-              <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 3, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                <span>{ds.label}</span>
-                <span style={{ color: '#d2d2d7' }}>·</span>
-                <span>{muni.pob.toLocaleString('es')} hab.</span>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12, gap: 12, flexWrap: 'wrap' }}>
+ <div style={{ minWidth: 0, flex: 1 }}>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 600, letterSpacing: '-0.014em', color: '#1d1d1f', lineHeight: 1.15 }}>{muni.municipio}</div>
+ <div style={{ fontSize: 11, color: '#6e6e73', marginTop: 3, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+ <span>{ds.label}</span>
+ <span style={{ color: '#d2d2d7' }}>·</span>
+ <span>{muni.pob.toLocaleString('es')} hab.</span>
                 {res.turnout != null && (<><span style={{ color: '#d2d2d7' }}>·</span><span>part. {res.turnout}%</span></>)}
                 {res.real ? (
-                  <span style={{ fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 999, background: 'rgba(22,163,74,0.12)', color: '#16A34A', letterSpacing: '0.06em' }}>OFICIALES</span>
+ <span style={{ fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 999, background: 'rgba(22,163,74,0.12)', color: '#16A34A', letterSpacing: '0.06em' }}>OFICIALES</span>
                 ) : (
-                  <span style={{ fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 999, background: 'rgba(217,119,6,0.12)', color: '#D97706', letterSpacing: '0.06em' }}>ESTIMADOS</span>
+ <span style={{ fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 999, background: 'rgba(217,119,6,0.12)', color: '#D97706', letterSpacing: '0.06em' }}>ESTIMADOS</span>
                 )}
-              </div>
-            </div>
-          </div>
+ </div>
+ </div>
+ </div>
 
           {/* Banner ganador — grande y dinámico */}
           {res.items[0] && (
-            <div key={`${muni.id}-${dataset}-winner`} style={{
+ <div key={`${muni.id}-${dataset}-winner`} style={{
               display:'grid', gridTemplateColumns:'1fr auto', gap:14, alignItems:'center',
               padding:'14px 16px', borderRadius:14, marginBottom:12,
               background:`linear-gradient(135deg, ${PARTY_COLOR[res.items[0].pid] || '#ccc'} 0%, ${PARTY_COLOR[res.items[0].pid] || '#ccc'}d0 100%)`,
               color:'#fff', boxShadow:`0 6px 18px -6px ${PARTY_COLOR[res.items[0].pid] || '#000'}80`,
               animation:'winnerFade 320ms ease-out',
             }}>
-              <div style={{ minWidth:0 }}>
-                <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', opacity:0.7, marginBottom:2 }}>Ganador</div>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.022em', lineHeight:1 }}>{labelOf(res.items[0].pid)}</div>
-                <div style={{ fontSize:11, opacity:0.85, marginTop:4 }}>{res.items[0].votos.toLocaleString('es')} votos</div>
-              </div>
-              <div style={{ textAlign:'right' }}>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:38, fontWeight:700, letterSpacing:'-0.03em', lineHeight:1 }}>{res.items[0].pct}<span style={{ fontSize:18, opacity:0.8 }}>%</span></div>
+ <div style={{ minWidth:0 }}>
+ <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', opacity:0.7, marginBottom:2 }}>Ganador</div>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.022em', lineHeight:1 }}>{labelOf(res.items[0].pid)}</div>
+ <div style={{ fontSize:11, opacity:0.85, marginTop:4 }}>{res.items[0].votos.toLocaleString('es')} votos</div>
+ </div>
+ <div style={{ textAlign:'right' }}>
+ <div style={{ fontFamily:'var(--font-display)', fontSize:38, fontWeight:700, letterSpacing:'-0.03em', lineHeight:1 }}>{res.items[0].pct}<span style={{ fontSize:18, opacity:0.8 }}>%</span></div>
                 {res.items[1] && (
-                  <div style={{ fontSize:10, opacity:0.75, marginTop:4 }}>+{(res.items[0].pct - res.items[1].pct).toFixed(1)} pp sobre {labelOf(res.items[1].pid)}</div>
+ <div style={{ fontSize:10, opacity:0.75, marginTop:4 }}>+{(res.items[0].pct - res.items[1].pct).toFixed(1)} pp sobre {labelOf(res.items[1].pid)}</div>
                 )}
-              </div>
-            </div>
+ </div>
+ </div>
           )}
 
           {/* Resto de partidos — barras grandes */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {res.items.slice(1).map(it => (
-              <div key={`${muni.id}-${dataset}-${it.pid}`} style={{ display: 'grid', gridTemplateColumns: '90px 1fr 56px 78px', gap: 10, alignItems: 'center', animation: 'rowFade 280ms ease-out' }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', display: 'inline-flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
-                  <span style={{ width: 11, height: 11, borderRadius: 3, background: PARTY_COLOR[it.pid] || '#ccc', flexShrink: 0 }}/>
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{labelOf(it.pid)}</span>
-                </span>
-                <div style={{ height: 18, background: '#F5F5F7', borderRadius: 5, overflow: 'hidden', position:'relative' }}>
-                  <div style={{
+ <div key={`${muni.id}-${dataset}-${it.pid}`} style={{ display: 'grid', gridTemplateColumns: '90px 1fr 56px 78px', gap: 10, alignItems: 'center', animation: 'rowFade 280ms ease-out' }}>
+ <span style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', display: 'inline-flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
+ <span style={{ width: 11, height: 11, borderRadius: 3, background: PARTY_COLOR[it.pid] || '#ccc', flexShrink: 0 }}/>
+ <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{labelOf(it.pid)}</span>
+ </span>
+ <div style={{ height: 18, background: '#F5F5F7', borderRadius: 5, overflow: 'hidden', position:'relative' }}>
+ <div style={{
                     width: `${Math.min(100, (it.pct / Math.max(1, res.items[0].pct)) * 100)}%`,
                     height: '100%',
                     background: `linear-gradient(90deg, ${PARTY_COLOR[it.pid] || '#ccc'} 0%, ${PARTY_COLOR[it.pid] || '#ccc'}cc 100%)`,
                     borderRadius: 5,
                     transition: 'width 320ms cubic-bezier(.2,.8,.2,1)',
                   }}/>
-                </div>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: PARTY_COLOR[it.pid] || '#3a3a3d', textAlign: 'right', letterSpacing: '-0.01em' }}>{it.pct}%</span>
-                <span style={{ fontSize: 11, color: '#6e6e73', textAlign: 'right', fontVariantNumeric:'tabular-nums' }}>{it.votos.toLocaleString('es')}</span>
-              </div>
+ </div>
+ <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: PARTY_COLOR[it.pid] || '#3a3a3d', textAlign: 'right', letterSpacing: '-0.01em' }}>{it.pct}%</span>
+ <span style={{ fontSize: 11, color: '#6e6e73', textAlign: 'right', fontVariantNumeric:'tabular-nums' }}>{it.votos.toLocaleString('es')}</span>
+ </div>
             ))}
-          </div>
+ </div>
 
           {/* Footer */}
-          <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #ECECEF', display:'flex', justifyContent:'space-between', alignItems:'center', gap:10, flexWrap:'wrap' }}>
-            <div style={{ fontSize: 10.5, color: '#86868b' }}>
+ <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #ECECEF', display:'flex', justifyContent:'space-between', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+ <div style={{ fontSize: 10.5, color: '#86868b' }}>
               {res.real
                 ? 'Fuente: Ministerio del Interior · 156 ciudades cubiertas (1977-2023).'
                 : 'Datos estimados · municipio no incluido en el dataset oficial.'}
-            </div>
-            <div style={{ fontSize: 11, color: '#3a3a3d' }}>
-              <span style={{ color:'#86868b' }}>Total votos: </span>
-              <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{res.totalVotos.toLocaleString('es')}</span>
-            </div>
-          </div>
+ </div>
+ <div style={{ fontSize: 11, color: '#3a3a3d' }}>
+ <span style={{ color:'#86868b' }}>Total votos: </span>
+ <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{res.totalVotos.toLocaleString('es')}</span>
+ </div>
+ </div>
 
-          <style>{`
+ <style>{`
             @keyframes winnerFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
             @keyframes rowFade { from { opacity: 0; transform: translateX(-3px); } to { opacity: 1; transform: none; } }
-          `}</style>
-        </>
+ `}</style>
+ </>
       ) : (
-        <div style={{ fontSize: 12, color: '#6e6e73', padding: 20, textAlign: 'center' }}>
+ <div style={{ fontSize: 12, color: '#6e6e73', padding: 20, textAlign: 'center' }}>
           Selecciona CCAA, provincia y municipio.
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 

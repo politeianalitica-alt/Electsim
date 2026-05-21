@@ -132,24 +132,24 @@ export function buildBlock(kind: SlashCommandKind, suggestionId: string, workspa
     }
     case "encuesta": {
       const polls: Record<string, string> = {
-        cis_may26:      "**CIS · oleaje mayo 2026**\n\n- PSOE 29.1% (-1.2pp)\n- PP 30.4% (+0.4pp)\n- Vox 12.2% (estable)\n- Sumar 6.8% (+0.6pp)\n- Junts 1.8% — ERC 1.9%",
+        cis_may26: "**CIS · oleaje mayo 2026**\n\n- PSOE 29.1% (-1.2pp)\n- PP 30.4% (+0.4pp)\n- Vox 12.2% (estable)\n- Sumar 6.8% (+0.6pp)\n- Junts 1.8% — ERC 1.9%",
         sigmaDos_apr26: "**Sigma Dos · abril 2026** — PP por delante (32.1) con desgaste contenido del PSOE (27.6).",
-        '40db_apr26':   "**40dB · abril 2026** — PP 31.0 · PSOE 28.9 · Vox 11.8 — sin movimientos materiales en CCAA clave.",
+ '40db_apr26': "**40dB · abril 2026** — PP 31.0 · PSOE 28.9 · Vox 11.8 — sin movimientos materiales en CCAA clave.",
       };
       return { source: "Sondeos · biblioteca", markdown: polls[suggestionId] ?? "[Sondeo no encontrado]" };
     }
     case "ley": {
       const laws: Record<string, string> = {
         rd_423_2026: "**RD 423/2026 — Vivienda turística** · BOE núm. 113\n\nIntroduce sistema de cupo autonómico y refuerza inscripción. En vigor 30 días desde publicación.",
-        senda_2027:  "**Senda de estabilidad 2027** · cámara baja\n\nVoto programado para el miércoles. Junts y ERC pendientes de fijar posición.",
-        ai_act_es:   "**AI Act — implementación nacional** · UE/España\n\nPrimer borrador de orientaciones de la Comisión publicado; despliegue Q4 2026.",
+        senda_2027: "**Senda de estabilidad 2027** · cámara baja\n\nVoto programado para el miércoles. Junts y ERC pendientes de fijar posición.",
+        ai_act_es: "**AI Act — implementación nacional** · UE/España\n\nPrimer borrador de orientaciones de la Comisión publicado; despliegue Q4 2026.",
       };
       return { source: "Legislativo · biblioteca", markdown: laws[suggestionId] ?? "[Ley no encontrada]" };
     }
     case "datos": {
       const data: Record<string, string> = {
-        kpi_riesgo:    "**Riesgo reputacional: 62/100** (+4 vs semana anterior).",
-        kpi_voto:      "**Intención de voto del cliente: 29.1%** (-1.2pp en último oleaje CIS).",
+        kpi_riesgo: "**Riesgo reputacional: 62/100** (+4 vs semana anterior).",
+        kpi_voto: "**Intención de voto del cliente: 29.1%** (-1.2pp en último oleaje CIS).",
         kpi_cobertura: "**Cobertura mediática adversa: 38%** del share total (estable).",
       };
       return { source: "KPIs workspace", markdown: data[suggestionId] ?? "[Dato no disponible]" };

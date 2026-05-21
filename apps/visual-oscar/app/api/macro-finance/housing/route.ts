@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   const countries = req.nextUrl.searchParams.get('countries') || 'ES,FR,IT,DE,PT,EU'
   const days = req.nextUrl.searchParams.get('days') || '2190'
   const r = await callBackend<HousingData>(
-    `/api/macro-finance/housing?countries=${encodeURIComponent(countries)}&days=${encodeURIComponent(days)}`,
+ `/api/macro-finance/housing?countries=${encodeURIComponent(countries)}&days=${encodeURIComponent(days)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { countries: [], days: 2190, series: {} },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

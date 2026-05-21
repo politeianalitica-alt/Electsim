@@ -1,22 +1,19 @@
-interface SparklineProps { data: number[]; color: string; h?: number }
+// Stub creado durante merge Visual_Oscar → main · 21 may 2026.
+// Original a subir por el socio en commit fa682e8 — nunca llegó al repo.
+// Reemplazar cuando termine la feature.
 
-export function Sparkline({ data, color, h = 30 }: SparklineProps) {
-  const w = 100
-  const min = Math.min(...data), max = Math.max(...data)
+export function Sparkline({ data, color, h = 36 }: { data?: number[]; color?: string; h?: number }) {
+  const safeData = Array.isArray(data) && data.length > 1 ? data : [0, 0]
+  const min = Math.min(...safeData)
+  const max = Math.max(...safeData)
   const range = max - min || 1
-  const pts = data.map((v, i) => {
-    const x = (i / (data.length - 1)) * w
-    const y = h - 4 - ((v - min) / range) * (h - 8)
-    return `${x},${y}`
-  }).join(' ')
-  const area = `0,${h} ${pts} ${w},${h}`
-  const last = data[data.length - 1]
-  const lastY = h - 4 - ((last - min) / range) * (h - 8)
+  const w = 80
+  const points = safeData
+    .map((v, i) => `${(i / (safeData.length - 1)) * w},${h - ((v - min) / range) * h}`)
+    .join(' ')
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: h, display: 'block' }} preserveAspectRatio="none">
-      <polyline points={area} fill={`${color}22`} stroke="none" />
-      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
-      <circle cx={w} cy={lastY} r="2" fill={color} />
+    <svg width={w} height={h} style={{ display: 'block' }}>
+      <polyline points={points} fill="none" stroke={color || '#0071e3'} strokeWidth={1.5} strokeLinejoin="round" />
     </svg>
   )
 }

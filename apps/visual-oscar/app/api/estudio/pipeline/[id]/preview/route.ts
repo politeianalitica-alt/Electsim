@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const nodeId = req.nextUrl.searchParams.get('nodeId')
   try {
     const res = await fetch(
-      `${BACKEND}/api/estudio/pipeline/${params.id}/preview${nodeId ? `?nodeId=${nodeId}` : ''}`,
+ `${BACKEND}/api/estudio/pipeline/${params.id}/preview${nodeId ? `?nodeId=${nodeId}` : ''}`,
       { next: { revalidate: 0 } },
     )
     if (!res.ok) throw new Error(`backend ${res.status}`)

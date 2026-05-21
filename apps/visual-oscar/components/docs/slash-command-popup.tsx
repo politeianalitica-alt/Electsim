@@ -86,7 +86,7 @@ export function SlashCommandPopup({ workspaceId, isOpen, query, onCancel, onInse
   if (!isOpen) return null;
 
   return (
-    <div
+ <div
       ref={wrapRef}
       style={{
         position: "fixed",
@@ -102,16 +102,16 @@ export function SlashCommandPopup({ workspaceId, isOpen, query, onCancel, onInse
         fontFamily: WS.font,
       }}
     >
-      <div style={{ padding: "8px 12px", borderBottom: `1px solid ${WS.border}`, fontSize: 10.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+ <div style={{ padding: "8px 12px", borderBottom: `1px solid ${WS.border}`, fontSize: 10.5, fontWeight: 700, color: WS.ink3, letterSpacing: "0.06em", textTransform: "uppercase" }}>
         {kind ? `/${kind} · escribe para filtrar` : "Comandos disponibles"}
-      </div>
-      <div style={{ maxHeight: 280, overflowY: "auto", padding: "4px 0" }}>
+ </div>
+ <div style={{ maxHeight: 280, overflowY: "auto", padding: "4px 0" }}>
         {(kind ? suggestions : matchingCommands).map((it, idx) => {
           const isSelected = idx === selectedIdx;
           const label = kind ? (it as SlashCommandSuggestion).label : (it as { label: string }).label;
           const hint = kind ? (it as SlashCommandSuggestion).hint : (it as { hint: string }).hint;
           return (
-            <button
+ <button
               key={(it as any).id ?? (it as any).trigger}
               onClick={() => {
                 if (!kind) { setKind((it as any).kind); return; }
@@ -130,20 +130,20 @@ export function SlashCommandPopup({ workspaceId, isOpen, query, onCancel, onInse
                 cursor: "pointer",
               }}
             >
-              <div style={{ fontSize: 12.5, fontWeight: 600, color: isSelected ? WS.accent : WS.ink, marginBottom: 1 }}>
+ <div style={{ fontSize: 12.5, fontWeight: 600, color: isSelected ? WS.accent : WS.ink, marginBottom: 1 }}>
                 {label}
-              </div>
+ </div>
               {hint && <div style={{ fontSize: 11, color: WS.ink3 }}>{hint}</div>}
-            </button>
+ </button>
           );
         })}
         {(kind ? suggestions.length === 0 : matchingCommands.length === 0) && (
-          <div style={{ padding: "10px 14px", fontSize: 12, color: WS.ink3 }}>Sin coincidencias.</div>
+ <div style={{ padding: "10px 14px", fontSize: 12, color: WS.ink3 }}>Sin coincidencias.</div>
         )}
-      </div>
-      <div style={{ padding: "6px 12px", borderTop: `1px solid ${WS.border}`, fontSize: 10, color: WS.ink3, display: "flex", gap: 12 }}>
-        <span>↑↓ navegar</span><span>↵ insertar</span><span>Esc cancelar</span>
-      </div>
-    </div>
+ </div>
+ <div style={{ padding: "6px 12px", borderTop: `1px solid ${WS.border}`, fontSize: 10, color: WS.ink3, display: "flex", gap: 12 }}>
+ <span>↑↓ navegar</span><span>↵ insertar</span><span>Esc cancelar</span>
+ </div>
+ </div>
   );
 }

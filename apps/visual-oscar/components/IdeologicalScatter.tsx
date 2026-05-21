@@ -37,38 +37,38 @@ export default function IdeologicalScatter({ partido, size = 280 }: Props) {
   const py = (y: number) => H - 20 - ((y + 10) / 20) * (H - 40)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12 }}>
         {/* Grid */}
         {[-10, -5, 0, 5, 10].map(v => (
-          <g key={`g-${v}`}>
-            <line x1={px(v)} y1={20} x2={px(v)} y2={H - 20} stroke="rgba(31,78,140,0.06)" strokeWidth={v === 0 ? 1.5 : 0.5} />
-            <line x1={20} y1={py(v)} x2={W - 20} y2={py(v)} stroke="rgba(31,78,140,0.06)" strokeWidth={v === 0 ? 1.5 : 0.5} />
-          </g>
+ <g key={`g-${v}`}>
+ <line x1={px(v)} y1={20} x2={px(v)} y2={H - 20} stroke="rgba(31,78,140,0.06)" strokeWidth={v === 0 ? 1.5 : 0.5} />
+ <line x1={20} y1={py(v)} x2={W - 20} y2={py(v)} stroke="rgba(31,78,140,0.06)" strokeWidth={v === 0 ? 1.5 : 0.5} />
+ </g>
         ))}
         {/* Axis labels */}
-        <text x={W / 2} y={14} textAnchor="middle" fill="#6e6e73" fontSize={9} fontWeight={600}>autoritario</text>
-        <text x={W / 2} y={H - 6} textAnchor="middle" fill="#6e6e73" fontSize={9} fontWeight={600}>libertario</text>
-        <text x={6} y={H / 2} textAnchor="start" fill="#6e6e73" fontSize={9} fontWeight={600}>izq.</text>
-        <text x={W - 6} y={H / 2} textAnchor="end" fill="#6e6e73" fontSize={9} fontWeight={600}>der.</text>
+ <text x={W / 2} y={14} textAnchor="middle" fill="#6e6e73" fontSize={9} fontWeight={600}>autoritario</text>
+ <text x={W / 2} y={H - 6} textAnchor="middle" fill="#6e6e73" fontSize={9} fontWeight={600}>libertario</text>
+ <text x={6} y={H / 2} textAnchor="start" fill="#6e6e73" fontSize={9} fontWeight={600}>izq.</text>
+ <text x={W - 6} y={H / 2} textAnchor="end" fill="#6e6e73" fontSize={9} fontWeight={600}>der.</text>
 
         {/* Other parties (faded) */}
         {others.map(p => (
-          <g key={p.partido}>
-            <circle cx={px(p.posicion_x)} cy={py(p.posicion_y)} r={6} fill={p.color ?? '#6e6e73'} fillOpacity={0.35} stroke="white" strokeWidth={1.5} />
-            <text x={px(p.posicion_x)} y={py(p.posicion_y) + 18} textAnchor="middle" fill="#6e6e73" fontSize={9}>{p.partido}</text>
-          </g>
+ <g key={p.partido}>
+ <circle cx={px(p.posicion_x)} cy={py(p.posicion_y)} r={6} fill={p.color ?? '#6e6e73'} fillOpacity={0.35} stroke="white" strokeWidth={1.5} />
+ <text x={px(p.posicion_x)} y={py(p.posicion_y) + 18} textAnchor="middle" fill="#6e6e73" fontSize={9}>{p.partido}</text>
+ </g>
         ))}
         {/* Focused party */}
-        <g>
-          <circle cx={px(focused.posicion_x)} cy={py(focused.posicion_y)} r={11} fill={focused.color ?? '#1F4E8C'} fillOpacity={0.95} stroke="white" strokeWidth={2.5} />
-          <text x={px(focused.posicion_x)} y={py(focused.posicion_y) + 24} textAnchor="middle" fill="#1d1d1f" fontSize={10.5} fontWeight={700}>{focused.partido}</text>
-        </g>
-      </svg>
-      <div style={{ display: 'flex', gap: 14, fontSize: 10.5, color: '#6e6e73', justifyContent: 'center' }}>
-        <span>X (econ): <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)' }}>{focused.posicion_x.toFixed(1)}</strong></span>
-        <span>Y (social): <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)' }}>{focused.posicion_y.toFixed(1)}</strong></span>
-      </div>
-    </div>
+ <g>
+ <circle cx={px(focused.posicion_x)} cy={py(focused.posicion_y)} r={11} fill={focused.color ?? '#1F4E8C'} fillOpacity={0.95} stroke="white" strokeWidth={2.5} />
+ <text x={px(focused.posicion_x)} y={py(focused.posicion_y) + 24} textAnchor="middle" fill="#1d1d1f" fontSize={10.5} fontWeight={700}>{focused.partido}</text>
+ </g>
+ </svg>
+ <div style={{ display: 'flex', gap: 14, fontSize: 10.5, color: '#6e6e73', justifyContent: 'center' }}>
+ <span>X (econ): <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)' }}>{focused.posicion_x.toFixed(1)}</strong></span>
+ <span>Y (social): <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)' }}>{focused.posicion_y.toFixed(1)}</strong></span>
+ </div>
+ </div>
   )
 }

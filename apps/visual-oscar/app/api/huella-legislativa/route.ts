@@ -31,7 +31,7 @@ export async function GET() {
           top_orgs: result.data.top_orgs ?? [],
           registro: result.data.registro ?? [],
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -41,7 +41,7 @@ export async function GET() {
   return NextResponse.json(
     withMeta(
       { expedientes: EXPEDIENTES, top_orgs: TOP_ORGS, registro: REGISTRO },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`]

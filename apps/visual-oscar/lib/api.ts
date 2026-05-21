@@ -6,7 +6,7 @@ const BASE = process.env.NEXT_PUBLIC_API_URL || ''
 async function req<T>(path: string, init: RequestInit = {}): Promise<T> {
   const token = getAccessToken()
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+ 'Content-Type': 'application/json',
     ...(init.headers as Record<string, string>),
   }
   if (token) headers['Authorization'] = `Bearer ${token}`
@@ -35,7 +35,7 @@ export const api = {
       }
     }
     return req<{ access_token: string; refresh_token: string }>(
-      '/api/v1/auth/login',
+ '/api/v1/auth/login',
       { method: 'POST', body: JSON.stringify({ email: username, password }) }
     )
   },

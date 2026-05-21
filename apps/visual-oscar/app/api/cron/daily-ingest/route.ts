@@ -52,8 +52,8 @@ async function callIngest(path: string, body?: object): Promise<{ path: string; 
 }
 
 const INGEST_ROUTES = [
-  '/api/macro-finance/ingest',
-  '/api/risk-v2/ingest?country=ES',
+ '/api/macro-finance/ingest',
+ '/api/risk-v2/ingest?country=ES',
 ]
 
 export async function GET(req: Request) {

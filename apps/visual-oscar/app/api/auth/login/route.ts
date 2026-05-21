@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 import { signToken, COOKIE_NAME } from '@/lib/auth/session'
 
 const USERS = [
-  { email: 'antonio@politeia.es', password: 'legaz',    name: 'Antonio Legaz', role: 'owner'  },
-  { email: 'oscar@politeia.es',   password: 'Garcia',   name: 'Oscar García',  role: 'admin'  },
+  { email: 'antonio@politeia.es', password: 'legaz',    name: 'Antonio Legaz', role: 'owner' },
+  { email: 'oscar@politeia.es',   password: 'Garcia',   name: 'Oscar García',  role: 'admin' },
   { email: 'invitado@politeia.es', password: 'invitado', name: 'Invitado',      role: 'viewer' },
 ] as const
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   const res = NextResponse.json({
     ok: true,
-    access_token:  `local.${btoa(user.email)}.session`,
+    access_token: `local.${btoa(user.email)}.session`,
     refresh_token: `local.refresh.${Date.now()}`,
     user: { email: user.email, name: user.name, role: user.role },
   })
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     httpOnly: true,
     secure:   process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    path:     '/',
+    path: '/',
     maxAge:   8 * 3600,
   })
 

@@ -32,7 +32,7 @@ export async function listDomain<T extends Item>(
     return NextResponse.json(
       withMeta(
         { items: result.data.items, total: result.data.total ?? result.data.items.length, generado_en: nowIso() },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -46,7 +46,7 @@ export async function listDomain<T extends Item>(
   return NextResponse.json(
     withMeta(
       { items: fallback, total: fallback.length, generado_en: nowIso() },
-      'mock',
+ 'mock',
       { warnings, latency_ms: result.latency_ms },
     ),
   )

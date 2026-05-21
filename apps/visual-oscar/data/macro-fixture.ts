@@ -19,7 +19,7 @@ export interface Indic {
   unidad: string
   delta: string
   dir: Dir
-  good: 'up' | 'down'   // qué dirección es buena
+  good: 'up' | 'down' // qué dirección es buena
   c: string
   serie: number[]        // 12 puntos · evolución 12 meses
   fuente: string
@@ -184,11 +184,11 @@ export const IPC_COMP: IpcComp[] = [
 
 // Vivienda
 export const VIVIENDA: ViviendaItem[] = [
-  { l:'Precio vivienda',      v:'+8.4%', sub:'interanual Q1', c:'#DC2626', dir:'up'   },
-  { l:'Esfuerzo hipotecario', v:'34.8%', sub:'% renta bruta', c:'#F97316', dir:'up'   },
-  { l:'Compraventas',         v:'682K',  sub:'12 m móviles',  c:'#16A34A', dir:'up'   },
-  { l:'Alquiler medio',       v:'13.4€', sub:'€/m² ago 2026', c:'#DC2626', dir:'up'   },
-  { l:'Hipoteca media nueva', v:'162K€', sub:'capital medio', c:'#5B21B6', dir:'up'   },
+  { l:'Precio vivienda',      v:'+8.4%', sub:'interanual Q1', c:'#DC2626', dir:'up' },
+  { l:'Esfuerzo hipotecario', v:'34.8%', sub:'% renta bruta', c:'#F97316', dir:'up' },
+  { l:'Compraventas',         v:'682K',  sub:'12 m móviles',  c:'#16A34A', dir:'up' },
+  { l:'Alquiler medio',       v:'13.4€', sub:'€/m² ago 2026', c:'#DC2626', dir:'up' },
+  { l:'Hipoteca media nueva', v:'162K€', sub:'capital medio', c:'#5B21B6', dir:'up' },
   { l:'Stock vivienda nueva', v:'320K',  sub:'sin vender',     c:'#0EA5E9', dir:'down' },
 ]
 

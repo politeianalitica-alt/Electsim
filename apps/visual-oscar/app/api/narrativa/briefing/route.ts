@@ -56,13 +56,13 @@ export async function GET() {
       ...(d.executive_summary
         ? [{
             id: `summary-${d.date}`,
-            titulo: 'Resumen ejecutivo del día',
+            titulo: 'Lo más importante de hoy',
             tipo: 'Social' as const,
             urgencia: 'ALTA' as const,
             resumen: d.executive_summary,
             implicaciones: [],
             fuentes: ['Politeia Brain'],
-            tags: ['resumen', 'ejecutivo'],
+            tags: ['resumen', 'lo-importante'],
             fecha: d.generated_at ?? d.date,
             leido: false,
           }]

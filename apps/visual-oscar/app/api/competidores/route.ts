@@ -20,7 +20,7 @@ interface BackendCompetidores {
 
 export async function GET() {
   const result = await callBackend<BackendCompetidores>(
-    '/api/crm/organizations?type=competidor',
+ '/api/crm/organizations?type=competidor',
   )
 
   if (
@@ -35,7 +35,7 @@ export async function GET() {
           win_loss: result.data.win_loss ?? [],
           informes: result.data.informes ?? [],
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -50,7 +50,7 @@ export async function GET() {
         win_loss: WIN_LOSS,
         informes: INFORMES_HISTORICO,
       },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`]

@@ -36,104 +36,104 @@ export function DocContextPanel({ doc, workspaceId }: DocContextPanelProps) {
   }
 
   return (
-    <aside className="flex w-72 flex-none flex-col overflow-y-auto border-l border-slate-800 bg-slate-900">
-      <Section title="Metadata">
-        <Row label="Tipo">{doc.kind}</Row>
-        <Row label="Estado">{STATUS_LABEL[doc.status]}</Row>
-        <Row label="Autor">{doc.authorId}</Row>
-        <Row label="Actualizado">{new Date(doc.updatedAt).toLocaleString("es-ES")}</Row>
+ <aside className="flex w-72 flex-none flex-col overflow-y-auto border-l border-slate-800 bg-slate-900">
+ <Section title="Metadata">
+ <Row label="Tipo">{doc.kind}</Row>
+ <Row label="Estado">{STATUS_LABEL[doc.status]}</Row>
+ <Row label="Autor">{doc.authorId}</Row>
+ <Row label="Actualizado">{new Date(doc.updatedAt).toLocaleString("es-ES")}</Row>
         {doc.wordCount !== undefined && <Row label="Palabras">{doc.wordCount.toLocaleString("es")}</Row>}
-      </Section>
+ </Section>
 
-      <Section title={`Issues relacionados (${doc.relatedIssueIds.length})`}>
+ <Section title={`Issues relacionados (${doc.relatedIssueIds.length})`}>
         {doc.relatedIssueIds.length === 0 ? (
-          <p className="text-[11px] text-slate-500">Sin issues vinculados.</p>
+ <p className="text-[11px] text-slate-500">Sin issues vinculados.</p>
         ) : (
-          <div className="flex flex-wrap gap-1.5">
+ <div className="flex flex-wrap gap-1.5">
             {doc.relatedIssueIds.map(id => (
-              <Link
+ <Link
                 key={id}
                 href={`/workspaces/${workspaceId}/overview`}
                 className="rounded bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300 hover:text-slate-100 transition-colors"
               >
                 {id}
-              </Link>
+ </Link>
             ))}
-          </div>
+ </div>
         )}
-      </Section>
+ </Section>
 
-      <Section title="Versiones">
-        <ul className="space-y-1.5">
+ <Section title="Versiones">
+ <ul className="space-y-1.5">
           {versions.map(v => (
-            <li key={v.id} className="flex items-center justify-between text-[11px] text-slate-400">
-              <span>{v.label}</span>
-              <span className="text-slate-600">{new Date(v.savedAt).toLocaleDateString("es-ES")}</span>
-            </li>
+ <li key={v.id} className="flex items-center justify-between text-[11px] text-slate-400">
+ <span>{v.label}</span>
+ <span className="text-slate-600">{new Date(v.savedAt).toLocaleDateString("es-ES")}</span>
+ </li>
           ))}
-        </ul>
-      </Section>
+ </ul>
+ </Section>
 
-      <Section title="Exportar">
-        <div className="grid grid-cols-2 gap-1.5">
-          <button
+ <Section title="Exportar">
+ <div className="grid grid-cols-2 gap-1.5">
+ <button
             onClick={() => downloadDocAsPdf({ doc, blocks: doc.blocks })}
             className="rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-[11px] text-slate-300 hover:text-slate-100 transition-colors"
           >
             PDF
-          </button>
-          <button
+ </button>
+ <button
             onClick={() => downloadDocAsTextFile({ doc, blocks: doc.blocks })}
             className="rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-[11px] text-slate-300 hover:text-slate-100 transition-colors"
           >
             Texto
-          </button>
-          <button
+ </button>
+ <button
             onClick={handleCopy}
             className="rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-[11px] text-slate-300 hover:text-slate-100 transition-colors"
           >
             Copiar
-          </button>
-          <Link
+ </button>
+ <Link
             href={`/workspaces/${workspaceId}/docs/${doc.id}/preview`}
             className="rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-[11px] text-slate-300 hover:text-slate-100 transition-colors text-center"
           >
             Preview
-          </Link>
-        </div>
-      </Section>
+ </Link>
+ </div>
+ </Section>
 
-      <Section title="Agente">
-        <div className="space-y-1">
+ <Section title="Agente">
+ <div className="space-y-1">
           {AGENT_ACTIONS.map(a => (
-            <button
+ <button
               key={a.id}
               className="block w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-left text-[11px] text-slate-300 hover:text-slate-100 transition-colors"
               title={a.prompt}
             >
               {a.label}
-            </button>
+ </button>
           ))}
-        </div>
-      </Section>
-    </aside>
+ </div>
+ </Section>
+ </aside>
   );
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="border-b border-slate-800 p-3 space-y-2">
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{title}</p>
-      <div>{children}</div>
-    </div>
+ <div className="border-b border-slate-800 p-3 space-y-2">
+ <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{title}</p>
+ <div>{children}</div>
+ </div>
   );
 }
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex justify-between text-[11px] mb-1">
-      <span className="text-slate-500">{label}</span>
-      <span className="text-slate-200 truncate ml-2 capitalize">{children}</span>
-    </div>
+ <div className="flex justify-between text-[11px] mb-1">
+ <span className="text-slate-500">{label}</span>
+ <span className="text-slate-200 truncate ml-2 capitalize">{children}</span>
+ </div>
   );
 }

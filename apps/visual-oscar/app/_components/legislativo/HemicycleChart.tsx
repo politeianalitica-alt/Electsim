@@ -106,17 +106,17 @@ export default function HemicycleChart({
 
   if (grupos.length === 0) {
     return (
-      <div
+ <div
         className="flex items-center justify-center"
         style={{ width, height }}
       >
-        <span style={{ color: 'var(--color-ink-3)', fontSize: 14 }}>Sin datos</span>
-      </div>
+ <span style={{ color: 'var(--color-ink-3)', fontSize: 14 }}>Sin datos</span>
+ </div>
     )
   }
 
   return (
-    <svg
+ <svg
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
@@ -124,7 +124,7 @@ export default function HemicycleChart({
       aria-label="Hemiciclo del Congreso de los Diputados"
     >
       {/* Base arc */}
-      <path
+ <path
         d={`M ${cx - 145} ${cy} A 145 145 0 0 1 ${cx + 145} ${cy}`}
         fill="none"
         stroke="var(--color-border)"
@@ -135,7 +135,7 @@ export default function HemicycleChart({
       {seats.map((s, i) => {
         const isHighlighted = !highlightedGrupo || s.grupoId === highlightedGrupo
         return (
-          <circle
+ <circle
             key={i}
             cx={cx + s.x}
             cy={cy + s.y}
@@ -149,7 +149,7 @@ export default function HemicycleChart({
       })}
 
       {/* Center label */}
-      <text
+ <text
         x={cx}
         y={cy - 8}
         textAnchor="middle"
@@ -158,8 +158,8 @@ export default function HemicycleChart({
         fill="var(--color-ink)"
       >
         {totalEscanos}
-      </text>
-      <text
+ </text>
+ <text
         x={cx}
         y={cy + 8}
         textAnchor="middle"
@@ -167,7 +167,7 @@ export default function HemicycleChart({
         fill="var(--color-ink-2)"
       >
         escaños
-      </text>
-    </svg>
+ </text>
+ </svg>
   )
 }

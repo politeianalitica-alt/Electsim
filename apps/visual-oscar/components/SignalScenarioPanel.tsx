@@ -54,39 +54,39 @@ export default function SignalScenarioPanel({ signals = FALLBACK_SIGNALS }: Prop
   const list = signals.length > 0 ? signals : FALLBACK_SIGNALS
 
   return (
-    <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px', marginTop: 18 }}>
-      <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Señales de riesgo</p>
-      <h3 style={{ margin: '0 0 14px', fontSize: 16, fontWeight: 600 }}>Señales activas · Simular escenario por señal</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+ <section style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '22px 26px', marginTop: 18 }}>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Señales de riesgo</p>
+ <h3 style={{ margin: '0 0 14px', fontSize: 16, fontWeight: 600 }}>Señales activas · Simular escenario por señal</h3>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {list.map(s => {
           const lvl = s.level
           const c = lvl === 'critico' ? '#c42c2c' : lvl === 'alto' ? '#b25000' : lvl === 'medio' ? '#5B21B6' : '#2d8a39'
           const isExp = expanded === s.id
           return (
-            <div key={s.id} style={{ background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12, padding: '14px 18px', borderLeft: `3px solid ${c}` }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14, flexWrap: 'wrap' }}>
-                <div style={{ flex: 1, minWidth: 240 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
-                    <span style={{ padding: '2px 8px', borderRadius: 999, background: `${c}18`, color: c, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{lvl}</span>
-                    <span style={{ padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10, fontWeight: 600 }}>{s.area}</span>
-                    <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{s.title}</h4>
-                  </div>
+ <div key={s.id} style={{ background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12, padding: '14px 18px', borderLeft: `3px solid ${c}` }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 14, flexWrap: 'wrap' }}>
+ <div style={{ flex: 1, minWidth: 240 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: `${c}18`, color: c, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{lvl}</span>
+ <span style={{ padding: '2px 8px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10, fontWeight: 600 }}>{s.area}</span>
+ <h4 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{s.title}</h4>
+ </div>
                   {s.description && <p style={{ margin: 0, fontSize: 11.5, color: '#424245', lineHeight: 1.5 }}>{s.description}</p>}
-                </div>
-                <button onClick={() => setExpanded(isExp ? null : s.id)} style={{
+ </div>
+ <button onClick={() => setExpanded(isExp ? null : s.id)} style={{
                   padding: '6px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: isExp ? '#1d1d1f' : '#fff',
                   color: isExp ? '#fff' : '#1d1d1f', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
                 }}>
                   {isExp ? 'Cerrar' : 'Simular escenario'}
-                </button>
-              </div>
+ </button>
+ </div>
 
               {isExp && <ScenarioForm signal={s}/>}
-            </div>
+ </div>
           )
         })}
-      </div>
-    </section>
+ </div>
+ </section>
   )
 }
 
@@ -136,82 +136,82 @@ function ScenarioForm({ signal }: { signal: Signal }) {
   }
 
   return (
-    <div style={{ marginTop: 14, padding: '14px 16px', background: '#fff', borderRadius: 10, border: '1px solid #e8e8ed' }}>
-      <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 10 }}>
+ <div style={{ marginTop: 14, padding: '14px 16px', background: '#fff', borderRadius: 10, border: '1px solid #e8e8ed' }}>
+ <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 10 }}>
         Simulación de escenario — {signal.area}
-      </div>
+ </div>
 
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
-        <div>
-          <label style={{ fontSize: 10, color: '#6e6e73', fontWeight: 600, display: 'block', marginBottom: 3 }}>CCAA</label>
-          <select value={ccaa} onChange={e => setCcaa(e.target.value)}
+ <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
+ <div>
+ <label style={{ fontSize: 10, color: '#6e6e73', fontWeight: 600, display: 'block', marginBottom: 3 }}>CCAA</label>
+ <select value={ccaa} onChange={e => setCcaa(e.target.value)}
             style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, background: '#fff', fontSize: 12, fontFamily: 'inherit' }}>
             {CCAA.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-        </div>
+ </select>
+ </div>
 
         {/* Feature key-value editor */}
-        <div style={{ flex: 1, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+ <div style={{ flex: 1, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {Object.entries(features).map(([k, v]) => (
-            <div key={k} style={{ background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 8, padding: '6px 10px' }}>
-              <label style={{ fontSize: 10, color: '#6e6e73', fontWeight: 600, display: 'block', marginBottom: 2 }}>{k}</label>
+ <div key={k} style={{ background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 8, padding: '6px 10px' }}>
+ <label style={{ fontSize: 10, color: '#6e6e73', fontWeight: 600, display: 'block', marginBottom: 2 }}>{k}</label>
               {typeof v === 'boolean' ? (
-                <input type="checkbox" checked={v} onChange={e => setF(k, e.target.checked)} />
+ <input type="checkbox" checked={v} onChange={e => setF(k, e.target.checked)} />
               ) : (
-                <input type="number" value={v as number} step={0.1}
+ <input type="number" value={v as number} step={0.1}
                   onChange={e => setF(k, parseFloat(e.target.value) || 0)}
                   style={{ width: 90, padding: '4px 6px', border: '1px solid #e8e8ed', borderRadius: 6, fontSize: 12, fontFamily: 'inherit' }} />
               )}
-            </div>
+ </div>
           ))}
-        </div>
+ </div>
 
-        <button onClick={execute} disabled={running} style={{
+ <button onClick={execute} disabled={running} style={{
           padding: '8px 14px', borderRadius: 999, border: 'none',
           background: running ? '#e8e8ed' : '#1d1d1f', color: running ? '#6e6e73' : '#fff',
           fontSize: 11, fontWeight: 600, cursor: running ? 'wait' : 'pointer', fontFamily: 'inherit',
         }}>{running ? 'Ejecutando…' : 'Ejecutar simulación'}</button>
-      </div>
+ </div>
 
       {results && results.length > 0 && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
-            <span style={{ padding: '4px 12px', borderRadius: 999, background: 'rgba(178,80,0,0.12)', color: '#b25000', fontSize: 11, fontWeight: 700 }}>
+ <div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
+ <span style={{ padding: '4px 12px', borderRadius: 999, background: 'rgba(178,80,0,0.12)', color: '#b25000', fontSize: 11, fontWeight: 700 }}>
               Secciones afectadas: {results.length}
-            </span>
-            <button onClick={downloadCSV} style={{
+ </span>
+ <button onClick={downloadCSV} style={{
               padding: '6px 12px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
               fontSize: 11, fontWeight: 600, color: '#1F4E8C', cursor: 'pointer', fontFamily: 'inherit',
             }}>↓ Descargar CSV</button>
-          </div>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid #f0f0f3', textAlign: 'left', color: '#6e6e73' }}>
+ </div>
+ <div style={{ overflowX: 'auto' }}>
+ <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+ <thead>
+ <tr style={{ borderBottom: '1px solid #f0f0f3', textAlign: 'left', color: '#6e6e73' }}>
                   {Object.keys(results[0]).slice(0, 6).map(h => (
-                    <th key={h} style={{ padding: '8px 10px', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
+ <th key={h} style={{ padding: '8px 10px', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
                   ))}
-                </tr>
-              </thead>
-              <tbody>
+ </tr>
+ </thead>
+ <tbody>
                 {results.slice(0, 10).map((row, i) => (
-                  <tr key={i} style={{ borderBottom: i < 9 ? '1px solid #f5f5f7' : 'none' }}>
+ <tr key={i} style={{ borderBottom: i < 9 ? '1px solid #f5f5f7' : 'none' }}>
                     {Object.keys(results[0]).slice(0, 6).map(k => {
                       const v = row[k]
                       const isNum = typeof v === 'number'
                       return (
-                        <td key={k} style={{ padding: '8px 10px', fontFamily: isNum ? 'ui-monospace,monospace' : 'inherit', color: '#1d1d1f' }}>
+ <td key={k} style={{ padding: '8px 10px', fontFamily: isNum ? 'ui-monospace,monospace' : 'inherit', color: '#1d1d1f' }}>
                           {isNum ? (v as number).toFixed(3) : String(v ?? '—')}
-                        </td>
+ </td>
                       )
                     })}
-                  </tr>
+ </tr>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+ </tbody>
+ </table>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }

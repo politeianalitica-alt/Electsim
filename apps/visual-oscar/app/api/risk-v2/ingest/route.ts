@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     results: unknown[]
     recompute: unknown
   }>(
-    `/api/risk-v2/ingest?country=${encodeURIComponent(country)}&only=${encodeURIComponent(only)}&recompute=${recompute}`,
+ `/api/risk-v2/ingest?country=${encodeURIComponent(country)}&only=${encodeURIComponent(only)}&recompute=${recompute}`,
     { method: 'POST', cache: 'no-store' },
   )
   if (r.data) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { country, n_connectors: 0, n_ok: 0, n_stub: 0, n_failed: 0, total_rows: 0, results: [], recompute: {} },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['ingest_failed'],
       latency_ms: r.latency_ms,

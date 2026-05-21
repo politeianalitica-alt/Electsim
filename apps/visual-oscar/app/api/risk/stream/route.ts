@@ -25,7 +25,7 @@ export async function GET(_req: NextRequest) {
         if (closed) return
         try {
           const data = await fromBackend<{ score_global?: number; nivel_global?: string }>(
-            '/api/riesgo/matriz'
+ '/api/riesgo/matriz'
           )
           if (data && typeof data === 'object' && 'score_global' in data) {
             send('score_update', {
@@ -65,10 +65,10 @@ export async function GET(_req: NextRequest) {
 
   return new Response(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
+ 'Content-Type': 'text/event-stream',
+ 'Cache-Control': 'no-cache, no-transform',
       Connection: 'keep-alive',
-      'X-Accel-Buffering': 'no',
+ 'X-Accel-Buffering': 'no',
     },
   })
 }

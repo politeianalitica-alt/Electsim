@@ -27,31 +27,31 @@ export function WidgetShell({
 }: WidgetShellProps) {
   const badgeStyle = BADGE_STYLES[badgeVariant];
   return (
-    <div className={`flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900 ${className}`}>
-      <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+ <div className={`flex h-full flex-col rounded-xl border border-[#e8e8ed] bg-white ${className}`}>
+ <div className="flex items-center justify-between border-b border-[#e8e8ed] px-4 py-3">
+ <div className="flex items-center gap-2">
+ <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6e6e73]">
             {title}
-          </span>
+ </span>
           {badge !== undefined && (
-            <span
+ <span
               className="rounded-full px-2 py-0.5 text-[10px] font-bold"
               style={{ background: badgeStyle.bg, color: badgeStyle.fg }}
             >
               {badge}
-            </span>
+ </span>
           )}
-        </div>
+ </div>
         {action && (
-          <Link
+ <Link
             href={action.href}
-            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+            className="text-[11px] text-[#6e6e73] hover:text-[#3a3a3d] transition-colors"
           >
             {action.label} →
-          </Link>
+ </Link>
         )}
-      </div>
-      <div className="flex-1 overflow-auto p-4">{children}</div>
-    </div>
+ </div>
+ <div className="flex-1 overflow-auto p-4">{children}</div>
+ </div>
   );
 }

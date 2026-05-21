@@ -6,21 +6,21 @@ interface Props {
 
 export default function ComingSoon({ title, subtitle, sprint }: Props) {
   return (
-    <main style={{ padding: '2rem 2.5rem', maxWidth: 1100, margin: '0 auto' }}>
-      <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 0.5rem', letterSpacing: '-0.02em' }}>
+ <main style={{ padding: '2rem 2.5rem', maxWidth: 1100, margin: '0 auto' }}>
+ <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 0.5rem', letterSpacing: '-0.02em' }}>
         {title}
-      </h1>
-      <p style={{ color: 'var(--color-muted, #6b7280)', marginBottom: '2rem', fontSize: '0.95rem' }}>
+ </h1>
+ <p style={{ color: 'var(--color-muted, #6b7280)', marginBottom: '2rem', fontSize: '0.95rem' }}>
         {subtitle}
-      </p>
-      <div style={{
+ </p>
+ <div style={{
         border: '1px dashed var(--color-border, #e5e7eb)',
         borderRadius: 12,
         padding: '3rem 2rem',
         textAlign: 'center',
         background: 'var(--bg-secondary, #f9fafb)',
       }}>
-        <div style={{
+ <div style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: 8,
@@ -36,11 +36,11 @@ export default function ComingSoon({ title, subtitle, sprint }: Props) {
           marginBottom: 16,
         }}>
           ● En desarrollo · {sprint}
-        </div>
-        <p style={{ color: 'var(--color-muted, #6b7280)', margin: 0, fontSize: '0.875rem' }}>
+ </div>
+ <p style={{ color: 'var(--color-muted, #6b7280)', margin: 0, fontSize: '0.875rem' }}>
           Este módulo se completará en sprints posteriores.
-        </p>
-      </div>
-    </main>
+ </p>
+ </div>
+ </main>
   )
 }

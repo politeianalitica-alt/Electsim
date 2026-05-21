@@ -47,9 +47,9 @@ export function Badge({ children, variant = 'neutral', party, severity, status, 
   }
 
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: dot ? '5px' : undefined, fontWeight: 500, whiteSpace: 'nowrap', background: bg, color, border, ...SIZE_MAP[size], ...style }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: dot ? '5px' : undefined, fontWeight: 500, whiteSpace: 'nowrap', background: bg, color, border, ...SIZE_MAP[size], ...style }}>
       {dot && <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, flexShrink: 0 }} />}
       {children}
-    </span>
+ </span>
   );
 }

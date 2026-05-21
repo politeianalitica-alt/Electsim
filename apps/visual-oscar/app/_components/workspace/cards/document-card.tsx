@@ -5,21 +5,21 @@ import type { WorkspaceDocument } from "@/types/workspace";
 const KIND_LETTER: Record<string, string> = {
   briefing: "BR",
   memo: "MM",
-  "crisis-note": "CR",
+ "crisis-note": "CR",
   analysis: "AN",
-  "client-report": "CL",
+ "client-report": "CL",
   positioning: "PO",
-  "talking-points": "TP",
+ "talking-points": "TP",
 };
 
 const KIND_LABEL: Record<string, string> = {
   briefing: "Briefing",
   memo: "Memo",
-  "crisis-note": "Nota de crisis",
+ "crisis-note": "Nota de crisis",
   analysis: "Análisis",
-  "client-report": "Informe cliente",
+ "client-report": "Informe cliente",
   positioning: "Posicionamiento",
-  "talking-points": "Talking points",
+ "talking-points": "Talking points",
 };
 
 const STATUS_COLOR: Record<string, string> = {
@@ -45,7 +45,7 @@ interface DocumentCardProps {
 export function DocumentCard({ document: doc, onClick, variant = "card" }: DocumentCardProps) {
   if (variant === "row") {
     return (
-      <div
+ <div
         onClick={onClick}
         style={{
           display: "flex", alignItems: "center", gap: 12,
@@ -53,55 +53,55 @@ export function DocumentCard({ document: doc, onClick, variant = "card" }: Docum
           cursor: onClick ? "pointer" : "default",
         }}
       >
-        <div style={{
+ <div style={{
           width: 32, height: 32, borderRadius: 8, background: WS.surface2,
           display: "flex", alignItems: "center", justifyContent: "center",
           fontSize: 10, fontWeight: 700, color: WS.ink2, letterSpacing: "0.04em", flexShrink: 0,
         }}>
           {KIND_LETTER[doc.kind] ?? "DOC"}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 500, color: WS.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+ </div>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 13, fontWeight: 500, color: WS.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {doc.title}
-          </div>
-          <div style={{ fontSize: 11, color: WS.ink3, marginTop: 2 }}>
+ </div>
+ <div style={{ fontSize: 11, color: WS.ink3, marginTop: 2 }}>
             {KIND_LABEL[doc.kind]} · {formatRelative(doc.updatedAt)}
             {doc.wordCount ? ` · ${doc.wordCount.toLocaleString("es")} palabras` : ""}
-          </div>
-        </div>
-        <WsBadge label={STATUS_LABEL[doc.status]} color={STATUS_COLOR[doc.status]} />
-      </div>
+ </div>
+ </div>
+ <WsBadge label={STATUS_LABEL[doc.status]} color={STATUS_COLOR[doc.status]} />
+ </div>
     );
   }
 
   return (
-    <WorkspaceCard onClick={onClick} hoverable={!!onClick}>
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
-        <div style={{
+ <WorkspaceCard onClick={onClick} hoverable={!!onClick}>
+ <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+ <div style={{
           width: 32, height: 32, borderRadius: 8, background: WS.surface2,
           display: "flex", alignItems: "center", justifyContent: "center",
           fontSize: 10, fontWeight: 700, color: WS.ink2, letterSpacing: "0.04em", flexShrink: 0,
         }}>
           {KIND_LETTER[doc.kind] ?? "DOC"}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, marginBottom: 4, lineHeight: 1.3 }}>
+ </div>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, marginBottom: 4, lineHeight: 1.3 }}>
             {doc.title}
-          </div>
-          <div style={{ fontSize: 11, color: WS.ink3, lineHeight: 1.45, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+ </div>
+ <div style={{ fontSize: 11, color: WS.ink3, lineHeight: 1.45, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
             {doc.summary}
-          </div>
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-        <WsBadge label={KIND_LABEL[doc.kind]} color={WS.ink2} />
-        <WsBadge label={STATUS_LABEL[doc.status]} color={STATUS_COLOR[doc.status]} />
-        <div style={{ flex: 1 }} />
-        <span style={{ fontSize: 10.5, color: WS.ink3 }}>
+ </div>
+ </div>
+ </div>
+ <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+ <WsBadge label={KIND_LABEL[doc.kind]} color={WS.ink2} />
+ <WsBadge label={STATUS_LABEL[doc.status]} color={STATUS_COLOR[doc.status]} />
+ <div style={{ flex: 1 }} />
+ <span style={{ fontSize: 10.5, color: WS.ink3 }}>
           {formatRelative(doc.updatedAt)}
-        </span>
-      </div>
-    </WorkspaceCard>
+ </span>
+ </div>
+ </WorkspaceCard>
   );
 }
 

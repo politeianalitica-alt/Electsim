@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJSON, OllamaUnavailableError } from "@/lib/ai/ollama-client";
-import { isAiEnabled } from "@/lib/ai/ai-config";
+import { generateJSON, OllamaUnavailableError, isAiEnabled, AI_CONFIG } from "@/lib/ai";
 import { SimulationPayloadSchema, SIM_SCHEMA_HINT } from "@/lib/simulator/simulator-schema";
 import { buildMockSimulation } from "@/lib/simulator/simulator-mock";
 import type { DecisionSimulation } from "@/types/simulator";
@@ -30,20 +29,20 @@ export async function POST(req: NextRequest) {
   if (!isAiEnabled()) return NextResponse.json(buildMockSimulation(scenario, workspaceId));
 
   const system = [
-    `Eres un analista estratégico senior especializado en simulación política.`,
-    `Trabajas para el workspace "${workspaceName}".`,
-    `Tu tarea: dado un escenario hipotético, generar 3 outcomes con probabilidades realistas,`,
-    `contramovimientos de los actores relevantes y una recomendación operativa.`,
-    `Tono ejecutivo, denso, en español, sin emojis.`,
+ `Eres un analista estratégico senior especializado en simulación política.`,
+ `Trabajas para el workspace "${workspaceName}".`,
+ `Tu tarea: dado un escenario hipotético, generar 3 outcomes con probabilidades realistas,`,
+ `contramovimientos de los actores relevantes y una recomendación operativa.`,
+ `Tono ejecutivo, denso, en español, sin emojis.`,
   ].join("\n");
 
   const user = [
-    `Escenario: ${scenario}`,
-    ``,
-    `Contexto del workspace:`,
+ `Escenario: ${scenario}`,
+ ``,
+ `Contexto del workspace:`,
     context || "(sin contexto adicional)",
-    ``,
-    `Genera la simulación con 3 outcomes (base/óptimo/adverso) según el schema.`,
+ ``,
+ `Genera la simulación con 3 outcomes (base/óptimo/adverso) según el schema.`,
   ].join("\n");
 
   try {
@@ -62,7 +61,7 @@ export async function POST(req: NextRequest) {
       workspaceId,
       scenario,
       generatedAt: new Date().toISOString(),
-      source: "ollama",
+      source: AI_CONFIG.provider === "anthropic" ? "anthropic" : "ollama",
       context: context.slice(0, 600),
       outcomes:       parsed.data.outcomes,
       counterMoves:   parsed.data.counterMoves,

@@ -10,9 +10,9 @@ import styles from './DatasetDetail.module.css'
 interface Props { datasetId: string }
 
 const EXAMPLE_QUERIES = [
-  'SELECT * FROM dataset LIMIT 100',
-  'SELECT COUNT(*) AS total FROM dataset',
-  'SELECT partido, SUM(votos) AS total_votos FROM dataset GROUP BY partido ORDER BY total_votos DESC',
+ 'SELECT * FROM dataset LIMIT 100',
+ 'SELECT COUNT(*) AS total FROM dataset',
+ 'SELECT partido, SUM(votos) AS total_votos FROM dataset GROUP BY partido ORDER BY total_votos DESC',
 ]
 
 export default function SqlEditor({ datasetId }: Props) {
@@ -44,24 +44,24 @@ export default function SqlEditor({ datasetId }: Props) {
     : []
 
   return (
-    <div className={styles.sqlRoot}>
-      <div className={styles.sqlEditorWrapper}>
-        <div className={styles.sqlEditorHeader}>
-          <span className={styles.sqlEditorLabel}>SQL · dataset: <code>{datasetId}</code></span>
-          <div style={{ display: 'flex', gap: 6 }}>
+ <div className={styles.sqlRoot}>
+ <div className={styles.sqlEditorWrapper}>
+ <div className={styles.sqlEditorHeader}>
+ <span className={styles.sqlEditorLabel}>SQL · dataset: <code>{datasetId}</code></span>
+ <div style={{ display: 'flex', gap: 6 }}>
             {EXAMPLE_QUERIES.map((q, i) => (
-              <button
+ <button
                 key={i}
                 onClick={() => setSql(q)}
                 className={styles.exampleBtn}
                 title={q}
               >
                 Ejemplo {i + 1}
-              </button>
+ </button>
             ))}
-          </div>
-        </div>
-        <textarea
+ </div>
+ </div>
+ <textarea
           ref={textareaRef}
           value={sql}
           onChange={e => setSql(e.target.value)}
@@ -71,28 +71,28 @@ export default function SqlEditor({ datasetId }: Props) {
           spellCheck={false}
           placeholder="SELECT * FROM dataset LIMIT 100"
         />
-        <div className={styles.sqlEditorFooter}>
-          <span className={styles.sqlHint}>⌘+Enter para ejecutar</span>
-          <button
+ <div className={styles.sqlEditorFooter}>
+ <span className={styles.sqlHint}>⌘+Enter para ejecutar</span>
+ <button
             onClick={handleRun}
             disabled={queryMutation.isPending || !sql.trim()}
             className={styles.btnRun}
           >
             {queryMutation.isPending ? '⟳ Ejecutando…' : '▶ Ejecutar'}
-          </button>
-        </div>
-      </div>
+ </button>
+ </div>
+ </div>
 
       {queryMutation.isError && (
-        <div className={styles.sqlError}>
-          ✗ {(queryMutation.error as Error)?.message ?? 'Error ejecutando la consulta'}
-        </div>
+ <div className={styles.sqlError}>
+           {(queryMutation.error as Error)?.message ?? 'Error ejecutando la consulta'}
+ </div>
       )}
 
       {result && (
-        <div className={styles.sqlResults}>
-          <div className={styles.sqlResultsHeader}>
-            <input
+ <div className={styles.sqlResults}>
+ <div className={styles.sqlResultsHeader}>
+ <input
               type="search"
               placeholder="Filtrar columnas…"
               value={columnFilter}
@@ -100,46 +100,46 @@ export default function SqlEditor({ datasetId }: Props) {
               className={styles.colFilter}
               style={{ maxWidth: 200 }}
             />
-            <span className={styles.rowCount}>
+ <span className={styles.rowCount}>
               {formatNumber(result.rowCount)} filas · {result.durationMs}ms
               {result.fromCache && ' · desde caché'}
-            </span>
-          </div>
-          <div className={styles.tableWrapper}>
-            <table className={styles.dataTable}>
-              <thead>
-                <tr>
-                  <th className={`${styles.th} ${styles.thRowNum}`}>#</th>
+ </span>
+ </div>
+ <div className={styles.tableWrapper}>
+ <table className={styles.dataTable}>
+ <thead>
+ <tr>
+ <th className={`${styles.th} ${styles.thRowNum}`}>#</th>
                   {filteredCols.map(col => (
-                    <th key={col} className={styles.th}>{col}</th>
+ <th key={col} className={styles.th}>{col}</th>
                   ))}
-                </tr>
-              </thead>
-              <tbody>
+ </tr>
+ </thead>
+ <tbody>
                 {result.rows.map((row, i) => (
-                  <tr key={i} className={styles.tr}>
-                    <td className={`${styles.td} ${styles.tdRowNum}`}>{i + 1}</td>
+ <tr key={i} className={styles.tr}>
+ <td className={`${styles.td} ${styles.tdRowNum}`}>{i + 1}</td>
                     {filteredCols.map(col => {
                       const val    = row[col]
                       const isNull = val === null || val === undefined
                       const isNum  = typeof val === 'number'
                       return (
-                        <td
+ <td
                           key={col}
                           className={styles.td}
                           style={{ textAlign: isNum ? 'right' : 'left', opacity: isNull ? 0.35 : 1 }}
                         >
                           {isNull ? 'NULL' : isNum ? val.toLocaleString('es-ES') : String(val)}
-                        </td>
+ </td>
                       )
                     })}
-                  </tr>
+ </tr>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+ </tbody>
+ </table>
+ </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }

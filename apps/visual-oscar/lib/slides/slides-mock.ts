@@ -15,10 +15,10 @@ export function buildMockDeck(title: string): Slide[] {
       layout: "content",
       title: "Situación general",
       bullets: [
-        "Tensión legislativa creciente con socios externos al gobierno.",
-        "CIS muestra desgaste contenido del partido gobernante (-2.3pp).",
-        "Junts mantiene su posición ambigua, coherente con su patrón histórico.",
-        "Ciclo mediático adverso en torno a vivienda y narrativa de crisis.",
+ "Tensión legislativa creciente con socios externos al gobierno.",
+ "CIS muestra desgaste contenido del partido gobernante (-2.3pp).",
+ "Junts mantiene su posición ambigua, coherente con su patrón histórico.",
+ "Ciclo mediático adverso en torno a vivienda y narrativa de crisis.",
       ],
     },
     {
@@ -37,20 +37,20 @@ export function buildMockDeck(title: string): Slide[] {
       layout: "two_column",
       title: "Oportunidades vs Riesgos",
       bullets: [
-        "Ventana de 72h para abrir canal con Junts.",
-        "Espacio narrativo en vivienda no ocupado.",
-        "Tres CCAA dispuestas a alinearse en posición sectorial.",
+ "Ventana de 72h para abrir canal con Junts.",
+ "Espacio narrativo en vivienda no ocupado.",
+ "Tres CCAA dispuestas a alinearse en posición sectorial.",
       ],
       rightBullets: [
-        "Cobertura adversa del Plan Vive concentrada en TVE.",
-        "Riesgo de pacto erc-gobierno desplazando a otros socios.",
-        "Acumulación de dossieres sin nota analítica integradora.",
+ "Cobertura adversa del Plan Vive concentrada en TVE.",
+ "Riesgo de pacto erc-gobierno desplazando a otros socios.",
+ "Acumulación de dossieres sin nota analítica integradora.",
       ],
     },
     {
       id: "s7",
       layout: "quote",
-      quote:  "La decisión más cara que podemos tomar esta semana es no decidir.",
+      quote: "La decisión más cara que podemos tomar esta semana es no decidir.",
       author: "Dirección · 2026-05-13",
     },
     {
@@ -58,10 +58,10 @@ export function buildMockDeck(title: string): Slide[] {
       layout: "closing",
       title: "Recomendaciones",
       bullets: [
-        "Activar Q&A defensivo TVE en próximas 24h.",
-        "Reunión informal con portavoz Junts antes del jueves.",
-        "Comunicado proactivo sobre Plan Vive antes del lunes.",
-        "Convocatoria CCAA afines para sumar señal sectorial.",
+ "Activar Q&A defensivo TVE en próximas 24h.",
+ "Reunión informal con portavoz Junts antes del jueves.",
+ "Comunicado proactivo sobre Plan Vive antes del lunes.",
+ "Convocatoria CCAA afines para sumar señal sectorial.",
       ],
     },
   ];

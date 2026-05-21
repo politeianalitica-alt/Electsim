@@ -30,11 +30,11 @@ export const ACTOR_TYPE_CONFIG: Record<ActorType, { label: string; mark: string 
 
 export const STANCE_CONFIG: Record<PositionStance, { label: string; color: string; short: string }> = {
   strongly_for:     { label: "Muy a favor",   color: "#10b981", short: "++" },
-  for:              { label: "A favor",        color: "#34d399", short: "+"  },
-  neutral:          { label: "Neutral",        color: "#94a3b8", short: "·"  },
-  against:          { label: "En contra",      color: "#f87171", short: "-"  },
+  for:              { label: "A favor",        color: "#34d399", short: "+" },
+  neutral:          { label: "Neutral",        color: "#94a3b8", short: "·" },
+  against:          { label: "En contra",      color: "#f87171", short: "-" },
   strongly_against: { label: "Muy en contra", color: "#ef4444", short: "--" },
-  unknown:          { label: "Desconocida",    color: "#64748b", short: "?"  },
+  unknown:          { label: "Desconocida",    color: "#64748b", short: "?" },
 };
 
 export const PRIORITY_CONFIG = {

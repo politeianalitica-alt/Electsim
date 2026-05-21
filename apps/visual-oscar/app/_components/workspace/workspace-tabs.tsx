@@ -64,7 +64,7 @@ export function WorkspaceTabs({ workspaceId }: WorkspaceTabsProps) {
   }, [path, workspaceId]);
 
   return (
-    <div style={{
+ <div style={{
       height: WS.tabsH,
       flexShrink: 0,
       borderBottom: `1px solid ${WS.border}`,
@@ -76,11 +76,11 @@ export function WorkspaceTabs({ workspaceId }: WorkspaceTabsProps) {
       scrollbarWidth: "none",
     }}>
       {tabs.map(tab => (
-        <Tab key={tab.id} tab={tab} isActive={tab.id === activeTabId} onClose={closeTab} />
+ <Tab key={tab.id} tab={tab} isActive={tab.id === activeTabId} onClose={closeTab} />
       ))}
 
       {/* New tab button */}
-      <button
+ <button
         title="Nueva vista"
         style={{
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -98,15 +98,15 @@ export function WorkspaceTabs({ workspaceId }: WorkspaceTabsProps) {
           (e.currentTarget as HTMLElement).style.background = "transparent";
         }}
       >
-        <IconPlus size={12} />
-      </button>
-    </div>
+ <IconPlus size={12} />
+ </button>
+ </div>
   );
 }
 
 function Tab({ tab, isActive, onClose }: { tab: WorkspaceTab; isActive: boolean; onClose: (id: string) => void }) {
   return (
-    <div style={{
+ <div style={{
       display: "flex", alignItems: "center",
       padding: "0 4px 0 10px",
       gap: 4, flexShrink: 0,
@@ -115,7 +115,7 @@ function Tab({ tab, isActive, onClose }: { tab: WorkspaceTab; isActive: boolean;
       borderBottom: isActive ? `2px solid ${WS.accent}` : "2px solid transparent",
       maxWidth: 180, minWidth: 80,
     }}>
-      <Link
+ <Link
         href={tab.href}
         style={{
           display: "flex", alignItems: "center", gap: 5,
@@ -126,19 +126,19 @@ function Tab({ tab, isActive, onClose }: { tab: WorkspaceTab; isActive: boolean;
           whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
         }}
       >
-        <span style={{ color: isActive ? WS.accent : WS.ink3, flexShrink: 0 }}>
-          <ViewIcon view={tab.view} size={11} />
-        </span>
+ <span style={{ color: isActive ? WS.accent : WS.ink3, flexShrink: 0 }}>
+ <ViewIcon view={tab.view} size={11} />
+ </span>
         {tab.label}
         {tab.pinned && (
-          <span style={{ color: WS.ink3, flexShrink: 0 }}>
-            <IconPin size={9} />
-          </span>
+ <span style={{ color: WS.ink3, flexShrink: 0 }}>
+ <IconPin size={9} />
+ </span>
         )}
-      </Link>
+ </Link>
 
       {tab.closable && (
-        <button
+ <button
           onClick={e => { e.preventDefault(); onClose(tab.id); }}
           title="Cerrar tab"
           style={{
@@ -156,9 +156,9 @@ function Tab({ tab, isActive, onClose }: { tab: WorkspaceTab; isActive: boolean;
             (e.currentTarget as HTMLElement).style.color = WS.ink3;
           }}
         >
-          <IconClose size={8} />
-        </button>
+ <IconClose size={8} />
+ </button>
       )}
-    </div>
+ </div>
   );
 }

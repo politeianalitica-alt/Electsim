@@ -18,15 +18,15 @@ interface Props {
 export default function SSEStatusIndicator({ status, className = '' }: Props) {
   const cfg = STATUS_CONFIG[status]
   return (
-    <span
+ <span
       className={`inline-flex items-center gap-1.5 text-xs font-medium ${className}`}
       style={{ color: cfg.color }}
     >
-      <span
+ <span
         className={`inline-block w-1.5 h-1.5 rounded-full ${cfg.pulse ? 'animate-pulse' : ''}`}
         style={{ backgroundColor: cfg.color }}
       />
       {cfg.label}
-    </span>
+ </span>
   )
 }

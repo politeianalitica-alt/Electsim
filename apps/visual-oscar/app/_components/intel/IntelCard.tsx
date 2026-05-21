@@ -21,10 +21,10 @@ export default function IntelCard({ children, padding = 18, style, onClick, hove
     ...style,
   }
   return (
-    <div style={base} onClick={onClick}
+ <div style={base} onClick={onClick}
       onMouseEnter={e => { if (hoverable) { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.06)' } }}
       onMouseLeave={e => { if (hoverable) { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' } }}>
       {children}
-    </div>
+ </div>
   )
 }

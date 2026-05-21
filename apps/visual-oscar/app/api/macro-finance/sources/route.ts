@@ -9,7 +9,7 @@ export interface SourcesHealth { sources: Array<{ source_id: string; name: strin
 export async function GET(_req: NextRequest) {
 
   const r = await callBackend<SourcesHealth>(
-    `/api/macro-finance/sources`,
+ `/api/macro-finance/sources`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -17,7 +17,7 @@ export async function GET(_req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { sources: [] },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,

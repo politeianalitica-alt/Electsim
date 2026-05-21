@@ -31,26 +31,26 @@ export type Permission =
 
 const MATRIX: Record<WorkspaceRole, Set<Permission>> = {
   owner:   new Set([
-    "workspace.delete", "workspace.settings", "workspace.invite",
-    "content.read", "content.write", "content.publish", "content.delete",
-    "agent.run", "agent.configure",
-    "report.export", "report.distribute",
-    "audit.read",
+ "workspace.delete", "workspace.settings", "workspace.invite",
+ "content.read", "content.write", "content.publish", "content.delete",
+ "agent.run", "agent.configure",
+ "report.export", "report.distribute",
+ "audit.read",
   ]),
   admin:   new Set([
-    "workspace.settings", "workspace.invite",
-    "content.read", "content.write", "content.publish", "content.delete",
-    "agent.run", "agent.configure",
-    "report.export", "report.distribute",
-    "audit.read",
+ "workspace.settings", "workspace.invite",
+ "content.read", "content.write", "content.publish", "content.delete",
+ "agent.run", "agent.configure",
+ "report.export", "report.distribute",
+ "audit.read",
   ]),
   analyst: new Set([
-    "content.read", "content.write", "content.publish",
-    "agent.run",
-    "report.export",
+ "content.read", "content.write", "content.publish",
+ "agent.run",
+ "report.export",
   ]),
   viewer:  new Set([
-    "content.read",
+ "content.read",
   ]),
 };
 

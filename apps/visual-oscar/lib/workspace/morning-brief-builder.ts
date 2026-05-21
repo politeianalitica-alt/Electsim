@@ -29,17 +29,17 @@ export function buildMorningBrief(
   const highlights: string[] = [];
   if (criticalIssues.length > 0) {
     highlights.push(
-      `${criticalIssues.length} issue${criticalIssues.length > 1 ? "s" : ""} crítico${criticalIssues.length > 1 ? "s" : ""} requiere${criticalIssues.length > 1 ? "n" : ""} atención inmediata`
+ `${criticalIssues.length} issue${criticalIssues.length > 1 ? "s" : ""} crítico${criticalIssues.length > 1 ? "s" : ""} requiere${criticalIssues.length > 1 ? "n" : ""} atención inmediata`
     );
   }
   if (overdueActions.length > 0) {
     highlights.push(
-      `${overdueActions.length} acción${overdueActions.length > 1 ? "es" : ""} vencida${overdueActions.length > 1 ? "s" : ""} sin cerrar`
+ `${overdueActions.length} acción${overdueActions.length > 1 ? "es" : ""} vencida${overdueActions.length > 1 ? "s" : ""} sin cerrar`
     );
   }
   if (highAlerts.length > 0) {
     highlights.push(
-      `${highAlerts.length} alerta${highAlerts.length > 1 ? "s" : ""} activa${highAlerts.length > 1 ? "s" : ""} en monitorización`
+ `${highAlerts.length} alerta${highAlerts.length > 1 ? "s" : ""} activa${highAlerts.length > 1 ? "s" : ""} en monitorización`
     );
   }
 

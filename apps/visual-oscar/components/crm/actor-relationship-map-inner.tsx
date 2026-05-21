@@ -21,32 +21,32 @@ const CrmActorNode = memo(function CrmActorNode({
 }: NodeProps<{ actor: PoliticalActor }>) {
   const partyConfig = data.actor.party ? PARTY_CONFIG[data.actor.party] : null;
   return (
-    <div
+ <div
       className={`rounded-xl border px-3 py-2.5 min-w-[140px] max-w-[180px] transition-colors ${
         selected
           ? "border-indigo-500 shadow-lg shadow-indigo-500/20 bg-slate-800"
           : "border-slate-700 bg-slate-900"
       }`}
     >
-      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
-      <div className="flex items-center gap-2">
-        <div
+ <Handle type="target" position={Position.Left} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
+ <div className="flex items-center gap-2">
+ <div
           className="flex h-8 w-8 flex-none items-center justify-center rounded-full text-xs font-bold"
           style={{ background: `${data.actor.avatarColor}30`, color: data.actor.avatarColor }}
         >
           {data.actor.avatarInitials}
-        </div>
-        <div className="min-w-0">
-          <p className="truncate text-xs font-medium text-slate-100">{data.actor.displayName}</p>
+ </div>
+ <div className="min-w-0">
+ <p className="truncate text-xs font-medium text-slate-100">{data.actor.displayName}</p>
           {partyConfig && data.actor.party && (
-            <span className="text-[10px] font-bold" style={{ color: partyConfig.color }}>
+ <span className="text-[10px] font-bold" style={{ color: partyConfig.color }}>
               {data.actor.party}
-            </span>
+ </span>
           )}
-        </div>
-      </div>
-      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
-    </div>
+ </div>
+ </div>
+ <Handle type="source" position={Position.Right} className="!h-2 !w-2 !border-slate-600 !bg-slate-700" />
+ </div>
   );
 });
 
@@ -87,8 +87,8 @@ export function ActorRelationshipMapInner({
   );
 
   return (
-    <div className="h-full w-full">
-      <ReactFlow
+ <div className="h-full w-full">
+ <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -96,10 +96,10 @@ export function ActorRelationshipMapInner({
         colorMode="dark"
         className="bg-slate-950"
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#1e293b" />
-        <Controls className="!border-slate-700 !bg-slate-900" />
-        <MiniMap className="!border-slate-700 !bg-slate-900" maskColor="rgba(2,6,23,0.7)" />
-      </ReactFlow>
-    </div>
+ <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#1e293b" />
+ <Controls className="!border-slate-700 !bg-slate-900" />
+ <MiniMap className="!border-slate-700 !bg-slate-900" maskColor="rgba(2,6,23,0.7)" />
+ </ReactFlow>
+ </div>
   );
 }

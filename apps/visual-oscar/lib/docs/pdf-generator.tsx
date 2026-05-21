@@ -74,21 +74,21 @@ export async function downloadDocAsPdf(input: DocPDFInput) {
       footer: { position: "absolute", bottom: 32, left: 48, right: 48, fontSize: 8, color: "#94a3b8", textAlign: "center" },
     });
     const docEl = (
-      <Document title={input.doc.title} author="Politeia">
-        <Page size="A4" style={styles.page}>
-          <Text style={styles.meta}>
+ <Document title={input.doc.title} author="Politeia">
+ <Page size="A4" style={styles.page}>
+ <Text style={styles.meta}>
             {input.doc.kind.toUpperCase()} · {new Date(input.doc.updatedAt).toLocaleDateString("es-ES")}
-          </Text>
-          <Text style={styles.title}>{input.doc.title}</Text>
+ </Text>
+ <Text style={styles.title}>{input.doc.title}</Text>
           {input.blocks.map(block => {
             if (block.type === "heading") return <Text key={block.id} style={styles.h2}>{String(block.content)}</Text>;
             return <Text key={block.id} style={styles.p}>{String(block.content ?? "")}</Text>;
           })}
-          <Text style={styles.footer} fixed>
+ <Text style={styles.footer} fixed>
             Politeia OS · {input.doc.title} · Confidencial
-          </Text>
-        </Page>
-      </Document>
+ </Text>
+ </Page>
+ </Document>
     );
     const blob = await pdf(docEl).toBlob();
     const url = URL.createObjectURL(blob);

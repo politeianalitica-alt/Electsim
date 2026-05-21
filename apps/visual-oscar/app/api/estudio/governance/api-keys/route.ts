@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   } catch {
     const secret = `pk_live_${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`
     return NextResponse.json({
-      id:        `k-${Date.now().toString(36)}`,
+      id: `k-${Date.now().toString(36)}`,
       name:      body.name ?? 'Nueva Key',
       prefix:    secret.slice(0, 12),
       secret,

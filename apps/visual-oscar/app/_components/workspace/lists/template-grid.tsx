@@ -15,13 +15,13 @@ interface TemplateGridProps {
 
 export function TemplateGrid({ templates, columns = 4 }: TemplateGridProps) {
   return (
-    <div style={{
+ <div style={{
       display: "grid",
       gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
       gap: 10,
     }}>
       {templates.map(t => (
-        <div
+ <div
           key={t.id}
           onClick={t.onSelect}
           style={{
@@ -43,15 +43,15 @@ export function TemplateGrid({ templates, columns = 4 }: TemplateGridProps) {
             }
           }}
         >
-          <div style={{ fontSize: 22, marginBottom: 8 }}>{t.icon}</div>
-          <div style={{ fontSize: 12.5, fontWeight: 600, color: WS.ink, marginBottom: 3 }}>
+ <div style={{ fontSize: 22, marginBottom: 8 }}>{t.icon}</div>
+ <div style={{ fontSize: 12.5, fontWeight: 600, color: WS.ink, marginBottom: 3 }}>
             {t.name}
-          </div>
-          <div style={{ fontSize: 11, color: WS.ink3, lineHeight: 1.4 }}>
+ </div>
+ <div style={{ fontSize: 11, color: WS.ink3, lineHeight: 1.4 }}>
             {t.description}
-          </div>
-        </div>
+ </div>
+ </div>
       ))}
-    </div>
+ </div>
   );
 }

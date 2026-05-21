@@ -56,7 +56,7 @@ export async function GET() {
           mfp_fondos: result.data.mfp_fondos ?? [],
           prtr_totals: result.data.prtr_totals ?? PRTR_TOTALS,
         },
-        'backend',
+ 'backend',
         { latency_ms: result.latency_ms },
       ),
     )
@@ -73,7 +73,7 @@ export async function GET() {
         mfp_fondos: MFP_FONDOS,
         prtr_totals: PRTR_TOTALS,
       },
-      'mock',
+ 'mock',
       {
         warnings: result.error
           ? [`backend_unreachable:${result.error}`]

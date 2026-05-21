@@ -13,17 +13,17 @@ const ENDPOINT = 'https://api.ted.europa.eu/v3/notices/search'
 const UA = 'Politeia-Analitica/1.0 (+https://politeia-analitica.vercel.app)'
 
 interface TedNotice {
-  'publication-number'?: string
-  'title-of-procedure'?: { spa?: string; eng?: string; [k: string]: unknown }
-  'buyer-name'?: Array<{ spa?: string; eng?: string; [k: string]: unknown }>
-  'buyer-country'?: string[]
-  'buyer-city'?: Array<{ spa?: string; eng?: string }>
-  'contract-nature'?: string[]
-  'classification-cpv'?: string[]
-  'total-value'?: number | string
-  'total-value-cur'?: string
-  'publication-date'?: string
-  'deadline-date-receipt-tender'?: string
+ 'publication-number'?: string
+ 'title-of-procedure'?: { spa?: string; eng?: string; [k: string]: unknown }
+ 'buyer-name'?: Array<{ spa?: string; eng?: string; [k: string]: unknown }>
+ 'buyer-country'?: string[]
+ 'buyer-city'?: Array<{ spa?: string; eng?: string }>
+ 'contract-nature'?: string[]
+ 'classification-cpv'?: string[]
+ 'total-value'?: number | string
+ 'total-value-cur'?: string
+ 'publication-date'?: string
+ 'deadline-date-receipt-tender'?: string
   links?: { xml?: { MUL?: string }; pdf?: { ENG?: string; SPA?: string } }
 }
 
@@ -86,9 +86,9 @@ export interface TedSearchParams {
  * Construye la query SoQL-like de TED. Filtramos a España siempre.
  *
  * Sintaxis TED v3:
- *   campo="valor"          (exacto)
+ *   campo="valor" (exacto)
  *   campo>=fecha           (rango)
- *   FT="texto"             (full text)
+ *   FT="texto" (full text)
  *   AND/OR/NOT             (booleanos)
  *
  * Docs: https://docs.ted.europa.eu/api/index.html
@@ -114,18 +114,18 @@ export async function searchTed(
   const body = {
     query: buildQuery(p),
     fields: [
-      'publication-number',
-      'title-of-procedure',
-      'buyer-name',
-      'buyer-country',
-      'buyer-city',
-      'contract-nature',
-      'classification-cpv',
-      'total-value',
-      'total-value-cur',
-      'publication-date',
-      'deadline-date-receipt-tender',
-      'links',
+ 'publication-number',
+ 'title-of-procedure',
+ 'buyer-name',
+ 'buyer-country',
+ 'buyer-city',
+ 'contract-nature',
+ 'classification-cpv',
+ 'total-value',
+ 'total-value-cur',
+ 'publication-date',
+ 'deadline-date-receipt-tender',
+ 'links',
     ],
     page,
     limit,
@@ -137,8 +137,8 @@ export async function searchTed(
     const res = await fetch(ENDPOINT, {
       method: 'POST',
       headers: {
-        'User-Agent': UA,
-        'Content-Type': 'application/json',
+ 'User-Agent': UA,
+ 'Content-Type': 'application/json',
         Accept: 'application/json',
       },
       body: JSON.stringify(body),

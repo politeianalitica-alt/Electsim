@@ -8,9 +8,9 @@ import styles from './Health.module.css'
 
 const SERVICE_LABELS: Record<string, { label: string; glyph: string }> = {
   database:        { label: 'Base de datos',     glyph: '⊟' },
-  redis:           { label: 'Cache (Redis)',     glyph: '⚡' },
+  redis:           { label: 'Cache (Redis)',     glyph: '' },
   pipeline_runner: { label: 'Pipeline Runner',   glyph: '⟶' },
-  ai_engine:       { label: 'Motor IA',          glyph: '✦' },
+  ai_engine:       { label: 'Motor IA',          glyph: '' },
   storage:         { label: 'Almacenamiento',    glyph: '◫' },
   search_index:    { label: 'Índice búsqueda',   glyph: '⌕' },
   message_queue:   { label: 'Cola de mensajes',  glyph: '⇉' },
@@ -37,12 +37,12 @@ function LatencyBar({ ms }: { ms: number }) {
   const pct = Math.min((ms / max) * 100, 100)
   const color = ms < 50 ? '#22c55e' : ms < 200 ? '#f59e0b' : '#ef4444'
   return (
-    <div className={styles.latencyWrap}>
-      <div className={styles.latencyBar}>
-        <div className={styles.latencyFill} style={{ width: `${pct}%`, background: color }} />
-      </div>
-      <span className={styles.latencyLabel} style={{ color }}>{ms}ms</span>
-    </div>
+ <div className={styles.latencyWrap}>
+ <div className={styles.latencyBar}>
+ <div className={styles.latencyFill} style={{ width: `${pct}%`, background: color }} />
+ </div>
+ <span className={styles.latencyLabel} style={{ color }}>{ms}ms</span>
+ </div>
   )
 }
 
@@ -60,79 +60,79 @@ export default function HealthClient() {
 
   const overallMeta = data
     ? data.status === 'healthy'
-      ? { label: 'Todos los sistemas operativos', color: '#22c55e', glyph: '✓' }
+      ? { label: 'Todos los sistemas operativos', color: '#22c55e', glyph: '' }
       : data.status === 'degraded'
       ? { label: `${degradedCount} servicio${degradedCount !== 1 ? 's' : ''} degradado${degradedCount !== 1 ? 's' : ''}`, color: '#f59e0b', glyph: '!' }
       : { label: `${downCount} servicio${downCount !== 1 ? 's' : ''} caído${downCount !== 1 ? 's' : ''}`, color: '#ef4444', glyph: '×' }
     : null
 
   return (
-    <div className={styles.root}>
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>System Health</h1>
-          <p className={styles.subtitle}>Estado en tiempo real de todos los servicios del módulo Domo</p>
-        </div>
-        <div className={styles.headerRight}>
+ <div className={styles.root}>
+ <div className={styles.header}>
+ <div>
+ <h1 className={styles.title}>System Health</h1>
+ <p className={styles.subtitle}>Estado en tiempo real de todos los servicios del módulo Domo</p>
+ </div>
+ <div className={styles.headerRight}>
           {dataUpdatedAt > 0 && (
-            <span className={styles.lastCheck}>
+ <span className={styles.lastCheck}>
               Última comprobación: {new Date(dataUpdatedAt).toLocaleTimeString('es')}
-            </span>
+ </span>
           )}
-          <button onClick={() => refetch()} disabled={isFetching} className={styles.refreshBtn}>
-            <span style={{ display: 'inline-block', animation: isFetching ? 'spin 1s linear infinite' : 'none' }}>⟳</span>
+ <button onClick={() => refetch()} disabled={isFetching} className={styles.refreshBtn}>
+ <span style={{ display: 'inline-block', animation: isFetching ? 'spin 1s linear infinite' : 'none' }}>⟳</span>
             {isFetching ? ' Comprobando…' : ' Actualizar'}
-          </button>
-        </div>
-      </div>
+ </button>
+ </div>
+ </div>
 
       {isLoading ? (
-        <Skeleton style={{ height: 80, borderRadius: 12, marginBottom: '1.25rem' }} />
+ <Skeleton style={{ height: 80, borderRadius: 12, marginBottom: '1.25rem' }} />
       ) : error ? (
-        <div className={styles.errorBanner}>
+ <div className={styles.errorBanner}>
           × No se puede conectar al backend. Verifica que el servidor esté activo.
-        </div>
+ </div>
       ) : overallMeta && data ? (
-        <div className={styles.overallBanner} style={{ borderColor: `${overallMeta.color}40`, background: `${overallMeta.color}08` }}>
-          <span className={styles.overallIcon} style={{ color: overallMeta.color }}>{overallMeta.glyph}</span>
-          <div>
-            <div className={styles.overallLabel} style={{ color: overallMeta.color }}>{overallMeta.label}</div>
-            <div className={styles.overallMeta}>
+ <div className={styles.overallBanner} style={{ borderColor: `${overallMeta.color}40`, background: `${overallMeta.color}08` }}>
+ <span className={styles.overallIcon} style={{ color: overallMeta.color }}>{overallMeta.glyph}</span>
+ <div>
+ <div className={styles.overallLabel} style={{ color: overallMeta.color }}>{overallMeta.label}</div>
+ <div className={styles.overallMeta}>
               v{data.version} · Uptime: {formatUptime(data.uptimeSeconds ?? 0)} · {allServices.length} servicios monitorizados
-            </div>
-          </div>
-        </div>
+ </div>
+ </div>
+ </div>
       ) : null}
 
-      <div className={styles.grid}>
+ <div className={styles.grid}>
         {isLoading
           ? Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} style={{ height: 110, borderRadius: 12 }} />)
           : allServices.map(([key, service]) => {
               const meta  = STATUS_META[service.status ?? 'unknown']
               const label = SERVICE_LABELS[key] ?? { label: key, glyph: '●' }
               return (
-                <div
+ <div
                   key={key}
                   className={styles.serviceCard}
                   style={{ borderColor: `${meta.color}30` }}
                 >
-                  <div className={styles.serviceHeader}>
-                    <span className={styles.serviceIcon}>{label.glyph}</span>
-                    <span className={styles.serviceName}>{label.label}</span>
-                    <span className={styles.statusDot} style={{ color: meta.color }} title={meta.label}>{meta.dot}</span>
-                  </div>
-                  <div className={styles.statusLabel} style={{ color: meta.color }}>{meta.label}</div>
+ <div className={styles.serviceHeader}>
+ <span className={styles.serviceIcon}>{label.glyph}</span>
+ <span className={styles.serviceName}>{label.label}</span>
+ <span className={styles.statusDot} style={{ color: meta.color }} title={meta.label}>{meta.dot}</span>
+ </div>
+ <div className={styles.statusLabel} style={{ color: meta.color }}>{meta.label}</div>
                   {service.latencyMs !== undefined && <LatencyBar ms={service.latencyMs} />}
                   {service.message && <div className={styles.serviceMsg}>{service.message}</div>}
-                </div>
+ </div>
               )
             })
         }
-      </div>
+ </div>
 
-      <div className={styles.sprintsSection}>
-        <h2 className={styles.sprintsTitle}>Módulos Domo — Sprint Coverage</h2>
-        <div className={styles.sprintsTable}>
+ <div className={styles.sprintsSection}>
+ <h2 className={styles.sprintsTitle}>Módulos Domo — Sprint Coverage</h2>
+ <div className={styles.sprintsTable}>
           {[
             { sprint: 1, module: 'Foundation + Sidebar',         route: '/estudio' },
             { sprint: 2, module: 'Fuentes de datos',             route: '/estudio/fuentes' },
@@ -143,15 +143,15 @@ export default function HealthClient() {
             { sprint: 7, module: 'Gobernanza + AI Query',        route: '/estudio/gobernanza' },
             { sprint: 8, module: 'Health + Cmd-K + Anotaciones', route: '/estudio/health' },
           ].map(row => (
-            <div key={row.sprint} className={styles.sprintRow}>
-              <span className={styles.sprintNum}>Sprint {row.sprint}</span>
-              <span className={styles.sprintModule}>{row.module}</span>
-              <code className={styles.sprintRoute}>{row.route}</code>
-              <span className={styles.sprintStatus} style={{ color: '#22c55e' }}>✓ Completado</span>
-            </div>
+ <div key={row.sprint} className={styles.sprintRow}>
+ <span className={styles.sprintNum}>Sprint {row.sprint}</span>
+ <span className={styles.sprintModule}>{row.module}</span>
+ <code className={styles.sprintRoute}>{row.route}</code>
+ <span className={styles.sprintStatus} style={{ color: '#22c55e' }}> Completado</span>
+ </div>
           ))}
-        </div>
-      </div>
-    </div>
+ </div>
+ </div>
+ </div>
   )
 }

@@ -6,7 +6,7 @@ export interface WorkspaceNavItem {
   segment:     string;
   description: string;
   /** Si la vista pertenece a un grupo de navegación (visual en sidebar). */
-  group:       "operativo" | "contenido" | "inteligencia" | "sistema";
+  group: "operativo" | "contenido" | "inteligencia" | "sistema";
 }
 
 export const WORKSPACE_VIEWS: WorkspaceNavItem[] = [
@@ -47,8 +47,8 @@ export function getViewByPath(pathname: string): WorkspaceNavItem | undefined {
 }
 
 export const NAV_GROUP_LABELS: Record<WorkspaceNavItem["group"], string> = {
-  operativo:    "Operativo",
-  contenido:    "Contenido",
+  operativo: "Operativo",
+  contenido: "Contenido",
   inteligencia: "Inteligencia",
-  sistema:      "Sistema",
+  sistema: "Sistema",
 };

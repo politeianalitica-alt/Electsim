@@ -4,7 +4,7 @@ interface Props { height?: number }
 
 export default function MapSkeleton({ height = 400 }: Props) {
   return (
-    <div
+ <div
       role="status"
       aria-label="Cargando mapa…"
       style={{
@@ -16,7 +16,7 @@ export default function MapSkeleton({ height = 400 }: Props) {
         animation: '_mapPulse 1.5s ease-in-out infinite',
       }}
     >
-      <style>{`@keyframes _mapPulse{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
-    </div>
+ <style>{`@keyframes _mapPulse{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
+ </div>
   )
 }

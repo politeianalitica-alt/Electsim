@@ -19,7 +19,7 @@ export const ActivityArea = dynamic(
 
 function ChartSkeleton({ title }: { title: string }) {
   return (
-    <div
+ <div
       style={{
         background: "#111117",
         border: "1px solid rgba(255,255,255,0.06)",
@@ -34,6 +34,6 @@ function ChartSkeleton({ title }: { title: string }) {
       }}
     >
       {title}…
-    </div>
+ </div>
   );
 }

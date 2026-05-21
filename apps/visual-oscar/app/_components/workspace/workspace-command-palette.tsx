@@ -53,9 +53,9 @@ function buildCommands(workspaceId: string): CommandAction[] {
 
 const GROUP_LABELS: Record<string, string> = {
   navigation: "Navegar",
-  create:     "Crear",
-  agent:      "Agente IA",
-  workspace:  "Workspace",
+  create: "Crear",
+  agent: "Agente IA",
+  workspace: "Workspace",
 };
 
 const GROUP_ORDER = ["navigation", "create", "agent", "workspace"];
@@ -113,13 +113,13 @@ export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPalette
   let flatIndex = 0;
 
   return (
-    <div style={{
+ <div style={{
       position: "fixed", inset: 0, zIndex: 300,
       display: "flex", alignItems: "flex-start", justifyContent: "center",
       paddingTop: "12vh",
     }}>
       {/* Backdrop */}
-      <div
+ <div
         onClick={close}
         style={{
           position: "absolute", inset: 0,
@@ -130,7 +130,7 @@ export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPalette
       />
 
       {/* Modal */}
-      <div style={{
+ <div style={{
         position: "relative", zIndex: 1,
         width: 560, maxHeight: "60vh",
         background: WS.surface2,
@@ -143,15 +143,15 @@ export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPalette
       }}>
 
         {/* Input */}
-        <div style={{
+ <div style={{
           display: "flex", alignItems: "center", gap: 10,
           padding: "12px 14px",
           borderBottom: `1px solid ${WS.border}`,
         }}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke={WS.ink3} strokeWidth="1.5" strokeLinecap="round" aria-hidden>
-            <circle cx="7" cy="7" r="5"/><path d="M14 14l-3.5-3.5"/>
-          </svg>
-          <input
+ <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke={WS.ink3} strokeWidth="1.5" strokeLinecap="round" aria-hidden>
+ <circle cx="7" cy="7" r="5"/><path d="M14 14l-3.5-3.5"/>
+ </svg>
+ <input
             ref={inputRef}
             value={query}
             onChange={e => { setQuery(e.target.value); setSelected(0); }}
@@ -162,26 +162,26 @@ export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPalette
               fontSize: 14, color: WS.ink, fontFamily: WS.font,
             }}
           />
-          <button onClick={close} style={{ background: "transparent", border: "none", cursor: "pointer", color: WS.ink3, display: "flex" }}>
-            <IconClose size={12} />
-          </button>
-        </div>
+ <button onClick={close} style={{ background: "transparent", border: "none", cursor: "pointer", color: WS.ink3, display: "flex" }}>
+ <IconClose size={12} />
+ </button>
+ </div>
 
         {/* Results */}
-        <div style={{ overflowY: "auto", maxHeight: "calc(60vh - 52px)", padding: "6px" }}>
+ <div style={{ overflowY: "auto", maxHeight: "calc(60vh - 52px)", padding: "6px" }}>
           {Object.entries(grouped).map(([group, items]) => (
-            <div key={group}>
-              <div style={{
+ <div key={group}>
+ <div style={{
                 fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", color: WS.ink3,
                 textTransform: "uppercase", padding: "8px 10px 4px",
               }}>
                 {GROUP_LABELS[group]}
-              </div>
+ </div>
               {items.map(action => {
                 const idx = flatIndex++;
                 const isSelected = idx === selected;
                 return (
-                  <button
+ <button
                     key={action.id}
                     onClick={() => execute(action)}
                     onMouseEnter={() => setSelected(idx)}
@@ -193,62 +193,62 @@ export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPalette
                       fontFamily: WS.font,
                     }}
                   >
-                    <span style={{ color: isSelected ? WS.accent : WS.ink3, flexShrink: 0 }}>
+ <span style={{ color: isSelected ? WS.accent : WS.ink3, flexShrink: 0 }}>
                       {action.group === "navigation" ? (
-                        <ViewIcon view={action.id.replace("nav_", "")} size={13} />
+ <ViewIcon view={action.id.replace("nav_", "")} size={13} />
                       ) : action.group === "create" ? (
-                        <IconPlus size={13} />
+ <IconPlus size={13} />
                       ) : action.group === "agent" ? (
-                        <IconAgent size={13} />
+ <IconAgent size={13} />
                       ) : (
-                        <IconZap size={13} />
+ <IconZap size={13} />
                       )}
-                    </span>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 500, color: isSelected ? WS.ink : WS.ink2 }}>
+ </span>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 13, fontWeight: 500, color: isSelected ? WS.ink : WS.ink2 }}>
                         {action.label}
-                      </div>
+ </div>
                       {action.description && (
-                        <div style={{ fontSize: 11, color: WS.ink3, marginTop: 1 }}>
+ <div style={{ fontSize: 11, color: WS.ink3, marginTop: 1 }}>
                           {action.description}
-                        </div>
+ </div>
                       )}
-                    </div>
+ </div>
                     {action.shortcut && (
-                      <div style={{ display: "flex", gap: 2, flexShrink: 0 }}>
+ <div style={{ display: "flex", gap: 2, flexShrink: 0 }}>
                         {action.shortcut.map(k => (
-                          <span key={k} style={{
+ <span key={k} style={{
                             fontSize: 9.5, background: WS.surface, border: `1px solid ${WS.border}`,
                             padding: "1px 5px", borderRadius: 4, color: WS.ink3,
                           }}>{k}</span>
                         ))}
-                      </div>
+ </div>
                     )}
-                  </button>
+ </button>
                 );
               })}
-            </div>
+ </div>
           ))}
 
           {flatFiltered.length === 0 && (
-            <div style={{ padding: "32px 0", textAlign: "center", color: WS.ink3, fontSize: 13 }}>
+ <div style={{ padding: "32px 0", textAlign: "center", color: WS.ink3, fontSize: 13 }}>
               Sin resultados para «{query}»
-            </div>
+ </div>
           )}
-        </div>
+ </div>
 
         {/* Footer hint */}
-        <div style={{
+ <div style={{
           padding: "8px 14px",
           borderTop: `1px solid ${WS.border}`,
           display: "flex", gap: 12,
           fontSize: 10.5, color: WS.ink3,
         }}>
-          <span>↑↓ navegar</span>
-          <span>↵ abrir</span>
-          <span>Esc cerrar</span>
-        </div>
-      </div>
-    </div>
+ <span>↑↓ navegar</span>
+ <span>↵ abrir</span>
+ <span>Esc cerrar</span>
+ </div>
+ </div>
+ </div>
   );
 }

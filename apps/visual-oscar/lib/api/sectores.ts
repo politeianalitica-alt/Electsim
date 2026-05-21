@@ -28,7 +28,7 @@ export const sectoresApi = {
       Object.entries(params).filter(([, v]) => v != null) as [string, string][]
     ).toString() : '';
     return get<{ eventos: EventoSectorial[] }>(
-      `${BASE}/${sectorId}/eventos${qs}`, 600
+ `${BASE}/${sectorId}/eventos${qs}`, 600
     );
   },
 

@@ -20,24 +20,24 @@ const INK4 = '#94a3b8'
 
 // Colours per tipo
 const TIPO_COLOR: Record<TipoBriefingItem, string> = {
-  'Geopolítica':  '#7c3aed',
-  'Economía':     '#0ea5e9',
-  'Legislativo':  '#7c2d12',
-  'Electoral':    '#16a34a',
-  'Narrativa':    '#db2777',
-  'Seguridad':    '#dc2626',
-  'Social':       '#1F4E8C',
-  'Energía':      '#f59e0b',
+ 'Geopolítica': '#7c3aed',
+ 'Economía': '#0ea5e9',
+ 'Legislativo': '#7c2d12',
+ 'Electoral': '#16a34a',
+ 'Narrativa': '#db2777',
+ 'Seguridad': '#dc2626',
+ 'Social': '#1F4E8C',
+ 'Energía': '#f59e0b',
 }
 const TIPO_BG: Record<TipoBriefingItem, string> = {
-  'Geopolítica':  'rgba(124,58,237,0.08)',
-  'Economía':     'rgba(14,165,233,0.08)',
-  'Legislativo':  'rgba(124,45,18,0.08)',
-  'Electoral':    'rgba(22,163,74,0.08)',
-  'Narrativa':    'rgba(219,39,119,0.08)',
-  'Seguridad':    'rgba(220,38,38,0.08)',
-  'Social':       'rgba(31,78,140,0.08)',
-  'Energía':      'rgba(245,158,11,0.08)',
+ 'Geopolítica': 'rgba(124,58,237,0.08)',
+ 'Economía': 'rgba(14,165,233,0.08)',
+ 'Legislativo': 'rgba(124,45,18,0.08)',
+ 'Electoral': 'rgba(22,163,74,0.08)',
+ 'Narrativa': 'rgba(219,39,119,0.08)',
+ 'Seguridad': 'rgba(220,38,38,0.08)',
+ 'Social': 'rgba(31,78,140,0.08)',
+ 'Energía': 'rgba(245,158,11,0.08)',
 }
 function urgenciaColor(u: string): string {
   if (u === 'CRITICA') return '#dc2626'
@@ -63,25 +63,25 @@ function formatTime(iso: string): string {
 // ── KPI strip ──────────────────────────────────────────────────────────────
 function KpiStrip({ total, criticas, byType }: { total: number; criticas: number; byType: Array<[TipoBriefingItem, number]> }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 24 }}>
-      <div style={{ ...CARD, padding: '16px 20px' }}>
-        <div style={{ fontSize: 9, color: INK4, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Inteligencia hoy</div>
-        <div style={{ fontSize: 30, fontWeight: 800, color: INK1, letterSpacing: '-0.03em' }}>{total}</div>
-        <div style={{ fontSize: 10, color: INK3 }}>ítems procesados</div>
-      </div>
-      <div style={{ ...CARD, padding: '16px 20px', borderLeft: '4px solid #dc2626' }}>
-        <div style={{ fontSize: 9, color: INK4, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Alertas críticas</div>
-        <div style={{ fontSize: 30, fontWeight: 800, color: '#dc2626', letterSpacing: '-0.03em' }}>{criticas}</div>
-        <div style={{ fontSize: 10, color: INK3 }}>requieren atención</div>
-      </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 24 }}>
+ <div style={{ ...CARD, padding: '16px 20px' }}>
+ <div style={{ fontSize: 9, color: INK4, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Hoy tienes</div>
+ <div style={{ fontSize: 30, fontWeight: 800, color: INK1, letterSpacing: '-0.03em' }}>{total}</div>
+ <div style={{ fontSize: 10, color: INK3 }}>cosas para mirar</div>
+ </div>
+ <div style={{ ...CARD, padding: '16px 20px', borderLeft: '4px solid #dc2626' }}>
+ <div style={{ fontSize: 9, color: INK4, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Lo urgente</div>
+ <div style={{ fontSize: 30, fontWeight: 800, color: '#dc2626', letterSpacing: '-0.03em' }}>{criticas}</div>
+ <div style={{ fontSize: 10, color: INK3 }}>no te lo saltes</div>
+ </div>
       {byType.slice(0, 4).map(([tipo, n]) => (
-        <div key={tipo} style={{ ...CARD, padding: '16px 20px' }}>
-          <div style={{ fontSize: 9, color: INK4, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>{tipo}</div>
-          <div style={{ fontSize: 30, fontWeight: 800, color: TIPO_COLOR[tipo], letterSpacing: '-0.03em' }}>{n}</div>
-          <div style={{ fontSize: 10, color: INK3 }}>{n === 1 ? 'historia' : 'historias'}</div>
-        </div>
+ <div key={tipo} style={{ ...CARD, padding: '16px 20px' }}>
+ <div style={{ fontSize: 9, color: INK4, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>{tipo}</div>
+ <div style={{ fontSize: 30, fontWeight: 800, color: TIPO_COLOR[tipo], letterSpacing: '-0.03em' }}>{n}</div>
+ <div style={{ fontSize: 10, color: INK3 }}>{n === 1 ? 'historia' : 'historias'} para ti</div>
+ </div>
       ))}
-    </div>
+ </div>
   )
 }
 
@@ -93,7 +93,7 @@ function ItemCard({ item, onRead }: { item: BriefingItem; onRead?: (id: string) 
   const uColor = urgenciaColor(item.urgencia)
 
   return (
-    <div
+ <div
       style={{
         ...CARD,
         padding: '20px 24px',
@@ -102,74 +102,74 @@ function ItemCard({ item, onRead }: { item: BriefingItem; onRead?: (id: string) 
         transition: 'opacity 150ms',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
-        <span style={{
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' }}>
+ <span style={{
           background: tipoBg, color: tipoColor, padding: '4px 9px',
           fontSize: 9.5, fontWeight: 800, letterSpacing: '0.08em',
           textTransform: 'uppercase', borderRadius: 6,
         }}>{item.tipo}</span>
-        <span style={{
+ <span style={{
           background: uColor, color: 'white', padding: '3px 9px',
           fontSize: 9, fontWeight: 800, letterSpacing: '0.08em',
           textTransform: 'uppercase', borderRadius: 4,
         }}>{item.urgencia}</span>
-        <span style={{ fontSize: 10.5, color: INK4, marginLeft: 'auto' }}>{formatTime(item.fecha)}</span>
-      </div>
+ <span style={{ fontSize: 10.5, color: INK4, marginLeft: 'auto' }}>{formatTime(item.fecha)}</span>
+ </div>
 
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: INK1, margin: '0 0 8px', lineHeight: 1.35, fontFamily: 'var(--font-display, inherit)' }}>
+ <h3 style={{ fontSize: 16, fontWeight: 700, color: INK1, margin: '0 0 8px', lineHeight: 1.35, fontFamily: 'var(--font-display, inherit)' }}>
         {item.titulo}
-      </h3>
+ </h3>
 
       {item.resumen && (
-        <p style={{
+ <p style={{
           fontSize: 13, color: INK2, lineHeight: 1.6, margin: '0 0 10px',
           maxHeight: expanded ? 'none' : '4.8em',
           overflow: 'hidden',
           position: 'relative',
         }}>
           {item.resumen}
-        </p>
+ </p>
       )}
 
       {item.resumen && item.resumen.length > 240 && (
-        <button onClick={() => setExpanded(e => !e)} style={{
+ <button onClick={() => setExpanded(e => !e)} style={{
           background: 'transparent', border: 'none', color: '#1F4E8C',
           fontSize: 11, fontWeight: 600, cursor: 'pointer', padding: 0, marginBottom: 8,
         }}>
-          {expanded ? '← Resumir' : 'Leer todo →'}
-        </button>
+          {expanded ? '← Cerrar' : 'Sigue leyendo →'}
+ </button>
       )}
 
       {item.implicaciones && item.implicaciones.length > 0 && (
-        <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(0,0,0,0.025)', borderRadius: 8 }}>
-          <div style={{ fontSize: 9, fontWeight: 700, color: INK4, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>Implicaciones</div>
-          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: INK2, lineHeight: 1.6 }}>
+ <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(0,0,0,0.025)', borderRadius: 8 }}>
+ <div style={{ fontSize: 9, fontWeight: 700, color: INK4, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>Qué significa esto</div>
+ <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: INK2, lineHeight: 1.6 }}>
             {item.implicaciones.map((i, idx) => <li key={idx}>{i}</li>)}
-          </ul>
-        </div>
+ </ul>
+ </div>
       )}
 
       {(item.fuentes.length > 0 || item.tags.length > 0) && (
-        <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+ <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           {item.fuentes.map((f, i) => (
-            <span key={i} style={{ fontSize: 10, color: INK3, fontWeight: 600 }}> {f}</span>
+ <span key={i} style={{ fontSize: 10, color: INK3, fontWeight: 600 }}> {f}</span>
           ))}
           {item.tags.slice(0, 6).map((t, i) => (
-            <span key={i} style={{
+ <span key={i} style={{
               fontSize: 9, padding: '2px 7px', borderRadius: 4,
               background: 'rgba(0,0,0,0.05)', color: INK3, fontWeight: 600,
             }}>#{t}</span>
           ))}
           {onRead && !item.leido && (
-            <button onClick={() => onRead(item.id)} style={{
+ <button onClick={() => onRead(item.id)} style={{
               marginLeft: 'auto', background: 'transparent', border: '1px solid rgba(0,0,0,0.1)',
               borderRadius: 6, padding: '4px 10px', fontSize: 10, color: INK3,
               fontWeight: 600, cursor: 'pointer',
-            }}>Marcar como leído</button>
+            }}>Ya lo he visto</button>
           )}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   )
 }
 
@@ -183,37 +183,37 @@ export default function BriefingPage() {
 
   if (loading) {
     return (
-      <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh' }}>
-        <AppHeader />
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 28px', textAlign: 'center', color: INK3, fontSize: 13 }}>
-          Cargando briefing diario…
-        </div>
-      </div>
+ <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh' }}>
+ <AppHeader />
+ <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 28px', textAlign: 'center', color: INK3, fontSize: 13 }}>
+          Preparándote el briefing de hoy…
+ </div>
+ </div>
     )
   }
 
   if (!briefing || briefing.items.length === 0) {
     return (
-      <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh' }}>
-        <AppHeader />
-        <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 80px' }}>
-          <header style={{ marginBottom: 22 }}>
-            <span style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Inicio · Briefing Matinal</span>
-            <h1 style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em', margin: '4px 0', color: INK1, fontFamily: 'var(--font-display, inherit)' }}>
-              Morning Briefing
-            </h1>
-          </header>
-          <div style={{ ...CARD, padding: '40px 32px', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 12 }}></div>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: INK1, margin: '0 0 8px' }}>El briefing matinal aún no está disponible</h3>
-            <p style={{ fontSize: 13, color: INK3, lineHeight: 1.6, margin: 0 }}>
-              El sistema genera el briefing automáticamente cada mañana a las 7:00 CET con datos de BOE, prensa, indicadores macroeconómicos y señales OSINT.
-              <br />
-              Vuelve en unos minutos o consulta el Panel Ejecutivo para ver los KPIs en tiempo real.
-            </p>
-          </div>
-        </main>
-      </div>
+ <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh' }}>
+ <AppHeader />
+ <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <header style={{ marginBottom: 22 }}>
+ <span style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Inicio · Briefing de la mañana</span>
+ <h1 style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em', margin: '4px 0', color: INK1, fontFamily: 'var(--font-display, inherit)' }}>
+              Tu briefing de la mañana
+ </h1>
+ </header>
+ <div style={{ ...CARD, padding: '40px 32px', textAlign: 'center' }}>
+ <div style={{ fontSize: 32, marginBottom: 12 }}></div>
+ <h3 style={{ fontSize: 16, fontWeight: 700, color: INK1, margin: '0 0 8px' }}>El briefing de hoy todavía no está listo</h3>
+ <p style={{ fontSize: 13, color: INK3, lineHeight: 1.6, margin: 0 }}>
+              Lo dejamos preparado cada mañana sobre las 7:00 con lo que ha pasado por la noche: BOE, prensa, indicadores económicos y las señales que recogemos.
+ <br />
+              Vuelve en un rato — o si tienes prisa, tira al Panel Ejecutivo y mira los KPIs en directo.
+ </p>
+ </div>
+ </main>
+ </div>
     )
   }
 
@@ -226,36 +226,36 @@ export default function BriefingPage() {
   const filtered = filter === 'ALL' ? briefing.items : briefing.items.filter(i => i.tipo === filter)
 
   return (
-    <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh', fontFamily: 'var(--font-body, -apple-system, system-ui, sans-serif)' }}>
-      <AppHeader />
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh', fontFamily: 'var(--font-body, -apple-system, system-ui, sans-serif)' }}>
+ <AppHeader />
+ <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 80px' }}>
 
-        <header style={{ marginBottom: 26 }}>
-          <span style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
-            Inicio · Briefing Matinal · {briefing.periodo}
-          </span>
-          <h1 style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.02em', margin: '4px 0 6px', color: INK1, fontFamily: 'var(--font-display, inherit)' }}>
-            Morning Briefing
-          </h1>
-          <div style={{ fontSize: 13, color: INK3 }}>
-            <strong style={{ color: INK2, textTransform: 'capitalize' }}>{formatDate(briefing.fecha)}</strong>
-            {' · '}generado por {briefing.generado_por}
-          </div>
-        </header>
+ <header style={{ marginBottom: 26 }}>
+ <span style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+            Inicio · Briefing de la mañana · {briefing.periodo}
+ </span>
+ <h1 style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.02em', margin: '4px 0 6px', color: INK1, fontFamily: 'var(--font-display, inherit)' }}>
+            Tu briefing de la mañana
+ </h1>
+ <div style={{ fontSize: 13, color: INK3 }}>
+ <strong style={{ color: INK2, textTransform: 'capitalize' }}>{formatDate(briefing.fecha)}</strong>
+            {' · '}preparado por {briefing.generado_por}
+ </div>
+ </header>
 
-        <KpiStrip total={briefing.total_items} criticas={briefing.alertas_criticas} byType={byTypeSorted} />
+ <KpiStrip total={briefing.total_items} criticas={briefing.alertas_criticas} byType={byTypeSorted} />
 
         {/* Filter chips */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
-          <button onClick={() => setFilter('ALL')} style={{
+ <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+ <button onClick={() => setFilter('ALL')} style={{
             border: filter === 'ALL' ? '1px solid #1F4E8C' : '1px solid rgba(0,0,0,0.1)',
             background: filter === 'ALL' ? '#1F4E8C' : 'white',
             color: filter === 'ALL' ? 'white' : INK3,
             borderRadius: 8, padding: '6px 14px', fontSize: 11, fontWeight: 700,
             cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.06em',
-          }}>Todos ({briefing.items.length})</button>
+          }}>Ver todo ({briefing.items.length})</button>
           {byTypeSorted.map(([tipo, n]) => (
-            <button key={tipo} onClick={() => setFilter(tipo)} style={{
+ <button key={tipo} onClick={() => setFilter(tipo)} style={{
               border: filter === tipo ? `1px solid ${TIPO_COLOR[tipo]}` : '1px solid rgba(0,0,0,0.1)',
               background: filter === tipo ? TIPO_COLOR[tipo] : 'white',
               color: filter === tipo ? 'white' : TIPO_COLOR[tipo],
@@ -263,15 +263,15 @@ export default function BriefingPage() {
               cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.06em',
             }}>{tipo} ({n})</button>
           ))}
-        </div>
+ </div>
 
         {/* Item list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {filtered.map(item => (
-            <ItemCard key={item.id} item={item} onRead={marcarLeido} />
+ <ItemCard key={item.id} item={item} onRead={marcarLeido} />
           ))}
-        </div>
-      </main>
-    </div>
+ </div>
+ </main>
+ </div>
   )
 }

@@ -51,7 +51,7 @@ export function KpiStripWidget({ data, workspaceId }: KpiStripWidgetProps) {
     },
     {
       id: "risk",
-      label: "Risk Index",
+      label: "Índice de Riesgo Político",
       value: riskScore,
       delta: riskScore > 65 ? "alto" : riskScore > 35 ? "medio" : "bajo",
       status: riskScore > 65 ? "critical" : riskScore > 35 ? "warning" : "ok",
@@ -60,39 +60,39 @@ export function KpiStripWidget({ data, workspaceId }: KpiStripWidgetProps) {
   ];
 
   return (
-    <div className="grid h-full grid-cols-4 gap-3 rounded-xl border border-slate-800 bg-slate-900 p-4">
+ <div className="grid h-full grid-cols-4 gap-3 rounded-xl border border-[#e8e8ed] bg-white p-4">
       {tiles.map(tile => (
-        <KpiTileBox key={tile.id} tile={tile} />
+ <KpiTileBox key={tile.id} tile={tile} />
       ))}
-    </div>
+ </div>
   );
 }
 
 function KpiTileBox({ tile }: { tile: KpiTile }) {
   const colors: Record<string, string> = {
-    ok:       "rgb(74 222 128)",
-    warning:  "rgb(251 191 36)",
+    ok: "rgb(74 222 128)",
+    warning: "rgb(251 191 36)",
     critical: "rgb(248 113 113)",
   };
   return (
-    <Link
+ <Link
       href={tile.href}
-      className="flex flex-col justify-between rounded-lg bg-slate-950 p-3 hover:bg-slate-800/60 transition-colors"
+      className="flex flex-col justify-between rounded-lg bg-[#fbfbfd] p-3 hover:bg-[#f5f5f7]/60 transition-colors"
     >
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+ <span className="text-[10px] font-semibold uppercase tracking-wider text-[#6e6e73]">
         {tile.label}
-      </span>
-      <div className="flex items-baseline gap-2">
-        <span
+ </span>
+ <div className="flex items-baseline gap-2">
+ <span
           className="text-2xl font-bold tracking-tight"
           style={{ color: colors[tile.status] }}
         >
           {tile.value}
-        </span>
+ </span>
         {tile.delta && (
-          <span className="text-[10px] text-slate-500">{tile.delta}</span>
+ <span className="text-[10px] text-[#6e6e73]">{tile.delta}</span>
         )}
-      </div>
-    </Link>
+ </div>
+ </Link>
   );
 }

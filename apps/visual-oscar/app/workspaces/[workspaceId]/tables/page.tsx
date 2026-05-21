@@ -6,14 +6,14 @@ import { WorkspaceViewHeader } from "@/app/_components/workspace/workspace-view-
 import { WorkspaceEmptyState } from "@/app/_components/workspace/workspace-empty-state";
 
 const KIND_LABEL: Record<string, string> = {
-  polling:     "Sondeos",
-  electoral:   "Electoral",
+  polling: "Sondeos",
+  electoral: "Electoral",
   legislative: "Legislativo",
-  actors:      "Actores",
-  media:       "Medios",
-  risk:        "Riesgo",
-  budget:      "Presupuesto",
-  custom:      "Custom",
+  actors: "Actores",
+  media: "Medios",
+  risk: "Riesgo",
+  budget: "Presupuesto",
+  custom: "Custom",
 };
 
 export default function TablesPage({ params }: { params: { workspaceId: string } }) {
@@ -21,8 +21,9 @@ export default function TablesPage({ params }: { params: { workspaceId: string }
 
   if (datasets.length === 0) {
     return (
-      <WorkspaceEmptyState
+ <WorkspaceEmptyState
         view="tables"
+        eyebrow="Workspace · Tablas"
         title="Sin datasets conectados"
         description="Importa datos desde CSV, una API o desde conectores del workspace."
         cta="+ Nueva tabla"
@@ -31,44 +32,44 @@ export default function TablesPage({ params }: { params: { workspaceId: string }
   }
 
   return (
-    <div>
-      <WorkspaceViewHeader
+ <div>
+ <WorkspaceViewHeader
         view="tables"
         title="Tables"
         description="Datasets y análisis tabular del workspace"
         badge={`${datasets.length} datasets`}
         actions={
-          <Link
+ <Link
             href={`/workspaces/${params.workspaceId}/tables/new`}
             className="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500 transition-colors"
           >
             + Nueva tabla
-          </Link>
+ </Link>
         }
       />
 
-      <div className="space-y-2">
+ <div className="space-y-2">
         {datasets.map(ds => (
-          <Link
+ <Link
             key={ds.id}
             href={`/workspaces/${params.workspaceId}/tables/${ds.id}`}
-            className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 hover:border-indigo-500/40 hover:bg-slate-800/60 transition-colors"
+            className="flex items-center gap-4 rounded-xl border border-[#e8e8ed] bg-white px-4 py-3 hover:border-indigo-500/40 hover:bg-[#f5f5f7]/60 transition-colors"
           >
-            <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-slate-800 text-[10px] font-bold tracking-wider text-slate-400">
+ <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-[#f5f5f7] text-[10px] font-bold tracking-wider text-[#6e6e73]">
               {KIND_LABEL[ds.kind]?.slice(0, 3).toUpperCase() ?? "DAT"}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-100 truncate">{ds.name}</p>
-              <p className="text-xs text-slate-500 mt-0.5">
+ </div>
+ <div className="flex-1 min-w-0">
+ <p className="text-sm font-semibold text-[#1d1d1f] truncate">{ds.name}</p>
+ <p className="text-xs text-[#6e6e73] mt-0.5">
                 {ds.rows.length.toLocaleString("es")} filas · {ds.columns.length} columnas · {KIND_LABEL[ds.kind]}
-              </p>
-            </div>
-            <span className="text-[11px] text-slate-500">
+ </p>
+ </div>
+ <span className="text-[11px] text-[#6e6e73]">
               {new Date(ds.updatedAt).toLocaleDateString("es-ES")}
-            </span>
-          </Link>
+ </span>
+ </Link>
         ))}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }

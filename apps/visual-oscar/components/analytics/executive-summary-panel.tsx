@@ -72,17 +72,17 @@ export function ExecutiveSummaryPanel({ workspaceName, context }: Props) {
         body: { fontSize: 11, lineHeight: 1.5 },
       });
       const Doc = (
-        <Document>
-          <Page size="A4" style={styles.page}>
-            <View>
-              <PdfText style={styles.h1}>Resumen ejecutivo · {workspaceName}</PdfText>
-              <PdfText style={styles.meta}>Generado {new Date().toLocaleString("es-ES")}</PdfText>
+ <Document>
+ <Page size="A4" style={styles.page}>
+ <View>
+ <PdfText style={styles.h1}>Resumen ejecutivo · {workspaceName}</PdfText>
+ <PdfText style={styles.meta}>Generado {new Date().toLocaleString("es-ES")}</PdfText>
               {text.split("\n").map((line: string, i: number) => (
-                <PdfText key={i} style={styles.body}>{line || " "}</PdfText>
+ <PdfText key={i} style={styles.body}>{line || " "}</PdfText>
               ))}
-            </View>
-          </Page>
-        </Document>
+ </View>
+ </Page>
+ </Document>
       );
       const blob = await pdf(Doc).toBlob();
       const url = URL.createObjectURL(blob);
@@ -97,7 +97,7 @@ export function ExecutiveSummaryPanel({ workspaceName, context }: Props) {
   }, [text, workspaceName, exportTxt]);
 
   return (
-    <div
+ <div
       style={{
         background: WS.surface,
         border: `1px solid ${WS.border}`,
@@ -108,25 +108,25 @@ export function ExecutiveSummaryPanel({ workspaceName, context }: Props) {
         gap: 12,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: WS.ink2, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Resumen ejecutivo · Ollama
-          </div>
-          <div style={{ fontSize: 11, color: WS.ink3, marginTop: 4 }}>
+ <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+ <div>
+ <div style={{ fontSize: 11, fontWeight: 700, color: WS.ink2, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            Resumen ejecutivo · PoliteIA
+ </div>
+ <div style={{ fontSize: 11, color: WS.ink3, marginTop: 4 }}>
             Llama3.2 sobre los KPIs y proyectos del workspace.
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={() => generate()} disabled={isLoading} style={primaryBtn}>
+ </div>
+ </div>
+ <div style={{ display: "flex", gap: 8 }}>
+ <button onClick={() => generate()} disabled={isLoading} style={primaryBtn}>
             {isLoading ? "Generando…" : "Generar"}
-          </button>
-          <button onClick={exportPdf} disabled={!text} style={secondaryBtn}>PDF</button>
-          <button onClick={exportTxt} disabled={!text} style={secondaryBtn}>TXT</button>
-        </div>
-      </div>
+ </button>
+ <button onClick={exportPdf} disabled={!text} style={secondaryBtn}>PDF</button>
+ <button onClick={exportTxt} disabled={!text} style={secondaryBtn}>TXT</button>
+ </div>
+ </div>
 
-      <div
+ <div
         style={{
           flex: 1,
           minHeight: 220,
@@ -145,14 +145,14 @@ export function ExecutiveSummaryPanel({ workspaceName, context }: Props) {
       >
         {error && <div style={{ color: WS.danger, fontSize: 12 }}>Error: {error}</div>}
         {!text && !isLoading && !error && (
-          <span style={{ color: WS.ink3 }}>
-            Pulsa <strong>Generar</strong> para crear el resumen ejecutivo con Ollama.
-          </span>
+ <span style={{ color: WS.ink3 }}>
+            Pulsa <strong>Generar</strong> para crear el resumen ejecutivo con PoliteIA.
+ </span>
         )}
         {text}
         {isLoading && <span style={{ color: WS.accent }}> ▍</span>}
-      </div>
-    </div>
+ </div>
+ </div>
   );
 }
 

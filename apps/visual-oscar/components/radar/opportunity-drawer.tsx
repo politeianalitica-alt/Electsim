@@ -20,7 +20,7 @@ export function OpportunityDrawer({
 }: Props) {
   if (!opportunity) return null;
   return (
-    <div
+ <div
       style={{
         position: "fixed",
         top: 0,
@@ -37,14 +37,14 @@ export function OpportunityDrawer({
         boxShadow: "-12px 0 40px rgba(0,0,0,0.45)",
       }}
     >
-      <div style={{ padding: "14px 18px", borderBottom: `1px solid ${WS.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ fontSize: 10.5, color: WS.ink3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 700 }}>
+ <div style={{ padding: "14px 18px", borderBottom: `1px solid ${WS.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+ <div>
+ <div style={{ fontSize: 10.5, color: WS.ink3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 700 }}>
             Oportunidad · {opportunity.category}
-          </div>
-          <div style={{ fontSize: 15, fontWeight: 700, marginTop: 4 }}>{opportunity.title}</div>
-        </div>
-        <button
+ </div>
+ <div style={{ fontSize: 15, fontWeight: 700, marginTop: 4 }}>{opportunity.title}</div>
+ </div>
+ <button
           onClick={onClose}
           style={{
             border: `1px solid ${WS.border}`,
@@ -57,27 +57,27 @@ export function OpportunityDrawer({
           }}
         >
           Cerrar
-        </button>
-      </div>
+ </button>
+ </div>
 
-      <div style={{ padding: 18, overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ display: "flex", gap: 14 }}>
-          <Metric label="Score"      value={`${opportunity.score}`} color={WS.accent} />
-          <Metric label="Impacto"    value={opportunity.impact} />
-          <Metric label="Horizonte"  value={opportunity.horizon} />
-          <Metric label="Confianza"  value={`${Math.round(opportunity.confidence * 100)}%`} />
-        </div>
+ <div style={{ padding: 18, overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+ <div style={{ display: "flex", gap: 14 }}>
+ <Metric label="Score" value={`${opportunity.score}`} color={WS.accent} />
+ <Metric label="Impacto" value={opportunity.impact} />
+ <Metric label="Horizonte" value={opportunity.horizon} />
+ <Metric label="Confianza" value={`${Math.round(opportunity.confidence * 100)}%`} />
+ </div>
 
-        <section>
-          <Title>Razonamiento</Title>
-          <p style={{ fontSize: 12.5, color: WS.ink2, lineHeight: 1.55, margin: 0 }}>{opportunity.rationale}</p>
-        </section>
+ <section>
+ <Title>Razonamiento</Title>
+ <p style={{ fontSize: 12.5, color: WS.ink2, lineHeight: 1.55, margin: 0 }}>{opportunity.rationale}</p>
+ </section>
 
-        <section>
-          <Title>Acciones recomendadas</Title>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+ <section>
+ <Title>Acciones recomendadas</Title>
+ <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {opportunity.actions.map((a, i) => (
-              <div
+ <div
                 key={i}
                 style={{
                   background: WS.surface2,
@@ -89,21 +89,21 @@ export function OpportunityDrawer({
                   gap: 4,
                 }}
               >
-                <div style={{ fontSize: 12.5, fontWeight: 600 }}>{a.label}</div>
-                <div style={{ fontSize: 11, color: WS.ink3 }}>
+ <div style={{ fontSize: 12.5, fontWeight: 600 }}>{a.label}</div>
+ <div style={{ fontSize: 11, color: WS.ink3 }}>
                   {a.timeline}{a.owner ? ` · ${a.owner}` : ""}
-                </div>
-              </div>
+ </div>
+ </div>
             ))}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {opportunity.relatedIds.length > 0 && (
-          <section>
-            <Title>Entidades relacionadas</Title>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+ <section>
+ <Title>Entidades relacionadas</Title>
+ <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {opportunity.relatedIds.map(id => (
-                <span
+ <span
                   key={id}
                   style={{
                     fontSize: 10.5,
@@ -116,45 +116,45 @@ export function OpportunityDrawer({
                   }}
                 >
                   {id}
-                </span>
+ </span>
               ))}
-            </div>
-          </section>
+ </div>
+ </section>
         )}
 
-        <section>
-          <Title>Quick actions</Title>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <ActionButton onClick={() => onSendToAgent?.(opportunity)}>Enviar al Agente IA</ActionButton>
-            <ActionButton onClick={() => onCreateAction?.(opportunity)} variant="primary">
+ <section>
+ <Title>Quick actions</Title>
+ <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+ <ActionButton onClick={() => onSendToAgent?.(opportunity)}>Enviar al Agente IA</ActionButton>
+ <ActionButton onClick={() => onCreateAction?.(opportunity)} variant="primary">
               Crear acción en el workspace
-            </ActionButton>
-            <ActionButton onClick={() => onArchive?.(opportunity)} variant="ghost">Archivar</ActionButton>
-          </div>
-        </section>
+ </ActionButton>
+ <ActionButton onClick={() => onArchive?.(opportunity)} variant="ghost">Archivar</ActionButton>
+ </div>
+ </section>
 
-        <div style={{ fontSize: 10, color: WS.ink3, paddingTop: 6 }}>
-          Generado por {opportunity.source === "ollama" ? "Ollama" : "mock"} · {new Date(opportunity.generatedAt).toLocaleString("es-ES")}
-        </div>
-      </div>
-    </div>
+ <div style={{ fontSize: 10, color: WS.ink3, paddingTop: 6 }}>
+          Generado por {opportunity.source === "ollama" || opportunity.source === "anthropic" ? "PoliteIA" : "mock"} · {new Date(opportunity.generatedAt).toLocaleString("es-ES")}
+ </div>
+ </div>
+ </div>
   );
 }
 
 function Title({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: WS.ink3, marginBottom: 8 }}>
+ <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: WS.ink3, marginBottom: 8 }}>
       {children}
-    </div>
+ </div>
   );
 }
 
 function Metric({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
-    <div style={{ flex: 1 }}>
-      <div style={{ fontSize: 17, fontWeight: 700, color: color ?? WS.ink, letterSpacing: "-0.03em" }}>{value}</div>
-      <div style={{ fontSize: 10, color: WS.ink3, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}>{label}</div>
-    </div>
+ <div style={{ flex: 1 }}>
+ <div style={{ fontSize: 17, fontWeight: 700, color: color ?? WS.ink, letterSpacing: "-0.03em" }}>{value}</div>
+ <div style={{ fontSize: 10, color: WS.ink3, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}>{label}</div>
+ </div>
   );
 }
 
@@ -173,7 +173,7 @@ function ActionButton({
     ghost:     { background: "transparent",color: WS.ink2, border: `1px solid ${WS.border}` },
   };
   return (
-    <button
+ <button
       onClick={onClick}
       style={{
         padding: "8px 12px",
@@ -186,6 +186,6 @@ function ActionButton({
       }}
     >
       {children}
-    </button>
+ </button>
   );
 }

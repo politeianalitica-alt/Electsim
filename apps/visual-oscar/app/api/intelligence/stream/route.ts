@@ -31,7 +31,7 @@ export async function GET(_req: NextRequest) {
 
         try {
           const data = await fromBackend<{ data?: Array<{ id?: unknown; titulo?: unknown; urgencia?: unknown }> }>(
-            '/api/geopolitica/events?limit=5'
+ '/api/geopolitica/events?limit=5'
           )
           const items = Array.isArray(data) ? data : (data?.data ?? [])
 
@@ -86,10 +86,10 @@ export async function GET(_req: NextRequest) {
 
   return new Response(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
+ 'Content-Type': 'text/event-stream',
+ 'Cache-Control': 'no-cache, no-transform',
       Connection: 'keep-alive',
-      'X-Accel-Buffering': 'no',
+ 'X-Accel-Buffering': 'no',
     },
   })
 }

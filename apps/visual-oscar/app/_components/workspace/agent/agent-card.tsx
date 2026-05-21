@@ -25,38 +25,38 @@ const TYPE_STYLES: Record<string, { fg: string; tag: string }> = {
 export function AgentCard({ card, onAction }: AgentCardProps) {
   const style = TYPE_STYLES[card.type] ?? TYPE_STYLES.text;
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-800 p-3 space-y-2">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <span
+ <div className="rounded-lg border border-[#e8e8ed] bg-[#f5f5f7] p-3 space-y-2">
+ <div className="flex items-start justify-between gap-2">
+ <div className="flex-1 min-w-0">
+ <span
             className="text-[9px] font-bold uppercase tracking-wider"
             style={{ color: style.fg }}
           >
             {style.tag}
-          </span>
-          <p className="text-xs font-semibold text-slate-100 leading-snug mt-0.5">
+ </span>
+ <p className="text-xs font-semibold text-[#1d1d1f] leading-snug mt-0.5">
             {card.title}
-          </p>
-        </div>
+ </p>
+ </div>
         {card.meta?.severity && (
-          <BadgeSeverity value={card.meta.severity} />
+ <BadgeSeverity value={card.meta.severity} />
         )}
-      </div>
+ </div>
       {card.summary && (
-        <p className="text-[11px] text-slate-400 leading-relaxed">{card.summary}</p>
+ <p className="text-[11px] text-[#6e6e73] leading-relaxed">{card.summary}</p>
       )}
       {card.actions.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 pt-1">
+ <div className="flex flex-wrap gap-1.5 pt-1">
           {card.actions.map(action => (
-            <AgentCardActionButton
+ <AgentCardActionButton
               key={action.id}
               action={action}
               onClick={() => onAction?.(action)}
             />
           ))}
-        </div>
+ </div>
       )}
-    </div>
+ </div>
   );
 }
 
@@ -68,17 +68,17 @@ function AgentCardActionButton({
   onClick?: () => void;
 }) {
   const cls =
-    "rounded bg-slate-700 px-2 py-1 text-[10px] text-slate-200 hover:bg-slate-600 transition-colors";
+ "rounded bg-[#e8e8ed] px-2 py-1 text-[10px] text-[#1d1d1f] hover:bg-[#d2d2d7] transition-colors";
   if (action.href) {
     return (
-      <Link href={action.href} className={cls} onClick={onClick}>
+ <Link href={action.href} className={cls} onClick={onClick}>
         {action.label}
-      </Link>
+ </Link>
     );
   }
   return (
-    <button onClick={onClick} className={cls}>
+ <button onClick={onClick} className={cls}>
       {action.label}
-    </button>
+ </button>
   );
 }

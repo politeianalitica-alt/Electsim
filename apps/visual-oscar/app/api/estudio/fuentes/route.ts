@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const res  = await fetch(`${BACKEND}/api/estudio/fuentes`, {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(body),
     })
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     // Modo demo: simula creación con un ID generado
     const body = await req.json().catch(() => ({}))
     return NextResponse.json({
-      id:         `mock-${Date.now().toString(36)}`,
+      id: `mock-${Date.now().toString(36)}`,
       createdAt:  new Date().toISOString(),
       updatedAt:  new Date().toISOString(),
       ...body,

@@ -34,30 +34,30 @@ export interface ActorVO {
 }
 
 export const CAT_LABEL: Record<Categoria, string> = {
-  gobierno:    'Gobierno',
-  oposicion:   'Oposición',
-  parlamento:  'Parlamento',
-  autonomico:  'CCAA',
-  municipal:   'Ayuntamientos',
+  gobierno: 'Gobierno',
+  oposicion: 'Oposición',
+  parlamento: 'Parlamento',
+  autonomico: 'CCAA',
+  municipal: 'Ayuntamientos',
   institucion: 'Instituciones',
-  patronal:    'Patronal',
-  sindicato:   'Sindicatos',
-  mediatico:   'Medios',
-  europa:      'Europa',
+  patronal: 'Patronal',
+  sindicato: 'Sindicatos',
+  mediatico: 'Medios',
+  europa: 'Europa',
 }
 
 export const CATS: Array<'Todos' | Categoria> = [
-  'Todos',
-  'gobierno',
-  'oposicion',
-  'parlamento',
-  'autonomico',
-  'municipal',
-  'institucion',
-  'patronal',
-  'sindicato',
-  'mediatico',
-  'europa',
+ 'Todos',
+ 'gobierno',
+ 'oposicion',
+ 'parlamento',
+ 'autonomico',
+ 'municipal',
+ 'institucion',
+ 'patronal',
+ 'sindicato',
+ 'mediatico',
+ 'europa',
 ]
 
 export const initials = (n: string): string =>

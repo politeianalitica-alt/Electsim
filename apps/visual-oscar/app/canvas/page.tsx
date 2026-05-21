@@ -37,10 +37,10 @@ export default function CanvasListPage() {
   const filtered = tab === 'todos' ? items : items.filter(c => c.tipo === tab)
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
-      <AppHeader />
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
-        <IntelHero
+ <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
+ <AppHeader />
+ <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <IntelHero
           eyebrow="CANVAS · LIENZOS ESTRUCTURADOS"
           title={`${items.length} canvas activos`}
           subtitle="Marcos de trabajo para analisis competitivo de hipotesis (ACH), mapeo de stakeholders, escenarios, mapas de riesgo y cronologias."
@@ -52,8 +52,8 @@ export default function CanvasListPage() {
           ]}
         />
 
-        <div style={{ marginBottom: 14 }}>
-          <IntelTabs<TabFilter>
+ <div style={{ marginBottom: 14 }}>
+ <IntelTabs<TabFilter>
             tabs={[
               { id: 'todos', label: 'Todos', count: items.length },
               { id: 'ach', label: 'ACH', count: counts.ach },
@@ -65,34 +65,34 @@ export default function CanvasListPage() {
             active={tab}
             onChange={setTab}
           />
-        </div>
+ </div>
 
         {isLoading && <IntelEmpty title="Cargando canvas" />}
         {!isLoading && filtered.length === 0 && <IntelEmpty title="Sin canvas" description="No hay canvas para el filtro seleccionado." />}
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 14 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))', gap: 14 }}>
           {filtered.map(c => (
-            <Link key={c.id} href={`/canvas/${c.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <IntelCard hoverable padding="18px 20px">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <IntelBadge color={TIPO_COLOR[c.tipo]} variant="solid" size="xs">{TIPO_LABEL[c.tipo]}</IntelBadge>
-                </div>
-                <h3 style={{ margin: '0 0 8px', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.35 }}>{c.titulo}</h3>
+ <Link key={c.id} href={`/canvas/${c.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+ <IntelCard hoverable padding="18px 20px">
+ <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+ <IntelBadge color={TIPO_COLOR[c.tipo]} variant="solid" size="xs">{TIPO_LABEL[c.tipo]}</IntelBadge>
+ </div>
+ <h3 style={{ margin: '0 0 8px', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.35 }}>{c.titulo}</h3>
                 {c.descripcion && <p style={{ fontSize: 12.5, color: '#6e6e73', margin: '0 0 12px', lineHeight: 1.45,
                   display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
                 }}>{c.descripcion}</p>}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
+ <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
                   {c.tags.slice(0, 3).map(t => <IntelBadge key={t} color="#1F4E8C" variant="outline" size="xs">{t}</IntelBadge>)}
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: '#86868b', borderTop: '1px solid #F5F5F7', paddingTop: 8 }}>
-                  <span>{c.autor}</span>
-                  <span>{new Date(c.updated_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}</span>
-                </div>
-              </IntelCard>
-            </Link>
+ </div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5, color: '#86868b', borderTop: '1px solid #F5F5F7', paddingTop: 8 }}>
+ <span>{c.autor}</span>
+ <span>{new Date(c.updated_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}</span>
+ </div>
+ </IntelCard>
+ </Link>
           ))}
-        </div>
-      </main>
-    </div>
+ </div>
+ </main>
+ </div>
   )
 }

@@ -10,15 +10,15 @@ interface WorkspaceLayoutProps {
 
 export default function WorkspaceLayout({ children, params }: WorkspaceLayoutProps) {
   return (
-    <WorkspaceProvider>
+ <WorkspaceProvider>
       {/* Mantenemos el chrome del dashboard arriba: la nav principal sigue
           visible al entrar al Workspace para que el usuario no sienta que
           ha "salido" de la plataforma. */}
-      <AppHeader />
-      <WorkspaceShell workspaceId={params.workspaceId}>
+ <AppHeader />
+ <WorkspaceShell workspaceId={params.workspaceId}>
         {children}
-      </WorkspaceShell>
-    </WorkspaceProvider>
+ </WorkspaceShell>
+ </WorkspaceProvider>
   );
 }
 

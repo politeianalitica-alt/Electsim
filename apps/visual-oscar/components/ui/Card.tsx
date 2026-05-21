@@ -16,9 +16,9 @@ interface CardProps {
 
 const PADDING_MAP: Record<CardPadding, string> = {
   none: '0',
-  sm:   'var(--space-3) var(--space-4)',
-  md:   'var(--space-5) var(--space-6)',
-  lg:   'var(--space-8) var(--space-10)',
+  sm: 'var(--space-3) var(--space-4)',
+  md: 'var(--space-5) var(--space-6)',
+  lg: 'var(--space-8) var(--space-10)',
 };
 
 const VARIANT_STYLES: Record<CardVariant, CSSProperties> = {
@@ -47,7 +47,7 @@ const VARIANT_STYLES: Record<CardVariant, CSSProperties> = {
 export function Card({ children, variant = 'default', padding = 'md', className, style, onClick, as: Tag = 'div' }: CardProps) {
   const isInteractive = !!onClick;
   return (
-    <Tag
+ <Tag
       className={className}
       onClick={onClick}
       style={{
@@ -64,7 +64,7 @@ export function Card({ children, variant = 'default', padding = 'md', className,
       onKeyDown={isInteractive ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(); } : undefined}
     >
       {children}
-    </Tag>
+ </Tag>
   );
 }
 
@@ -77,17 +77,17 @@ interface CardHeaderProps {
 
 export function CardHeader({ title, subtitle, badge, action }: CardHeaderProps) {
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>
+ <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+ <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}>
             {title}
-          </span>
+ </span>
           {badge}
-        </div>
+ </div>
         {subtitle && <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-4)' }}>{subtitle}</span>}
-      </div>
+ </div>
       {action && <div style={{ flexShrink: 0 }}>{action}</div>}
-    </div>
+ </div>
   );
 }

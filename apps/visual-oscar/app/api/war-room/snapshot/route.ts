@@ -45,7 +45,7 @@ const MOCK_SNAPSHOT: WarRoomSnapshot = {
     { fecha:'07/05/2026', hora:'21:00', tipo:'Entrevista',      titulo:'Entrevista en exclusiva · Carlos Alsina (Onda Cero)',         ubicacion:'Estudios Atresmedia',         coverage:'Prensa nacional',estado:'Confirmado' },
     { fecha:'08/05/2026', hora:'12:00', tipo:'Mitin',           titulo:'Gran mitin de campaña · Plaza de toros',                      ubicacion:'Valencia',                    aforo:8500, coverage:'TV nacional',    estado:'Confirmado' },
     { fecha:'09/05/2026', hora:'19:30', tipo:'Acto territorial',titulo:'Día de Europa · acto con eurodiputados',                       ubicacion:'Madrid · Auditorio Mutua',    aforo:1200, coverage:'Prensa nacional',estado:'Confirmado' },
-    { fecha:'12/05/2026', hora:'21:30', tipo:'Debate',          titulo:'Debate televisado · TVE',                                      ubicacion:'TVE Prado del Rey',           coverage:'TV nacional',    estado:'Pendiente'  },
+    { fecha:'12/05/2026', hora:'21:30', tipo:'Debate',          titulo:'Debate televisado · TVE',                                      ubicacion:'TVE Prado del Rey',           coverage:'TV nacional',    estado:'Pendiente' },
     { fecha:'14/05/2026', hora:'19:00', tipo:'Mitin',           titulo:'Mitin de cierre regional · Andalucía',                         ubicacion:'Málaga · Cortijo de Torres',  aforo:6500, coverage:'TV nacional',    estado:'Confirmado' },
   ],
   territorio: [
@@ -88,15 +88,15 @@ const MOCK_SNAPSHOT: WarRoomSnapshot = {
   },
   crisis: [
     { id:'c1', titulo:'Deepfake Feijóo en TikTok · "elecciones anticipadas"',     severidad:'ALTA',  tipo:'Tecnológica', estado:'Contenida' },
-    { id:'c2', titulo:'Ataque coordinado #FeijóoElecciones · 412 cuentas',        severidad:'MEDIA', tipo:'Mediática',   estado:'Activa'    },
-    { id:'c3', titulo:'Tensión interna pacto autonómico Castilla y León con VOX', severidad:'MEDIA', tipo:'Política',    estado:'Activa'    },
+    { id:'c2', titulo:'Ataque coordinado #FeijóoElecciones · 412 cuentas',        severidad:'MEDIA', tipo:'Mediática',   estado:'Activa' },
+    { id:'c3', titulo:'Tensión interna pacto autonómico Castilla y León con VOX', severidad:'MEDIA', tipo:'Política',    estado:'Activa' },
   ],
   tareas: [
-    { id:'t1', tarea:'Cierre nota de prensa · medidas autónomos',     resp:'Borja Sémper',  plazo:'12:00', estado:'En curso'   },
-    { id:'t2', tarea:'Briefing técnico para entrevista Alsina (21h)', resp:'Equipo prensa', plazo:'18:00', estado:'Pendiente'  },
+    { id:'t1', tarea:'Cierre nota de prensa · medidas autónomos',     resp:'Borja Sémper',  plazo:'12:00', estado:'En curso' },
+    { id:'t2', tarea:'Briefing técnico para entrevista Alsina (21h)', resp:'Equipo prensa', plazo:'18:00', estado:'Pendiente' },
     { id:'t3', tarea:'Cierre del cartel del mitin de Valencia',        resp:'Carmen Fúnez',  plazo:'15:00', estado:'Completada' },
-    { id:'t4', tarea:'Aprobar copy creatividades digitales semana',    resp:'Pablo Hispán',  plazo:'14:00', estado:'En curso'   },
-    { id:'t5', tarea:'Reunión bilateral con Coalición Canaria',        resp:'Elías Bendodo', plazo:'17:00', estado:'Pendiente'  },
+    { id:'t4', tarea:'Aprobar copy creatividades digitales semana',    resp:'Pablo Hispán',  plazo:'14:00', estado:'En curso' },
+    { id:'t5', tarea:'Reunión bilateral con Coalición Canaria',        resp:'Elías Bendodo', plazo:'17:00', estado:'Pendiente' },
     { id:'t6', tarea:'Actualizar respuestas a deepfake TikTok',        resp:'Cuca Gamarra',  plazo:'16:00', estado:'Completada' },
   ],
 }

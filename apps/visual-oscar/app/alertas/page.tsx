@@ -5,28 +5,11 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import AlertCard, { AlertKeyframes, LEVEL_META, LEVELS_ORDER, type AlertaItem, type AlertLevel as Level } from '@/components/AlertCard'
 
-// Niveles de alerta — orden ascendente de gravedad
-type Level = 'amarillo' | 'naranja' | 'rojo' | 'rojo-parpadeante'
+const LEVELS: Level[] = LEVELS_ORDER
 
-const LEVEL_META: Record<Level, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
-  'amarillo':         { label:'BAJA',     color:'#EAB308', bg:'rgba(234,179,8,0.10)',   ring:'rgba(234,179,8,0.45)'   },
-  'naranja':          { label:'MEDIA',    color:'#F97316', bg:'rgba(249,115,22,0.10)',  ring:'rgba(249,115,22,0.50)'  },
-  'rojo':             { label:'ALTA',     color:'#DC2626', bg:'rgba(220,38,38,0.10)',   ring:'rgba(220,38,38,0.50)'   },
-  'rojo-parpadeante': { label:'CRÍTICA',  color:'#7F1D1D', bg:'rgba(127,29,29,0.16)',   ring:'rgba(127,29,29,0.7)', pulse:true },
-}
-
-const LEVELS: Level[] = ['rojo-parpadeante','rojo','naranja','amarillo']
-
-type Alerta = {
-  id: string
-  level: Level
-  category: 'Mercados' | 'Gobierno' | 'Parlamento' | 'Encuestas' | 'Geopolítica' | 'Medios' | 'Riesgo'
-  title: string
-  description: string
-  source: string
-  ts: string
-}
+type Alerta = AlertaItem
 
 // Datos iniciales · se sustituyen por la respuesta de /api/intelligence/signals.
 // Sirven como fallback para el primer paint y si la API estuviera caída.
@@ -80,7 +63,7 @@ export default function AlertasPage() {
   // Fetch en vivo de /api/intelligence/signals (proxy a FastAPI o mock)
   // Auto-refresh cada 30s + revalidación al volver el foco a la pestaña.
   const { data, source, updatedAt, refresh } = useApi<SignalsResponse>(
-    '/api/intelligence/signals',
+ '/api/intelligence/signals',
     { initialData: { signals: INITIAL_ALERTAS }, refreshInterval: 30_000 },
   )
   const ALERTAS: Alerta[] = data?.signals && data.signals.length > 0 ? data.signals : INITIAL_ALERTAS
@@ -99,57 +82,57 @@ export default function AlertasPage() {
   }, [filterLevel, filterCat, ALERTAS])
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
-      <AppHeader/>
-      <main style={{ maxWidth: 1400, margin: '0 auto', padding: '24px 28px 80px' }}>
+ <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
+ <AppHeader/>
+ <main style={{ maxWidth: 1400, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* Hero */}
-        <section style={{
+ <section style={{
           background: 'linear-gradient(135deg,#1d1d1f 0%,#0a0a0a 100%)',
           borderRadius: 22, padding: '32px 40px', marginBottom: 22, color: '#fff',
           display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 32, alignItems: 'center',
         }}>
-          <div>
-            <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.55, margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span>SALA DE CONTROL · ALERTAS EN TIEMPO REAL</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
+ <div>
+ <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.55, margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 12 }}>
+ <span>SALA DE CONTROL · ALERTAS EN TIEMPO REAL</span>
+ <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
+ </p>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
               {counts['rojo-parpadeante']} alertas <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#ef4444' }}>críticas activas</em>
-            </h1>
-            <p style={{ fontSize: 13, opacity: 0.65, margin: 0 }}>{ALERTAS.length} alertas en seguimiento · clasificación de gravedad por color · actualización continua</p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
+ </h1>
+ <p style={{ fontSize: 13, opacity: 0.65, margin: 0 }}>{ALERTAS.length} alertas en seguimiento · clasificación de gravedad por color · actualización continua</p>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
             {LEVELS.map(lv => {
               const m = LEVEL_META[lv]
               return (
-                <div key={lv} style={{
+ <div key={lv} style={{
                   textAlign: 'center', padding: '14px 8px', borderRadius: 12,
                   background: 'rgba(255,255,255,0.04)', border: `1px solid ${m.ring}`,
                 }}>
-                  <span style={{
+ <span style={{
                     display: 'inline-block', width: 12, height: 12, borderRadius: '50%',
                     background: m.color, marginBottom: 6,
                     animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
                     boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
                   }}/>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, lineHeight: 1, color: m.color }}>{counts[lv]}</div>
-                  <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em', opacity: 0.7, marginTop: 4 }}>{m.label}</div>
-                </div>
+ <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, lineHeight: 1, color: m.color }}>{counts[lv]}</div>
+ <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em', opacity: 0.7, marginTop: 4 }}>{m.label}</div>
+ </div>
               )
             })}
-          </div>
-        </section>
+ </div>
+ </section>
 
         {/* Filtros */}
-        <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 18, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Nivel:</span>
-          <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+ <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 18, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Nivel:</span>
+ <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
             {(['todas',...LEVELS] as const).map(lv => {
               const active = filterLevel === lv
               const m = lv !== 'todas' ? LEVEL_META[lv as Level] : null
               return (
-                <button key={lv} onClick={() => setFilterLevel(lv)} style={{
+ <button key={lv} onClick={() => setFilterLevel(lv)} style={{
                   background: active ? '#fff' : 'transparent',
                   color: active ? (m?.color || '#1d1d1f') : '#6e6e73',
                   border: 'none', borderRadius: 999, padding: '5px 12px',
@@ -160,17 +143,17 @@ export default function AlertasPage() {
                 }}>
                   {m && <span style={{ width: 7, height: 7, borderRadius: '50%', background: m.color }}/>}
                   {lv === 'todas' ? 'Todas' : m?.label}
-                </button>
+ </button>
               )
             })}
-          </div>
-          <span style={{ width: 1, height: 22, background: '#ECECEF', margin: '0 4px' }}/>
-          <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
-          <div style={{ display: 'inline-flex', gap: 4, flexWrap: 'wrap' }}>
+ </div>
+ <span style={{ width: 1, height: 22, background: '#ECECEF', margin: '0 4px' }}/>
+ <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
+ <div style={{ display: 'inline-flex', gap: 4, flexWrap: 'wrap' }}>
             {CATS.map(c => {
               const active = filterCat === c
               return (
-                <button key={c} onClick={() => setFilterCat(c)} style={{
+ <button key={c} onClick={() => setFilterCat(c)} style={{
                   background: active ? '#1F4E8C' : '#fff',
                   color: active ? '#fff' : '#3a3a3d',
                   border: '1px solid ' + (active ? '#1F4E8C' : '#ECECEF'),
@@ -180,68 +163,26 @@ export default function AlertasPage() {
                 }}>{c}</button>
               )
             })}
-          </div>
-        </div>
+ </div>
+ </div>
 
         {/* Lista de alertas */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {filtered.length === 0 && (
-            <div style={{ padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+ <div style={{ padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
               Sin alertas que coincidan con el filtro.
-            </div>
+ </div>
           )}
-          {filtered.map(a => {
-            const m = LEVEL_META[a.level]
-            return (
-              <article key={a.id} style={{
-                display: 'grid', gridTemplateColumns: '6px 110px 1fr auto', gap: 14, alignItems: 'center',
-                padding: '14px 18px 14px 0', borderRadius: 14,
-                background: m.bg, border: `1px solid ${m.ring}`,
-                position: 'relative', overflow: 'hidden',
-                animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
-              }}>
-                <div style={{
-                  background: m.color, height: '100%',
-                  boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
-                }}/>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
-                  <span style={{
-                    fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
-                    color: '#fff', background: m.color,
-                    padding: '3px 8px', borderRadius: 999,
-                    display: 'inline-flex', alignItems: 'center', gap: 5,
-                    animation: m.pulse ? 'alertPulse 1.2s ease-in-out infinite' : undefined,
-                    boxShadow: m.pulse ? `0 0 10px ${m.color}` : undefined,
-                  }}>
-                    {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
-                    {m.label}
-                  </span>
-                  <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>{a.category.toUpperCase()}</span>
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f' }}>{a.title}</h3>
-                  <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{a.description}</p>
-                  <span style={{ fontSize: 11, color: '#6e6e73' }}>{a.source} · <span style={{ fontWeight: 600 }}>{a.ts}</span></span>
-                </div>
-                <button style={{
-                  background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
-                  padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
-                  cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
-                }}>Detalle →</button>
-              </article>
-            )
-          })}
-        </div>
+          {filtered.map(a => (
+ <AlertCard key={a.id} alert={a}/>
+          ))}
+ </div>
 
-        <style>{`
-          @keyframes alertPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
-          @keyframes alertDot   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-          @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(185,28,28,0); } 50% { box-shadow: 0 0 22px -2px rgba(185,28,28,0.45); } }
-        `}</style>
-      </main>
-      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
+ <AlertKeyframes/>
+ </main>
+ <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
         Sala de Control · Alertas · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
-    </div>
+ </footer>
+ </div>
   )
 }

@@ -30,46 +30,46 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
   const riskColor = priorityColor(project.riskLevel);
 
   return (
-    <WorkspaceCard onClick={onClick} hoverable={!!onClick}>
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, lineHeight: 1.3, marginBottom: 4 }}>
+ <WorkspaceCard onClick={onClick} hoverable={!!onClick}>
+ <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ fontSize: 13, fontWeight: 600, color: WS.ink, lineHeight: 1.3, marginBottom: 4 }}>
             {project.name}
-          </div>
-          <div style={{ fontSize: 11, color: WS.ink3 }}>
+ </div>
+ <div style={{ fontSize: 11, color: WS.ink3 }}>
             {project.client} · {TYPE_LABEL[project.type]}
-          </div>
-        </div>
-        <WsBadge label={STATUS_LABEL[project.status]} color={STATUS_COLOR[project.status]} />
-      </div>
+ </div>
+ </div>
+ <WsBadge label={STATUS_LABEL[project.status]} color={STATUS_COLOR[project.status]} />
+ </div>
 
       {/* Progress bar */}
-      <div style={{ marginBottom: 10 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10.5, color: WS.ink3, marginBottom: 4 }}>
-          <span>Progreso</span>
-          <span style={{ color: WS.ink2, fontWeight: 600 }}>{project.progress}%</span>
-        </div>
-        <div style={{ height: 4, background: WS.surface2, borderRadius: 99, overflow: "hidden" }}>
-          <div style={{ height: "100%", width: `${project.progress}%`, background: STATUS_COLOR[project.status], borderRadius: 99, transition: "width 400ms" }} />
-        </div>
-      </div>
+ <div style={{ marginBottom: 10 }}>
+ <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10.5, color: WS.ink3, marginBottom: 4 }}>
+ <span>Progreso</span>
+ <span style={{ color: WS.ink2, fontWeight: 600 }}>{project.progress}%</span>
+ </div>
+ <div style={{ height: 4, background: WS.surface2, borderRadius: 99, overflow: "hidden" }}>
+ <div style={{ height: "100%", width: `${project.progress}%`, background: STATUS_COLOR[project.status], borderRadius: 99, transition: "width 400ms" }} />
+ </div>
+ </div>
 
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 10.5, color: WS.ink3 }}>Riesgo:</span>
-          <WsBadge label={priorityLabel(project.riskLevel)} color={riskColor} size="xs" />
-        </div>
+ <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+ <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+ <span style={{ fontSize: 10.5, color: WS.ink3 }}>Riesgo:</span>
+ <WsBadge label={priorityLabel(project.riskLevel)} color={riskColor} size="xs" />
+ </div>
         {project.dueDate && (
-          <span style={{ fontSize: 10.5, color: WS.ink3 }}>
+ <span style={{ fontSize: 10.5, color: WS.ink3 }}>
             Hasta {formatShortDate(project.dueDate)}
-          </span>
+ </span>
         )}
-      </div>
+ </div>
 
       {project.membersIds.length > 0 && (
-        <div style={{ display: "flex", marginTop: 8 }}>
+ <div style={{ display: "flex", marginTop: 8 }}>
           {project.membersIds.slice(0, 4).map((id, i) => (
-            <div key={id} title={id} style={{
+ <div key={id} title={id} style={{
               width: 20, height: 20, borderRadius: "50%",
               background: WS.surface3, border: `2px solid ${WS.surface}`,
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -77,9 +77,9 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
               marginLeft: i > 0 ? -6 : 0,
             }}>{id.replace("u", "U")}</div>
           ))}
-        </div>
+ </div>
       )}
-    </WorkspaceCard>
+ </WorkspaceCard>
   );
 }
 

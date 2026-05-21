@@ -75,182 +75,182 @@ export default function PropensityPanel() {
     const parties = ['PP', 'PSOE', 'VOX', 'Sumar', 'Abst.']
     // Datos demo de transferencia de voto (origen → destino)
     const M: Record<string, Record<string, number>> = {
-      PP:    { PP: 78, PSOE: 4,  VOX: 14, Sumar: 1,  'Abst.': 3 },
+      PP:    { PP: 78, PSOE: 4,  VOX: 14, Sumar: 1, 'Abst.': 3 },
       PSOE:  { PP: 8,  PSOE: 71, VOX: 3,  Sumar: 12, 'Abst.': 6 },
-      VOX:   { PP: 22, PSOE: 1,  VOX: 65, Sumar: 0,  'Abst.': 12 },
+      VOX:   { PP: 22, PSOE: 1,  VOX: 65, Sumar: 0, 'Abst.': 12 },
       Sumar: { PP: 2,  PSOE: 28, VOX: 1,  Sumar: 58, 'Abst.': 11 },
-      'Abst.':{ PP: 11, PSOE: 14, VOX: 6,  Sumar: 8,  'Abst.': 61 },
+ 'Abst.':{ PP: 11, PSOE: 14, VOX: 6,  Sumar: 8, 'Abst.': 61 },
     }
     return { parties, M }
   }, [])
 
   return (
-    <section style={{ background: '#fff', borderRadius: 16, padding: '22px 24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', marginBottom: 18 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-        <div>
-          <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
+ <section style={{ background: '#fff', borderRadius: 16, padding: '22px 24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', marginBottom: 18 }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
+ <div>
+ <p style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>
             Propensión electoral
-          </p>
-          <h2 style={{ margin: 0, fontFamily: 'var(--font-display,system-ui)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em' }}>
+ </p>
+ <h2 style={{ margin: 0, fontFamily: 'var(--font-display,system-ui)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em' }}>
             Distritos pendulares · Oportunidades · Transferencia
-          </h2>
-        </div>
-        <div style={{ display: 'flex', gap: 4, padding: 4, background: '#fafafc', borderRadius: 999, border: '1px solid #e8e8ed' }}>
+ </h2>
+ </div>
+ <div style={{ display: 'flex', gap: 4, padding: 4, background: '#fafafc', borderRadius: 999, border: '1px solid #e8e8ed' }}>
           {[
             { v: 'swing' as const, l: 'Swing districts' },
             { v: 'opportunities' as const, l: 'Oportunidades' },
             { v: 'matrix' as const, l: 'Transferencia' },
           ].map(t => (
-            <button key={t.v} onClick={() => setTab(t.v)} style={{
+ <button key={t.v} onClick={() => setTab(t.v)} style={{
               padding: '6px 14px', borderRadius: 999, border: 'none',
               background: tab === t.v ? '#1d1d1f' : 'transparent',
               color: tab === t.v ? '#fff' : '#6e6e73',
               fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>{t.l}</button>
           ))}
-        </div>
-      </div>
+ </div>
+ </div>
 
       {/* SWING DISTRICTS */}
       {tab === 'swing' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+ <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {districts.map(d => {
             const fp = d.flip_probability ?? 0
             return (
-              <div key={d.province} style={{
+ <div key={d.province} style={{
                 display: 'grid', gridTemplateColumns: '180px 100px 100px 1fr 130px', gap: 14, alignItems: 'center',
                 padding: '14px 16px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 12,
               }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{d.province}</div>
+ <div>
+ <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{d.province}</div>
                   {d.ccaa && <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{d.ccaa}</div>}
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Actual</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{d.current_winner ?? '—'}</div>
-                  <div style={{ fontSize: 10.5, color: '#6e6e73' }}>+{d.margin_pp?.toFixed(1)} pp</div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Swing →</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1F4E8C' }}>{d.swing_target ?? '—'}</div>
-                </div>
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 11 }}>
-                    <span style={{ color: '#6e6e73' }}>Probabilidad de cambio</span>
-                    <span style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, color: flipColor(fp) }}>
+ </div>
+ <div style={{ textAlign: 'center' }}>
+ <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Actual</div>
+ <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{d.current_winner ?? '—'}</div>
+ <div style={{ fontSize: 10.5, color: '#6e6e73' }}>+{d.margin_pp?.toFixed(1)} pp</div>
+ </div>
+ <div style={{ textAlign: 'center' }}>
+ <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Swing →</div>
+ <div style={{ fontSize: 13, fontWeight: 700, color: '#1F4E8C' }}>{d.swing_target ?? '—'}</div>
+ </div>
+ <div>
+ <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 11 }}>
+ <span style={{ color: '#6e6e73' }}>Probabilidad de cambio</span>
+ <span style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, color: flipColor(fp) }}>
                       {(fp * 100).toFixed(0)}%
-                    </span>
-                  </div>
-                  <div style={{ height: 7, background: '#e8e8ed', borderRadius: 999, overflow: 'hidden' }}>
-                    <div style={{ width: `${fp * 100}%`, height: '100%', background: flipColor(fp), borderRadius: 999, transition: 'width 600ms ease' }} />
-                  </div>
+ </span>
+ </div>
+ <div style={{ height: 7, background: '#e8e8ed', borderRadius: 999, overflow: 'hidden' }}>
+ <div style={{ width: `${fp * 100}%`, height: '100%', background: flipColor(fp), borderRadius: 999, transition: 'width 600ms ease' }} />
+ </div>
                   {(d.segments?.length ?? 0) > 0 && (
-                    <div style={{ display: 'flex', gap: 5, marginTop: 6, flexWrap: 'wrap' }}>
+ <div style={{ display: 'flex', gap: 5, marginTop: 6, flexWrap: 'wrap' }}>
                       {d.segments!.slice(0, 3).map(s => (
-                        <span key={s.label} style={{
+ <span key={s.label} style={{
                           fontSize: 9.5, padding: '2px 7px', borderRadius: 999,
                           background: 'rgba(31,78,140,0.10)', color: '#1F4E8C',
                         }}>{s.label} {s.pct}%</span>
                       ))}
-                    </div>
+ </div>
                   )}
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Censo</div>
-                  <div style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13, color: '#1d1d1f' }}>
+ </div>
+ <div style={{ textAlign: 'right' }}>
+ <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Censo</div>
+ <div style={{ fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13, color: '#1d1d1f' }}>
                     {d.voters ? d.voters.toLocaleString('es-ES') : '—'}
-                  </div>
-                </div>
-              </div>
+ </div>
+ </div>
+ </div>
             )
           })}
-        </div>
+ </div>
       )}
 
       {/* OPPORTUNITIES */}
       {tab === 'opportunities' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
           {opportunities.map(op => {
             const persColor = (op.persuadability ?? 0) >= 0.50 ? '#2d8a39' : (op.persuadability ?? 0) >= 0.35 ? '#b25000' : '#c42c2c'
             return (
-              <div key={op.segment} style={{
+ <div key={op.segment} style={{
                 padding: '16px 18px', background: '#fafafc', border: '1px solid #f0f0f3', borderRadius: 14,
               }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>{op.segment}</div>
-                    <div style={{ fontSize: 11, color: '#6e6e73' }}>
+ <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+ <div style={{ flex: 1 }}>
+ <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>{op.segment}</div>
+ <div style={{ fontSize: 11, color: '#6e6e73' }}>
                       {op.size_voters ? `${op.size_voters.toLocaleString('es-ES')} votantes potenciales` : '—'}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: persColor, lineHeight: 1 }}>
+ </div>
+ </div>
+ <div style={{ textAlign: 'right' }}>
+ <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: persColor, lineHeight: 1 }}>
                       {((op.persuadability ?? 0) * 100).toFixed(0)}%
-                    </div>
-                    <div style={{ fontSize: 9.5, color: '#6e6e73', marginTop: 2 }}>persuadable</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+ </div>
+ <div style={{ fontSize: 9.5, color: '#6e6e73', marginTop: 2 }}>persuadable</div>
+ </div>
+ </div>
+ <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
                   {op.party_target && (
-                    <span style={{
+ <span style={{
                       fontSize: 10, padding: '3px 9px', borderRadius: 999, fontWeight: 600,
                       background: 'rgba(31,78,140,0.10)', color: '#1F4E8C',
                     }}>→ {op.party_target}</span>
                   )}
                   {op.current_lean && (
-                    <span style={{ fontSize: 10, padding: '3px 9px', borderRadius: 999, background: 'rgba(110,110,115,0.10)', color: '#6e6e73' }}>
+ <span style={{ fontSize: 10, padding: '3px 9px', borderRadius: 999, background: 'rgba(110,110,115,0.10)', color: '#6e6e73' }}>
                       Actual: {op.current_lean}
-                    </span>
+ </span>
                   )}
-                </div>
+ </div>
                 {op.message && (
-                  <div style={{ fontSize: 11.5, color: '#424245', fontStyle: 'italic', marginBottom: 10, lineHeight: 1.5, padding: '8px 12px', background: '#fff', borderRadius: 8, border: '1px solid #f0f0f3' }}>
+ <div style={{ fontSize: 11.5, color: '#424245', fontStyle: 'italic', marginBottom: 10, lineHeight: 1.5, padding: '8px 12px', background: '#fff', borderRadius: 8, border: '1px solid #f0f0f3' }}>
                     «{op.message}»
-                  </div>
+ </div>
                 )}
                 {(op.channels?.length ?? 0) > 0 && (
-                  <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, alignSelf: 'center', marginRight: 4 }}>Canales:</span>
+ <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+ <span style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, alignSelf: 'center', marginRight: 4 }}>Canales:</span>
                     {op.channels!.map(c => (
-                      <span key={c} style={{ fontSize: 9.5, padding: '2px 8px', borderRadius: 999, background: '#fff', border: '1px solid #e8e8ed', color: '#424245' }}>
+ <span key={c} style={{ fontSize: 9.5, padding: '2px 8px', borderRadius: 999, background: '#fff', border: '1px solid #e8e8ed', color: '#424245' }}>
                         {c}
-                      </span>
+ </span>
                     ))}
-                  </div>
+ </div>
                 )}
-              </div>
+ </div>
             )
           })}
-        </div>
+ </div>
       )}
 
       {/* TRANSFER MATRIX */}
       {tab === 'matrix' && (
-        <div>
-          <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 14px', lineHeight: 1.5 }}>
+ <div>
+ <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '0 0 14px', lineHeight: 1.5 }}>
             Transferencia estimada de voto entre elecciones generales 2023 → estimación actual.
             Filas: voto previo · Columnas: voto actual. Intensidad de color = % del flujo.
-          </p>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
-            <thead>
-              <tr>
-                <th style={{ padding: '8px 10px', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6e6e73', textAlign: 'left' }}>Origen ↓ / Destino →</th>
+ </p>
+ <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+ <thead>
+ <tr>
+ <th style={{ padding: '8px 10px', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6e6e73', textAlign: 'left' }}>Origen ↓ / Destino →</th>
                 {TRANSFER.parties.map(p => (
-                  <th key={p} style={{ padding: '8px 10px', fontSize: 11.5, fontWeight: 700, color: '#1d1d1f', textAlign: 'center' }}>{p}</th>
+ <th key={p} style={{ padding: '8px 10px', fontSize: 11.5, fontWeight: 700, color: '#1d1d1f', textAlign: 'center' }}>{p}</th>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
+ </tr>
+ </thead>
+ <tbody>
               {TRANSFER.parties.map(row => (
-                <tr key={row}>
-                  <td style={{ padding: '6px 10px', fontWeight: 600, color: '#1d1d1f', fontSize: 11.5 }}>{row}</td>
+ <tr key={row}>
+ <td style={{ padding: '6px 10px', fontWeight: 600, color: '#1d1d1f', fontSize: 11.5 }}>{row}</td>
                   {TRANSFER.parties.map(col => {
                     const v = TRANSFER.M[row]?.[col] ?? 0
                     const isDiag = row === col
                     const intensity = v / 80
                     return (
-                      <td key={col} style={{ padding: 4, textAlign: 'center' }}>
-                        <div style={{
+ <td key={col} style={{ padding: 4, textAlign: 'center' }}>
+ <div style={{
                           height: 36, borderRadius: 6,
                           background: isDiag
                             ? `rgba(31,78,140,${0.15 + intensity * 0.5})`
@@ -261,27 +261,27 @@ export default function PropensityPanel() {
                           color: v >= 30 ? '#fff' : '#1d1d1f',
                         }}>
                           {v}%
-                        </div>
-                      </td>
+ </div>
+ </td>
                     )
                   })}
-                </tr>
+ </tr>
               ))}
-            </tbody>
-          </table>
-          <div style={{ display: 'flex', gap: 14, marginTop: 14, fontSize: 10.5, color: '#6e6e73', flexWrap: 'wrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 14, height: 14, borderRadius: 3, background: 'rgba(31,78,140,0.50)' }} /> Voto retenido
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 14, height: 14, borderRadius: 3, background: 'rgba(196,44,44,0.50)' }} /> Fuga importante (≥15%)
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-              <span style={{ width: 14, height: 14, borderRadius: 3, background: 'rgba(178,80,0,0.50)' }} /> Fuga moderada (5-15%)
-            </span>
-          </div>
-        </div>
+ </tbody>
+ </table>
+ <div style={{ display: 'flex', gap: 14, marginTop: 14, fontSize: 10.5, color: '#6e6e73', flexWrap: 'wrap' }}>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+ <span style={{ width: 14, height: 14, borderRadius: 3, background: 'rgba(31,78,140,0.50)' }} /> Voto retenido
+ </span>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+ <span style={{ width: 14, height: 14, borderRadius: 3, background: 'rgba(196,44,44,0.50)' }} /> Fuga importante (≥15%)
+ </span>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+ <span style={{ width: 14, height: 14, borderRadius: 3, background: 'rgba(178,80,0,0.50)' }} /> Fuga moderada (5-15%)
+ </span>
+ </div>
+ </div>
       )}
-    </section>
+ </section>
   )
 }

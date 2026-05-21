@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const horas = req.nextUrl.searchParams.get('horas') || '24'
   const umbral_sigma = req.nextUrl.searchParams.get('umbral_sigma') || '1.5'
   const r = await callBackend(
-    `/api/media-intel/spikes?horas=${encodeURIComponent(horas)}&umbral_sigma=${encodeURIComponent(umbral_sigma)}`,
+ `/api/media-intel/spikes?horas=${encodeURIComponent(horas)}&umbral_sigma=${encodeURIComponent(umbral_sigma)}`,
     { cache: 'no-store' },
   )
   if (r.data !== null && r.data !== undefined) {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     [],
-    'mock',
+ 'mock',
     { warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms },
   ))

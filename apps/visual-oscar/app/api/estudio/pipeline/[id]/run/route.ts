@@ -9,9 +9,9 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
   } catch {
     await new Promise(r => setTimeout(r, 800))
     return NextResponse.json({
-      id:        `run-mock-${Date.now().toString(36)}`,
+      id: `run-mock-${Date.now().toString(36)}`,
       pipelineId: params.id,
-      status:    'running',
+      status: 'running',
       startedAt: new Date().toISOString(),
       recordsIn: 0,
       recordsOut: 0,

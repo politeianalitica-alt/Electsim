@@ -1,5 +1,8 @@
-// Dataset compartido de 300+ actores políticos · usado por /agentes y /mapa-actores
-// Incluye Gobierno, oposición, diputados, senadores, gobiernos regionales, alcaldes, instituciones, patronal, sindicatos, medios y Europa.
+// Dataset compartido de 344+ actores políticos · usado por /agentes,
+// /mapa-actores, /api/actores y el grafo de relaciones.
+// Es la ÚNICA fuente de verdad — lib/actores.ts es un thin re-export.
+// Incluye Gobierno, oposición, diputados, senadores, gobiernos regionales,
+// alcaldes, instituciones, patronal, sindicatos, medios y Europa.
 
 export type Categoria = 'gobierno' | 'oposicion' | 'parlamento' | 'autonomico' | 'municipal' | 'institucion' | 'patronal' | 'sindicato' | 'mediatico' | 'europa'
 
@@ -21,55 +24,392 @@ export type Actor = {
   debs: string[]
   evs: string[]
   seg: { f: string; eng: string; tono: number }
+  // ─── Datos enriquecidos opcionales (para actores con info verificada) ──
+  /** Biografía corta · 1-2 frases · resume rol + relevancia actual */
+  bio?: string
+  /** Handle de X (Twitter) sin @ · auto-construye URL */
+  twitter?: string
+  /** URL oficial (perfil institucional, web del partido, etc.) */
+  webOficial?: string
+  /** Fecha aproximada de inicio en el cargo actual (ISO o "mes año") */
+  fechaInicio?: string
+  /** Wikipedia URL en español */
+  wikipedia?: string
+}
+
+// Datos enriquecidos por id de actor · separados del array BASE para
+// mantener el listado base compacto. Se aplican en buildActor().
+export const ACTOR_ENRICHMENT: Record<string, Partial<Pick<Actor, 'bio' | 'twitter' | 'webOficial' | 'fechaInicio' | 'wikipedia'>>> = {
+  'pedro-s-nchez': {
+    bio: 'Secretario general del PSOE y presidente del Gobierno desde junio 2018. Lidera el ejecutivo de coalición PSOE-Sumar.',
+    twitter: 'sanchezcastejon',
+    webOficial: 'https://www.lamoncloa.gob.es/presidente/',
+    fechaInicio: '2018-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Pedro_S%C3%A1nchez_P%C3%A9rez-Castej%C3%B3n',
+  },
+  'alberto-n-ez-feij-o': {
+    bio: 'Presidente nacional del PP desde abril 2022. Anteriormente presidente de la Xunta de Galicia (2009-2022). Líder de la oposición.',
+    twitter: 'NunezFeijoo',
+    webOficial: 'https://www.pp.es/',
+    fechaInicio: '2022-04',
+    wikipedia: 'https://es.wikipedia.org/wiki/Alberto_N%C3%BA%C3%B1ez_Feij%C3%B3o',
+  },
+  'isabel-d-az-ayuso': {
+    bio: 'Presidenta de la Comunidad de Madrid desde 2019 (PP). Figura mediática con perfil de confrontación con el Gobierno central.',
+    twitter: 'IdiazAyuso',
+    webOficial: 'https://www.comunidad.madrid/gobierno/presidenta',
+    fechaInicio: '2019-08',
+    wikipedia: 'https://es.wikipedia.org/wiki/Isabel_D%C3%ADaz_Ayuso',
+  },
+  'santiago-abascal': {
+    bio: 'Presidente y fundador de VOX desde 2014. Antes miembro de las Nuevas Generaciones del PP en País Vasco.',
+    twitter: 'Santi_ABASCAL',
+    webOficial: 'https://www.voxespana.es/',
+    fechaInicio: '2014',
+    wikipedia: 'https://es.wikipedia.org/wiki/Santiago_Abascal',
+  },
+  'yolanda-d-az': {
+    bio: 'Vicepresidenta segunda y ministra de Trabajo. Referente de Sumar y candidata a la presidencia en 2023.',
+    twitter: 'Yolanda_Diaz_',
+    webOficial: 'https://www.mites.gob.es/',
+    fechaInicio: '2020-01',
+    wikipedia: 'https://es.wikipedia.org/wiki/Yolanda_D%C3%ADaz',
+  },
+  'javier-milei': {
+    bio: 'Presidente de la República Argentina desde diciembre 2023. Economista libertario, líder de La Libertad Avanza.',
+    twitter: 'JMilei',
+    webOficial: 'https://www.casarosada.gob.ar/',
+    fechaInicio: '2023-12',
+    wikipedia: 'https://es.wikipedia.org/wiki/Javier_Milei',
+  },
+  'jos-mar-a-aznar': {
+    bio: 'Expresidente del Gobierno (1996-2004) por el PP. Presidente de la fundación FAES, voz crítica del actual Gobierno.',
+    webOficial: 'https://fundacionfaes.org/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Jos%C3%A9_Mar%C3%ADa_Aznar',
+  },
+  'juanma-moreno': {
+    bio: 'Presidente de la Junta de Andalucía desde 2019 (PP). Primer presidente no socialista desde 1982.',
+    twitter: 'JuanMa_Moreno',
+    webOficial: 'https://www.juntadeandalucia.es/presidencia/',
+    fechaInicio: '2019-01',
+    wikipedia: 'https://es.wikipedia.org/wiki/Juan_Manuel_Moreno_Bonilla',
+  },
+  'pere-aragon-s': {
+    bio: 'Expresident de la Generalitat de Catalunya (2021-2024) por ERC. Anteriormente vicepresidente con Quim Torra.',
+    twitter: 'perearagones',
+    wikipedia: 'https://es.wikipedia.org/wiki/Pere_Aragon%C3%A8s',
+  },
+  'carles-puigdemont': {
+    bio: 'Expresident de la Generalitat (2016-2017). Líder de Junts per Catalunya. Reside en Bélgica tras el procés.',
+    twitter: 'KRLS',
+    webOficial: 'https://junts.cat/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Carles_Puigdemont',
+  },
+  'josep-borrell': {
+    bio: 'Ex Alto Representante de la UE para Asuntos Exteriores y Política de Seguridad (2019-2024). Veterano socialista.',
+    wikipedia: 'https://es.wikipedia.org/wiki/Josep_Borrell',
+  },
+  'juan-roig': {
+    bio: 'Presidente ejecutivo de Mercadona desde 1981, mayor cadena de supermercados de España con 1.640+ tiendas.',
+    webOficial: 'https://info.mercadona.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Juan_Roig',
+  },
+  'ignacio-s-nchez-gal-n': {
+    bio: 'Presidente ejecutivo de Iberdrola desde 2006. Una de las eléctricas líderes mundiales en renovables.',
+    webOficial: 'https://www.iberdrola.com/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Ignacio_S%C3%A1nchez_Gal%C3%A1n',
+  },
+  'josu-jon-imaz': {
+    bio: 'Consejero delegado de Repsol desde 2014. Ex presidente del PNV (2004-2007) y ex diputado.',
+    webOficial: 'https://www.repsol.com/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Josu_Jon_Imaz',
+  },
+  'ana-bot-n': {
+    bio: 'Presidenta del Banco Santander desde 2014. Cuarta generación de la familia Botín al frente de la entidad.',
+    twitter: 'AnaBotin',
+    webOficial: 'https://www.santander.com/',
+    fechaInicio: '2014-09',
+    wikipedia: 'https://es.wikipedia.org/wiki/Ana_Bot%C3%ADn',
+  },
+  'florentino-p-rez': {
+    bio: 'Presidente del Real Madrid (2009-presente) y del Grupo ACS, principal constructora española.',
+    webOficial: 'https://www.realmadrid.com/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Florentino_P%C3%A9rez',
+  },
+  'antonio-garamendi': {
+    bio: 'Presidente de la CEOE desde 2018. Representa a 1,3M de empresas y 7M de trabajadores.',
+    twitter: 'agaramendi',
+    webOficial: 'https://www.ceoe.es/',
+    fechaInicio: '2018-11',
+    wikipedia: 'https://es.wikipedia.org/wiki/Antonio_Garamendi',
+  },
+  'unai-sordo': {
+    bio: 'Secretario general de Comisiones Obreras (CCOO) desde 2017. Negociador del SMI y reforma laboral.',
+    twitter: 'UnaiSordo',
+    webOficial: 'https://www.ccoo.es/',
+    fechaInicio: '2017-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Unai_Sordo',
+  },
+  'arnaldo-otegi': {
+    bio: 'Coordinador general de EH Bildu desde 2014. Figura clave de la izquierda abertzale tras ETA.',
+    twitter: 'ArnaldoOtegi',
+    webOficial: 'https://www.ehbildu.eus/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Arnaldo_Otegi',
+  },
+  'fernando-grande-marlaska': {
+    bio: 'Ministro del Interior desde junio 2018. Ex magistrado de la Audiencia Nacional especializado en terrorismo.',
+    twitter: 'marlaska_',
+    webOficial: 'https://www.interior.gob.es/opencms/es/el-ministerio/ministro/',
+    fechaInicio: '2018-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Fernando_Grande-Marlaska',
+  },
+  'margarita-robles': {
+    bio: 'Ministra de Defensa desde junio 2018. Magistrada en excedencia, ex vocal del CGPJ.',
+    webOficial: 'https://www.defensa.gob.es/ministro/',
+    fechaInicio: '2018-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Margarita_Robles',
+  },
+  'nadia-calvi-o': {
+    bio: 'Presidenta del Banco Europeo de Inversiones desde 2024. Ex vicepresidenta primera y ministra de Economía (2018-2023).',
+    webOficial: 'https://www.eib.org/',
+    fechaInicio: '2024-01',
+    wikipedia: 'https://es.wikipedia.org/wiki/Nadia_Calvi%C3%B1o',
+  },
+  'm-nica-garc-a': {
+    bio: 'Ministra de Sanidad desde noviembre 2023 (Sumar). Médica anestesista en activo, ex portavoz Más Madrid.',
+    twitter: 'Monica_Garcia_G',
+    webOficial: 'https://www.sanidad.gob.es/',
+    fechaInicio: '2023-11',
+    wikipedia: 'https://es.wikipedia.org/wiki/M%C3%B3nica_Garc%C3%ADa_G%C3%B3mez',
+  },
+  'scar-puente': {
+    bio: 'Ministro de Transportes desde noviembre 2023. Ex alcalde de Valladolid. Combativo en redes sociales.',
+    twitter: 'oscar_puente_',
+    webOficial: 'https://www.mitma.es/',
+    fechaInicio: '2023-11',
+    wikipedia: 'https://es.wikipedia.org/wiki/%C3%93scar_Puente',
+  },
+  'cuca-gamarra': {
+    bio: 'Vicesecretaria General del PP. Ex portavoz del PP en el Congreso (2022-2024). Ex alcaldesa de Logroño.',
+    twitter: 'cucagamarra',
+    webOficial: 'https://www.pp.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Mar%C3%ADa_de_los_%C3%81ngeles_Gamarra',
+  },
+  'gabriel-rufi-n': {
+    bio: 'Portavoz de ERC en el Congreso desde 2016. Diputado por Barcelona, conocido por su retórica combativa.',
+    twitter: 'gabrielrufian',
+    webOficial: 'https://www.esquerra.cat/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Gabriel_Rufi%C3%A1n',
+  },
+  'ione-belarra': {
+    bio: 'Secretaria general de Podemos desde junio 2021. Ex ministra de Derechos Sociales (2021-2023).',
+    twitter: 'ionebelarra',
+    webOficial: 'https://podemos.info/',
+    fechaInicio: '2021-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Ione_Belarra',
+  },
+  'irene-montero': {
+    bio: 'Eurodiputada por Podemos desde 2024. Ex ministra de Igualdad (2020-2023). Impulsó la "Ley del solo sí es sí".',
+    twitter: 'IreneMontero',
+    wikipedia: 'https://es.wikipedia.org/wiki/Irene_Montero',
+  },
+  'aitor-esteban': {
+    bio: 'Portavoz del PNV en el Congreso desde 2016. Diputado por Bizkaia con perfil negociador.',
+    twitter: 'AitorEsteban',
+    webOficial: 'https://www.eaj-pnv.eus/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Aitor_Esteban_Bravo',
+  },
+  'imanol-pradales': {
+    bio: 'Lehendakari de Euskadi desde junio 2024 (PNV). Sucedió a Iñigo Urkullu tras 12 años.',
+    twitter: 'imanolpradales',
+    webOficial: 'https://www.lehendakaritza.ejgv.euskadi.eus/',
+    fechaInicio: '2024-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Imanol_Pradales',
+  },
+  'emiliano-garc-a-page': {
+    bio: 'Presidente de Castilla-La Mancha desde 2015 (PSOE). Voz crítica interna del PSOE con el Gobierno Sánchez.',
+    twitter: 'garciapage',
+    webOficial: 'https://www.castillalamancha.es/',
+    fechaInicio: '2015-07',
+    wikipedia: 'https://es.wikipedia.org/wiki/Emiliano_Garc%C3%ADa-Page',
+  },
+  'alfonso-fern-ndez-ma-ueco': {
+    bio: 'Presidente de la Junta de Castilla y León desde 2019 (PP). Gobierno de coalición con VOX.',
+    twitter: 'alferma1',
+    webOficial: 'https://comunicacion.jcyl.es/web/jcyl/Comunicacion/',
+    fechaInicio: '2019-07',
+    wikipedia: 'https://es.wikipedia.org/wiki/Alfonso_Fern%C3%A1ndez_Ma%C3%B1ueco',
+  },
+  'alfonso-rueda': {
+    bio: 'Presidente de la Xunta de Galicia desde 2022 (PP). Sucedió a Núñez Feijóo cuando saltó a la política nacional.',
+    twitter: 'AlfonsoRueda',
+    webOficial: 'https://www.xunta.gal/presidencia',
+    fechaInicio: '2022-05',
+    wikipedia: 'https://es.wikipedia.org/wiki/Alfonso_Rueda',
+  },
+  'joan-laporta': {
+    bio: 'Presidente del FC Barcelona desde 2021 (segunda etapa, también 2003-2010). Abogado mercantilista.',
+    twitter: 'JoanLaportaFCB',
+    webOficial: 'https://www.fcbarcelona.es/',
+    fechaInicio: '2021-03',
+    wikipedia: 'https://es.wikipedia.org/wiki/Joan_Laporta',
+  },
+  'javier-tebas': {
+    bio: 'Presidente de LaLiga desde 2013. Abogado y empresario. Promotor de la regularización del fútbol profesional español.',
+    twitter: 'Tebasjavier',
+    webOficial: 'https://www.laliga.com/',
+    fechaInicio: '2013-04',
+    wikipedia: 'https://es.wikipedia.org/wiki/Javier_Tebas',
+  },
+  'luis-rubiales': {
+    bio: 'Ex presidente de la RFEF (2018-2023). Inhabilitado por FIFA tras el caso del beso no consentido a Jenni Hermoso.',
+    wikipedia: 'https://es.wikipedia.org/wiki/Luis_Rubiales',
+  },
+  'jennifer-hermoso': {
+    bio: 'Futbolista internacional española, campeona del Mundo 2023 con la selección. Centrocampista del Tigres UANL.',
+    twitter: 'Jennihermoso',
+    wikipedia: 'https://es.wikipedia.org/wiki/Jennifer_Hermoso',
+  },
+  'leonardo-marcos': {
+    bio: 'Ex director general de la Guardia Civil (2023-2024). Dimitió tras gestiones controvertidas en operaciones con víctimas.',
+  },
+  'ada-colau': {
+    bio: 'Exalcaldesa de Barcelona (2015-2023) por Barcelona en Comú. Líder histórica del movimiento por el derecho a la vivienda.',
+    twitter: 'AdaColau',
+    wikipedia: 'https://es.wikipedia.org/wiki/Ada_Colau',
+  },
+  'jaume-collboni': {
+    bio: 'Alcalde de Barcelona desde junio 2023 (PSC). Primer alcalde socialista de la ciudad desde 2011.',
+    twitter: 'jaumecollboni',
+    webOficial: 'https://www.barcelona.cat/alcaldia',
+    fechaInicio: '2023-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Jaume_Collboni',
+  },
+  'isabel-rodr-guez': {
+    bio: 'Ministra de Vivienda y Agenda Urbana desde noviembre 2023. Ex portavoz del Gobierno.',
+    twitter: 'IsabelRodgz',
+    webOficial: 'https://www.mivau.gob.es/',
+    fechaInicio: '2023-11',
+    wikipedia: 'https://es.wikipedia.org/wiki/Isabel_Rodr%C3%ADguez_Garc%C3%ADa',
+  },
+  'luis-planas': {
+    bio: 'Ministro de Agricultura, Pesca y Alimentación desde junio 2018. Veterano socialista, ex consejero andaluz.',
+    twitter: 'LuisPlanas',
+    webOficial: 'https://www.mapa.gob.es/',
+    fechaInicio: '2018-06',
+    wikipedia: 'https://es.wikipedia.org/wiki/Luis_Planas',
+  },
+  'mar-espinar': {
+    bio: 'Portavoz del Grupo Socialista en la Asamblea de Madrid. Periodista de formación.',
+    twitter: 'marespinar',
+  },
+  'mar-a-pastor': {
+    bio: 'Portavoz adjunta de Más Madrid en la Asamblea. Activa en política madrileña.',
+  },
+  'juan-lobato': {
+    bio: 'Diputado y ex secretario general del PSOE-M (2021-2024). Ex alcalde de Soto del Real.',
+    twitter: 'juan_lobato_',
+    wikipedia: 'https://es.wikipedia.org/wiki/Juan_Lobato',
+  },
+  'ester-mu-oz': {
+    bio: 'Portavoz del Grupo Popular en el Congreso desde 2024. Diputada por León.',
+    twitter: 'estermunoz_',
+  },
+  // Entidades genéricas (sin Wikipedia personal pero con web institucional)
+  'ceoe': {
+    bio: 'Confederación Española de Organizaciones Empresariales. Patronal que agrupa 1,3M empresas y 7M trabajadores.',
+    webOficial: 'https://www.ceoe.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Confederaci%C3%B3n_Espa%C3%B1ola_de_Organizaciones_Empresariales',
+  },
+  'ugt': {
+    bio: 'Unión General de Trabajadores. Uno de los dos grandes sindicatos españoles junto a CCOO. Fundado en 1888.',
+    webOficial: 'https://www.ugt.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Uni%C3%B3n_General_de_Trabajadores',
+  },
+  'csif': {
+    bio: 'Central Sindical Independiente y de Funcionarios. Tercer sindicato en representación y mayoritario en función pública.',
+    webOficial: 'https://www.csif.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Central_Sindical_Independiente_y_de_Funcionarios',
+  },
+  'augc': {
+    bio: 'Asociación Unificada de Guardias Civiles. Principal asociación profesional del cuerpo, defiende derechos laborales.',
+    webOficial: 'https://www.augc.org/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Asociaci%C3%B3n_Unificada_de_Guardias_Civiles',
+  },
+  'upa': {
+    bio: 'Unión de Pequeños Agricultores y Ganaderos. Organización agraria progresista vinculada a UGT.',
+    webOficial: 'https://www.upa.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Uni%C3%B3n_de_Peque%C3%B1os_Agricultores_y_Ganaderos',
+  },
+  'junts': {
+    bio: 'Junts per Catalunya. Partido independentista catalán liderado por Carles Puigdemont. 7 diputados en el Congreso.',
+    webOficial: 'https://junts.cat/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Junts_per_Catalunya',
+  },
+  'gobierno-de-espa-a': {
+    bio: 'Consejo de Ministros del Gobierno de coalición PSOE-Sumar presidido por Pedro Sánchez desde noviembre 2023.',
+    webOficial: 'https://www.lamoncloa.gob.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Gobierno_de_Espa%C3%B1a',
+  },
+  'sindicatos-policiales': {
+    bio: 'Coordinadora de sindicatos de la Policía Nacional: JUPOL, SUP, UFP, CEP, SPP. Negocian condiciones laborales con Interior.',
+  },
+  'ej-rcito-del-aire-y-del-espacio': {
+    bio: 'Rama aérea de las Fuerzas Armadas españolas. Renombrado en 2022 para incluir competencias espaciales.',
+    webOficial: 'https://ejercitodelaire.defensa.gob.es/',
+    wikipedia: 'https://es.wikipedia.org/wiki/Ej%C3%A9rcito_del_Aire_y_del_Espacio',
+  },
 }
 
 const PARTY_COLOR: Record<string, string> = {
-  'PSOE':'#E1322D','PSC':'#E1322D','PSC-PSOE':'#E1322D',
-  'PP':'#1F4E8C','VOX':'#5BA02E','Sumar':'#D43F8D',
-  'Junts':'#1FA89B','JxCat':'#1FA89B','ERC':'#E8A030',
-  'EH Bildu':'#3F7A3A','PNV':'#7DB94B','EAJ-PNV':'#7DB94B',
-  'BNG':'#5BB3D9','CC':'#F2C43A','UPN':'#0E7D8C',
-  'Compromís':'#FF8200','Podemos':'#6C2C5E',
-  'Casa Real':'#7C3AED','CGPJ':'#7C3AED','TC':'#7C3AED','TS':'#7C3AED','Fiscalía':'#7C3AED',
-  'BdE':'#0F766E','BEI':'#0F766E',
-  'CEOE':'#0E7490','CEPYME':'#0E7490','ATA':'#0E7490',
-  'CCOO':'#A02525','UGT':'#A02525',
-  'Medios':'#525258','Independiente':'#6e6e73',
+ 'PSOE':'#E1322D','PSC':'#E1322D','PSC-PSOE':'#E1322D','PSE-EE':'#E1322D',
+ 'PP':'#1F4E8C','VOX':'#5BA02E','Sumar':'#D43F8D',
+ 'Junts':'#1FA89B','JxCat':'#1FA89B','ERC':'#E8A030',
+ 'EH Bildu':'#3F7A3A','PNV':'#7DB94B','EAJ-PNV':'#7DB94B',
+ 'BNG':'#5BB3D9','CC':'#F2C43A','UPN':'#0E7D8C',
+ 'Compromís':'#FF8200','Podemos':'#6C2C5E',
+ 'Casa Real':'#7C3AED','CGPJ':'#7C3AED','TC':'#7C3AED','TS':'#7C3AED','Fiscalía':'#7C3AED',
+ 'BdE':'#0F766E','BEI':'#0F766E',
+ 'CEOE':'#0E7490','CEPYME':'#0E7490','ATA':'#0E7490',
+ 'CCOO':'#A02525','UGT':'#A02525',
+ 'CSIF':'#0E7490','AUGC':'#525258','Sindicatos':'#A02525',
+ 'Medios':'#525258','Independiente':'#6e6e73',
 }
 
 // Posición ideológica base por partido/grupo (ejeX, ejeY)
 const POS_BASE: Record<string, [number, number]> = {
-  'PSOE':       [-22,  +12],
-  'PSC':        [-15,  -35],
-  'PSC-PSOE':   [-15,  -35],
-  'PP':         [+38,  -12],
-  'VOX':        [+78,  +60],
-  'Sumar':      [-58,  -18],
-  'Podemos':    [-65,  -10],
-  'Junts':      [+12,  -88],
-  'JxCat':      [+12,  -88],
-  'ERC':        [-32,  -78],
-  'EH Bildu':   [-62,  -65],
-  'PNV':        [+10,  -72],
-  'EAJ-PNV':    [+10,  -72],
-  'BNG':        [-50,  -60],
-  'CC':         [+8,   -45],
-  'UPN':        [+38,  -38],
-  'Compromís':  [-42,  -30],
-  'Casa Real':  [+5,   +75],
-  'CGPJ':       [+5,   +50],
-  'TC':         [0,    +55],
-  'TS':         [0,    +55],
-  'Fiscalía':   [0,    +50],
-  'BdE':        [+25,  +60],
-  'BEI':        [+10,  +85],
-  'CEOE':       [+38,  +35],
-  'CEPYME':     [+30,  +30],
-  'ATA':        [+22,  +20],
-  'CCOO':       [-58,  -3],
-  'UGT':        [-52,  -2],
-  'Medios':     [0,    +5],
-  'Independiente': [0, 0],
+ 'PSOE':       [-22,  +12],
+ 'PSC':        [-15,  -35],
+ 'PSC-PSOE':   [-15,  -35],
+ 'PSE-EE':     [-18,  -45],
+ 'PP':         [+38,  -12],
+ 'VOX':        [+78,  +60],
+ 'Sumar':      [-58,  -18],
+ 'Podemos':    [-65,  -10],
+ 'Junts':      [+12,  -88],
+ 'JxCat':      [+12,  -88],
+ 'ERC':        [-32,  -78],
+ 'EH Bildu':   [-62,  -65],
+ 'PNV':        [+10,  -72],
+ 'EAJ-PNV':    [+10,  -72],
+ 'BNG':        [-50,  -60],
+ 'CC':         [+8,   -45],
+ 'UPN':        [+38,  -38],
+ 'Compromís':  [-42,  -30],
+ 'Casa Real':  [+5,   +75],
+ 'CGPJ':       [+5,   +50],
+ 'TC':         [0,    +55],
+ 'TS':         [0,    +55],
+ 'Fiscalía':   [0,    +50],
+ 'BdE':        [+25,  +60],
+ 'BEI':        [+10,  +85],
+ 'CEOE':       [+38,  +35],
+ 'CEPYME':     [+30,  +30],
+ 'ATA':        [+22,  +20],
+ 'CCOO':       [-58,  -3],
+ 'UGT':        [-52,  -2],
+ 'Medios':     [0,    +5],
+ 'Independiente': [0, 0],
 }
 
 const FORTS_BY_CAT: Record<Categoria, string[]> = {
@@ -493,6 +833,51 @@ const BASE_EXTENDED: Base[] = [
   { nombre:'Mari Carmen Barrera',   partido:'UGT',      cargo:'Secretaria de Política Sindical UGT',         cat:'sindicato' },
   { nombre:'Mari Cruz Vicente',     partido:'CCOO',     cargo:'Secretaria confederal de Acción Sindical CCOO', cat:'sindicato' },
   { nombre:'Lola Santillana',       partido:'UGT',      cargo:'Secretaria de Igualdad UGT',                  cat:'sindicato' },
+
+  // ── MINISTRO INDUSTRIA (sólo estaba en lib/actores.ts antes) ──
+  { nombre:'Jordi Hereu',           partido:'PSOE',      cargo:'Ministro de Industria y Turismo · ex alcalde Barcelona', cat:'gobierno' },
+
+  // ── CONSEJEROS · COMUNIDAD DE MADRID (Gobierno Ayuso) ──
+  { nombre:'Enrique Ossorio',       partido:'PP',        cargo:'Consejero de Educación y Universidades · Comunidad de Madrid', cat:'autonomico' },
+  { nombre:'Fátima Matute',         partido:'PP',        cargo:'Consejera de Sanidad · Comunidad de Madrid',                   cat:'autonomico' },
+  { nombre:'Carlos Izquierdo',      partido:'PP',        cargo:'Consejero de Vivienda · Comunidad de Madrid',                  cat:'autonomico' },
+  { nombre:'Mariano de Paco',       partido:'PP',        cargo:'Consejero de Cultura · Comunidad de Madrid',                   cat:'autonomico' },
+  { nombre:'Miguel Ángel García Martín', partido:'PP',  cargo:'Consejero de Presidencia, Justicia y Adm. Local · Madrid',    cat:'autonomico' },
+
+  // ───── Actores adicionales del CSV de relaciones (mayo 2026) ─────
+  // Políticos
+  { nombre:'María Pastor',          partido:'Sumar',    cargo:'Portavoz de Más Madrid en la Asamblea',       cat:'autonomico' },
+  { nombre:'Juan Lobato',           partido:'PSOE',     cargo:'Portavoz del PSOE-M en la Asamblea de Madrid', cat:'autonomico' },
+  { nombre:'José María Aznar',      partido:'PP',       cargo:'Expresidente del Gobierno · presidente FAES', cat:'institucion' },
+  { nombre:'Juanma Moreno',         partido:'PP',       cargo:'Presidente de la Junta de Andalucía',         cat:'autonomico' },
+  { nombre:'Pere Aragonès',         partido:'ERC',      cargo:'Expresident de la Generalitat de Catalunya',  cat:'autonomico' },
+  // Internacionales
+  { nombre:'Javier Milei',          partido:'Independiente', cargo:'Presidente de la República Argentina',   cat:'europa' },
+  { nombre:'Josep Borrell',         partido:'PSOE',     cargo:'Ex Alto Representante UE para Asuntos Exteriores', cat:'europa' },
+  // Patronal / empresarios
+  { nombre:'Juan Roig',             partido:'Independiente', cargo:'Presidente ejecutivo de Mercadona',      cat:'patronal' },
+  { nombre:'Ignacio Sánchez Galán', partido:'Independiente', cargo:'Presidente ejecutivo de Iberdrola',      cat:'patronal' },
+  { nombre:'Josu Jon Imaz',         partido:'Independiente', cargo:'Consejero delegado de Repsol',           cat:'patronal' },
+  { nombre:'Ana Botín',             partido:'Independiente', cargo:'Presidenta del Banco Santander',         cat:'patronal' },
+  { nombre:'Florentino Pérez',      partido:'Independiente', cargo:'Presidente del Real Madrid · ACS',       cat:'patronal' },
+  // Sindicatos y entidades genéricas
+  { nombre:'CSIF',                  partido:'CSIF',     cargo:'Central Sindical Independiente y de Funcionarios', cat:'sindicato' },
+  { nombre:'AUGC',                  partido:'AUGC',     cargo:'Asociación Unificada de Guardias Civiles',   cat:'institucion' },
+  { nombre:'Sindicatos policiales', partido:'Sindicatos', cargo:'Coordinadora de sindicatos de la Policía Nacional', cat:'sindicato' },
+  { nombre:'CEOE',                  partido:'CEOE',     cargo:'Confederación Española de Organizaciones Empresariales', cat:'patronal' },
+  { nombre:'UGT',                   partido:'UGT',      cargo:'Unión General de Trabajadores',               cat:'sindicato' },
+  { nombre:'Junts',                 partido:'Junts',    cargo:'Junts per Catalunya · grupo parlamentario',   cat:'parlamento' },
+  { nombre:'Gobierno de España',    partido:'PSOE',     cargo:'Consejo de Ministros · coalición PSOE-Sumar', cat:'gobierno' },
+  // Otras figuras
+  { nombre:'Javier Tebas',          partido:'Independiente', cargo:'Presidente de LaLiga',                   cat:'institucion' },
+  { nombre:'Luis Rubiales',         partido:'Independiente', cargo:'Ex presidente RFEF',                     cat:'institucion' },
+  { nombre:'Jennifer Hermoso',      partido:'Independiente', cargo:'Futbolista internacional · selección',   cat:'mediatico' },
+  { nombre:'Leonardo Marcos',       partido:'Independiente', cargo:'Ex director general de la Guardia Civil', cat:'institucion' },
+
+  // ───── Actores adicionales del CSV top50 (3 nuevos) ─────
+  { nombre:'Joan Laporta',          partido:'Independiente', cargo:'Presidente del FC Barcelona',            cat:'institucion' },
+  { nombre:'Ejército del Aire y del Espacio', partido:'Independiente', cargo:'Cuerpo militar · Fuerzas Armadas españolas', cat:'institucion' },
+  { nombre:'UPA',                   partido:'Sindicatos', cargo:'Unión de Pequeños Agricultores',           cat:'sindicato' },
 ]
 
 
@@ -533,14 +918,18 @@ function buildActor(b: Base): Actor {
   const eng = (1 + ((h >> 5) % 50) / 10).toFixed(1) + '%'
   const tono = +((((h >> 9) % 80) - 40) / 100).toFixed(2)
 
+  const id = b.nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+  const enrichment = ACTOR_ENRICHMENT[id] || {}
   return {
-    id: b.nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+    id,
     nombre: b.nombre, partido: b.partido, cargo: b.cargo, cat: b.cat, color: c,
     ejeX, ejeY, val, delta, inf,
     forts: pickN(FORTS_BY_CAT[b.cat], 3, 1),
     debs:  pickN(DEBS_BY_CAT[b.cat], 2, 2),
     evs:   pickN(EVS_BY_CAT[b.cat], 3, 3),
     seg: { f: formatSeg(seguidoresK), eng, tono },
+    // Enriquecimiento opcional (bio, twitter, web, fechaInicio, wikipedia)
+    ...enrichment,
   }
 }
 

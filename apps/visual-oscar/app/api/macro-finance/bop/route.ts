@@ -9,7 +9,7 @@ export interface BopSeries { years: number; series: Record<string, Array<{ date:
 export async function GET(req: NextRequest) {
   const years = req.nextUrl.searchParams.get('years') || '10'
   const r = await callBackend<BopSeries>(
-    `/api/macro-finance/bop?years=${encodeURIComponent(years)}`,
+ `/api/macro-finance/bop?years=${encodeURIComponent(years)}`,
     { cache: 'no-store' },
   )
   if (r.data) {
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta(
     { years: 10, series: {} },
-    'mock',
+ 'mock',
     {
       warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_data'],
       latency_ms: r.latency_ms,
