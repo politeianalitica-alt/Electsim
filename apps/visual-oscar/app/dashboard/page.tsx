@@ -17,6 +17,7 @@ import MetricTrace from '@/components/MetricTrace'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
+import { ComtradeSpainOverview } from '@/components/trade/ComtradeSpainOverview'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Trends types ─────────────────────────────────────────────────────────────
@@ -937,6 +938,7 @@ export default function DashboardPage() {
           <MarketSnapshot variant="dashboard" compact={false} />
           <AcledSpainContext days={30} compact />
           <EmberSpainElectricity compact />
+          <ComtradeSpainOverview compact />
         </section>
 
  <section style={{ marginTop: 24 }}>

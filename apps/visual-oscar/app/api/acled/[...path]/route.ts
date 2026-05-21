@@ -33,7 +33,10 @@ import { NextResponse } from 'next/server'
 
 export const revalidate = 3600
 
-const ACLED_API = 'https://api.acleddata.com/acled/read'
+// Per ACLED docs (acleddata.com/api-documentation/elements-acleds-api):
+//   - API base canónica: acleddata.com/api/acled/read (no subdominio api.)
+//   - OAuth: requiere scope=authenticated en el payload
+const ACLED_API = 'https://acleddata.com/api/acled/read'
 const ACLED_OAUTH = 'https://acleddata.com/oauth/token'
 
 // Países alta-relevancia geopolítica para España (heredado de SPAIN_RELEVANCE)
@@ -61,11 +64,15 @@ async function getOAuthToken(): Promise<string | null> {
   const password = process.env.ACLED_PASSWORD
   if (!email || !password) return null
   try {
+    // scope=authenticated es OBLIGATORIO según docs ACLED.
+    // Sin él, /oauth/token devuelve 400 invalid_grant aunque las
+    // credenciales sean correctas.
     const body = new URLSearchParams({
       username: email,
       password: password,
       grant_type: 'password',
       client_id: 'acled',
+      scope: 'authenticated',
     })
     const r = await fetch(ACLED_OAUTH, {
       method: 'POST',
