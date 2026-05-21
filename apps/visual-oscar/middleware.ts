@@ -31,6 +31,7 @@ const PUBLIC_PREFIXES = [
   '/api/ine/',
   '/api/datos-gob/',
   '/api/ecb/',
+  '/api/cis/',
   '/api/wto/',
   '/api/global-intel/',
   '/api/macro-finance/',
