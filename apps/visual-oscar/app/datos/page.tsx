@@ -18,7 +18,7 @@ import { isAuthenticated } from '@/lib/auth'
 
 const ACCENT = '#0e7490'
 
-type Category = 'politicos' | 'mercados' | 'corporate' | 'contratacion' | 'social' | 'macro' | 'medios' | 'comercio' | 'geopolitica'
+type Category = 'politicos' | 'mercados' | 'corporate' | 'contratacion' | 'social' | 'macro' | 'medios' | 'comercio' | 'geopolitica' | 'energia'
 type Status = 'live' | 'requires_key' | 'opt_in'
 
 interface Source {
@@ -66,6 +66,21 @@ const SOURCES: Source[] = [
     env_var: 'WTO_API_KEY',
     docs_url: 'https://timeseries.wto.org',
     free_tier: 'Sin rate-limit publicado',
+  },
+  // ─── Energía · transición & mix eléctrico ───────────────────────
+  {
+    slug: 'ember',
+    name: 'Ember Energy · Mix eléctrico global',
+    category: 'energia',
+    status: 'live',
+    coverage: 'global',
+    description: 'Think-tank energético independiente · datos abiertos de generación eléctrica por fuente, demanda, intensidad de carbono y mix renovable · ~200 países desde 2000 · granularidad anual y mensual.',
+    why_useful: 'Mix eléctrico España (renovables vs fósiles) + comparativa UE-27 + intensidad de carbono gCO₂/kWh + trend renovable. Contexto para /sector-energia (complementa REE) y /macro. Métrica clave de transición energética.',
+    endpoint: 'https://api.ember-energy.org',
+    module: 'app/api/ember/[...path] · components/energy/EmberSpainElectricity.tsx',
+    env_var: 'EMBER_API_KEY',
+    docs_url: 'https://ember-energy.org/data/api',
+    free_tier: '1000 calls/día · cache 12h',
   },
   // ─── Geopolítica · conflictos ───────────────────────────────────
   {
@@ -355,6 +370,7 @@ const CATEGORY_STYLE: Record<Category, { label: string; bg: string; fg: string }
   medios:       { label: 'Medios',              bg: '#fce7f3', fg: '#9d174d' },
   comercio:     { label: 'Comercio',            bg: '#fef2f2', fg: '#991b1b' },
   geopolitica:  { label: 'Geopolítica · Conflictos', bg: '#fee2e2', fg: '#7f1d1d' },
+  energia:      { label: 'Energía · Transición',     bg: '#dcfce7', fg: '#14532d' },
 }
 
 const STATUS_STYLE: Record<Status, { label: string; bg: string; fg: string }> = {

@@ -20,6 +20,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_ENERGIA, REGULADORES_ENERGIA } from '@/lib/sources/ree'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
+import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 
 // ─── Tipos de respuesta ──────────────────────────────────
 interface ResumenResp {
@@ -159,6 +160,11 @@ export default function SectorEnergiaPage() {
  <HeroKPI label="Emisiones" value={resumen?.kpis.emisiones_co2_g} unit="g/kWh" accent="#FCA5A5"/>
  </div>
  </section>
+
+        {/* ───── Ember Energy · contexto histórico y comparado ───── */}
+        <div style={{ marginBottom: 14 }}>
+          <EmberSpainElectricity />
+        </div>
 
         {/* ───── ROW 1: Mix de generación + Precio mercado ───── */}
  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
