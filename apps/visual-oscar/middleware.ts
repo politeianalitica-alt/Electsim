@@ -11,6 +11,26 @@ const PUBLIC_PREFIXES = [
   '/api/system/',
   '/_next',
   '/favicon',
+  // Proxies a APIs públicas externas · no exponen secretos sensibles
+  // (sólo passthrough de datos abiertos macro/comercio/energía/geopolítica/medios)
+  '/api/acled/',
+  '/api/bis/',
+  '/api/comtrade/',
+  '/api/ember/',
+  '/api/entsoe/',
+  '/api/eurostat/',
+  '/api/finnhub/',
+  '/api/iati/',
+  '/api/imf/',
+  '/api/newsapi/',
+  '/api/oec/',
+  '/api/oecd/',
+  '/api/openfigi/',
+  '/api/portwatch/',
+  '/api/reliefweb/',
+  '/api/wto/',
+  '/api/global-intel/',
+  '/api/macro-finance/',
 ]
 
 export function middleware(req: NextRequest) {
