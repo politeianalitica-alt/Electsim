@@ -111,6 +111,7 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Geopolítica y RRII',         href: '/geopolitica' },
       { label: 'Macro-Political & Economic', href: '/macro' },
+      { label: 'Fuentes globales',           href: '/datos' },
     ],
   },
 
