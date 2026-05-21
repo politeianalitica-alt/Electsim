@@ -1,41 +1,36 @@
 'use client'
 /**
- * `<MargenFiscalTab />` · Tab 3 · Margen fiscal España.
+ * `<MargenFiscalTab />` · Tab 3 · Margen fiscal PROFUNDO.
  *
- * Combina:
- *  - IMF DataMapper: deuda %PIB (GGXWDG_NGDP), saldo fiscal (GGXCNL_NGDP)
- *  - AIReF previsiones (vía /api/datos-gob/airef-forecast · empty state didáctico)
- *  - Eurostat: deuda gov_10dd_ggdebt, déficit gov_10dd_edpt1 (anuales oficiales UE)
+ * Fuentes vivas:
+ *  - IMF GGXWDG_NGDP deuda %PIB · serie histórica + forecast
+ *  - IMF GGXCNL_NGDP saldo total %PIB
+ *  - IMF GGXONLB_NGDP saldo primario %PIB
+ *  - IMF GGR_NGDP ingresos %PIB
+ *  - IMF GGX_NGDP gasto %PIB
+ *
+ * No más empty states de AIReF/IGAE (regla del usuario).
  */
 import { useEffect, useState } from 'react'
 import { TabHeader } from '../TabHeader'
 import { MacroPanel } from '../MacroPanel'
 import { MacroKpiCard } from '../MacroKpiCard'
-import { MacroSpark } from '../MacroSpark'
+import { DeepLineChart } from '../DeepLineChart'
+import { TrendNarrative } from '../TrendNarrative'
+import { CountryCompareBars } from '../CountryCompareBars'
+import { IndicatorDrill } from '../IndicatorDrill'
 import { getTab } from '@/lib/macro/sources-matrix'
-
-interface ImfPoint { year: number; value: number | null }
-interface ImfData {
-  ok?: boolean
-  indicator?: string
-  series?: { year: number; value: number | null }[]
-  data_quality?: { source_type: string }
-}
-
-interface AirefData {
-  ok?: boolean
-  data_quality?: { source_type: string }
-  activation_steps?: string[]
-  fallback_endpoint?: string
-  registration_url?: string
-}
+import { useMacroDrawer } from '../MacroDrawerProvider'
 
 export function MargenFiscalTab() {
   const tab = getTab('margen-fiscal')
-  const [deuda, setDeuda] = useState<ImfData | null>(null)
-  const [saldo, setSaldo] = useState<ImfData | null>(null)
-  const [primary, setPrimary] = useState<ImfData | null>(null)
-  const [airef, setAiref] = useState<AirefData | null>(null)
+  const { openDrill } = useMacroDrawer()
+
+  const [deuda, setDeuda] = useState<any>(null)
+  const [saldo, setSaldo] = useState<any>(null)
+  const [primary, setPrimary] = useState<any>(null)
+  const [ingresos, setIngresos] = useState<any>(null)
+  const [gasto, setGasto] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -44,188 +39,228 @@ export function MargenFiscalTab() {
       fetch('/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
       fetch('/api/imf/country?iso=ESP&indicator=GGXCNL_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
       fetch('/api/imf/country?iso=ESP&indicator=GGXONLB_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/datos-gob/airef-forecast', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-    ]).then(([d, s, p, a]) => {
+      fetch('/api/imf/country?iso=ESP&indicator=GGR_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/imf/country?iso=ESP&indicator=GGX_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+    ]).then(([d, s, p, i, g]) => {
       if (!alive) return
-      setDeuda(d)
-      setSaldo(s)
-      setPrimary(p)
-      setAiref(a)
-      setLoading(false)
+      setDeuda(d); setSaldo(s); setPrimary(p); setIngresos(i); setGasto(g); setLoading(false)
     })
     return () => { alive = false }
   }, [])
 
-  const deudaSeries = (deuda?.series || []).filter((x) => x.value != null)
-  const saldoSeries = (saldo?.series || []).filter((x) => x.value != null)
-  const primarySeries = (primary?.series || []).filter((x) => x.value != null)
+  const splitImf = (d: any) => {
+    const all = (d?.series || []).filter((s: any) => s.value != null) as { year: number; value: number }[]
+    const cy = new Date().getFullYear()
+    return {
+      hist: all.filter((x) => x.year <= cy).map((x) => ({ period: String(x.year), value: x.value })),
+      fc: all.filter((x) => x.year > cy).map((x) => ({ period: String(x.year), value: x.value })),
+    }
+  }
 
-  const deudaLast = deudaSeries[deudaSeries.length - 1]
-  const saldoLast = saldoSeries[saldoSeries.length - 1]
-  const primaryLast = primarySeries[primarySeries.length - 1]
+  const deudaSplit = splitImf(deuda)
+  const saldoSplit = splitImf(saldo)
+  const primarySplit = splitImf(primary)
+  const ingresosSplit = splitImf(ingresos)
+  const gastoSplit = splitImf(gasto)
 
-  // Forecast = IMF series ahora incluye proyecciones 5y · tomamos último observado vs último proyectado
-  const deudaForecast5y = deudaSeries[deudaSeries.length - 1]
-  const deudaActual = deudaSeries.find((x) => x.year === new Date().getFullYear() - 1) || deudaSeries[Math.max(deudaSeries.length - 6, 0)]
+  const deudaLast = deudaSplit.hist[deudaSplit.hist.length - 1]
+  const saldoLast = saldoSplit.hist[saldoSplit.hist.length - 1]
+  const primaryLast = primarySplit.hist[primarySplit.hist.length - 1]
+  const ingLast = ingresosSplit.hist[ingresosSplit.hist.length - 1]
+  const gastoLast = gastoSplit.hist[gastoSplit.hist.length - 1]
+
+  // Intereses derivados: primary - total
+  const intereses = primaryLast && saldoLast ? primaryLast.value - saldoLast.value : null
+
+  const openDrill1 = (label: string, indicator: string, split: any, threshold?: any, color = tab.themeAccent) => () => {
+    openDrill({
+      title: `${label} · IMF WEO`,
+      subtitle: `IMF DataMapper · ${indicator}`,
+      accent: color,
+      content: (
+        <IndicatorDrill
+          label={label}
+          unit="%"
+          decimals={2}
+          series={split.hist}
+          forecast={split.fc}
+          sourceCode={indicator}
+          sourceName="IMF DataMapper"
+          imfCompareIndicator={indicator}
+          threshold={threshold}
+          accent={color}
+        />
+      ),
+      source: { name: 'IMF DataMapper', url: `https://www.imf.org/external/datamapper/${indicator}@WEO/ESP` },
+    })
+  }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
         <MacroKpiCard
-          label="Deuda % PIB"
+          label="Deuda %PIB"
           value={deudaLast?.value ?? null}
           color={tab.themeAccent}
-          spark={deudaSeries.slice(-20).map((p) => p.value!).filter((v) => v != null)}
-          footer={deudaLast ? `Año ${deudaLast.year} · IMF GGXWDG_NGDP` : 'IMF GGXWDG_NGDP'}
+          spark={deudaSplit.hist.slice(-20).map((p) => p.value)}
+          footer={deudaLast ? `IMF GGXWDG_NGDP · ${deudaLast.period}` : 'IMF GGXWDG_NGDP'}
           loading={loading}
+          onClick={deudaSplit.hist.length > 1 ? openDrill1('Deuda %PIB', 'GGXWDG_NGDP', deudaSplit, { amber: 100, red: 120, goodAbove: false }, tab.themeAccent) : undefined}
         />
         <MacroKpiCard
-          label="Saldo fiscal % PIB"
+          label="Saldo fiscal %PIB"
           value={saldoLast?.value ?? null}
           color="#f59e0b"
-          spark={saldoSeries.slice(-20).map((p) => p.value!).filter((v) => v != null)}
-          footer={saldoLast ? `Año ${saldoLast.year} · IMF GGXCNL_NGDP` : 'IMF GGXCNL_NGDP'}
+          spark={saldoSplit.hist.slice(-20).map((p) => p.value)}
+          footer={saldoLast ? `IMF GGXCNL_NGDP · ${saldoLast.period}` : 'IMF GGXCNL_NGDP'}
           loading={loading}
+          onClick={saldoSplit.hist.length > 1 ? openDrill1('Saldo fiscal %PIB', 'GGXCNL_NGDP', saldoSplit, undefined, '#f59e0b') : undefined}
         />
         <MacroKpiCard
-          label="Saldo primario % PIB"
+          label="Saldo primario"
           value={primaryLast?.value ?? null}
           color="#10b981"
-          spark={primarySeries.slice(-20).map((p) => p.value!).filter((v) => v != null)}
+          spark={primarySplit.hist.slice(-20).map((p) => p.value)}
           footer="IMF GGXONLB_NGDP"
           loading={loading}
+          onClick={primarySplit.hist.length > 1 ? openDrill1('Saldo primario', 'GGXONLB_NGDP', primarySplit, undefined, '#10b981') : undefined}
         />
         <MacroKpiCard
-          label="Δ Deuda 5y"
-          value={
-            deudaForecast5y && deudaActual
-              ? (deudaForecast5y.value! - deudaActual.value!)
-              : null
-          }
-          unit="pp"
-          color="#ef4444"
-          footer="Variación deuda %PIB IMF forecast"
-          decimals={1}
+          label="Intereses (derivado)"
+          value={intereses}
+          color="#dc2626"
+          footer="Primario − Total"
+          decimals={2}
           loading={loading}
         />
       </div>
 
-      {/* Trayectoria deuda histórica + forecast */}
-      <MacroPanel
-        accent={tab.themeAccent}
-        title="Trayectoria Deuda Pública España · 20 años"
-        subtitle="Serie histórica + forecast IMF WEO próximos 5 años"
-        status={deuda?.ok ? 'live' : loading ? 'loading' : 'missing'}
-      >
-        {deudaSeries.length > 5 ? (
-          <div style={{ background: '#fff8f8', borderRadius: 8, padding: 16 }}>
-            <MacroSpark
-              points={deudaSeries.slice(-25).map((p) => p.value!)}
-              color={tab.themeAccent}
-              width={760}
-              height={140}
-              stroke={2.5}
-              showLast
+      {/* Trayectoria deuda · serie 30y + forecast */}
+      {deudaSplit.hist.length > 5 && (
+        <MacroPanel
+          accent={tab.themeAccent}
+          title="Trayectoria deuda pública · 30 años + forecast"
+          subtitle="IMF GGXWDG_NGDP · stock deuda Maastricht %PIB · histórica + proyección 5y"
+          status="live"
+        >
+          <DeepLineChart
+            series={[{
+              id: 'd',
+              label: 'Deuda %PIB',
+              color: tab.themeAccent,
+              points: [...deudaSplit.hist, ...deudaSplit.fc],
+              forecastFromIndex: deudaSplit.hist.length,
+              fillBelow: true,
+            }]}
+            height={240}
+            yLabel="Deuda %PIB"
+            annotations={[
+              { period: '2008', label: 'Crisis', color: '#dc2626' },
+              { period: '2020', label: 'COVID', color: '#dc2626' },
+            ]}
+            formatValue={(v) => `${v.toFixed(0)}%`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Deuda pública %PIB"
+              unit="%"
+              decimals={1}
+              series={deudaSplit.hist as any}
+              forecast={deudaSplit.fc}
+              threshold={{ amber: 100, red: 120, goodAbove: false }}
+              accent={tab.themeAccent}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, fontSize: 10, color: '#64748b' }}>
-              <span>{deudaSeries[Math.max(deudaSeries.length - 25, 0)]?.year}</span>
-              <span style={{ fontWeight: 700 }}>
-                Mín: {Math.min(...deudaSeries.slice(-25).map((p) => p.value!)).toFixed(1)}% ·
-                Máx: {Math.max(...deudaSeries.slice(-25).map((p) => p.value!)).toFixed(1)}%
-              </span>
-              <span>{deudaSeries[deudaSeries.length - 1]?.year}</span>
-            </div>
           </div>
-        ) : (
-          <p style={{ fontSize: 12, color: '#94a3b8' }}>
-            {loading ? 'Cargando IMF…' : 'Serie deuda IMF no disponible'}
-          </p>
-        )}
+        </MacroPanel>
+      )}
+
+      {/* Saldo descompuesto · primary vs total · area chart */}
+      {saldoSplit.hist.length > 5 && primarySplit.hist.length > 5 && (
+        <MacroPanel
+          accent="#f59e0b"
+          title="Saldo fiscal · descompuesto"
+          subtitle="Saldo total vs Saldo primario · intereses = diferencia · regla Maastricht 3%"
+          status="live"
+        >
+          <DeepLineChart
+            series={[
+              { id: 's', label: 'Saldo total (GGXCNL_NGDP)', color: '#f59e0b', points: [...saldoSplit.hist, ...saldoSplit.fc], forecastFromIndex: saldoSplit.hist.length, fillBelow: true },
+              { id: 'p', label: 'Saldo primario (GGXONLB_NGDP)', color: '#10b981', points: [...primarySplit.hist, ...primarySplit.fc], forecastFromIndex: primarySplit.hist.length },
+            ]}
+            height={240}
+            yLabel="% PIB"
+            zeroLine
+            annotations={[
+              { period: '2008', label: '−11% pico crisis', color: '#dc2626' },
+            ]}
+            formatValue={(v) => `${v.toFixed(1)}%`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Saldo fiscal total"
+              unit="%"
+              decimals={2}
+              series={saldoSplit.hist as any}
+              forecast={saldoSplit.fc}
+              threshold={{ amber: -3, red: -6, goodAbove: true }}
+              accent="#f59e0b"
+            />
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* Ingresos vs Gasto · serie */}
+      {ingresosSplit.hist.length > 5 && gastoSplit.hist.length > 5 && (
+        <MacroPanel
+          accent="#0891b2"
+          title="Ingresos vs Gasto AAPP"
+          subtitle="Tamaño Estado %PIB · GGR_NGDP vs GGX_NGDP"
+          status="live"
+        >
+          <DeepLineChart
+            series={[
+              { id: 'r', label: 'Ingresos (GGR_NGDP)', color: '#16a34a', points: [...ingresosSplit.hist, ...ingresosSplit.fc], forecastFromIndex: ingresosSplit.hist.length },
+              { id: 'x', label: 'Gasto (GGX_NGDP)', color: '#dc2626', points: [...gastoSplit.hist, ...gastoSplit.fc], forecastFromIndex: gastoSplit.hist.length },
+            ]}
+            height={220}
+            yLabel="% PIB"
+            formatValue={(v) => `${v.toFixed(1)}%`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Ingresos AAPP"
+              unit="%"
+              decimals={2}
+              series={ingresosSplit.hist as any}
+              forecast={ingresosSplit.fc}
+              accent="#0891b2"
+            />
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* Comparativa peers UE */}
+      <MacroPanel accent="#7c3aed" title="Deuda pública · España vs peers UE" subtitle="IMF GGXWDG_NGDP · último año disponible" status="live">
+        <CountryCompareBars
+          indicator="GGXWDG_NGDP"
+          countries={['ESP', 'DEU', 'FRA', 'ITA', 'PRT', 'NLD', 'GRC', 'BEL', 'AUT']}
+          spainColor={tab.themeAccent}
+          unit="%"
+          decimals={1}
+        />
       </MacroPanel>
 
-      {/* Saldo descompuesto */}
-      <MacroPanel
-        accent="#f59e0b"
-        title="Saldo fiscal · Total vs Primario"
-        subtitle="Saldo total = primario − intereses · IMF anual"
-        status={saldo?.ok ? 'live' : 'missing'}
-      >
-        <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-              <th style={{ textAlign: 'left', padding: '8px 10px', color: '#64748b', fontSize: 11 }}>Año</th>
-              <th style={{ textAlign: 'right', padding: '8px 10px', color: '#64748b', fontSize: 11 }}>Total %PIB</th>
-              <th style={{ textAlign: 'right', padding: '8px 10px', color: '#64748b', fontSize: 11 }}>Primario %PIB</th>
-              <th style={{ textAlign: 'right', padding: '8px 10px', color: '#64748b', fontSize: 11 }}>Intereses %PIB</th>
-            </tr>
-          </thead>
-          <tbody>
-            {saldoSeries.slice(-8).reverse().map((s, i) => {
-              const p = primarySeries.find((x) => x.year === s.year)
-              const intereses = p && s.value != null && p.value != null ? (p.value - s.value) : null
-              return (
-                <tr key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '6px 10px', color: '#0f172a', fontWeight: 600 }}>{s.year}</td>
-                  <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: s.value! < 0 ? '#dc2626' : '#16a34a' }}>
-                    {s.value?.toFixed(1)}%
-                  </td>
-                  <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: (p?.value ?? 0) < 0 ? '#dc2626' : '#16a34a' }}>
-                    {p?.value?.toFixed(1) ?? '—'}%
-                  </td>
-                  <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: '#64748b' }}>
-                    {intereses != null ? `${intereses.toFixed(1)}%` : '—'}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+      <MacroPanel accent="#7c3aed" title="Saldo fiscal · España vs peers UE" subtitle="IMF GGXCNL_NGDP · último año disponible" status="live">
+        <CountryCompareBars
+          indicator="GGXCNL_NGDP"
+          countries={['ESP', 'DEU', 'FRA', 'ITA', 'PRT', 'NLD', 'GRC']}
+          spainColor="#f59e0b"
+          unit="%"
+          decimals={2}
+        />
       </MacroPanel>
-
-      {/* AIReF empty state didáctico */}
-      <MacroPanel
-        accent="#94a3b8"
-        title="AIReF · Previsiones fiscales independientes"
-        subtitle={airef?.data_quality?.source_type === 'live' ? 'Datos integrados' : 'Pendiente activación · ver pasos'}
-        status={airef?.data_quality?.source_type === 'live' ? 'live' : 'missing'}
-      >
-        <div style={{ padding: 12, background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 6 }}>
-          <p style={{ fontSize: 12, color: '#475569', margin: 0, lineHeight: 1.6 }}>
-            <strong>Estado actual:</strong> AIReF publica previsiones en informes PDF trimestrales. datos.gob.es indexa metadata pero no series numéricas extraídas.
-          </p>
-          {airef?.activation_steps && (
-            <ul style={{ margin: '10px 0 0 0', padding: '0 0 0 20px', fontSize: 11, color: '#64748b', lineHeight: 1.6 }}>
-              {airef.activation_steps.map((s, i) => <li key={i}>{s}</li>)}
-            </ul>
-          )}
-          {airef?.fallback_endpoint && (
-            <p style={{ fontSize: 11, color: '#0f766e', marginTop: 10 }}>
-              <strong>Fallback activo:</strong> <code style={{ background: '#f1f5f9', padding: '2px 6px', borderRadius: 4, fontSize: 10 }}>{airef.fallback_endpoint}</code>
-            </p>
-          )}
-          {airef?.registration_url && (
-            <a
-              href={airef.registration_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontSize: 11, color: tab.themeAccent, textDecoration: 'underline', marginTop: 6, display: 'inline-block' }}
-            >
-              AIReF · publicaciones oficiales →
-            </a>
-          )}
-        </div>
-      </MacroPanel>
-
-      <section style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: tab.themeAccent, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
-          ✦ Lectura Politeia · IA
-        </p>
-        <p style={{ fontSize: 13, color: '#0f172a', lineHeight: 1.6, margin: '8px 0 0' }}>
-          Lectura fiscal con vector deuda+saldo+intereses+comparativa UE y prognosis AIReF se activa en <strong>Sprint M6</strong>. Por ahora datos IMF arriba ofrecen el plano principal.
-        </p>
-      </section>
     </div>
   )
 }
