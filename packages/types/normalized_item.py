@@ -63,9 +63,15 @@ SourceKind = Literal[
     "ree", "ecb", "world_bank", "openbb",
     # OSINT / redes
     "telegram", "x", "fact_check_rss",
-    # Puertos & comercio global (Módulo Puertos · MVP P1)
+    # Puertos & comercio global (Módulo Puertos · MVP P1 + Sprint 2)
     "ais_position", "port_call", "comtrade", "eurostat_comext",
     "freight_rate", "sanctions_maritime",
+    # Sprint 2 · capas estructurales (migración 0080)
+    "port_terminal", "port_traffic_monthly",
+    "shipping_line", "carrier_service", "shipping_route", "route_leg",
+    "vessel_master", "vessel_anomaly",
+    "world_port_index", "puertos_estado",
+    "source_observation",
     # Otros
     "wikidata", "manual", "import",
 ]

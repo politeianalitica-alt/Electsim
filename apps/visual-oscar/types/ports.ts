@@ -387,3 +387,270 @@ export interface SanctionsBatchResponse {
     any_hit: boolean
   }
 }
+
+// ─────────────────────────────────────────────────────────────────
+// Sprint 2 · capas estructurales (espejo de migración 0080)
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Terminal específico dentro de un puerto · operador, calado, concesión.
+ *
+ * Algeciras puede tener: APMT, TTI Algeciras, CSP Iberian Valencia Terminal…
+ * Cada uno con su operador (Maersk APMT, Hutchison, COSCO), capacidad TEU
+ * propia, año de fin de concesión, y conexión ferroviaria.
+ */
+export interface PortTerminal extends WithQuality {
+  id: number
+  port_slug: string
+  terminal_name: string
+  operator_name?: string | null
+  operator_lei?: string | null
+  type: PortType
+  lat?: number | null
+  lon?: number | null
+  capacity_teu?: number | null
+  capacity_tonnes?: number | null
+  berths_count?: number | null
+  max_draft_m?: number | null
+  quay_length_m?: number | null
+  reefer_plugs?: number | null
+  rail_access?: boolean | null
+  concession_end_year?: number | null
+  source?: string | null
+}
+
+/**
+ * Serie mensual de tráfico portuario · TEU, toneladas, ro-ro, pasajeros…
+ *
+ * Una fila por (port_slug, period_ym=YYYY-MM, source). Permite series
+ * temporales de hasta N años para comparar tendencias inter-puerto.
+ */
+export interface PortMonthlyTraffic extends WithQuality {
+  id: number
+  port_slug: string
+  period_ym: string // 'YYYY-MM'
+  teu_total?: number | null
+  teu_full?: number | null
+  teu_empty?: number | null
+  teu_transshipment?: number | null
+  tonnes_total?: number | null
+  tonnes_liquid_bulk?: number | null
+  tonnes_solid_bulk?: number | null
+  tonnes_general_cargo?: number | null
+  tonnes_roro?: number | null
+  vehicles_units?: number | null
+  passengers?: number | null
+  cruise_passengers?: number | null
+  fishing_tonnes?: number | null
+  source: string
+}
+
+/**
+ * Naviera global · Maersk, MSC, CMA CGM, COSCO, Hapag-Lloyd…
+ *
+ * `alliance` agrupa las alianzas (2M, OCEAN, THE). `sanctions_risk` indica
+ * exposure a sanciones internacionales (Russian beneficial owners etc.).
+ */
+export interface ShippingLine extends WithQuality {
+  id: number
+  slug: string
+  name: string
+  parent_company?: string | null
+  country_iso?: string | null
+  lei?: string | null
+  website?: string | null
+  alliance?: '2M' | 'OCEAN' | 'THE' | 'standalone' | string | null
+  main_trades?: string[] | null
+  fleet_size?: number | null
+  fleet_teu?: number | null
+  sanctions_risk?: 'none' | 'monitor' | 'sanctioned' | null
+  notes?: string | null
+  source?: string | null
+  updated_at?: string | null
+}
+
+/**
+ * Servicio concreto de una naviera · FAL-1 (Asia-Europa), TP-9 (transpacífico)…
+ *
+ * `port_rotation` es la lista ordenada de escalas que el servicio realiza
+ * semanalmente. `main_chokepoints` lista los corredores críticos que cruza.
+ */
+export interface CarrierServicePortStop {
+  port_slug: string
+  order: number
+  dwell_days?: number
+}
+
+export interface CarrierService extends WithQuality {
+  id: number
+  service_code: string
+  service_name: string
+  shipping_line_slug?: string | null
+  alliance?: string | null
+  trade_lane: 'asia_eu' | 'transpac' | 'transatlantic' | 'intra_eu' | 'me_eu' | 'intra_asia' | string
+  frequency_days?: number | null
+  port_rotation?: CarrierServicePortStop[] | null
+  estimated_transit_days?: number | null
+  vessel_class?: 'ULCV' | 'VLCS' | 'NPX' | 'FMX' | 'sub_pmx' | string | null
+  avg_capacity_teu?: number | null
+  main_chokepoints?: string[] | null
+  active: boolean
+  source?: string | null
+  updated_at?: string | null
+}
+
+/**
+ * Ruta marítima agregada · una dirección concreta de un servicio.
+ * Algeciras → Shanghai vía Suez, weekly, transit 28 días.
+ */
+export interface ShippingRoute extends WithQuality {
+  id: number
+  route_name: string
+  carrier_service_id?: number | null
+  origin_port_slug: string
+  destination_port_slug: string
+  via_chokepoints?: string[] | null
+  distance_nm?: number | null
+  transit_days?: number | null
+  weekly_frequency?: number | null
+  risk_score?: number | null // 0..100 derivado de chokepoint + ACLED
+  source?: string | null
+}
+
+/**
+ * Leg específico de una ruta · subdivide una ruta multi-call en pares
+ * origen→destino para análisis fino (qué legs pasan por Bab el-Mandeb).
+ */
+export interface RouteLeg {
+  route_id: number
+  leg_order: number
+  origin_port_slug: string
+  destination_port_slug: string
+  distance_nm?: number | null
+  transit_days?: number | null
+  chokepoint_exposure?: string[] | null
+}
+
+/**
+ * Conectividad bilateral entre puertos · matriz derivada de carrier_services.
+ *
+ * Para responder: "¿Qué navieras conectan Algeciras con Shanghai?"
+ * y "¿Cuántas escalas semanales hay Valencia → New York?"
+ */
+export interface PortConnectivity {
+  id: number
+  port_slug: string
+  connected_port_slug: string
+  shipping_line_slug?: string | null
+  service_code?: string | null
+  weekly_calls?: number | null
+  avg_transit_days?: number | null
+  direction?: 'origin' | 'destination' | 'transit' | null
+  cargo_type?: string | null
+  source?: string | null
+  last_seen?: string | null
+}
+
+/**
+ * Ficha maestra de buque · promoción de `vessels_seed.py` a tabla persistente.
+ *
+ * Incluye banderas históricas (`flag_history`) para detectar flag-of-convenience
+ * shopping, y `sanctions_status` para screening OFAC/EU/UN.
+ */
+export interface VesselFlagHistoryEntry {
+  flag: string
+  since: string
+  until?: string | null
+}
+
+export interface VesselMaster extends WithQuality {
+  imo: string
+  mmsi?: string | null
+  name_current: string
+  names_previous?: string[] | null
+  type?: string | null
+  subtype?: string | null
+  dwt?: number | null
+  gt?: number | null
+  nt?: number | null
+  teu_capacity?: number | null
+  loa_m?: number | null
+  beam_m?: number | null
+  draft_max_m?: number | null
+  year_built?: number | null
+  builder?: string | null
+  flag_current?: string | null
+  flag_history?: VesselFlagHistoryEntry[] | null
+  owner_name?: string | null
+  owner_lei?: string | null
+  beneficial_owner?: string | null
+  manager?: string | null
+  charterer?: string | null
+  class_society?: string | null
+  pni_club?: string | null
+  sanctions_status?: 'clear' | 'monitor' | 'listed' | null
+  sanctions_evidence?: Record<string, unknown> | null
+  emissions_cii?: 'A' | 'B' | 'C' | 'D' | 'E' | null
+  emissions_eexi?: number | null
+  last_seen_at?: string | null
+  source?: string | null
+}
+
+/**
+ * Observación trazable · una afirmación sobre una entidad con su procedencia.
+ *
+ * `entity_id='algeciras'`, `field_name='annual_teu_actual'`, `value=5400000`,
+ * `source_name='Puertos del Estado'`, `source_url='https://puertos.es/…'`,
+ * `confidence_score=0.95`. Permite explicar al usuario CÓMO sabemos cada KPI.
+ */
+export interface SourceObservation {
+  id: number
+  entity_type: 'port' | 'vessel' | 'route' | 'trade_flow' | 'company' | 'terminal' | string
+  entity_id: string
+  field_name: string
+  value: unknown
+  source_name: string
+  source_url?: string | null
+  source_date?: string | null // ISO date
+  retrieved_at: string // ISO datetime
+  confidence_score?: number | null
+  is_synthetic: boolean
+  is_estimated: boolean
+  notes?: string | null
+}
+
+/** Responses estandarizados para los nuevos endpoints */
+export interface PortTerminalsResponse extends WithQuality {
+  port_slug: string
+  n_items: number
+  items: PortTerminal[]
+}
+
+export interface PortTrafficResponse extends WithQuality {
+  port_slug: string
+  from_period?: string | null
+  to_period?: string | null
+  n_items: number
+  items: PortMonthlyTraffic[]
+}
+
+export interface ShippingLinesResponse extends WithQuality {
+  n_items: number
+  items: ShippingLine[]
+}
+
+export interface CarrierServicesResponse extends WithQuality {
+  n_items: number
+  items: CarrierService[]
+}
+
+export interface RoutesResponse extends WithQuality {
+  n_items: number
+  items: ShippingRoute[]
+}
+
+export interface PortConnectivityResponse extends WithQuality {
+  port_slug: string
+  n_items: number
+  items: PortConnectivity[]
+}

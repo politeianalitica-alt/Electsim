@@ -99,7 +99,8 @@ export default function PortsDashboard() {
     if (ql) out = out.filter((s) => s.slug.includes(ql) || s.name.toLowerCase().includes(ql))
     if (country) out = out.filter((s) => s.country_iso === country.toUpperCase())
     if (type_) out = out.filter((s) => s.type === type_)
-    out.sort((a, b) => b.congestion_pct - a.congestion_pct)
+    // Ordena por congestión descendente · ports sin dato van al final
+    out.sort((a, b) => (b.congestion_pct ?? -1) - (a.congestion_pct ?? -1))
     return out
   }, [snapshot, query, country, type_])
 
@@ -188,7 +189,7 @@ export default function PortsDashboard() {
         {tab === 'mapa' && (
           <section>
             <WorldShippingMap
-              ports={mapPorts}
+              ports={mapPorts as any}
               vessels={mapVessels as any}
               height={520}
               onSelectPort={(slug) => router.push(`/puertos/${slug}`)}

@@ -1,10 +1,13 @@
 'use client'
 import Link from 'next/link'
 import type { SnapshotAllResponse } from '@/types/ports'
+import { fmtNum } from '@/lib/ports-utils'
+import { DataQualityBadge } from './DataQualityBadge'
 
 type Item = SnapshotAllResponse['items'][number]
 
-function levelColor(pct: number) {
+function levelColor(pct: number | null | undefined) {
+  if (pct == null) return { bg: '#f3f4f6', fg: '#4b5563', label: '—' }
   if (pct >= 50) return { bg: '#fee2e2', fg: '#991b1b', label: 'CRÍTICA' }
   if (pct >= 35) return { bg: '#fef3c7', fg: '#92400e', label: 'ALTA' }
   if (pct >= 20) return { bg: '#dbeafe', fg: '#1e40af', label: 'MEDIA' }
@@ -48,10 +51,15 @@ export function PortCongestionCard({ port }: { port: Item }) {
         </span>
       </div>
       <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-        <Metric label="Anchored" value={port.vessels_anchored} />
-        <Metric label="Llegadas 24h" value={port.arrivals_24h} />
-        <Metric label="Congestión" value={`${port.congestion_pct}%`} />
+        <Metric label="Anchored" value={port.vessels_anchored ?? '—'} />
+        <Metric label="Llegadas 24h" value={port.arrivals_24h ?? '—'} />
+        <Metric label="Congestión" value={fmtNum(port.congestion_pct, 0, '%')} />
       </div>
+      {port.data_quality && (
+        <div style={{ marginTop: 8 }}>
+          <DataQualityBadge quality={port.data_quality} />
+        </div>
+      )}
     </Link>
   )
 }
