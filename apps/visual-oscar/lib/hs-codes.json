@@ -1,0 +1,1137 @@
+[
+  {
+    "code": "01",
+    "level": "HS2",
+    "name_es": "Animales vivos"
+  },
+  {
+    "code": "02",
+    "level": "HS2",
+    "name_es": "Carne y despojos comestibles"
+  },
+  {
+    "code": "03",
+    "level": "HS2",
+    "name_es": "Pescados y crustáceos"
+  },
+  {
+    "code": "04",
+    "level": "HS2",
+    "name_es": "Leche y productos lácteos; huevos; miel"
+  },
+  {
+    "code": "05",
+    "level": "HS2",
+    "name_es": "Otros productos de origen animal"
+  },
+  {
+    "code": "06",
+    "level": "HS2",
+    "name_es": "Plantas vivas y productos de floricultura"
+  },
+  {
+    "code": "07",
+    "level": "HS2",
+    "name_es": "Hortalizas y tubérculos"
+  },
+  {
+    "code": "08",
+    "level": "HS2",
+    "name_es": "Frutas y frutos comestibles"
+  },
+  {
+    "code": "09",
+    "level": "HS2",
+    "name_es": "Café, té, yerba mate y especias"
+  },
+  {
+    "code": "10",
+    "level": "HS2",
+    "name_es": "Cereales"
+  },
+  {
+    "code": "11",
+    "level": "HS2",
+    "name_es": "Productos de la molinería; malta; almidón"
+  },
+  {
+    "code": "12",
+    "level": "HS2",
+    "name_es": "Semillas y frutos oleaginosos"
+  },
+  {
+    "code": "13",
+    "level": "HS2",
+    "name_es": "Gomas, resinas y otros jugos vegetales"
+  },
+  {
+    "code": "14",
+    "level": "HS2",
+    "name_es": "Materias trenzables y otros productos vegetales"
+  },
+  {
+    "code": "15",
+    "level": "HS2",
+    "name_es": "Grasas y aceites animales o vegetales"
+  },
+  {
+    "code": "16",
+    "level": "HS2",
+    "name_es": "Preparaciones de carne, pescado o crustáceos"
+  },
+  {
+    "code": "17",
+    "level": "HS2",
+    "name_es": "Azúcares y artículos de confitería"
+  },
+  {
+    "code": "18",
+    "level": "HS2",
+    "name_es": "Cacao y sus preparaciones"
+  },
+  {
+    "code": "19",
+    "level": "HS2",
+    "name_es": "Preparaciones a base de cereales, harina, almidón"
+  },
+  {
+    "code": "20",
+    "level": "HS2",
+    "name_es": "Preparaciones de hortalizas, frutas u otros"
+  },
+  {
+    "code": "21",
+    "level": "HS2",
+    "name_es": "Preparaciones alimenticias diversas"
+  },
+  {
+    "code": "22",
+    "level": "HS2",
+    "name_es": "Bebidas, líquidos alcohólicos y vinagre"
+  },
+  {
+    "code": "23",
+    "level": "HS2",
+    "name_es": "Residuos y desperdicios de la industria alimentaria"
+  },
+  {
+    "code": "24",
+    "level": "HS2",
+    "name_es": "Tabaco y sucedáneos"
+  },
+  {
+    "code": "25",
+    "level": "HS2",
+    "name_es": "Sal; azufre; tierras y piedras; yesos; cal"
+  },
+  {
+    "code": "26",
+    "level": "HS2",
+    "name_es": "Minerales metalíferos, escorias y cenizas"
+  },
+  {
+    "code": "27",
+    "level": "HS2",
+    "name_es": "Combustibles minerales, aceites minerales, petróleo"
+  },
+  {
+    "code": "28",
+    "level": "HS2",
+    "name_es": "Productos químicos inorgánicos"
+  },
+  {
+    "code": "29",
+    "level": "HS2",
+    "name_es": "Productos químicos orgánicos"
+  },
+  {
+    "code": "30",
+    "level": "HS2",
+    "name_es": "Productos farmacéuticos"
+  },
+  {
+    "code": "31",
+    "level": "HS2",
+    "name_es": "Abonos"
+  },
+  {
+    "code": "32",
+    "level": "HS2",
+    "name_es": "Pinturas, tintes, barnices y curtientes"
+  },
+  {
+    "code": "33",
+    "level": "HS2",
+    "name_es": "Aceites esenciales, perfumería, cosméticos"
+  },
+  {
+    "code": "34",
+    "level": "HS2",
+    "name_es": "Jabones, ceras, productos de limpieza"
+  },
+  {
+    "code": "35",
+    "level": "HS2",
+    "name_es": "Materias albuminoides; colas; enzimas"
+  },
+  {
+    "code": "36",
+    "level": "HS2",
+    "name_es": "Pólvoras, explosivos, pirotecnia"
+  },
+  {
+    "code": "37",
+    "level": "HS2",
+    "name_es": "Productos fotográficos o cinematográficos"
+  },
+  {
+    "code": "38",
+    "level": "HS2",
+    "name_es": "Productos diversos de las industrias químicas"
+  },
+  {
+    "code": "39",
+    "level": "HS2",
+    "name_es": "Plástico y sus manufacturas"
+  },
+  {
+    "code": "40",
+    "level": "HS2",
+    "name_es": "Caucho y sus manufacturas"
+  },
+  {
+    "code": "41",
+    "level": "HS2",
+    "name_es": "Pieles y cueros"
+  },
+  {
+    "code": "42",
+    "level": "HS2",
+    "name_es": "Manufacturas de cuero; artículos de viaje"
+  },
+  {
+    "code": "43",
+    "level": "HS2",
+    "name_es": "Peletería y sus manufacturas"
+  },
+  {
+    "code": "44",
+    "level": "HS2",
+    "name_es": "Madera, carbón vegetal y manufacturas de madera"
+  },
+  {
+    "code": "45",
+    "level": "HS2",
+    "name_es": "Corcho y sus manufacturas"
+  },
+  {
+    "code": "46",
+    "level": "HS2",
+    "name_es": "Manufacturas de espartería o cestería"
+  },
+  {
+    "code": "47",
+    "level": "HS2",
+    "name_es": "Pasta de madera; papel reciclado"
+  },
+  {
+    "code": "48",
+    "level": "HS2",
+    "name_es": "Papel y cartón; manufacturas"
+  },
+  {
+    "code": "49",
+    "level": "HS2",
+    "name_es": "Productos editoriales: libros, periódicos"
+  },
+  {
+    "code": "50",
+    "level": "HS2",
+    "name_es": "Seda"
+  },
+  {
+    "code": "51",
+    "level": "HS2",
+    "name_es": "Lana y pelo fino"
+  },
+  {
+    "code": "52",
+    "level": "HS2",
+    "name_es": "Algodón"
+  },
+  {
+    "code": "53",
+    "level": "HS2",
+    "name_es": "Otras fibras textiles vegetales"
+  },
+  {
+    "code": "54",
+    "level": "HS2",
+    "name_es": "Filamentos sintéticos o artificiales"
+  },
+  {
+    "code": "55",
+    "level": "HS2",
+    "name_es": "Fibras sintéticas o artificiales discontinuas"
+  },
+  {
+    "code": "56",
+    "level": "HS2",
+    "name_es": "Guata, fieltro y telas sin tejer; cuerdas"
+  },
+  {
+    "code": "57",
+    "level": "HS2",
+    "name_es": "Alfombras y revestimientos textiles"
+  },
+  {
+    "code": "58",
+    "level": "HS2",
+    "name_es": "Tejidos especiales; tejidos con bucles"
+  },
+  {
+    "code": "59",
+    "level": "HS2",
+    "name_es": "Telas impregnadas, recubiertas o estratificadas"
+  },
+  {
+    "code": "60",
+    "level": "HS2",
+    "name_es": "Tejidos de punto"
+  },
+  {
+    "code": "61",
+    "level": "HS2",
+    "name_es": "Prendas de vestir de punto"
+  },
+  {
+    "code": "62",
+    "level": "HS2",
+    "name_es": "Prendas de vestir, excepto las de punto"
+  },
+  {
+    "code": "63",
+    "level": "HS2",
+    "name_es": "Otros artículos textiles confeccionados"
+  },
+  {
+    "code": "64",
+    "level": "HS2",
+    "name_es": "Calzado, polainas y artículos análogos"
+  },
+  {
+    "code": "65",
+    "level": "HS2",
+    "name_es": "Sombrerería"
+  },
+  {
+    "code": "66",
+    "level": "HS2",
+    "name_es": "Paraguas, sombrillas, bastones"
+  },
+  {
+    "code": "67",
+    "level": "HS2",
+    "name_es": "Plumas y plumón preparados; flores artificiales"
+  },
+  {
+    "code": "68",
+    "level": "HS2",
+    "name_es": "Manufacturas de piedra, yeso, cemento, amianto"
+  },
+  {
+    "code": "69",
+    "level": "HS2",
+    "name_es": "Productos cerámicos"
+  },
+  {
+    "code": "70",
+    "level": "HS2",
+    "name_es": "Vidrio y manufacturas de vidrio"
+  },
+  {
+    "code": "71",
+    "level": "HS2",
+    "name_es": "Perlas finas, piedras preciosas, metales preciosos"
+  },
+  {
+    "code": "72",
+    "level": "HS2",
+    "name_es": "Fundición, hierro y acero"
+  },
+  {
+    "code": "73",
+    "level": "HS2",
+    "name_es": "Manufacturas de fundición, hierro o acero"
+  },
+  {
+    "code": "74",
+    "level": "HS2",
+    "name_es": "Cobre y sus manufacturas"
+  },
+  {
+    "code": "75",
+    "level": "HS2",
+    "name_es": "Níquel y sus manufacturas"
+  },
+  {
+    "code": "76",
+    "level": "HS2",
+    "name_es": "Aluminio y sus manufacturas"
+  },
+  {
+    "code": "78",
+    "level": "HS2",
+    "name_es": "Plomo y sus manufacturas"
+  },
+  {
+    "code": "79",
+    "level": "HS2",
+    "name_es": "Zinc y sus manufacturas"
+  },
+  {
+    "code": "80",
+    "level": "HS2",
+    "name_es": "Estaño y sus manufacturas"
+  },
+  {
+    "code": "81",
+    "level": "HS2",
+    "name_es": "Los demás metales comunes"
+  },
+  {
+    "code": "82",
+    "level": "HS2",
+    "name_es": "Herramientas, útiles y artículos de cuchillería"
+  },
+  {
+    "code": "83",
+    "level": "HS2",
+    "name_es": "Manufacturas diversas de metal común"
+  },
+  {
+    "code": "84",
+    "level": "HS2",
+    "name_es": "Reactores nucleares, calderas, máquinas, aparatos mecánicos"
+  },
+  {
+    "code": "85",
+    "level": "HS2",
+    "name_es": "Máquinas, aparatos y material eléctrico"
+  },
+  {
+    "code": "86",
+    "level": "HS2",
+    "name_es": "Vehículos y material para vías férreas"
+  },
+  {
+    "code": "87",
+    "level": "HS2",
+    "name_es": "Vehículos automóviles, tractores, bicicletas"
+  },
+  {
+    "code": "88",
+    "level": "HS2",
+    "name_es": "Aeronaves y sus partes"
+  },
+  {
+    "code": "89",
+    "level": "HS2",
+    "name_es": "Barcos y artefactos flotantes"
+  },
+  {
+    "code": "90",
+    "level": "HS2",
+    "name_es": "Instrumentos y aparatos de óptica, medicina, precisión"
+  },
+  {
+    "code": "91",
+    "level": "HS2",
+    "name_es": "Aparatos de relojería y sus partes"
+  },
+  {
+    "code": "92",
+    "level": "HS2",
+    "name_es": "Instrumentos musicales"
+  },
+  {
+    "code": "93",
+    "level": "HS2",
+    "name_es": "Armas, municiones y sus partes"
+  },
+  {
+    "code": "94",
+    "level": "HS2",
+    "name_es": "Muebles; aparatos de alumbrado"
+  },
+  {
+    "code": "95",
+    "level": "HS2",
+    "name_es": "Juguetes, juegos, artículos deportivos"
+  },
+  {
+    "code": "96",
+    "level": "HS2",
+    "name_es": "Manufacturas diversas"
+  },
+  {
+    "code": "97",
+    "level": "HS2",
+    "name_es": "Objetos de arte, colección y antigüedades"
+  },
+  {
+    "code": "98",
+    "level": "HS2",
+    "name_es": "Operaciones especiales"
+  },
+  {
+    "code": "99",
+    "level": "HS2",
+    "name_es": "Mercancías no clasificadas en otra parte"
+  },
+  {
+    "code": "0201",
+    "level": "HS4",
+    "name_es": "Carne de bovino fresca o refrigerada"
+  },
+  {
+    "code": "0207",
+    "level": "HS4",
+    "name_es": "Carne y despojos de aves de corral"
+  },
+  {
+    "code": "0302",
+    "level": "HS4",
+    "name_es": "Pescado fresco o refrigerado"
+  },
+  {
+    "code": "0303",
+    "level": "HS4",
+    "name_es": "Pescado congelado"
+  },
+  {
+    "code": "0306",
+    "level": "HS4",
+    "name_es": "Crustáceos"
+  },
+  {
+    "code": "0402",
+    "level": "HS4",
+    "name_es": "Leche y nata concentradas"
+  },
+  {
+    "code": "0406",
+    "level": "HS4",
+    "name_es": "Quesos"
+  },
+  {
+    "code": "0805",
+    "level": "HS4",
+    "name_es": "Cítricos frescos"
+  },
+  {
+    "code": "0901",
+    "level": "HS4",
+    "name_es": "Café"
+  },
+  {
+    "code": "1001",
+    "level": "HS4",
+    "name_es": "Trigo"
+  },
+  {
+    "code": "1005",
+    "level": "HS4",
+    "name_es": "Maíz"
+  },
+  {
+    "code": "1006",
+    "level": "HS4",
+    "name_es": "Arroz"
+  },
+  {
+    "code": "1201",
+    "level": "HS4",
+    "name_es": "Habas de soja"
+  },
+  {
+    "code": "1507",
+    "level": "HS4",
+    "name_es": "Aceite de soja"
+  },
+  {
+    "code": "1509",
+    "level": "HS4",
+    "name_es": "Aceite de oliva"
+  },
+  {
+    "code": "1701",
+    "level": "HS4",
+    "name_es": "Azúcar de caña o remolacha"
+  },
+  {
+    "code": "1801",
+    "level": "HS4",
+    "name_es": "Cacao en grano"
+  },
+  {
+    "code": "1806",
+    "level": "HS4",
+    "name_es": "Chocolate"
+  },
+  {
+    "code": "2204",
+    "level": "HS4",
+    "name_es": "Vino de uvas"
+  },
+  {
+    "code": "2208",
+    "level": "HS4",
+    "name_es": "Aguardientes, licores y otras bebidas espirituosas"
+  },
+  {
+    "code": "2401",
+    "level": "HS4",
+    "name_es": "Tabaco en rama"
+  },
+  {
+    "code": "2402",
+    "level": "HS4",
+    "name_es": "Cigarros y cigarrillos"
+  },
+  {
+    "code": "2601",
+    "level": "HS4",
+    "name_es": "Minerales de hierro"
+  },
+  {
+    "code": "2603",
+    "level": "HS4",
+    "name_es": "Minerales de cobre"
+  },
+  {
+    "code": "2606",
+    "level": "HS4",
+    "name_es": "Minerales de aluminio (bauxita)"
+  },
+  {
+    "code": "2701",
+    "level": "HS4",
+    "name_es": "Hullas"
+  },
+  {
+    "code": "2709",
+    "level": "HS4",
+    "name_es": "Aceites crudos de petróleo"
+  },
+  {
+    "code": "2710",
+    "level": "HS4",
+    "name_es": "Aceites de petróleo refinados"
+  },
+  {
+    "code": "2711",
+    "level": "HS4",
+    "name_es": "Gas natural; gases del petróleo"
+  },
+  {
+    "code": "2716",
+    "level": "HS4",
+    "name_es": "Energía eléctrica"
+  },
+  {
+    "code": "2814",
+    "level": "HS4",
+    "name_es": "Amoniaco"
+  },
+  {
+    "code": "2901",
+    "level": "HS4",
+    "name_es": "Hidrocarburos acíclicos"
+  },
+  {
+    "code": "2917",
+    "level": "HS4",
+    "name_es": "Ácidos policarboxílicos"
+  },
+  {
+    "code": "3001",
+    "level": "HS4",
+    "name_es": "Glándulas y otros órganos para usos opoterápicos"
+  },
+  {
+    "code": "3002",
+    "level": "HS4",
+    "name_es": "Sangre humana; sangre animal; sueros; vacunas"
+  },
+  {
+    "code": "3003",
+    "level": "HS4",
+    "name_es": "Medicamentos no dosificados"
+  },
+  {
+    "code": "3004",
+    "level": "HS4",
+    "name_es": "Medicamentos dosificados"
+  },
+  {
+    "code": "3105",
+    "level": "HS4",
+    "name_es": "Abonos minerales con N, P y K"
+  },
+  {
+    "code": "3204",
+    "level": "HS4",
+    "name_es": "Materias colorantes orgánicas sintéticas"
+  },
+  {
+    "code": "3304",
+    "level": "HS4",
+    "name_es": "Productos de belleza y cosméticos"
+  },
+  {
+    "code": "3401",
+    "level": "HS4",
+    "name_es": "Jabones"
+  },
+  {
+    "code": "3402",
+    "level": "HS4",
+    "name_es": "Agentes de superficie orgánicos"
+  },
+  {
+    "code": "3808",
+    "level": "HS4",
+    "name_es": "Insecticidas, fungicidas, herbicidas"
+  },
+  {
+    "code": "3901",
+    "level": "HS4",
+    "name_es": "Polímeros de etileno"
+  },
+  {
+    "code": "3902",
+    "level": "HS4",
+    "name_es": "Polímeros de propileno"
+  },
+  {
+    "code": "3903",
+    "level": "HS4",
+    "name_es": "Polímeros de estireno"
+  },
+  {
+    "code": "3920",
+    "level": "HS4",
+    "name_es": "Las demás placas, láminas de plástico"
+  },
+  {
+    "code": "4011",
+    "level": "HS4",
+    "name_es": "Neumáticos nuevos"
+  },
+  {
+    "code": "4407",
+    "level": "HS4",
+    "name_es": "Madera aserrada"
+  },
+  {
+    "code": "4703",
+    "level": "HS4",
+    "name_es": "Pasta química de madera"
+  },
+  {
+    "code": "4802",
+    "level": "HS4",
+    "name_es": "Papel y cartón sin estucar"
+  },
+  {
+    "code": "4901",
+    "level": "HS4",
+    "name_es": "Libros"
+  },
+  {
+    "code": "5201",
+    "level": "HS4",
+    "name_es": "Algodón sin cardar"
+  },
+  {
+    "code": "5208",
+    "level": "HS4",
+    "name_es": "Tejidos de algodón > 85 %"
+  },
+  {
+    "code": "6109",
+    "level": "HS4",
+    "name_es": "Camisetas (T-shirts) de punto"
+  },
+  {
+    "code": "6203",
+    "level": "HS4",
+    "name_es": "Trajes y conjuntos masculinos"
+  },
+  {
+    "code": "6204",
+    "level": "HS4",
+    "name_es": "Trajes y conjuntos femeninos"
+  },
+  {
+    "code": "6403",
+    "level": "HS4",
+    "name_es": "Calzado con suela de cuero"
+  },
+  {
+    "code": "6404",
+    "level": "HS4",
+    "name_es": "Calzado con suela de caucho o plástico"
+  },
+  {
+    "code": "6802",
+    "level": "HS4",
+    "name_es": "Piedras naturales talladas"
+  },
+  {
+    "code": "6902",
+    "level": "HS4",
+    "name_es": "Ladrillos refractarios"
+  },
+  {
+    "code": "7010",
+    "level": "HS4",
+    "name_es": "Bombonas, botellas de vidrio"
+  },
+  {
+    "code": "7102",
+    "level": "HS4",
+    "name_es": "Diamantes"
+  },
+  {
+    "code": "7103",
+    "level": "HS4",
+    "name_es": "Piedras preciosas o semipreciosas"
+  },
+  {
+    "code": "7106",
+    "level": "HS4",
+    "name_es": "Plata"
+  },
+  {
+    "code": "7108",
+    "level": "HS4",
+    "name_es": "Oro"
+  },
+  {
+    "code": "7110",
+    "level": "HS4",
+    "name_es": "Platino"
+  },
+  {
+    "code": "7113",
+    "level": "HS4",
+    "name_es": "Joyería de metales preciosos"
+  },
+  {
+    "code": "7201",
+    "level": "HS4",
+    "name_es": "Fundición en bruto"
+  },
+  {
+    "code": "7202",
+    "level": "HS4",
+    "name_es": "Ferroaleaciones"
+  },
+  {
+    "code": "7208",
+    "level": "HS4",
+    "name_es": "Productos laminados planos de hierro o acero"
+  },
+  {
+    "code": "7210",
+    "level": "HS4",
+    "name_es": "Productos planos recubiertos"
+  },
+  {
+    "code": "7304",
+    "level": "HS4",
+    "name_es": "Tubos sin soldadura de hierro o acero"
+  },
+  {
+    "code": "7308",
+    "level": "HS4",
+    "name_es": "Construcciones de hierro o acero"
+  },
+  {
+    "code": "7321",
+    "level": "HS4",
+    "name_es": "Estufas, calderas, hornillas no eléctricos"
+  },
+  {
+    "code": "7403",
+    "level": "HS4",
+    "name_es": "Cobre refinado"
+  },
+  {
+    "code": "7601",
+    "level": "HS4",
+    "name_es": "Aluminio en bruto"
+  },
+  {
+    "code": "7606",
+    "level": "HS4",
+    "name_es": "Chapas y bandas de aluminio"
+  },
+  {
+    "code": "8407",
+    "level": "HS4",
+    "name_es": "Motores de émbolo de combustión interna"
+  },
+  {
+    "code": "8408",
+    "level": "HS4",
+    "name_es": "Motores diésel"
+  },
+  {
+    "code": "8411",
+    "level": "HS4",
+    "name_es": "Turborreactores y turbohélices"
+  },
+  {
+    "code": "8413",
+    "level": "HS4",
+    "name_es": "Bombas para líquidos"
+  },
+  {
+    "code": "8414",
+    "level": "HS4",
+    "name_es": "Bombas de aire o de vacío"
+  },
+  {
+    "code": "8418",
+    "level": "HS4",
+    "name_es": "Refrigeradores y congeladores"
+  },
+  {
+    "code": "8419",
+    "level": "HS4",
+    "name_es": "Aparatos para tratamiento de materias por cambio de temperatura"
+  },
+  {
+    "code": "8421",
+    "level": "HS4",
+    "name_es": "Centrífugas; filtros"
+  },
+  {
+    "code": "8422",
+    "level": "HS4",
+    "name_es": "Lavavajillas; máquinas para limpiar botellas"
+  },
+  {
+    "code": "8424",
+    "level": "HS4",
+    "name_es": "Aparatos para proyectar líquidos o polvos"
+  },
+  {
+    "code": "8429",
+    "level": "HS4",
+    "name_es": "Topadoras (bulldozers), niveladoras, palas mecánicas"
+  },
+  {
+    "code": "8443",
+    "level": "HS4",
+    "name_es": "Máquinas de imprimir"
+  },
+  {
+    "code": "8450",
+    "level": "HS4",
+    "name_es": "Lavadoras de uso doméstico"
+  },
+  {
+    "code": "8471",
+    "level": "HS4",
+    "name_es": "Máquinas para procesamiento de datos (ordenadores)"
+  },
+  {
+    "code": "8473",
+    "level": "HS4",
+    "name_es": "Partes y accesorios de máquinas de oficina"
+  },
+  {
+    "code": "8479",
+    "level": "HS4",
+    "name_es": "Máquinas y aparatos mecánicos con función propia"
+  },
+  {
+    "code": "8481",
+    "level": "HS4",
+    "name_es": "Grifos, válvulas para tuberías"
+  },
+  {
+    "code": "8482",
+    "level": "HS4",
+    "name_es": "Rodamientos"
+  },
+  {
+    "code": "8483",
+    "level": "HS4",
+    "name_es": "Árboles de transmisión, engranajes, embragues"
+  },
+  {
+    "code": "8501",
+    "level": "HS4",
+    "name_es": "Motores y generadores eléctricos"
+  },
+  {
+    "code": "8504",
+    "level": "HS4",
+    "name_es": "Transformadores eléctricos"
+  },
+  {
+    "code": "8506",
+    "level": "HS4",
+    "name_es": "Pilas y baterías"
+  },
+  {
+    "code": "8507",
+    "level": "HS4",
+    "name_es": "Acumuladores eléctricos"
+  },
+  {
+    "code": "8517",
+    "level": "HS4",
+    "name_es": "Teléfonos, incl. móviles"
+  },
+  {
+    "code": "8525",
+    "level": "HS4",
+    "name_es": "Aparatos emisores de radiodifusión, televisión"
+  },
+  {
+    "code": "8528",
+    "level": "HS4",
+    "name_es": "Monitores y proyectores"
+  },
+  {
+    "code": "8536",
+    "level": "HS4",
+    "name_es": "Aparatos para corte, seccionamiento de circuitos eléctricos"
+  },
+  {
+    "code": "8541",
+    "level": "HS4",
+    "name_es": "Diodos, transistores y similares"
+  },
+  {
+    "code": "8542",
+    "level": "HS4",
+    "name_es": "Circuitos integrados electrónicos"
+  },
+  {
+    "code": "8544",
+    "level": "HS4",
+    "name_es": "Hilos, cables y conductores eléctricos"
+  },
+  {
+    "code": "8703",
+    "level": "HS4",
+    "name_es": "Automóviles de turismo"
+  },
+  {
+    "code": "8704",
+    "level": "HS4",
+    "name_es": "Vehículos automóviles para transporte de mercancías"
+  },
+  {
+    "code": "8708",
+    "level": "HS4",
+    "name_es": "Partes y accesorios de vehículos automóviles"
+  },
+  {
+    "code": "8711",
+    "level": "HS4",
+    "name_es": "Motocicletas"
+  },
+  {
+    "code": "8716",
+    "level": "HS4",
+    "name_es": "Remolques y semirremolques"
+  },
+  {
+    "code": "8802",
+    "level": "HS4",
+    "name_es": "Aeronaves; helicópteros, aviones"
+  },
+  {
+    "code": "8803",
+    "level": "HS4",
+    "name_es": "Partes de aeronaves"
+  },
+  {
+    "code": "8901",
+    "level": "HS4",
+    "name_es": "Transatlánticos, transbordadores, cargueros"
+  },
+  {
+    "code": "8903",
+    "level": "HS4",
+    "name_es": "Yates y otros barcos para placer"
+  },
+  {
+    "code": "9001",
+    "level": "HS4",
+    "name_es": "Fibras ópticas; láminas y placas de polarización"
+  },
+  {
+    "code": "9013",
+    "level": "HS4",
+    "name_es": "Cristales líquidos; láseres"
+  },
+  {
+    "code": "9014",
+    "level": "HS4",
+    "name_es": "Brújulas; instrumentos de navegación"
+  },
+  {
+    "code": "9018",
+    "level": "HS4",
+    "name_es": "Instrumentos y aparatos de medicina"
+  },
+  {
+    "code": "9021",
+    "level": "HS4",
+    "name_es": "Articulaciones artificiales; prótesis"
+  },
+  {
+    "code": "9027",
+    "level": "HS4",
+    "name_es": "Instrumentos para análisis físicos o químicos"
+  },
+  {
+    "code": "9028",
+    "level": "HS4",
+    "name_es": "Contadores de gas, líquido o electricidad"
+  },
+  {
+    "code": "9031",
+    "level": "HS4",
+    "name_es": "Instrumentos de medida con función propia"
+  },
+  {
+    "code": "9405",
+    "level": "HS4",
+    "name_es": "Aparatos de alumbrado"
+  },
+  {
+    "code": "9503",
+    "level": "HS4",
+    "name_es": "Triciclos, patinetes, coches de pedal"
+  },
+  {
+    "code": "9504",
+    "level": "HS4",
+    "name_es": "Videojuegos; artículos para juegos de mesa o salón"
+  },
+  {
+    "code": "9506",
+    "level": "HS4",
+    "name_es": "Artículos y material para gimnasia o deporte"
+  }
+]

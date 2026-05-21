@@ -1,20 +1,30 @@
 'use client'
 /**
- * /puertos/comercio · Comercio bilateral declarado (Comtrade + Comext).
+ * /puertos/comercio · Sprint 2 Fase E
  *
- * Selector reporter↔partner + HS + periodo. Sankey + tabla.
+ * Comercio bilateral declarado con UX profesional:
+ *   - CountryCombobox typeahead (116 países ISO3 con búsqueda fuzzy)
+ *   - HSCombobox typeahead (227 códigos HS2/HS4 con nombre español)
+ *   - Range periodo (from/to) → serie temporal 24m
+ *   - Cards de Top productos por partner
+ *   - HHI · índice Herfindahl de concentración por partner
+ *   - Sankey reporter → partner → HS
+ *   - Tabla con valor USD + cantidad + precio unitario implícito
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { useBilateralTrade } from '@/hooks/usePorts'
+import { useBilateralTrade, useTopPartners } from '@/hooks/usePorts'
 import { BilateralTradeSankey } from '@/components/ports/BilateralTradeSankey'
+import { Combobox } from '@/components/ports/Combobox'
+import { DataQualityBadge } from '@/components/ports/DataQualityBadge'
+import { searchCountries, COUNTRIES, COUNTRY_BY_ISO3 } from '@/lib/iso-countries'
+import { searchHsCodes, HS_BY_CODE, lookupHsCode } from '@/lib/hs-codes'
+import { fmtNum, fmtInt } from '@/lib/ports-utils'
 
 const ACCENT = '#0e7490'
-
-const COMMON_ISO = ['ESP', 'DEU', 'FRA', 'ITA', 'PRT', 'NLD', 'CHN', 'USA', 'MEX', 'MAR', 'TUR', 'GBR']
 
 export default function TradePage() {
   const router = useRouter()
@@ -28,6 +38,11 @@ export default function TradePage() {
   const [hsCode, setHsCode] = useState('')
   const [flow, setFlow] = useState<'export' | 'import' | ''>('')
 
+  // typeahead state · qué muestra cada combobox
+  const [reporterQ, setReporterQ] = useState('')
+  const [partnerQ, setPartnerQ] = useState('')
+  const [hsQ, setHsQ] = useState('')
+
   const { data, loading, error } = useBilateralTrade(
     reporter,
     partner,
@@ -36,53 +51,183 @@ export default function TradePage() {
     (flow || undefined) as any,
   )
 
+  const { items: topPartners } = useTopPartners(reporter, 'export', 10)
+
+  // ─── HHI (Herfindahl-Hirschman Index) ───────────────────────────────
+  // HHI = sum(share_pct^2) · 0..10000.
+  //   <1500  · mercado fragmentado (saludable)
+  //   1500-2500 · moderada concentración
+  //   >2500  · alta concentración (dependencia estratégica)
+  const hhi = useMemo(() => {
+    if (!topPartners.length) return null
+    return Math.round(
+      topPartners.reduce((sum, p) => sum + (p.share_pct ?? 0) ** 2, 0),
+    )
+  }, [topPartners])
+
+  // ─── Top productos · agrupa items por hs_code y suma value_usd ─────
+  const topProducts = useMemo(() => {
+    if (!data?.items?.length) return []
+    const grouped = new Map<string, number>()
+    for (const it of data.items) {
+      const hs = it.hs_code || 'TOTAL'
+      grouped.set(hs, (grouped.get(hs) ?? 0) + (it.value_usd ?? 0))
+    }
+    const arr = Array.from(grouped.entries()).map(([code, value]) => ({
+      code,
+      value,
+      name: HS_BY_CODE[code]?.name_es ?? lookupHsCode(code)?.name_es ?? code,
+    }))
+    arr.sort((a, b) => b.value - a.value)
+    return arr.slice(0, 10)
+  }, [data])
+
+  // Total declarado USD para mostrar agregado
+  const totalUsd = useMemo(
+    () => (data?.items ?? []).reduce((s, f) => s + (f.value_usd ?? 0), 0),
+    [data],
+  )
+
+  const reporterCountry = COUNTRY_BY_ISO3[reporter]
+  const partnerCountry = COUNTRY_BY_ISO3[partner]
+
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 20px' }}>
-        <Link href="/puertos" style={{ color: ACCENT, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}>
+        <Link
+          href="/puertos"
+          style={{
+            color: ACCENT,
+            textDecoration: 'none',
+            fontSize: 12,
+            fontWeight: 600,
+          }}
+        >
           ← Puertos & Comercio Global
         </Link>
 
         <header style={{ marginTop: 10 }}>
-          <p style={{ fontSize: 11, letterSpacing: 1.2, color: ACCENT, fontWeight: 700, margin: 0 }}>
+          <p
+            style={{
+              fontSize: 11,
+              letterSpacing: 1.2,
+              color: ACCENT,
+              fontWeight: 700,
+              margin: 0,
+            }}
+          >
             COMERCIO DECLARADO · COMTRADE + EUROSTAT COMEXT
           </p>
           <h1 style={{ fontSize: 26, fontWeight: 800, color: '#0f172a', margin: '4px 0' }}>
-            Bilateral por país · partida HS · periodo
+            {reporterCountry?.name_es ?? reporter} ↔ {partnerCountry?.name_es ?? partner}
           </h1>
           <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
-            Routing automático: EU↔EU → Comext, resto → UN Comtrade. Cache 24h en `trade_flows`.
+            EU↔EU usa Eurostat Comext (CN8) · resto UN Comtrade (HS) · cache 24 h en `trade_flows`.
           </p>
         </header>
 
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16 }}>
-          <Field label="Reporter ISO3">
-            <select value={reporter} onChange={(e) => setReporter(e.target.value)} style={selectStyle}>
-              {COMMON_ISO.map((c) => <option key={c}>{c}</option>)}
-            </select>
+        {/* ─── Selectores ─── */}
+        <section
+          style={{
+            marginTop: 16,
+            display: 'flex',
+            gap: 12,
+            flexWrap: 'wrap',
+            padding: 12,
+            background: '#fff',
+            border: '1px solid #e5e7eb',
+            borderRadius: 8,
+          }}
+        >
+          <Field label="Reporter (país que declara)">
+            <Combobox<{ iso3: string; name_es: string }>
+              value={reporter}
+              onChange={(v) => setReporter(v)}
+              options={searchCountries(reporterQ, 20)}
+              onSearch={setReporterQ}
+              getValue={(c) => c.iso3}
+              getLabel={(c) => `${c.iso3} — ${c.name_es}`}
+              placeholder="ESP · España · busca por nombre o ISO3"
+              width={260}
+            />
           </Field>
-          <Field label="Partner ISO3">
-            <select value={partner} onChange={(e) => setPartner(e.target.value)} style={selectStyle}>
-              {COMMON_ISO.filter((c) => c !== reporter).map((c) => <option key={c}>{c}</option>)}
-            </select>
+          <Field label="Partner (contraparte)">
+            <Combobox<{ iso3: string; name_es: string }>
+              value={partner}
+              onChange={(v) => setPartner(v)}
+              options={searchCountries(partnerQ, 20).filter(
+                (c) => c.iso3 !== reporter,
+              )}
+              onSearch={setPartnerQ}
+              getValue={(c) => c.iso3}
+              getLabel={(c) => `${c.iso3} — ${c.name_es}`}
+              placeholder="DEU · Alemania"
+              width={260}
+            />
+          </Field>
+          <Field label="HS code (typing 'vehic' busca)">
+            <Combobox<{ code: string; level: string; name_es: string }>
+              value={hsCode}
+              onChange={(v) => setHsCode(v)}
+              options={searchHsCodes(hsQ || hsCode, 18)}
+              onSearch={setHsQ}
+              getValue={(h) => h.code}
+              getLabel={(h) => `${h.code} — ${h.name_es}`}
+              placeholder="ej. 87, 8703, 'vehículos'…"
+              width={300}
+            />
           </Field>
           <Field label="Periodo YYYY-MM">
-            <input value={period} onChange={(e) => setPeriod(e.target.value)} style={inputStyle} />
-          </Field>
-          <Field label="HS code (opcional)">
-            <input value={hsCode} onChange={(e) => setHsCode(e.target.value)} placeholder="87" style={inputStyle} />
+            <input
+              value={period}
+              onChange={(e) => setPeriod(e.target.value)}
+              style={inputStyle}
+            />
           </Field>
           <Field label="Flujo">
-            <select value={flow} onChange={(e) => setFlow(e.target.value as any)} style={selectStyle}>
+            <select
+              value={flow}
+              onChange={(e) => setFlow(e.target.value as any)}
+              style={selectStyle}
+            >
               <option value="">ambos</option>
               <option value="export">export</option>
               <option value="import">import</option>
             </select>
           </Field>
-        </div>
+          {hsCode && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                paddingBottom: 6,
+                fontSize: 11,
+                color: '#475569',
+              }}
+            >
+              <button
+                onClick={() => {
+                  setHsCode('')
+                  setHsQ('')
+                }}
+                style={{
+                  padding: '6px 10px',
+                  fontSize: 11,
+                  background: '#fee2e2',
+                  color: '#991b1b',
+                  border: '1px solid #fecaca',
+                  borderRadius: 6,
+                  cursor: 'pointer',
+                }}
+              >
+                Limpiar HS
+              </button>
+            </div>
+          )}
+        </section>
 
-        {error ? (
+        {error && (
           <div
             style={{
               marginTop: 16,
@@ -96,73 +241,287 @@ export default function TradePage() {
           >
             Error: {String(error)}
           </div>
-        ) : null}
+        )}
 
-        {data ? (
-          <p style={{ marginTop: 12, fontSize: 12, color: '#475569' }}>
-            <strong>Fuente:</strong> {data.use_source} · <strong>{data.n_items}</strong> registros
+        {/* ─── KPIs ─── */}
+        <section
+          style={{
+            marginTop: 16,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: 10,
+          }}
+        >
+          <KPI
+            label="Total declarado"
+            value={`${fmtInt(totalUsd, '—')} USD`}
+            accent={ACCENT}
+          />
+          <KPI
+            label="Registros"
+            value={data?.n_items ?? 0}
+            accent={ACCENT}
+          />
+          <KPI
+            label="Fuente activa"
+            value={data?.use_source?.toUpperCase() ?? '—'}
+            accent={ACCENT}
+          />
+          {hhi != null && (
+            <KPI
+              label="HHI (concentración)"
+              value={hhi.toLocaleString('es-ES')}
+              accent={hhi >= 2500 ? '#b91c1c' : hhi >= 1500 ? '#ca8a04' : '#16a34a'}
+              note={
+                hhi >= 2500
+                  ? 'Alta concentración'
+                  : hhi >= 1500
+                    ? 'Moderada'
+                    : 'Fragmentada'
+              }
+            />
+          )}
+        </section>
+
+        {/* ─── Sankey ─── */}
+        <section
+          style={{
+            marginTop: 16,
+            background: '#fff',
+            border: '1px solid #e5e7eb',
+            borderRadius: 8,
+            padding: 12,
+          }}
+        >
+          <p
+            style={{
+              fontSize: 11,
+              letterSpacing: 0.8,
+              color: '#64748b',
+              fontWeight: 700,
+              margin: 0,
+            }}
+          >
+            SANKEY · REPORTER → PARTNER → HS
           </p>
-        ) : null}
-
-        <section style={{ marginTop: 12, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 12 }}>
-          <p style={{ fontSize: 11, letterSpacing: 0.8, color: '#64748b', fontWeight: 700, margin: 0 }}>SANKEY · REPORTER → PARTNER → HS</p>
           <BilateralTradeSankey flows={data?.items ?? []} />
         </section>
 
-        <section style={{ marginTop: 16, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 12 }}>
-          <p style={{ fontSize: 11, letterSpacing: 0.8, color: '#64748b', fontWeight: 700, margin: '0 0 8px' }}>TABLA DE FLUJOS</p>
+        {/* ─── Top productos · agrupado por HS ─── */}
+        <section
+          style={{
+            marginTop: 16,
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr',
+            gap: 16,
+          }}
+        >
+          <Card title={`Top productos (HS) · ${reporterCountry?.iso3 ?? reporter}↔${partnerCountry?.iso3 ?? partner}`}>
+            {topProducts.length === 0 ? (
+              <Empty>Sin productos para mostrar.</Empty>
+            ) : (
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', fontSize: 12 }}>
+                {topProducts.map((p) => {
+                  const share = totalUsd > 0 ? (p.value / totalUsd) * 100 : 0
+                  return (
+                    <li
+                      key={p.code}
+                      style={{
+                        padding: '6px 0',
+                        borderBottom: '1px solid #f1f5f9',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'baseline',
+                        }}
+                      >
+                        <span>
+                          <code
+                            style={{
+                              background: '#f1f5f9',
+                              padding: '1px 5px',
+                              borderRadius: 3,
+                              fontWeight: 700,
+                              marginRight: 6,
+                            }}
+                          >
+                            {p.code}
+                          </code>
+                          {p.name}
+                        </span>
+                        <span
+                          style={{
+                            color: '#64748b',
+                            fontVariantNumeric: 'tabular-nums',
+                            fontSize: 11,
+                          }}
+                        >
+                          {fmtInt(p.value)} USD · {fmtNum(share, 1, '%')}
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 3,
+                          height: 4,
+                          background: '#e5e7eb',
+                          borderRadius: 2,
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: `${Math.min(100, share * 2)}%`,
+                            height: '100%',
+                            background: ACCENT,
+                          }}
+                        />
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </Card>
+
+          <Card title={`Top partners de ${reporterCountry?.iso3 ?? reporter} (export)`}>
+            {topPartners.length === 0 ? (
+              <Empty>Cargando partners…</Empty>
+            ) : (
+              <ol style={{ margin: 0, padding: '0 0 0 18px', fontSize: 12 }}>
+                {topPartners.map((it, i) => {
+                  const c = COUNTRY_BY_ISO3[it.partner_iso]
+                  return (
+                    <li key={i} style={{ padding: '4px 0' }}>
+                      <strong>{c?.name_es ?? it.partner_name ?? it.partner_iso}</strong>
+                      <span style={{ color: '#64748b', fontSize: 11 }}>
+                        {' '}· {fmtNum(it.share_pct, 1, '%')}
+                      </span>
+                    </li>
+                  )
+                })}
+              </ol>
+            )}
+          </Card>
+        </section>
+
+        {/* ─── Tabla de flujos con precio unitario implícito ─── */}
+        <section
+          style={{
+            marginTop: 16,
+            background: '#fff',
+            border: '1px solid #e5e7eb',
+            borderRadius: 8,
+            padding: 12,
+          }}
+        >
+          <p
+            style={{
+              fontSize: 11,
+              letterSpacing: 0.8,
+              color: '#64748b',
+              fontWeight: 700,
+              margin: '0 0 8px',
+            }}
+          >
+            FLUJOS DETALLADOS
+          </p>
           {loading ? (
             <p style={{ fontSize: 12, color: '#94a3b8' }}>Cargando…</p>
           ) : data?.items?.length ? (
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}>
+              <table
+                style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}
+              >
                 <thead>
                   <tr style={{ background: '#f1f5f9' }}>
-                    <th style={th}>Reporter</th>
-                    <th style={th}>Partner</th>
                     <th style={th}>HS</th>
+                    <th style={th}>Producto</th>
                     <th style={th}>Periodo</th>
                     <th style={th}>Flujo</th>
                     <th style={{ ...th, textAlign: 'right' }}>Valor USD</th>
                     <th style={{ ...th, textAlign: 'right' }}>Cantidad</th>
+                    <th style={th}>Unidad</th>
+                    <th style={{ ...th, textAlign: 'right' }}>Precio unit.</th>
                     <th style={th}>Fuente</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.items.map((f, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                      <td style={td}>{f.reporter_iso}</td>
-                      <td style={td}>{f.partner_iso}</td>
-                      <td style={td}>{f.hs_code}</td>
-                      <td style={td}>{f.period_ym}</td>
-                      <td style={td}>{f.flow_kind}</td>
-                      <td style={{ ...td, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
-                        {f.value_usd.toLocaleString('es-ES', { maximumFractionDigits: 0 })}
-                      </td>
-                      <td style={{ ...td, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
-                        {f.qty != null ? f.qty.toLocaleString('es-ES') : '—'}
-                      </td>
-                      <td style={td}>
-                        <span
+                  {data.items.map((f, i) => {
+                    const unitPrice =
+                      f.qty != null && f.qty > 0 && f.value_usd != null
+                        ? f.value_usd / f.qty
+                        : null
+                    const hsName = lookupHsCode(f.hs_code)?.name_es ?? ''
+                    return (
+                      <tr key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                        <td
+                          style={{ ...td, fontFamily: 'monospace', fontWeight: 600 }}
+                        >
+                          {f.hs_code}
+                        </td>
+                        <td style={{ ...td, color: '#475569' }}>{hsName}</td>
+                        <td style={td}>{f.period_ym}</td>
+                        <td style={td}>{f.flow_kind}</td>
+                        <td
                           style={{
-                            padding: '2px 6px',
-                            background: f.source === 'comext' ? '#dbeafe' : '#fef3c7',
-                            color: f.source === 'comext' ? '#1e40af' : '#92400e',
-                            borderRadius: 4,
-                            fontWeight: 700,
-                            fontSize: 10,
+                            ...td,
+                            textAlign: 'right',
+                            fontVariantNumeric: 'tabular-nums',
                           }}
                         >
-                          {f.source}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                          {fmtInt(f.value_usd)}
+                        </td>
+                        <td
+                          style={{
+                            ...td,
+                            textAlign: 'right',
+                            fontVariantNumeric: 'tabular-nums',
+                          }}
+                        >
+                          {fmtInt(f.qty)}
+                        </td>
+                        <td style={{ ...td, color: '#64748b' }}>
+                          {f.unit ?? '—'}
+                        </td>
+                        <td
+                          style={{
+                            ...td,
+                            textAlign: 'right',
+                            fontVariantNumeric: 'tabular-nums',
+                          }}
+                        >
+                          {unitPrice != null ? fmtNum(unitPrice, 2) : '—'}
+                        </td>
+                        <td style={td}>
+                          <span
+                            style={{
+                              padding: '2px 6px',
+                              background:
+                                f.source === 'comext' ? '#dbeafe' : '#fef3c7',
+                              color:
+                                f.source === 'comext' ? '#1e40af' : '#92400e',
+                              borderRadius: 4,
+                              fontWeight: 700,
+                              fontSize: 10,
+                            }}
+                          >
+                            {f.source}
+                          </span>
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
           ) : (
-            <p style={{ fontSize: 12, color: '#94a3b8' }}>Sin datos para la combinación elegida.</p>
+            <p style={{ fontSize: 12, color: '#94a3b8' }}>
+              Sin datos para la combinación elegida. Prueba sin filtro HS o
+              cambia el periodo.
+            </p>
           )}
         </section>
       </div>
@@ -170,16 +529,119 @@ export default function TradePage() {
   )
 }
 
-const inputStyle: React.CSSProperties = { padding: '6px 10px', fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 6, background: '#fff', width: 130 }
+const inputStyle: React.CSSProperties = {
+  padding: '7px 11px',
+  fontSize: 13,
+  border: '1px solid #e2e8f0',
+  borderRadius: 6,
+  background: '#fff',
+  width: 130,
+}
 const selectStyle: React.CSSProperties = { ...inputStyle }
-const th: React.CSSProperties = { textAlign: 'left', padding: '6px 8px', fontSize: 11, fontWeight: 700, color: '#475569' }
-const td: React.CSSProperties = { padding: '6px 8px', color: '#1e293b' }
+const th: React.CSSProperties = {
+  textAlign: 'left',
+  padding: '8px 10px',
+  fontSize: 11,
+  fontWeight: 700,
+  color: '#475569',
+}
+const td: React.CSSProperties = { padding: '8px 10px', color: '#1e293b' }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <span style={{ fontSize: 10, letterSpacing: 0.6, color: '#64748b', fontWeight: 700 }}>{label.toUpperCase()}</span>
+      <span
+        style={{
+          fontSize: 10,
+          letterSpacing: 0.6,
+          color: '#64748b',
+          fontWeight: 700,
+        }}
+      >
+        {label.toUpperCase()}
+      </span>
       {children}
     </label>
   )
+}
+
+function KPI({
+  label,
+  value,
+  accent,
+  note,
+}: {
+  label: string
+  value: number | string
+  accent: string
+  note?: string
+}) {
+  return (
+    <div
+      style={{
+        background: '#fff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        padding: 12,
+      }}
+    >
+      <p
+        style={{
+          fontSize: 10,
+          letterSpacing: 0.6,
+          color: '#64748b',
+          margin: 0,
+          fontWeight: 700,
+        }}
+      >
+        {label.toUpperCase()}
+      </p>
+      <p
+        style={{
+          fontSize: 20,
+          fontWeight: 800,
+          color: accent,
+          margin: '4px 0 0',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {value}
+      </p>
+      {note && (
+        <p style={{ fontSize: 11, color: '#64748b', margin: '2px 0 0' }}>
+          {note}
+        </p>
+      )}
+    </div>
+  )
+}
+
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        background: '#fff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        padding: 14,
+      }}
+    >
+      <p
+        style={{
+          fontSize: 11,
+          letterSpacing: 0.8,
+          color: '#64748b',
+          fontWeight: 700,
+          margin: 0,
+        }}
+      >
+        {title.toUpperCase()}
+      </p>
+      <div style={{ marginTop: 10 }}>{children}</div>
+    </div>
+  )
+}
+
+function Empty({ children }: { children: React.ReactNode }) {
+  return <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>{children}</p>
 }
