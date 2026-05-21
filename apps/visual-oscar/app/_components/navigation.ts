@@ -44,7 +44,6 @@ export const MODULES: NavModule[] = [
     full: 'Inteligencia Política',
     items: [
       { label: 'Mapa de Actores',                href: '/mapa-actores' },
-      { label: 'Figuras Públicas',               href: '/figuras' },
       { label: 'Partidos y Grupos',              href: '/partidos' },
       { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
       { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
@@ -68,7 +67,6 @@ export const MODULES: NavModule[] = [
       },
       { label: 'Trazabilidad Legislativa',  href: '/trazabilidad' },
       { label: 'Huella Legislativa',        href: '/huella-legislativa' },
-      { label: 'Comisiones',                href: '/comisiones' },
     ],
   },
 
@@ -143,9 +141,6 @@ export const MODULES: NavModule[] = [
       { label: 'Vivienda & Inmobiliario',      href: '/sector-vivienda' },
       { label: 'Banca & Seguros',              href: '/sector-banca' },
       { label: 'Agroalimentario & Rural',      href: '/sector-agro' },
-      { label: 'Tercer Sector & ONGs',         href: '/sector-tercer-sector' },
-      // Puertos & Comercio Global agrupa el módulo marítimo + Commodities (Vesper como sub-tab)
-      { label: 'Puertos & Comercio Global',    href: '/puertos' },
       { label: 'Telecom & Digital',            href: '/sector-telecom' },
       { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
       { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
@@ -171,9 +166,8 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Estudio',  href: '/estudio'  },  // 1ª — workspace de datos y paneles
       { label: 'War Room', href: '/war-room' },  // 2ª — sala de operaciones
-      { label: 'Toolbox',   href: '/extras'     },  // 3ª — herramientas auxiliares
-      { label: 'Cuaderno',  href: '/cuaderno'   },  // 4ª — Obsidian del analista
-      { label: 'Documentos', href: '/documentos' }, // 5ª — extractor universal de PDF/DOCX/XLSX/CSV/...
+      { label: 'Toolbox',  href: '/extras'   },  // 3ª — herramientas auxiliares
+      { label: 'Cuaderno', href: '/cuaderno' },  // 4ª — Obsidian del analista (notas + grafo + bitácora)
     ],
   },
 
