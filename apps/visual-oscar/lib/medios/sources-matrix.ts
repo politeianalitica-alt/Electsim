@@ -1,22 +1,30 @@
 /**
  * Matriz de fuentes utilizadas por cada tab de /prensa (Medios).
  *
- * Diseño analítico inspirado en NewsWhip · Media Cloud · GDELT · Pulsar.
- * Mantenemos lo existente (RSS agregador 219 medios ES + UE) y añadimos
- * NewsAPI como fuente de búsqueda profunda + Google Fact Check planned +
- * GDELT planned.
+ * Estructura final 10 tabs (post-iteración usuario):
+ *
+ *   1. Pulso de medios       · feed RSS multi-tier + agenda + topics (ex-Radar)
+ *   2. Búsqueda puntual      · investigación libre NewsAPI · DEEP
+ *   3. Mapa global narrativas · NEW · world map ACLED+GDELT por categoría
+ *   4. Actores & sentimiento · figuras + empresas + sentimiento dual (merge)
+ *   5. Cobertura ideológica  · misma historia, distinto framing izq vs der
+ *   6. Viralidad & difusión  · first-movers + replicación + popularity
+ *   7. Análisis IA · Groq    · LLM reasoning sobre contexto live
+ *   8. Desinformación & verif · Google Fact Check + RSS fact-checkers
+ *   9. Inteligencia regional · CCAA + Eurostat regional (NUTS2)
+ *   10. Informes & alertas   · monitores + dossier + alertas cron
  */
 
 export type MediosTabId =
-  | 'radar'
+  | 'pulso'
   | 'busqueda'
-  | 'agenda'
-  | 'narrativas'
-  | 'actores'
-  | 'sentimiento'
-  | 'cobertura'
+  | 'mapa-global'
+  | 'actores-sentimiento'
+  | 'cobertura-ideologica'
   | 'viralidad'
+  | 'analisis-ia'
   | 'desinformacion'
+  | 'regional'
   | 'informes'
 
 export interface MediosTab {
@@ -37,15 +45,15 @@ export interface MediosTab {
 
 export const MEDIOS_TABS: MediosTab[] = [
   {
-    id: 'radar',
+    id: 'pulso',
     number: 1,
-    label: 'Radar en vivo',
-    shortLabel: 'Radar',
-    description: 'Qué está pasando ahora · titulares, volumen, temas emergentes, medios más activos.',
+    label: 'Pulso de medios',
+    shortLabel: 'Pulso',
+    description: 'Feed RSS 219 medios + topics emergentes + agenda mediática · pulso en vivo.',
     sources: [
-      { key: 'rss',     name: 'RSS · 219 medios ES + UE', status: 'live',    endpoint: '/api/medios/intel' },
-      { key: 'newsapi', name: 'NewsAPI · top-headlines',  status: 'live',    endpoint: '/api/newsapi/top-spain' },
-      { key: 'gdelt',   name: 'GDELT · DOC API',          status: 'live', endpoint: '/api/gdelt/doc' },
+      { key: 'rss',     name: 'RSS · 219 medios ES + UE',  status: 'live', endpoint: '/api/medios/intel' },
+      { key: 'newsapi', name: 'NewsAPI · top-headlines ES', status: 'live', endpoint: '/api/newsapi/top-spain' },
+      { key: 'gdelt',   name: 'GDELT · cobertura global ES', status: 'live', endpoint: '/api/gdelt/articles' },
     ],
     themeAccent: '#1F4E8C',
   },
@@ -54,119 +62,113 @@ export const MEDIOS_TABS: MediosTab[] = [
     number: 2,
     label: 'Búsqueda puntual',
     shortLabel: 'Búsqueda',
-    description: 'Investigación libre del analista · cualquier tema · timeline + actores + narrativas + comparación ideológica.',
+    description: 'Investigación libre · NewsAPI everything + filtros ideológicos + Lectura IA + dossier export.',
     sources: [
-      { key: 'newsapi',    name: 'NewsAPI · everything (q + booleans + dominios)', status: 'live', endpoint: '/api/medios/search' },
-      { key: 'rss',        name: 'RSS · 219 medios ES + UE',                       status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'gdelt',      name: 'GDELT · multilingüe global',                     status: 'live' },
-      { key: 'mediacloud', name: 'Media Cloud · framing histórico',                status: 'planned' },
+      { key: 'newsapi',    name: 'NewsAPI · everything (booleans+dominios+fechas)', status: 'live', endpoint: '/api/medios/search' },
+      { key: 'rss',        name: 'RSS · 219 medios ES + UE',                         status: 'live' },
+      { key: 'gdelt',      name: 'GDELT · multilingüe global',                       status: 'live' },
+      { key: 'brain',      name: 'Brain LLM · Lectura Politeia (Groq)',              status: 'live', endpoint: '/api/medios/lectura' },
     ],
     themeAccent: '#DC2626',
     icon: '⊕',
   },
   {
-    id: 'agenda',
+    id: 'mapa-global',
     number: 3,
-    label: 'Agenda mediática',
-    shortLabel: 'Agenda',
-    description: 'Ranking de temas que dominan la cobertura · evolución 24h/7d/30d + topic mining.',
+    label: 'Mapa global de narrativas',
+    shortLabel: 'Mapa global',
+    description: 'World map con eventos coloreados por categoría · ACLED + GDELT · filtros región/relevancia · ficha evento + IA.',
     sources: [
-      { key: 'rss',      name: 'RSS · clustering interno (TF-IDF + n-gramas)', status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'newsapi',  name: 'NewsAPI · everything',                          status: 'live' },
-      { key: 'gdelt',    name: 'GDELT · TVnews + themes',                       status: 'planned' },
-    ],
-    themeAccent: '#F97316',
-  },
-  {
-    id: 'narrativas',
-    number: 4,
-    label: 'Narrativas & frames',
-    shortLabel: 'Narrativas',
-    description: 'Cómo se interpreta cada tema · crisis, amenaza, recuperación, polarización · marcos por ideología.',
-    sources: [
-      { key: 'rss',     name: 'RSS · narrativas V3 internas',  status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'gdelt',   name: 'GDELT · emociones (GKG)',       status: 'planned' },
-      { key: 'pulsar',  name: 'Pulsar-like clustering',         status: 'planned' },
-    ],
-    themeAccent: '#7C3AED',
-  },
-  {
-    id: 'actores',
-    number: 5,
-    label: 'Actores & menciones',
-    shortLabel: 'Actores',
-    description: 'Personas, partidos, instituciones, empresas, países · menciones, temas asociados, tono.',
-    sources: [
-      { key: 'rss',      name: 'RSS · taxonomía actores interna',   status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'wikidata', name: 'Wikidata · alias + cargos',          status: 'live' },
-      { key: 'gdelt',    name: 'GDELT · cobertura internacional',    status: 'planned' },
+      { key: 'acled',  name: 'ACLED · eventos conflicto 30d', status: 'live', endpoint: '/api/acled/by-country' },
+      { key: 'gdelt',  name: 'GDELT · artículos por país 24h', status: 'live', endpoint: '/api/gdelt/articles' },
+      { key: 'brain',  name: 'Brain LLM · lectura evento',     status: 'live', endpoint: '/api/medios/lectura' },
     ],
     themeAccent: '#0891B2',
   },
   {
-    id: 'sentimiento',
-    number: 6,
-    label: 'Sentimiento & reputación',
-    shortLabel: 'Sentimiento',
-    description: 'Tono mediático · positivo/negativo/neutral por actor, partido, empresa, tema y medio.',
+    id: 'actores-sentimiento',
+    number: 4,
+    label: 'Actores & sentimiento',
+    shortLabel: 'Actores',
+    description: 'Figuras + partidos + empresas + sectores · menciones, tono y co-menciones · merge sentimiento dual.',
     sources: [
-      { key: 'heuristic',  name: 'Heurística interna (keywords)',     status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'transformer', name: 'Multilingual transformer NLP',     status: 'planned' },
-      { key: 'llm',         name: 'LLM scoring (gpt-4o-mini)',        status: 'optional' },
+      { key: 'rss',     name: 'RSS · taxonomía actores',          status: 'live', endpoint: '/api/medios/intel' },
+      { key: 'wikidata', name: 'Wikidata · alias + cargos',        status: 'live', endpoint: '/api/wikidata/search' },
+      { key: 'gdelt',   name: 'GDELT · cobertura internacional',   status: 'live' },
     ],
-    themeAccent: '#16A34A',
+    themeAccent: '#7C3AED',
   },
   {
-    id: 'cobertura',
-    number: 7,
-    label: 'Cobertura comparada',
+    id: 'cobertura-ideologica',
+    number: 5,
+    label: 'Cobertura ideológica',
     shortLabel: 'Cobertura',
-    description: 'Cómo cuentan el mismo evento distintos bloques · izquierda vs derecha · nacional vs internacional.',
+    description: 'Misma historia, distintos framings · izquierda vs centro vs derecha · story clusters comparados.',
     sources: [
-      { key: 'rss',         name: 'RSS · story clusters internos',         status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'newsapi',     name: 'NewsAPI · domains filter',                status: 'live', endpoint: '/api/medios/search' },
-      { key: 'mediacloud',  name: 'Media Cloud · framing histórico',         status: 'planned' },
+      { key: 'rss',     name: 'RSS · story clusters por ideología', status: 'live', endpoint: '/api/medios/intel' },
+      { key: 'newsapi', name: 'NewsAPI · domains filter por bloque', status: 'live', endpoint: '/api/medios/search' },
     ],
     themeAccent: '#8B5CF6',
   },
   {
     id: 'viralidad',
-    number: 8,
+    number: 6,
     label: 'Viralidad & difusión',
     shortLabel: 'Viralidad',
-    description: 'Temas que aceleran · titulares replicados · medios que inician historia · picos anómalos.',
+    description: 'Temas que aceleran · first-movers · replicación entre medios · sortBy popularity.',
     sources: [
-      { key: 'newsapi-pop', name: 'NewsAPI · sortBy=popularity',           status: 'live',    endpoint: '/api/medios/search' },
-      { key: 'rss-velocity', name: 'RSS · velocidad propagación interna',  status: 'live' },
-      { key: 'newswhip',     name: 'NewsWhip · engagement social',          status: 'planned' },
-      { key: 'gdelt-volume', name: 'GDELT · TVnews volumen',                status: 'planned' },
+      { key: 'newsapi-pop', name: 'NewsAPI · sortBy=popularity',          status: 'live', endpoint: '/api/medios/search' },
+      { key: 'rss-velocity', name: 'RSS · velocidad propagación interna', status: 'live' },
     ],
     themeAccent: '#EAB308',
   },
   {
+    id: 'analisis-ia',
+    number: 7,
+    label: 'Análisis IA · Groq',
+    shortLabel: 'IA',
+    description: 'Razonamiento LLM sobre todo el contexto live · briefing ejecutivo + hallazgos + framing risk + qué vigilar.',
+    sources: [
+      { key: 'brain',  name: 'Brain LLM · Groq llama-3.3-70b',  status: 'live', endpoint: '/api/medios/lectura' },
+      { key: 'rss',    name: 'RSS · contexto general',           status: 'live' },
+      { key: 'gdelt',  name: 'GDELT · contexto global',          status: 'live' },
+    ],
+    themeAccent: '#A855F7',
+  },
+  {
     id: 'desinformacion',
-    number: 9,
+    number: 8,
     label: 'Desinformación & verificación',
     shortLabel: 'Verificación',
-    description: 'Claims dudosos · bulos · verificaciones · narrativas falsas · fact-checkers ES.',
+    description: 'Claims verificados + bulos + narrativas falsas · Maldita, Newtral, EFE Verifica · Google Fact Check.',
     sources: [
-      { key: 'rss-fc',         name: 'RSS · Maldita, Newtral, EFE Verifica', status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'gfact',          name: 'Google Fact Check Tools API',           status: 'live' },
-      { key: 'newsapi-disinfo', name: 'NewsAPI · queries de desinformación',  status: 'live' },
+      { key: 'rss-fc',         name: 'RSS · Maldita, Newtral, EFE Verifica', status: 'live', endpoint: '/api/news/desinformacion' },
+      { key: 'gfact',          name: 'Google Fact Check Tools API',          status: 'live', endpoint: '/api/factcheck/search' },
     ],
     themeAccent: '#B91C1C',
+  },
+  {
+    id: 'regional',
+    number: 9,
+    label: 'Inteligencia regional',
+    shortLabel: 'CCAA',
+    description: 'Sentimiento por CCAA + medios regionales + topics regionales · mapa coroplético España.',
+    sources: [
+      { key: 'rss-regional', name: 'RSS · medios regionales por CCAA',  status: 'live', endpoint: '/api/medios/ccaa' },
+      { key: 'eurostat',     name: 'Eurostat · regiones NUTS2 ES',       status: 'live', endpoint: '/api/eurostat/regions-nuts2' },
+    ],
+    themeAccent: '#16A34A',
   },
   {
     id: 'informes',
     number: 10,
     label: 'Informes, alertas & dossiers',
     shortLabel: 'Informes',
-    description: 'Búsquedas guardadas · monitores · alertas por pico · dossier PDF · resumen ejecutivo IA.',
+    description: 'Búsquedas guardadas · monitores · dossier MD/HTML export · plantillas alertas.',
     sources: [
-      { key: 'internal-saves', name: 'Búsquedas y monitores guardados',         status: 'live' },
-      { key: 'dossier-md',     name: 'Dossier export · Markdown + HTML print', status: 'live', endpoint: '/api/medios/dossier' },
-      { key: 'brain',          name: 'Brain LLM · Lectura Politeia',           status: 'live', endpoint: '/api/medios/lectura' },
-      { key: 'alerts-cron',    name: 'Alertas cron · webhook + email',         status: 'planned' },
+      { key: 'internal-saves', name: 'Monitores guardados (localStorage)',         status: 'live' },
+      { key: 'dossier',        name: 'Dossier export · Markdown + HTML print',     status: 'live', endpoint: '/api/medios/dossier' },
+      { key: 'brain',          name: 'Brain LLM · Lectura ejecutiva',              status: 'live', endpoint: '/api/medios/lectura' },
     ],
     themeAccent: '#475569',
   },
@@ -181,7 +183,6 @@ export const MEDIOS_TAB_IDS = MEDIOS_TABS.map((t) => t.id) as MediosTabId[]
 /**
  * Grupos ideológicos de medios para filtrado en /api/medios/search.
  * El catalog medios.json tiene `ideologia: number` (-100 a +100).
- * Buckets definidos según rangos académicos (Allsides / MBFC).
  */
 export type SourceGroup =
   | 'left'
