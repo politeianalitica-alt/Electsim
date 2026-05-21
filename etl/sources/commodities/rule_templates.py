@@ -220,6 +220,72 @@ def _b_weekly_volatility(slots: dict[str, str], p: dict[str, float]) -> dict[str
     }
 
 
+def _b_port_congestion_spike(slots: dict[str, str], p: dict[str, float]) -> dict[str, Any]:
+    """Congestión portuaria supera umbral · usa el slug `port:<slug>` cuyo
+    snapshot resolver expone congestion_pct como `last_price`.
+    """
+    threshold = float(p["threshold_pct"])
+    period = int(p.get("period_days", 7))
+    return {
+        "logic": "AND",
+        "conditions": [
+            {
+                "slug": slots["port"],  # ej. "port:algeciras"
+                "op": "price_gt",
+                "value": threshold,
+                "period_days": period,
+            },
+        ],
+    }
+
+
+def _b_vessel_sanctions_hit(slots: dict[str, str], p: dict[str, float]) -> dict[str, Any]:
+    """Risk score sanciones de un buque supera umbral · slug `vessel_risk:<imo>`.
+
+    El resolver mapea risk_score (0-100) a `last_price`. 60 = MEDIUM, 80 = HIGH.
+    """
+    threshold = float(p["threshold"])
+    period = int(p.get("period_days", 1))
+    return {
+        "logic": "AND",
+        "conditions": [
+            {
+                "slug": slots["vessel"],
+                "op": "price_gt",
+                "value": threshold,
+                "period_days": period,
+            },
+        ],
+    }
+
+
+def _b_freight_rate_extreme(slots: dict[str, str], p: dict[str, float]) -> dict[str, Any]:
+    """Índice de flete (BDI/FBX/...) se mueve ≥ X% absoluto en ventana.
+
+    Reutiliza change_pct_gte/lte con OR para capturar ambas direcciones.
+    Pensado para slugs de fletes: baltic_dry, fbx, baltic_capesize, etc.
+    """
+    threshold = float(p["threshold_pct"])
+    period = int(p.get("period_days", 14))
+    return {
+        "logic": "OR",
+        "conditions": [
+            {
+                "slug": slots["freight_index"],
+                "op": "change_pct_gte",
+                "value": threshold,
+                "period_days": period,
+            },
+            {
+                "slug": slots["freight_index"],
+                "op": "change_pct_lte",
+                "value": -threshold,
+                "period_days": period,
+            },
+        ],
+    }
+
+
 def _b_pair_spread(slots: dict[str, str], p: dict[str, float]) -> dict[str, Any]:
     """Spread entre dos commodities · A sube ≥X% mientras B cae ≥Y% (ratio extremo)."""
     period = int(p.get("period_days", 7))
@@ -353,6 +419,88 @@ TEMPLATES: dict[str, RuleTemplate] = {
         ),
         builder=_b_weekly_volatility,
         suggested_period_days=7,
+    ),
+
+    "port_congestion_spike": RuleTemplate(
+        id="port_congestion_spike",
+        name="Congestión portuaria · spike (puertos)",
+        description=(
+            "Dispara cuando la congestión de un puerto crítico supera un "
+            "umbral. Útil para anticipar atrascos en cadenas suministro."
+        ),
+        rationale=(
+            "Algeciras, Valencia, Rotterdam, Singapore… cuando la congestión "
+            "supera ~40-50% se traduce en demoras de fletes y costes adicionales."
+        ),
+        slots=(
+            SlotSpec(
+                key="port",
+                label="Puerto",
+                hint="Slug del puerto · ej. port:algeciras",
+                suggested_categories=("ports",),
+            ),
+        ),
+        params=(
+            ParamSpec("threshold_pct", "Congestión mínima (%)", 45.0, 10.0, 95.0, 1.0, "%"),
+            ParamSpec("period_days", "Ventana (días)", 7, 1, 30, 1, "d"),
+        ),
+        builder=_b_port_congestion_spike,
+        suggested_period_days=7,
+    ),
+
+    "vessel_sanctions_hit": RuleTemplate(
+        id="vessel_sanctions_hit",
+        name="Buque · sanctions hit (OFAC/UE/UN)",
+        description=(
+            "Alerta si el risk_score de sanciones de un buque supera el umbral. "
+            "60+ = MEDIUM (revisión manual), 80+ = HIGH (parar operación)."
+        ),
+        rationale=(
+            "Compliance marítimo · cruzar IMO+nombre+operador contra OpenSanctions, "
+            "OFAC y EU. Alerta proactiva antes de aceptar carga o atracar."
+        ),
+        slots=(
+            SlotSpec(
+                key="vessel",
+                label="Buque (slug risk)",
+                hint="Slug vessel_risk:<IMO> · ej. vessel_risk:IMO9525338",
+                suggested_categories=("ports",),
+            ),
+        ),
+        params=(
+            ParamSpec("threshold", "Risk score mínimo", 60.0, 30.0, 100.0, 5.0, ""),
+            ParamSpec("period_days", "Ventana (días)", 1, 1, 30, 1, "d"),
+        ),
+        builder=_b_vessel_sanctions_hit,
+        suggested_period_days=1,
+    ),
+
+    "freight_rate_extreme": RuleTemplate(
+        id="freight_rate_extreme",
+        name="Flete extremo · movimiento absoluto",
+        description=(
+            "Dispara si un índice de flete (BDI, FBX, BCI, BDTI…) se mueve "
+            "≥ X% en ambas direcciones durante la ventana. Captura volatilidad."
+        ),
+        rationale=(
+            "El BDI puede moverse ±20% en pocas semanas (China demanda hierro, "
+            "tensiones en Ormuz, etc.). FBX refleja costes container. "
+            "Movimientos extremos son señal para coberturas o renegociaciones."
+        ),
+        slots=(
+            SlotSpec(
+                key="freight_index",
+                label="Índice de flete",
+                hint="Slug · baltic_dry, fbx, baltic_capesize, baltic_dirty_tanker…",
+                suggested_categories=("ports",),
+            ),
+        ),
+        params=(
+            ParamSpec("threshold_pct", "Movimiento absoluto (%)", 15.0, 3.0, 60.0, 1.0, "%"),
+            ParamSpec("period_days", "Ventana (días)", 14, 3, 60, 1, "d"),
+        ),
+        builder=_b_freight_rate_extreme,
+        suggested_period_days=14,
     ),
 
     "pair_spread": RuleTemplate(

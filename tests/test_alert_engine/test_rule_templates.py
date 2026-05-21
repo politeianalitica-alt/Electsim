@@ -28,13 +28,16 @@ from etl.sources.commodities.rule_engine import validate_rule
 def test_list_templates_returns_initial_set():
     items = list_templates()
     ids = {t["id"] for t in items}
-    # Los 5 templates documentados deben existir
+    # Los 5 templates iniciales + 3 portuarios deben existir
     assert {
         "contango_basic",
         "rsi_extremes",
         "correlation_break",
         "weekly_volatility",
         "pair_spread",
+        "port_congestion_spike",
+        "vessel_sanctions_hit",
+        "freight_rate_extreme",
     }.issubset(ids)
 
 
@@ -180,3 +183,53 @@ def test_every_template_builds_with_defaults_and_validates(tid: str):
     validate_rule(res["rule_definition"])
     # rule_name no vacío
     assert res["rule_name"]
+
+
+# ─────────────────────────────────────────────────────────────────
+# Templates portuarios · P9
+# ─────────────────────────────────────────────────────────────────
+
+def test_port_congestion_spike_builds_valid_rule():
+    res = apply_template(
+        "port_congestion_spike",
+        slots={"port": "port:algeciras"},
+        params={"threshold_pct": 55, "period_days": 7},
+    )
+    assert res["ok"] is True
+    rd = res["rule_definition"]
+    assert rd["logic"] == "AND"
+    assert rd["conditions"][0]["slug"] == "port:algeciras"
+    assert rd["conditions"][0]["op"] == "price_gt"
+    assert rd["conditions"][0]["value"] == 55
+
+
+def test_vessel_sanctions_hit_template_validates():
+    res = apply_template(
+        "vessel_sanctions_hit",
+        slots={"vessel": "vessel_risk:IMO9525338"},
+        params={"threshold": 80, "period_days": 1},
+    )
+    assert res["ok"] is True
+    validate_rule(res["rule_definition"])
+    assert res["rule_definition"]["conditions"][0]["value"] == 80
+
+
+def test_freight_rate_extreme_emits_or_branch():
+    res = apply_template(
+        "freight_rate_extreme",
+        slots={"freight_index": "baltic_dry"},
+        params={"threshold_pct": 20, "period_days": 14},
+    )
+    assert res["ok"] is True
+    rd = res["rule_definition"]
+    assert rd["logic"] == "OR"
+    assert len(rd["conditions"]) == 2
+    # Una rama positiva, una negativa
+    values = sorted([c["value"] for c in rd["conditions"]])
+    assert values == [-20, 20]
+
+
+def test_port_templates_reject_missing_slots():
+    res = apply_template("port_congestion_spike", slots={}, params=None)
+    assert res["ok"] is False
+    assert "port" in res["error"]
