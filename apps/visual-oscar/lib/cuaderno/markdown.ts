@@ -1,0 +1,139 @@
+/**
+ * Markdown → HTML render minimalista (sin dependencias) + soporte de wikilinks.
+ *
+ * No es exhaustivo pero cubre lo que un analista necesita:
+ *   - Headings #..######
+ *   - **bold**, *italic*, `code`
+ *   - Bloques de código ```
+ *   - Listas - y 1.
+ *   - Tablas | a | b |
+ *   - Citas >
+ *   - Links [texto](url)
+ *   - Wikilinks [[Nota]] o [[Nota|texto]] → onclick handler externo
+ *   - Tags #foo → span class="tag"
+ */
+
+function escape(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function renderInline(line: string): string {
+  let out = escape(line)
+  // wikilinks [[slug]] o [[slug|texto]]
+  out = out.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, slug, text) => {
+    const safe = String(slug).trim()
+    const display = text ? String(text).trim() : safe
+    return `<a href="#" class="cuad-wikilink" data-slug="${escape(safe)}">${escape(display)}</a>`
+  })
+  // markdown link [texto](url)
+  out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) =>
+    `<a href="${escape(url)}" target="_blank" rel="noopener" class="cuad-link">${escape(text)}</a>`)
+  // bold
+  out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  // italic
+  out = out.replace(/(^|[^\w*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+  // code inline
+  out = out.replace(/`([^`]+)`/g, '<code class="cuad-code-inline">$1</code>')
+  // tags #foo
+  out = out.replace(/(^|[\s])(#[a-zA-Z0-9_-]{2,30})/g, '$1<span class="cuad-tag">$2</span>')
+  return out
+}
+
+export function renderMarkdown(md: string): string {
+  if (!md) return ''
+  const lines = md.split(/\r?\n/)
+  const out: string[] = []
+  let inCode = false
+  let inList: 'ul' | 'ol' | null = null
+  let inTable = false
+  let inQuote = false
+
+  function closeAll() {
+    if (inList) { out.push(`</${inList}>`); inList = null }
+    if (inTable) { out.push('</tbody></table>'); inTable = false }
+    if (inQuote) { out.push('</blockquote>'); inQuote = false }
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i]
+    const line = raw
+
+    // Fenced code block
+    if (line.startsWith('```')) {
+      if (inCode) { out.push('</code></pre>'); inCode = false }
+      else { closeAll(); out.push('<pre class="cuad-pre"><code>'); inCode = true }
+      continue
+    }
+    if (inCode) { out.push(escape(line)); continue }
+
+    // Table heuristic: a line of |...| followed by |---|---|
+    if (line.includes('|') && lines[i + 1] && /^\s*\|?[\s:-]+\|/.test(lines[i + 1])) {
+      closeAll()
+      const headers = line.split('|').map(s => s.trim()).filter(Boolean)
+      out.push('<table class="cuad-table"><thead><tr>')
+      headers.forEach(h => out.push(`<th>${renderInline(h)}</th>`))
+      out.push('</tr></thead><tbody>')
+      i++ // skip separator
+      inTable = true
+      continue
+    }
+    if (inTable) {
+      if (!line.includes('|')) { out.push('</tbody></table>'); inTable = false; }
+      else {
+        const cells = line.split('|').map(s => s.trim())
+        // remove leading/trailing empty cells from outer pipes
+        if (cells[0] === '') cells.shift()
+        if (cells[cells.length - 1] === '') cells.pop()
+        out.push('<tr>' + cells.map(c => `<td>${renderInline(c)}</td>`).join('') + '</tr>')
+        continue
+      }
+    }
+
+    // Headings
+    const h = /^(#{1,6})\s+(.*)$/.exec(line)
+    if (h) {
+      closeAll()
+      const lvl = h[1].length
+      out.push(`<h${lvl} class="cuad-h${lvl}">${renderInline(h[2])}</h${lvl}>`)
+      continue
+    }
+
+    // Quote
+    if (line.startsWith('> ')) {
+      if (!inQuote) { closeAll(); out.push('<blockquote class="cuad-quote">'); inQuote = true }
+      out.push(renderInline(line.slice(2)) + '<br/>')
+      continue
+    } else if (inQuote) { out.push('</blockquote>'); inQuote = false }
+
+    // Lists
+    const ul = /^[-*]\s+(.*)$/.exec(line)
+    const ol = /^\d+\.\s+(.*)$/.exec(line)
+    if (ul || ol) {
+      const want = ul ? 'ul' : 'ol'
+      if (inList !== want) {
+        if (inList) out.push(`</${inList}>`)
+        out.push(`<${want} class="cuad-${want}">`)
+        inList = want
+      }
+      const item = (ul ? ul[1] : ol![1])
+      out.push(`<li>${renderInline(item)}</li>`)
+      continue
+    } else if (inList) { out.push(`</${inList}>`); inList = null }
+
+    // Horizontal rule
+    if (/^[-*_]{3,}$/.test(line.trim())) { closeAll(); out.push('<hr class="cuad-hr"/>'); continue }
+
+    // Blank line = paragraph break
+    if (line.trim() === '') { closeAll(); continue }
+
+    // Regular paragraph
+    out.push(`<p class="cuad-p">${renderInline(line)}</p>`)
+  }
+  closeAll()
+  if (inCode) out.push('</code></pre>')
+  return out.join('\n')
+}
