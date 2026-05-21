@@ -26,26 +26,47 @@ export const revalidate = 300 // 5min — GDELT updates rápido
 
 const GDELT_BASE = 'https://api.gdeltproject.org/api/v2/doc/doc'
 
-async function gdeltFetch(params: Record<string, string>): Promise<any> {
+async function gdeltFetch(params: Record<string, string>, attempt = 1): Promise<any> {
   const qs = new URLSearchParams(params).toString()
+  const ctrl = new AbortController()
+  const timeout = setTimeout(() => ctrl.abort(), 15_000)
   try {
     const r = await fetch(`${GDELT_BASE}?${qs}`, {
       headers: {
         Accept: 'application/json',
-        'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)',
+        // GDELT exige UA realista · sin esto a veces devuelve HTML
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9,es;q=0.8',
       },
+      signal: ctrl.signal,
       next: { revalidate: 300 },
     } as RequestInit)
-    if (!r.ok) return { error: `HTTP ${r.status}` }
+    clearTimeout(timeout)
+    if (!r.ok) return { error: `HTTP ${r.status}`, attempt }
     const text = await r.text()
-    if (!text || text.trim().length === 0) return { error: 'empty body' }
+    if (!text || text.trim().length === 0) return { error: 'empty body', attempt }
+    // GDELT a veces devuelve aviso de rate-limit como texto plano
+    if (text.startsWith('Please limit') || text.includes('one every 5 seconds')) {
+      if (attempt < 2) {
+        await new Promise((res) => setTimeout(res, 6000))
+        return gdeltFetch(params, attempt + 1)
+      }
+      return { error: 'rate_limited_by_gdelt', attempt }
+    }
     try {
       return JSON.parse(text)
     } catch {
-      return { error: 'invalid json · GDELT may have returned HTML for invalid query' }
+      return { error: `non_json_response: ${text.slice(0, 120)}`, attempt }
     }
   } catch (e: any) {
-    return { error: String(e?.message ?? e).slice(0, 160) }
+    clearTimeout(timeout)
+    const msg = String(e?.message ?? e).slice(0, 160)
+    // Retry transient network errors una vez
+    if (attempt < 2 && (msg.includes('fetch failed') || msg.includes('aborted') || msg.includes('ECONNRESET'))) {
+      await new Promise((res) => setTimeout(res, 1500))
+      return gdeltFetch(params, attempt + 1)
+    }
+    return { error: msg, attempt }
   }
 }
 
