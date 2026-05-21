@@ -17,7 +17,14 @@ interface Props {
 export function DataSourcesBanner({ status, loading }: Props) {
   const [open, setOpen] = useState(false)
 
-  if (loading || !status) {
+  // Defensa total: el proxy puede devolver fallback sin items
+  const items = status?.items ?? []
+  const total = status?.n_sources ?? items.length
+  const live = status?.n_live ?? items.filter((s) => s.live).length
+  const allLive = status?.all_live ?? (total > 0 && live === total)
+  const anyLive = status?.any_live ?? live > 0
+
+  if (loading || !status || total === 0) {
     return (
       <div
         style={{
@@ -30,15 +37,15 @@ export function DataSourcesBanner({ status, loading }: Props) {
           color: '#64748b',
         }}
       >
-        Comprobando estado de fuentes externas…
+        {loading
+          ? 'Comprobando estado de fuentes externas…'
+          : 'Estado de fuentes no disponible (BACKEND_URL no configurado o backend caído).'}
       </div>
     )
   }
 
-  const live = status.n_live
-  const total = status.n_sources
   const pct = total > 0 ? Math.round((live / total) * 100) : 0
-  const headColor = status.all_live ? '#16a34a' : status.any_live ? '#f59e0b' : '#dc2626'
+  const headColor = allLive ? '#16a34a' : anyLive ? '#f59e0b' : '#dc2626'
 
   return (
     <div
@@ -79,10 +86,10 @@ export function DataSourcesBanner({ status, loading }: Props) {
           Fuentes en vivo · {live}/{total} ({pct}%)
         </span>
         <span style={{ fontSize: 11, color: '#64748b', marginLeft: 8 }}>
-          {status.items
+          {items
             .filter((s) => s.live)
             .map((s) => s.label.split(' · ')[0])
-            .join(' · ') || 'todas sintéticas'}
+            .join(' · ') || 'ninguna en vivo'}
         </span>
         <span style={{ marginLeft: 'auto', fontSize: 11, color: '#64748b' }}>
           {open ? '▲ ocultar' : '▼ detalle'}
@@ -102,7 +109,7 @@ export function DataSourcesBanner({ status, loading }: Props) {
               </tr>
             </thead>
             <tbody>
-              {status.items.map((s) => (
+              {items.map((s) => (
                 <tr key={s.key} style={{ borderBottom: '1px solid #f8fafc' }}>
                   <td style={td}>
                     <strong>{s.label}</strong>

@@ -30,7 +30,16 @@ function emptyFallback(pathSegments: string[]): unknown {
     return { n_items: 0, items: [] }
   if (head === 'trade')
     return { ok: false, n_items: 0, items: [], use_source: null }
-  return { ok: false, available: false }
+  if (head === 'data-sources')
+    return { n_sources: 0, n_live: 0, all_live: false, any_live: false, items: [] }
+  // Endpoints port_slug · /{port_slug}/vessels, /calls, /congestion
+  if (pathSegments.length >= 2 && pathSegments[1] === 'vessels')
+    return { port_slug: pathSegments[0], n_vessels: 0, items: [] }
+  if (pathSegments.length >= 2 && pathSegments[1] === 'calls')
+    return { port_slug: pathSegments[0], days_back: 7, n_items: 0, items: [] }
+  if (pathSegments.length >= 2 && pathSegments[1] === 'congestion')
+    return { port_slug: pathSegments[0], days: 30, series: [], current: null }
+  return { ok: false, available: false, items: [] }
 }
 
 export async function GET(

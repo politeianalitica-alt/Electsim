@@ -173,23 +173,105 @@ def data_sources_status_endpoint() -> dict[str, Any]:
         os_url = os.environ.get("OPENSANCTIONS_API_URL", "")
         sources.append({
             "key": "opensanctions",
-            "label": "OpenSanctions / OFAC / EU",
+            "label": "OpenSanctions API",
             "category": "sanctions",
             "live": bool(os_url),
             "reason": (
                 f"OPENSANCTIONS_API_URL={os_url}"
                 if os_url
-                else "Sin URL configurada · screening retorna CLEAR por defecto"
+                else "Sin URL configurada · usando OFAC/EU/UN consolidados como fallback"
             ),
             "env_hint": "OPENSANCTIONS_API_URL",
         })
     except Exception as exc:
         sources.append({
-            "key": "opensanctions", "label": "OpenSanctions / OFAC / EU",
+            "key": "opensanctions", "label": "OpenSanctions API",
             "category": "sanctions", "live": False,
             "reason": f"compliance_tools no importable: {exc}",
             "env_hint": "OPENSANCTIONS_API_URL",
         })
+
+    # OFAC + EU + UN consolidated lists · XML públicos sin auth
+    for key, label, url in (
+        ("ofac_sdn", "OFAC SDN (Treasury USA)",
+         "https://www.treasury.gov/ofac/downloads/sdn.xml"),
+        ("eu_consolidated", "EU Consolidated Sanctions",
+         "https://webgate.ec.europa.eu/fsd/fsf/public/files/xmlFullSanctionsList_1_1/content"),
+        ("un_sc", "UN Security Council Sanctions",
+         "https://scsanctions.un.org/resources/xml/en/consolidated.xml"),
+    ):
+        sources.append({
+            "key": key,
+            "label": label,
+            "category": "sanctions",
+            "live": True,
+            "reason": f"XML público sin auth · {url}",
+            "env_hint": None,
+        })
+
+    # GLEIF LEI
+    sources.append({
+        "key": "gleif",
+        "label": "GLEIF · LEI / corporate ID",
+        "category": "corporate",
+        "live": True,
+        "reason": "API pública sin auth · https://api.gleif.org/api/v1/",
+        "env_hint": None,
+    })
+
+    # ECB Statistical Data Warehouse
+    sources.append({
+        "key": "ecb_sdw",
+        "label": "ECB Statistical Data Warehouse",
+        "category": "macro_fx",
+        "live": True,
+        "reason": "API pública sin auth · https://data-api.ecb.europa.eu/",
+        "env_hint": None,
+    })
+
+    # World Bank commodities
+    sources.append({
+        "key": "world_bank_commodities",
+        "label": "World Bank · Commodity Price Indices",
+        "category": "freight",
+        "live": True,
+        "reason": "API pública sin auth · indicators PNRG/PFOOD/PMETA",
+        "env_hint": None,
+    })
+
+    # GPSJam
+    sources.append({
+        "key": "gpsjam",
+        "label": "GPSJam · GNSS jamming map",
+        "category": "gnss_risk",
+        "live": True,
+        "reason": "GeoJSON público diario · gpsjam.org",
+        "env_hint": None,
+    })
+
+    # EMSC sismicidad
+    sources.append({
+        "key": "emsc",
+        "label": "EMSC · Eventos sísmicos",
+        "category": "geophysical_risk",
+        "live": True,
+        "reason": "FDSN público sin auth · seismicportal.eu",
+        "env_hint": None,
+    })
+
+    # GIE AGSI+ gas storage
+    has_gie_key = bool(os.environ.get("GIE_API_KEY"))
+    sources.append({
+        "key": "gie_agsi",
+        "label": "GIE AGSI+ · Gas storage EU",
+        "category": "energy_storage",
+        "live": True,
+        "reason": (
+            "GIE_API_KEY configurada (premium)" if has_gie_key
+            else "Anónimo · acceso básico (registro gratuito recomendado)"
+        ),
+        "env_hint": "GIE_API_KEY (opcional)",
+    })
 
     n_live = sum(1 for s in sources if s["live"])
     return {
@@ -229,33 +311,77 @@ def snapshot_all_endpoint(
 ) -> dict[str, Any]:
     """Snapshot live del dashboard maestro · congestión + arrivals últimas 24h.
 
-    P1 (stub): devuelve catálogo con KPIs sintéticos consistentes (basados
-    en hash determinista del slug) para que la UI pueda dibujarse de inmediato.
-    P2 reemplaza con datos AIS reales del `port_intel` módulo.
+    Estricto live · sólo devuelve KPIs si AIS está disponible. Sin AIS los
+    puertos vienen con `available=False` y los counters a `null` (el frontend
+    los muestra como pendientes de live, no como datos sintéticos).
     """
     try:
+        import os
         from etl.sources.ports.catalog import list_ports
+        from etl.sources.ports.ais_client import is_realtime_available
+        ais_live = bool(is_realtime_available())
+        # Optar a sintético solo si el usuario lo pide explícitamente
+        allow_synth = os.environ.get("PORTS_ALLOW_SYNTH") == "1"
+
         ports = list_ports(region=region)[:limit]
-        items = []
+        items: list[dict[str, Any]] = []
         for p in ports:
-            # KPIs sintéticos deterministas (seed = hash del slug)
-            h = abs(hash(p["slug"]))
-            vessels_anchored = (h % 80) + 5             # 5..85
-            arrivals_24h = (h // 80 % 40) + 2           # 2..42
-            congestion_pct = (h // 3200 % 50) + 10      # 10..60
-            items.append({
-                **p,
-                "vessels_anchored": vessels_anchored,
-                "arrivals_24h": arrivals_24h,
-                "congestion_pct": congestion_pct,
-                "data_source": "synthetic",
-                "available": True,
-            })
+            base: dict[str, Any] = {**p}
+            if ais_live:
+                # AIS real · port_intel calcula congestión a partir de vessels en zona
+                try:
+                    from etl.sources.ports.port_intel import port_snapshot as _ps
+                    snap = _ps(p["slug"])
+                    k = snap.get("kpis_24h") or {}
+                    base.update({
+                        "vessels_anchored": k.get("vessels_anchored"),
+                        "arrivals_24h": k.get("arrivals_24h"),
+                        "congestion_pct": k.get("congestion_pct"),
+                        "data_source": "aisstream",
+                        "available": True,
+                    })
+                except Exception as exc:
+                    logger.debug("port_snapshot live falló %s: %s", p["slug"], exc)
+                    base.update({
+                        "vessels_anchored": None,
+                        "arrivals_24h": None,
+                        "congestion_pct": None,
+                        "data_source": "aisstream_error",
+                        "available": False,
+                    })
+            elif allow_synth:
+                h = abs(hash(p["slug"]))
+                base.update({
+                    "vessels_anchored": (h % 80) + 5,
+                    "arrivals_24h": (h // 80 % 40) + 2,
+                    "congestion_pct": (h // 3200 % 50) + 10,
+                    "data_source": "synthetic",
+                    "available": True,
+                })
+            else:
+                base.update({
+                    "vessels_anchored": None,
+                    "arrivals_24h": None,
+                    "congestion_pct": None,
+                    "data_source": "requires_aisstream",
+                    "available": False,
+                })
+            items.append(base)
+
+        data_source = "aisstream" if ais_live else ("synthetic" if allow_synth else "requires_aisstream")
+        note = None
+        if not ais_live and not allow_synth:
+            note = (
+                "AISSTREAM_API_KEY no configurada · KPIs en blanco. "
+                "Defina la key en backend para activar live, o ponga "
+                "PORTS_ALLOW_SYNTH=1 para volver al modo demo sintético."
+            )
         return {
             "n_items": len(items),
             "items": items,
-            "data_source": "synthetic",
-            "note": "P1 stub · datos sintéticos. AIS real en sprint P2.",
+            "data_source": data_source,
+            "ais_live": ais_live,
+            "note": note,
         }
     except Exception as exc:
         logger.exception("snapshot_all falló")
@@ -459,6 +585,155 @@ def sanctions_screen_endpoint(req: SanctionsScreenRequest) -> dict[str, Any]:
     except Exception as exc:
         logger.exception("sanctions_screen falló")
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# ─────────────────────────────────────────────────────────────────
+# Conectores reales sin auth · OFAC/EU/UN · GLEIF · ECB · WB · GPSJam · EMSC · GIE
+# ─────────────────────────────────────────────────────────────────
+
+@router.get("/sanctions/consolidated/search")
+def sanctions_consolidated_search(
+    q: str = Query(..., min_length=2, description="Nombre o alias a buscar"),
+    limit: int = Query(20, ge=1, le=100),
+) -> dict[str, Any]:
+    """Busca en OFAC SDN + EU Consolidated + UN SC consolidadas."""
+    try:
+        from etl.sources.ports.sanctions_lists import search_consolidated
+        hits = search_consolidated(q, limit=limit)
+        return {"ok": True, "query": q, "n_hits": len(hits), "items": hits}
+    except Exception as exc:
+        logger.exception("sanctions_consolidated_search falló")
+        return {"ok": False, "query": q, "n_hits": 0, "items": [], "error": str(exc)}
+
+
+@router.get("/sanctions/consolidated/status")
+def sanctions_consolidated_status() -> dict[str, Any]:
+    """Disponibilidad y tamaño de las 3 listas consolidadas."""
+    try:
+        from etl.sources.ports.sanctions_lists import list_availability
+        return {"ok": True, "lists": list_availability()}
+    except Exception as exc:
+        return {"ok": False, "error": str(exc), "lists": {}}
+
+
+@router.get("/corporate/gleif/search")
+def gleif_search(
+    name: str = Query(..., min_length=2),
+    limit: int = Query(5, ge=1, le=20),
+) -> dict[str, Any]:
+    """Resuelve operador → LEI vía GLEIF (público sin auth)."""
+    try:
+        from etl.sources.ports.gleif_client import search_entity
+        items = search_entity(name, limit=limit)
+        return {"ok": True, "query": name, "n_items": len(items), "items": items}
+    except Exception as exc:
+        return {"ok": False, "query": name, "items": [], "error": str(exc)}
+
+
+@router.get("/corporate/gleif/{lei}")
+def gleif_detail(lei: str, include_parent: bool = True) -> dict[str, Any]:
+    """Detalle LEI + ultimate parent opcional."""
+    try:
+        from etl.sources.ports.gleif_client import get_lei, get_ultimate_parent
+        info = get_lei(lei)
+        if info is None:
+            raise HTTPException(status_code=404, detail=f"LEI {lei} no encontrado")
+        out = {"ok": True, **info}
+        if include_parent:
+            out["ultimate_parent"] = get_ultimate_parent(lei)
+        return out
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
+@router.get("/macro/ecb/fx/{currency}")
+def ecb_fx_series(currency: str, last_n: int = Query(24, ge=1, le=240)) -> dict[str, Any]:
+    """Tipos de cambio EUR↔CURRENCY (mensual)."""
+    try:
+        from etl.sources.ports.ecb_client import fx_series
+        series = fx_series(currency.upper(), last_n=last_n)
+        return {
+            "ok": True,
+            "currency": currency.upper(),
+            "n_points": len(series),
+            "series": series,
+            "data_source": "ecb_sdw",
+        }
+    except Exception as exc:
+        return {"ok": False, "currency": currency.upper(), "series": [], "error": str(exc)}
+
+
+@router.get("/freight/world-bank")
+def world_bank_commodities_snapshot() -> dict[str, Any]:
+    """Snapshot 4 indices commodity World Bank (energy/food/metals/agri)."""
+    try:
+        from etl.sources.ports.world_bank_commodities import snapshot_all
+        return snapshot_all()
+    except Exception as exc:
+        return {"ok": False, "n_items": 0, "items": [], "error": str(exc)}
+
+
+@router.get("/freight/world-bank/{slug}")
+def world_bank_series(slug: str, per_page: int = Query(60, ge=1, le=240)) -> dict[str, Any]:
+    """Serie histórica de un index World Bank."""
+    try:
+        from etl.sources.ports.world_bank_commodities import fetch_series, INDICATORS
+        if slug not in INDICATORS:
+            raise HTTPException(status_code=404, detail=f"{slug} no es un index conocido")
+        series = fetch_series(slug, per_page=per_page)
+        return {
+            "ok": True,
+            "slug": slug,
+            "indicator": INDICATORS[slug],
+            "n_points": len(series),
+            "series": series,
+            "data_source": "world_bank",
+        }
+    except HTTPException:
+        raise
+    except Exception as exc:
+        return {"ok": False, "slug": slug, "series": [], "error": str(exc)}
+
+
+@router.get("/gnss/jamming/latest")
+def gpsjam_latest() -> dict[str, Any]:
+    """Último GeoJSON GPSJam disponible (D-1..D-5)."""
+    try:
+        from etl.sources.ports.gpsjam_client import fetch_latest_available
+        data = fetch_latest_available()
+        if not data:
+            return {"ok": False, "reason": "GPSJam no disponible (red o sin datos recientes)", "features": []}
+        return {"ok": True, "date": data.get("date"), "n_features": len(data.get("features") or []), "geojson": data}
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+@router.get("/seismic/recent")
+def seismic_recent(
+    min_mag: float = Query(4.0, ge=2.0, le=10.0),
+    days: int = Query(30, ge=1, le=180),
+    limit: int = Query(200, ge=1, le=1000),
+) -> dict[str, Any]:
+    """Eventos sísmicos recientes globales (EMSC)."""
+    try:
+        from etl.sources.ports.emsc_client import recent_events
+        events = recent_events(min_mag=min_mag, days=days, limit=limit)
+        return {"ok": True, "n_items": len(events), "items": events, "data_source": "emsc"}
+    except Exception as exc:
+        return {"ok": False, "n_items": 0, "items": [], "error": str(exc)}
+
+
+@router.get("/energy/gas-storage")
+def gas_storage_eu() -> dict[str, Any]:
+    """Niveles gas storage EU (GIE AGSI+)."""
+    try:
+        from etl.sources.ports.gie_agsi_client import eu_storage_summary
+        res = eu_storage_summary()
+        return {"ok": True, **res, "data_source": "gie_agsi"}
+    except Exception as exc:
+        return {"ok": False, "n_items": 0, "items": [], "error": str(exc)}
 
 
 # ─────────────────────────────────────────────────────────────────
