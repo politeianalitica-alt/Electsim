@@ -110,6 +110,51 @@ respondiendo (HTTP 200 o 307 = OK; 404 = roto):
 - Cero emojis
 - Post-login → `/inicio`
 
+### 0.9 Modo siempre-online (NO acumular trabajo local)
+
+**Decisión del propietario (21 may 2026):** los commits NO se quedan en local.
+El motivo: hay varias personas/sesiones tocando `Visual_Oscar` a la vez
+(socio + posibles colaboradores). Cuando el trabajo se acumula en un worktree
+local sin pushear, el remoto avanza por su lado y el siguiente push tiene
+conflictos masivos. Para evitarlo, esta es la rutina obligatoria:
+
+**Al ARRANCAR cualquier sesión** que vaya a tocar código del frontend
+(`apps/visual-oscar/`):
+
+```bash
+cd /Users/oscargarciaretuerta/Electsim
+git fetch origin
+git pull --rebase origin Visual_Oscar
+```
+
+Si el rebase entra en conflictos, **para y avisa al humano** antes de seguir.
+No los resuelvas a ciegas — pueden ser cambios del socio que merece ver.
+
+**Tras CADA commit** que se cree en esta rama:
+
+```bash
+git push origin Visual_Oscar
+```
+
+Inmediato. No "ya lo pusheamos al final". No "pusheo cuando termine la
+sesión". Cada commit → push.
+
+**Excepciones aceptables:**
+- Si el commit forma parte de una secuencia atómica (varios commits que
+  solo tienen sentido juntos), agrupa el push al final de la secuencia —
+  pero nunca más de 3 commits sin pushear.
+- Si el push falla por rebase necesario, hazlo inmediatamente y vuelve
+  a pushear.
+
+**Lo que NO hay que hacer:**
+- Trabajar sobre el worktree de `~/.claude/worktrees/...` sin pushear
+  al remoto. Ese trabajo se evapora desde la perspectiva del socio y
+  de Vercel (que despliega de `origin/Visual_Oscar`).
+- Acumular más de 3 commits sin push.
+- Esperar a "terminar todo" para pushear: hace los conflictos peores.
+
+**Por qué `Visual_Oscar` y no `main`:** Vercel despliega `politeia-visual-oscar.vercel.app` desde la rama `Visual_Oscar`. La regla 0.1 ("main = verdad") aplica al backend Python; para el frontend de Visual Oscar, **la rama canónica es `Visual_Oscar`** y eso es lo que el usuario ve cuando abre la web.
+
 ---
 
 ## 1. Estructura del monorepo
