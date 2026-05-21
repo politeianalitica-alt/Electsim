@@ -6,7 +6,7 @@
  * Refresh manual + auto-refresh por hook. Filtros por país/tipo/región.
  */
 import { useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
@@ -18,23 +18,33 @@ import {
   useVesselCatalog,
   useSpainFlows,
   useTopPartners,
+  usePortsDataSources,
 } from '@/hooks/usePorts'
 import { WorldShippingMap } from '@/components/ports/WorldShippingMap'
 import { PortCongestionCard } from '@/components/ports/PortCongestionCard'
 import { FreightSnapshotGrid } from '@/components/ports/FreightSnapshotGrid'
 import { ChokepointRiskCard } from '@/components/ports/ChokepointRiskCard'
+import { DataSourcesBanner } from '@/components/ports/DataSourcesBanner'
+import { useCommoditySnapshot } from '@/hooks/useCommodities'
+import { PriceCard } from '@/components/commodities/PriceCard'
+import { useCommodityWatchlist } from '@/hooks/useCommodityWatchlist'
+import type { CommodityCategory } from '@/types/commodities'
 
 const ACCENT = '#0e7490' // teal portuario
 
-type Tab = 'mapa' | 'puertos' | 'fletes' | 'chokepoints' | 'comercio_es'
+type Tab = 'mapa' | 'puertos' | 'fletes' | 'chokepoints' | 'comercio_es' | 'vesper'
 
 export default function PortsDashboard() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   useEffect(() => {
     if (!isAuthenticated()) router.push('/login')
   }, [router])
 
-  const [tab, setTab] = useState<Tab>('mapa')
+  // Soporta deep-link ?tab=vesper desde la nav
+  const initialTab = (searchParams.get('tab') as Tab) || 'mapa'
+  const [tab, setTab] = useState<Tab>(initialTab)
+  const dataSources = usePortsDataSources()
   const [country, setCountry] = useState<string>('')
   const [type_, setType] = useState<string>('')
   const [query, setQuery] = useState('')
@@ -137,8 +147,11 @@ export default function PortsDashboard() {
           ))}
         </nav>
 
+        {/* Banner estado de fuentes externas (AIS, Comtrade, Yahoo, ACLED, OpenSanctions) */}
+        <DataSourcesBanner status={dataSources.status} loading={dataSources.loading} />
+
         {/* Tabs internos */}
-        <div style={{ display: 'flex', gap: 4, marginBottom: 14 }}>
+        <div style={{ display: 'flex', gap: 4, marginBottom: 14, flexWrap: 'wrap' }}>
           {(
             [
               ['mapa', 'Mapa mundial'],
@@ -146,6 +159,7 @@ export default function PortsDashboard() {
               ['fletes', 'Fletes'],
               ['chokepoints', 'Chokepoints'],
               ['comercio_es', 'Comercio España'],
+              ['vesper', 'Commodities (Vesper)'],
             ] as Array<[Tab, string]>
           ).map(([key, label]) => (
             <button
@@ -235,6 +249,8 @@ export default function PortsDashboard() {
             ))}
           </section>
         )}
+
+        {tab === 'vesper' && <VesperTab />}
 
         {tab === 'comercio_es' && (
           <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -393,5 +409,128 @@ function Toolbar({
         ↻ Actualizar
       </button>
     </div>
+  )
+}
+
+
+// ─────────────────────────────────────────────────────────────────
+// Vesper tab · Commodities embebido en /puertos
+// ─────────────────────────────────────────────────────────────────
+
+function VesperTab() {
+  const [category, setCategory] = useState<CommodityCategory | 'all'>('all')
+  const [query, setQuery] = useState('')
+  const { items, fetchedAt, loading, isLive, refresh } = useCommoditySnapshot(
+    category === 'all' ? undefined : category,
+    40,
+  )
+  const { includes, toggle, watchlist } = useCommodityWatchlist()
+
+  const filtered = useMemo(() => {
+    const ql = query.trim().toLowerCase()
+    let out = items.slice()
+    if (ql) out = out.filter((i) => i.slug.includes(ql) || i.name.toLowerCase().includes(ql))
+    out.sort((a, b) => (b.change_pct ?? 0) - (a.change_pct ?? 0))
+    return out
+  }, [items, query])
+
+  const categories: Array<CommodityCategory | 'all'> = [
+    'all', 'grains', 'energy', 'metals', 'softs', 'dairy', 'oils', 'meat',
+  ]
+
+  return (
+    <section>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '10px 14px',
+          background: '#fff',
+          border: '1px solid #e5e7eb',
+          borderRadius: 8,
+          marginBottom: 12,
+          flexWrap: 'wrap',
+          gap: 10,
+        }}
+      >
+        <div>
+          <p style={{ fontSize: 11, letterSpacing: 1.0, color: '#7c3aed', fontWeight: 700, margin: 0 }}>
+            VESPER · COMMODITIES MUNDIALES
+          </p>
+          <p style={{ fontSize: 12, color: '#475569', margin: '4px 0 0' }}>
+            40+ activos · precios spot vía Yahoo Finance ·{' '}
+            {isLive ? <span style={{ color: '#16a34a' }}>LIVE</span> : <span style={{ color: '#f59e0b' }}>offline</span>}
+            {' · '}
+            <Link href="/commodities" style={{ color: '#7c3aed', textDecoration: 'none' }}>
+              ir a vista completa →
+            </Link>
+          </p>
+        </div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar (trigo, brent, copper…)"
+            style={{ padding: '6px 10px', fontSize: 13, border: '1px solid #e2e8f0', borderRadius: 6, background: '#f9fafb' }}
+          />
+          <button
+            onClick={refresh}
+            style={{ padding: '6px 12px', fontSize: 12, fontWeight: 700, color: '#fff', background: '#7c3aed', border: 'none', borderRadius: 6, cursor: 'pointer' }}
+          >
+            ↻
+          </button>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+        {categories.map((c) => (
+          <button
+            key={c}
+            onClick={() => setCategory(c)}
+            style={{
+              padding: '5px 12px',
+              fontSize: 11,
+              fontWeight: 700,
+              color: category === c ? '#fff' : '#475569',
+              background: category === c ? '#7c3aed' : '#fff',
+              border: '1px solid ' + (category === c ? '#7c3aed' : '#e2e8f0'),
+              borderRadius: 999,
+              cursor: 'pointer',
+              letterSpacing: 0.4,
+              textTransform: 'uppercase',
+            }}
+          >
+            {c}
+          </button>
+        ))}
+        <span style={{ marginLeft: 'auto', fontSize: 11, color: '#94a3b8' }}>
+          {watchlist.length} en watchlist
+        </span>
+      </div>
+
+      {loading ? (
+        <p style={{ fontSize: 13, color: '#94a3b8' }}>Cargando precios…</p>
+      ) : filtered.length === 0 ? (
+        <p style={{ fontSize: 13, color: '#94a3b8' }}>Sin commodities para los filtros.</p>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+          {filtered.map((it) => (
+            <PriceCard
+              key={it.slug}
+              item={it}
+              isWatched={includes(it.slug)}
+              onToggleWatch={() => toggle(it.slug)}
+            />
+          ))}
+        </div>
+      )}
+
+      {fetchedAt ? (
+        <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 10 }}>
+          Datos actualizados: {new Date(fetchedAt).toLocaleString('es-ES')}
+        </p>
+      ) : null}
+    </section>
   )
 }

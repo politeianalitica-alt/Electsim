@@ -45,8 +45,14 @@ def _get_engine() -> Any | None:
 
 
 def is_real_api_available() -> bool:
-    """¿Hay COMTRADE_API_KEY + httpx/requests instalado?"""
-    if not os.environ.get("COMTRADE_API_KEY"):
+    """¿API Comtrade alcanzable? · key opcional (anon free tier funciona).
+
+    La API v1 permite consultas anónimas con rate limits bajos. Si
+    `COMTRADE_API_KEY` está configurada, los límites son superiores
+    (250k registros/mes). En cualquier caso necesitamos httpx o requests.
+    Forzar modo seed con `COMTRADE_FORCE_SEED=1` (útil en CI/tests).
+    """
+    if os.environ.get("COMTRADE_FORCE_SEED") == "1":
         return False
     try:
         import httpx  # noqa: F401
@@ -57,6 +63,11 @@ def is_real_api_available() -> bool:
             return True
         except ImportError:
             return False
+
+
+def has_api_key() -> bool:
+    """¿La key explícita está configurada? · solo informativo."""
+    return bool(os.environ.get("COMTRADE_API_KEY"))
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -258,11 +269,11 @@ def bilateral_trade(
             "source": "cache", "reporter_iso": r, "partner_iso": p,
         }
 
-    # Real API o seed demo
+    # Real API si está disponible · siempre con fallback a seed cuando falla
+    rows: list[dict[str, Any]] = []
     if is_real_api_available():
         rows = _fetch_real_api(r, p, hs_code, period_ym, flow_kind)
-    else:
-        rows = []
+    if not rows:
         if flow_kind != "import":
             rows += _seed_match(r, p, hs_code, period_ym, "export")
         if flow_kind != "export":
@@ -335,25 +346,129 @@ def top_partners(
     }
 
 
+# ─────────────────────────────────────────────────────────────────
+# ISO3 → M49 numeric · Comtrade API usa códigos numéricos UNSD
+# ─────────────────────────────────────────────────────────────────
+
+ISO3_TO_M49: dict[str, int] = {
+    "ESP": 724, "DEU": 276, "FRA": 251, "ITA": 381, "PRT": 620,
+    "NLD": 528, "BEL": 56, "GBR": 826, "IRL": 372, "POL": 616,
+    "GRC": 300, "AUT": 40, "DNK": 208, "FIN": 246, "SWE": 752,
+    "CZE": 203, "ROU": 642, "HUN": 348, "BGR": 100, "HRV": 191,
+    "SVK": 703, "SVN": 705, "LTU": 440, "LVA": 428, "EST": 233,
+    "LUX": 442, "MLT": 470, "CYP": 196,
+    "USA": 842, "MEX": 484, "CAN": 124, "BRA": 76, "ARG": 32,
+    "CHN": 156, "JPN": 392, "KOR": 410, "IND": 699, "IDN": 360,
+    "VNM": 704, "THA": 764, "MYS": 458, "SGP": 702, "PHL": 608,
+    "AUS": 36, "NZL": 554,
+    "MAR": 504, "DZA": 12, "TUN": 788, "EGY": 818, "ZAF": 710,
+    "TUR": 792, "RUS": 643, "UKR": 804, "BLR": 112,
+    "ARE": 784, "SAU": 682, "QAT": 634, "KWT": 414, "IRN": 364,
+    "ISR": 376, "JOR": 400, "LBN": 422, "OMN": 512,
+    "CHE": 757, "NOR": 579, "ISL": 352,
+    "World": 0,
+}
+
+
 def _fetch_real_api(
     reporter: str, partner: str, hs_code: str | None,
     period: str | None, flow_kind: str | None,
 ) -> list[dict[str, Any]]:
-    """Stub · llamada real a Comtrade API v1.
+    """Llamada real a UN Comtrade API v1.
 
-    Implementación completa en sprint posterior; por ahora devuelve [] para
-    no romper en CI sin red. La estructura está documentada inline.
+    Endpoint: https://comtradeapi.un.org/data/v1/get/C/M/HS
+    Devuelve una lista normalizada con shape compatible con _DEMO_SEED.
+
+    Falla cerrado: si la red falla, devuelve [] · el caller cae a seed.
     """
-    # TODO P3.1: implementación httpx real con paginación y rate-limit
+    rep_m49 = ISO3_TO_M49.get(reporter.upper())
+    par_m49 = ISO3_TO_M49.get(partner.upper())
+    if rep_m49 is None or par_m49 is None:
+        logger.info("comtrade · ISO3 fuera de mapping %s/%s · cae a seed", reporter, partner)
+        return []
+
+    # Comtrade espera period sin guión (YYYYMM). Si no se da, usa último cerrado.
+    if period:
+        period_clean = period.replace("-", "")[:6]
+    else:
+        # Último mes con datos típicamente publicados (2 meses atrás)
+        from datetime import datetime, timedelta, timezone
+        ago = datetime.now(timezone.utc) - timedelta(days=70)
+        period_clean = ago.strftime("%Y%m")
+
+    # Flow Comtrade: M=Imports, X=Exports, RX=Re-exports, RM=Re-imports
+    flow_filter: str | None = None
+    if flow_kind == "export":
+        flow_filter = "X"
+    elif flow_kind == "import":
+        flow_filter = "M"
+
+    params: dict[str, Any] = {
+        "reporterCode": rep_m49,
+        "partnerCode": par_m49,
+        "period": period_clean,
+        "cmdCode": hs_code or "TOTAL",
+        "partner2Code": 0,
+        "motCode": 0,
+        "customsCode": "C00",
+        "format": "JSON",
+        "includeDesc": "true",
+    }
+    if flow_filter:
+        params["flowCode"] = flow_filter
+
+    headers: dict[str, str] = {"Accept": "application/json"}
+    api_key = os.environ.get("COMTRADE_API_KEY", "").strip()
+    if api_key:
+        headers["Ocp-Apim-Subscription-Key"] = api_key
+
+    raw_rows: list[dict[str, Any]] = []
+    try:
+        try:
+            import httpx
+            with httpx.Client(timeout=30.0) as client:
+                resp = client.get(COMTRADE_BASE, params=params, headers=headers)
+                resp.raise_for_status()
+                payload = resp.json()
+        except ImportError:
+            import requests  # type: ignore[import-not-found]
+            resp = requests.get(COMTRADE_BASE, params=params, headers=headers, timeout=30.0)
+            resp.raise_for_status()
+            payload = resp.json()
+        raw_rows = payload.get("data") or []
+    except Exception as exc:
+        logger.warning(
+            "comtrade real API failed reporter=%s partner=%s period=%s: %s",
+            reporter, partner, period_clean, exc,
+        )
+        return []
+
+    # Normalizar al shape interno
+    out: list[dict[str, Any]] = []
+    for r in raw_rows:
+        flow_code = r.get("flowCode") or r.get("rgCode") or ""
+        flow_kind_norm = "export" if str(flow_code).upper().startswith("X") else "import"
+        out.append({
+            "reporter_iso": reporter.upper(),
+            "partner_iso": partner.upper(),
+            "hs_code": str(r.get("cmdCode") or hs_code or "TOTAL"),
+            "period_ym": period_clean[:4] + "-" + period_clean[4:6] if len(period_clean) >= 6 else period_clean,
+            "flow_kind": flow_kind_norm,
+            "value_usd": float(r.get("primaryValue") or 0),
+            "qty": float(r.get("qty") or 0) if r.get("qty") is not None else None,
+            "unit": r.get("qtyUnitAbbr") or None,
+            "source": "comtrade",
+        })
     logger.info(
-        "comtrade real API (stub) reporter=%s partner=%s hs=%s period=%s flow=%s",
-        reporter, partner, hs_code, period, flow_kind,
+        "comtrade real API ok reporter=%s partner=%s rows=%d",
+        reporter, partner, len(out),
     )
-    return []
+    return out
 
 
 __all__ = [
     "bilateral_trade",
     "top_partners",
     "is_real_api_available",
+    "has_api_key",
 ]

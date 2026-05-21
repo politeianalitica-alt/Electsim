@@ -287,6 +287,23 @@ export interface SanctionsScreenResult {
   error?: string
 }
 
+export interface DataSourceStatusItem {
+  key: string
+  label: string
+  category: string
+  live: boolean
+  reason: string
+  env_hint: string | null
+}
+
+export interface DataSourcesStatusResponse {
+  n_sources: number
+  n_live: number
+  all_live: boolean
+  any_live: boolean
+  items: DataSourceStatusItem[]
+}
+
 export interface SanctionsBatchResponse {
   ok: boolean
   vessels: SanctionsScreenResult[]

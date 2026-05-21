@@ -35,7 +35,8 @@ FREIGHT_INDICES: dict[str, dict[str, Any]] = {
         "slug": "baltic_dry",
         "name": "Baltic Dry Index (BDI)",
         "category": "freight_bulk",
-        "yahoo_ticker": None,  # ^BDI no público estable · sintético
+        # ^BDI · Yahoo lo expone irregularmente. Si falla, cae a synth.
+        "yahoo_ticker": "^BDI",
         "unit": "index",
         "exchange": "Baltic Exchange",
         "description": "Referencia mundial de fletes granel seco · termómetro comercio global.",

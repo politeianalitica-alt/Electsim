@@ -253,3 +253,25 @@ def test_sanctions_batch_screen_endpoint(client: TestClient):
     assert data["ok"] is True
     assert data["summary"]["n_vessels_checked"] == 1
     assert data["summary"]["n_operators_checked"] == 1
+
+
+# ─────────────────────────────────────────────────────────────────
+# Live data · estado de fuentes externas
+# ─────────────────────────────────────────────────────────────────
+
+def test_data_sources_status_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/data-sources/status")
+    assert r.status_code == 200
+    data = r.json()
+    assert "n_sources" in data
+    assert "n_live" in data
+    assert "items" in data
+    keys = {it["key"] for it in data["items"]}
+    # Las 6 fuentes principales del módulo
+    assert {"aisstream", "comtrade", "comext", "yahoo_freight", "acled", "opensanctions"}.issubset(keys)
+    # Cada item tiene campos obligatorios
+    for it in data["items"]:
+        assert "label" in it
+        assert "category" in it
+        assert isinstance(it["live"], bool)
+        assert "reason" in it

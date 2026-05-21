@@ -56,6 +56,151 @@ def list_ports_endpoint(
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
+@router.get("/data-sources/status")
+def data_sources_status_endpoint() -> dict[str, Any]:
+    """Estado de las fuentes externas conectables (live/synth/degraded).
+
+    Devuelve un payload por fuente para que el frontend pinte un banner
+    claro indicando qué datos son reales vs sintéticos.
+    Nunca lanza · todas las comprobaciones fallan cerradas.
+    """
+    import os
+    sources: list[dict[str, Any]] = []
+
+    # AIS · WebSocket AISstream
+    try:
+        from etl.sources.ports.ais_client import is_realtime_available
+        live = bool(is_realtime_available())
+        sources.append({
+            "key": "aisstream",
+            "label": "AIS · AISstream",
+            "category": "vessel_positions",
+            "live": live,
+            "reason": (
+                "AISSTREAM_API_KEY configurada"
+                if live
+                else "Sin AISSTREAM_API_KEY · usando posiciones sintéticas"
+            ),
+            "env_hint": "AISSTREAM_API_KEY",
+        })
+    except Exception as exc:
+        sources.append({
+            "key": "aisstream", "label": "AIS · AISstream",
+            "category": "vessel_positions", "live": False,
+            "reason": f"error: {exc}", "env_hint": "AISSTREAM_API_KEY",
+        })
+
+    # Comtrade
+    try:
+        from etl.sources.ports.comtrade_client import has_api_key, is_real_api_available
+        avail = bool(is_real_api_available())
+        has_key = bool(has_api_key())
+        sources.append({
+            "key": "comtrade",
+            "label": "UN Comtrade",
+            "category": "trade_flows",
+            "live": avail,
+            "reason": (
+                f"API alcanzable · key {'configurada' if has_key else 'ausente (anon free tier)'}"
+                if avail
+                else "Forzado a seed (COMTRADE_FORCE_SEED=1) o httpx no instalado"
+            ),
+            "env_hint": "COMTRADE_API_KEY (opcional)",
+        })
+    except Exception as exc:
+        sources.append({
+            "key": "comtrade", "label": "UN Comtrade",
+            "category": "trade_flows", "live": False,
+            "reason": f"error: {exc}", "env_hint": "COMTRADE_API_KEY",
+        })
+
+    # Eurostat Comext
+    try:
+        # Comext no requiere key; chequeamos que la dep eurostat_connector esté importable
+        from etl.ingestion.connectors import eurostat_connector  # noqa: F401
+        sources.append({
+            "key": "comext",
+            "label": "Eurostat Comext",
+            "category": "trade_flows_eu",
+            "live": True,
+            "reason": "API pública sin key · EU↔EU",
+            "env_hint": None,
+        })
+    except Exception:
+        sources.append({
+            "key": "comext", "label": "Eurostat Comext",
+            "category": "trade_flows_eu", "live": False,
+            "reason": "conector Eurostat no disponible · usando seed Comext",
+            "env_hint": None,
+        })
+
+    # Yahoo Finance (freight)
+    has_yahoo = False
+    yahoo_reason = "ninguno"
+    try:
+        from etl.sources.commodities.prices import YahooFinanceClient  # noqa: F401
+        has_yahoo = True
+        yahoo_reason = "YahooFinanceClient disponible · ^BDI intentado en live"
+    except Exception as exc:
+        yahoo_reason = f"YahooFinanceClient no importable: {exc}"
+    sources.append({
+        "key": "yahoo_freight",
+        "label": "Yahoo Finance · Freight",
+        "category": "freight",
+        "live": has_yahoo,
+        "reason": yahoo_reason,
+        "env_hint": None,
+    })
+
+    # ACLED
+    has_acled = bool(os.environ.get("ACLED_API_KEY") and os.environ.get("ACLED_EMAIL"))
+    sources.append({
+        "key": "acled",
+        "label": "ACLED · Eventos geopolíticos",
+        "category": "chokepoint_risk",
+        "live": has_acled,
+        "reason": (
+            "ACLED_API_KEY + ACLED_EMAIL configurados"
+            if has_acled
+            else "Sin credenciales · risk_score usa solo base (sin boost por eventos)"
+        ),
+        "env_hint": "ACLED_API_KEY + ACLED_EMAIL",
+    })
+
+    # OpenSanctions / compliance
+    try:
+        from agents.tools import compliance_tools  # noqa: F401
+        os_url = os.environ.get("OPENSANCTIONS_API_URL", "")
+        sources.append({
+            "key": "opensanctions",
+            "label": "OpenSanctions / OFAC / EU",
+            "category": "sanctions",
+            "live": bool(os_url),
+            "reason": (
+                f"OPENSANCTIONS_API_URL={os_url}"
+                if os_url
+                else "Sin URL configurada · screening retorna CLEAR por defecto"
+            ),
+            "env_hint": "OPENSANCTIONS_API_URL",
+        })
+    except Exception as exc:
+        sources.append({
+            "key": "opensanctions", "label": "OpenSanctions / OFAC / EU",
+            "category": "sanctions", "live": False,
+            "reason": f"compliance_tools no importable: {exc}",
+            "env_hint": "OPENSANCTIONS_API_URL",
+        })
+
+    n_live = sum(1 for s in sources if s["live"])
+    return {
+        "n_sources": len(sources),
+        "n_live": n_live,
+        "all_live": n_live == len(sources),
+        "any_live": n_live > 0,
+        "items": sources,
+    }
+
+
 @router.get("/catalog/vessels")
 def list_vessels_endpoint(
     type_: str | None = Query(None, alias="type",

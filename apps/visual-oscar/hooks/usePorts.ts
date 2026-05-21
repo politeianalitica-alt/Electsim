@@ -19,10 +19,15 @@ import type {
   ChokepointsListResponse,
   ChokepointRisk,
   SanctionsScreenResult,
+  DataSourcesStatusResponse,
 } from '@/types/ports'
 
 const HOUR = 60 * 60 * 1000
 const HALF_HOUR = 30 * 60 * 1000
+// Live data tier: snapshot, vessels y screening tienen TTL más cortos para
+// reflejar mejor el estado real (AIS, congestión, sanciones)
+const FIVE_MIN = 5 * 60 * 1000
+const MINUTE = 60 * 1000
 
 export function usePortCatalog(country?: string, type_?: string, region?: string) {
   const qs = new URLSearchParams()
@@ -53,8 +58,10 @@ export function useVesselCatalog() {
 
 export function usePortSnapshotAll(limit = 40) {
   const path = `/api/ports/snapshot-all?limit=${limit}`
+  // Tiempo real: congestión y arrivals cambian rápido en puertos · refresco 5m
   const { data, loading, error, refresh, isLive } = useApi<SnapshotAllResponse>(path, {
-    refreshInterval: HALF_HOUR,
+    refreshInterval: FIVE_MIN,
+    refreshOnFocus: true,
   })
   return {
     items: data?.items ?? [],
@@ -77,8 +84,10 @@ export function usePort(slug: string | null) {
 
 export function usePortVessels(slug: string | null, limit = 50) {
   const path = slug ? `/api/ports/${slug}/vessels?limit=${limit}` : '/api/ports/__none__/vessels'
+  // Vessels en zona portuaria · AIS · 1 min si está en LIVE, sino 5 min
   const { data, loading, error, refresh } = useApi<PortVesselsResponse>(path, {
-    refreshInterval: 5 * 60 * 1000,
+    refreshInterval: MINUTE,
+    refreshOnFocus: true,
   })
   return {
     vessels: (slug ? data?.items : undefined) ?? ([] as VesselPosition[]),
@@ -215,4 +224,22 @@ export function useChokepoint(slug: string | null, days = 30) {
     refreshInterval: HOUR,
   })
   return { data: slug ? data : undefined, loading, error, refresh }
+}
+
+
+export function usePortsDataSources() {
+  const { data, loading, error, refresh } = useApi<DataSourcesStatusResponse>(
+    '/api/ports/data-sources/status',
+    { refreshInterval: 5 * 60 * 1000 },
+  )
+  return {
+    status: data,
+    items: data?.items ?? [],
+    nLive: data?.n_live ?? 0,
+    allLive: data?.all_live ?? false,
+    anyLive: data?.any_live ?? false,
+    loading,
+    error,
+    refresh,
+  }
 }
