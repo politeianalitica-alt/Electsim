@@ -72,9 +72,15 @@ export function GdeltGlobalPanel({ query = 'Spain' }: { query?: string }) {
       )}
 
       {!loading && articles && !articles.ok && (
-        <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 10 }}>
-          GDELT temporalmente no disponible · {articles.data_quality?.note}
-        </p>
+        <div style={{ marginTop: 10, padding: 10, background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 6 }}>
+          <p style={{ fontSize: 11, color: '#92400e', margin: 0 }}>
+            <strong>GDELT no respondió.</strong> {articles.data_quality?.note}
+          </p>
+          <p style={{ fontSize: 10, color: '#78716c', margin: '4px 0 0', lineHeight: 1.5 }}>
+            GDELT limita 1 req/5s por bloque IP · Vercel comparte IPs entre instancias serverless.
+            Cache 1h activo: la próxima llamada exitosa quedará servida sin nuevo hit a GDELT.
+          </p>
+        </div>
       )}
     </section>
   )

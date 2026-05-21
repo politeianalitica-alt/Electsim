@@ -22,7 +22,9 @@
 import { NextResponse } from 'next/server'
 import { quality } from '@/lib/macro-utils'
 
-export const revalidate = 300 // 5min — GDELT updates rápido
+// GDELT rate-limits agresivamente (1 req/5s por bloque IP). Cache 1h
+// para minimizar hits y poder servir desde caché en producción.
+export const revalidate = 3600
 
 const GDELT_BASE = 'https://api.gdeltproject.org/api/v2/doc/doc'
 
@@ -39,7 +41,7 @@ async function gdeltFetch(params: Record<string, string>, attempt = 1): Promise<
         'Accept-Language': 'en-US,en;q=0.9,es;q=0.8',
       },
       signal: ctrl.signal,
-      next: { revalidate: 300 },
+      next: { revalidate: 3600 },
     } as RequestInit)
     clearTimeout(timeout)
     if (!r.ok) return { error: `HTTP ${r.status}`, attempt }
