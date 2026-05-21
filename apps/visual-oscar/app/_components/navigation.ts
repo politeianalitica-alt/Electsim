@@ -149,6 +149,7 @@ export const MODULES: NavModule[] = [
       { label: 'Vivienda & Inmobiliario',      href: '/sector-vivienda' },
       { label: 'Banca & Seguros',              href: '/sector-banca' },
       { label: 'Agroalimentario & Rural',      href: '/sector-agro' },
+      { label: 'Tercer Sector & ONGs',         href: '/sector-tercer-sector' },
       // Puertos & Comercio Global agrupa el módulo marítimo + Commodities (Vesper como sub-tab)
       { label: 'Puertos & Comercio Global',    href: '/puertos' },
       { label: 'Telecom & Digital',            href: '/sector-telecom' },
