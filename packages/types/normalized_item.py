@@ -74,6 +74,10 @@ SourceKind = Literal[
     "source_observation",
     # News + mercados globales (clientes etl/sources/news + etl/sources/markets)
     "newsapi", "alpha_vantage", "fred",
+    # Sprint 3 · global_intel (etl/sources/global_intel/)
+    "wikidata_sparql", "owid", "sec_edgar", "bris_corporate",
+    "open_exchange_rates", "nasdaq_data_link", "open_contracting",
+    "ess_social_survey", "parltrack",
     # Otros
     "wikidata", "manual", "import",
 ]
