@@ -76,14 +76,23 @@ function mapDataset(it: any) {
 }
 
 async function fetchLatestBarometros() {
-  // Busca en CKAN los datasets con título "barómetro" del publisher CIS
-  const data = await ckanFetch(
-    '/catalog/dataset?_pageSize=20&q=barometro+CIS&_sort=-modified',
-  )
+  // datos.gob.es CKAN no soporta `?q=`. Usamos /catalog/dataset/title/{kw}
+  // que sí indexa título. Filtramos client-side por publisher CIS.
+  const data = await ckanFetch('/catalog/dataset/title/barometro?_pageSize=50')
   if (data.error) return { error: data.error }
   const items = (data?.result?.items || [])
     .map(mapDataset)
-    .filter((d: any) => d.title?.toLowerCase().includes('barómetro') || d.title?.toLowerCase().includes('barometro'))
+    .filter((d: any) => {
+      const t = (d.title || '').toLowerCase()
+      const pub = (d.publisher || '').toLowerCase()
+      // Filtro suave: o publisher CIS o título contiene "CIS"
+      return pub.includes('cis') || t.includes('cis') || t.includes('opinión')
+    })
+    .sort((a: any, b: any) => {
+      const da = new Date(a.modified || a.issued || 0).getTime()
+      const db = new Date(b.modified || b.issued || 0).getTime()
+      return db - da
+    })
   return { items }
 }
 
@@ -96,7 +105,7 @@ export async function GET(
   const action = segs[0]
 
   if (action === 'health') {
-    const probe = await ckanFetch('/catalog/dataset?_pageSize=1&q=CIS')
+    const probe = await ckanFetch('/catalog/dataset?_pageSize=1')
     return NextResponse.json({
       ok: !probe.error,
       auth_required: false,

@@ -130,12 +130,20 @@ export async function GET(
   }
 
   // /api/datos-gob/search
+  // datos.gob.es apidata no soporta `?q=`. Usa endpoints path-based:
+  //   /catalog/dataset/title/{kw}     · busca en título
+  //   /catalog/dataset/keyword/{kw}   · busca en keywords
+  //   /catalog/dataset/publisher/{id} · filtra por publisher (URI)
   if (action === 'search') {
     const q = url.searchParams.get('q') || 'macro'
     const pageSize = url.searchParams.get('pageSize') || '20'
     const publisher = url.searchParams.get('publisher') || ''
-    let path = `/catalog/dataset?_pageSize=${pageSize}&q=${encodeURIComponent(q)}`
-    if (publisher) path += `&publisher=${encodeURIComponent(publisher)}`
+    let path: string
+    if (publisher) {
+      path = `/catalog/dataset/publisher/${encodeURIComponent(publisher)}?_pageSize=${pageSize}`
+    } else {
+      path = `/catalog/dataset/title/${encodeURIComponent(q)}?_pageSize=${pageSize}`
+    }
     const data = await datosFetch(path)
     if (data.error) {
       return NextResponse.json({
@@ -193,18 +201,23 @@ export async function GET(
   // /api/datos-gob/publishers
   if (action === 'publishers') {
     const q = url.searchParams.get('q') || ''
-    const data = await datosFetch(`/catalog/publisher${q ? `?q=${encodeURIComponent(q)}` : ''}`)
+    // publishers list endpoint (no q parameter soportado)
+    const data = await datosFetch('/catalog/publisher?_pageSize=200')
     if (data.error) {
       return NextResponse.json({
         ok: false,
         data_quality: quality('missing', 'datos.gob.es · publishers', data.error),
       })
     }
-    const items = (data?.result?.items || []).map((p: any) => ({
+    let items = (data?.result?.items || []).map((p: any) => ({
       id: p._about,
       label: pick(p.label) || pick(p.prefLabel),
       n_datasets: p.publisherDatasetCount ?? null,
     }))
+    if (q) {
+      const ql = q.toLowerCase()
+      items = items.filter((p: any) => p.label?.toLowerCase().includes(ql))
+    }
     return NextResponse.json({
       ok: true,
       data_quality: quality('live', 'datos.gob.es · publishers'),
@@ -217,7 +230,9 @@ export async function GET(
   if (action === 'spain-economic-pulse') {
     const results = await Promise.all(
       SPAIN_ECONOMIC_CURATED.map(async (c) => {
-        const data = await datosFetch(`/catalog/dataset?_pageSize=1&q=${encodeURIComponent(c.keyword)}`)
+        // datos.gob.es title-based search (no q parameter)
+        const firstKeyword = c.keyword.split(/\s+/)[0]
+        const data = await datosFetch(`/catalog/dataset/title/${encodeURIComponent(firstKeyword)}?_pageSize=1`)
         const top = data?.result?.items?.[0]
         return {
           key: c.key,
@@ -245,7 +260,7 @@ export async function GET(
   // /api/datos-gob/airef-forecast · AIReF previsiones fiscales
   if (action === 'airef-forecast') {
     // Probar búsqueda en catálogo
-    const data = await datosFetch('/catalog/dataset?_pageSize=5&q=AIReF+previsiones+macroecon%C3%B3micas')
+    const data = await datosFetch('/catalog/dataset/title/AIReF?_pageSize=5')
     const top = data?.result?.items?.slice(0, 5).map(mapDataset) || []
     return NextResponse.json({
       ok: true,
@@ -264,7 +279,7 @@ export async function GET(
 
   // /api/datos-gob/igae-ejecucion · IGAE ejecución presupuestaria mensual
   if (action === 'igae-ejecucion') {
-    const data = await datosFetch('/catalog/dataset?_pageSize=5&q=IGAE+ejecuci%C3%B3n+presupuestaria')
+    const data = await datosFetch('/catalog/dataset/title/ejecucion?_pageSize=5')
     const top = data?.result?.items?.slice(0, 5).map(mapDataset) || []
     return NextResponse.json({
       ok: true,
@@ -283,7 +298,7 @@ export async function GET(
 
   // /api/datos-gob/sci-inversiones · DataInvex inversión extranjera
   if (action === 'sci-inversiones') {
-    const data = await datosFetch('/catalog/dataset?_pageSize=5&q=DataInvex+inversi%C3%B3n+extranjera')
+    const data = await datosFetch('/catalog/dataset/title/inversi%C3%B3n?_pageSize=5')
     const top = data?.result?.items?.slice(0, 5).map(mapDataset) || []
     return NextResponse.json({
       ok: true,
@@ -301,7 +316,7 @@ export async function GET(
 
   // /api/datos-gob/oepm-patentes
   if (action === 'oepm-patentes') {
-    const data = await datosFetch('/catalog/dataset?_pageSize=5&q=OEPM+patentes')
+    const data = await datosFetch('/catalog/dataset/title/patentes?_pageSize=5')
     const top = data?.result?.items?.slice(0, 5).map(mapDataset) || []
     return NextResponse.json({
       ok: true,
@@ -319,7 +334,7 @@ export async function GET(
 
   // /api/datos-gob/registro-mercantil · Registradores demografía empresarial
   if (action === 'registro-mercantil') {
-    const data = await datosFetch('/catalog/dataset?_pageSize=5&q=Registradores+demograf%C3%ADa+empresarial')
+    const data = await datosFetch('/catalog/dataset/title/empresarial?_pageSize=5')
     const top = data?.result?.items?.slice(0, 5).map(mapDataset) || []
     return NextResponse.json({
       ok: true,
