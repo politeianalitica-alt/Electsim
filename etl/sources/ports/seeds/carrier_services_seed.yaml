@@ -1,0 +1,518 @@
+# Seed `carrier_services` · Sprint 2 Fase D
+#
+# 30 servicios principales de las top navieras · port_rotation simplificada
+# a 6-8 escalas por servicio. Datos públicos: webs de navieras sección
+# "Schedule" / "Service Map" + memorias 2024-2025.
+#
+# trade_lane convenciones:
+#   asia_eu        · Asia ↔ North Europe (vía Suez)
+#   asia_med       · Asia ↔ Mediterráneo (vía Suez)
+#   transpac       · Asia ↔ West Coast USA
+#   transpac_east  · Asia ↔ East Coast USA (vía Panama)
+#   transatlantic  · USA ↔ Europe
+#   intra_eu       · Intra-European (incluye Med-Norte)
+#   me_eu          · Middle East ↔ Europe
+#   intra_asia     · Servicios feeder Asia
+#   africa         · Asia/Eu ↔ África Occidental/Sur
+
+carrier_services:
+  # ─── MSC · servicios FAL ──────────────────────────────────────
+  - service_code: msc-silk
+    service_name: SILK Service · Asia-North Europe
+    shipping_line_slug: msc
+    alliance: standalone
+    trade_lane: asia_eu
+    frequency_days: 7
+    estimated_transit_days: 28
+    vessel_class: ULCV
+    avg_capacity_teu: 22000
+    main_chokepoints: [malacca, suez_canal, gibraltar]
+    port_rotation:
+      - { port_slug: shanghai, order: 1, dwell_days: 2 }
+      - { port_slug: ningbo, order: 2, dwell_days: 1 }
+      - { port_slug: shenzhen, order: 3 }
+      - { port_slug: singapore, order: 4 }
+      - { port_slug: algeciras, order: 5 }
+      - { port_slug: rotterdam, order: 6 }
+      - { port_slug: hamburg, order: 7 }
+      - { port_slug: antwerp, order: 8 }
+    source: curated
+    data_quality: seed
+
+  - service_code: msc-mustang
+    service_name: MUSTANG Service · Med-East Coast USA
+    shipping_line_slug: msc
+    trade_lane: transatlantic
+    frequency_days: 7
+    estimated_transit_days: 18
+    avg_capacity_teu: 12000
+    main_chokepoints: [gibraltar]
+    port_rotation:
+      - { port_slug: gioia_tauro, order: 1 }
+      - { port_slug: valencia, order: 2 }
+      - { port_slug: algeciras, order: 3 }
+      - { port_slug: ny_nj, order: 4 }
+      - { port_slug: savannah, order: 5 }
+    source: curated
+    data_quality: seed
+
+  - service_code: msc-jade
+    service_name: JADE · India-Med-USA
+    shipping_line_slug: msc
+    trade_lane: me_eu
+    frequency_days: 14
+    avg_capacity_teu: 8500
+    main_chokepoints: [suez_canal, bab_el_mandeb]
+    port_rotation:
+      - { port_slug: jebel_ali, order: 1 }
+      - { port_slug: jeddah, order: 2 }
+      - { port_slug: gioia_tauro, order: 3 }
+      - { port_slug: valencia, order: 4 }
+    source: curated
+    data_quality: seed
+
+  # ─── Maersk · servicios AE (Asia-Europe) ──────────────────────
+  - service_code: maersk-ae1
+    service_name: AE1 · Shogun · Asia-North Europe
+    shipping_line_slug: maersk
+    alliance: gemini
+    trade_lane: asia_eu
+    frequency_days: 7
+    estimated_transit_days: 30
+    vessel_class: ULCV
+    avg_capacity_teu: 23500
+    main_chokepoints: [malacca, suez_canal]
+    port_rotation:
+      - { port_slug: ningbo, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: tanjung_pelepas, order: 3 }
+      - { port_slug: tanger_med, order: 4 }
+      - { port_slug: bremerhaven, order: 5 }
+      - { port_slug: rotterdam, order: 6 }
+      - { port_slug: antwerp, order: 7 }
+    source: curated
+    data_quality: seed
+
+  - service_code: maersk-ae6
+    service_name: AE6 · Lion · Far East-Med
+    shipping_line_slug: maersk
+    trade_lane: asia_med
+    frequency_days: 7
+    estimated_transit_days: 24
+    avg_capacity_teu: 14000
+    main_chokepoints: [malacca, suez_canal]
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: ningbo, order: 2 }
+      - { port_slug: singapore, order: 3 }
+      - { port_slug: salalah, order: 4 }
+      - { port_slug: tanger_med, order: 5 }
+      - { port_slug: barcelona, order: 6 }
+      - { port_slug: valencia, order: 7 }
+    source: curated
+    data_quality: seed
+
+  - service_code: maersk-tp9
+    service_name: TP9 · Transpacific West Coast
+    shipping_line_slug: maersk
+    trade_lane: transpac
+    frequency_days: 7
+    estimated_transit_days: 14
+    avg_capacity_teu: 14500
+    main_chokepoints: []
+    port_rotation:
+      - { port_slug: ningbo, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: busan, order: 3 }
+      - { port_slug: los_angeles, order: 4 }
+      - { port_slug: long_beach, order: 5 }
+    source: curated
+    data_quality: seed
+
+  # ─── CMA CGM · servicios FAL/MEX ──────────────────────────────
+  - service_code: cma-fal1
+    service_name: FAL 1 · French Asia Line North
+    shipping_line_slug: cma_cgm
+    alliance: ocean
+    trade_lane: asia_eu
+    frequency_days: 7
+    estimated_transit_days: 30
+    vessel_class: ULCV
+    avg_capacity_teu: 23000
+    main_chokepoints: [malacca, suez_canal]
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: ningbo, order: 2 }
+      - { port_slug: shenzhen, order: 3 }
+      - { port_slug: tanger_med, order: 4 }
+      - { port_slug: rotterdam, order: 5 }
+      - { port_slug: hamburg, order: 6 }
+      - { port_slug: le_havre, order: 7 }
+    source: curated
+    data_quality: seed
+
+  - service_code: cma-mex
+    service_name: MEX · Med-USA East Coast
+    shipping_line_slug: cma_cgm
+    trade_lane: transatlantic
+    frequency_days: 7
+    avg_capacity_teu: 11000
+    main_chokepoints: [gibraltar]
+    port_rotation:
+      - { port_slug: piraeus, order: 1 }
+      - { port_slug: gioia_tauro, order: 2 }
+      - { port_slug: algeciras, order: 3 }
+      - { port_slug: ny_nj, order: 4 }
+      - { port_slug: savannah, order: 5 }
+    source: curated
+    data_quality: seed
+
+  - service_code: cma-medex
+    service_name: MEDEX · Indian-Med
+    shipping_line_slug: cma_cgm
+    trade_lane: me_eu
+    frequency_days: 7
+    avg_capacity_teu: 9000
+    main_chokepoints: [bab_el_mandeb, suez_canal]
+    port_rotation:
+      - { port_slug: mundra, order: 1 }
+      - { port_slug: chennai, order: 2 }
+      - { port_slug: jebel_ali, order: 3 }
+      - { port_slug: jeddah, order: 4 }
+      - { port_slug: gioia_tauro, order: 5 }
+      - { port_slug: valencia, order: 6 }
+    source: curated
+    data_quality: seed
+
+  # ─── COSCO · servicios AEU/TPE ────────────────────────────────
+  - service_code: cosco-aeu1
+    service_name: AEU1 · Asia-Europe North
+    shipping_line_slug: cosco
+    alliance: ocean
+    trade_lane: asia_eu
+    frequency_days: 7
+    estimated_transit_days: 30
+    vessel_class: ULCV
+    avg_capacity_teu: 21000
+    main_chokepoints: [malacca, suez_canal]
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: ningbo, order: 2 }
+      - { port_slug: shenzhen, order: 3 }
+      - { port_slug: singapore, order: 4 }
+      - { port_slug: piraeus, order: 5 }
+      - { port_slug: rotterdam, order: 6 }
+      - { port_slug: hamburg, order: 7 }
+    source: curated
+    data_quality: seed
+
+  - service_code: cosco-med
+    service_name: AEM · Asia-Europe Med
+    shipping_line_slug: cosco
+    trade_lane: asia_med
+    frequency_days: 7
+    avg_capacity_teu: 18000
+    main_chokepoints: [malacca, suez_canal]
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: ningbo, order: 2 }
+      - { port_slug: tanjung_pelepas, order: 3 }
+      - { port_slug: piraeus, order: 4 }
+      - { port_slug: valencia, order: 5 }
+      - { port_slug: barcelona, order: 6 }
+    source: curated
+    data_quality: seed
+
+  # ─── Hapag-Lloyd · gemini con Maersk ─────────────────────────
+  - service_code: hapag-fe1
+    service_name: FE1 · Gemini Far East-Europe
+    shipping_line_slug: hapag_lloyd
+    alliance: gemini
+    trade_lane: asia_eu
+    frequency_days: 7
+    avg_capacity_teu: 23000
+    main_chokepoints: [malacca, suez_canal]
+    port_rotation:
+      - { port_slug: ningbo, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: tanjung_pelepas, order: 3 }
+      - { port_slug: tanger_med, order: 4 }
+      - { port_slug: rotterdam, order: 5 }
+      - { port_slug: hamburg, order: 6 }
+    source: curated
+    data_quality: seed
+
+  - service_code: hapag-tap
+    service_name: TAP · Transatlantic Premium
+    shipping_line_slug: hapag_lloyd
+    trade_lane: transatlantic
+    frequency_days: 7
+    avg_capacity_teu: 8500
+    port_rotation:
+      - { port_slug: hamburg, order: 1 }
+      - { port_slug: rotterdam, order: 2 }
+      - { port_slug: le_havre, order: 3 }
+      - { port_slug: ny_nj, order: 4 }
+      - { port_slug: savannah, order: 5 }
+      - { port_slug: houston, order: 6 }
+    source: curated
+    data_quality: seed
+
+  # ─── Evergreen ───────────────────────────────────────────────
+  - service_code: evergreen-ces
+    service_name: CES · Asia-Europe
+    shipping_line_slug: evergreen
+    alliance: the_alliance
+    trade_lane: asia_eu
+    frequency_days: 7
+    avg_capacity_teu: 24000
+    vessel_class: ULCV
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: ningbo, order: 2 }
+      - { port_slug: tanjung_pelepas, order: 3 }
+      - { port_slug: gioia_tauro, order: 4 }
+      - { port_slug: rotterdam, order: 5 }
+      - { port_slug: felixstowe, order: 6 }
+      - { port_slug: hamburg, order: 7 }
+    source: curated
+    data_quality: seed
+
+  - service_code: evergreen-cps
+    service_name: CPS · China-Pacific Service
+    shipping_line_slug: evergreen
+    trade_lane: transpac
+    frequency_days: 7
+    avg_capacity_teu: 13000
+    port_rotation:
+      - { port_slug: ningbo, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: kaohsiung, order: 3 }
+      - { port_slug: los_angeles, order: 4 }
+      - { port_slug: long_beach, order: 5 }
+    source: curated
+    data_quality: seed
+
+  # ─── ONE · Premier Alliance ──────────────────────────────────
+  - service_code: one-fp1
+    service_name: FP1 · Far East-North Europe
+    shipping_line_slug: one
+    alliance: premier
+    trade_lane: asia_eu
+    frequency_days: 7
+    avg_capacity_teu: 14000
+    port_rotation:
+      - { port_slug: tokyo, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: ningbo, order: 3 }
+      - { port_slug: shenzhen, order: 4 }
+      - { port_slug: singapore, order: 5 }
+      - { port_slug: rotterdam, order: 6 }
+      - { port_slug: hamburg, order: 7 }
+    source: curated
+    data_quality: seed
+
+  - service_code: one-pn3
+    service_name: PN3 · Asia-USWC
+    shipping_line_slug: one
+    trade_lane: transpac
+    frequency_days: 7
+    avg_capacity_teu: 13500
+    port_rotation:
+      - { port_slug: tokyo, order: 1 }
+      - { port_slug: busan, order: 2 }
+      - { port_slug: kaohsiung, order: 3 }
+      - { port_slug: los_angeles, order: 4 }
+      - { port_slug: long_beach, order: 5 }
+    source: curated
+    data_quality: seed
+
+  # ─── HMM ─────────────────────────────────────────────────────
+  - service_code: hmm-fe2
+    service_name: FE2 · Far East-Europe
+    shipping_line_slug: hmm
+    alliance: premier
+    trade_lane: asia_eu
+    frequency_days: 7
+    avg_capacity_teu: 24000
+    port_rotation:
+      - { port_slug: busan, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: ningbo, order: 3 }
+      - { port_slug: singapore, order: 4 }
+      - { port_slug: rotterdam, order: 5 }
+      - { port_slug: hamburg, order: 6 }
+    source: curated
+    data_quality: seed
+
+  # ─── Yang Ming ───────────────────────────────────────────────
+  - service_code: yang-tpa
+    service_name: TPA · Trans-Pacific North
+    shipping_line_slug: yang_ming
+    alliance: premier
+    trade_lane: transpac
+    frequency_days: 7
+    avg_capacity_teu: 8200
+    port_rotation:
+      - { port_slug: kaohsiung, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: ningbo, order: 3 }
+      - { port_slug: los_angeles, order: 4 }
+      - { port_slug: long_beach, order: 5 }
+    source: curated
+    data_quality: seed
+
+  # ─── ZIM · standalone agresivo ────────────────────────────────
+  - service_code: zim-zcp
+    service_name: ZCP · ZIM Container Service Pacific
+    shipping_line_slug: zim
+    trade_lane: transpac
+    frequency_days: 7
+    avg_capacity_teu: 10000
+    port_rotation:
+      - { port_slug: ningbo, order: 1 }
+      - { port_slug: shanghai, order: 2 }
+      - { port_slug: busan, order: 3 }
+      - { port_slug: los_angeles, order: 4 }
+    source: curated
+    data_quality: seed
+
+  - service_code: zim-zme
+    service_name: ZME · ZIM Med-East
+    shipping_line_slug: zim
+    trade_lane: me_eu
+    frequency_days: 14
+    avg_capacity_teu: 5500
+    port_rotation:
+      - { port_slug: jebel_ali, order: 1 }
+      - { port_slug: jeddah, order: 2 }
+      - { port_slug: piraeus, order: 3 }
+      - { port_slug: barcelona, order: 4 }
+    source: curated
+    data_quality: seed
+
+  # ─── Wan Hai ─────────────────────────────────────────────────
+  - service_code: wanhai-cpx
+    service_name: CPX · China-Pacific Express
+    shipping_line_slug: wan_hai
+    trade_lane: transpac
+    frequency_days: 7
+    avg_capacity_teu: 11000
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: ningbo, order: 2 }
+      - { port_slug: kaohsiung, order: 3 }
+      - { port_slug: los_angeles, order: 4 }
+    source: curated
+    data_quality: seed
+
+  # ─── OOCL ────────────────────────────────────────────────────
+  - service_code: oocl-lly
+    service_name: LL3 · Asia-Europe
+    shipping_line_slug: oocl
+    alliance: ocean
+    trade_lane: asia_eu
+    frequency_days: 7
+    avg_capacity_teu: 21000
+    port_rotation:
+      - { port_slug: hong_kong, order: 1 }
+      - { port_slug: shenzhen, order: 2 }
+      - { port_slug: ningbo, order: 3 }
+      - { port_slug: shanghai, order: 4 }
+      - { port_slug: rotterdam, order: 5 }
+      - { port_slug: hamburg, order: 6 }
+    source: curated
+    data_quality: seed
+
+  # ─── X-Press Feeders · intra-Med ─────────────────────────────
+  - service_code: xpress-med1
+    service_name: MED1 · Algeciras Feeder
+    shipping_line_slug: x_press_feeders
+    trade_lane: intra_eu
+    frequency_days: 4
+    avg_capacity_teu: 1100
+    port_rotation:
+      - { port_slug: algeciras, order: 1 }
+      - { port_slug: tanger_med, order: 2 }
+      - { port_slug: barcelona, order: 3 }
+      - { port_slug: valencia, order: 4 }
+    source: curated
+    data_quality: seed
+
+  # ─── PIL · África ────────────────────────────────────────────
+  - service_code: pil-waa
+    service_name: WAA · West Africa Asia
+    shipping_line_slug: pil
+    trade_lane: africa
+    frequency_days: 10
+    avg_capacity_teu: 4500
+    main_chokepoints: [malacca, gibraltar]
+    port_rotation:
+      - { port_slug: singapore, order: 1 }
+      - { port_slug: tanjung_pelepas, order: 2 }
+      - { port_slug: durban, order: 3 }
+      - { port_slug: lagos_apapa, order: 4 }
+    source: curated
+    data_quality: seed
+
+  # ─── MSC · África ────────────────────────────────────────────
+  - service_code: msc-westafrica
+    service_name: NWS · North-West Africa Service
+    shipping_line_slug: msc
+    trade_lane: africa
+    frequency_days: 7
+    avg_capacity_teu: 4000
+    port_rotation:
+      - { port_slug: algeciras, order: 1 }
+      - { port_slug: tanger_med, order: 2 }
+      - { port_slug: las_palmas, order: 3 }
+      - { port_slug: lagos_apapa, order: 4 }
+    source: curated
+    data_quality: seed
+
+  # ─── CMA CGM · Latin America ─────────────────────────────────
+  - service_code: cma-ela
+    service_name: ELA · Europe-Latin America
+    shipping_line_slug: cma_cgm
+    trade_lane: latin_america
+    frequency_days: 7
+    avg_capacity_teu: 7000
+    port_rotation:
+      - { port_slug: rotterdam, order: 1 }
+      - { port_slug: hamburg, order: 2 }
+      - { port_slug: santos, order: 3 }
+      - { port_slug: buenos_aires, order: 4 }
+      - { port_slug: veracruz, order: 5 }
+    source: curated
+    data_quality: seed
+
+  # ─── COSCO · feeder intra-Asia ───────────────────────────────
+  - service_code: cosco-iax
+    service_name: IAX · Intra-Asia Express
+    shipping_line_slug: cosco
+    trade_lane: intra_asia
+    frequency_days: 5
+    avg_capacity_teu: 2800
+    port_rotation:
+      - { port_slug: shanghai, order: 1 }
+      - { port_slug: hong_kong, order: 2 }
+      - { port_slug: port_klang, order: 3 }
+      - { port_slug: singapore, order: 4 }
+      - { port_slug: haiphong, order: 5 }
+    source: curated
+    data_quality: seed
+
+  # ─── ONE · intra-Asia ────────────────────────────────────────
+  - service_code: one-jpx
+    service_name: JPX · Japan-Pacific Express
+    shipping_line_slug: one
+    trade_lane: intra_asia
+    frequency_days: 5
+    avg_capacity_teu: 4500
+    port_rotation:
+      - { port_slug: tokyo, order: 1 }
+      - { port_slug: busan, order: 2 }
+      - { port_slug: kaohsiung, order: 3 }
+      - { port_slug: hong_kong, order: 4 }
+    source: curated
+    data_quality: seed

@@ -85,6 +85,20 @@ async function standaloneGet(
     return H.gasStorageEu()
   }
 
+  // Sprint 2 Fase D · navieras + rutas
+  if (head === 'shipping-lines' && rest.length === 0) {
+    return H.shippingLinesList(params)
+  }
+  if (head === 'shipping-lines' && rest[0] && rest.length === 1) {
+    return wrap404(H.shippingLineDetail(rest[0]))
+  }
+  if (head === 'carrier-services' && rest.length === 0) {
+    return H.carrierServicesList(params)
+  }
+  if (head === 'routes' && rest.length === 0) {
+    return H.shippingRoutes(params)
+  }
+
   // Sanciones consolidadas · no implementadas standalone (XMLs grandes)
   if (head === 'sanctions' && rest[0] === 'consolidated') {
     return {

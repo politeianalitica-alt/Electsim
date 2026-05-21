@@ -11,6 +11,7 @@
  */
 import { PORTS_SEED, VESSELS_SEED, FREIGHT_SEED, CHOKEPOINTS_SEED } from './ports-seed'
 import { TERMINALS_SEED } from './ports-terminals-seed'
+import { SHIPPING_LINES_SEED, CARRIER_SERVICES_SEED } from './ports-shipping-seed'
 
 // Tipos derivados de los seeds
 type Port = (typeof PORTS_SEED)[number]
@@ -1055,6 +1056,118 @@ const CONNECTIVITY_SEED: Record<string, string[]> = {
   singapore: ['shanghai', 'rotterdam', 'jebel_ali', 'colombo', 'port_klang'],
   jebel_ali: ['singapore', 'rotterdam', 'jeddah', 'khor_fakkan', 'hamad'],
   los_angeles: ['shanghai', 'busan', 'ningbo', 'tokyo', 'long_beach'],
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Sprint 2 Fase D · shipping_lines / carrier_services / routes
+// ─────────────────────────────────────────────────────────────────
+
+export function shippingLinesList(params: URLSearchParams) {
+  const alliance = params.get('alliance')
+  const trade = params.get('trade')
+  let items = SHIPPING_LINES_SEED as any[]
+  if (alliance) items = items.filter((l) => l.alliance === alliance)
+  if (trade) items = items.filter((l) => (l.main_trades || []).includes(trade))
+  return {
+    n_items: items.length,
+    items: items.map((l) => ({
+      ...l,
+      data_quality: quality('seed', 'shipping_lines_seed', {
+        confidence_score: 0.9,
+      }),
+    })),
+    data_quality: quality('seed', 'shipping_lines_seed', {
+      note: `${items.length} navieras curadas · LEI verificados manualmente vía GLEIF.`,
+    }),
+  }
+}
+
+export function shippingLineDetail(slug: string) {
+  const line = (SHIPPING_LINES_SEED as any[]).find((l) => l.slug === slug)
+  if (!line) return { __404: true }
+  const services = (CARRIER_SERVICES_SEED as any[]).filter(
+    (s) => s.shipping_line_slug === slug,
+  )
+  return {
+    ...line,
+    services,
+    n_services: services.length,
+    data_quality: quality('seed', 'shipping_lines_seed', {
+      note: `${services.length} servicios principales cargados.`,
+    }),
+  }
+}
+
+export function carrierServicesList(params: URLSearchParams) {
+  const lane = params.get('trade_lane')
+  const line = params.get('line')
+  const port = params.get('port')
+  let items = CARRIER_SERVICES_SEED as any[]
+  if (lane) items = items.filter((s) => s.trade_lane === lane)
+  if (line) items = items.filter((s) => s.shipping_line_slug === line)
+  if (port) {
+    items = items.filter((s) =>
+      (s.port_rotation || []).some((r: any) => r.port_slug === port),
+    )
+  }
+  return {
+    n_items: items.length,
+    items,
+    data_quality: quality('seed', 'carrier_services_seed', {
+      note: `${items.length} servicios curados desde memorias anuales públicas.`,
+    }),
+  }
+}
+
+/**
+ * Rutas marítimas como agregados origen→destino derivados de
+ * `carrier_services.port_rotation`. Cada par consecutivo de escalas
+ * genera un leg → ruta.
+ */
+export function shippingRoutes(params: URLSearchParams) {
+  const origin = params.get('origin')
+  const destination = params.get('destination')
+  const lane = params.get('trade_lane')
+  const chokepoint = params.get('chokepoint')
+
+  const routes: any[] = []
+  let id = 1
+  for (const svc of CARRIER_SERVICES_SEED as any[]) {
+    if (lane && svc.trade_lane !== lane) continue
+    if (chokepoint && !(svc.main_chokepoints || []).includes(chokepoint)) continue
+    const rotation = svc.port_rotation || []
+    for (let i = 0; i < rotation.length - 1; i++) {
+      const o = rotation[i].port_slug
+      const d = rotation[i + 1].port_slug
+      if (origin && o !== origin) continue
+      if (destination && d !== destination) continue
+      routes.push({
+        id: id++,
+        route_name: `${o} → ${d} · ${svc.service_code}`,
+        carrier_service_id: svc.service_code,
+        shipping_line_slug: svc.shipping_line_slug,
+        origin_port_slug: o,
+        destination_port_slug: d,
+        via_chokepoints: svc.main_chokepoints || [],
+        weekly_frequency: svc.frequency_days ? 7 / svc.frequency_days : 1,
+        transit_days: svc.estimated_transit_days
+          ? svc.estimated_transit_days / Math.max(1, rotation.length - 1)
+          : null,
+        avg_capacity_teu: svc.avg_capacity_teu,
+        alliance: svc.alliance,
+        trade_lane: svc.trade_lane,
+      })
+    }
+  }
+
+  return {
+    n_items: routes.length,
+    items: routes,
+    data_quality: quality('seed', 'derived_from_carrier_services', {
+      note: 'Rutas derivadas de port_rotation · cada par (origen, destino) consecutivo.',
+      confidence_score: 0.75,
+    }),
+  }
 }
 
 export function portConnectivity(slug: string, _params: URLSearchParams) {

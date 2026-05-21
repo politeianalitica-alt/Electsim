@@ -129,6 +129,7 @@ export default function PortsDashboard() {
         <nav style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid #e2e8f0' }}>
           {[
             { href: '/puertos', label: 'Dashboard' },
+            { href: '/puertos/rutas', label: 'Rutas & Navieras' },
             { href: '/puertos/comercio', label: 'Comercio bilateral' },
             { href: '/puertos/fletes', label: 'Fletes & Baltic' },
             { href: '/puertos/chokepoints', label: 'Corredores' },

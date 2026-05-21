@@ -269,6 +269,91 @@ export function usePortTraffic(slug: string | null, months = 24) {
   }
 }
 
+/**
+ * Sprint 2 Fase D · navieras + rutas
+ */
+import type {
+  ShippingLinesResponse,
+  CarrierServicesResponse,
+  RoutesResponse,
+} from '@/types/ports'
+
+export function useShippingLines(filters: { alliance?: string; trade?: string } = {}) {
+  const qs = new URLSearchParams()
+  if (filters.alliance) qs.set('alliance', filters.alliance)
+  if (filters.trade) qs.set('trade', filters.trade)
+  const path = qs.toString()
+    ? `/api/ports/shipping-lines?${qs}`
+    : '/api/ports/shipping-lines'
+  const { data, loading, error, refresh } = useApi<ShippingLinesResponse>(path, {
+    refreshInterval: 24 * HOUR,
+  })
+  return {
+    items: data?.items ?? [],
+    total: data?.n_items ?? 0,
+    dataQuality: data?.data_quality,
+    loading, error, refresh,
+  }
+}
+
+export function useShippingLine(slug: string | null) {
+  const path = slug
+    ? `/api/ports/shipping-lines/${slug}`
+    : '/api/ports/shipping-lines/__none__'
+  const { data, loading, error, refresh } = useApi<any>(path, {
+    refreshInterval: 24 * HOUR,
+  })
+  return { data: slug ? data : undefined, loading, error, refresh }
+}
+
+export function useCarrierServices(
+  filters: { trade_lane?: string; line?: string; port?: string } = {},
+) {
+  const qs = new URLSearchParams()
+  if (filters.trade_lane) qs.set('trade_lane', filters.trade_lane)
+  if (filters.line) qs.set('line', filters.line)
+  if (filters.port) qs.set('port', filters.port)
+  const path = qs.toString()
+    ? `/api/ports/carrier-services?${qs}`
+    : '/api/ports/carrier-services'
+  const { data, loading, error, refresh } = useApi<CarrierServicesResponse>(path, {
+    refreshInterval: 6 * HOUR,
+  })
+  return {
+    items: data?.items ?? [],
+    total: data?.n_items ?? 0,
+    dataQuality: data?.data_quality,
+    loading, error, refresh,
+  }
+}
+
+export function useShippingRoutes(
+  filters: {
+    origin?: string
+    destination?: string
+    trade_lane?: string
+    chokepoint?: string
+  } = {},
+) {
+  const qs = new URLSearchParams()
+  if (filters.origin) qs.set('origin', filters.origin)
+  if (filters.destination) qs.set('destination', filters.destination)
+  if (filters.trade_lane) qs.set('trade_lane', filters.trade_lane)
+  if (filters.chokepoint) qs.set('chokepoint', filters.chokepoint)
+  const path = qs.toString()
+    ? `/api/ports/routes?${qs}`
+    : '/api/ports/routes'
+  const { data, loading, error, refresh } = useApi<RoutesResponse>(path, {
+    refreshInterval: 6 * HOUR,
+  })
+  return {
+    items: data?.items ?? [],
+    total: data?.n_items ?? 0,
+    dataQuality: data?.data_quality,
+    loading, error, refresh,
+  }
+}
+
 export function usePortConnectivity(slug: string | null) {
   const path = slug ? `/api/ports/${slug}/connectivity` : '/api/ports/__none__/connectivity'
   const { data, loading, error, refresh } = useApi<PortConnectivityResponse>(path, {

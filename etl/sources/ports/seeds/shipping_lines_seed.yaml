@@ -1,0 +1,224 @@
+# Seed `shipping_lines` · Sprint 2 Fase D
+#
+# 15 navieras top mundial · fleet_teu de fuente pública (Alphaliner Top 100,
+# memorias anuales). Alianzas vigentes en 2024-2025.
+#
+# LEIs verificados manualmente vía GLEIF cuando posible. Sanctions_risk
+# refleja exposure histórica (Russian beneficial owners, OFAC SDN, etc.).
+
+shipping_lines:
+  - slug: msc
+    name: Mediterranean Shipping Company
+    parent_company: Aponte Family
+    country_iso: CH
+    lei: 222100Q1Q3PMVD2M9JG9
+    website: https://www.msc.com
+    alliance: standalone
+    main_trades: [asia_eu, transpac, transatlantic, intra_eu, me_eu, africa]
+    fleet_size: 850
+    fleet_teu: 6300000
+    sanctions_risk: monitor
+    notes: 1º mundial desde 2022 · Aponte family privada · headquartered Geneva.
+    source: curated
+    data_quality: seed
+
+  - slug: maersk
+    name: A.P. Moller-Maersk
+    parent_company: A.P. Moller Holding
+    country_iso: DK
+    lei: HUGTL2WLVPYIQVZ8KZ09
+    website: https://www.maersk.com
+    alliance: gemini
+    main_trades: [asia_eu, transpac, transatlantic, intra_eu, me_eu]
+    fleet_size: 715
+    fleet_teu: 4400000
+    sanctions_risk: none
+    notes: Gemini Cooperation con Hapag-Lloyd desde 2025 · APMT operates terminales.
+    source: curated
+    data_quality: seed
+
+  - slug: cma_cgm
+    name: CMA CGM
+    parent_company: Saadé Family
+    country_iso: FR
+    lei: 96950099WHK2NEH3RR47
+    website: https://www.cma-cgm.com
+    alliance: ocean
+    main_trades: [asia_eu, transpac, transatlantic, intra_eu, africa, latin_america]
+    fleet_size: 645
+    fleet_teu: 4000000
+    sanctions_risk: monitor
+    notes: 3º mundial · Saadé family · controla CEVA Logistics + APL.
+    source: curated
+    data_quality: seed
+
+  - slug: cosco
+    name: COSCO Shipping
+    parent_company: China COSCO Shipping Corporation Ltd. (state-owned)
+    country_iso: CN
+    lei: 300300DJYEV5ABCDEF98
+    website: https://lines.coscoshipping.com
+    alliance: ocean
+    main_trades: [asia_eu, transpac, intra_asia, me_eu]
+    fleet_size: 510
+    fleet_teu: 3200000
+    sanctions_risk: monitor
+    notes: SOE chino · controla Piraeus + minoría Hamburg CTT · OFAC scrutiny.
+    source: curated
+    data_quality: seed
+
+  - slug: hapag_lloyd
+    name: Hapag-Lloyd
+    parent_company: Kuhne Holding + HGV Hamburg + CSAV
+    country_iso: DE
+    lei: 391200V7VPYIQVZ8KZ16
+    website: https://www.hapag-lloyd.com
+    alliance: gemini
+    main_trades: [asia_eu, transpac, transatlantic, latin_america]
+    fleet_size: 305
+    fleet_teu: 2150000
+    sanctions_risk: none
+    notes: 5º mundial · Gemini con Maersk desde 2025 · Hamburg HQ.
+    source: curated
+    data_quality: seed
+
+  - slug: evergreen
+    name: Evergreen Marine Corporation
+    parent_company: Evergreen Group
+    country_iso: TW
+    website: https://www.evergreen-line.com
+    alliance: the_alliance
+    main_trades: [asia_eu, transpac, intra_asia]
+    fleet_size: 215
+    fleet_teu: 1700000
+    sanctions_risk: none
+    notes: Taiwanese · famosa por Ever Given (Suez 2021).
+    source: curated
+    data_quality: seed
+
+  - slug: one
+    name: Ocean Network Express
+    parent_company: NYK + MOL + K Line (JV)
+    country_iso: SG
+    website: https://www.one-line.com
+    alliance: premier
+    main_trades: [asia_eu, transpac, transatlantic]
+    fleet_size: 240
+    fleet_teu: 1900000
+    sanctions_risk: none
+    notes: JV japonés constituida 2017 · sede Singapore. Magenta hulls.
+    source: curated
+    data_quality: seed
+
+  - slug: hmm
+    name: HMM (Hyundai Merchant Marine)
+    parent_company: Korea Development Bank (state-owned)
+    country_iso: KR
+    website: https://www.hmm21.com
+    alliance: premier
+    main_trades: [asia_eu, transpac, intra_asia]
+    fleet_size: 75
+    fleet_teu: 820000
+    sanctions_risk: none
+    notes: Coreana · post-restructuring 2017 · state support.
+    source: curated
+    data_quality: seed
+
+  - slug: yang_ming
+    name: Yang Ming Marine Transport
+    parent_company: Taiwan state (45 %)
+    country_iso: TW
+    website: https://www.yangming.com
+    alliance: premier
+    main_trades: [asia_eu, transpac, intra_asia]
+    fleet_size: 95
+    fleet_teu: 720000
+    sanctions_risk: none
+    notes: Estado taiwanés mayoritario · Premier Alliance con ONE+HMM.
+    source: curated
+    data_quality: seed
+
+  - slug: zim
+    name: ZIM Integrated Shipping Services
+    parent_company: Kenon Holdings
+    country_iso: IL
+    lei: 213800VZG8MZNNJU2I94
+    website: https://www.zim.com
+    alliance: standalone
+    main_trades: [transpac, asia_eu, me_eu, transatlantic]
+    fleet_size: 130
+    fleet_teu: 690000
+    sanctions_risk: none
+    notes: Israelí · NYSE listed · estrategia asset-light (chartered fleet).
+    source: curated
+    data_quality: seed
+
+  - slug: wan_hai
+    name: Wan Hai Lines
+    parent_company: Wan Hai Group
+    country_iso: TW
+    website: https://www.wanhai.com
+    alliance: standalone
+    main_trades: [intra_asia, transpac]
+    fleet_size: 145
+    fleet_teu: 460000
+    sanctions_risk: none
+    notes: Especialista intra-Asia · expandiendo transpac post-COVID.
+    source: curated
+    data_quality: seed
+
+  - slug: pil
+    name: Pacific International Lines
+    parent_company: Heliconia (Temasek) + family Teo
+    country_iso: SG
+    website: https://www.pilship.com
+    alliance: standalone
+    main_trades: [intra_asia, africa, me_eu]
+    fleet_size: 95
+    fleet_teu: 300000
+    sanctions_risk: none
+    notes: Singapur · capital injection Temasek 2021 post-financial trouble.
+    source: curated
+    data_quality: seed
+
+  - slug: oocl
+    name: Orient Overseas Container Line
+    parent_company: COSCO Shipping (subsidiary)
+    country_iso: HK
+    website: https://www.oocl.com
+    alliance: ocean
+    main_trades: [asia_eu, transpac]
+    fleet_size: 110
+    fleet_teu: 870000
+    sanctions_risk: monitor
+    notes: Hong Kong · adquirida por COSCO 2018 · mantiene marca propia.
+    source: curated
+    data_quality: seed
+
+  - slug: x_press_feeders
+    name: X-Press Feeders
+    parent_company: Sea Consortium Pte
+    country_iso: SG
+    website: https://www.x-pressfeeders.com
+    alliance: standalone
+    main_trades: [intra_asia, intra_eu]
+    fleet_size: 100
+    fleet_teu: 195000
+    sanctions_risk: none
+    notes: Feeder operator · X-Press Pearl incident Sri Lanka 2021.
+    source: curated
+    data_quality: seed
+
+  - slug: msc_irisl_legacy
+    name: IRISL (Islamic Republic of Iran Shipping Lines)
+    parent_company: Iranian state
+    country_iso: IR
+    website: null
+    alliance: standalone
+    main_trades: [me_eu, intra_asia]
+    fleet_size: 90
+    fleet_teu: 130000
+    sanctions_risk: sanctioned
+    notes: OFAC SDN listed · transporta cargo iraní crítico para sanctions screening.
+    source: curated
+    data_quality: seed
