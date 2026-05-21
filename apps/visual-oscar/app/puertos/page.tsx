@@ -26,6 +26,7 @@ import { PortCongestionCard } from '@/components/ports/PortCongestionCard'
 import { FreightSnapshotGrid } from '@/components/ports/FreightSnapshotGrid'
 import { ChokepointRiskCard } from '@/components/ports/ChokepointRiskCard'
 import { DataSourcesBanner } from '@/components/ports/DataSourcesBanner'
+import { PortWatchSpainPanel } from '@/components/ports/PortWatchSpainPanel'
 import { useCommoditySnapshot } from '@/hooks/useCommodities'
 import { PriceCard } from '@/components/commodities/PriceCard'
 import { useCommodityWatchlist } from '@/hooks/useCommodityWatchlist'
@@ -162,6 +163,11 @@ export default function PortsDashboard() {
 
         {/* Banner estado de fuentes externas (AIS, Comtrade, Yahoo, ACLED, OpenSanctions) */}
         <DataSourcesBanner status={dataSources.status} loading={dataSources.loading} />
+
+        {/* IMF PortWatch · actividad portuaria oficial */}
+        <div style={{ margin: '14px 0' }}>
+          <PortWatchSpainPanel />
+        </div>
 
         {/* Tabs internos */}
         <div style={{ display: 'flex', gap: 4, marginBottom: 14, flexWrap: 'wrap' }}>

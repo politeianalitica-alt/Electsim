@@ -82,6 +82,36 @@ const SOURCES: Source[] = [
     docs_url: 'https://ember-energy.org/data/api',
     free_tier: '1000 calls/día · cache 12h',
   },
+  // ─── Geopolítica · humanitario ─────────────────────────────────
+  {
+    slug: 'reliefweb',
+    name: 'ReliefWeb · OCHA',
+    category: 'geopolitica',
+    status: 'live',
+    coverage: 'global',
+    description: 'UN OCHA · informes humanitarios en tiempo real (crisis, desastres, displacement, hambre). API pública sin auth · ~600k reportes desde 1996.',
+    why_useful: 'Crisis humanitarias en países de relevancia ES (Magreb, Sahel, Ucrania, LATAM, Oriente Medio). Útil para /crisis, /geopolitica, /sector-tercer-sector. Complementa ACLED (eventos armados) con perspectiva humanitaria (necesidad, displacement, salud).',
+    endpoint: 'https://api.reliefweb.int/v2',
+    module: 'app/api/reliefweb/[...path]',
+    env_var: 'ninguna · API pública',
+    docs_url: 'https://reliefweb.int/help/api',
+    free_tier: 'Sin auth · uso razonable ilimitado · cache 1h',
+  },
+  // ─── Geopolítica · puertos IMF ─────────────────────────────────
+  {
+    slug: 'portwatch_imf',
+    name: 'IMF PortWatch · Comercio marítimo',
+    category: 'geopolitica',
+    status: 'live',
+    coverage: 'global',
+    description: 'Fondo Monetario Internacional · datos diarios de actividad portuaria mundial: conteo de buques por puerto/tipo (container/tanker/bulk/RoRo), top industrias, share país marítimo, chokepoints, disrupciones.',
+    why_useful: 'Datos oficiales IMF para enriquecer /puertos: ranking puertos ES + comparativa global. ArcGIS FeatureServer público sin auth. Más reciente que WPI estático.',
+    endpoint: 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/PortWatch_*',
+    module: 'app/api/portwatch/[...path] · components/ports/PortWatchSpainPanel.tsx',
+    env_var: 'ninguna · ArcGIS público',
+    docs_url: 'https://portwatch.imf.org',
+    free_tier: 'Sin auth · cache 6h',
+  },
   // ─── Geopolítica · conflictos ───────────────────────────────────
   {
     slug: 'acled',
