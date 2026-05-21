@@ -84,9 +84,23 @@ function OHLCChart({ ohlc }: { ohlc: Array<{ ts: string; open: number; high: num
   const w = 1100
   const h = 240
   const pad = 30
+  if (!ohlc.length) {
+    return (
+      <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 10 }}>Sin serie disponible.</p>
+    )
+  }
   const xs = ohlc.length
-  const allLow = Math.min(...ohlc.map((p) => p.low))
-  const allHigh = Math.max(...ohlc.map((p) => p.high))
+  const lows = ohlc.map((p) => p.low).filter((v) => Number.isFinite(v))
+  const highs = ohlc.map((p) => p.high).filter((v) => Number.isFinite(v))
+  if (!lows.length || !highs.length) {
+    return (
+      <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 10 }}>
+        Serie OHLC con valores inválidos · sin datos para renderizar.
+      </p>
+    )
+  }
+  const allLow = Math.min(...lows)
+  const allHigh = Math.max(...highs)
   const range = Math.max(1, allHigh - allLow)
   const candleW = Math.max(1.4, (w - pad * 2) / xs - 1)
   return (

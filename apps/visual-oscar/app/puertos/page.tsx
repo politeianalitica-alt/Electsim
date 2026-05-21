@@ -335,14 +335,17 @@ function Empty({ children }: { children: React.ReactNode }) {
   return <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>{children}</p>
 }
 
-function TopList({ items }: { items: Array<{ partner_iso: string; partner_name?: string; value_usd: number; share_pct: number }> }) {
+function TopList({ items }: { items: Array<{ partner_iso: string; partner_name?: string; value_usd?: number | null; share_pct?: number | null }> }) {
   return (
     <ol style={{ margin: 0, padding: '0 0 0 18px', fontSize: 12 }}>
       {items.map((it, i) => (
         <li key={i} style={{ padding: '4px 0' }}>
           <strong>{it.partner_name ?? it.partner_iso}</strong>{' '}
           <span style={{ color: '#64748b' }}>
-            · {it.value_usd.toLocaleString('es-ES', { maximumFractionDigits: 0 })} USD · {it.share_pct.toFixed(1)}%
+            · {it.value_usd != null
+              ? `${it.value_usd.toLocaleString('es-ES', { maximumFractionDigits: 0 })} USD`
+              : '— USD'}{' '}
+            · {it.share_pct != null ? `${it.share_pct.toFixed(1)}%` : '—'}
           </span>
         </li>
       ))}

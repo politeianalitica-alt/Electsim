@@ -27,8 +27,63 @@ from __future__ import annotations
 
 from typing import Any
 
-PORT_TYPES = ("container", "bulk", "tanker", "multipurpose", "cruise")
-CATEGORIES_PORTS = ("europa", "asia_pacifico", "norteamerica", "oriente_medio", "espana")
+#
+# Tipos canónicos del catálogo · alineados con `apps/visual-oscar/types/ports.ts:PortType`.
+# 10 valores cubren todos los perfiles operativos esperados al integrar World Port Index.
+#
+PORT_TYPES = (
+    "container",
+    "bulk",
+    "tanker",
+    "lng",
+    "roro",
+    "cruise",
+    "multipurpose",
+    "chokepoint",
+    "energy",
+    "fishing",
+)
+
+#
+# Regiones canónicas en inglés. Alineadas con `apps/visual-oscar/types/ports.ts:PortRegion`.
+# Aliases legacy (`espana`, `europa`, `asia_pacifico`, `norteamerica`, `oriente_medio`,
+# `latinoamerica`, `es`, `eu`) son aceptados como input vía `_normalize_region()` para
+# preservar compatibilidad con código antiguo y URLs en caché.
+#
+CATEGORIES_PORTS = (
+    "spain",
+    "europe",
+    "asia_pacific",
+    "north_america",
+    "middle_east",
+    "latin_america",
+    "africa",
+    "chokepoint",
+)
+
+# Alias legacy → canónico inglés
+_REGION_ALIASES: dict[str, str] = {
+    "espana": "spain", "es": "spain", "spain": "spain",
+    "europa": "europe", "eu": "europe", "europe": "europe",
+    "asia_pacifico": "asia_pacific", "asia_pacific": "asia_pacific",
+    "norteamerica": "north_america", "north_america": "north_america",
+    "oriente_medio": "middle_east", "middle_east": "middle_east",
+    "latinoamerica": "latin_america", "latin_america": "latin_america",
+    "africa": "africa",
+    "chokepoint": "chokepoint",
+}
+
+
+def _normalize_region(r: str | None) -> str | None:
+    """Devuelve región canónica inglesa; acepta alias legacy.
+
+    Si el input es desconocido se devuelve tal cual (lowercased) para no romper
+    filtros con regiones futuras no registradas todavía.
+    """
+    if not r:
+        return None
+    k = r.strip().lower()
+    return _REGION_ALIASES.get(k, k)
 
 PORTS: dict[str, dict[str, Any]] = {
     # ── España ────────────────────────────────────────────────────
@@ -37,7 +92,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Algeciras (Bahía)", "country_iso": "ES",
         "lat": 36.1408, "lon": -5.4526,
         "type": "container", "timezone": "Europe/Madrid",
-        "region": "espana",
+        "region": "spain",
         "description": "Hub mediterráneo · 1º España en TEU · transbordo Maersk/MSC.",
     },
     "valencia": {
@@ -45,7 +100,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Valencia", "country_iso": "ES",
         "lat": 39.4451, "lon": -0.3140,
         "type": "container", "timezone": "Europe/Madrid",
-        "region": "espana",
+        "region": "spain",
         "description": "Gateway industrial Levante · 5.4M TEU/año.",
     },
     "barcelona": {
@@ -53,7 +108,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Barcelona", "country_iso": "ES",
         "lat": 41.3429, "lon": 2.1654,
         "type": "container", "timezone": "Europe/Madrid",
-        "region": "espana",
+        "region": "spain",
         "description": "Pasajeros + carga · cruise homeport del Mediterráneo.",
     },
     "bilbao": {
@@ -61,7 +116,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Bilbao", "country_iso": "ES",
         "lat": 43.3573, "lon": -3.0500,
         "type": "multipurpose", "timezone": "Europe/Madrid",
-        "region": "espana",
+        "region": "spain",
         "description": "Atlántico norte · químicos + ro-ro + acero.",
     },
     "las_palmas": {
@@ -69,7 +124,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Las Palmas de Gran Canaria", "country_iso": "ES",
         "lat": 28.1300, "lon": -15.4200,
         "type": "multipurpose", "timezone": "Atlantic/Canary",
-        "region": "espana",
+        "region": "spain",
         "description": "Hub bunkering Atlántico · pesca + reparación naval.",
     },
     "cartagena_es": {
@@ -77,7 +132,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Cartagena (Murcia)", "country_iso": "ES",
         "lat": 37.5950, "lon": -0.9800,
         "type": "tanker", "timezone": "Europe/Madrid",
-        "region": "espana",
+        "region": "spain",
         "description": "Granel líquido · refinería Repsol Escombreras.",
     },
 
@@ -87,7 +142,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Rotterdam", "country_iso": "NL",
         "lat": 51.9495, "lon": 4.1430,
         "type": "container", "timezone": "Europe/Amsterdam",
-        "region": "europa",
+        "region": "europe",
         "description": "Mayor puerto europeo · 15M TEU · gateway NW-Europa.",
     },
     "antwerp": {
@@ -95,7 +150,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Antwerp-Bruges", "country_iso": "BE",
         "lat": 51.2700, "lon": 4.3500,
         "type": "container", "timezone": "Europe/Brussels",
-        "region": "europa",
+        "region": "europe",
         "description": "2º Europa · químicos + autos + breakbulk.",
     },
     "hamburg": {
@@ -103,7 +158,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Hamburg", "country_iso": "DE",
         "lat": 53.5413, "lon": 9.9760,
         "type": "container", "timezone": "Europe/Berlin",
-        "region": "europa",
+        "region": "europe",
         "description": "Gateway Báltico/Europa Central · 8.3M TEU.",
     },
     "felixstowe": {
@@ -111,7 +166,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Felixstowe", "country_iso": "GB",
         "lat": 51.9550, "lon": 1.3500,
         "type": "container", "timezone": "Europe/London",
-        "region": "europa",
+        "region": "europe",
         "description": "1º UK · 4M TEU · Hutchison Ports.",
     },
     "le_havre": {
@@ -119,7 +174,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Le Havre", "country_iso": "FR",
         "lat": 49.4861, "lon": 0.1083,
         "type": "container", "timezone": "Europe/Paris",
-        "region": "europa",
+        "region": "europe",
         "description": "1º Francia container · gateway París + valle Sena.",
     },
     "genoa": {
@@ -127,7 +182,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Genoa", "country_iso": "IT",
         "lat": 44.4056, "lon": 8.9342,
         "type": "container", "timezone": "Europe/Rome",
-        "region": "europa",
+        "region": "europe",
         "description": "1º Italia · gateway norte industrial.",
     },
     "piraeus": {
@@ -135,7 +190,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Piraeus", "country_iso": "GR",
         "lat": 37.9420, "lon": 23.6470,
         "type": "container", "timezone": "Europe/Athens",
-        "region": "europa",
+        "region": "europe",
         "description": "Controlado COSCO · pivote Belt&Road en UE.",
     },
     "gioia_tauro": {
@@ -143,7 +198,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Gioia Tauro", "country_iso": "IT",
         "lat": 38.4350, "lon": 15.9000,
         "type": "container", "timezone": "Europe/Rome",
-        "region": "europa",
+        "region": "europe",
         "description": "Hub transbordo Mediterráneo central.",
     },
 
@@ -153,7 +208,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Singapore", "country_iso": "SG",
         "lat": 1.2647, "lon": 103.8200,
         "type": "container", "timezone": "Asia/Singapore",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Hub transbordo global · 37M TEU · 1º bunkering mundial.",
     },
     "shanghai": {
@@ -161,7 +216,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Shanghai", "country_iso": "CN",
         "lat": 30.6260, "lon": 122.0660,
         "type": "container", "timezone": "Asia/Shanghai",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "1º mundial container · 49M TEU · Yangshan terminal.",
     },
     "ningbo": {
@@ -169,7 +224,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Ningbo-Zhoushan", "country_iso": "CN",
         "lat": 29.8683, "lon": 121.5440,
         "type": "container", "timezone": "Asia/Shanghai",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "3º mundial · gateway delta Yangtze + granel líquido.",
     },
     "shenzhen": {
@@ -177,7 +232,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Shenzhen", "country_iso": "CN",
         "lat": 22.5660, "lon": 113.9450,
         "type": "container", "timezone": "Asia/Shanghai",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Yantian/Shekou · gateway electrónica Pearl River.",
     },
     "busan": {
@@ -185,7 +240,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Busan", "country_iso": "KR",
         "lat": 35.0951, "lon": 129.0756,
         "type": "container", "timezone": "Asia/Seoul",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Gateway Corea · 23M TEU · transbordo NE-Asia.",
     },
     "hong_kong": {
@@ -193,7 +248,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Hong Kong", "country_iso": "HK",
         "lat": 22.3193, "lon": 114.1694,
         "type": "container", "timezone": "Asia/Hong_Kong",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Kwai Tsing · gateway sur China · 14M TEU.",
     },
     "kaohsiung": {
@@ -201,7 +256,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Kaohsiung", "country_iso": "TW",
         "lat": 22.6163, "lon": 120.3133,
         "type": "container", "timezone": "Asia/Taipei",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "1º Taiwán · semiconductores TSMC export pivot.",
     },
     "tokyo": {
@@ -209,7 +264,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Tokyo", "country_iso": "JP",
         "lat": 35.6273, "lon": 139.7790,
         "type": "container", "timezone": "Asia/Tokyo",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Bahía Tokio · multimodal · electrónica/autos.",
     },
     "port_klang": {
@@ -217,7 +272,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Port Klang", "country_iso": "MY",
         "lat": 3.0033, "lon": 101.3920,
         "type": "container", "timezone": "Asia/Kuala_Lumpur",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Gateway Kuala Lumpur · transbordo Estrecho Malaca.",
     },
     "tanjung_pelepas": {
@@ -225,7 +280,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Tanjung Pelepas", "country_iso": "MY",
         "lat": 1.3669, "lon": 103.5500,
         "type": "container", "timezone": "Asia/Kuala_Lumpur",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Maersk hub competidor de Singapore.",
     },
 
@@ -235,7 +290,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Los Angeles", "country_iso": "US",
         "lat": 33.7405, "lon": -118.2760,
         "type": "container", "timezone": "America/Los_Angeles",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "1º USA · gateway Asia · San Pedro Bay.",
     },
     "long_beach": {
@@ -243,7 +298,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Long Beach", "country_iso": "US",
         "lat": 33.7700, "lon": -118.1937,
         "type": "container", "timezone": "America/Los_Angeles",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "Twin port LA · 8.3M TEU · electric drayage.",
     },
     "ny_nj": {
@@ -251,7 +306,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "New York / New Jersey", "country_iso": "US",
         "lat": 40.6643, "lon": -74.0552,
         "type": "container", "timezone": "America/New_York",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "1º costa Este USA · gateway NE megalópolis.",
     },
     "houston": {
@@ -259,7 +314,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Houston", "country_iso": "US",
         "lat": 29.7339, "lon": -95.2710,
         "type": "tanker", "timezone": "America/Chicago",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "1º USA en crudo+petroquímica · canal Galveston.",
     },
     "vancouver": {
@@ -267,7 +322,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Vancouver", "country_iso": "CA",
         "lat": 49.2900, "lon": -123.1110,
         "type": "container", "timezone": "America/Vancouver",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "Gateway Asia-Pacífico Canadá · gas natural + grano.",
     },
     "savannah": {
@@ -275,7 +330,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Savannah", "country_iso": "US",
         "lat": 32.1300, "lon": -81.1410,
         "type": "container", "timezone": "America/New_York",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "Garden City terminal · gateway Sureste USA.",
     },
 
@@ -285,7 +340,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Jebel Ali (Dubai)", "country_iso": "AE",
         "lat": 25.0080, "lon": 55.0610,
         "type": "container", "timezone": "Asia/Dubai",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "1º Oriente Medio · 14M TEU · DP World hub.",
     },
     "jeddah": {
@@ -293,7 +348,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Jeddah Islamic Port", "country_iso": "SA",
         "lat": 21.4858, "lon": 39.1825,
         "type": "container", "timezone": "Asia/Riyadh",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Mar Rojo · puerta peregrinación + gateway Saudi.",
     },
     "khor_fakkan": {
@@ -301,7 +356,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Khor Fakkan", "country_iso": "AE",
         "lat": 25.3400, "lon": 56.3500,
         "type": "container", "timezone": "Asia/Dubai",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Fuera Estrecho de Ormuz · transbordo alternativo.",
     },
     "hamad": {
@@ -309,7 +364,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Hamad Port (Doha)", "country_iso": "QA",
         "lat": 25.0408, "lon": 51.6033,
         "type": "container", "timezone": "Asia/Qatar",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Hub Qatar · post-bloqueo 2017 · LNG hub adyacente.",
     },
 
@@ -319,7 +374,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Port Said (East)", "country_iso": "EG",
         "lat": 31.2667, "lon": 32.3000,
         "type": "container", "timezone": "Africa/Cairo",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Entrada norte Canal de Suez · transbordo Maersk.",
     },
     "suez_north": {
@@ -327,7 +382,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Suez (North entrance)", "country_iso": "EG",
         "lat": 31.2700, "lon": 32.3500,
         "type": "multipurpose", "timezone": "Africa/Cairo",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Acceso norte al canal · monitoreo tráfico crítico.",
     },
     "suez_south": {
@@ -335,7 +390,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Suez (South / Port Tewfik)", "country_iso": "EG",
         "lat": 29.9670, "lon": 32.5500,
         "type": "multipurpose", "timezone": "Africa/Cairo",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Salida sur del canal hacia Mar Rojo.",
     },
     "salalah": {
@@ -343,7 +398,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Salalah", "country_iso": "OM",
         "lat": 16.9333, "lon": 54.0167,
         "type": "container", "timezone": "Asia/Muscat",
-        "region": "oriente_medio",
+        "region": "middle_east",
         "description": "Mar Arábigo · transbordo fuera Ormuz · APM Terminals.",
     },
     "colombo": {
@@ -351,7 +406,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Colombo", "country_iso": "LK",
         "lat": 6.9510, "lon": 79.8420,
         "type": "container", "timezone": "Asia/Colombo",
-        "region": "asia_pacifico",
+        "region": "asia_pacific",
         "description": "Hub Sur-Asia · transbordo Subcontinente Indio.",
     },
     "tanger_med": {
@@ -359,7 +414,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Tanger Med", "country_iso": "MA",
         "lat": 35.8853, "lon": -5.5167,
         "type": "container", "timezone": "Africa/Casablanca",
-        "region": "europa",
+        "region": "europe",
         "description": "Estrecho Gibraltar · 10M TEU · competidor Algeciras.",
     },
     "panama_cristobal": {
@@ -367,7 +422,7 @@ PORTS: dict[str, dict[str, Any]] = {
         "name": "Cristóbal (Panama)", "country_iso": "PA",
         "lat": 9.3500, "lon": -79.8970,
         "type": "container", "timezone": "America/Panama",
-        "region": "norteamerica",
+        "region": "north_america",
         "description": "Entrada Atlántica Canal Panamá · transbordo.",
     },
 }
@@ -378,14 +433,19 @@ def list_ports(
     type_: str | None = None,
     region: str | None = None,
 ) -> list[dict[str, Any]]:
-    """Lista catálogo, opcionalmente filtrado por país (ISO-2), tipo o región."""
+    """Lista catálogo, opcionalmente filtrado por país (ISO-2), tipo o región.
+
+    Acepta alias legacy de región (`espana`, `eu`, `oriente_medio`…) y los
+    normaliza al canónico inglés (`spain`, `europe`, `middle_east`…).
+    """
     items = list(PORTS.values())
     if country:
         items = [p for p in items if p["country_iso"].upper() == country.upper()]
     if type_:
         items = [p for p in items if p["type"] == type_.lower()]
     if region:
-        items = [p for p in items if p["region"] == region.lower()]
+        region_norm = _normalize_region(region)
+        items = [p for p in items if _normalize_region(p.get("region")) == region_norm]
     return items
 
 
@@ -399,4 +459,5 @@ __all__ = [
     "CATEGORIES_PORTS",
     "list_ports",
     "get_port",
+    "_normalize_region",
 ]

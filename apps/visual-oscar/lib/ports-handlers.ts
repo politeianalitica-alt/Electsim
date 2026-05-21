@@ -40,14 +40,31 @@ function isAllowSynth(): boolean {
 // Catálogos · sin red
 // ─────────────────────────────────────────────────────────────────
 
+// Alias legacy → canónico inglés. Mantiene compat con URLs cacheadas / frontend antiguo.
+const REGION_ALIASES: Record<string, string> = {
+  espana: 'spain', es: 'spain', spain: 'spain',
+  europa: 'europe', eu: 'europe', europe: 'europe',
+  asia_pacifico: 'asia_pacific', asia_pacific: 'asia_pacific',
+  norteamerica: 'north_america', north_america: 'north_america',
+  oriente_medio: 'middle_east', middle_east: 'middle_east',
+  latinoamerica: 'latin_america', latin_america: 'latin_america',
+  africa: 'africa',
+  chokepoint: 'chokepoint',
+}
+function normalizeRegion(r: string | null | undefined): string | undefined {
+  if (!r) return undefined
+  const k = r.trim().toLowerCase()
+  return REGION_ALIASES[k] ?? k
+}
+
 export function catalogPorts(params: URLSearchParams) {
   const country = params.get('country')
   const type_ = params.get('type_') || params.get('type')
-  const region = params.get('region')
+  const region = normalizeRegion(params.get('region'))
   let items: any[] = PORTS_SEED as any[]
   if (country) items = items.filter((p) => p.country_iso === country.toUpperCase())
   if (type_) items = items.filter((p) => p.type === type_)
-  if (region) items = items.filter((p) => p.region === region)
+  if (region) items = items.filter((p) => normalizeRegion(p.region) === region)
   return { n_items: items.length, items }
 }
 
@@ -66,11 +83,11 @@ export function catalogVessels(params: URLSearchParams) {
 }
 
 export function snapshotAll(params: URLSearchParams) {
-  const region = params.get('region')
+  const region = normalizeRegion(params.get('region'))
   const limit = parseInt(params.get('limit') || '40', 10)
   const allow = isAllowSynth()
   const portsList = (region
-    ? (PORTS_SEED as any[]).filter((p) => p.region === region)
+    ? (PORTS_SEED as any[]).filter((p) => normalizeRegion(p.region) === region)
     : (PORTS_SEED as any[])
   ).slice(0, limit)
   const items = portsList.map((p) => {
@@ -458,7 +475,8 @@ const EU_27 = new Set([
 export function tradeBilateral(params: URLSearchParams) {
   const reporter = (params.get('reporter') || '').toUpperCase()
   const partner = (params.get('partner') || '').toUpperCase()
-  const hsCode = params.get('hs_code') || null
+  // Acepta `hs_code` (frontend canónico) y `hs` (backend Python legacy)
+  const hsCode = params.get('hs_code') || params.get('hs') || null
   const period = params.get('period') || '2024-12'
   const flow = params.get('flow')
   const useSource = EU_27.has(reporter) && EU_27.has(partner) ? 'comext' : 'comtrade'
@@ -490,9 +508,11 @@ export function tradeBilateral(params: URLSearchParams) {
 export function tradeSpainFlows(params: URLSearchParams) {
   const period = params.get('period') || '2024-12'
   const flow = params.get('flow')
+  // Acepta `hs_code` (canónico) y `hs` (alias backend)
+  const hsCode = params.get('hs_code') || params.get('hs') || null
   let items = TRADE_SEED.filter((t) => t.reporter_iso === 'ESP')
   if (flow) items = items.filter((t) => t.flow_kind === flow)
-  const enriched = items.map((t) => ({ ...t, hs_code: 'TOTAL', period_ym: period, source: 'comext' }))
+  const enriched = items.map((t) => ({ ...t, hs_code: hsCode || 'TOTAL', period_ym: period, source: 'comext' }))
   return {
     ok: true,
     reporter_iso: 'ESP',

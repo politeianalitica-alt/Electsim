@@ -16,6 +16,7 @@ import {
   usePortCalls,
   usePortCongestion,
 } from '@/hooks/usePorts'
+import { fmtNum, fmtInt } from '@/lib/ports-utils'
 
 const ACCENT = '#0e7490'
 
@@ -55,7 +56,13 @@ export default function PortDetailPage() {
     )
   }
 
-  const k = port.kpis_24h
+  const k = port.kpis_24h ?? {
+    vessels_anchored: 0,
+    arrivals_24h: 0,
+    congestion_pct: 0,
+    avg_wait_h: null,
+    teu_estimated: null,
+  }
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
@@ -70,7 +77,7 @@ export default function PortDetailPage() {
           </p>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', margin: '4px 0' }}>{port.name}</h1>
           <p style={{ fontSize: 13, color: '#475569', margin: 0 }}>
-            {port.type} · {port.region} · lat {port.lat.toFixed(3)} / lon {port.lon.toFixed(3)} · datos {port.data_source}
+            {port.type ?? '—'} · {port.region ?? '—'} · lat {fmtNum(port.lat, 3)} / lon {fmtNum(port.lon, 3)} · datos {port.data_source ?? '—'}
           </p>
         </header>
 
@@ -83,11 +90,11 @@ export default function PortDetailPage() {
             marginTop: 16,
           }}
         >
-          <KPI label="Buques fondeados" value={k.vessels_anchored} accent={ACCENT} />
-          <KPI label="Llegadas 24h" value={k.arrivals_24h} accent={ACCENT} />
-          <KPI label="Congestión" value={`${k.congestion_pct}%`} accent={ACCENT} />
-          <KPI label="Espera media" value={k.avg_wait_h ? `${k.avg_wait_h.toFixed(1)} h` : '—'} accent={ACCENT} />
-          <KPI label="TEU estimado" value={k.teu_estimated ? k.teu_estimated.toLocaleString('es-ES') : '—'} accent={ACCENT} />
+          <KPI label="Buques fondeados" value={k?.vessels_anchored ?? '—'} accent={ACCENT} />
+          <KPI label="Llegadas 24h" value={k?.arrivals_24h ?? '—'} accent={ACCENT} />
+          <KPI label="Congestión" value={fmtNum(k?.congestion_pct, 0, '%')} accent={ACCENT} />
+          <KPI label="Espera media" value={fmtNum(k?.avg_wait_h, 1, ' h')} accent={ACCENT} />
+          <KPI label="TEU estimado" value={fmtInt(k?.teu_estimated)} accent={ACCENT} />
         </section>
 
         <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 16, marginTop: 18 }}>
@@ -144,7 +151,7 @@ export default function PortDetailPage() {
                     {v.name ?? v.imo}
                   </Link>
                   <span style={{ color: '#64748b' }}>
-                    {v.flag_iso ?? '??'} · {v.sog?.toFixed(1) ?? '—'} kn
+                    {v.flag_iso ?? '??'} · {fmtNum(v.sog, 1, ' kn')}
                   </span>
                 </li>
               ))}

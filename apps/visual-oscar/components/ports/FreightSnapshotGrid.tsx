@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import type { FreightIndex } from '@/types/ports'
+import { fmtNum } from '@/lib/ports-utils'
 
 const SIGNAL_STYLE: Record<string, { bg: string; fg: string; arrow: string }> = {
   fuerte_subida: { bg: '#dcfce7', fg: '#166534', arrow: '⇈' },
@@ -71,21 +72,25 @@ export function FreightSnapshotGrid({ items, compact = false }: { items: Freight
               </span>
             </div>
             <p style={{ fontSize: 22, fontWeight: 800, color: '#111827', margin: '6px 0 2px' }}>
-              {it.last_price.toLocaleString('es-ES', { maximumFractionDigits: 2 })}
-              <span style={{ fontSize: 11, color: '#6b7280', marginLeft: 6, fontWeight: 500 }}>{it.unit}</span>
+              {it.last_price != null
+                ? it.last_price.toLocaleString('es-ES', { maximumFractionDigits: 2 })
+                : '—'}
+              <span style={{ fontSize: 11, color: '#6b7280', marginLeft: 6, fontWeight: 500 }}>
+                {it.unit ?? ''}
+              </span>
             </p>
             <p
               style={{
                 fontSize: 12,
-                color: it.change_pct >= 0 ? '#15803d' : '#b91c1c',
+                color: (it.change_pct ?? 0) >= 0 ? '#15803d' : '#b91c1c',
                 margin: 0,
                 fontWeight: 600,
               }}
             >
-              {it.change_pct >= 0 ? '+' : ''}
-              {it.change_pct.toFixed(2)}%
+              {it.change_pct != null && it.change_pct >= 0 ? '+' : ''}
+              {fmtNum(it.change_pct, 2, '%')}
               <span style={{ color: '#9ca3af', marginLeft: 8, fontWeight: 400 }}>
-                {it.category.replace('_', ' ')}
+                {(it.category ?? '').replace('_', ' ')}
               </span>
             </p>
           </Link>

@@ -4,16 +4,47 @@
  * Espejo de los payloads que devuelve `/api/v1/ports/*` en FastAPI.
  */
 
-export type PortType = 'container' | 'bulk' | 'tanker' | 'lng' | 'cruise' | 'mixed' | 'chokepoint'
+/**
+ * Tipo canónico de puerto · alineado con `etl/sources/ports/catalog.py:PORT_TYPES`.
+ * 10 valores cubren todos los perfiles operativos.
+ *
+ * - container · terminales de TEU
+ * - bulk · graneles sólidos (cereal, mineral, carbón)
+ * - tanker · graneles líquidos (crudo, productos, químicos)
+ * - lng · gas natural licuado
+ * - roro · roll-on/roll-off (vehículos, trailers)
+ * - cruise · pasaje de cruceros
+ * - multipurpose · multi-tráfico sin especialización dominante
+ * - chokepoint · anclaje vinculado a un corredor (Suez, Ormuz, etc.)
+ * - energy · terminales energéticas no-LNG (refinería, eólica offshore base)
+ * - fishing · puerto pesquero
+ */
+export type PortType =
+  | 'container'
+  | 'bulk'
+  | 'tanker'
+  | 'lng'
+  | 'roro'
+  | 'cruise'
+  | 'multipurpose'
+  | 'chokepoint'
+  | 'energy'
+  | 'fishing'
+
+/**
+ * Región canónica · inglés, alineado con `etl/sources/ports/catalog.py:CATEGORIES_PORTS`.
+ * Aliases legacy (`espana`, `europa`, `asia_pacifico`, `norteamerica`,
+ * `oriente_medio`, `es`, `eu`) se normalizan vía `lib/ports-utils.ts:normalizeRegion`.
+ */
 export type PortRegion =
-  | 'es'
-  | 'eu'
+  | 'spain'
+  | 'europe'
   | 'asia_pacific'
   | 'north_america'
   | 'middle_east'
-  | 'chokepoint'
   | 'latin_america'
   | 'africa'
+  | 'chokepoint'
 
 export interface Port {
   slug: string

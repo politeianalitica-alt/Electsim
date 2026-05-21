@@ -11,7 +11,7 @@ export const PORTS_SEED = [
     "lon": -5.4526,
     "type": "container",
     "timezone": "Europe/Madrid",
-    "region": "espana",
+    "region": "spain",
     "description": "Hub mediterráneo · 1º España en TEU · transbordo Maersk/MSC."
   },
   {
@@ -23,7 +23,7 @@ export const PORTS_SEED = [
     "lon": -0.314,
     "type": "container",
     "timezone": "Europe/Madrid",
-    "region": "espana",
+    "region": "spain",
     "description": "Gateway industrial Levante · 5.4M TEU/año."
   },
   {
@@ -35,7 +35,7 @@ export const PORTS_SEED = [
     "lon": 2.1654,
     "type": "container",
     "timezone": "Europe/Madrid",
-    "region": "espana",
+    "region": "spain",
     "description": "Pasajeros + carga · cruise homeport del Mediterráneo."
   },
   {
@@ -47,7 +47,7 @@ export const PORTS_SEED = [
     "lon": -3.05,
     "type": "multipurpose",
     "timezone": "Europe/Madrid",
-    "region": "espana",
+    "region": "spain",
     "description": "Atlántico norte · químicos + ro-ro + acero."
   },
   {
@@ -59,7 +59,7 @@ export const PORTS_SEED = [
     "lon": -15.42,
     "type": "multipurpose",
     "timezone": "Atlantic/Canary",
-    "region": "espana",
+    "region": "spain",
     "description": "Hub bunkering Atlántico · pesca + reparación naval."
   },
   {
@@ -71,7 +71,7 @@ export const PORTS_SEED = [
     "lon": -0.98,
     "type": "tanker",
     "timezone": "Europe/Madrid",
-    "region": "espana",
+    "region": "spain",
     "description": "Granel líquido · refinería Repsol Escombreras."
   },
   {
@@ -83,7 +83,7 @@ export const PORTS_SEED = [
     "lon": 4.143,
     "type": "container",
     "timezone": "Europe/Amsterdam",
-    "region": "europa",
+    "region": "europe",
     "description": "Mayor puerto europeo · 15M TEU · gateway NW-Europa."
   },
   {
@@ -95,7 +95,7 @@ export const PORTS_SEED = [
     "lon": 4.35,
     "type": "container",
     "timezone": "Europe/Brussels",
-    "region": "europa",
+    "region": "europe",
     "description": "2º Europa · químicos + autos + breakbulk."
   },
   {
@@ -107,7 +107,7 @@ export const PORTS_SEED = [
     "lon": 9.976,
     "type": "container",
     "timezone": "Europe/Berlin",
-    "region": "europa",
+    "region": "europe",
     "description": "Gateway Báltico/Europa Central · 8.3M TEU."
   },
   {
@@ -119,7 +119,7 @@ export const PORTS_SEED = [
     "lon": 1.35,
     "type": "container",
     "timezone": "Europe/London",
-    "region": "europa",
+    "region": "europe",
     "description": "1º UK · 4M TEU · Hutchison Ports."
   },
   {
@@ -131,7 +131,7 @@ export const PORTS_SEED = [
     "lon": 0.1083,
     "type": "container",
     "timezone": "Europe/Paris",
-    "region": "europa",
+    "region": "europe",
     "description": "1º Francia container · gateway París + valle Sena."
   },
   {
@@ -143,7 +143,7 @@ export const PORTS_SEED = [
     "lon": 8.9342,
     "type": "container",
     "timezone": "Europe/Rome",
-    "region": "europa",
+    "region": "europe",
     "description": "1º Italia · gateway norte industrial."
   },
   {
@@ -155,7 +155,7 @@ export const PORTS_SEED = [
     "lon": 23.647,
     "type": "container",
     "timezone": "Europe/Athens",
-    "region": "europa",
+    "region": "europe",
     "description": "Controlado COSCO · pivote Belt&Road en UE."
   },
   {
@@ -167,7 +167,7 @@ export const PORTS_SEED = [
     "lon": 15.9,
     "type": "container",
     "timezone": "Europe/Rome",
-    "region": "europa",
+    "region": "europe",
     "description": "Hub transbordo Mediterráneo central."
   },
   {
@@ -179,7 +179,7 @@ export const PORTS_SEED = [
     "lon": 103.82,
     "type": "container",
     "timezone": "Asia/Singapore",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Hub transbordo global · 37M TEU · 1º bunkering mundial."
   },
   {
@@ -191,7 +191,7 @@ export const PORTS_SEED = [
     "lon": 122.066,
     "type": "container",
     "timezone": "Asia/Shanghai",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "1º mundial container · 49M TEU · Yangshan terminal."
   },
   {
@@ -203,7 +203,7 @@ export const PORTS_SEED = [
     "lon": 121.544,
     "type": "container",
     "timezone": "Asia/Shanghai",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "3º mundial · gateway delta Yangtze + granel líquido."
   },
   {
@@ -215,7 +215,7 @@ export const PORTS_SEED = [
     "lon": 113.945,
     "type": "container",
     "timezone": "Asia/Shanghai",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Yantian/Shekou · gateway electrónica Pearl River."
   },
   {
@@ -227,7 +227,7 @@ export const PORTS_SEED = [
     "lon": 129.0756,
     "type": "container",
     "timezone": "Asia/Seoul",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Gateway Corea · 23M TEU · transbordo NE-Asia."
   },
   {
@@ -239,7 +239,7 @@ export const PORTS_SEED = [
     "lon": 114.1694,
     "type": "container",
     "timezone": "Asia/Hong_Kong",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Kwai Tsing · gateway sur China · 14M TEU."
   },
   {
@@ -251,7 +251,7 @@ export const PORTS_SEED = [
     "lon": 120.3133,
     "type": "container",
     "timezone": "Asia/Taipei",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "1º Taiwán · semiconductores TSMC export pivot."
   },
   {
@@ -263,7 +263,7 @@ export const PORTS_SEED = [
     "lon": 139.779,
     "type": "container",
     "timezone": "Asia/Tokyo",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Bahía Tokio · multimodal · electrónica/autos."
   },
   {
@@ -275,7 +275,7 @@ export const PORTS_SEED = [
     "lon": 101.392,
     "type": "container",
     "timezone": "Asia/Kuala_Lumpur",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Gateway Kuala Lumpur · transbordo Estrecho Malaca."
   },
   {
@@ -287,7 +287,7 @@ export const PORTS_SEED = [
     "lon": 103.55,
     "type": "container",
     "timezone": "Asia/Kuala_Lumpur",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Maersk hub competidor de Singapore."
   },
   {
@@ -299,7 +299,7 @@ export const PORTS_SEED = [
     "lon": -118.276,
     "type": "container",
     "timezone": "America/Los_Angeles",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "1º USA · gateway Asia · San Pedro Bay."
   },
   {
@@ -311,7 +311,7 @@ export const PORTS_SEED = [
     "lon": -118.1937,
     "type": "container",
     "timezone": "America/Los_Angeles",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "Twin port LA · 8.3M TEU · electric drayage."
   },
   {
@@ -323,7 +323,7 @@ export const PORTS_SEED = [
     "lon": -74.0552,
     "type": "container",
     "timezone": "America/New_York",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "1º costa Este USA · gateway NE megalópolis."
   },
   {
@@ -335,7 +335,7 @@ export const PORTS_SEED = [
     "lon": -95.271,
     "type": "tanker",
     "timezone": "America/Chicago",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "1º USA en crudo+petroquímica · canal Galveston."
   },
   {
@@ -347,7 +347,7 @@ export const PORTS_SEED = [
     "lon": -123.111,
     "type": "container",
     "timezone": "America/Vancouver",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "Gateway Asia-Pacífico Canadá · gas natural + grano."
   },
   {
@@ -359,7 +359,7 @@ export const PORTS_SEED = [
     "lon": -81.141,
     "type": "container",
     "timezone": "America/New_York",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "Garden City terminal · gateway Sureste USA."
   },
   {
@@ -371,7 +371,7 @@ export const PORTS_SEED = [
     "lon": 55.061,
     "type": "container",
     "timezone": "Asia/Dubai",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "1º Oriente Medio · 14M TEU · DP World hub."
   },
   {
@@ -383,7 +383,7 @@ export const PORTS_SEED = [
     "lon": 39.1825,
     "type": "container",
     "timezone": "Asia/Riyadh",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Mar Rojo · puerta peregrinación + gateway Saudi."
   },
   {
@@ -395,7 +395,7 @@ export const PORTS_SEED = [
     "lon": 56.35,
     "type": "container",
     "timezone": "Asia/Dubai",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Fuera Estrecho de Ormuz · transbordo alternativo."
   },
   {
@@ -407,7 +407,7 @@ export const PORTS_SEED = [
     "lon": 51.6033,
     "type": "container",
     "timezone": "Asia/Qatar",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Hub Qatar · post-bloqueo 2017 · LNG hub adyacente."
   },
   {
@@ -419,7 +419,7 @@ export const PORTS_SEED = [
     "lon": 32.3,
     "type": "container",
     "timezone": "Africa/Cairo",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Entrada norte Canal de Suez · transbordo Maersk."
   },
   {
@@ -431,7 +431,7 @@ export const PORTS_SEED = [
     "lon": 32.35,
     "type": "multipurpose",
     "timezone": "Africa/Cairo",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Acceso norte al canal · monitoreo tráfico crítico."
   },
   {
@@ -443,7 +443,7 @@ export const PORTS_SEED = [
     "lon": 32.55,
     "type": "multipurpose",
     "timezone": "Africa/Cairo",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Salida sur del canal hacia Mar Rojo."
   },
   {
@@ -455,7 +455,7 @@ export const PORTS_SEED = [
     "lon": 54.0167,
     "type": "container",
     "timezone": "Asia/Muscat",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "description": "Mar Arábigo · transbordo fuera Ormuz · APM Terminals."
   },
   {
@@ -467,7 +467,7 @@ export const PORTS_SEED = [
     "lon": 79.842,
     "type": "container",
     "timezone": "Asia/Colombo",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "description": "Hub Sur-Asia · transbordo Subcontinente Indio."
   },
   {
@@ -479,7 +479,7 @@ export const PORTS_SEED = [
     "lon": -5.5167,
     "type": "container",
     "timezone": "Africa/Casablanca",
-    "region": "europa",
+    "region": "europe",
     "description": "Estrecho Gibraltar · 10M TEU · competidor Algeciras."
   },
   {
@@ -491,7 +491,7 @@ export const PORTS_SEED = [
     "lon": -79.897,
     "type": "container",
     "timezone": "America/Panama",
-    "region": "norteamerica",
+    "region": "north_america",
     "description": "Entrada Atlántica Canal Panamá · transbordo."
   }
 ]
@@ -1151,7 +1151,7 @@ export const CHOKEPOINTS_SEED = [
   {
     "slug": "suez",
     "name": "Canal de Suez",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "bbox": [
       [
         29.5,
@@ -1179,7 +1179,7 @@ export const CHOKEPOINTS_SEED = [
   {
     "slug": "ormuz",
     "name": "Estrecho de Ormuz",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "bbox": [
       [
         25.5,
@@ -1207,7 +1207,7 @@ export const CHOKEPOINTS_SEED = [
   {
     "slug": "bosporus",
     "name": "Estrecho del Bósforo",
-    "region": "europa",
+    "region": "europe",
     "bbox": [
       [
         40.9,
@@ -1233,7 +1233,7 @@ export const CHOKEPOINTS_SEED = [
   {
     "slug": "malacca",
     "name": "Estrecho de Malaca",
-    "region": "asia_pacifico",
+    "region": "asia_pacific",
     "bbox": [
       [
         1.0,
@@ -1264,7 +1264,7 @@ export const CHOKEPOINTS_SEED = [
   {
     "slug": "panama",
     "name": "Canal de Panamá",
-    "region": "norteamerica",
+    "region": "north_america",
     "bbox": [
       [
         8.8,
@@ -1292,7 +1292,7 @@ export const CHOKEPOINTS_SEED = [
   {
     "slug": "bab_el_mandeb",
     "name": "Bab-el-Mandeb / Mar Rojo",
-    "region": "oriente_medio",
+    "region": "middle_east",
     "bbox": [
       [
         12.0,

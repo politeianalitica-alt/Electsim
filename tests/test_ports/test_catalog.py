@@ -73,9 +73,23 @@ def test_list_ports_filter_by_type():
 
 
 def test_list_ports_filter_by_region():
-    asia = list_ports(region="asia_pacifico")
-    assert all(p["region"] == "asia_pacifico" for p in asia)
+    # Canónico: regiones en inglés
+    asia = list_ports(region="asia_pacific")
+    assert all(p["region"] == "asia_pacific" for p in asia)
     assert {"singapore", "shanghai", "busan"}.issubset({p["slug"] for p in asia})
+
+
+def test_list_ports_region_alias_legacy():
+    # Aliases legacy (`asia_pacifico`, `eu`, `espana`…) deben seguir filtrando OK
+    # gracias a `_normalize_region`. Mantiene compat con URLs antiguas.
+    es_legacy = list_ports(region="espana")
+    es_canonical = list_ports(region="spain")
+    assert {p["slug"] for p in es_legacy} == {p["slug"] for p in es_canonical}
+    assert len(es_canonical) >= 6
+    # case-insensitive
+    eu_upper = list_ports(region="EUROPE")
+    eu_lower = list_ports(region="europe")
+    assert {p["slug"] for p in eu_upper} == {p["slug"] for p in eu_lower}
 
 
 def test_get_port_known_and_unknown():

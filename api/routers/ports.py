@@ -446,11 +446,18 @@ def trade_bilateral_endpoint(
     reporter: str = Query(..., min_length=2, max_length=3),
     partner: str = Query(..., min_length=2, max_length=3),
     hs: str | None = Query(None, description="HS code · 2-8 dígitos. None=totales"),
+    hs_code: str | None = Query(None, description="Alias de hs (frontend usa hs_code)"),
     period: str | None = Query(None, description="YYYY-MM. None=último disponible"),
     flow: str | None = Query(None, description="export|import. None=ambos"),
     source: str = Query("auto", description="comtrade|comext|auto (intenta comext si EU+EU)"),
 ) -> dict[str, Any]:
-    """Comercio bilateral · cache + Comtrade/Comext + seed demo."""
+    """Comercio bilateral · cache + Comtrade/Comext + seed demo.
+
+    Acepta `hs` y `hs_code` indistintamente para preservar compatibilidad con
+    el frontend que envía `hs_code`. El primero no-null se usa.
+    """
+    # Normaliza alias hs/hs_code (frontend envía hs_code, backend histórico usa hs)
+    hs = hs or hs_code
     try:
         from etl.sources.ports.comext_client import bilateral_eu
         from etl.sources.ports.comtrade_client import bilateral_trade
@@ -486,10 +493,15 @@ def trade_bilateral_endpoint(
 @router.get("/trade/spain-flows")
 def trade_spain_flows_endpoint(
     hs: str | None = Query(None),
+    hs_code: str | None = Query(None, description="Alias de hs"),
     period: str | None = Query(None),
     flow: str | None = Query(None, description="export|import. None=ambos"),
 ) -> dict[str, Any]:
-    """Atajo España · todos los partners vía Comext."""
+    """Atajo España · todos los partners vía Comext.
+
+    Acepta `hs` y `hs_code` (alias) — el frontend envía `hs_code`.
+    """
+    hs = hs or hs_code
     try:
         from etl.sources.ports.comext_client import spain_flows
         return spain_flows(hs_code=hs, period_ym=period, flow_kind=flow)

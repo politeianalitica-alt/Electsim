@@ -11,6 +11,7 @@ import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useChokepoints, useChokepoint } from '@/hooks/usePorts'
 import { ChokepointRiskCard } from '@/components/ports/ChokepointRiskCard'
+import { fmtNum } from '@/lib/ports-utils'
 
 const ACCENT = '#0e7490'
 
@@ -57,12 +58,12 @@ export default function ChokepointsPage() {
               DETALLE · {detail.name.toUpperCase()}
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10, marginTop: 10 }}>
-              <KPI label="Risk score" value={detail.risk_score} accent={ACCENT} />
-              <KPI label="Risk level" value={detail.risk_level.toUpperCase()} accent={ACCENT} />
-              <KPI label="Score base" value={detail.score_base} accent={ACCENT} />
+              <KPI label="Risk score" value={detail.risk_score ?? '—'} accent={ACCENT} />
+              <KPI label="Risk level" value={(detail.risk_level ?? 'desconocido').toUpperCase()} accent={ACCENT} />
+              <KPI label="Score base" value={detail.score_base ?? '—'} accent={ACCENT} />
               <KPI label="Eventos 30d" value={detail.n_events_30d ?? 0} accent={ACCENT} />
-              <KPI label="Lat / Lon" value={`${detail.lat.toFixed(2)} / ${detail.lon.toFixed(2)}`} accent={ACCENT} />
-              <KPI label="Fuente" value={detail.data_source} accent={ACCENT} />
+              <KPI label="Lat / Lon" value={`${fmtNum(detail.lat, 2)} / ${fmtNum(detail.lon, 2)}`} accent={ACCENT} />
+              <KPI label="Fuente" value={detail.data_source ?? '—'} accent={ACCENT} />
             </div>
 
             <div style={{ marginTop: 16 }}>
