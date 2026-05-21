@@ -1,17 +1,16 @@
 'use client'
 /**
- * `<ProductividadCompetitividadTab />` · Tab 8 · Productividad & competitividad.
- *
- * Combina:
- *  - OEC ECI ranking España
- *  - INE ETCL coste laboral
- *  - Eurostat ULC, productividad
- *  - OEPM patentes (empty state)
+ * `<ProductividadCompetitividadTab />` · Tab 8 PROFUNDO.
+ * Fuentes vivas: OEC ECI, INE ETCL, IMF productividad.
+ * Sin empty states OEPM (regla del usuario).
  */
 import { useEffect, useState } from 'react'
 import { TabHeader } from '../TabHeader'
 import { MacroPanel } from '../MacroPanel'
 import { MacroKpiCard } from '../MacroKpiCard'
+import { DeepLineChart } from '../DeepLineChart'
+import { TrendNarrative } from '../TrendNarrative'
+import { CountryCompareBars } from '../CountryCompareBars'
 import { OecdMacroPanel } from '../OecdMacroPanel'
 import { getTab } from '@/lib/macro/sources-matrix'
 
@@ -19,113 +18,126 @@ export function ProductividadCompetitividadTab() {
   const tab = getTab('productividad-competitividad')
   const [oec, setOec] = useState<any>(null)
   const [etcl, setEtcl] = useState<any>(null)
-  const [oepm, setOepm] = useState<any>(null)
+  const [imfProd, setImfProd] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let alive = true
     Promise.all([
       fetch('/api/oec/spain-overview', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/ine/etcl?n=12', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/datos-gob/oepm-patentes', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/ine/etcl?n=24', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/imf/country?iso=ESP&indicator=NGDP_RPCH', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
     ]).then(([o, e, p]) => {
       if (!alive) return
-      setOec(o); setEtcl(e); setOepm(p); setLoading(false)
+      setOec(o); setEtcl(e); setImfProd(p); setLoading(false)
     })
     return () => { alive = false }
   }, [])
 
+  const rev = (pts: any[] = []) => pts.slice().reverse().map((p) => ({ period: p.period, value: p.value }))
+  const etclSeries = rev(etcl?.total?.points)
   const etclLast = etcl?.total?.points?.[0]
-  const etclSpark = (etcl?.total?.points || []).map((p: any) => p.value).filter((v: any) => Number.isFinite(v)).reverse()
-  const etclSerie = etcl?.total?.points || []
-  const etclYoY = etclSerie.length >= 5
-    ? ((etclLast?.value - etclSerie[4]?.value) / etclSerie[4]?.value) * 100
+  const etclYoY = etclSeries.length >= 5 && etclSeries[etclSeries.length - 5]?.value
+    ? ((etclLast?.value - etclSeries[etclSeries.length - 5].value) / etclSeries[etclSeries.length - 5].value) * 100
     : null
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-        <MacroKpiCard
-          label="ECI · Score complejidad"
-          value={oec?.eci_value ?? null}
-          unit=""
-          color={tab.themeAccent}
-          decimals={2}
-          footer="OEC.world · Economic Complexity Index"
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="ECI · Ranking global"
-          value={oec?.eci_rank ?? null}
-          unit=""
-          color="#0891b2"
-          decimals={0}
-          footer="OEC · entre todos los países del mundo"
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="Coste laboral mes"
-          value={etclLast?.value ?? null}
-          unit=" €"
-          color="#7c3aed"
-          decimals={0}
-          spark={etclSpark}
-          footer={etclLast?.period ? `INE ETCL · ${etclLast.period}` : 'INE ETCL'}
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="ETCL · YoY"
-          value={etclYoY}
-          unit="%"
-          color="#10b981"
-          decimals={1}
-          footer="Variación coste laboral interanual"
-          loading={loading}
-        />
+        {oec?.eci_value != null && (
+          <MacroKpiCard
+            label="ECI · score"
+            value={oec.eci_value}
+            unit=""
+            decimals={3}
+            color={tab.themeAccent}
+            footer="OEC Economic Complexity Index"
+            loading={loading}
+          />
+        )}
+        {oec?.eci_rank != null && (
+          <MacroKpiCard
+            label="ECI · ranking global"
+            value={oec.eci_rank}
+            unit=""
+            decimals={0}
+            color="#0891b2"
+            footer="OEC · entre 130 países"
+            loading={loading}
+          />
+        )}
+        {etclLast && (
+          <MacroKpiCard
+            label="Coste laboral / mes"
+            value={etclLast.value}
+            unit=" €"
+            decimals={0}
+            color="#7c3aed"
+            spark={etclSeries.slice(-12).map((p: any) => p.value).filter((v: any) => v != null)}
+            footer={`INE ETCL · ${etclLast.period}`}
+            loading={loading}
+          />
+        )}
+        {etclYoY != null && (
+          <MacroKpiCard
+            label="ETCL · YoY"
+            value={etclYoY}
+            color="#10b981"
+            footer="Coste laboral vs hace 5 trimestres"
+            decimals={2}
+            loading={loading}
+          />
+        )}
       </div>
 
+      {/* ETCL serie + lectura */}
+      {etclSeries.length > 5 && (
+        <MacroPanel
+          accent="#7c3aed"
+          title="ETCL · Coste laboral medio por trabajador"
+          subtitle="INE Encuesta Trimestral Coste Laboral · euros/mes · 24 trimestres"
+          status="live"
+        >
+          <DeepLineChart
+            series={[{ id: 'etcl', label: 'Coste laboral', color: '#7c3aed', points: etclSeries, fillBelow: true }]}
+            height={220}
+            yLabel="€/mes"
+            formatValue={(v) => `${Math.round(v).toLocaleString('es-ES')}€`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Coste laboral medio"
+              unit=" €"
+              decimals={0}
+              series={etclSeries as any}
+              accent="#7c3aed"
+            />
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* OECD panel macro complementario */}
       <MacroPanel
         accent={tab.themeAccent}
-        title="OECD · indicadores macro complementarios"
+        title="OECD · indicadores complementarios"
         subtitle="Productividad + ULC + I+D + Tax revenue"
         status="live"
       >
         <OecdMacroPanel compact />
       </MacroPanel>
 
-      <MacroPanel
-        accent="#94a3b8"
-        title="OEPM Patentes · España"
-        subtitle="Oficina Española de Patentes y Marcas"
-        status="missing"
-      >
-        <div style={{ padding: 12, background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 6 }}>
-          <p style={{ fontSize: 12, color: '#475569', margin: 0, lineHeight: 1.6 }}>
-            <strong>Estado actual:</strong> OEPM no expone API JSON pública. Sus datos están en exports XML.
-          </p>
-          {oepm?.activation_steps && (
-            <ul style={{ margin: '10px 0 0 0', padding: '0 0 0 20px', fontSize: 11, color: '#64748b', lineHeight: 1.6 }}>
-              {oepm.activation_steps.map((s: string, i: number) => <li key={i}>{s}</li>)}
-            </ul>
-          )}
-          {oepm?.fallback_endpoint && (
-            <p style={{ fontSize: 11, color: '#0f766e', marginTop: 10 }}>
-              <strong>Fallback:</strong> <code style={{ background: '#f1f5f9', padding: '2px 6px', borderRadius: 4, fontSize: 10 }}>{oepm.fallback_endpoint}</code>
-            </p>
-          )}
-        </div>
+      {/* Comparativa peers - productividad y output gap */}
+      <MacroPanel accent="#0891b2" title="Crecimiento PIB · España vs peers UE" subtitle="IMF NGDP_RPCH · proxy productividad" status="live">
+        <CountryCompareBars
+          indicator="NGDP_RPCH"
+          countries={['ESP', 'DEU', 'FRA', 'ITA', 'PRT', 'NLD', 'IRL']}
+          spainColor={tab.themeAccent}
+          unit="%"
+          decimals={2}
+        />
       </MacroPanel>
-
-      <section style={{ background: '#ecfeff', border: '1px solid #a5f3fc', borderRadius: 10, padding: 14 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: tab.themeAccent, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
-          ✦ Lectura Politeia · IA
-        </p>
-        <p style={{ fontSize: 13, color: '#0f172a', lineHeight: 1.6, margin: '8px 0 0' }}>
-          Análisis combinado ECI + ULC + I+D + exportaciones high-tech con benchmarking OCDE llega en <strong>Sprint M6</strong>.
-        </p>
-      </section>
     </div>
   )
 }

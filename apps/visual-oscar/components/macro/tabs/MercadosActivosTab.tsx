@@ -1,22 +1,18 @@
 'use client'
 /**
- * `<MercadosActivosTab />` · Tab 6 · Mercados & activos.
- *
- * Combina:
- *  - Finnhub: IBEX live + ADRs SAN/BBVA/TEF/FER
- *  - macro-finance markets: yields + FX
- *  - /api/commodities/snapshot-all: oil/gold/copper/BDI
+ * `<MercadosActivosTab />` · Tab 6 PROFUNDO.
+ * Fuentes vivas: Finnhub IBEX/ADRs/big tech/crypto · macro-finance yields/FX · Yahoo commodities.
  */
 import { useEffect, useState } from 'react'
 import { TabHeader } from '../TabHeader'
 import { MacroPanel } from '../MacroPanel'
 import { MacroKpiCard } from '../MacroKpiCard'
 import { getTab } from '@/lib/macro/sources-matrix'
-
-interface Quote { symbol?: string; price?: number | null; change_pct?: number | null; name?: string }
+import { useMacroDrawer } from '../MacroDrawerProvider'
 
 export function MercadosActivosTab() {
   const tab = getTab('mercados-activos')
+  const { openDrill } = useMacroDrawer()
   const [finnhub, setFinnhub] = useState<any>(null)
   const [markets, setMarkets] = useState<any>(null)
   const [commodities, setCommodities] = useState<any>(null)
@@ -35,81 +31,137 @@ export function MercadosActivosTab() {
     return () => { alive = false }
   }, [])
 
-  const ibexQuote = finnhub?.indices?.find?.((q: Quote) => q.symbol?.includes('IBEX')) || finnhub?.ibex
-  const adrs: Quote[] = finnhub?.adrs || finnhub?.spanish_stocks || []
-  const bigtech: Quote[] = finnhub?.bigtech || finnhub?.us_bigtech || []
-  const crypto: Quote[] = finnhub?.crypto || []
-  const fxRates: Quote[] = markets?.fx || markets?.exchange_rates || []
+  const ibex = finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex
+  const adrs = finnhub?.adrs || finnhub?.spanish_stocks || []
+  const bigtech = finnhub?.bigtech || finnhub?.us_bigtech || []
+  const crypto = finnhub?.crypto || []
+  const yieldCurve = markets?.yield_curve || []
+  const policyRates = markets?.policy_rates || []
+  const fxRates = markets?.fx || markets?.exchange_rates || []
+  const commList = commodities?.commodities || []
+
+  const openTickerDrill = (q: any) => {
+    openDrill({
+      title: `${q.symbol} · live quote`,
+      subtitle: 'FINNHUB',
+      accent: tab.themeAccent,
+      content: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ background: '#eff6ff', borderRadius: 8, padding: 12 }}>
+              <p style={{ fontSize: 10, color: '#1e40af', margin: 0, fontWeight: 700, letterSpacing: 0.4 }}>PRECIO</p>
+              <p style={{ fontSize: 26, fontWeight: 700, color: '#1e40af', margin: '4px 0 0' }}>
+                ${q.price?.toFixed(2)}
+              </p>
+            </div>
+            <div style={{ background: '#eff6ff', borderRadius: 8, padding: 12 }}>
+              <p style={{ fontSize: 10, color: '#1e40af', margin: 0, fontWeight: 700 }}>VAR. DÍA</p>
+              <p style={{ fontSize: 26, fontWeight: 700, color: (q.change_pct ?? 0) >= 0 ? '#16a34a' : '#dc2626', margin: '4px 0 0' }}>
+                {q.change_pct >= 0 ? '+' : ''}{q.change_pct?.toFixed(2)}%
+              </p>
+            </div>
+          </div>
+          <p style={{ fontSize: 12, color: '#475569', lineHeight: 1.6 }}>
+            <strong>Ticker:</strong> {q.symbol}<br />
+            <strong>Empresa:</strong> {q.name || '—'}<br />
+            <strong>Volumen:</strong> {q.volume?.toLocaleString('es-ES') ?? '—'}
+          </p>
+        </div>
+      ),
+    })
+  }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-        <MacroKpiCard
-          label="IBEX 35"
-          value={ibexQuote?.price ?? null}
-          unit=" pts"
-          delta={ibexQuote?.change_pct ?? null}
-          color={tab.themeAccent}
-          decimals={0}
-          footer="Finnhub · live"
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="EUR/USD"
-          value={fxRates.find((f) => (f.symbol || f.name || '').toUpperCase().includes('USD'))?.price ?? null}
-          unit=""
-          color="#3b82f6"
-          decimals={4}
-          footer="ECB SDW · daily"
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="Bono 10Y España"
-          value={markets?.yield_curve?.find?.((y: any) => y.tenor?.includes('10Y'))?.value ?? null}
-          unit="%"
-          color="#7c3aed"
-          decimals={2}
-          footer="ECB SDW"
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="Brent oil"
-          value={commodities?.commodities?.find?.((c: any) => c.symbol === 'BRENT' || c.label?.toLowerCase().includes('brent'))?.price ?? null}
-          unit=" $/bbl"
-          color="#f97316"
-          decimals={1}
-          footer="Yahoo · live"
-          loading={loading}
-        />
+        {ibex && (
+          <MacroKpiCard
+            label="IBEX 35"
+            value={ibex.price}
+            unit=" pts"
+            delta={ibex.change_pct}
+            color={tab.themeAccent}
+            decimals={0}
+            footer="Finnhub · live"
+            loading={loading}
+          />
+        )}
+        {fxRates.length > 0 && (
+          <MacroKpiCard
+            label="EUR/USD"
+            value={fxRates.find((f: any) => (f.symbol || f.name || '').toUpperCase().includes('USD'))?.price ?? null}
+            unit=""
+            color="#3b82f6"
+            decimals={4}
+            footer="ECB SDW"
+            loading={loading}
+          />
+        )}
+        {yieldCurve.find((y: any) => y.tenor?.includes('10Y')) && (
+          <MacroKpiCard
+            label="Bono 10Y España"
+            value={yieldCurve.find((y: any) => y.tenor?.includes('10Y'))?.value ?? null}
+            unit="%"
+            color="#7c3aed"
+            decimals={2}
+            footer="ECB SDW"
+            loading={loading}
+          />
+        )}
+        {commList.find((c: any) => c.symbol === 'BRENT' || c.label?.toLowerCase().includes('brent')) && (
+          <MacroKpiCard
+            label="Brent oil"
+            value={commList.find((c: any) => c.symbol === 'BRENT' || c.label?.toLowerCase().includes('brent'))?.price ?? null}
+            unit=" $/bbl"
+            color="#f97316"
+            decimals={1}
+            footer="Yahoo · live"
+            loading={loading}
+          />
+        )}
       </div>
 
-      {/* IBEX 35 + ADRs */}
-      {adrs && adrs.length > 0 && (
+      {/* Curva soberana */}
+      {yieldCurve.length > 0 && (
         <MacroPanel
-          accent={tab.themeAccent}
-          title="Cotizadas España · ADRs Finnhub"
-          subtitle="Live · SAN, BBVA, TEF, FER, IBE, REP..."
+          accent="#7c3aed"
+          title="Curva soberana España"
+          subtitle={`ECB SDW · ${yieldCurve.length} plazos · daily`}
           status="live"
         >
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(85px, 1fr))', gap: 8 }}>
+            {yieldCurve.map((y: any, i: number) => (
+              <div key={i} style={{ background: '#faf5ff', borderRadius: 6, padding: 10, textAlign: 'center', border: '1px solid #e9d5ff' }}>
+                <p style={{ fontSize: 9, color: '#7c3aed', margin: 0, fontWeight: 700, letterSpacing: 0.4 }}>{y.tenor}</p>
+                <p style={{ fontSize: 18, fontWeight: 700, color: '#7c3aed', margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
+                  {y.value?.toFixed(2)}%
+                </p>
+              </div>
+            ))}
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* IBEX ADRs */}
+      {adrs.length > 0 && (
+        <MacroPanel accent={tab.themeAccent} title="IBEX 35 cotizadas · click ticker" subtitle="Finnhub ADRs SAN/BBVA/TEF/FER/IBE/REP/ITX..." status="live">
           <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                <th style={{ padding: '8px 10px', textAlign: 'left', fontSize: 10, color: '#64748b', fontWeight: 600 }}>Ticker</th>
-                <th style={{ padding: '8px 10px', textAlign: 'left', fontSize: 10, color: '#64748b', fontWeight: 600 }}>Nombre</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontSize: 10, color: '#64748b', fontWeight: 600 }}>Precio</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontSize: 10, color: '#64748b', fontWeight: 600 }}>Δ %</th>
+                <th style={{ padding: '8px 10px', textAlign: 'left', fontSize: 10, color: '#64748b' }}>Ticker</th>
+                <th style={{ padding: '8px 10px', textAlign: 'left', fontSize: 10, color: '#64748b' }}>Empresa</th>
+                <th style={{ padding: '8px 10px', textAlign: 'right', fontSize: 10, color: '#64748b' }}>Precio</th>
+                <th style={{ padding: '8px 10px', textAlign: 'right', fontSize: 10, color: '#64748b' }}>Δ %</th>
               </tr>
             </thead>
             <tbody>
-              {adrs.slice(0, 12).map((q, i) => (
-                <tr key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '6px 10px', color: '#0f172a', fontWeight: 600, fontFamily: 'monospace', fontSize: 11 }}>{q.symbol}</td>
+              {adrs.slice(0, 15).map((q: any, i: number) => (
+                <tr key={i} style={{ borderBottom: '1px solid #f1f5f9', cursor: 'pointer' }} onClick={() => openTickerDrill(q)}>
+                  <td style={{ padding: '6px 10px', fontWeight: 600, fontFamily: 'monospace', fontSize: 11 }}>{q.symbol}</td>
                   <td style={{ padding: '6px 10px', color: '#64748b' }}>{q.name}</td>
-                  <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
-                    ${q.price?.toFixed(2) ?? '—'}
-                  </td>
+                  <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>${q.price?.toFixed(2) ?? '—'}</td>
                   <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 700, color: (q.change_pct ?? 0) >= 0 ? '#16a34a' : '#dc2626' }}>
                     {q.change_pct != null ? `${q.change_pct >= 0 ? '+' : ''}${q.change_pct.toFixed(2)}%` : '—'}
                   </td>
@@ -121,10 +173,10 @@ export function MercadosActivosTab() {
       )}
 
       {/* Commodities */}
-      {commodities?.commodities && commodities.commodities.length > 0 && (
-        <MacroPanel accent="#f97316" title="Commodities · oil, gold, copper, BDI" subtitle="Yahoo Finance · live" status="live">
+      {commList.length > 0 && (
+        <MacroPanel accent="#f97316" title="Commodities" subtitle="Yahoo Finance · oil/gold/copper/BDI · live" status="live">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 10 }}>
-            {commodities.commodities.slice(0, 8).map((c: any, i: number) => (
+            {commList.slice(0, 10).map((c: any, i: number) => (
               <MacroKpiCard
                 key={i}
                 label={c.label || c.symbol}
@@ -140,14 +192,25 @@ export function MercadosActivosTab() {
         </MacroPanel>
       )}
 
-      {/* US Big tech como benchmark */}
-      {bigtech && bigtech.length > 0 && (
-        <MacroPanel accent="#3b82f6" title="US Big Tech · benchmark internacional" subtitle="Finnhub · AAPL, MSFT, GOOGL, NVDA..." status="live">
+      {/* Política BCE */}
+      {policyRates.length > 0 && (
+        <MacroPanel accent="#6366f1" title="BCE · Tipos oficiales" subtitle="Main Refi · Deposit Facility · Marginal Lending" status="live">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
+            {policyRates.map((r: any, i: number) => (
+              <MacroKpiCard key={i} label={r.label} value={r.value} unit="%" color="#6366f1" decimals={2} footer={r.code} />
+            ))}
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* Big tech */}
+      {bigtech.length > 0 && (
+        <MacroPanel accent="#3b82f6" title="US Big Tech · benchmark internacional" subtitle="Finnhub" status="live">
           <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}>
             <tbody>
-              {bigtech.slice(0, 8).map((q, i) => (
+              {bigtech.slice(0, 8).map((q: any, i: number) => (
                 <tr key={i} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '6px 10px', color: '#0f172a', fontWeight: 600, fontFamily: 'monospace', fontSize: 11 }}>{q.symbol}</td>
+                  <td style={{ padding: '6px 10px', fontWeight: 600, fontFamily: 'monospace', fontSize: 11 }}>{q.symbol}</td>
                   <td style={{ padding: '6px 10px', color: '#64748b' }}>{q.name}</td>
                   <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>${q.price?.toFixed(2)}</td>
                   <td style={{ padding: '6px 10px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 700, color: (q.change_pct ?? 0) >= 0 ? '#16a34a' : '#dc2626' }}>
@@ -160,10 +223,11 @@ export function MercadosActivosTab() {
         </MacroPanel>
       )}
 
-      {crypto && crypto.length > 0 && (
-        <MacroPanel accent="#eab308" title="Crypto · top mercado" subtitle="Finnhub · BTC, ETH, BNB..." status="live">
+      {/* Crypto */}
+      {crypto.length > 0 && (
+        <MacroPanel accent="#eab308" title="Crypto" subtitle="Finnhub · BTC/ETH/BNB..." status="live">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 10 }}>
-            {crypto.slice(0, 6).map((c, i) => (
+            {crypto.slice(0, 6).map((c: any, i: number) => (
               <MacroKpiCard
                 key={i}
                 label={c.symbol || c.name || ''}
@@ -177,15 +241,6 @@ export function MercadosActivosTab() {
           </div>
         </MacroPanel>
       )}
-
-      <section style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: 14 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: tab.themeAccent, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
-          ✦ Lectura Politeia · IA
-        </p>
-        <p style={{ fontSize: 13, color: '#0f172a', lineHeight: 1.6, margin: '8px 0 0' }}>
-          Análisis automático de correlaciones bolsa/bonos/divisas/commodities con rotación sectorial llega en <strong>Sprint M6</strong>. Datos arriba ofrecen el snapshot directo Finnhub+ECB+Yahoo.
-        </p>
-      </section>
     </div>
   )
 }

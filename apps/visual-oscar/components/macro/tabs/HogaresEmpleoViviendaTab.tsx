@@ -1,195 +1,272 @@
 'use client'
 /**
- * `<HogaresEmpleoViviendaTab />` · Tab 10 · Hogares, empleo, vivienda.
+ * `<HogaresEmpleoViviendaTab />` · Tab 10 · Hogares, empleo, vivienda PROFUNDO.
  *
- * Combina:
- *  - INE EPA: paro armonizado + breakdown edad
- *  - INE IPV: precio vivienda nacional + nueva + segunda mano
- *  - INE ETCL: coste laboral
- *  - CIS: problemas vivienda + paro
- *  - Eurostat: renta disponible
+ * Fuentes vivas:
+ *  - INE EPA86913 paro general + breakdown edad
+ *  - INE IPV tabla 76201 (precio vivienda)
+ *  - INE ETCL coste laboral
+ *  - IMF LUR paro % activos
  */
 import { useEffect, useState } from 'react'
 import { TabHeader } from '../TabHeader'
 import { MacroPanel } from '../MacroPanel'
 import { MacroKpiCard } from '../MacroKpiCard'
-import { MacroSpark } from '../MacroSpark'
+import { DeepLineChart } from '../DeepLineChart'
+import { TrendNarrative } from '../TrendNarrative'
+import { CountryCompareBars } from '../CountryCompareBars'
+import { IndicatorDrill } from '../IndicatorDrill'
 import { getTab } from '@/lib/macro/sources-matrix'
+import { useMacroDrawer } from '../MacroDrawerProvider'
 
 export function HogaresEmpleoViviendaTab() {
   const tab = getTab('hogares-empleo-vivienda')
+  const { openDrill } = useMacroDrawer()
   const [epa, setEpa] = useState<any>(null)
   const [ipv, setIpv] = useState<any>(null)
   const [etcl, setEtcl] = useState<any>(null)
-  const [cis, setCis] = useState<any>(null)
+  const [imfUnemp, setImfUnemp] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let alive = true
     Promise.all([
-      fetch('/api/ine/epa?n=20', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/ine/ipv?n=20', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/ine/etcl?n=12', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/cis/problemas', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-    ]).then(([e, i, et, c]) => {
+      fetch('/api/ine/epa?n=24', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/ine/ipv?n=24', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/ine/etcl?n=24', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/imf/country?iso=ESP&indicator=LUR', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+    ]).then(([e, i, et, u]) => {
       if (!alive) return
-      setEpa(e); setIpv(i); setEtcl(et); setCis(c); setLoading(false)
+      setEpa(e); setIpv(i); setEtcl(et); setImfUnemp(u); setLoading(false)
     })
     return () => { alive = false }
   }, [])
 
-  const paroLast = epa?.general?.points?.[0]
-  const paroJovenes = epa?.menores_25?.points?.[0]
-  const paroSpark = (epa?.general?.points || []).map((p: any) => p.value).filter((v: any) => Number.isFinite(v)).reverse()
-
+  const rev = (pts: any[] = []) => pts.slice().reverse().map((p) => ({ period: p.period, value: p.value }))
+  const epaGeneralSeries = rev(epa?.general?.points)
+  const epaJovenesSeries = rev(epa?.menores_25?.points)
+  const epaGeneralLast = epa?.general?.points?.[0]
+  const epaJovenesLast = epa?.menores_25?.points?.[0]
+  const ipvGeneralSeries = rev(ipv?.general?.points)
+  const ipvNuevaSeries = rev(ipv?.nueva?.points)
+  const ipvSegundaSeries = rev(ipv?.segunda?.points)
   const ipvLast = ipv?.general?.points?.[0]
-  const ipvNuevaLast = ipv?.nueva?.points?.[0]
-  const ipvSegundaLast = ipv?.segunda?.points?.[0]
-  const ipvSpark = (ipv?.general?.points || []).map((p: any) => p.value).filter((v: any) => Number.isFinite(v)).reverse()
-
+  const etclSeries = rev(etcl?.total?.points)
   const etclLast = etcl?.total?.points?.[0]
-  const problemaVivienda = cis?.problemas?.find?.((p: any) => p.problema?.toLowerCase()?.includes('vivienda'))?.pct
-  const problemaParo = cis?.problemas?.find?.((p: any) => p.problema?.toLowerCase()?.includes('paro'))?.pct
+
+  const cy = new Date().getFullYear()
+  const imfHist = (imfUnemp?.series || []).filter((s: any) => s.value != null && s.year <= cy).map((s: any) => ({ period: String(s.year), value: s.value }))
+  const imfFc = (imfUnemp?.series || []).filter((s: any) => s.value != null && s.year > cy).map((s: any) => ({ period: String(s.year), value: s.value }))
+
+  const openEpaDrill = () => {
+    openDrill({
+      title: 'EPA · Tasa de paro España',
+      subtitle: 'INE EPA86913 · serie trimestral nacional',
+      accent: tab.themeAccent,
+      content: (
+        <IndicatorDrill
+          label="Tasa paro general"
+          unit="%"
+          decimals={2}
+          series={epaGeneralSeries}
+          sourceCode="EPA86913"
+          sourceName="INE EPA"
+          imfCompareIndicator="LUR"
+          threshold={{ amber: 12, red: 18, goodAbove: false }}
+          accent={tab.themeAccent}
+        />
+      ),
+      source: { name: 'INE EPA', url: 'https://www.ine.es/jaxiT3/Tabla.htm?t=4247' },
+    })
+  }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-        <MacroKpiCard
-          label="Tasa paro general"
-          value={paroLast?.value ?? null}
-          color={tab.themeAccent}
-          spark={paroSpark.slice(-12)}
-          footer={paroLast?.period ? `INE EPA · ${paroLast.period}` : 'INE EPA'}
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="Paro juvenil <25"
-          value={paroJovenes?.value ?? null}
-          color="#dc2626"
-          footer={paroJovenes?.period ? `INE EPA · ${paroJovenes.period}` : 'INE EPA'}
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="IPV vivienda"
-          value={ipvLast?.value ?? null}
-          unit=""
-          color="#16a34a"
-          spark={ipvSpark.slice(-12)}
-          decimals={1}
-          footer={ipvLast?.period ? `INE IPV índice · ${ipvLast.period}` : 'INE IPV base 2015'}
-          loading={loading}
-        />
-        <MacroKpiCard
-          label="Coste laboral medio"
-          value={etclLast?.value ?? null}
-          unit=" €"
-          color="#7c3aed"
-          decimals={0}
-          footer={etclLast?.period ? `INE ETCL · ${etclLast.period}` : 'INE ETCL'}
-          loading={loading}
-        />
+        {epaGeneralLast && (
+          <MacroKpiCard
+            label="Tasa paro general"
+            value={epaGeneralLast.value}
+            color={tab.themeAccent}
+            spark={epaGeneralSeries.slice(-12).map((p: any) => p.value).filter((v: any) => v != null)}
+            footer={`INE EPA86913 · ${epaGeneralLast.period}`}
+            onClick={epaGeneralSeries.length > 1 ? openEpaDrill : undefined}
+            loading={loading}
+          />
+        )}
+        {epaJovenesLast && (
+          <MacroKpiCard
+            label="Paro juvenil <25"
+            value={epaJovenesLast.value}
+            color="#dc2626"
+            spark={epaJovenesSeries.slice(-12).map((p: any) => p.value).filter((v: any) => v != null)}
+            footer={`INE EPA86912 · ${epaJovenesLast.period}`}
+            loading={loading}
+          />
+        )}
+        {ipvLast && (
+          <MacroKpiCard
+            label="IPV vivienda"
+            value={ipvLast.value}
+            unit=""
+            color="#16a34a"
+            spark={ipvGeneralSeries.slice(-12).map((p: any) => p.value).filter((v: any) => v != null)}
+            decimals={1}
+            footer={`INE IPV · ${ipvLast.period} · base 2015`}
+            loading={loading}
+          />
+        )}
+        {etclLast && (
+          <MacroKpiCard
+            label="Coste laboral / mes"
+            value={etclLast.value}
+            unit=" €"
+            color="#7c3aed"
+            decimals={0}
+            footer={`INE ETCL · ${etclLast.period}`}
+            loading={loading}
+          />
+        )}
       </div>
 
-      {/* EPA paro serie */}
-      <MacroPanel
-        accent={tab.themeAccent}
-        title="EPA · Tasa paro armonizado España"
-        subtitle="Serie 20 trimestres · ambos sexos total nacional"
-        status={epa?.ok ? 'live' : loading ? 'loading' : 'missing'}
-      >
-        {paroSpark.length > 2 ? (
-          <div style={{ background: '#f0fdf4', borderRadius: 8, padding: 16 }}>
-            <MacroSpark points={paroSpark} color={tab.themeAccent} width={760} height={120} stroke={2.5} showLast />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, fontSize: 10, color: '#64748b' }}>
-              <span>{epa?.general?.points?.[epa.general.points.length - 1]?.period}</span>
-              <span style={{ fontWeight: 700 }}>
-                Mín: {Math.min(...paroSpark).toFixed(1)}% · Máx: {Math.max(...paroSpark).toFixed(1)}%
-              </span>
-              <span>{epa?.general?.points?.[0]?.period}</span>
-            </div>
-          </div>
-        ) : (
-          <p style={{ fontSize: 12, color: '#94a3b8' }}>{loading ? 'Cargando INE EPA…' : 'Datos no disponibles'}</p>
-        )}
-      </MacroPanel>
-
-      {/* IPV breakdown */}
-      <MacroPanel
-        accent="#16a34a"
-        title="IPV · Precio Vivienda España"
-        subtitle="INE base 2015 · trimestral · breakdown total/nueva/segunda mano"
-        status={ipv?.ok ? 'live' : 'missing'}
-      >
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
-          {[
-            { label: 'IPV total', val: ipvLast, color: '#16a34a' },
-            { label: 'Vivienda nueva', val: ipvNuevaLast, color: '#10b981' },
-            { label: 'Segunda mano', val: ipvSegundaLast, color: '#0d9488' },
-          ].map((row, i) => (
-            <MacroKpiCard
-              key={i}
-              label={row.label}
-              value={row.val?.value ?? null}
-              unit=""
-              color={row.color}
-              decimals={1}
-              footer={row.val?.period ?? '—'}
+      {/* EPA serie larga + breakdown edad */}
+      {epaGeneralSeries.length > 5 && (
+        <MacroPanel
+          accent={tab.themeAccent}
+          title="EPA · Paro España · 24 trimestres"
+          subtitle="Tasa paro general vs juvenil <25 · INE trimestral nacional"
+          status="live"
+        >
+          <DeepLineChart
+            series={[
+              { id: 'g', label: 'General', color: tab.themeAccent, points: epaGeneralSeries, fillBelow: true },
+              { id: 'j', label: '<25 años', color: '#dc2626', points: epaJovenesSeries, dashed: true },
+            ]}
+            height={220}
+            yLabel="Tasa paro %"
+            formatValue={(v) => `${v.toFixed(1)}%`}
+            onPointClick={openEpaDrill}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Tasa paro general"
+              unit="%"
+              decimals={2}
+              series={epaGeneralSeries as any}
+              threshold={{ amber: 12, red: 18, goodAbove: false }}
+              accent={tab.themeAccent}
             />
-          ))}
-        </div>
-      </MacroPanel>
+          </div>
+        </MacroPanel>
+      )}
 
-      {/* CIS problemas vivienda */}
-      <MacroPanel
-        accent="#0f766e"
-        title="CIS · Problemas percibidos · vivienda y paro"
-        subtitle={`Barómetro CIS ${cis?.oleada || '—'} · % respuesta espontánea`}
-        status={cis?.ok ? 'live' : 'missing'}
-      >
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 10 }}>
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 14 }}>
-            <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>
-              Vivienda · CIS
-            </p>
-            <p style={{ fontSize: 28, fontWeight: 700, color: '#16a34a', margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
-              {problemaVivienda?.toFixed(1) ?? '—'}%
-            </p>
-            <p style={{ fontSize: 10, color: '#94a3b8', margin: '4px 0 0' }}>de respuestas espontáneas</p>
+      {/* IMF Paro 20y + forecast */}
+      {imfHist.length > 5 && (
+        <MacroPanel
+          accent="#f59e0b"
+          title="IMF WEO · Paro España 20y + forecast"
+          subtitle="LUR · histórica + proyección 5y · % población activa"
+          status="live"
+        >
+          <DeepLineChart
+            series={[{
+              id: 'imf',
+              label: 'Tasa paro %',
+              color: '#f59e0b',
+              points: [...imfHist, ...imfFc],
+              forecastFromIndex: imfHist.length,
+              fillBelow: true,
+            }]}
+            height={220}
+            yLabel="Tasa paro %"
+            annotations={[
+              { period: '2013', label: '26% pico', color: '#dc2626' },
+              { period: '2020', label: 'COVID', color: '#dc2626' },
+            ]}
+            formatValue={(v) => `${v.toFixed(1)}%`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Tasa paro IMF"
+              unit="%"
+              decimals={2}
+              series={imfHist}
+              forecast={imfFc}
+              threshold={{ amber: 12, red: 18, goodAbove: false }}
+              accent="#f59e0b"
+            />
           </div>
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 14 }}>
-            <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>
-              Paro · CIS
-            </p>
-            <p style={{ fontSize: 28, fontWeight: 700, color: '#dc2626', margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
-              {problemaParo?.toFixed(1) ?? '—'}%
-            </p>
-            <p style={{ fontSize: 10, color: '#94a3b8', margin: '4px 0 0' }}>de respuestas espontáneas</p>
-          </div>
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 14 }}>
-            <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>
-              Top problemas oleada
-            </p>
-            <ol style={{ fontSize: 11, color: '#0f172a', margin: '6px 0 0 0', paddingLeft: 16, lineHeight: 1.6 }}>
-              {(cis?.problemas || []).slice(0, 4).map((p: any, i: number) => (
-                <li key={i}>
-                  <strong>{p.problema?.slice(0, 30)}</strong> · {p.pct?.toFixed(1)}%
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </MacroPanel>
+        </MacroPanel>
+      )}
 
-      <section style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: 14 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: tab.themeAccent, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
-          ✦ Lectura Politeia · IA
-        </p>
-        <p style={{ fontSize: 13, color: '#0f172a', lineHeight: 1.6, margin: '8px 0 0' }}>
-          Análisis EPA por género/CCAA + IPV por CCAA + percentiles salariales + ratio renta/vivienda llega en <strong>Sprint M6</strong>. Datos INE + CIS arriba ofrecen el plano principal.
-        </p>
-      </section>
+      {/* IPV serie larga + breakdown */}
+      {ipvGeneralSeries.length > 5 && (
+        <MacroPanel
+          accent="#16a34a"
+          title="IPV · Índice Precio Vivienda España"
+          subtitle="INE base 2015 · trimestral · general + nueva + segunda mano"
+          status="live"
+        >
+          <DeepLineChart
+            series={[
+              { id: 'g', label: 'IPV general', color: '#16a34a', points: ipvGeneralSeries, fillBelow: true },
+              ...(ipvNuevaSeries.length > 0 ? [{ id: 'n', label: 'Vivienda nueva', color: '#10b981', points: ipvNuevaSeries }] : []),
+              ...(ipvSegundaSeries.length > 0 ? [{ id: 's', label: 'Segunda mano', color: '#0d9488', points: ipvSegundaSeries, dashed: true }] : []),
+            ]}
+            height={220}
+            yLabel="IPV (base 2015=100)"
+            formatValue={(v) => v.toFixed(1)}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="IPV general"
+              unit=""
+              decimals={1}
+              series={ipvGeneralSeries as any}
+              accent="#16a34a"
+            />
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* ETCL coste laboral */}
+      {etclSeries.length > 5 && (
+        <MacroPanel
+          accent="#7c3aed"
+          title="ETCL · Coste laboral medio por trabajador y mes"
+          subtitle="INE ETCL trimestral · euros · serie 24 trimestres"
+          status="live"
+        >
+          <DeepLineChart
+            series={[{ id: 'etcl', label: 'Coste laboral', color: '#7c3aed', points: etclSeries, fillBelow: true }]}
+            height={200}
+            yLabel="€/mes"
+            formatValue={(v) => `${Math.round(v).toLocaleString('es-ES')}€`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Coste laboral medio"
+              unit=" €"
+              decimals={0}
+              series={etclSeries as any}
+              accent="#7c3aed"
+            />
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* CountryCompare paro */}
+      <MacroPanel accent="#f59e0b" title="Paro · España vs peers UE" subtitle="IMF LUR · último año disponible" status="live">
+        <CountryCompareBars
+          indicator="LUR"
+          countries={['ESP', 'DEU', 'FRA', 'ITA', 'PRT', 'NLD', 'GRC']}
+          spainColor={tab.themeAccent}
+          unit="%"
+          decimals={2}
+        />
+      </MacroPanel>
     </div>
   )
 }

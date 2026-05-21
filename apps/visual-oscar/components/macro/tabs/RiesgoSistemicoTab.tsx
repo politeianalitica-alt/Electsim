@@ -1,12 +1,21 @@
 'use client'
 /**
- * `<RiesgoSistemicoTab />` · Tab 5 · Riesgo sistémico España.
- * Semáforo 5 indicadores compuestos · spread/deuda/déficit/inflación/confianza.
+ * `<RiesgoSistemicoTab />` · Tab 5 · Riesgo sistémico PROFUNDO.
+ *
+ * Semáforo + spread soberano serie + IMF dimensiones de riesgo.
+ * Fuentes:
+ *  - macro-finance markets · ECB SDW yields + spreads
+ *  - IMF GGXWDG_NGDP (deuda), GGXCNL_NGDP (déficit)
+ *  - INE IPC (gap inflación)
+ *  - Finnhub ^VIX
  */
 import { useEffect, useState } from 'react'
 import { TabHeader } from '../TabHeader'
 import { MacroPanel } from '../MacroPanel'
 import { MacroKpiCard } from '../MacroKpiCard'
+import { DeepLineChart } from '../DeepLineChart'
+import { TrendNarrative } from '../TrendNarrative'
+import { CountryCompareBars } from '../CountryCompareBars'
 import { getTab } from '@/lib/macro/sources-matrix'
 
 interface SemaforoRow {
@@ -25,8 +34,8 @@ export function RiesgoSistemicoTab() {
   const [markets, setMarkets] = useState<any>(null)
   const [deuda, setDeuda] = useState<any>(null)
   const [deficit, setDeficit] = useState<any>(null)
-  const [cis, setCis] = useState<any>(null)
   const [ipc, setIpc] = useState<any>(null)
+  const [vix, setVix] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,92 +44,75 @@ export function RiesgoSistemicoTab() {
       fetch('/api/macro-finance/markets', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
       fetch('/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
       fetch('/api/imf/country?iso=ESP&indicator=GGXCNL_NGDP', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/cis/confianza-instituciones', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-      fetch('/api/ine/ipc?n=12', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
-    ]).then(([m, d, df, c, i]) => {
+      fetch('/api/ine/ipc?n=24', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch('/api/finnhub/quote?symbol=^VIX', { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+    ]).then(([m, d, df, i, v]) => {
       if (!alive) return
-      setMarkets(m); setDeuda(d); setDeficit(df); setCis(c); setIpc(i)
-      setLoading(false)
+      setMarkets(m); setDeuda(d); setDeficit(df); setIpc(i); setVix(v); setLoading(false)
     })
     return () => { alive = false }
   }, [])
 
-  const spreadEsDe =
-    markets?.spreads?.find?.((s: any) =>
-      (s.code?.toLowerCase?.()?.includes('es') && s.code?.toLowerCase?.()?.includes('de')) ||
-      s.label?.toLowerCase?.()?.includes('españa'),
-    )?.value ||
-    markets?.spread_es_de ||
-    null
+  const spreadEsDe = markets?.spreads?.find?.((s: any) =>
+    (s.code?.toLowerCase?.()?.includes('es') && s.code?.toLowerCase?.()?.includes('de')) ||
+    s.label?.toLowerCase?.()?.includes('españa'),
+  )?.value ?? markets?.spread_es_de ?? null
+  const bondEs10y = markets?.yield_curve?.find?.((y: any) => y.tenor?.includes('10Y'))?.value ?? null
+
   const deudaLast = (deuda?.series || []).filter((x: any) => x.value != null).slice(-1)[0]
   const deficitLast = (deficit?.series || []).filter((x: any) => x.value != null).slice(-1)[0]
   const ipcLast = ipc?.anual?.points?.[0]?.value ?? null
-  const confianzaGobierno = cis?.instituciones?.find((c: any) => c.institucion?.includes('Gobierno'))?.valoracion ?? null
+  const vixLast = vix?.c ?? vix?.price ?? vix?.value ?? null
 
-  const status = (v: number | null, amber: number, red: number, invertir = false): 'green' | 'amber' | 'red' | 'unknown' => {
+  const status = (v: number | null, amber: number, red: number): 'green' | 'amber' | 'red' | 'unknown' => {
     if (v == null || !Number.isFinite(v)) return 'unknown'
-    if (invertir) {
-      if (v >= amber) return 'green'
-      if (v >= red) return 'amber'
-      return 'red'
-    }
     if (v < amber) return 'green'
     if (v < red) return 'amber'
     return 'red'
   }
 
   const semaforo: SemaforoRow[] = [
-    {
+    spreadEsDe != null ? {
       indicator: 'Spread soberano vs Bund 10Y',
       value: spreadEsDe,
-      threshold_amber: 100,
-      threshold_red: 200,
-      unit: 'pb',
-      status: status(spreadEsDe, 100, 200),
+      threshold_amber: 100, threshold_red: 200,
+      unit: 'pb', status: status(spreadEsDe, 100, 200),
       fuente: 'ECB SDW',
-      descripcion: 'Diferencial 10y España vs Alemania · indicador clave estrés soberano',
-    },
-    {
+      descripcion: 'Diferencial 10y España vs Alemania · indicador clave de estrés soberano',
+    } : null,
+    deudaLast?.value != null ? {
       indicator: 'Deuda pública %PIB',
-      value: deudaLast?.value ?? null,
-      threshold_amber: 100,
-      threshold_red: 120,
-      unit: '%',
-      status: status(deudaLast?.value ?? null, 100, 120),
+      value: deudaLast.value,
+      threshold_amber: 100, threshold_red: 120,
+      unit: '%', status: status(deudaLast.value, 100, 120),
       fuente: 'IMF GGXWDG_NGDP',
-      descripcion: 'Stock deuda Maastricht · si rebasa 100% inicia ámbar',
-    },
-    {
+      descripcion: 'Stock deuda Maastricht · 60% es el límite del Tratado',
+    } : null,
+    deficitLast?.value != null ? {
       indicator: 'Déficit fiscal %PIB',
-      value: deficitLast?.value != null ? -deficitLast.value : null,
-      threshold_amber: 3,
-      threshold_red: 6,
-      unit: '%',
-      status: status(deficitLast?.value != null ? -deficitLast.value : null, 3, 6),
+      value: -deficitLast.value,
+      threshold_amber: 3, threshold_red: 6,
+      unit: '%', status: status(-deficitLast.value, 3, 6),
       fuente: 'IMF GGXCNL_NGDP',
       descripcion: 'Déficit > 3% rompe regla Maastricht · > 6% crisis',
-    },
-    {
+    } : null,
+    ipcLast != null ? {
       indicator: 'Inflación gap vs target 2%',
-      value: ipcLast != null ? Math.abs(ipcLast - 2.0) : null,
-      threshold_amber: 1.0,
-      threshold_red: 2.5,
-      unit: 'pp',
-      status: status(ipcLast != null ? Math.abs(ipcLast - 2.0) : null, 1.0, 2.5),
+      value: Math.abs(ipcLast - 2.0),
+      threshold_amber: 1.0, threshold_red: 2.5,
+      unit: 'pp', status: status(Math.abs(ipcLast - 2.0), 1.0, 2.5),
       fuente: 'INE IPC',
       descripcion: 'Distancia absoluta IPC anual vs target BCE 2%',
-    },
-    {
-      indicator: 'Confianza Gobierno (CIS)',
-      value: confianzaGobierno,
-      threshold_amber: 4.5,
-      threshold_red: 3.5,
-      unit: '/10',
-      status: status(confianzaGobierno, 4.5, 3.5, true),
-      fuente: 'CIS Barómetro',
-      descripcion: 'Valoración media Gobierno escala 0-10 · indicador estabilidad política',
-    },
-  ]
+    } : null,
+    vixLast != null ? {
+      indicator: 'VIX volatilidad',
+      value: vixLast,
+      threshold_amber: 20, threshold_red: 30,
+      unit: '', status: status(vixLast, 20, 30),
+      fuente: 'Finnhub ^VIX',
+      descripcion: 'Índice de volatilidad S&P500 · > 30 risk-off generalizado',
+    } : null,
+  ].filter(Boolean) as SemaforoRow[]
 
   const statusColors = {
     green: { bg: '#dcfce7', border: '#86efac', dot: '#16a34a', label: 'BAJO' },
@@ -129,14 +121,53 @@ export function RiesgoSistemicoTab() {
     unknown: { bg: '#f1f5f9', border: '#cbd5e1', dot: '#94a3b8', label: 'S/D' },
   } as const
 
+  // Score compuesto (0=todo verde, 100=todo rojo)
+  const scoreNum = semaforo.length > 0
+    ? semaforo.reduce((s, r) => s + (r.status === 'red' ? 100 : r.status === 'amber' ? 50 : 0), 0) / semaforo.length
+    : null
+
+  // Deuda histórica para chart
+  const cy = new Date().getFullYear()
+  const deudaHist = (deuda?.series || []).filter((s: any) => s.value != null && s.year <= cy).map((s: any) => ({ period: String(s.year), value: s.value }))
+  const deudaFc = (deuda?.series || []).filter((s: any) => s.value != null && s.year > cy).map((s: any) => ({ period: String(s.year), value: s.value }))
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
+      {/* Score compuesto */}
+      {scoreNum != null && (
+        <div style={{
+          background: scoreNum > 50 ? '#fef2f2' : scoreNum > 25 ? '#fffbeb' : '#f0fdf4',
+          border: `2px solid ${scoreNum > 50 ? '#fca5a5' : scoreNum > 25 ? '#fde68a' : '#86efac'}`,
+          borderRadius: 12,
+          padding: 16,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 12,
+        }}>
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#0f172a', margin: 0, letterSpacing: 0.4, textTransform: 'uppercase' }}>
+              Score compuesto riesgo sistémico
+            </p>
+            <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0', maxWidth: 500 }}>
+              Media ponderada de los {semaforo.length} indicadores activos · 0=todo verde, 100=todo rojo.
+            </p>
+          </div>
+          <div style={{ fontSize: 36, fontWeight: 700, color: scoreNum > 50 ? '#dc2626' : scoreNum > 25 ? '#f59e0b' : '#16a34a', fontVariantNumeric: 'tabular-nums' }}>
+            {scoreNum.toFixed(0)}
+            <span style={{ fontSize: 14, color: '#64748b', fontWeight: 500, marginLeft: 6 }}>/ 100</span>
+          </div>
+        </div>
+      )}
+
+      {/* Semáforo */}
       <MacroPanel
         accent={tab.themeAccent}
-        title="Semáforo Riesgo Sistémico · 5 indicadores compuestos"
-        subtitle="Verde/Ámbar/Rojo según umbrales académicos · LIVE 1h cache"
+        title={`Semáforo riesgo sistémico · ${semaforo.length} indicadores`}
+        subtitle="Verde/Ámbar/Rojo según umbrales académicos · datos LIVE"
         status={loading ? 'loading' : 'live'}
       >
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
@@ -146,18 +177,16 @@ export function RiesgoSistemicoTab() {
               <div key={i} style={{ background: cfg.bg, border: `1px solid ${cfg.border}`, borderRadius: 8, padding: 12 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <p style={{ fontSize: 11, color: '#0f172a', margin: 0, fontWeight: 700 }}>{s.indicator}</p>
-                  <span style={{ background: cfg.dot, color: '#fff', fontSize: 9, fontWeight: 700, padding: '2px 8px', borderRadius: 999, letterSpacing: 0.4 }}>
+                  <span style={{ background: cfg.dot, color: '#fff', fontSize: 9, fontWeight: 700, padding: '2px 8px', borderRadius: 999 }}>
                     {cfg.label}
                   </span>
                 </div>
                 <p style={{ fontSize: 22, fontWeight: 700, color: cfg.dot, margin: '6px 0 0', fontVariantNumeric: 'tabular-nums' }}>
                   {s.value != null ? `${s.value.toFixed(1)}${s.unit}` : '—'}
                 </p>
-                <p style={{ fontSize: 10, color: '#64748b', margin: '4px 0 0', lineHeight: 1.4 }}>
-                  {s.descripcion}
-                </p>
-                <p style={{ fontSize: 9, color: '#94a3b8', margin: '4px 0 0', letterSpacing: 0.3 }}>
-                  Umbrales: ámbar≥{s.threshold_amber}{s.unit} · rojo≥{s.threshold_red}{s.unit} · fuente {s.fuente}
+                <p style={{ fontSize: 10, color: '#64748b', margin: '4px 0 0', lineHeight: 1.4 }}>{s.descripcion}</p>
+                <p style={{ fontSize: 9, color: '#94a3b8', margin: '4px 0 0' }}>
+                  Umbrales: ámbar ≥ {s.threshold_amber}{s.unit} · rojo ≥ {s.threshold_red}{s.unit} · {s.fuente}
                 </p>
               </div>
             )
@@ -165,21 +194,55 @@ export function RiesgoSistemicoTab() {
         </div>
       </MacroPanel>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
-        <MacroKpiCard label="Spread ES-DE 10Y" value={spreadEsDe} unit="pb" color={tab.themeAccent} footer="ECB SDW · 10Y soberano" decimals={0} loading={loading} />
-        <MacroKpiCard label="VIX Volatilidad" value={null} color="#7c3aed" footer="Pendiente · ^VIX Finnhub" loading={loading} />
-        <MacroKpiCard label="Reservas BdE" value={null} unit="€B" color="#0891b2" footer="Pendiente · COFER IMF" loading={loading} />
-        <MacroKpiCard label="Confianza Gobierno" value={confianzaGobierno} unit="/10" color="#0f766e" footer="CIS · escala 0-10" loading={loading} />
-      </div>
+      {/* Deuda histórica chart + lectura */}
+      {deudaHist.length > 5 && (
+        <MacroPanel
+          accent="#dc2626"
+          title="Deuda pública %PIB · trayectoria + forecast"
+          subtitle="IMF GGXWDG_NGDP · histórica + proyección 5y · alerta a 100%/120%"
+          status="live"
+        >
+          <DeepLineChart
+            series={[{
+              id: 'd',
+              label: 'Deuda %PIB',
+              color: '#dc2626',
+              points: [...deudaHist, ...deudaFc],
+              forecastFromIndex: deudaHist.length,
+              fillBelow: true,
+            }]}
+            height={220}
+            yLabel="Deuda %PIB"
+            annotations={[
+              { period: '2014', label: '100% umbral', color: '#f59e0b' },
+              { period: '2020', label: 'COVID', color: '#dc2626' },
+            ]}
+            formatValue={(v) => `${v.toFixed(0)}%`}
+          />
+          <div style={{ marginTop: 12 }}>
+            <TrendNarrative
+              label="Deuda pública"
+              unit="%"
+              decimals={1}
+              series={deudaHist}
+              forecast={deudaFc}
+              threshold={{ amber: 100, red: 120, goodAbove: false }}
+              accent="#dc2626"
+            />
+          </div>
+        </MacroPanel>
+      )}
 
-      <section style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: tab.themeAccent, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
-          ✦ Lectura Politeia · IA
-        </p>
-        <p style={{ fontSize: 13, color: '#0f172a', lineHeight: 1.6, margin: '8px 0 0' }}>
-          Análisis combinado de estrés soberano + fragilidad fiscal + drift inflación + estabilidad política llega en <strong>Sprint M6</strong>. El semáforo arriba ofrece el resumen visual directo.
-        </p>
-      </section>
+      {/* Comparativa peers */}
+      <MacroPanel accent="#7c3aed" title="Deuda pública · España vs UE" subtitle="IMF GGXWDG_NGDP · último año" status="live">
+        <CountryCompareBars
+          indicator="GGXWDG_NGDP"
+          countries={['ESP', 'DEU', 'FRA', 'ITA', 'PRT', 'NLD', 'GRC', 'BEL']}
+          spainColor={tab.themeAccent}
+          unit="%"
+          decimals={1}
+        />
+      </MacroPanel>
     </div>
   )
 }
