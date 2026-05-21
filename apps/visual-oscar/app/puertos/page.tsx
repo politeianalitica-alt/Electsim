@@ -21,6 +21,7 @@ import {
   usePortsDataSources,
 } from '@/hooks/usePorts'
 import { WorldShippingMap } from '@/components/ports/WorldShippingMap'
+import { PORTS_SEED, VESSELS_SEED } from '@/lib/ports-seed'
 import { PortCongestionCard } from '@/components/ports/PortCongestionCard'
 import { FreightSnapshotGrid } from '@/components/ports/FreightSnapshotGrid'
 import { ChokepointRiskCard } from '@/components/ports/ChokepointRiskCard'
@@ -49,8 +50,14 @@ export default function PortsDashboard() {
   const [type_, setType] = useState<string>('')
   const [query, setQuery] = useState('')
 
-  const { items: catalog } = usePortCatalog(country || undefined, type_ || undefined)
-  const { items: vessels } = useVesselCatalog()
+  // Hooks de API · enriquecen los seeds embebidos. NUNCA dejamos `catalog`
+  // o `vessels` vacíos: si la API falla (auth expirada, red, cold start),
+  // el componente sigue dibujando los 40+ puertos seed y los 50 vessels
+  // del bundle. El usuario nunca ve un mapa en blanco · degradación graceful.
+  const { items: catalogApi } = usePortCatalog(country || undefined, type_ || undefined)
+  const { items: vesselsApi } = useVesselCatalog()
+  const catalog = catalogApi.length > 0 ? catalogApi : (PORTS_SEED as any[])
+  const vessels = vesselsApi.length > 0 ? vesselsApi : (VESSELS_SEED as any[])
   const { items: snapshot, isLive, refresh: refreshSnapshot } = usePortSnapshotAll(40)
   const { items: freight } = useFreightSnapshot()
   const { items: chokepoints } = useChokepoints()
