@@ -195,7 +195,20 @@ export default function DashboardPage() {
 
  <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
 
-        {/* ═══════════════ PANEL EJECUTIVO (arriba del todo) ═══════════════
+        {/* ═══════════════ 1 · IA · chat con PoliteIA ═══════════════
+           Primera vista de la pantalla. Cabecera dark con la conversación
+           con PoliteIA + lectura analítica del día + tres preguntas
+           sugeridas para profundizar.
+        */}
+ <BrainBriefing/>
+
+        {/* ═══════════════ 2 · INFORMES · PDF y audio del briefing ═══════════════
+           Justo debajo de la IA. Para descargar el briefing diario en PDF
+           (formato nota o informe completo) o escucharlo en audio (TTS).
+        */}
+ <BriefingExports/>
+
+        {/* ═══════════════ 3 · PANEL EJECUTIVO · KPIs ═══════════════
            Bloque destacado · KPIs principales + risk + macro.
            Las alertas tienen ahora sección propia debajo (mejor organizada).
            Layout interno:
@@ -432,18 +445,6 @@ export default function DashboardPage() {
             )
           })()}
  </section>
-
-        {/* ═══════════════ BRIEFING · PDF + audio ═══════════════
-           Debajo del panel ejecutivo y las alertas. Para descargar el
-           briefing diario en PDF o escucharlo en audio (TTS).
-        */}
- <BriefingExports/>
-
-        {/* ═══════════════ BRIEFING CONVERSACIONAL · chat con PoliteIA ═══════════════
-           Más abajo porque es secundario al panel ejecutivo. Sirve para
-           profundizar en cualquier tema del briefing tras leerlo.
-        */}
- <BrainBriefing/>
 
         {/* Tendencias ahora */}
         {(() => {
