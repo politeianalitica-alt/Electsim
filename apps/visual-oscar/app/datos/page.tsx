@@ -37,6 +37,21 @@ interface Source {
 }
 
 const SOURCES: Source[] = [
+  // ─── Comercio multilateral ──────────────────────────────────────
+  {
+    slug: 'wto',
+    name: 'WTO Timeseries',
+    category: 'comercio',
+    status: 'live',
+    coverage: 'global',
+    description: '58 indicadores oficiales OMC · merchandise + services trade + aranceles MFN aplicados.',
+    why_useful: 'Snapshot multilateral España (exports/imports total/agri/manuf/services) + aranceles MFN para defensa comercial. Complemento a Comtrade bilateral.',
+    endpoint: 'https://api.wto.org/timeseries/v1',
+    module: 'etl/sources/global_intel/wto_client.py · app/api/wto/[...path]',
+    env_var: 'WTO_API_KEY',
+    docs_url: 'https://timeseries.wto.org',
+    free_tier: 'Sin rate-limit publicado',
+  },
   // ─── Cooperación + tercer sector ────────────────────────────────
   {
     slug: 'iati',

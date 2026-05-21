@@ -283,6 +283,9 @@ export default function TradePage() {
           )}
         </section>
 
+        {/* ─── WTO Multilateral Snapshot ─── */}
+        <WtoMultilateralPanel reporterIso3={reporter} />
+
         {/* ─── Sankey ─── */}
         <section
           style={{
@@ -644,4 +647,239 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 
 function Empty({ children }: { children: React.ReactNode }) {
   return <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>{children}</p>
+}
+
+// ─────────────────────────────────────────────────────────────────
+// WTO Multilateral Snapshot · datos OFICIALES de OMC
+// ─────────────────────────────────────────────────────────────────
+
+interface WtoOverview {
+  reporter_code: number
+  reporter: string
+  periods: string
+  series: Record<string, Array<{ year: number; value: number; unit?: string }>>
+  data_quality?: { source_type: string; source_name: string; note?: string }
+}
+
+interface WtoTariffs {
+  reporter: string
+  tariffs: Record<string, { year: number; value: number; unit?: string }>
+  data_quality?: { source_type: string; source_name: string; note?: string }
+}
+
+function WtoMultilateralPanel({ reporterIso3 }: { reporterIso3: string }) {
+  const [overview, setOverview] = useState<WtoOverview | null>(null)
+  const [tariffs, setTariffs] = useState<WtoTariffs | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let alive = true
+    setLoading(true)
+    // Solo el reporter (ej. ESP) tiene snapshot completo curado; otros via /country/{iso3}
+    const isSpain = reporterIso3 === 'ESP'
+    const overviewUrl = isSpain
+      ? '/api/wto/spain-overview?periods=2018-2024'
+      : `/api/wto/country/${reporterIso3}?periods=2020-2024`
+    Promise.all([
+      fetch(overviewUrl, { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+      fetch(`/api/wto/tariff/${reporterIso3}`, { cache: 'force-cache' }).then((r) => r.json()).catch(() => null),
+    ]).then(([ov, tar]) => {
+      if (!alive) return
+      setOverview(ov)
+      setTariffs(tar)
+      setLoading(false)
+    })
+    return () => { alive = false }
+  }, [reporterIso3])
+
+  const exportsLatest = overview?.series?.exports_total?.length
+    ? overview.series.exports_total[overview.series.exports_total.length - 1]
+    : null
+  const importsLatest = overview?.series?.imports_total?.length
+    ? overview.series.imports_total[overview.series.imports_total.length - 1]
+    : null
+  const servicesExportsLatest = overview?.series?.services_exports?.length
+    ? overview.series.services_exports[overview.series.services_exports.length - 1]
+    : null
+
+  const balance = exportsLatest && importsLatest
+    ? exportsLatest.value - importsLatest.value
+    : null
+
+  return (
+    <section
+      style={{
+        marginTop: 16,
+        background: '#fff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        padding: 14,
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}>
+        <div>
+          <p style={{ fontSize: 11, letterSpacing: 0.8, color: '#0e7490', fontWeight: 700, margin: 0 }}>
+            COMERCIO MULTILATERAL · WTO TIMESERIES
+          </p>
+          <p style={{ fontSize: 12, color: '#475569', margin: '2px 0 0' }}>
+            Datos oficiales OMC · {overview?.reporter ?? reporterIso3} ·{' '}
+            agregado multilateral (≠ Comtrade bilateral)
+          </p>
+        </div>
+        {overview?.data_quality && (
+          <span style={{ fontSize: 10, padding: '2px 6px', background: '#dcfce7', color: '#166534', borderRadius: 4, fontWeight: 700 }}>
+            {overview.data_quality.source_type.toUpperCase()}
+          </span>
+        )}
+      </div>
+
+      {loading && <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 10 }}>Cargando WTO…</p>}
+
+      {!loading && overview && (
+        <>
+          {/* 4 KPIs hero */}
+          <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
+            <KpiCard
+              label={`Exports ${exportsLatest?.year ?? '—'}`}
+              value={exportsLatest ? `${(exportsLatest.value / 1000).toFixed(1)}B$` : '—'}
+              accent="#0e7490"
+            />
+            <KpiCard
+              label={`Imports ${importsLatest?.year ?? '—'}`}
+              value={importsLatest ? `${(importsLatest.value / 1000).toFixed(1)}B$` : '—'}
+              accent="#0e7490"
+            />
+            <KpiCard
+              label="Balanza comercial"
+              value={balance != null ? `${(balance / 1000).toFixed(1)}B$` : '—'}
+              accent={balance != null && balance > 0 ? '#16a34a' : '#dc2626'}
+            />
+            <KpiCard
+              label={`Services exports ${servicesExportsLatest?.year ?? '—'}`}
+              value={servicesExportsLatest ? `${(servicesExportsLatest.value / 1000).toFixed(1)}B$` : '—'}
+              accent="#0e7490"
+            />
+          </div>
+
+          {/* Sparklines de series */}
+          <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
+            <SparkSeries
+              label="Exports total (M USD)"
+              data={overview.series.exports_total || []}
+              color="#0e7490"
+            />
+            <SparkSeries
+              label="Imports total (M USD)"
+              data={overview.series.imports_total || []}
+              color="#dc2626"
+            />
+            <SparkSeries
+              label="Services exports (M USD)"
+              data={overview.series.services_exports || []}
+              color="#16a34a"
+            />
+            <SparkSeries
+              label="Manuf. exports (M USD)"
+              data={overview.series.exports_manuf || []}
+              color="#9333ea"
+            />
+          </div>
+
+          {/* Tariffs MFN */}
+          {tariffs?.tariffs && Object.keys(tariffs.tariffs).length > 0 && (
+            <div style={{ marginTop: 14, padding: 12, background: '#f9fafb', borderRadius: 6, border: '1px solid #f1f5f9' }}>
+              <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: 0, letterSpacing: 0.6 }}>
+                ARANCELES MFN APLICADOS · {reporterIso3}
+              </p>
+              <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 6, fontSize: 12 }}>
+                {Object.entries(tariffs.tariffs).map(([key, t]) => {
+                  const label = key
+                    .replace('tariff_', '')
+                    .replace('_', ' ')
+                    .replace('simple', 'simple →')
+                    .replace('weighted', 'ponder →')
+                  return (
+                    <div key={key} style={{ background: '#fff', padding: 8, borderRadius: 4, border: '1px solid #e5e7eb' }}>
+                      <p style={{ fontSize: 10, color: '#64748b', margin: 0 }}>{label}</p>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: '2px 0 0' }}>
+                        {t.value != null ? `${t.value.toFixed(2)}%` : '—'}
+                      </p>
+                      <p style={{ fontSize: 9, color: '#94a3b8', margin: 0 }}>{t.year}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <p style={{ fontSize: 10, color: '#94a3b8', marginTop: 8, textAlign: 'right' }}>
+        Fuente · WTO Timeseries Database ·{' '}
+        <a href="https://api.wto.org/timeseries/v1" target="_blank" rel="noopener noreferrer" style={{ color: '#0e7490', textDecoration: 'none' }}>
+          api.wto.org →
+        </a>
+      </p>
+    </section>
+  )
+}
+
+function KpiCard({ label, value, accent }: { label: string; value: string; accent: string }) {
+  return (
+    <div style={{ background: '#f8fafc', borderRadius: 6, padding: 10 }}>
+      <p style={{ fontSize: 10, letterSpacing: 0.5, color: '#64748b', margin: 0, fontWeight: 700 }}>
+        {label.toUpperCase()}
+      </p>
+      <p style={{ fontSize: 20, fontWeight: 800, color: accent, margin: '4px 0 0', fontVariantNumeric: 'tabular-nums' }}>
+        {value}
+      </p>
+    </div>
+  )
+}
+
+function SparkSeries({ label, data, color }: { label: string; data: Array<{ year: number; value: number }>; color: string }) {
+  if (!data.length) {
+    return (
+      <div style={{ padding: 10, background: '#f9fafb', borderRadius: 6, fontSize: 11, color: '#94a3b8' }}>
+        {label} · sin datos
+      </div>
+    )
+  }
+  const sorted = [...data].sort((a, b) => a.year - b.year)
+  const values = sorted.map((d) => d.value)
+  const min = Math.min(...values)
+  const max = Math.max(...values)
+  const range = Math.max(1, max - min)
+  const w = 280
+  const h = 50
+  const pad = 4
+  const step = (w - pad * 2) / Math.max(1, sorted.length - 1)
+  const points = sorted
+    .map((d, i) => `${pad + i * step},${h - pad - ((d.value - min) / range) * (h - pad * 2)}`)
+    .join(' ')
+  const last = sorted[sorted.length - 1]
+  const first = sorted[0]
+  const growthPct = first.value > 0 ? ((last.value - first.value) / first.value) * 100 : 0
+  return (
+    <div style={{ padding: 10, background: '#f9fafb', borderRadius: 6, border: '1px solid #f1f5f9' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <p style={{ fontSize: 11, color: '#475569', margin: 0, fontWeight: 600 }}>{label}</p>
+        <span style={{ fontSize: 10, color: growthPct >= 0 ? '#16a34a' : '#dc2626', fontWeight: 700 }}>
+          {growthPct >= 0 ? '+' : ''}{growthPct.toFixed(1)}%
+        </span>
+      </div>
+      <svg viewBox={`0 0 ${w} ${h}`} style={{ width: '100%', height: 60, marginTop: 4 }} preserveAspectRatio="none">
+        <polyline points={points} fill="none" stroke={color} strokeWidth={1.4} />
+        <circle
+          cx={pad + (sorted.length - 1) * step}
+          cy={h - pad - ((last.value - min) / range) * (h - pad * 2)}
+          r={2.5}
+          fill={color}
+        />
+      </svg>
+      <p style={{ fontSize: 10, color: '#94a3b8', margin: '4px 0 0' }}>
+        {first.year} → {last.year} · {(last.value / 1000).toFixed(1)}B$ último
+      </p>
+    </div>
+  )
 }
