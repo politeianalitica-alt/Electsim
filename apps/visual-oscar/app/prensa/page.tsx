@@ -1,67 +1,77 @@
 'use client'
 
 /**
- * /prensa — Pulso de Prensa · Hub completo de análisis de medios.
+ * /prensa · Media Intelligence Hub · 10 subtabs.
  *
- * 6 pestañas estructuradas:
- *   1. Feed inteligente · multi-tier (nacional/europeo/regional/local)
- *   2. Mapa · sentimiento regional clickable con drill por CCAA
- *   3. Narrativas · anatomía profunda (audiencia, canales, mensajes, objetivos)
- *   4. Sentimiento · topic × party heatmap + impacto en figuras
- *   5. Figuras · análisis sentiment por persona pública con tendencia
- *   6. Cobertura · story clusters comparando el mismo evento por medios
+ * Arquitectura inspirada en NewsWhip + Media Cloud + GDELT:
+ *   1. Radar en vivo · titulares + volumen + mapa CCAA + medios activos
+ *   2. Búsqueda puntual · investigación libre con NewsAPI (CORE FEATURE)
+ *   3. Agenda mediática · ranking temas + evolución 24h/7d/30d
+ *   4. Narrativas & frames · clusters narrativos + framings comparados
+ *   5. Actores & menciones · personas/partidos/empresas/países
+ *   6. Sentimiento & reputación · positivo/negativo por actor/tema/medio
+ *   7. Cobertura comparada · misma historia distintos bloques
+ *   8. Viralidad & difusión · sortBy=popularity + first movers
+ *   9. Desinformación & verificación · RSS fact-checkers + Google Fact Check
+ *   10. Informes, alertas & dossiers · monitores, plantillas, exports
  *
- * Todo conectado a /api/medios/intel (consolidado) + /api/medios/ccaa (drill).
+ * El feed RSS interno + /api/medios/intel + NewsAPI son fuentes principales.
+ * GDELT, Media Cloud, NewsWhip, Google Fact Check Tools llegarán en M-M2/M3.
  */
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
+import { useUrlState } from '@/lib/useUrlState'
 import { LiveDot } from '@/components/Skeleton'
+
 import FeedTiered from './_components/FeedTiered'
 import SentimentMapInteractive from './_components/SentimentMapInteractive'
 import NarrativesDeepView from './_components/NarrativesDeepView'
+import NarrativesV3View from './_components/NarrativesV3View'
 import SentimentDualView from './_components/SentimentDualView'
 import StoryClustersView from './_components/StoryClustersView'
-import NarrativesV3View from './_components/NarrativesV3View'
-import type { TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep, StoryCluster, CoverageGap, CompanySentiment, SectorSentiment } from '@/lib/news-intel'
+import FiguresView from './_components/FiguresView'
+import TopicPartyHeatmap from './_components/TopicPartyHeatmap'
+
+import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
+import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
+import { BusquedaPuntual } from './_components/BusquedaPuntual'
+import { ViralidadDifusion } from './_components/ViralidadDifusion'
+import { InformesAlertas } from './_components/InformesAlertas'
+import { MEDIOS_TAB_IDS, getMediosTab, MediosTabId } from '@/lib/medios/sources-matrix'
+
+import type {
+  TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep,
+  StoryCluster, CoverageGap, CompanySentiment, SectorSentiment,
+} from '@/lib/news-intel'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
 
 interface IntelResponse {
-  meta:       { updatedAt: string; total: number; hours: number; sources: number }
-  feed?:      TieredFeed
+  meta: { updatedAt: string; total: number; hours: number; sources: number }
+  feed?: TieredFeed
   narratives?: NarrativeAnatomy[]
   topicparty?: TopicPartyCell[]
-  figures?:    FigureSentimentDeep[]
-  companies?:  CompanySentiment[]
-  sectors?:    SectorSentiment[]
-  clusters?:   StoryCluster[]
-  gaps?:       CoverageGap[]
-  ccaa?:       Record<string, CCAARegionStat>
+  figures?: FigureSentimentDeep[]
+  companies?: CompanySentiment[]
+  sectors?: SectorSentiment[]
+  clusters?: StoryCluster[]
+  gaps?: CoverageGap[]
+  ccaa?: Record<string, CCAARegionStat>
 }
-
-type Tab = 'feed' | 'mapa' | 'narrativas' | 'sentimiento' | 'cobertura'
-
-const TABS: Array<{ id: Tab; label: string; glyph: string; description: string }> = [
-  { id: 'feed',         label: 'Feed inteligente', glyph: '', description: 'Multi-tier + categorías temáticas dinámicas' },
-  { id: 'mapa',         label: 'Mapa',             glyph: '', description: 'Sentimiento regional con drill provincial + figuras y empresas por CCAA' },
-  { id: 'narrativas',   label: 'Narrativas',       glyph: '·', description: 'Anatomía: audiencia, canales, mensajes, objetivos, figuras, empresas' },
-  { id: 'sentimiento',  label: 'Sentimiento',      glyph: '·', description: 'Vista política (partidos × temas) y vista empresarial (IBEX/sectores)' },
-  { id: 'cobertura',    label: 'Cobertura',        glyph: '·', description: 'Misma historia, distintos framings ideológicos' },
-]
-
-// Links directos a sub-páginas mejoradas
-const SUBPAGES: Array<{ href: string; label: string; descripcion: string; color: string }> = [
-  { href: '/prensa/desinformacion', label: 'Observatorio de desinformación', descripcion: 'Fact-checkers en vivo (EFE Verifica + Newtral + Maldita) · tendencias + actores negativamente afectados', color: '#DC2626' },
-]
 
 export default function PrensaPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  const [tab, setTab] = useState<Tab>('feed')
+  const [activeTab, setActiveTab] = useUrlState<MediosTabId>('tab', 'radar')
+  const safeActiveTab: MediosTabId = (MEDIOS_TAB_IDS as readonly string[]).includes(activeTab)
+    ? activeTab
+    : 'radar'
+  const tab = getMediosTab(safeActiveTab)
+
   const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
   const { data, source, loading, refresh, updatedAt } = useApi<IntelResponse>(
     `/api/medios/intel?hours=${hours}&sources=50`,
@@ -73,152 +83,180 @@ export default function PrensaPage() {
   const isFresh = !!updatedAt && Date.now() - new Date(updatedAt).getTime() < 600_000
 
   return (
-    <div style={{ background: 'var(--bg, #fbfbfd)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
-      <AppHeader />
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+    <MediosDrawerProvider>
+      <div style={{ background: '#fbfbfd', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
+        <AppHeader />
+        <main style={{ maxWidth: 1500, margin: '0 auto', padding: '20px 28px 80px' }}>
 
-        {/* ── Hero ─────────────────────────────────────────────────── */}
-        <section style={{
-          background: 'linear-gradient(135deg,#1F4E8C 0%,#0B2447 100%)',
-          borderRadius: 22, padding: '28px 36px', marginBottom: 18, color: '#fff',
-          display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 32, alignItems: 'center',
-          position: 'relative', overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute', top: -80, right: -80, width: 280, height: 280, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 65%)',
-            pointerEvents: 'none',
-          }} />
-          <div style={{ position: 'relative' }}>
-            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.78, margin: '0 0 6px', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-              <LiveDot color={isFresh ? '#10b981' : '#f59e0b'} />
-              <span>PULSO DE PRENSA · INTELIGENCIA DE MEDIOS</span>
-              {source === 'mock' && <span style={{ background: 'rgba(245,158,11,0.20)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
-              {totalArticles > 0 ? totalArticles : '…'} noticias · {meta?.sources ?? '…'} medios
-              {' '}
-              <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>analizadas en las últimas {hours}h</em>
-            </h1>
-            <p style={{ fontSize: 13, opacity: 0.72, margin: 0, lineHeight: 1.5, maxWidth: 580 }}>
-              Feed multi-tier, mapa interactivo, anatomía de narrativas, sentimiento por partido y figura, cobertura comparada. Todo derivado del agregador RSS en tiempo real.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, position: 'relative' }}>
-            {(data?.feed?.counts ? Object.entries(data.feed.counts) : []).map(([tier, n]) => (
-              <div key={tier} style={{
-                textAlign: 'center', padding: '12px 8px 10px', borderRadius: 12,
-                background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.16)',
-              }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{n}</div>
-                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.74, marginTop: 5, textTransform: 'uppercase' }}>{tier}</div>
+          {/* ── Hero compacto ─────────────────────────────────────── */}
+          <section
+            style={{
+              background: `linear-gradient(135deg, ${tab.themeAccent}EE 0%, ${tab.themeAccent}AA 100%)`,
+              borderRadius: 14,
+              padding: '16px 22px',
+              marginBottom: 14,
+              color: '#fff',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: 16,
+            }}
+          >
+            <div>
+              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.14, textTransform: 'uppercase', opacity: 0.86, margin: 0, display: 'flex', gap: 8, alignItems: 'center' }}>
+                <LiveDot color={isFresh ? '#86efac' : '#fde68a'} />
+                <span>MEDIOS · INTELLIGENCE · Tab {tab.number} · {tab.label}</span>
+                {source === 'mock' && <span style={{ background: 'rgba(255,255,255,0.20)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
+              </p>
+              <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22, margin: '6px 0 0', lineHeight: 1.1, maxWidth: 720 }}>
+                {tab.description}
+              </h1>
+              <p style={{ fontSize: 11, opacity: 0.78, margin: '6px 0 0' }}>
+                {totalArticles > 0 ? `${totalArticles} noticias · ${meta?.sources ?? '…'} medios analizados` : 'Cargando feed RSS…'}
+              </p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+              <MediosSourceBadges tab={tab} />
+              <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.16)', borderRadius: 999, padding: 3 }}>
+                {([24, 48, 72, 168] as const).map((h) => (
+                  <button
+                    key={h}
+                    onClick={() => setHours(h)}
+                    style={{
+                      background: hours === h ? '#fff' : 'transparent',
+                      color: hours === h ? tab.themeAccent : '#fff',
+                      border: 'none',
+                      borderRadius: 999,
+                      padding: '4px 12px',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    {h < 168 ? `${h}h` : '7d'}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
+              {updatedAt && (
+                <span style={{ fontSize: 10, opacity: 0.78 }}>
+                  Actualizado hace {Math.max(1, Math.round((Date.now() - new Date(updatedAt).getTime()) / 60_000))} min
+                  {' · '}
+                  <button onClick={refresh} style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit', fontSize: 10 }}>
+                    ↻ refrescar
+                  </button>
+                </span>
+              )}
+            </div>
+          </section>
 
-        {/* ── Controles globales ───────────────────────────────────── */}
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
-          <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ventana:</span>
-          <div style={{ display: 'inline-flex', background: '#fff', borderRadius: 999, padding: 3, border: '1px solid #ECECEF' }}>
-            {([24, 48, 72, 168] as const).map(h => (
-              <button key={h} onClick={() => setHours(h)} style={{
-                background: hours === h ? '#1F4E8C' : 'transparent',
-                color:      hours === h ? '#fff'    : '#3a3a3d',
-                border: 'none', borderRadius: 999, padding: '5px 12px',
-                fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-              }}>
-                {h < 168 ? `${h}h` : '7d'}
-              </button>
-            ))}
-          </div>
+          {/* ── Sub-nav 10 tabs ──────────────────────────────────── */}
+          <MediosTabsNav activeId={safeActiveTab} onTabChange={setActiveTab} />
 
-          <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, color: '#6e6e73' }}>
-            {loading ? 'Cargando…' :
-              updatedAt ? `Actualizado hace ${Math.max(1, Math.round((Date.now() - new Date(updatedAt).getTime()) / 60_000))} min` : '—'}
-            <button onClick={refresh} style={{
-              background: '#fff', border: '1px solid #ECECEF', borderRadius: 8, padding: '5px 10px',
-              fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', color: '#3a3a3d',
-            }}>↻ Refrescar</button>
-          </span>
-        </div>
-
-        {/* ── Sub-páginas mejoradas ────────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: 10, marginBottom: 14 }}>
-          {SUBPAGES.map(s => (
-            <a key={s.href} href={s.href} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div style={{ padding: 14, background: `linear-gradient(135deg, ${s.color}10, ${s.color}03)`, borderRadius: 12, borderLeft: `4px solid ${s.color}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-                <div>
-                  <p style={{ margin: 0, fontSize: 11, color: s.color, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>NOVEDAD · ANÁLISIS PROFUNDO</p>
-                  <p style={{ margin: '4px 0 0', fontSize: 16, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{s.label}</p>
-                  <p style={{ margin: '4px 0 0', fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.4 }}>{s.descripcion}</p>
+          {/* ── Contenido por tab ────────────────────────────────── */}
+          {loading && !data && safeActiveTab !== 'busqueda' && safeActiveTab !== 'informes' && safeActiveTab !== 'viralidad' && safeActiveTab !== 'desinformacion' ? (
+            <div style={{ padding: 60, textAlign: 'center', color: '#9ca3af' }}>
+              <div style={{ fontSize: 13, marginBottom: 6 }}>Agregando feed RSS de 50 medios…</div>
+              <div style={{ fontSize: 11 }}>Primera carga puede tardar 8-15 segundos</div>
+            </div>
+          ) : (
+            <>
+              {/* Tab 1: Radar en vivo · feed + mapa CCAA inline */}
+              {safeActiveTab === 'radar' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <FeedTiered feed={data?.feed} />
+                  {data?.ccaa && (
+                    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 14 }}>
+                      <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.5, textTransform: 'uppercase' }}>
+                        Mapa de sentimiento regional · CCAA
+                      </p>
+                      <div style={{ marginTop: 8 }}>
+                        <SentimentMapInteractive ccaaData={data.ccaa} />
+                      </div>
+                    </section>
+                  )}
                 </div>
-                <span style={{ fontSize: 20, color: s.color, fontWeight: 700 }}>→</span>
-              </div>
-            </a>
-          ))}
-        </div>
+              )}
 
-        {/* ── Tabs ─────────────────────────────────────────────────── */}
-        <nav style={{ display: 'flex', gap: 4, borderBottom: '1px solid #ECECEF', marginBottom: 18, overflowX: 'auto' }}>
-          {TABS.map(t => {
-            const active = tab === t.id
-            return (
-              <button key={t.id} onClick={() => setTab(t.id)} title={t.description} style={{
-                background: 'transparent',
-                color: active ? '#1F4E8C' : '#6e6e73',
-                border: 0,
-                borderBottom: active ? '2px solid #1F4E8C' : '2px solid transparent',
-                padding: '10px 14px',
-                fontSize: 13,
-                fontWeight: active ? 700 : 500,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                whiteSpace: 'nowrap',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                marginBottom: -1,
-              }}>
-                <span style={{ fontSize: 14, color: active ? '#1F4E8C' : '#9ca3af' }}>{t.glyph}</span>
-                {t.label}
-              </button>
-            )
-          })}
-        </nav>
+              {/* Tab 2: Búsqueda puntual · CORE NEW FEATURE */}
+              {safeActiveTab === 'busqueda' && <BusquedaPuntual />}
 
-        {/* ── Contenido por pestaña ────────────────────────────────── */}
-        {loading && !data ? (
-          <div style={{ padding: 80, textAlign: 'center', color: '#9ca3af' }}>
-            <div style={{ fontSize: 14, marginBottom: 8 }}>Agregando feed RSS de 50 medios…</div>
-            <div style={{ fontSize: 12 }}>Primera carga puede tardar 8-15 segundos</div>
-          </div>
-        ) : (
-          <>
-            {tab === 'feed'        && <FeedTiered feed={data?.feed} />}
-            {tab === 'mapa'        && <SentimentMapInteractive ccaaData={data?.ccaa} />}
-            {tab === 'narrativas'  && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                <NarrativesV3View/>
-                {(data?.narratives ?? []).length > 0 && (
-                  <div>
-                    <p style={{ margin: '0 0 8px', fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                      VISTA CLÁSICA · ANATOMÍA NARRATIVA (audiencia, canales, registro emocional)
-                    </p>
+              {/* Tab 3: Agenda · topic ranking */}
+              {safeActiveTab === 'agenda' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TopicPartyHeatmap cells={data?.topicparty ?? []} figures={data?.figures ?? []} />
+                </div>
+              )}
+
+              {/* Tab 4: Narrativas & frames */}
+              {safeActiveTab === 'narrativas' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <NarrativesV3View />
+                  {(data?.narratives ?? []).length > 0 && (
                     <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />
-                  </div>
-                )}
-              </div>
-            )}
-            {tab === 'sentimiento' && <SentimentDualView
-                                        cells={data?.topicparty ?? []}
-                                        figures={data?.figures ?? []}
-                                        companies={data?.companies ?? []}
-                                        sectors={data?.sectors ?? []} />}
-            {tab === 'cobertura'   && <StoryClustersView clusters={data?.clusters ?? []} />}
-          </>
-        )}
-      </main>
-    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Tab 5: Actores & menciones */}
+              {safeActiveTab === 'actores' && (
+                <FiguresView figures={data?.figures ?? []} />
+              )}
+
+              {/* Tab 6: Sentimiento & reputación */}
+              {safeActiveTab === 'sentimiento' && (
+                <SentimentDualView
+                  cells={data?.topicparty ?? []}
+                  figures={data?.figures ?? []}
+                  companies={data?.companies ?? []}
+                  sectors={data?.sectors ?? []}
+                />
+              )}
+
+              {/* Tab 7: Cobertura comparada */}
+              {safeActiveTab === 'cobertura' && (
+                <StoryClustersView clusters={data?.clusters ?? []} />
+              )}
+
+              {/* Tab 8: Viralidad & difusión */}
+              {safeActiveTab === 'viralidad' && <ViralidadDifusion />}
+
+              {/* Tab 9: Desinformación & verificación */}
+              {safeActiveTab === 'desinformacion' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <section style={{ padding: 16, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, borderLeft: `4px solid ${tab.themeAccent}` }}>
+                    <p style={{ fontSize: 11, color: tab.themeAccent, fontWeight: 700, letterSpacing: 0.6, margin: 0, textTransform: 'uppercase' }}>
+                      Desinformación & verificación
+                    </p>
+                    <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 12px', lineHeight: 1.5 }}>
+                      Observatorio de claims verificados por fact-checkers ES (Maldita, Newtral, EFE Verifica, Verificat). Google Fact Check Tools API planned.
+                    </p>
+                    <a
+                      href="/prensa/desinformacion"
+                      style={{
+                        display: 'inline-block',
+                        padding: '8px 16px',
+                        background: tab.themeAccent,
+                        color: '#fff',
+                        borderRadius: 8,
+                        textDecoration: 'none',
+                        fontSize: 12,
+                        fontWeight: 600,
+                      }}
+                    >
+                      Abrir observatorio completo →
+                    </a>
+                  </section>
+                </div>
+              )}
+
+              {/* Tab 10: Informes, alertas & dossiers */}
+              {safeActiveTab === 'informes' && <InformesAlertas />}
+            </>
+          )}
+        </main>
+      </div>
+    </MediosDrawerProvider>
   )
 }

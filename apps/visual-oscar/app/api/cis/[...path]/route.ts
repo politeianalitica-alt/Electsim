@@ -1,33 +1,32 @@
 /**
  * /api/cis/[...path] · Centro de Investigaciones Sociológicas (CIS).
  *
- * Fuente: cis.es · barómetros mensuales con valoración política,
- * estimación voto, problemas percibidos, confianza institucional.
+ * Fuente: cis.es (banco de datos) + datos.gob.es (catálogo CKAN).
  *
  * NOTA arquitectónica: CIS no expone una API JSON pública estable.
- * Sus datos están en:
  *   1. Portal de microdatos por estudio (CSV/SPSS por descarga)
  *   2. PDF de avance de resultados publicados como nota de prensa
- *   3. Conjunto de datos en datos.gob.es (limitado a un subset)
+ *   3. CKAN de datos.gob.es indexa metadata de barómetros
+ *   4. CKAN del propio CIS (datos.cis.es) tiene resources DCAT
  *
  * Este endpoint:
- *   - Mantiene un catálogo curado de barómetros recientes
- *   - Para indicadores específicos (problemas, valoración) que se publican
- *     consistentemente, devuelve estimaciones con metadata de fuente.
- *   - Hace passthrough al catálogo CKAN de datos.gob.es filtrado por CIS
+ *   - Consulta dinámicamente datos.gob.es CKAN buscando los últimos
+ *     barómetros CIS publicados.
+ *   - Surfacea metadata real (issued, modified, ID, distribución URL).
+ *   - Para indicadores estructurales (problemas, valoración, voto):
+ *     devuelve empty state didáctico con URL al PDF avance y al microdato.
+ *
+ * NO HAY DATOS HARDCODED. Todos los valores vienen de fetch live al
+ * CKAN de datos.gob.es o del propio cis.es.
  *
  * Rutas:
  *   GET /api/cis/health
- *   GET /api/cis/barometro-latest          · último barómetro publicado
- *   GET /api/cis/problemas?n=12            · principales problemas serie 12m
- *   GET /api/cis/valoracion-lideres?n=12   · valoración líderes serie 12m
- *   GET /api/cis/confianza-instituciones   · escala confianza por institución
- *   GET /api/cis/intencion-voto            · estimación voto última oleada
- *   GET /api/cis/catalogo?q=               · búsqueda CKAN datos.gob.es para CIS
- *
- * Limitación: los valores "snapshot" se actualizan manualmente cada
- * trimestre con la última publicación. Para datos de microdatos, el
- * analista debe descargar el estudio directo de cis.es.
+ *   GET /api/cis/catalogo                · barómetros CIS recientes (CKAN)
+ *   GET /api/cis/barometro-latest        · metadata del último barómetro
+ *   GET /api/cis/problemas               · empty state + link nota prensa
+ *   GET /api/cis/valoracion-lideres      · empty state + microdatos URL
+ *   GET /api/cis/confianza-instituciones · empty state didáctico
+ *   GET /api/cis/intencion-voto          · empty state didáctico
  */
 import { NextResponse } from 'next/server'
 import { quality } from '@/lib/macro-utils'
@@ -35,6 +34,7 @@ import { quality } from '@/lib/macro-utils'
 export const revalidate = 86400 // 24h
 
 const CKAN_BASE = 'https://datos.gob.es/apidata'
+const CIS_PUBLIC = 'http://www.cis.es'
 
 async function ckanFetch(path: string): Promise<any> {
   try {
@@ -52,73 +52,39 @@ async function ckanFetch(path: string): Promise<any> {
   }
 }
 
-/**
- * Snapshot curado del último barómetro CIS publicado.
- * Fuente: http://www.cis.es/cis/opencm/ES/2_bancodatos/index.jsp
- *
- * Estos valores se actualizan manualmente cada vez que CIS publica
- * (~mensual). Para auto-update: scraper PDF pendiente (Sprint M6+).
- */
-const BAROMETRO_SNAPSHOT = {
-  // Última oleada publicada (abril 2026 referencia)
-  oleada: '2026-04',
-  estudio: '3489',
-  publicado: '2026-04-30',
-  fecha_campo: '2026-04-07/2026-04-15',
-  muestra_n: 4006,
-  error_muestral_pp: 1.6,
-  // Estimación voto (preferencia partido con cocina aplicada)
-  intencion_voto_partido: [
-    { partido: 'PSOE',        pct: 33.4, delta_oleada_anterior_pp:  0.2 },
-    { partido: 'PP',          pct: 31.8, delta_oleada_anterior_pp: -0.4 },
-    { partido: 'Vox',         pct: 13.2, delta_oleada_anterior_pp:  0.6 },
-    { partido: 'Sumar',       pct:  6.1, delta_oleada_anterior_pp: -0.2 },
-    { partido: 'Podemos',     pct:  4.3, delta_oleada_anterior_pp:  0.1 },
-    { partido: 'ERC',         pct:  1.9, delta_oleada_anterior_pp:  0.0 },
-    { partido: 'Junts',       pct:  1.6, delta_oleada_anterior_pp:  0.1 },
-    { partido: 'EH-Bildu',    pct:  1.4, delta_oleada_anterior_pp:  0.0 },
-    { partido: 'PNV',         pct:  1.1, delta_oleada_anterior_pp:  0.0 },
-    { partido: 'Otros',       pct:  5.2, delta_oleada_anterior_pp: -0.4 },
-  ],
-  // Principales problemas (% respuesta espontánea, multirrespuesta hasta 3)
-  problemas_top: [
-    { problema: 'Problemas de índole económico (empleo, sueldos, IPC)', pct: 38.2 },
-    { problema: 'La vivienda',                                          pct: 24.8 },
-    { problema: 'Los políticos en general · partidos · política',       pct: 22.3 },
-    { problema: 'La inmigración',                                       pct: 18.6 },
-    { problema: 'El gobierno y partidos o políticos concretos',         pct: 14.1 },
-    { problema: 'El paro',                                              pct: 12.7 },
-    { problema: 'La sanidad',                                           pct: 11.8 },
-    { problema: 'La corrupción y el fraude',                            pct:  9.4 },
-  ],
-  // Valoración líderes (escala 0-10)
-  valoracion_lideres: [
-    { lider: 'Pedro Sánchez (PSOE)',           valoracion: 3.8, n_conoce_pct: 98.1 },
-    { lider: 'Alberto Núñez Feijóo (PP)',      valoracion: 3.5, n_conoce_pct: 94.7 },
-    { lider: 'Santiago Abascal (Vox)',         valoracion: 2.6, n_conoce_pct: 92.3 },
-    { lider: 'Yolanda Díaz (Sumar)',           valoracion: 3.4, n_conoce_pct: 88.9 },
-    { lider: 'Ione Belarra (Podemos)',         valoracion: 2.9, n_conoce_pct: 80.2 },
-  ],
-  // Confianza instituciones (escala 0-10)
-  confianza_instituciones: [
-    { institucion: 'Defensor del Pueblo',         valoracion: 5.1 },
-    { institucion: 'Tribunal Constitucional',     valoracion: 4.6 },
-    { institucion: 'Las Cortes Generales',        valoracion: 4.3 },
-    { institucion: 'El Gobierno de España',       valoracion: 4.0 },
-    { institucion: 'Los partidos políticos',      valoracion: 2.8 },
-    { institucion: 'Los medios de comunicación',  valoracion: 4.2 },
-    { institucion: 'Las grandes empresas',        valoracion: 3.7 },
-    { institucion: 'Los sindicatos',              valoracion: 3.6 },
-    { institucion: 'La Iglesia Católica',         valoracion: 3.3 },
-    { institucion: 'Las fuerzas armadas',         valoracion: 5.8 },
-  ],
-  // Confianza en futuro económico (0=peor, 10=mejor)
-  expectativa_economia_12m: {
-    igual: 36.4,
-    mejor: 22.1,
-    peor: 35.3,
-    nsnc: 6.2,
-  },
+function pick(field: any): string {
+  if (!field) return ''
+  if (typeof field === 'string') return field
+  if (Array.isArray(field)) {
+    const es = field.find((f) => f._lang === 'es' || f['xml:lang'] === 'es') || field[0]
+    return es?._value || es?.value || ''
+  }
+  return field._value || field.value || ''
+}
+
+function mapDataset(it: any) {
+  return {
+    id: it._about,
+    title: pick(it.title),
+    issued: it.issued ?? null,
+    modified: it.modified ?? null,
+    publisher: it.publisher?.['_about'] ?? null,
+    distribution_urls: Array.isArray(it.distribution)
+      ? it.distribution.map((d: any) => d.accessURL || d.downloadURL).filter(Boolean)
+      : [],
+  }
+}
+
+async function fetchLatestBarometros() {
+  // Busca en CKAN los datasets con título "barómetro" del publisher CIS
+  const data = await ckanFetch(
+    '/catalog/dataset?_pageSize=20&q=barometro+CIS&_sort=-modified',
+  )
+  if (data.error) return { error: data.error }
+  const items = (data?.result?.items || [])
+    .map(mapDataset)
+    .filter((d: any) => d.title?.toLowerCase().includes('barómetro') || d.title?.toLowerCase().includes('barometro'))
+  return { items }
 }
 
 export async function GET(
@@ -129,99 +95,125 @@ export async function GET(
   const segs = params.path || []
   const action = segs[0]
 
-  // /api/cis/health · ping a CKAN buscando CIS
   if (action === 'health') {
     const probe = await ckanFetch('/catalog/dataset?_pageSize=1&q=CIS')
     return NextResponse.json({
-      ok: true,
+      ok: !probe.error,
       auth_required: false,
       backend_ckan: !probe.error,
-      snapshot_oleada: BAROMETRO_SNAPSHOT.oleada,
-      snapshot_estudio: BAROMETRO_SNAPSHOT.estudio,
-      snapshot_publicado: BAROMETRO_SNAPSHOT.publicado,
+      catalog_endpoint: `${CKAN_BASE}/catalog/dataset`,
+      cis_portal: CIS_PUBLIC,
+      note: 'CIS data via CKAN passthrough · sin valores hardcoded',
     })
   }
 
-  // /api/cis/barometro-latest · ficha del último barómetro
-  if (action === 'barometro-latest') {
+  // /api/cis/catalogo · barómetros recientes (live CKAN)
+  if (action === 'catalogo') {
+    const result = await fetchLatestBarometros()
+    if (result.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'datos.gob.es · CIS', result.error),
+      })
+    }
     return NextResponse.json({
       ok: true,
-      data_quality: quality('seed', 'CIS · Barómetro mensual', `Última oleada ${BAROMETRO_SNAPSHOT.oleada}`),
-      ...BAROMETRO_SNAPSHOT,
-      registration_url: 'http://www.cis.es/cis/opencm/ES/1_encuestas/estudios/buscarBarometros.jsp',
-      methodology: 'Encuesta CATI/CAPI · 4000 muestras · error muestral ±1.6pp · 95% confianza',
-      note: 'Snapshot curado manualmente. Para microdatos completos, descarga el estudio en cis.es.',
+      data_quality: quality('live', 'datos.gob.es · CKAN CIS barómetros'),
+      n_items: result.items.length,
+      items: result.items.slice(0, 20),
     })
   }
 
-  // /api/cis/problemas
+  // /api/cis/barometro-latest · ficha del último barómetro publicado
+  if (action === 'barometro-latest') {
+    const result = await fetchLatestBarometros()
+    if (result.error || !result.items?.length) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'CIS', result.error || 'no_barometros_found'),
+        registration_url: `${CIS_PUBLIC}/cis/opencm/ES/1_encuestas/estudios/buscarBarometros.jsp`,
+        activation_steps: [
+          'CIS publica barómetros mensuales en su portal cis.es',
+          'Avance de resultados se publica en PDF + nota de prensa',
+          'Microdatos completos (CSV/SPSS) requieren registro en el banco de datos',
+          'Catalog passthrough vía CKAN datos.gob.es disponible cuando hay indexación',
+        ],
+      })
+    }
+    const latest = result.items[0]
+    return NextResponse.json({
+      ok: true,
+      data_quality: quality('live', 'datos.gob.es CKAN · ficha CIS'),
+      latest_barometro: latest,
+      total_indexed: result.items.length,
+      microdata_portal: `${CIS_PUBLIC}/cis/opencm/ES/2_bancodatos/index.jsp`,
+      note: 'Los valores numéricos (% voto, valoraciones, problemas) requieren descarga del microdato. Esta API surfacea metadata oficial · no hardcoded.',
+    })
+  }
+
+  // /api/cis/problemas · empty state didáctico
   if (action === 'problemas') {
     return NextResponse.json({
-      ok: true,
-      data_quality: quality('seed', 'CIS · Principales problemas España', BAROMETRO_SNAPSHOT.oleada),
-      oleada: BAROMETRO_SNAPSHOT.oleada,
-      problemas: BAROMETRO_SNAPSHOT.problemas_top,
-      methodology: 'Respuesta espontánea · hasta 3 menciones por encuestado · pregunta P4 barómetro estándar',
+      ok: false,
+      data_quality: quality('missing', 'CIS · Principales problemas', 'requires_microdata_extraction'),
+      indicator: 'Principales problemas España (pregunta P4)',
+      activation_steps: [
+        '1. Descargar último microdato barómetro mensual (CSV) desde cis.es',
+        '2. Procesar variable P4 (multirespuesta, hasta 3 menciones)',
+        '3. Agregar frecuencias ponderadas por peso muestral',
+        '4. Pendiente: scraper PDF + parser SPSS para auto-update',
+      ],
+      avance_url: `${CIS_PUBLIC}/cis/opencm/ES/1_encuestas/estudios/buscarEnTotal.jsp`,
+      microdata_portal: `${CIS_PUBLIC}/cis/opencm/ES/2_bancodatos/index.jsp`,
+      methodology: 'CIS Barómetro mensual · CATI/CAPI · 4000 entrevistas · error ±1.6pp',
     })
   }
 
   // /api/cis/valoracion-lideres
   if (action === 'valoracion-lideres') {
     return NextResponse.json({
-      ok: true,
-      data_quality: quality('seed', 'CIS · Valoración líderes políticos', BAROMETRO_SNAPSHOT.oleada),
-      oleada: BAROMETRO_SNAPSHOT.oleada,
-      lideres: BAROMETRO_SNAPSHOT.valoracion_lideres,
-      methodology: 'Escala 0-10 donde 0=muy mal, 10=muy bien · solo encuestados que conocen al líder',
+      ok: false,
+      data_quality: quality('missing', 'CIS · Valoración líderes', 'requires_microdata_extraction'),
+      indicator: 'Valoración líderes políticos (escala 0-10)',
+      activation_steps: [
+        '1. Variable VALORLID en microdato CIS mensual',
+        '2. Pregunta: "valore de 0 a 10 al líder X" · solo si conoce',
+        '3. Agregar media ponderada por peso muestral',
+      ],
+      microdata_portal: `${CIS_PUBLIC}/cis/opencm/ES/2_bancodatos/index.jsp`,
+      methodology: 'Escala 0-10 · solo encuestados que conocen al líder',
     })
   }
 
   // /api/cis/confianza-instituciones
   if (action === 'confianza-instituciones') {
     return NextResponse.json({
-      ok: true,
-      data_quality: quality('seed', 'CIS · Confianza institucional', BAROMETRO_SNAPSHOT.oleada),
-      oleada: BAROMETRO_SNAPSHOT.oleada,
-      instituciones: BAROMETRO_SNAPSHOT.confianza_instituciones,
-      methodology: 'Escala 0-10 confianza · pregunta recurrente barómetros CIS',
+      ok: false,
+      data_quality: quality('missing', 'CIS · Confianza institucional', 'periodic_quarterly_extraction'),
+      indicator: 'Confianza en instituciones (escala 0-10)',
+      activation_steps: [
+        '1. Pregunta trimestral · no en todos los barómetros',
+        '2. Variables CONFIANZA1...CONFIANZA10 en estudios específicos',
+        '3. Buscar estudios "Calidad servicios públicos" / "Latinobarómetro España"',
+      ],
+      microdata_portal: `${CIS_PUBLIC}/cis/opencm/ES/2_bancodatos/index.jsp`,
     })
   }
 
   // /api/cis/intencion-voto
   if (action === 'intencion-voto') {
     return NextResponse.json({
-      ok: true,
-      data_quality: quality('seed', 'CIS · Estimación voto', BAROMETRO_SNAPSHOT.oleada),
-      oleada: BAROMETRO_SNAPSHOT.oleada,
-      partidos: BAROMETRO_SNAPSHOT.intencion_voto_partido,
-      expectativa_economia_12m: BAROMETRO_SNAPSHOT.expectativa_economia_12m,
-      methodology: 'Estimación voto general con cocina CIS aplicada (recuerdo voto + simpatía + probabilidad)',
-      warning: 'La cocina CIS es opaca · valores difieren típicamente 2-4pp del resultado electoral final',
-    })
-  }
-
-  // /api/cis/catalogo?q=
-  if (action === 'catalogo') {
-    const q = url.searchParams.get('q') || 'CIS barometro'
-    const pageSize = url.searchParams.get('pageSize') || '20'
-    const data = await ckanFetch(`/catalog/dataset?_pageSize=${pageSize}&q=${encodeURIComponent(q)}&publisher=CIS`)
-    if (data.error) {
-      return NextResponse.json({
-        ok: false,
-        data_quality: quality('missing', 'datos.gob.es · CIS', data.error),
-      })
-    }
-    const items = (data?.result?.items || []).map((it: any) => ({
-      id: it._about,
-      title: Array.isArray(it.title) ? it.title[0]?._value : it.title,
-      issued: it.issued ?? null,
-    }))
-    return NextResponse.json({
-      ok: true,
-      q,
-      data_quality: quality('live', 'datos.gob.es · catálogo CIS'),
-      n_items: items.length,
-      items,
+      ok: false,
+      data_quality: quality('missing', 'CIS · Estimación voto', 'requires_microdata_extraction'),
+      indicator: 'Estimación voto generales (cocina CIS aplicada)',
+      activation_steps: [
+        '1. Variable INTENVOTO en microdato CIS',
+        '2. Aplicar cocina: recuerdo voto + simpatía + probabilidad',
+        '3. Alternativa: parsear nota de prensa PDF avance resultados',
+        '4. Endpoint Politeia /api/medios/search puede surfacear titulares con el dato extraído por medios',
+      ],
+      avance_url: `${CIS_PUBLIC}/cis/opencm/ES/1_encuestas/estudios/buscarBarometros.jsp`,
+      methodology: 'Cocina CIS opaca · valores típicamente difieren 2-4pp del resultado electoral',
     })
   }
 
@@ -230,18 +222,14 @@ export async function GET(
       ok: false,
       available_endpoints: [
         'GET /api/cis/health',
-        'GET /api/cis/barometro-latest    · ficha completa última oleada CIS',
-        'GET /api/cis/problemas           · ranking problemas percibidos',
-        'GET /api/cis/valoracion-lideres  · escala 0-10 líderes',
-        'GET /api/cis/confianza-instituciones · escala 0-10',
-        'GET /api/cis/intencion-voto      · estimación voto + expectativa económica',
-        'GET /api/cis/catalogo?q=...      · búsqueda CKAN datos.gob.es para CIS',
+        'GET /api/cis/catalogo            · barómetros CKAN datos.gob.es',
+        'GET /api/cis/barometro-latest    · metadata último barómetro',
+        'GET /api/cis/problemas           · empty state didáctico',
+        'GET /api/cis/valoracion-lideres  · empty state didáctico',
+        'GET /api/cis/confianza-instituciones · empty state didáctico',
+        'GET /api/cis/intencion-voto      · empty state didáctico',
       ],
-      snapshot_actual: {
-        oleada: BAROMETRO_SNAPSHOT.oleada,
-        publicado: BAROMETRO_SNAPSHOT.publicado,
-        estudio: BAROMETRO_SNAPSHOT.estudio,
-      },
+      note: 'API sin valores hardcoded. Todos los datos vienen de CKAN live o son empty states didácticos.',
     },
     { status: 404 },
   )
