@@ -72,6 +72,8 @@ SourceKind = Literal[
     "vessel_master", "vessel_anomaly",
     "world_port_index", "puertos_estado",
     "source_observation",
+    # News + mercados globales (clientes etl/sources/news + etl/sources/markets)
+    "newsapi", "alpha_vantage", "fred",
     # Otros
     "wikidata", "manual", "import",
 ]
