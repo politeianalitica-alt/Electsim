@@ -800,6 +800,103 @@ def port_congestion_endpoint(
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
+@router.get("/{port_slug}/terminals")
+def port_terminals_endpoint(port_slug: str) -> dict[str, Any]:
+    """Sprint 2 Fase C · terminales operativos del puerto.
+
+    Lee de `port_terminals` (poblada tras migración 0080 + carga del seed
+    `port_terminals_seed.yaml` vía `terminals_loader.upsert_to_db()`). Si la
+    tabla está vacía o no hay engine, devuelve directamente desde el YAML.
+    """
+    try:
+        from etl.sources.ports.terminals_loader import list_terminals
+        items = list_terminals(port_slug=port_slug)
+        return {
+            "port_slug": port_slug,
+            "n_items": len(items),
+            "items": items,
+            "data_quality": {
+                "source_type": "seed",
+                "source_name": "port_terminals_seed",
+                "note": f"{len(items)} terminales curados manualmente.",
+            },
+        }
+    except Exception as exc:
+        logger.exception("port_terminals falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/{port_slug}/traffic")
+def port_traffic_endpoint(
+    port_slug: str,
+    months: int = Query(24, ge=1, le=120),
+    from_: str | None = Query(None, alias="from"),
+    to: str | None = Query(None),
+) -> dict[str, Any]:
+    """Sprint 2 Fase C · serie mensual TEU/toneladas.
+
+    Lee de `port_monthly_traffic` (poblada por `puertos_estado.py` o scraper
+    futuro). Si vacía, devuelve lista vacía con `data_quality.missing`.
+    """
+    try:
+        from etl.sources.ports.puertos_estado import list_traffic
+        items = list_traffic(port_slug=port_slug, from_period=from_, to_period=to)
+        if months and not from_ and not to:
+            items = items[-months:]
+        return {
+            "port_slug": port_slug,
+            "from_period": items[0]["period_ym"] if items else None,
+            "to_period": items[-1]["period_ym"] if items else None,
+            "n_items": len(items),
+            "items": items,
+            "data_quality": {
+                "source_type": "cache" if items else "missing",
+                "source_name": "port_monthly_traffic",
+                "note": "Datos de Puertos del Estado o estimaciones · pobla con `python -m etl.sources.ports.puertos_estado --demo`",
+            },
+        }
+    except Exception as exc:
+        logger.exception("port_traffic falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/{port_slug}/connectivity")
+def port_connectivity_endpoint(port_slug: str) -> dict[str, Any]:
+    """Sprint 2 Fase C · conectividad bilateral con otros puertos.
+
+    Lee de `port_connectivity` (poblada por Sprint 2 Fase D desde
+    `carrier_services.port_rotation`). Hasta entonces devuelve vacío.
+    """
+    try:
+        from etl.sources.ports.ais_client import _get_engine
+        from sqlalchemy import text
+        engine = _get_engine()
+        if engine is None:
+            return {"port_slug": port_slug, "n_items": 0, "items": []}
+        with engine.connect() as cx:
+            rows = cx.execute(
+                text(
+                    "SELECT port_slug, connected_port_slug, shipping_line_slug, "
+                    "service_code, weekly_calls, direction, cargo_type, source "
+                    "FROM port_connectivity WHERE port_slug = :p"
+                ),
+                {"p": port_slug},
+            ).mappings().all()
+        return {
+            "port_slug": port_slug,
+            "n_items": len(rows),
+            "items": [dict(r) for r in rows],
+            "data_quality": {
+                "source_type": "cache" if rows else "missing",
+                "source_name": "port_connectivity",
+                "note": "Sprint 2 Fase D poblará desde carrier_services.",
+            },
+        }
+    except Exception as exc:
+        logger.exception("port_connectivity falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
 @router.get("/{port_slug}")
 def port_overview_endpoint(port_slug: str) -> dict[str, Any]:
     """Detalle puerto · metadata + KPIs 24h + top_operators canónico.

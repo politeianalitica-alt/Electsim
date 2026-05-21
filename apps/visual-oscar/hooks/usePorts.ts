@@ -227,6 +227,64 @@ export function useChokepoint(slug: string | null, days = 30) {
 }
 
 
+/**
+ * Sprint 2 Fase C · terminales/tráfico/conectividad del puerto
+ */
+import type {
+  PortTerminalsResponse,
+  PortTrafficResponse,
+  PortConnectivityResponse,
+} from '@/types/ports'
+
+export function usePortTerminals(slug: string | null) {
+  const path = slug ? `/api/ports/${slug}/terminals` : '/api/ports/__none__/terminals'
+  const { data, loading, error, refresh } = useApi<PortTerminalsResponse>(path, {
+    refreshInterval: 24 * HOUR,
+  })
+  return {
+    items: slug ? (data?.items ?? []) : [],
+    total: data?.n_items ?? 0,
+    dataQuality: data?.data_quality,
+    loading,
+    error,
+    refresh,
+  }
+}
+
+export function usePortTraffic(slug: string | null, months = 24) {
+  const path = slug
+    ? `/api/ports/${slug}/traffic?months=${months}`
+    : '/api/ports/__none__/traffic'
+  const { data, loading, error, refresh } = useApi<PortTrafficResponse>(path, {
+    refreshInterval: HOUR,
+  })
+  return {
+    items: slug ? (data?.items ?? []) : [],
+    fromPeriod: data?.from_period,
+    toPeriod: data?.to_period,
+    dataQuality: data?.data_quality,
+    loading,
+    error,
+    refresh,
+  }
+}
+
+export function usePortConnectivity(slug: string | null) {
+  const path = slug ? `/api/ports/${slug}/connectivity` : '/api/ports/__none__/connectivity'
+  const { data, loading, error, refresh } = useApi<PortConnectivityResponse>(path, {
+    refreshInterval: 6 * HOUR,
+  })
+  return {
+    items: slug ? (data?.items ?? []) : [],
+    total: data?.n_items ?? 0,
+    dataQuality: data?.data_quality,
+    loading,
+    error,
+    refresh,
+  }
+}
+
+
 export function usePortsDataSources() {
   const { data, loading, error, refresh } = useApi<DataSourcesStatusResponse>(
     '/api/ports/data-sources/status',

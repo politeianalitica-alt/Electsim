@@ -10,6 +10,7 @@
  * no está configurado, garantizando que la UI nunca quede vacía.
  */
 import { PORTS_SEED, VESSELS_SEED, FREIGHT_SEED, CHOKEPOINTS_SEED } from './ports-seed'
+import { TERMINALS_SEED } from './ports-terminals-seed'
 
 // Tipos derivados de los seeds
 type Port = (typeof PORTS_SEED)[number]
@@ -913,5 +914,174 @@ export function dataSourcesStatus() {
     any_live: nLive > 0,
     items,
     standalone_mode: true,
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Sprint 2 Fase C · port_terminals / port_traffic / port_connectivity
+// ─────────────────────────────────────────────────────────────────
+
+export function portTerminals(slug: string, _params: URLSearchParams) {
+  const port = (PORTS_SEED as any[]).find((x) => x.slug === slug)
+  if (!port) return { __404: true }
+  const items = (TERMINALS_SEED as any[]).filter((t) => t.port_slug === slug)
+  return {
+    port_slug: slug,
+    n_items: items.length,
+    items: items.map((t) => ({
+      ...t,
+      data_quality: quality('seed', 'Catálogo curado · terminales', {
+        note: 'Operador y capacidad TEU de fuente pública · refrescable desde aapp.',
+        confidence_score: 0.85,
+      }),
+    })),
+    data_quality: quality('seed', 'port_terminals_seed.yaml', {
+      note: `${items.length} terminales en ${slug} · curado para Sprint 2.`,
+    }),
+  }
+}
+
+/**
+ * Tráfico mensual del puerto · TEU/toneladas · serie de N meses.
+ *
+ * Sin backend Python ni Puertos del Estado scraping, deriva una serie
+ * sintética determinista desde anuales públicos conocidos (Algeciras 5.2M TEU,
+ * Valencia 5.4M, etc.) con variación estacional sinusoidal ±12 %. Marcada
+ * como `synthetic` en data_quality para que el usuario lo vea.
+ *
+ * Cuando se ejecute `python -m etl.sources.ports.puertos_estado --demo`
+ * la tabla `port_monthly_traffic` se poblará con los mismos valores; el
+ * backend Python servirá entonces el endpoint real.
+ */
+const ANNUAL_TEU_ESTIMATES: Record<string, number> = {
+  algeciras: 5200000,
+  valencia: 5400000,
+  barcelona: 3550000,
+  bilbao: 640000,
+  las_palmas: 830000,
+  cartagena_es: 40000,
+  rotterdam: 14500000,
+  antwerp: 12500000,
+  hamburg: 8300000,
+  felixstowe: 4000000,
+  le_havre: 3000000,
+  genoa: 2700000,
+  piraeus: 5400000,
+  gioia_tauro: 3500000,
+  singapore: 37000000,
+  shanghai: 49000000,
+  ningbo: 35000000,
+  shenzhen: 30000000,
+  busan: 23000000,
+  hong_kong: 14000000,
+  kaohsiung: 9500000,
+  tokyo: 4300000,
+  port_klang: 13000000,
+  tanjung_pelepas: 10000000,
+  los_angeles: 9200000,
+  long_beach: 8300000,
+  ny_nj: 9300000,
+  houston: 4000000,
+  vancouver: 3700000,
+  savannah: 5400000,
+  jebel_ali: 14000000,
+  jeddah: 5300000,
+  khor_fakkan: 4500000,
+  hamad: 1500000,
+  port_said: 4000000,
+  suez_north: 100000,
+  suez_south: 100000,
+  salalah: 4400000,
+  colombo: 7000000,
+  tanger_med: 10000000,
+  panama_cristobal: 3500000,
+}
+
+export function portTraffic(slug: string, params: URLSearchParams) {
+  const port = (PORTS_SEED as any[]).find((x) => x.slug === slug)
+  if (!port) return { __404: true }
+
+  const months = parseInt(params.get('months') || '24', 10)
+  const from = params.get('from') // 'YYYY-MM'
+  const to = params.get('to')
+  const annualTeu = ANNUAL_TEU_ESTIMATES[slug] ?? null
+  const annualTonnes = annualTeu ? annualTeu * 16 : null // proxy mediano TEU→tonnes
+
+  const items: any[] = []
+  const now = new Date()
+  for (let i = months - 1; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const period_ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+    if (from && period_ym < from) continue
+    if (to && period_ym > to) continue
+    // variación estacional ±12 % · pico en verano (mes 7), mínimo en febrero
+    const seasonal = 1.0 + 0.12 * Math.sin(((d.getMonth() + 1) / 12) * 2 * Math.PI - 1.0)
+    items.push({
+      port_slug: slug,
+      period_ym,
+      teu_total: annualTeu != null ? Math.round((annualTeu / 12) * seasonal) : null,
+      tonnes_total: annualTonnes != null ? Math.round((annualTonnes / 12) * seasonal) : null,
+      source: 'estimate',
+      data_quality: 'synthetic',
+    })
+  }
+
+  return {
+    port_slug: slug,
+    from_period: items[0]?.period_ym ?? null,
+    to_period: items[items.length - 1]?.period_ym ?? null,
+    n_items: items.length,
+    items,
+    data_quality: quality(annualTeu != null ? 'synthetic' : 'missing', 'Estimación anual + estacional', {
+      note: annualTeu != null
+        ? 'Serie derivada de TEU anual público con variación estacional ±12%. Real cuando se ejecuta puertos_estado.py'
+        : 'Sin estimación anual conocida · puertos.es no cubre este puerto.',
+      confidence_score: 0.5,
+    }),
+  }
+}
+
+/**
+ * Connectivity bilateral del puerto · qué otros puertos conecta vía servicios.
+ *
+ * Sprint 2 Fase D poblará esto desde `carrier_services.port_rotation`. Por
+ * ahora devuelve seed sintético con los 5-6 partners más obvios por región.
+ */
+const CONNECTIVITY_SEED: Record<string, string[]> = {
+  algeciras: ['rotterdam', 'shanghai', 'singapore', 'jebel_ali', 'tanger_med', 'panama_cristobal'],
+  valencia: ['rotterdam', 'shanghai', 'jebel_ali', 'savannah', 'algeciras'],
+  rotterdam: ['shanghai', 'singapore', 'ny_nj', 'savannah', 'hamburg', 'antwerp'],
+  shanghai: ['singapore', 'rotterdam', 'los_angeles', 'long_beach', 'ningbo', 'busan'],
+  singapore: ['shanghai', 'rotterdam', 'jebel_ali', 'colombo', 'port_klang'],
+  jebel_ali: ['singapore', 'rotterdam', 'jeddah', 'khor_fakkan', 'hamad'],
+  los_angeles: ['shanghai', 'busan', 'ningbo', 'tokyo', 'long_beach'],
+}
+
+export function portConnectivity(slug: string, _params: URLSearchParams) {
+  const port = (PORTS_SEED as any[]).find((x) => x.slug === slug)
+  if (!port) return { __404: true }
+  const partners = CONNECTIVITY_SEED[slug] ?? []
+  const items = partners.map((connected_port_slug) => {
+    const target = (PORTS_SEED as any[]).find((p) => p.slug === connected_port_slug)
+    return {
+      port_slug: slug,
+      connected_port_slug,
+      connected_name: target?.name ?? connected_port_slug,
+      shipping_line_slug: null,
+      service_code: null,
+      weekly_calls: 1 + Math.floor(Math.random() * 6),
+      direction: 'transit',
+      cargo_type: 'container',
+      source: 'seed',
+    }
+  })
+  return {
+    port_slug: slug,
+    n_items: items.length,
+    items,
+    data_quality: quality('seed', 'port_connectivity_seed', {
+      note: 'Conexiones obvias por región · pendiente derivar de carrier_services en Sprint 2 Fase D.',
+      confidence_score: 0.4,
+    }),
   }
 }

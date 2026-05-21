@@ -94,7 +94,8 @@ async function standaloneGet(
     }
   }
 
-  // Port slug endpoints · /{slug}, /{slug}/vessels, /{slug}/calls, /{slug}/congestion
+  // Port slug endpoints · /{slug}, /{slug}/vessels, /{slug}/calls, /{slug}/congestion,
+  //                       /{slug}/terminals, /{slug}/traffic, /{slug}/connectivity
   if (segments.length === 1) return wrap404(H.portOverview(head))
   if (segments.length === 2) {
     const slug = head
@@ -102,6 +103,9 @@ async function standaloneGet(
     if (action === 'vessels') return wrap404(H.portVessels(slug, params))
     if (action === 'calls') return wrap404(H.portCalls(slug, params))
     if (action === 'congestion') return wrap404(H.portCongestion(slug, params))
+    if (action === 'terminals') return wrap404(H.portTerminals(slug, params))
+    if (action === 'traffic') return wrap404(H.portTraffic(slug, params))
+    if (action === 'connectivity') return wrap404(H.portConnectivity(slug, params))
   }
 
   return { ok: false, available: false, items: [] }
