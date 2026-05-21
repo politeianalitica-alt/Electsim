@@ -76,17 +76,28 @@ function mapDataset(it: any) {
 }
 
 async function fetchLatestBarometros() {
-  // datos.gob.es CKAN no soporta `?q=`. Usamos /catalog/dataset/title/{kw}
-  // que sí indexa título. Filtramos client-side por publisher CIS.
-  const data = await ckanFetch('/catalog/dataset/title/barometro?_pageSize=50')
-  if (data.error) return { error: data.error }
-  const items = (data?.result?.items || [])
+  // datos.gob.es CKAN no soporta `?q=`. Usamos /catalog/dataset/title/{kw}.
+  // Buscamos "barometro" y también "opinion" (CIS publica estudios de opinión).
+  const [bar, opi] = await Promise.all([
+    ckanFetch('/catalog/dataset/title/barometro?_pageSize=50'),
+    ckanFetch('/catalog/dataset/title/opini%C3%B3n?_pageSize=30'),
+  ])
+  if (bar.error && opi.error) return { error: bar.error }
+  const combined = [
+    ...(bar?.result?.items || []),
+    ...(opi?.result?.items || []),
+  ]
+  // Dedup por id
+  const seen = new Set<string>()
+  const items = combined
     .map(mapDataset)
     .filter((d: any) => {
+      if (!d.id || seen.has(d.id)) return false
+      seen.add(d.id)
       const t = (d.title || '').toLowerCase()
-      const pub = (d.publisher || '').toLowerCase()
-      // Filtro suave: o publisher CIS o título contiene "CIS"
-      return pub.includes('cis') || t.includes('cis') || t.includes('opinión')
+      // Mantener todos los barómetros (curado por título) excepto sectoriales
+      // muy específicos que tienen palabras como "minorista", "industrial"
+      return !(/(minorista|industrial|comercio|construcc|hostele|farmac)/i.test(t))
     })
     .sort((a: any, b: any) => {
       const da = new Date(a.modified || a.issued || 0).getTime()
