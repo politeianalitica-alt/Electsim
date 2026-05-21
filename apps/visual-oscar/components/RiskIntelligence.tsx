@@ -163,10 +163,10 @@ export default function RiskIntelligence() {
  <div>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
  <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
-            Politeia Índice de Riesgo Político
+            Cómo está la cosa hoy
  </h2>
  <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
-            Marco ICRG adaptado · Pedersen · Kleinberg burst · EWMA · 6 dimensiones · {composite?.dimensions ? Object.values(composite.dimensions).reduce((s, d) => s + d.n_articles, 0) : '—'} señales analizadas
+            6 ámbitos · {composite?.dimensions ? Object.values(composite.dimensions).reduce((s, d) => s + d.n_articles, 0) : '—'} señales que estamos mirando ahora mismo
  </p>
  </div>
  <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={180} onRefresh={refresh}/>
@@ -175,7 +175,7 @@ export default function RiskIntelligence() {
       {/* Fila única horizontal · Gauge + Radar (mismo tamaño) + Serie (más ancha) */}
  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: 14, marginBottom: 16 }}>
         {/* Gauge */}
- <Card title="Principio de calibración" subtitle="índice compuesto live">
+ <Card title="El número de hoy" subtitle="tensión política en vivo">
           {composite ? (
  <RiesgoGauge
               value={composite.composite}
@@ -186,10 +186,10 @@ export default function RiskIntelligence() {
  <EmptyState
               compact
               severity="neutral"
-              title="Calculando índice compuesto"
-              description="El motor live está agregando señales SIGINT en tiempo real desde GDELT, INCIBE, EMSC y feeds RSS."
-              source="Marco ICRG + Pedersen · Kleinberg · EWMA"
-              primaryAction={{ label: 'Actualizar ahora', onClick: () => refresh() }}
+              title="Estamos calculándolo…"
+              description="Estamos juntando lo que pasa ahora mismo en GDELT, INCIBE, EMSC y un puñado de feeds RSS para darte un número."
+              source="Datos al vuelo · varias fuentes a la vez"
+              primaryAction={{ label: 'Probar otra vez', onClick: () => refresh() }}
             />
           )}
  </Card>
@@ -202,14 +202,14 @@ export default function RiskIntelligence() {
           const radarData = {
             axes,
             levels: [
-              { label: 'Nivel 3 · Vigilancia', color: '#22C55E', values: axes.map(() => 30) },
-              { label: 'Nivel 2 · Alerta',     color: '#F59E0B', values: axes.map(() => 60) },
-              { label: 'Nivel 1 · Crítico',    color: '#EF4444', values: current },
+              { label: 'Tranquilo · todo en orden', color: '#22C55E', values: axes.map(() => 30) },
+              { label: 'Cuidado · ojo a esto',     color: '#F59E0B', values: axes.map(() => 60) },
+              { label: 'Caliente · atento ya',     color: '#EF4444', values: current },
             ],
           }
           const selectedIndex = selectedDim ? DIM_KEYS.indexOf(selectedDim) : null
           return (
- <Card title="Radar de amenazas">
+ <Card title="Dónde está la tensión">
               {Object.keys(dims).length > 0 ? (
  <RiesgoRadar
                   data={radarData}
@@ -221,12 +221,12 @@ export default function RiskIntelligence() {
  <EmptyState
                   compact
                   severity="warning"
-                  title="Sin dimensiones suficientes"
-                  description="No hay señales suficientes para componer las 6 dimensiones del radar. Revisa la conexión con el backend o los conectores SIGINT."
-                  reason="Backend FastAPI o agregador GDELT/INCIBE no responde."
-                  source="Politeia · agregador 6 dimensiones"
-                  primaryAction={{ label: 'Reintentar', onClick: () => refresh() }}
-                  secondaryAction={{ label: 'Diagnóstico de fuentes', href: '/medios-narrativa' }}
+                  title="Aún no tenemos suficientes señales"
+                  description="No nos llegan datos para dibujar los seis ámbitos. Puede ser un problema temporal de los feeds — danos un minuto."
+                  reason="Nuestras fuentes en directo no responden ahora mismo."
+                  source="Politeia · seis ámbitos a la vez"
+                  primaryAction={{ label: 'Probar otra vez', onClick: () => refresh() }}
+                  secondaryAction={{ label: 'Ver qué fuentes están caídas', href: '/medios-narrativa' }}
                 />
               )}
  </Card>
@@ -235,8 +235,8 @@ export default function RiskIntelligence() {
 
         {/* Serie histórica + previsión · más alta para llenar todo el hueco */}
  <Card
-          title="Serie histórica"
-          subtitle={`${timeseries?.buckets?.length ?? 0}d + previsión 7d`}
+          title="Cómo ha ido la cosa estos días"
+          subtitle={`${timeseries?.buckets?.length ?? 0} días + lo que viene en 7 días`}
           extra={<RiesgoTrendLegend/>}
         >
           {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
@@ -245,10 +245,10 @@ export default function RiskIntelligence() {
  <EmptyState
               compact
               severity="neutral"
-              title="Serie histórica no disponible"
-              description="El sistema necesita al menos 7 días de datos consecutivos para componer la línea histórica del índice."
-              source="Backend /api/risk/timeseries"
-              primaryAction={{ label: 'Actualizar ahora', onClick: () => refresh() }}
+              title="Aún no podemos dibujar la línea"
+              description="Necesitamos al menos una semana de datos seguidos para enseñarte cómo ha evolucionado la tensión."
+              source="Histórico · falta de datos"
+              primaryAction={{ label: 'Probar otra vez', onClick: () => refresh() }}
             />
           )}
  </Card>
@@ -389,27 +389,27 @@ function DimensionDrillDown({ dim }: { dim: RiskDimension }) {
   const lvlColor = LEVEL_COLOR[dim.level] || '#6E6E73'
   return (
  <div>
- <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Drill-down</div>
+ <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Vamos al detalle</div>
  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: '4px 0 12px', letterSpacing: '-0.015em', color: '#1d1d1f' }}>
         {dim.label}
  </h3>
 
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
- <Stat label="Score" value={dim.score} accent={lvlColor} decimals={1}/>
- <Stat label="Δ ventana" value={dim.delta_24h} accent={dim.delta_24h > 0 ? '#DC2626' : dim.delta_24h < 0 ? '#16A34A' : '#6E6E73'} decimals={1}/>
- <Stat label="Z-score" value={dim.z_score} accent={Math.abs(dim.z_score) > 2 ? '#DC2626' : '#6E6E73'} decimals={2}/>
+ <Stat label="Nivel hoy" value={dim.score} accent={lvlColor} decimals={1}/>
+ <Stat label="Cambio reciente" value={dim.delta_24h} accent={dim.delta_24h > 0 ? '#DC2626' : dim.delta_24h < 0 ? '#16A34A' : '#6E6E73'} decimals={1}/>
+ <Stat label="¿Es raro esto?" value={dim.z_score} accent={Math.abs(dim.z_score) > 2 ? '#DC2626' : '#6E6E73'} decimals={2}/>
  </div>
 
       {dim.is_anomaly && (
  <div style={{ padding: '8px 12px', background: '#FEF2F2', border: '1px solid #FEE2E2', borderRadius: 8, marginBottom: 12 }}>
- <div style={{ fontSize: 9.5, color: '#991B1B', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>Anomalía detectada</div>
- <div style={{ fontSize: 11, color: '#991B1B', marginTop: 2 }}>z = {dim.z_score.toFixed(2)} (más de 2σ del baseline)</div>
+ <div style={{ fontSize: 9.5, color: '#991B1B', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>Esto se sale de lo normal</div>
+ <div style={{ fontSize: 11, color: '#991B1B', marginTop: 2 }}>Está muy por encima de lo que vemos un día cualquiera ({dim.z_score.toFixed(2)} desviaciones).</div>
  </div>
       )}
 
       {/* Drivers */}
  <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>
-        Por qué subió: noticias contributoras
+        Las noticias que lo han empujado
  </div>
  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {dim.drivers.length > 0 ? dim.drivers.map(drv => (
@@ -444,7 +444,7 @@ function DimensionDrillDown({ dim }: { dim: RiskDimension }) {
  </div>
         )) : (
  <p style={{ fontSize: 11, color: 'var(--ink-4)', fontStyle: 'italic' }}>
-            Sin contribuyentes destacados en esta ventana.
+            No vemos una noticia clara que esté empujando esto ahora mismo.
  </p>
         )}
  </div>
@@ -460,11 +460,11 @@ function EscalationsPanel({ data }: { data?: EscalationsResponse }) {
       boxShadow: '0 1px 3px rgba(0,0,0,0.06)', marginBottom: 16,
     }}>
  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, margin: '0 0 12px', letterSpacing: '-0.01em' }}>
-        Detección de escaladas
+        ¿Algo está calentándose?
  </h3>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
         {/* Burst */}
- <Section title="Temas en aceleración (Kleinberg)" subtitle="ritmo 24h frente a línea base">
+ <Section title="Temas que están subiendo rápido" subtitle="ahora vs. un día normal">
           {(data?.burst_topics ?? []).slice(0, 6).map((b, i) => (
  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--hairline)' }}>
  <span style={{ fontSize: 11, color: 'var(--ink-2)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
@@ -477,12 +477,12 @@ function EscalationsPanel({ data }: { data?: EscalationsResponse }) {
  </div>
           ))}
           {(!data?.burst_topics || data.burst_topics.length === 0) && (
- <p style={{ fontSize: 10.5, color: 'var(--ink-4)', fontStyle: 'italic' }}>Sin bursts detectados.</p>
+ <p style={{ fontSize: 10.5, color: 'var(--ink-4)', fontStyle: 'italic' }}>De momento nada se está disparando.</p>
           )}
  </Section>
 
         {/* Amplification */}
- <Section title="Amplificación cross-medio" subtitle="≥3 medios distintos">
+ <Section title="Lo que están repitiendo en muchos sitios" subtitle="3 medios o más, a la vez">
           {(data?.amplification ?? []).slice(0, 5).map((a, i) => (
  <div key={i} style={{ padding: '5px 0', borderBottom: '1px solid var(--hairline)' }}>
  <div style={{ fontSize: 11, color: 'var(--ink-2)', marginBottom: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -494,12 +494,12 @@ function EscalationsPanel({ data }: { data?: EscalationsResponse }) {
  </div>
           ))}
           {(!data?.amplification || data.amplification.length === 0) && (
- <p style={{ fontSize: 10.5, color: 'var(--ink-4)', fontStyle: 'italic' }}>Sin amplificación destacada.</p>
+ <p style={{ fontSize: 10.5, color: 'var(--ink-4)', fontStyle: 'italic' }}>Hoy no hay un tema que esté en todos los medios a la vez.</p>
           )}
  </Section>
 
         {/* Dual polarization */}
- <Section title="Polarización dual" subtitle="≥25% pos Y neg simultáneo">
+ <Section title="Temas que dividen a la gente" subtitle="gusta a unos y enfada a otros, a la vez">
           {(data?.dual_polarization ?? []).slice(0, 5).map((p, i) => (
  <div key={i} style={{ padding: '5px 0', borderBottom: '1px solid var(--hairline)' }}>
  <div style={{ fontSize: 11, color: 'var(--ink-2)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -517,7 +517,7 @@ function EscalationsPanel({ data }: { data?: EscalationsResponse }) {
  </div>
           ))}
           {(!data?.dual_polarization || data.dual_polarization.length === 0) && (
- <p style={{ fontSize: 10.5, color: 'var(--ink-4)', fontStyle: 'italic' }}>Sin polarización dual significativa.</p>
+ <p style={{ fontSize: 10.5, color: 'var(--ink-4)', fontStyle: 'italic' }}>Ningún tema está dividiendo a la gente con fuerza ahora mismo.</p>
           )}
  </Section>
  </div>
@@ -540,7 +540,7 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
     }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
-          Escenarios prospectivos · generados con PoliteIA
+          Qué podría pasar · te lo cuenta PoliteIA
  </h3>
  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
  <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: 2 }}>
@@ -560,7 +560,7 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
             fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
             cursor: loading ? 'wait' : 'pointer', letterSpacing: '0.04em',
           }}>
-            {loading ? 'Generando…' : (scenarios.length > 0 ? 'Regenerar' : 'Generar escenarios')}
+            {loading ? 'Pensando…' : (scenarios.length > 0 ? 'Volver a pensar' : 'Cuéntame escenarios')}
  </button>
  </div>
  </div>
@@ -577,11 +577,11 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
             padding: '10px 14px', background: 'rgba(255,255,255,0.04)', borderRadius: 8,
             borderLeft: '3px solid rgba(255,255,255,0.20)',
           }}>
- <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Aviso metodológico · </strong>
-            Los escenarios son estimaciones generadas por IA a partir de las señales SIGINT disponibles.
-            No constituyen predicciones deterministas y requieren validación humana antes de informar
-            decisiones operativas. Lectura recomendada · separe siempre lo <em>observado</em> de lo
- <em> inferido</em>, <em>proyectado</em> y <em>recomendado</em>.
+ <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Una nota honesta · </strong>
+            Esto son hipótesis que monta la IA a partir de las señales que vemos hoy. No es una bola
+            de cristal — úsalo para abrir conversación, no para decidir solo. Para leerlo bien,
+            separa siempre <em>lo que pasa</em> de <em>lo que creemos que pasa</em>, <em>lo que
+            podría pasar</em> y <em>lo que toca hacer</em>.
  </p>
  </>
       ) : loading ? (
@@ -597,12 +597,12 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
           lineHeight: 1.55,
         }}>
  <strong style={{ color: '#fff', display: 'block', marginBottom: 6, fontSize: 13.5 }}>
-            Sin escenarios generados todavía
+            Aún no te hemos preparado los escenarios
  </strong>
-          Cuando pulses <strong>"Generar escenarios"</strong> el modelo prospectará 3 escenarios con
-          probabilidad, impacto y recomendaciones operativas, anclados en los datos actuales del
-          índice. Cada escenario separará claramente <em>señales observadas</em>, <em>indicadores
-          tempranos</em> y <em>acciones recomendadas</em>.
+          Cuando pulses <strong>"Cuéntame escenarios"</strong> te montamos tres caminos posibles con
+          su probabilidad, su impacto y qué te toca hacer en cada uno — siempre a partir de lo que
+          está pasando ahora. Te dejaremos clarito <em>qué señales lo apuntan</em>, <em>qué mirar
+          para confirmarlo</em> y <em>qué deberías hacer tú</em>.
  </div>
       )}
  </div>
@@ -642,7 +642,7 @@ function ScenarioCard({ sc, delay }: { sc: RiskScenario; delay: number }) {
       {/* Dimensions affected */}
       {(sc.dimensions_affected || []).length > 0 && (
  <div style={{ marginBottom: 8 }}>
- <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 3 }}>Dimensiones</div>
+ <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, marginBottom: 3 }}>A qué afecta</div>
  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
             {sc.dimensions_affected.map(d => (
  <span key={d} style={{ fontSize: 9.5, padding: '1px 6px', borderRadius: 3, background: 'rgba(31,78,140,0.4)', color: 'rgba(255,255,255,0.85)' }}>{d}</span>
@@ -655,13 +655,13 @@ function ScenarioCard({ sc, delay }: { sc: RiskScenario; delay: number }) {
           · separación visual observado/proyectado/recomendado */}
  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
         {(sc.triggers || []).length > 0 && (
- <ScenarioField variant="observed" label="Señales observadas" items={sc.triggers}/>
+ <ScenarioField variant="observed" label="Qué lo está apuntando" items={sc.triggers}/>
         )}
         {(sc.early_warnings || []).length > 0 && (
- <ScenarioField variant="projected" label="Indicadores tempranos" items={sc.early_warnings}/>
+ <ScenarioField variant="projected" label="Qué mirar para confirmarlo" items={sc.early_warnings}/>
         )}
         {(sc.mitigations || []).length > 0 && (
- <ScenarioField variant="recommended" label="Acciones recomendadas" items={sc.mitigations}/>
+ <ScenarioField variant="recommended" label="Qué deberías hacer tú" items={sc.mitigations}/>
         )}
  </div>
  </div>

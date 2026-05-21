@@ -218,10 +218,10 @@ export default function DashboardPage() {
  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
  <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
-                Panel ejecutivo
+                Tu panel de hoy
  </h2>
  <span style={{ fontSize: 11.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
-                Estado del sistema · vista consolidada
+                Todo lo que necesitas saber, de un vistazo
  </span>
  </div>
  <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
@@ -250,7 +250,7 @@ export default function DashboardPage() {
                 >
  <div>
  <p style={{ fontSize: 11.5, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
-                      Índice de Riesgo Político
+                      ¿Cuánta tensión hay hoy?
  </p>
  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
  <span style={{ fontFamily: 'var(--font-display)', fontSize: 48, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
@@ -265,7 +265,7 @@ export default function DashboardPage() {
  <span style={{ fontSize: 12, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
  </div>
  <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '6px 0 0' }}>
-                      Tensión política y económica · click para detalle
+                      Cómo está el clima político y económico · pincha para ver más
  </p>
  </div>
  </div>
@@ -356,11 +356,11 @@ export default function DashboardPage() {
  <EmptyState
               severity="success"
               compact
-              title="No hay alertas activas"
-              description="El sistema no ha detectado anomalías relevantes en las últimas 24 horas. Cuando aparezca una señal crítica, te la mostraremos aquí."
-              source="Politeia · agregador SIGINT"
+              title="Hoy todo en calma"
+              description="No hay nada raro en las últimas 24 horas. Si algo se mueve, te avisamos aquí mismo."
+              source="Politeia · revisando todas las fuentes"
               lastUpdated={data?.last_updated ?? null}
-              secondaryAction={{ label: 'Histórico de alertas', href: '/alertas' }}
+              secondaryAction={{ label: 'Ver alertas anteriores', href: '/alertas' }}
             />
           )}
           {top5Alerts.length > 0 && (
@@ -368,7 +368,7 @@ export default function DashboardPage() {
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
  <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                    Top 5 alertas del día
+                    Lo más urgente de hoy
  </span>
  <span style={{
                     fontSize: 11, padding: '2px 7px', borderRadius: 999,
@@ -420,7 +420,7 @@ export default function DashboardPage() {
               {/* Section header */}
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
-                  Tendencias ahora
+                  Lo que se está moviendo ahora
  </h2>
  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   {formattedTs && (
@@ -464,7 +464,7 @@ export default function DashboardPage() {
                   boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF',
                   textAlign: 'center', color: '#6e6e73', fontSize: 13,
                 }}>
-                  Sin tendencias disponibles
+                  No tenemos tendencias claras ahora mismo
  </div>
               ) : (
  <div style={{
@@ -623,7 +623,7 @@ export default function DashboardPage() {
  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
  <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  Pulso de prensa · top 5
+                  Las 5 noticias del día
  </span>
                 {data?.news_pulse && data.news_pulse.length > 0 && (
  <span style={{
@@ -640,7 +640,7 @@ export default function DashboardPage() {
                 padding: '5px 12px', borderRadius: 999,
                 display: 'inline-flex', alignItems: 'center', gap: 4,
               }}>
-                Feed completo
+                Ver todo
  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
  </button>
  </div>
@@ -683,13 +683,13 @@ export default function DashboardPage() {
             ) : (
  <EmptyState
                 severity="neutral"
-                title="Pulso informativo en construcción"
-                description="Todavía no hay artículos procesados para esta sesión. No se ha completado ninguna ingesta informativa del agregador RSS en los últimos minutos."
-                reason="Los conectores RSS pueden estar reiniciándose o el agregador en cold start."
-                source="Agregador propio · 30+ medios"
+                title="Aún no hemos cargado las noticias"
+                description="Estamos recogiendo los titulares de los medios en este momento. Dale un minuto."
+                reason="Algunos feeds tardan un poco en arrancar después de un parón."
+                source="Recogemos de 30 y pico de medios"
                 lastUpdated={data?.last_updated ?? null}
-                primaryAction={{ label: 'Actualizar ahora', onClick: () => refresh() }}
-                secondaryAction={{ label: 'Revisar fuentes', href: '/medios-narrativa' }}
+                primaryAction={{ label: 'Probar otra vez', onClick: () => refresh() }}
+                secondaryAction={{ label: 'Ver qué medios están caídos', href: '/medios-narrativa' }}
               />
             )}
  </section>
@@ -700,7 +700,7 @@ export default function DashboardPage() {
             {/* Header + tab toggle */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
-                Mapa territorial
+                Qué pasa en cada comunidad
  </h2>
  <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
                 {(['electoral', 'narrativa', 'figuras'] as MapTab[]).map(tab => (
@@ -839,7 +839,7 @@ export default function DashboardPage() {
             {/* Trending figures strip */}
  <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
  <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
-                Figuras en tendencia
+                Quién está subiendo y quién está bajando
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
                 {TRENDING_FIGURES.map(f => {
@@ -876,10 +876,10 @@ export default function DashboardPage() {
  <section style={{ marginTop: 24 }}>
  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
-              Centros de inteligencia
+              ¿Dónde quieres ir ahora?
  </h2>
  <span style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-              {MODULES.length} módulos · click para abrir
+              {MODULES.length} secciones · pincha en la que necesites
  </span>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
