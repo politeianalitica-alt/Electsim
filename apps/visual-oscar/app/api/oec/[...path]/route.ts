@@ -52,7 +52,11 @@ async function oecFetch(params: Record<string, string>): Promise<any> {
   })
   try {
     const r = await fetch(`${OEC_API}?${qs}`, {
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        // OEC bloquea User-Agent default de fetch en Vercel (HTTP 403)
+        'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)',
+      },
       next: { revalidate: 86400 },
     } as RequestInit)
     if (r.status === 429) return { error: 'rate_limited' }

@@ -44,7 +44,12 @@ const SPAIN_KEY_INDICATORS = [
 async function imfFetch(path: string): Promise<any> {
   try {
     const r = await fetch(`${IMF_API}${path}`, {
-      headers: { Accept: 'application/json' },
+      headers: {
+        Accept: 'application/json',
+        // IMF bloquea User-Agent default de fetch en Vercel functions (HTTP 403).
+        // Browser UA es aceptado.
+        'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0; +https://politeia-visual-oscar.vercel.app)',
+      },
       next: { revalidate: 86400 },
     } as RequestInit)
     if (!r.ok) return { error: `HTTP ${r.status}` }
