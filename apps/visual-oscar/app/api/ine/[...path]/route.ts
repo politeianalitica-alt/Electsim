@@ -74,11 +74,29 @@ async function ineFetch(path: string): Promise<any> {
 }
 
 // Mapper: INE serie response → array {period, year, value}
+// La estructura de INE WSTempus es heterogénea entre operaciones:
+//   - Mensual: FK_Periodo 1-12 (mes)
+//   - Trimestral CNTR: FK_Periodo 19-22 (T1-T4 con offset 18)
+//   - Anual: FK_Periodo único
+// Usamos timestamp Fecha (Unix ms) como fuente de verdad para derivar periodo.
+function periodFromTs(ts: number, anyo: number): string {
+  if (!ts || !Number.isFinite(ts)) return String(anyo)
+  const d = new Date(ts)
+  const month = d.getUTCMonth() + 1 // 1-12
+  const year = d.getUTCFullYear()
+  if (month % 3 === 0) {
+    // fin de trimestre → Q
+    const q = Math.ceil(month / 3)
+    return `${year}-Q${q}`
+  }
+  return `${year}-${String(month).padStart(2, '0')}`
+}
+
 function mapInePoints(serie: any): { period: string; year: number; value: number | null }[] {
   if (!serie?.Data) return []
   return (serie.Data as any[]).map((d) => ({
-    period: d.FK_Periodo ? `${d.Anyo}-${d.T3_Periodo || `Q${d.FK_Periodo}`}` : String(d.Anyo),
-    year: d.Anyo,
+    period: periodFromTs(d.Fecha, d.Anyo),
+    year: new Date(d.Fecha || 0).getUTCFullYear() || d.Anyo,
     value: typeof d.Valor === 'number' ? d.Valor : null,
   }))
 }
