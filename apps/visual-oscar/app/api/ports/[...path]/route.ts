@@ -1,10 +1,16 @@
 /**
- * Catch-all proxy para `/api/v1/ports/*` (Sprint Puertos & Comercio Global).
+ * Catch-all proxy/handler para `/api/v1/ports/*`.
  *
- * Forward 1:1 a FastAPI: añade `X-API-Key`, preserva querystring y body.
- * Diseñado para fallar cerrado: si BACKEND_URL no está, devuelve 200 con
- * payload vacío para que la UI no rompa en demo/offline.
+ * Modos:
+ *  1. **Backend Python disponible** (BACKEND_URL configurado) · forward 1:1
+ *  2. **Standalone** (sin BACKEND_URL) · sirve datos desde lib/ports-handlers.ts
+ *     - Catálogos seed embebidos (40 puertos, 50 vessels, 6 freight, 6 chokepoints)
+ *     - Fetch directo a APIs públicas (World Bank, ECB, GLEIF, GPSJam, EMSC, GIE)
+ *
+ * Esto garantiza que /puertos NUNCA esté vacío, incluso sin backend desplegado.
  */
+
+import * as H from '@/lib/ports-handlers'
 
 const BACKEND = process.env.BACKEND_URL ?? ''
 const API_KEY = process.env.BACKEND_API_KEY ?? ''
@@ -16,80 +22,158 @@ function targetUrl(pathSegments: string[], search: string): string {
   return `${BACKEND}/api/v1/ports/${path}${search}`
 }
 
-function emptyFallback(pathSegments: string[]): unknown {
-  const head = pathSegments[0]
-  // Heurística mínima · payload vacío coherente
-  if (head === 'catalog' && pathSegments[1] === 'vessels')
-    return { n_items: 0, items: [] }
-  if (head === 'catalog') return { n_items: 0, items: [] }
-  if (head === 'snapshot-all')
-    return { n_items: 0, data_source: 'unavailable', items: [] }
-  if (head === 'freight' && pathSegments[1] === 'snapshot')
-    return { n_items: 0, data_source: 'unavailable', items: [] }
-  if (head === 'chokepoints' && pathSegments.length === 1)
-    return { n_items: 0, items: [] }
-  if (head === 'trade')
-    return { ok: false, n_items: 0, items: [], use_source: null }
-  if (head === 'data-sources')
-    return { n_sources: 0, n_live: 0, all_live: false, any_live: false, items: [] }
-  // Endpoints port_slug · /{port_slug}/vessels, /calls, /congestion
-  if (pathSegments.length >= 2 && pathSegments[1] === 'vessels')
-    return { port_slug: pathSegments[0], n_vessels: 0, items: [] }
-  if (pathSegments.length >= 2 && pathSegments[1] === 'calls')
-    return { port_slug: pathSegments[0], days_back: 7, n_items: 0, items: [] }
-  if (pathSegments.length >= 2 && pathSegments[1] === 'congestion')
-    return { port_slug: pathSegments[0], days: 30, series: [], current: null }
+// ─────────────────────────────────────────────────────────────────
+// Standalone router · ejecuta cuando NO hay BACKEND_URL
+// ─────────────────────────────────────────────────────────────────
+
+async function standaloneGet(
+  segments: string[],
+  params: URLSearchParams,
+): Promise<unknown> {
+  const [head, ...rest] = segments
+
+  // Catálogos
+  if (head === 'catalog' && rest[0] === 'vessels') return H.catalogVessels(params)
+  if (head === 'catalog') return H.catalogPorts(params)
+  if (head === 'snapshot-all') return H.snapshotAll(params)
+  if (head === 'data-sources' && rest[0] === 'status') return H.dataSourcesStatus()
+
+  // Vessels endpoints
+  if (head === 'vessels' && rest.length >= 1) {
+    const imo = rest[0]
+    const action = rest[1]
+    if (!action) return wrap404(H.vesselLookup(imo))
+    if (action === 'track') return wrap404(H.vesselTrack(imo, params))
+    if (action === 'screen') return wrap404(H.vesselScreen(imo))
+  }
+
+  // Trade
+  if (head === 'trade') {
+    const action = rest[0]
+    if (action === 'bilateral') return H.tradeBilateral(params)
+    if (action === 'spain-flows') return H.tradeSpainFlows(params)
+    if (action === 'top-partners') return H.tradeTopPartners(params)
+  }
+
+  // Freight
+  if (head === 'freight') {
+    const action = rest[0]
+    if (action === 'snapshot') return H.freightSnapshot()
+    if (action === 'world-bank' && rest.length === 1) return H.worldBankSnapshot()
+    if (action === 'world-bank' && rest[1]) return wrap404(await H.worldBankSeries(rest[1], params))
+    if (action && rest[1] === 'price') return wrap404(H.freightPrice(action, params))
+  }
+
+  // Chokepoints
+  if (head === 'chokepoints' && rest.length === 0) return H.chokepointsList(params)
+  if (head === 'chokepoints' && rest[0]) return wrap404(H.chokepointDetail(rest[0], params))
+
+  // Macro / Corporate / Energy / Risk
+  if (head === 'macro' && rest[0] === 'ecb' && rest[1] === 'fx' && rest[2]) {
+    return H.ecbFx(rest[2], params)
+  }
+  if (head === 'corporate' && rest[0] === 'gleif' && rest[1] === 'search') {
+    return H.gleifSearch(params)
+  }
+  if (head === 'gnss' && rest[0] === 'jamming' && rest[1] === 'latest') {
+    return H.gpsjamLatest()
+  }
+  if (head === 'seismic' && rest[0] === 'recent') {
+    return H.seismicRecent(params)
+  }
+  if (head === 'energy' && rest[0] === 'gas-storage') {
+    return H.gasStorageEu()
+  }
+
+  // Sanciones consolidadas · no implementadas standalone (XMLs grandes)
+  if (head === 'sanctions' && rest[0] === 'consolidated') {
+    return {
+      ok: false,
+      reason: 'OFAC/EU/UN consolidated requiere backend Python (XMLs >10MB).',
+      items: [],
+    }
+  }
+
+  // Port slug endpoints · /{slug}, /{slug}/vessels, /{slug}/calls, /{slug}/congestion
+  if (segments.length === 1) return wrap404(H.portOverview(head))
+  if (segments.length === 2) {
+    const slug = head
+    const action = rest[0]
+    if (action === 'vessels') return wrap404(H.portVessels(slug, params))
+    if (action === 'calls') return wrap404(H.portCalls(slug, params))
+    if (action === 'congestion') return wrap404(H.portCongestion(slug, params))
+  }
+
   return { ok: false, available: false, items: [] }
 }
+
+function wrap404(result: any): any {
+  if (result && result.__404) {
+    return { ok: false, status: 404, error: 'not found', items: [] }
+  }
+  return result
+}
+
+// ─────────────────────────────────────────────────────────────────
+// GET handler
+// ─────────────────────────────────────────────────────────────────
 
 export async function GET(
   req: Request,
   { params }: { params: { path: string[] } },
 ) {
-  const { search } = new URL(req.url)
+  const url = new URL(req.url)
   const segments = params.path
-  try {
-    if (BACKEND) {
-      const res = await fetch(targetUrl(segments, search), {
+
+  // 1. Backend Python disponible → forward
+  if (BACKEND) {
+    try {
+      const res = await fetch(targetUrl(segments, url.search), {
         headers: { 'X-API-Key': API_KEY, Accept: 'application/json' },
         cache: 'no-store',
       })
       if (res.ok) return Response.json(await res.json())
       if (res.status === 404) {
-        return Response.json(
-          { error: 'no encontrado', path: segments.join('/') },
-          { status: 404 },
-        )
+        return Response.json({ error: 'no encontrado', path: segments.join('/') }, { status: 404 })
       }
-      return Response.json(
-        { error: `backend ${res.status}`, path: segments.join('/') },
-        { status: res.status },
-      )
+      // Otros códigos → cae a standalone para no romper UX
+    } catch {
+      // Network error → standalone
     }
-  } catch (e) {
-    return Response.json(
-      { error: String(e), path: segments.join('/') },
-      { status: 502 },
-    )
   }
-  return Response.json(emptyFallback(segments))
+
+  // 2. Standalone fallback
+  try {
+    const result = await standaloneGet(segments, url.searchParams)
+    if (result && (result as any).status === 404) {
+      return Response.json(result, { status: 404 })
+    }
+    return Response.json(result)
+  } catch (e) {
+    return Response.json({ error: String(e), path: segments.join('/') }, { status: 502 })
+  }
 }
+
+// ─────────────────────────────────────────────────────────────────
+// POST handler
+// ─────────────────────────────────────────────────────────────────
 
 export async function POST(
   req: Request,
   { params }: { params: { path: string[] } },
 ) {
-  const { search } = new URL(req.url)
+  const url = new URL(req.url)
   const segments = params.path
-  let body: unknown = undefined
+  let body: any = {}
   try {
     body = await req.json()
   } catch {
     body = {}
   }
-  try {
-    if (BACKEND) {
-      const res = await fetch(targetUrl(segments, search), {
+
+  if (BACKEND) {
+    try {
+      const res = await fetch(targetUrl(segments, url.search), {
         method: 'POST',
         headers: {
           'X-API-Key': API_KEY,
@@ -100,16 +184,14 @@ export async function POST(
         cache: 'no-store',
       })
       if (res.ok) return Response.json(await res.json())
-      return Response.json(
-        { error: `backend ${res.status}`, path: segments.join('/') },
-        { status: res.status },
-      )
+    } catch {
+      // fall through
     }
-  } catch (e) {
-    return Response.json(
-      { error: String(e), path: segments.join('/') },
-      { status: 502 },
-    )
+  }
+
+  // Standalone POST · sólo sanctions/screen
+  if (segments[0] === 'sanctions' && segments[1] === 'screen') {
+    return Response.json(H.sanctionsScreen(body))
   }
   return Response.json({ ok: false, available: false })
 }
