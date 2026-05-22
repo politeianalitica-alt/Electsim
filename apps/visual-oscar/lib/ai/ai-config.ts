@@ -49,10 +49,15 @@ export const AI_CONFIG = {
   provider: detectProvider(),
 
   // Groq (primario macro / reasoning)
+  //
+  // Sprint L (2026-05-22): default cambiado de openai/gpt-oss-120b a
+  // llama-3.3-70b-versatile por mayor disponibilidad y estabilidad en el
+  // tier actual. gpt-oss-* tienen capacidad limitada/intermitente.
+  // El usuario puede volver a gpt-oss-120b vía env var GROQ_MODEL_REASONING.
   groqApiKey: process.env.GROQ_API_KEY || "",
   groqReasoningModel:
-    process.env.GROQ_MODEL_REASONING || "openai/gpt-oss-120b",
-  groqFastModel: process.env.GROQ_MODEL_FAST || "openai/gpt-oss-20b",
+    process.env.GROQ_MODEL_REASONING || "llama-3.3-70b-versatile",
+  groqFastModel: process.env.GROQ_MODEL_FAST || "llama-3.1-8b-instant",
   groqTimeoutMs: Number(process.env.GROQ_TIMEOUT_MS || 30_000),
 
   // Anthropic (cascade)

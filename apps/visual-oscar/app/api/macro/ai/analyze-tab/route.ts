@@ -23,6 +23,7 @@ import {
   type TabAnalysisInput,
   type TabAnalysisResponse,
 } from "@/lib/macro/ai-tab-schema";
+import { getSubtab } from "@/lib/macro/subtab-registry";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -99,13 +100,28 @@ function buildUserPrompt(input: TabAnalysisInput): string {
     })
     .join("\n");
 
+  // Sprint L F2: inyectar contexto semántico del subtab para que el análisis
+  // se ajuste al dominio (turismo, fiscal, agricultura, vivienda, etc.) y no
+  // produzca outputs plantilla genéricos.
+  const subtab = getSubtab(input.tabSlug);
+  const subtabContext = subtab
+    ? `\nENFOQUE DEL SUBTAB: ${subtab.description}\n` +
+      `El análisis DEBE contextualizar las señales desde la perspectiva específica de "${subtab.label}".\n` +
+      `Si la temática del subtab es turismo, el diagnosis debe priorizar dinámicas turísticas.\n` +
+      `Si es fiscal, el régimen fiscal y la sostenibilidad de deuda.\n` +
+      `Si es agricultura/rural, despoblación + PAC + agua.\n` +
+      `Si es bienestar, distribución de renta + pobreza + servicios.\n` +
+      `Si es instituciones, capacidad estatal + ejecución presupuestaria.\n` +
+      `Cita los temas del subtab al menos 1-2 veces en diagnosis/policyImplications/watchNext.\n`
+    : "";
+
   return `SUBTAB: ${input.tabLabel} (${input.tabSlug})
 TERMÓMETRO COMPUESTO: ${input.termometroScore}/100 (0=todo rojo, 100=todo verde)
-
+${subtabContext}
 SEÑALES (${input.signals.length}):
 ${signals}
 
-TAREA: produce el JSON MacroTabInsight con diagnóstico transversal. Sólo JSON.`;
+TAREA: produce el JSON MacroTabInsight con diagnóstico transversal alineado al ENFOQUE DEL SUBTAB. Sólo JSON.`;
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -164,9 +180,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const msg = err instanceof Error ? err.message : String(err);
     // eslint-disable-next-line no-console
     console.error("[macro/ai/analyze-tab] failed:", msg);
+    // Sprint L F2: error code específico (mismo patrón que analyze-chart).
+    let code = err instanceof AiUnavailableError ? "ai_provider_failed" : "internal";
+    if (err instanceof AiUnavailableError) {
+      const low = msg.toLowerCase();
+      if (low.includes("rate") || low.includes("429")) code = "groq_rate_limit_429";
+      else if (low.includes("model_not_found") || low.includes("model_decommissioned") || low.includes("does not exist")) code = "groq_model_unavailable";
+      else if (low.includes("timeout") || low.includes("aborterror")) code = "groq_timeout";
+      else if (low.includes("schema") || low.includes("validation") || low.includes("json")) code = "groq_schema_violation";
+      else if (low.includes("groq_api_key") || low.includes("not configured")) code = "groq_apikey_missing";
+      else if (low.includes("http 5")) code = "groq_server_error";
+    }
     return NextResponse.json<TabAnalysisError>({
       ok: false,
-      error: err instanceof AiUnavailableError ? "ai_provider_failed" : "internal",
+      error: code,
       detail: msg.slice(0, 400),
     }, { status: 502 });
   }

@@ -214,7 +214,6 @@ export const MACRO_TABS: MacroTab[] = [
       { key: 'imf', name: 'IMF · PIB per cápita', cadence: 'annual', endpoint: '/api/imf/country' },
     ],
     themeAccent: '#0EA5E9', // sky
-    linkTo: '/macro/demografia-territorio',
   },
   {
     id: 'sociedad-bienestar',
@@ -229,7 +228,6 @@ export const MACRO_TABS: MacroTab[] = [
       { key: 'imf', name: 'IMF PIB pc + gasto AAPP', cadence: 'annual', endpoint: '/api/imf/country' },
     ],
     themeAccent: '#DC2626', // red
-    linkTo: '/macro/sociedad-bienestar',
   },
   {
     id: 'medio-rural',
@@ -242,8 +240,7 @@ export const MACRO_TABS: MacroTab[] = [
       { key: 'ine', name: 'INE Frontur · turismo rural', cadence: 'monthly', endpoint: '/api/ine/frontur' },
       { key: 'ine', name: 'INE IPC · alimentos', cadence: 'monthly', endpoint: '/api/ine/ipc' },
     ],
-    themeAccent: '#16A34A', // green
-    linkTo: '/macro/medio-rural',
+    themeAccent: '#16A34A', // green (rural)
   },
   {
     id: 'cultura-ocio',
@@ -257,7 +254,6 @@ export const MACRO_TABS: MacroTab[] = [
       { key: 'imf', name: 'IMF PIB + exports + paro', cadence: 'annual', endpoint: '/api/imf/country' },
     ],
     themeAccent: '#8B5CF6', // violet
-    linkTo: '/macro/cultura-ocio',
   },
   {
     id: 'instituciones-estado',
@@ -270,7 +266,6 @@ export const MACRO_TABS: MacroTab[] = [
       { key: 'ine', name: 'INE DIRCE · altas empresariales', cadence: 'annual', endpoint: '/api/ine/dirce-creacion' },
     ],
     themeAccent: '#0891B2', // cyan
-    linkTo: '/macro/instituciones-estado',
   },
 ]
 

@@ -340,13 +340,21 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const msg = err instanceof Error ? err.message : String(err);
     // eslint-disable-next-line no-console
     console.error("[macro/ai/analyze-chart] failed:", msg);
+    // Sprint L F2: clasificar error específico para que el frontend muestre
+    // un mensaje útil en lugar de "ai_provider_failed" genérico.
+    let code = err instanceof AiUnavailableError ? "ai_provider_failed" : "internal";
+    if (err instanceof AiUnavailableError) {
+      const low = msg.toLowerCase();
+      if (low.includes("rate") || low.includes("429")) code = "groq_rate_limit_429";
+      else if (low.includes("model_not_found") || low.includes("model_decommissioned") || low.includes("does not exist")) code = "groq_model_unavailable";
+      else if (low.includes("timeout") || low.includes("aborterror")) code = "groq_timeout";
+      else if (low.includes("schema") || low.includes("validation") || low.includes("json")) code = "groq_schema_violation";
+      else if (low.includes("groq_api_key") || low.includes("not configured")) code = "groq_apikey_missing";
+      else if (low.includes("http 5")) code = "groq_server_error";
+      else if (low.includes("missing required fields")) code = "groq_incomplete_payload";
+    }
     return NextResponse.json<ChartAnalysisError>(
-      {
-        ok: false,
-        error:
-          err instanceof AiUnavailableError ? "ai_provider_failed" : "internal",
-        detail: msg.slice(0, 400),
-      },
+      { ok: false, error: code, detail: msg.slice(0, 400) },
       { status: 502 }
     );
   }

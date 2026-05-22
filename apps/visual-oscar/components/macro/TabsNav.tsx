@@ -7,7 +7,6 @@
  * - Indicador numérico (1, 2, 3...) en cada pill
  * - Click cambia el activeId
  */
-import Link from 'next/link'
 import { MACRO_TABS, MacroTabId } from '@/lib/macro/sources-matrix'
 
 interface TabsNavProps {
@@ -81,15 +80,7 @@ export function TabsNav({ activeId, onChange }: TabsNavProps) {
               {tab.number}
             </span>
           )
-          // Tabs nuevos (11-15) navegan a su landing v3 propio
-          if (tab.linkTo) {
-            return (
-              <Link key={tab.id} href={tab.linkTo} title={tab.description} style={pillStyle}>
-                {numberBadge}
-                <span>{tab.label}</span>
-              </Link>
-            )
-          }
+          // Todas las 15 tabs renderizan inline en /macro?tab=...
           return (
             <button
               key={tab.id}

@@ -19,6 +19,7 @@ import { FlujosCapitalTab } from '@/components/macro/tabs/FlujosCapitalTab'
 import { ProductividadCompetitividadTab } from '@/components/macro/tabs/ProductividadCompetitividadTab'
 import { EmpresasBeneficiosTab } from '@/components/macro/tabs/EmpresasBeneficiosTab'
 import { HogaresEmpleoViviendaTab } from '@/components/macro/tabs/HogaresEmpleoViviendaTab'
+import { SubtabContent } from '@/components/macro/pulso/SubtabContent'
 
 // Termómetro score 0-100 desde KPIs · cada indicador suma/resta puntos
 function calcTermometro(kpis: Indic[]) {
@@ -77,10 +78,15 @@ export default function MacroPage() {
           {safeActiveTab === 'productividad-competitividad' && <ProductividadCompetitividadTab />}
           {safeActiveTab === 'empresas-beneficios' && <EmpresasBeneficiosTab />}
           {safeActiveTab === 'hogares-empleo-vivienda' && <HogaresEmpleoViviendaTab />}
+          {safeActiveTab === 'demografia-territorio' && <SubtabContent subtabSlug="demografia-territorio" showHeader={false} />}
+          {safeActiveTab === 'sociedad-bienestar' && <SubtabContent subtabSlug="sociedad-bienestar" showHeader={false} />}
+          {safeActiveTab === 'medio-rural' && <SubtabContent subtabSlug="medio-rural" showHeader={false} />}
+          {safeActiveTab === 'cultura-ocio' && <SubtabContent subtabSlug="cultura-ocio" showHeader={false} />}
+          {safeActiveTab === 'instituciones-estado' && <SubtabContent subtabSlug="instituciones-estado" showHeader={false} />}
         </MacroShell>
 
         <footer style={{ marginTop: 28, padding: '14px 0', borderTop: '1px solid #e5e7eb', fontSize: 10, color: '#94a3b8', textAlign: 'center' }}>
-          Macro-Political & Economic · Politeia Analítica · 10 dimensiones macro-financieras profesionales · {new Date().getFullYear()}
+          Economía · Politeia Analítica · 15 dimensiones macro-financieras profesionales · {new Date().getFullYear()}
         </footer>
       </main>
     </div>

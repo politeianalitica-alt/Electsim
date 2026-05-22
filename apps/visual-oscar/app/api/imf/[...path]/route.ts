@@ -207,6 +207,20 @@ export async function GET(
     const series = Object.entries(countryData)
       .map(([y, v]) => ({ year: Number(y), value: v as number | null }))
       .sort((a, b) => a.year - b.year)
+    // Sprint L F3: si IMF DataMapper devuelve series vacía (indicador no
+    // publicado en el endpoint público), marcar como missing en lugar de
+    // ok:true con 0 puntos. Evita que el frontend muestre "SIN DATO" con
+    // estado live engañoso.
+    if (series.length === 0) {
+      return NextResponse.json({
+        ok: false,
+        iso,
+        indicator,
+        data_quality: quality('missing', 'IMF DataMapper', `${indicator} no devuelve datos para ${iso}; usa endpoint Eurostat alternativo o publicación AIReF`),
+        n_points: 0,
+        series: [],
+      })
+    }
     return NextResponse.json({
       ok: true,
       iso,

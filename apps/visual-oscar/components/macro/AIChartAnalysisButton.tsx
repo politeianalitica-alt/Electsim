@@ -73,7 +73,10 @@ export function AIChartAnalysisButton({ input, accent = '#7c3aed', inline = true
       })
       const json = (await res.json()) as ChartAnalysisResponse | ChartAnalysisError
       if (!('ok' in json) || !json.ok) {
-        setError((json as ChartAnalysisError).error || `HTTP ${res.status}`)
+        const e = json as ChartAnalysisError
+        const detail = (e as { detail?: string }).detail
+        // Sprint L F2: combinar code + detail para diagnóstico claro.
+        setError(detail ? `${e.error} · ${detail.slice(0, 140)}` : (e.error || `HTTP ${res.status}`))
         setState('error')
         return
       }

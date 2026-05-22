@@ -1,59 +1,26 @@
 'use client'
 /**
- * `<SubtabLanding subtabSlug="..." />` · Landing genérico reutilizado por
- * todos los subtabs v3 (`pulso-macro`, `regimen-monetario`, `margen-fiscal`,
- * `riesgo-sistemico`).
+ * `<SubtabLanding subtabSlug overrideLabel? />` · Landing standalone para
+ * deep-links `/macro/{slug}/page.tsx` (acceso directo por URL).
  *
- * Cargado por:
- *   - app/macro/pulso/page.tsx (subtabSlug="pulso-macro")
- *   - app/macro/regimen-monetario/page.tsx
- *   - app/macro/margen-fiscal/page.tsx
- *   - app/macro/riesgo-sistemico/page.tsx
+ * Desde Sprint L F1: el render INLINE en `/macro?tab={slug}` usa
+ * `<SubtabContent>` directamente (sin chrome page). Esta landing sigue
+ * existiendo para que las URLs `/macro/{slug}` funcionen y mantiene el
+ * AppHeader + breadcrumb + auth check para la entrada directa.
  *
- * Consume:
- *   - GET /api/macro/{subtab}/overview
- *   - Hero IA via POST /api/macro/ai/analyze-tab
- *   - Calendario via /api/macro/releases (compartido entre subtabs)
+ * 14 subtabs registrados — ver `lib/macro/subtab-registry.ts`.
  */
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../../../app/_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { HeroEjecutivo } from './HeroEjecutivo'
-import { TermometroPulso } from './TermometroPulso'
-import { FamilyKpiGrid } from './FamilyKpiGrid'
-import { CalendarioReleases } from './CalendarioReleases'
-import { AlertasMacro } from './AlertasMacro'
-import { DatosGobRadar } from './DatosGobRadar'
-import { RadarChart } from '../charts/RadarChart'
-import { Treemap } from '../charts/Treemap'
-import { SECTOR_CATALOG } from '@/lib/macro/sector-catalog'
-import { COMPANY_CATALOG } from '@/lib/macro/company-catalog'
-import { ASSET_CATALOG } from '@/lib/macro/asset-catalog'
-import { CCAAHexmap } from '../charts/CCAAHexmap'
-import { listCCAA, getCCAAByNuts2 } from '@/lib/macro/ccaa-catalog'
-import { getSubtab, FAMILY_META, type SubtabConfig } from '@/lib/macro/subtab-registry'
-import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
-import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
-
-interface FamilyGroup {
-  meta: typeof FAMILY_META[PulsoFamily]
-  indicators: { id: string; meta: PulsoIndicatorMeta; data: PulsoFetchResult }[]
-}
-
-interface OverviewResponse {
-  ok: boolean
-  generated_at: string
-  termometro: { score: number; bySignal: { id: string; vote: number; reason: string }[] }
-  coverage: { total: number; live: number; stale: number; missing: number }
-  byId: Record<string, PulsoFetchResult>
-  byFamily: Record<string, FamilyGroup>
-}
+import { SubtabContent } from './SubtabContent'
+import { getSubtab, type SubtabConfig } from '@/lib/macro/subtab-registry'
 
 interface Props {
   subtabSlug: string
-  /** Si se proporciona, override del label. Útil cuando ya existe slug pero quieres rebrandear. */
+  /** Si se proporciona, override del label. */
   overrideLabel?: string
 }
 
@@ -64,112 +31,6 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
   }, [router])
 
   const config = getSubtab(subtabSlug) as SubtabConfig | undefined
-  const [overview, setOverview] = useState<OverviewResponse | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [ccaaData, setCcaaData] = useState<{ id: string; value: number | null; tooltipLabel?: string }[]>(
-    () =>
-      listCCAA().map((c) => ({
-        id: c.id,
-        value: c.gdpShare,
-        tooltipLabel: c.label,
-      }))
-  )
-  const [ccaaMetric, setCcaaMetric] = useState<'gdpShare' | 'gdp_per_capita' | 'unemployment'>('gdpShare')
-
-  useEffect(() => {
-    if (!config) {
-      setError('subtab_no_encontrado')
-      setLoading(false)
-      return
-    }
-    let alive = true
-    setLoading(true)
-    fetch(`/api/macro/${subtabSlug}/overview`, { cache: 'force-cache' })
-      .then((r) => r.json())
-      .then((j) => {
-        if (!alive) return
-        if (!j?.ok) {
-          setError(j?.error || 'overview_failed')
-          return
-        }
-        setOverview(j as OverviewResponse)
-      })
-      .catch((e) => alive && setError(e.message))
-      .finally(() => alive && setLoading(false))
-    return () => {
-      alive = false
-    }
-  }, [subtabSlug, config])
-
-  // Hidratar Hexmap con datos Eurostat NUTS2 reales cuando se cambia la métrica.
-  useEffect(() => {
-    if (ccaaMetric === 'gdpShare') {
-      setCcaaData(
-        listCCAA().map((c) => ({
-          id: c.id,
-          value: c.gdpShare,
-          tooltipLabel: c.label,
-        }))
-      )
-      return
-    }
-    let alive = true
-    fetch(`/api/eurostat/regions-nuts2?metric=${ccaaMetric}`, { cache: 'force-cache' })
-      .then((r) => r.json())
-      .then((j) => {
-        if (!alive || !j?.ok) return
-        // Map NUTS2 → CCAA id usando catalog
-        const mapped = (j.regions || [])
-          .map((r: { nuts2: string; value: number | null }) => {
-            const ccaa = getCCAAByNuts2(r.nuts2)
-            return ccaa ? { id: ccaa.id, value: r.value, tooltipLabel: ccaa.label } : null
-          })
-          .filter(Boolean) as { id: string; value: number | null; tooltipLabel?: string }[]
-        // Mantenemos los 19 ids visibles: si Eurostat no devuelve ES63/ES64 (Ceuta/Melilla) los marcamos null
-        const byId: Record<string, { id: string; value: number | null; tooltipLabel?: string }> = {}
-        for (const m of mapped) byId[m.id] = m
-        setCcaaData(
-          listCCAA().map((c) => byId[c.id] || { id: c.id, value: null, tooltipLabel: c.label })
-        )
-      })
-      .catch(() => {
-        // Fallback silencioso a gdpShare si falla Eurostat
-        setCcaaData(
-          listCCAA().map((c) => ({ id: c.id, value: c.gdpShare, tooltipLabel: c.label }))
-        )
-      })
-    return () => {
-      alive = false
-    }
-  }, [ccaaMetric])
-
-  const labelMap = useMemo(() => {
-    if (!config) return {}
-    const m: Record<string, string> = {}
-    for (const ind of config.indicators) m[ind.id] = ind.shortLabel || ind.label
-    return m
-  }, [config])
-
-  const signalsForHero = useMemo(() => {
-    if (!overview || !config) return []
-    return config.indicators.map((ind) => {
-      const d = overview.byId[ind.id]
-      return {
-        id: ind.id,
-        family: ind.family,
-        label: ind.label,
-        unit: ind.unit,
-        lastValue: d?.last?.value ?? null,
-        lastPeriod: d?.last?.period ?? null,
-        source: ind.source,
-        sourceCode: ind.sourceCode,
-        threshold: ind.threshold,
-        status: d?.status ?? 'missing',
-      }
-    })
-  }, [overview, config])
-
   if (!config) {
     return (
       <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
@@ -178,9 +39,7 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
           <h1 style={{ color: '#dc2626' }}>Subtab no encontrado</h1>
           <p style={{ color: '#64748b' }}>
             El subtab <code>{subtabSlug}</code> no está registrado.{' '}
-            <Link href="/macro" style={{ color: '#0F766E' }}>
-              Volver a Macro
-            </Link>
+            <Link href="/macro" style={{ color: '#0F766E' }}>Volver a Macro</Link>
           </p>
         </main>
       </div>
@@ -200,243 +59,9 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
           </Link>
           <span>·</span>
           <span style={{ color: '#0f172a', fontWeight: 600 }}>{label}</span>
-          {overview && (
-            <span style={{ marginLeft: 'auto', fontSize: 10, color: '#94a3b8' }}>
-              {overview.coverage.live}/{overview.coverage.total} fuentes live · datos {new Date(overview.generated_at).toLocaleString('es-ES')}
-            </span>
-          )}
         </div>
 
-        {/* Header */}
-        <header style={{ marginBottom: 18 }}>
-          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700, color: '#0f172a', letterSpacing: -0.5 }}>
-            {label} · España
-          </h1>
-          <p style={{ margin: '4px 0 0', fontSize: 13, color: '#64748b', maxWidth: 760 }}>
-            {config.description} · {config.indicators.length} indicadores live con análisis IA opcional por gráfica.
-          </p>
-        </header>
-
-        {loading && (
-          <div style={{ padding: 30, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>
-            Cargando indicadores live…
-          </div>
-        )}
-
-        {error && !loading && (
-          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', padding: 14, borderRadius: 8, color: '#991b1b', fontSize: 12 }}>
-            Error cargando overview: {error}
-          </div>
-        )}
-
-        {overview && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <HeroEjecutivo
-              tabSlug={subtabSlug}
-              tabLabel={label}
-              termometroScore={overview.termometro.score}
-              signals={signalsForHero}
-              loading={loading}
-            />
-
-            <TermometroPulso
-              score={overview.termometro.score}
-              bySignal={overview.termometro.bySignal}
-              labelMap={labelMap}
-            />
-
-            {/* Radar 5+ dimensiones · si hay al menos 4 señales con voto */}
-            {overview.termometro.bySignal.length >= 4 && (
-              <section
-                style={{
-                  background: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderLeft: `4px solid ${config.accent}`,
-                  borderRadius: 10,
-                  padding: 16,
-                }}
-              >
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
-                  Radar de dimensiones · top {Math.min(overview.termometro.bySignal.length, 8)} indicadores
-                </p>
-                <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
-                  Vista compuesta · cada eje normalizado 0-100 según semáforo del umbral. Centro = score global.
-                </p>
-                <div style={{ marginTop: 12 }}>
-                  <RadarChart
-                    accent={config.accent}
-                    centerValue={overview.termometro.score}
-                    centerLabel="SCORE"
-                    data={overview.termometro.bySignal.slice(0, 8).map((s) => ({
-                      id: s.id,
-                      label: labelMap[s.id] || s.id,
-                      value: s.vote,
-                    }))}
-                  />
-                </div>
-              </section>
-            )}
-
-            <AlertasMacro byId={overview.byId} catalog={config.indicators} subtabSlug={subtabSlug} />
-
-            <FamilyKpiGrid byFamily={overview.byFamily} subtabSlug={subtabSlug} />
-
-            <CalendarioReleases />
-
-            {/* Bloque sectorial · sólo en empresas-beneficios */}
-            {subtabSlug === 'empresas-beneficios' && (
-              <>
-                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
-                    Composición sectorial · {SECTOR_CATALOG.length} sectores · click → detalle
-                  </p>
-                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
-                    Tamaño = peso aproximado sobre PIB · color por sector
-                  </p>
-                  <div style={{ marginTop: 12 }}>
-                    <Treemap
-                      data={SECTOR_CATALOG.map((s) => ({
-                        id: s.id,
-                        label: s.label,
-                        value: s.gdpShare,
-                        href: `/macro/empresas-beneficios/sector/${s.id}`,
-                      }))}
-                      width={760}
-                      height={320}
-                      unit="% PIB"
-                      formatValue={(v) => `${v.toFixed(1)}% PIB`}
-                    />
-                  </div>
-                </section>
-
-                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
-                    Cotizadas tractoras · {COMPANY_CATALOG.length} empresas IBEX core
-                  </p>
-                  <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 6 }}>
-                    {COMPANY_CATALOG.map((c) => (
-                      <Link
-                        key={c.id}
-                        href={`/macro/empresas-beneficios/company/${c.id}`}
-                        style={{
-                          background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 6, padding: '6px 10px',
-                          fontSize: 11, color: '#0f172a', textDecoration: 'none', fontWeight: 600,
-                        }}
-                      >
-                        {c.shortName}
-                        <span style={{ display: 'block', fontSize: 9, color: '#64748b', fontWeight: 400 }}>{c.sector}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </section>
-              </>
-            )}
-
-            {/* Bloque activos · sólo en mercados-activos */}
-            {subtabSlug === 'mercados-activos' && (
-              <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
-                  Activos financieros · {ASSET_CATALOG.length} con análisis IA por activo
-                </p>
-                <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8 }}>
-                  {ASSET_CATALOG.map((a) => (
-                    <Link
-                      key={a.id}
-                      href={`/macro/mercados-activos/asset/${a.id}`}
-                      style={{
-                        display: 'block', background: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: 8, padding: 10,
-                        textDecoration: 'none', color: '#0f172a',
-                      }}
-                    >
-                      <p style={{ margin: 0, fontSize: 12, fontWeight: 700 }}>{a.shortLabel}</p>
-                      <p style={{ margin: '2px 0 0', fontSize: 10, color: '#64748b' }}>{a.assetClass.replace('_', ' ')}</p>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Mapa hexagonal CCAA · vista territorial 19 regiones · datos live Eurostat */}
-            <section
-              style={{
-                background: '#fff',
-                border: '1px solid #e5e7eb',
-                borderLeft: `4px solid ${config.accent}`,
-                borderRadius: 10,
-                padding: 16,
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8 }}>
-                <div>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
-                    Distribución territorial · 19 CCAA · click → análisis regional
-                  </p>
-                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
-                    {ccaaMetric === 'gdpShare' && 'Color = peso aproximado sobre PIB nacional.'}
-                    {ccaaMetric === 'gdp_per_capita' && 'Color = PIB per cápita por NUTS2 · Eurostat nama_10r_2gdp.'}
-                    {ccaaMetric === 'unemployment' && 'Color = tasa de paro 15-74y por NUTS2 · Eurostat lfst_r_lfu3rt.'}
-                  </p>
-                </div>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  {(
-                    [
-                      ['gdpShare', '% PIB'],
-                      ['gdp_per_capita', 'PIB pc'],
-                      ['unemployment', 'Paro %'],
-                    ] as const
-                  ).map(([key, label]) => (
-                    <button
-                      key={key}
-                      onClick={() => setCcaaMetric(key)}
-                      style={{
-                        fontSize: 10,
-                        padding: '4px 10px',
-                        border: `1px solid ${ccaaMetric === key ? config.accent : '#e5e7eb'}`,
-                        background: ccaaMetric === key ? config.accent : '#fff',
-                        color: ccaaMetric === key ? '#fff' : '#475569',
-                        fontWeight: 600,
-                        borderRadius: 6,
-                        cursor: 'pointer',
-                        fontFamily: 'inherit',
-                      }}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div style={{ marginTop: 12 }}>
-                <CCAAHexmap
-                  accent={config.accent}
-                  unit={ccaaMetric === 'unemployment' ? '%' : ccaaMetric === 'gdp_per_capita' ? '€' : '% PIB'}
-                  formatValue={(v) =>
-                    ccaaMetric === 'gdp_per_capita'
-                      ? v.toLocaleString('es-ES', { maximumFractionDigits: 0 })
-                      : v.toFixed(1)
-                  }
-                  hrefFor={(id) => `/macro/${subtabSlug}/region/${id}`}
-                  data={ccaaData}
-                />
-              </div>
-            </section>
-
-            <DatosGobRadar subtabSlug={subtabSlug} />
-
-            <footer
-              style={{
-                marginTop: 14,
-                padding: '14px 0',
-                borderTop: '1px solid #e5e7eb',
-                fontSize: 10,
-                color: '#94a3b8',
-              }}
-            >
-              Fuentes: INE WSTempus, IMF DataMapper (WEO), Eurostat SDMX-JSON, BCE SDW, BIS, datos.gob.es.
-              Datos live cacheados 30min. Análisis IA Groq GPT-OSS (server-side). Las lecturas IA no son
-              recomendaciones de inversión.
-            </footer>
-          </div>
-        )}
+        <SubtabContent subtabSlug={subtabSlug} overrideLabel={overrideLabel} showHeader={true} />
       </main>
     </div>
   )
