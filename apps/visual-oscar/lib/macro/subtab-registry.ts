@@ -50,6 +50,26 @@ import {
   HOGARES_EMPLEO_VIVIENDA_INDICATORS,
   HOGARES_EMPLEO_VIVIENDA_META,
 } from "./hogares-empleo-vivienda-catalog";
+import {
+  DEMOGRAFIA_TERRITORIO_INDICATORS,
+  DEMOGRAFIA_TERRITORIO_META,
+} from "./demografia-territorio-catalog";
+import {
+  SOCIEDAD_BIENESTAR_INDICATORS,
+  SOCIEDAD_BIENESTAR_META,
+} from "./sociedad-bienestar-catalog";
+import {
+  MEDIO_RURAL_INDICATORS,
+  MEDIO_RURAL_META,
+} from "./medio-rural-catalog";
+import {
+  CULTURA_OCIO_INDICATORS,
+  CULTURA_OCIO_META,
+} from "./cultura-ocio-catalog";
+import {
+  INSTITUCIONES_ESTADO_INDICATORS,
+  INSTITUCIONES_ESTADO_META,
+} from "./instituciones-estado-catalog";
 
 export interface SubtabConfig {
   slug: string;
@@ -101,6 +121,26 @@ export const SUBTAB_REGISTRY: Record<string, SubtabConfig> = {
   "hogares-empleo-vivienda": {
     ...HOGARES_EMPLEO_VIVIENDA_META,
     indicators: HOGARES_EMPLEO_VIVIENDA_INDICATORS,
+  },
+  "demografia-territorio": {
+    ...DEMOGRAFIA_TERRITORIO_META,
+    indicators: DEMOGRAFIA_TERRITORIO_INDICATORS,
+  },
+  "sociedad-bienestar": {
+    ...SOCIEDAD_BIENESTAR_META,
+    indicators: SOCIEDAD_BIENESTAR_INDICATORS,
+  },
+  "medio-rural": {
+    ...MEDIO_RURAL_META,
+    indicators: MEDIO_RURAL_INDICATORS,
+  },
+  "cultura-ocio": {
+    ...CULTURA_OCIO_META,
+    indicators: CULTURA_OCIO_INDICATORS,
+  },
+  "instituciones-estado": {
+    ...INSTITUCIONES_ESTADO_META,
+    indicators: INSTITUCIONES_ESTADO_INDICATORS,
   },
 };
 

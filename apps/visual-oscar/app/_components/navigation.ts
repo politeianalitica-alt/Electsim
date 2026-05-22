@@ -110,7 +110,7 @@ export const MODULES: NavModule[] = [
     full: 'Inteligencia Geopolítica y Macroeconómica',
     items: [
       { label: 'Geopolítica y RRII',         href: '/geopolitica' },
-      { label: 'Macro-Political & Economic', href: '/macro' },
+      { label: 'Economía',                   href: '/macro' },
       { label: 'Fuentes globales',           href: '/datos' },
     ],
   },
