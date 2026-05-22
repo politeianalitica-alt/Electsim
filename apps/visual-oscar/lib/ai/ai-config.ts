@@ -1,35 +1,45 @@
 /**
  * Centralised AI provider configuration.
  *
- * Politeia ahora soporta dos providers seleccionables via `LLM_PROVIDER`:
+ * Politeia soporta tres providers seleccionables via `LLM_PROVIDER`:
  *
- *   · LLM_PROVIDER=anthropic  → Claude (producción)
+ *   · LLM_PROVIDER=groq       → Groq GPT-OSS (rápido + razonamiento, primario)
+ *   · LLM_PROVIDER=anthropic  → Claude (fallback / análisis profundo)
  *   · LLM_PROVIDER=ollama     → Ollama local/self-hosted (desarrollo)
- *   · (no set)                → auto-detect: si hay ANTHROPIC_API_KEY usa
- *                               Anthropic; si no, Ollama si hay OLLAMA_URL;
- *                               si no, mock determinista.
+ *   · (no set)                → auto-detect: Groq > Anthropic > Ollama > none.
  *
- * ─── Anthropic ───
- *  - ANTHROPIC_API_KEY        (obligatorio, https://console.anthropic.com)
- *  - ANTHROPIC_MODEL          (default: claude-sonnet-4-5-20250929)
- *  - ANTHROPIC_FAST_MODEL     (default: claude-haiku-4-5-20251001)
- *  - ANTHROPIC_TIMEOUT_MS     (default: 90_000)
+ * El módulo macro usa `withCascade(fn)` (ver `lib/ai/index.ts`) para
+ * lanzar Groq primero y caer a Anthropic en errores 429/5xx/timeout.
  *
- * ─── Ollama (legacy, mantenido como fallback) ───
- *  - OLLAMA_URL               (base URL)
- *  - OLLAMA_MODEL             (default: llama3.2:latest)
- *  - OLLAMA_JSON_MODEL        (default: OLLAMA_MODEL)
- *  - OLLAMA_FAST_MODEL        (default: OLLAMA_MODEL)
- *  - OLLAMA_TIMEOUT_MS        (default: 90_000)
+ * ─── Groq (primario para análisis macro / reasoning) ───
+ *  - GROQ_API_KEY               (obligatorio — sólo servidor)
+ *  - GROQ_MODEL_REASONING       (premium, default: openai/gpt-oss-120b)
+ *  - GROQ_MODEL_FAST            (fast,    default: openai/gpt-oss-20b)
+ *  - GROQ_TIMEOUT_MS            (default: 30_000)
+ *
+ * ─── Anthropic (cascade) ───
+ *  - ANTHROPIC_API_KEY          (obligatorio para fallback)
+ *  - ANTHROPIC_MODEL            (default: claude-sonnet-4-5-20250929)
+ *  - ANTHROPIC_FAST_MODEL       (default: claude-haiku-4-5-20251001)
+ *  - ANTHROPIC_TIMEOUT_MS       (default: 90_000)
+ *
+ * ─── Ollama (legacy fallback) ───
+ *  - OLLAMA_URL                 (base URL)
+ *  - OLLAMA_MODEL               (default: llama3.2:latest)
+ *  - OLLAMA_JSON_MODEL          (default: OLLAMA_MODEL)
+ *  - OLLAMA_FAST_MODEL          (default: OLLAMA_MODEL)
+ *  - OLLAMA_TIMEOUT_MS          (default: 90_000)
  */
 
-export type AiProvider = "anthropic" | "ollama" | "none";
+export type AiProvider = "groq" | "anthropic" | "ollama" | "none";
 
 function detectProvider(): AiProvider {
   const explicit = (process.env.LLM_PROVIDER || "").toLowerCase().trim();
+  if (explicit === "groq") return "groq";
   if (explicit === "anthropic") return "anthropic";
   if (explicit === "ollama") return "ollama";
-  // Auto-detect: Anthropic > Ollama > none
+  // Auto-detect: Groq > Anthropic > Ollama > none
+  if (process.env.GROQ_API_KEY) return "groq";
   if (process.env.ANTHROPIC_API_KEY) return "anthropic";
   if (process.env.OLLAMA_URL) return "ollama";
   return "none";
@@ -38,7 +48,14 @@ function detectProvider(): AiProvider {
 export const AI_CONFIG = {
   provider: detectProvider(),
 
-  // Anthropic
+  // Groq (primario macro / reasoning)
+  groqApiKey: process.env.GROQ_API_KEY || "",
+  groqReasoningModel:
+    process.env.GROQ_MODEL_REASONING || "openai/gpt-oss-120b",
+  groqFastModel: process.env.GROQ_MODEL_FAST || "openai/gpt-oss-20b",
+  groqTimeoutMs: Number(process.env.GROQ_TIMEOUT_MS || 30_000),
+
+  // Anthropic (cascade)
   anthropicApiKey: process.env.ANTHROPIC_API_KEY || "",
   anthropicModel: process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5-20250929",
   anthropicFastModel: process.env.ANTHROPIC_FAST_MODEL || "claude-haiku-4-5-20251001",
@@ -61,4 +78,13 @@ export function isAiEnabled(): boolean {
 
 export function getProviderName(): string {
   return AI_CONFIG.provider;
+}
+
+/**
+ * Devuelve true si el cascade está disponible (Groq primario + Anthropic
+ * como respaldo). Lo usa el endpoint macro para decidir si activar
+ * `withCascade()` o si caer directo a Anthropic sin intentar Groq.
+ */
+export function isGroqCascadeAvailable(): boolean {
+  return Boolean(AI_CONFIG.groqApiKey && AI_CONFIG.anthropicApiKey);
 }

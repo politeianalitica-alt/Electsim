@@ -25,6 +25,17 @@ import { IndicatorDrill } from '../IndicatorDrill'
 import { ImfWeoForecast } from '../ImfWeoForecast'
 import { getTab } from '@/lib/macro/sources-matrix'
 import { useMacroDrawer } from '../MacroDrawerProvider'
+import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
+
+// Helper para preparar input al endpoint Groq: filtra valores no finitos
+// y respeta el formato { period, value, forecast? }.
+function aiSeries(
+  pts: { period: string; value: number | null; forecast?: boolean }[],
+): { period: string; value: number; forecast?: boolean }[] {
+  return pts
+    .filter((p) => p.value != null && Number.isFinite(p.value))
+    .map((p) => ({ period: p.period, value: p.value as number, ...(p.forecast ? { forecast: true } : {}) }))
+}
 
 interface InePoint { period: string; year: number; value: number | null }
 
@@ -216,6 +227,21 @@ export function PulsoMacroTab() {
           title="PIB España · serie 24 trimestres"
           subtitle="Variación interanual · volumen encadenado · datos ajustados de estacionalidad y calendario"
           status="live"
+          aiAnalysis={{
+            indicator: 'PIB volumen YoY · INE CNTR6654',
+            indicatorId: 'ine.cntr6654.pib_yoy',
+            tabSlug: 'pulso-macro',
+            series: aiSeries(pibSeries),
+            metadata: {
+              unit: '%',
+              source: 'INE WSTempus · CNT',
+              sourceCode: 'CNTR6654',
+              lastUpdate: pibLast?.period,
+              frequency: 'quarterly',
+              notes: ['Variación interanual, volumen encadenado, ajustado de estacionalidad y calendario.'],
+            },
+            windowLabel: '24 trimestres',
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
@@ -248,6 +274,29 @@ export function PulsoMacroTab() {
           title="Descomposición demanda interna"
           subtitle="Consumo hogares · Consumo AAPP · Inversión FBCF · contribución anual · datos SA"
           status="live"
+          aiAnalysis={{
+            indicator: 'Descomposición demanda interna · INE CNT',
+            indicatorId: 'ine.cnt.demanda_interna',
+            tabSlug: 'pulso-macro',
+            // Para la descomposición pasamos como serie principal el consumo
+            // de hogares y aportamos las demás componentes en notas para que
+            // el modelo razone sobre balance entre demanda interna y exterior.
+            series: aiSeries(consHSeries),
+            metadata: {
+              unit: '%',
+              source: 'INE WSTempus · CNT',
+              sourceCode: 'CNTR7158/7188/7213/7264',
+              lastUpdate: consH?.period,
+              frequency: 'quarterly',
+              notes: [
+                `Última observación demanda hogares (CNTR7158): ${consH?.value ?? '?'}% en ${consH?.period ?? '?'}.`,
+                `Consumo AAPP (CNTR7188) último: ${consA?.value ?? '?'}% en ${consA?.period ?? '?'}.`,
+                `Inversión FBCF (CNTR7213) último: ${inv?.value ?? '?'}% en ${inv?.period ?? '?'}.`,
+                `Sector exterior aportación (CNTR7264) último: ${ext?.value ?? '?'}pp en ${ext?.period ?? '?'}.`,
+              ],
+            },
+            windowLabel: '24 trimestres · 4 componentes',
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[
@@ -301,6 +350,27 @@ export function PulsoMacroTab() {
           title="IMF WEO · Crecimiento PIB España"
           subtitle="Serie histórica 20+ años + proyección 5 años · variable NGDP_RPCH"
           status="live"
+          aiAnalysis={{
+            indicator: 'Crecimiento PIB · IMF NGDP_RPCH',
+            indicatorId: 'imf.weo.ngdp_rpch.esp',
+            tabSlug: 'pulso-macro',
+            series: [
+              ...aiSeries(imfGrowthHist),
+              ...aiSeries(imfGrowthFc.map((p) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '%',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'NGDP_RPCH',
+              lastUpdate: imfGrowthHist[imfGrowthHist.length - 1]?.period,
+              frequency: 'annual',
+              notes: [
+                'Histórico anual + proyección 5 años del IMF World Economic Outlook.',
+                'Hitos: 2008 crisis financiera, 2012 doble recesión, 2020 COVID, 2022 shock energético.',
+              ],
+            },
+            windowLabel: `${imfGrowthHist.length}y hist + ${imfGrowthFc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
@@ -349,6 +419,25 @@ export function PulsoMacroTab() {
           title="IMF WEO · Inflación España"
           subtitle="IPC % var anual · serie histórica + forecast · variable PCPIPCH"
           status="live"
+          aiAnalysis={{
+            indicator: 'Inflación IPC · IMF PCPIPCH',
+            indicatorId: 'imf.weo.pcpipch.esp',
+            tabSlug: 'pulso-macro',
+            series: [
+              ...aiSeries(imfInflHist),
+              ...aiSeries(imfInflFc.map((p) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '%',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'PCPIPCH',
+              lastUpdate: imfInflHist[imfInflHist.length - 1]?.period,
+              frequency: 'annual',
+              threshold: { amber: 2, red: 4, goodAbove: false },
+              notes: ['Objetivo BCE: 2% mp. 2022 shock energético post-Ucrania.'],
+            },
+            windowLabel: `${imfInflHist.length}y hist + ${imfInflFc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
@@ -387,6 +476,25 @@ export function PulsoMacroTab() {
           title="IMF WEO · Paro España"
           subtitle="Tasa paro % población activa · serie histórica + forecast · variable LUR"
           status="live"
+          aiAnalysis={{
+            indicator: 'Tasa paro · IMF LUR',
+            indicatorId: 'imf.weo.lur.esp',
+            tabSlug: 'pulso-macro',
+            series: [
+              ...aiSeries(imfUnempHist),
+              ...aiSeries(imfUnempFc.map((p) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '%',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'LUR',
+              lastUpdate: imfUnempHist[imfUnempHist.length - 1]?.period,
+              frequency: 'annual',
+              threshold: { amber: 12, red: 18, goodAbove: false },
+              notes: ['Pico 26.1% en 2013. NAIRU España estimada ~13%.'],
+            },
+            windowLabel: `${imfUnempHist.length}y hist + ${imfUnempFc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{

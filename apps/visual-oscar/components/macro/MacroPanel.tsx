@@ -1,8 +1,14 @@
 'use client'
 /**
  * `<MacroPanel />` · Wrapper de sección con header + badge LIVE/STALE/MISSING.
+ *
+ * Si recibe `aiAnalysis`, renderiza un botón "✦ Explicar con IA" en el
+ * header (rightSlot) que dispara `/api/macro/ai/analyze-chart` y muestra
+ * el análisis estructurado debajo del body del panel.
  */
 import { ReactNode } from 'react'
+import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
+import { AIChartAnalysisButton } from './AIChartAnalysisButton'
 
 export function MacroPanel({
   accent,
@@ -10,6 +16,7 @@ export function MacroPanel({
   subtitle,
   status = 'idle',
   rightSlot,
+  aiAnalysis,
   children,
 }: {
   accent: string
@@ -17,6 +24,8 @@ export function MacroPanel({
   subtitle?: string
   status?: 'idle' | 'live' | 'cache' | 'stale' | 'missing' | 'loading'
   rightSlot?: ReactNode
+  /** Si se pasa, renderiza botón "✦ Explicar con IA" + panel inline. */
+  aiAnalysis?: ChartAnalysisInput
   children: ReactNode
 }) {
   return (
@@ -47,17 +56,23 @@ export function MacroPanel({
             <p style={{ fontSize: 11, color: '#94a3b8', margin: '2px 0 0' }}>{subtitle}</p>
           )}
         </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {status !== 'idle' && <StatusBadge status={status} accent={accent} />}
           {rightSlot}
         </div>
       </header>
       {children}
+      {aiAnalysis && (
+        <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <AIChartAnalysisButton input={aiAnalysis} accent={accent} inline={true} />
+        </div>
+      )}
     </section>
   )
 }
 
 function StatusBadge({ status, accent }: { status: string; accent: string }) {
+  void accent
   const map: Record<string, { bg: string; color: string; label: string }> = {
     live: { bg: '#dcfce7', color: '#166534', label: 'LIVE' },
     cache: { bg: '#dbeafe', color: '#1e40af', label: 'CACHE' },
