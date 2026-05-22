@@ -24,6 +24,7 @@
 import { AI_CONFIG, isAiEnabled } from "./ai-config";
 import * as anthropic from "./anthropic-client";
 import * as groq from "./groq-client";
+import * as gemini from "./gemini-client";
 import * as ollama from "./ollama-client";
 
 // ─── Tipos públicos (re-exports) ─────────────────────────────────────────
@@ -51,7 +52,7 @@ import { AiUnavailableError } from "./anthropic-client";
 function ensureEnabled(): void {
   if (AI_CONFIG.provider === "none") {
     throw new AiUnavailableError(
-      "No AI provider configured (set GROQ_API_KEY, ANTHROPIC_API_KEY or OLLAMA_URL)"
+      "No AI provider configured (set GEMINI_API_KEY, GROQ_API_KEY, ANTHROPIC_API_KEY or OLLAMA_URL)"
     );
   }
 }
@@ -85,6 +86,7 @@ function toOllamaOptions(opts: AiChatOptions): ollama.OllamaChatOptions {
 
 export async function generateText(opts: AiChatOptions): Promise<string> {
   ensureEnabled();
+  if (AI_CONFIG.provider === "gemini") return gemini.generateText(opts);
   if (AI_CONFIG.provider === "groq") return groq.generateText(opts);
   if (AI_CONFIG.provider === "anthropic") return anthropic.generateText(opts);
   return ollama.generateText(toOllamaOptions(opts));
@@ -92,6 +94,7 @@ export async function generateText(opts: AiChatOptions): Promise<string> {
 
 export function streamText(opts: AiChatOptions): ReadableStream<Uint8Array> {
   ensureEnabled();
+  if (AI_CONFIG.provider === "gemini") return gemini.streamText(opts);
   if (AI_CONFIG.provider === "groq") return groq.streamText(opts);
   if (AI_CONFIG.provider === "anthropic") return anthropic.streamText(opts);
   return ollama.streamText(toOllamaOptions(opts));
@@ -105,6 +108,9 @@ export async function generateJSON<T = unknown>(
   }
 ): Promise<T> {
   ensureEnabled();
+  if (AI_CONFIG.provider === "gemini") {
+    return gemini.generateJSON<T>(opts);
+  }
   if (AI_CONFIG.provider === "groq") {
     return groq.generateJSON<T>(opts);
   }
@@ -121,9 +127,17 @@ export async function generateJSON<T = unknown>(
   return ollama.generateJSON<T>({ ...ollamaOpts, schemaHint });
 }
 
-// ─── Cascade: Groq → Anthropic ──────────────────────────────────────────
+// ─── Cascade: Gemini → Groq → Anthropic ─────────────────────────────────
+//
+// Sprint M D2 (2026-05-22): Gemini Flash Lite es ahora el primario por
+// (a) tier free generoso, (b) structured output nativo via responseSchema,
+// (c) bug Groq json_schema en llama models.
+//
+// Fallback chain: Gemini → Groq → AiUnavailableError. Anthropic queda
+// disponible pero no se llama por defecto (decisión del propietario
+// 2026-05-22 "no vamos a usar anthropic").
 
-export type CascadeProvider = "groq";
+export type CascadeProvider = "gemini" | "groq";
 
 export interface CascadeResult<T> {
   result: T;
@@ -131,17 +145,6 @@ export interface CascadeResult<T> {
   modelHint: string;
 }
 
-/**
- * Ejecuta `fn(client)` contra Groq. **Política Groq-only desde Sprint C
- * 2026-05-22 por decisión del propietario.** Cualquier error se propaga
- * al caller; no hay fallback a Anthropic. La función conserva su nombre
- * `withCascade` para no romper los call-sites que ya la usan, pero a
- * efectos prácticos es un wrapper sobre el cliente Groq con tracking de
- * modelo + provider en el resultado.
- *
- * Si en el futuro se quiere reintroducir un segundo provider, modificar
- * `CascadeProvider` y reactivar el bloque catch/fallback debajo.
- */
 export interface CascadeClient {
   provider: CascadeProvider;
   generateText: (opts: AiChatOptions) => Promise<string>;
@@ -153,6 +156,20 @@ export interface CascadeClient {
     }
   ) => Promise<T>;
   modelName: (opts: AiChatOptions) => string;
+}
+
+function makeGeminiClient(): CascadeClient {
+  return {
+    provider: "gemini",
+    generateText: (opts) => gemini.generateText(opts),
+    generateJSON: (opts) => gemini.generateJSON(opts),
+    modelName: (opts) => {
+      if (opts.model) return opts.model;
+      return opts.tier === "fast"
+        ? AI_CONFIG.geminiFastModel
+        : AI_CONFIG.geminiReasoningModel;
+    },
+  };
 }
 
 function makeGroqClient(): CascadeClient {
@@ -172,23 +189,52 @@ function makeGroqClient(): CascadeClient {
 export async function withCascade<T>(
   fn: (client: CascadeClient) => Promise<T>
 ): Promise<CascadeResult<T>> {
-  if (!AI_CONFIG.groqApiKey) {
-    throw new AiUnavailableError(
-      "GROQ_API_KEY is not configured (Groq-only mode)"
-    );
+  // Provider 1: Gemini (primario tras Sprint M D2)
+  if (AI_CONFIG.geminiApiKey) {
+    try {
+      const client = makeGeminiClient();
+      const result = await fn(client);
+      return {
+        result,
+        provider: "gemini",
+        modelHint: AI_CONFIG.geminiReasoningModel,
+      };
+    } catch (err) {
+      // Si Gemini falla y Groq está disponible, intentar Groq como fallback
+      if (err instanceof AiUnavailableError && AI_CONFIG.groqApiKey) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `[ai-cascade] Gemini falló (${err.message.slice(0, 100)}), fallback a Groq`
+        );
+        const client = makeGroqClient();
+        const result = await fn(client);
+        return {
+          result,
+          provider: "groq",
+          modelHint: AI_CONFIG.groqReasoningModel,
+        };
+      }
+      throw err;
+    }
   }
-  const client = makeGroqClient();
-  const result = await fn(client);
-  return {
-    result,
-    provider: "groq",
-    modelHint: AI_CONFIG.groqReasoningModel,
-  };
+  // Provider 2: Groq (cuando no hay Gemini configurado)
+  if (AI_CONFIG.groqApiKey) {
+    const client = makeGroqClient();
+    const result = await fn(client);
+    return {
+      result,
+      provider: "groq",
+      modelHint: AI_CONFIG.groqReasoningModel,
+    };
+  }
+  throw new AiUnavailableError(
+    "No AI cascade provider configured (set GEMINI_API_KEY or GROQ_API_KEY)"
+  );
 }
 
-// `anthropic` import se conserva sólo porque ai-config.ts re-exporta el
+// `anthropic` import se conserva porque ai-config.ts re-exporta el
 // tipo `AiUnavailableError` desde anthropic-client.ts. No se llama en
-// runtime desde aquí (Groq-only desde 2026-05-22).
+// runtime desde aquí.
 void anthropic;
 
 // ─── Helper: cubrir mock cuando AI off o falla ──────────────────────────

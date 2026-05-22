@@ -156,7 +156,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const cached = cacheGet(cacheKey);
   if (cached) return NextResponse.json(cached, { headers: { "Cache-Control": "private, max-age=3600" } });
 
-  if (!AI_CONFIG.groqApiKey) {
+  if (!AI_CONFIG.geminiApiKey && !AI_CONFIG.groqApiKey) {
     return NextResponse.json({ ok: false, error: "ai_unavailable" }, { status: 503 });
   }
 

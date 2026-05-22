@@ -31,14 +31,18 @@
  *  - OLLAMA_TIMEOUT_MS          (default: 90_000)
  */
 
-export type AiProvider = "groq" | "anthropic" | "ollama" | "none";
+export type AiProvider = "gemini" | "groq" | "anthropic" | "ollama" | "none";
 
 function detectProvider(): AiProvider {
   const explicit = (process.env.LLM_PROVIDER || "").toLowerCase().trim();
+  if (explicit === "gemini") return "gemini";
   if (explicit === "groq") return "groq";
   if (explicit === "anthropic") return "anthropic";
   if (explicit === "ollama") return "ollama";
-  // Auto-detect: Groq > Anthropic > Ollama > none
+  // Sprint M D2 (2026-05-22): auto-detect Gemini PRIMERO (más generoso en
+  // free tier que Groq, mejor structured output con responseSchema nativo).
+  // Gemini > Groq > Anthropic > Ollama > none
+  if (process.env.GEMINI_API_KEY) return "gemini";
   if (process.env.GROQ_API_KEY) return "groq";
   if (process.env.ANTHROPIC_API_KEY) return "anthropic";
   if (process.env.OLLAMA_URL) return "ollama";
@@ -48,12 +52,22 @@ function detectProvider(): AiProvider {
 export const AI_CONFIG = {
   provider: detectProvider(),
 
-  // Groq (primario macro / reasoning)
+  // Sprint M D2 (2026-05-22): Gemini como PRIMARIO. Tier free mucho más
+  // generoso que Groq + structured output nativo via responseSchema.
+  // Default model: gemini-2.0-flash-lite (el más barato, alta cuota).
+  // Override via GEMINI_MODEL_REASONING/FAST env vars.
+  geminiApiKey: process.env.GEMINI_API_KEY || "",
+  geminiReasoningModel:
+    process.env.GEMINI_MODEL_REASONING || "gemini-2.0-flash-lite",
+  geminiFastModel:
+    process.env.GEMINI_MODEL_FAST || "gemini-2.0-flash-lite",
+  geminiTimeoutMs: Number(process.env.GEMINI_TIMEOUT_MS || 30_000),
+
+  // Groq (fallback / legacy macro reasoning)
   //
   // Sprint L (2026-05-22): default cambiado de openai/gpt-oss-120b a
   // llama-3.3-70b-versatile por mayor disponibilidad y estabilidad en el
   // tier actual. gpt-oss-* tienen capacidad limitada/intermitente.
-  // El usuario puede volver a gpt-oss-120b vía env var GROQ_MODEL_REASONING.
   groqApiKey: process.env.GROQ_API_KEY || "",
   groqReasoningModel:
     process.env.GROQ_MODEL_REASONING || "llama-3.3-70b-versatile",
@@ -86,10 +100,13 @@ export function getProviderName(): string {
 }
 
 /**
- * Devuelve true si el cascade está disponible (Groq primario + Anthropic
- * como respaldo). Lo usa el endpoint macro para decidir si activar
- * `withCascade()` o si caer directo a Anthropic sin intentar Groq.
+ * Devuelve true si el cascade está disponible (Gemini primario + Groq
+ * fallback desde Sprint M D2 2026-05-22). Lo usa el endpoint macro para
+ * decidir si activar `withCascade()`.
  */
 export function isGroqCascadeAvailable(): boolean {
-  return Boolean(AI_CONFIG.groqApiKey && AI_CONFIG.anthropicApiKey);
+  // Conservamos el nombre `isGroqCascadeAvailable` por compatibilidad con
+  // los call-sites en /api/macro/ai/*. Semánticamente ahora es "el cascade
+  // multi-provider funciona si tenemos al menos un provider configurado".
+  return Boolean(AI_CONFIG.geminiApiKey || AI_CONFIG.groqApiKey);
 }

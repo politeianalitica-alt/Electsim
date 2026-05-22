@@ -284,7 +284,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     });
   }
 
-  if (!AI_CONFIG.groqApiKey && !AI_CONFIG.anthropicApiKey) {
+  if (!AI_CONFIG.geminiApiKey && !AI_CONFIG.groqApiKey && !AI_CONFIG.anthropicApiKey) {
     return NextResponse.json<ChartAnalysisError>(
       {
         ok: false,
