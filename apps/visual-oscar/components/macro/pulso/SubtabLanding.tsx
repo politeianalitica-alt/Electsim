@@ -26,6 +26,7 @@ import { FamilyKpiGrid } from './FamilyKpiGrid'
 import { CalendarioReleases } from './CalendarioReleases'
 import { AlertasMacro } from './AlertasMacro'
 import { DatosGobRadar } from './DatosGobRadar'
+import { RadarChart } from '../charts/RadarChart'
 import { getSubtab, FAMILY_META, type SubtabConfig } from '@/lib/macro/subtab-registry'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
@@ -186,6 +187,38 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
               bySignal={overview.termometro.bySignal}
               labelMap={labelMap}
             />
+
+            {/* Radar 5+ dimensiones · si hay al menos 4 señales con voto */}
+            {overview.termometro.bySignal.length >= 4 && (
+              <section
+                style={{
+                  background: '#fff',
+                  border: '1px solid #e5e7eb',
+                  borderLeft: `4px solid ${config.accent}`,
+                  borderRadius: 10,
+                  padding: 16,
+                }}
+              >
+                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                  Radar de dimensiones · top {Math.min(overview.termometro.bySignal.length, 8)} indicadores
+                </p>
+                <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
+                  Vista compuesta · cada eje normalizado 0-100 según semáforo del umbral. Centro = score global.
+                </p>
+                <div style={{ marginTop: 12 }}>
+                  <RadarChart
+                    accent={config.accent}
+                    centerValue={overview.termometro.score}
+                    centerLabel="SCORE"
+                    data={overview.termometro.bySignal.slice(0, 8).map((s) => ({
+                      id: s.id,
+                      label: labelMap[s.id] || s.id,
+                      value: s.vote,
+                    }))}
+                  />
+                </div>
+              </section>
+            )}
 
             <AlertasMacro byId={overview.byId} catalog={config.indicators} subtabSlug={subtabSlug} />
 

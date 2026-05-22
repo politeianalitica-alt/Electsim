@@ -35,7 +35,7 @@ export function CalendarioReleases() {
 
   useEffect(() => {
     let alive = true
-    fetch('/api/macro/pulso/releases', { cache: 'force-cache' })
+    fetch('/api/macro/releases', { cache: 'force-cache' })
       .then((r) => r.json())
       .then((j) => {
         if (!alive) return
