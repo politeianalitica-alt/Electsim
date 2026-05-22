@@ -123,7 +123,7 @@ export async function generateJSON<T = unknown>(
 
 // ─── Cascade: Groq → Anthropic ──────────────────────────────────────────
 
-export type CascadeProvider = "groq" | "anthropic";
+export type CascadeProvider = "groq";
 
 export interface CascadeResult<T> {
   result: T;
@@ -132,13 +132,15 @@ export interface CascadeResult<T> {
 }
 
 /**
- * Ejecuta `fn(provider)` primero contra Groq y, si lanza
- * `AiUnavailableError`, contra Anthropic. Si ambos fallan, propaga el
- * último error.
+ * Ejecuta `fn(client)` contra Groq. **Política Groq-only desde Sprint C
+ * 2026-05-22 por decisión del propietario.** Cualquier error se propaga
+ * al caller; no hay fallback a Anthropic. La función conserva su nombre
+ * `withCascade` para no romper los call-sites que ya la usan, pero a
+ * efectos prácticos es un wrapper sobre el cliente Groq con tracking de
+ * modelo + provider en el resultado.
  *
- * `fn` recibe un objeto helper con `generateText` / `generateJSON` ya
- * apuntando al cliente correcto, de forma que el caller no tiene que
- * importar nada del módulo de provider directamente.
+ * Si en el futuro se quiere reintroducir un segundo provider, modificar
+ * `CascadeProvider` y reactivar el bloque catch/fallback debajo.
  */
 export interface CascadeClient {
   provider: CascadeProvider;
@@ -167,71 +169,27 @@ function makeGroqClient(): CascadeClient {
   };
 }
 
-function makeAnthropicClient(): CascadeClient {
-  return {
-    provider: "anthropic",
-    generateText: (opts) => anthropic.generateText(opts),
-    generateJSON: (opts) => {
-      const { jsonSchema, schemaName, schemaHint, ...rest } = opts;
-      void jsonSchema;
-      void schemaName;
-      void schemaHint;
-      return anthropic.generateJSON(rest);
-    },
-    modelName: (opts) => {
-      if (opts.model) return opts.model;
-      return opts.tier === "fast"
-        ? AI_CONFIG.anthropicFastModel
-        : AI_CONFIG.anthropicModel;
-    },
-  };
-}
-
 export async function withCascade<T>(
   fn: (client: CascadeClient) => Promise<T>
 ): Promise<CascadeResult<T>> {
-  const hasGroq = Boolean(AI_CONFIG.groqApiKey);
-  const hasAnthropic = Boolean(AI_CONFIG.anthropicApiKey);
-
-  if (!hasGroq && !hasAnthropic) {
+  if (!AI_CONFIG.groqApiKey) {
     throw new AiUnavailableError(
-      "Cascade requires GROQ_API_KEY and/or ANTHROPIC_API_KEY"
+      "GROQ_API_KEY is not configured (Groq-only mode)"
     );
   }
-
-  // 1) Groq primero si está disponible.
-  if (hasGroq) {
-    try {
-      const client = makeGroqClient();
-      const result = await fn(client);
-      return {
-        result,
-        provider: "groq",
-        modelHint: AI_CONFIG.groqReasoningModel,
-      };
-    } catch (err) {
-      if (!hasAnthropic) throw err;
-      if (!(err instanceof AiUnavailableError)) {
-        // Errores ajenos al provider (p.ej. parse JSON del caller) NO
-        // disparan cascade — son bugs nuestros, no del modelo.
-        throw err;
-      }
-      // eslint-disable-next-line no-console
-      console.warn(
-        `[ai/cascade] Groq failed, falling back to Anthropic: ${err.message}`
-      );
-    }
-  }
-
-  // 2) Anthropic como fallback (o primario si no hay Groq).
-  const client = makeAnthropicClient();
+  const client = makeGroqClient();
   const result = await fn(client);
   return {
     result,
-    provider: "anthropic",
-    modelHint: AI_CONFIG.anthropicModel,
+    provider: "groq",
+    modelHint: AI_CONFIG.groqReasoningModel,
   };
 }
+
+// `anthropic` import se conserva sólo porque ai-config.ts re-exporta el
+// tipo `AiUnavailableError` desde anthropic-client.ts. No se llama en
+// runtime desde aquí (Groq-only desde 2026-05-22).
+void anthropic;
 
 // ─── Helper: cubrir mock cuando AI off o falla ──────────────────────────
 

@@ -2,8 +2,16 @@
  * Registro central de subtabs con landing v3.
  *
  * Cada subtab apunta a su catálogo de indicadores + metadata visual.
- * Las páginas dinámicas `/macro/[subtab]/...` consultan este registro
- * para saber qué catálogo cargar y cómo titular la página.
+ * Las páginas /macro/{subtab}/* consultan este registro para saber qué
+ * catálogo cargar y cómo titular la página.
+ *
+ * 9 subtabs v3 registrados (mayo 2026):
+ *   pulso-macro · regimen-monetario · margen-fiscal · riesgo-sistemico
+ *   mercados-activos · flujos-capital · productividad-competitividad
+ *   empresas-beneficios · hogares-empleo-vivienda
+ *
+ * Sólo `dependencias-externas` (tab 4) sigue con UI v1 únicamente
+ * (botones AI por chart, sin landing dedicado).
  */
 import {
   PULSO_INDICATORS,
@@ -22,6 +30,26 @@ import {
   RIESGO_SISTEMICO_INDICATORS,
   RIESGO_SISTEMICO_META,
 } from "./riesgo-sistemico-catalog";
+import {
+  MERCADOS_ACTIVOS_INDICATORS,
+  MERCADOS_ACTIVOS_META,
+} from "./mercados-activos-catalog";
+import {
+  FLUJOS_CAPITAL_INDICATORS,
+  FLUJOS_CAPITAL_META,
+} from "./flujos-capital-catalog";
+import {
+  PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS,
+  PRODUCTIVIDAD_COMPETITIVIDAD_META,
+} from "./productividad-competitividad-catalog";
+import {
+  EMPRESAS_BENEFICIOS_INDICATORS,
+  EMPRESAS_BENEFICIOS_META,
+} from "./empresas-beneficios-catalog";
+import {
+  HOGARES_EMPLEO_VIVIENDA_INDICATORS,
+  HOGARES_EMPLEO_VIVIENDA_META,
+} from "./hogares-empleo-vivienda-catalog";
 
 export interface SubtabConfig {
   slug: string;
@@ -53,6 +81,26 @@ export const SUBTAB_REGISTRY: Record<string, SubtabConfig> = {
   "riesgo-sistemico": {
     ...RIESGO_SISTEMICO_META,
     indicators: RIESGO_SISTEMICO_INDICATORS,
+  },
+  "mercados-activos": {
+    ...MERCADOS_ACTIVOS_META,
+    indicators: MERCADOS_ACTIVOS_INDICATORS,
+  },
+  "flujos-capital": {
+    ...FLUJOS_CAPITAL_META,
+    indicators: FLUJOS_CAPITAL_INDICATORS,
+  },
+  "productividad-competitividad": {
+    ...PRODUCTIVIDAD_COMPETITIVIDAD_META,
+    indicators: PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS,
+  },
+  "empresas-beneficios": {
+    ...EMPRESAS_BENEFICIOS_META,
+    indicators: EMPRESAS_BENEFICIOS_INDICATORS,
+  },
+  "hogares-empleo-vivienda": {
+    ...HOGARES_EMPLEO_VIVIENDA_META,
+    indicators: HOGARES_EMPLEO_VIVIENDA_INDICATORS,
   },
 };
 
