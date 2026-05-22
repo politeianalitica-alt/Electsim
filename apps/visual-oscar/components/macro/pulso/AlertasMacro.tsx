@@ -10,6 +10,8 @@ import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
 interface Props {
   byId: Record<string, PulsoFetchResult>
   catalog: PulsoIndicatorMeta[]
+  /** Slug del subtab para construir href correcto. Default: pulso-macro. */
+  subtabSlug?: string
 }
 
 interface Alert {
@@ -49,7 +51,7 @@ function evaluateAlerts(byId: Record<string, PulsoFetchResult>, catalog: PulsoIn
   return out.sort((a, b) => (a.level === b.level ? 0 : a.level === 'red' ? -1 : 1))
 }
 
-export function AlertasMacro({ byId, catalog }: Props) {
+export function AlertasMacro({ byId, catalog, subtabSlug = 'pulso-macro' }: Props) {
   const alerts = evaluateAlerts(byId, catalog)
   if (alerts.length === 0) {
     return (
@@ -93,7 +95,7 @@ export function AlertasMacro({ byId, catalog }: Props) {
           return (
             <Link
               key={a.id}
-              href={`/macro/pulso/indicator/${a.id}`}
+              href={`/macro/${subtabSlug}/indicator/${a.id}`}
               style={{
                 display: 'flex',
                 gap: 10,

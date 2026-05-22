@@ -108,6 +108,33 @@ export function MargenFiscalTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
+      <a
+        href="/macro/margen-fiscal"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          background: 'linear-gradient(90deg, #faf5ff 0%, #fff7ed 100%)',
+          border: '1px solid #e9d5ff',
+          borderLeft: `4px solid ${tab.themeAccent}`,
+          borderRadius: 10,
+          padding: '12px 16px',
+          color: '#0f172a',
+          textDecoration: 'none',
+        }}
+      >
+        <span style={{ fontSize: 18 }}>✦</span>
+        <div style={{ flex: 1 }}>
+          <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: 0.4, color: '#7c3aed', textTransform: 'uppercase' }}>
+            Vista profunda · /macro/margen-fiscal
+          </p>
+          <p style={{ margin: '2px 0 0', fontSize: 12, color: '#475569' }}>
+            7 indicadores fiscales IMF · deuda/saldos/ingresos/gasto con histórica 30y + forecast · lectura ejecutiva IA · drill por indicador
+          </p>
+        </div>
+        <span style={{ fontSize: 11, color: '#7c3aed', fontWeight: 700 }}>Abrir →</span>
+      </a>
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
         <MacroKpiCard
           label="Deuda %PIB"

@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation'
 import { IndicatorDetailPage } from '@/components/macro/pulso/IndicatorDetailPage'
 
-export default function PulsoIndicatorPage() {
+export default function RegimenMonetarioIndicatorPage() {
   const params = useParams<{ id: string }>()
-  return <IndicatorDetailPage subtabSlug="pulso-macro" id={params?.id || ''} />
+  return <IndicatorDetailPage subtabSlug="regimen-monetario" id={params?.id || ''} />
 }

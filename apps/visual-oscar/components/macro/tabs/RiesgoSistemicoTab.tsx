@@ -144,6 +144,33 @@ export function RiesgoSistemicoTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
+      <a
+        href="/macro/riesgo-sistemico"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          background: 'linear-gradient(90deg, #faf5ff 0%, #fef2f2 100%)',
+          border: '1px solid #e9d5ff',
+          borderLeft: `4px solid ${tab.themeAccent}`,
+          borderRadius: 10,
+          padding: '12px 16px',
+          color: '#0f172a',
+          textDecoration: 'none',
+        }}
+      >
+        <span style={{ fontSize: 18 }}>✦</span>
+        <div style={{ flex: 1 }}>
+          <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: 0.4, color: '#7c3aed', textTransform: 'uppercase' }}>
+            Vista profunda · /macro/riesgo-sistemico
+          </p>
+          <p style={{ margin: '2px 0 0', fontSize: 12, color: '#475569' }}>
+            Termómetro de vulnerabilidades · deuda/déficit/inflación gap/paro · lectura ejecutiva IA con diagnóstico transversal · drill 9 subpestañas
+          </p>
+        </div>
+        <span style={{ fontSize: 11, color: '#7c3aed', fontWeight: 700 }}>Abrir →</span>
+      </a>
+
       {/* Score compuesto */}
       {scoreNum != null && (
         <div style={{

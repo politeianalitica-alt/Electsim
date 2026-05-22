@@ -1,7 +1,3 @@
-/**
- * GET /api/macro/pulso/overview
- * Thin wrapper sobre el handler compartido.
- */
 import { NextRequest } from "next/server";
 import { buildSubtabOverview } from "@/lib/macro/subtab-overview-handler";
 
@@ -10,5 +6,5 @@ export const maxDuration = 60;
 export const revalidate = 1800;
 
 export async function GET(req: NextRequest) {
-  return buildSubtabOverview("pulso-macro", req);
+  return buildSubtabOverview("regimen-monetario", req);
 }

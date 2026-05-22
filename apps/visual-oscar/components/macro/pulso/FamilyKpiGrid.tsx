@@ -17,6 +17,8 @@ interface FamilyGroup {
 
 interface Props {
   byFamily: Record<string, FamilyGroup>
+  /** Slug del subtab para construir href correcto al detalle. Default: pulso-macro. */
+  subtabSlug?: string
 }
 
 function statusColor(meta: PulsoIndicatorMeta, value: number | null): string {
@@ -41,7 +43,7 @@ function formatValue(v: number | null, unit: string, decimals: number): string {
   return `${formatted}${unit.startsWith(' ') ? unit : unit}`
 }
 
-export function FamilyKpiGrid({ byFamily }: Props) {
+export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
   // Orden estable de familias
   const order: PulsoFamily[] = ['pib', 'demanda', 'exterior', 'empleo', 'precios', 'forecast', 'oferta', 'sentimiento']
   return (
@@ -92,7 +94,7 @@ export function FamilyKpiGrid({ byFamily }: Props) {
                 return (
                   <Link
                     key={id}
-                    href={`/macro/pulso/indicator/${id}`}
+                    href={`/macro/${subtabSlug}/indicator/${id}`}
                     style={{
                       textDecoration: 'none',
                       background: '#fff',
