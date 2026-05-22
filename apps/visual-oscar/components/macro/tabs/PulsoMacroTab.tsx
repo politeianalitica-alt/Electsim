@@ -175,6 +175,34 @@ export function PulsoMacroTab() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <TabHeader tab={tab} />
 
+      {/* CTA · landing profundo /macro/pulso */}
+      <a
+        href="/macro/pulso"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          background: 'linear-gradient(90deg, #faf5ff 0%, #f0f9ff 100%)',
+          border: '1px solid #e9d5ff',
+          borderLeft: `4px solid ${tab.themeAccent}`,
+          borderRadius: 10,
+          padding: '12px 16px',
+          color: '#0f172a',
+          textDecoration: 'none',
+        }}
+      >
+        <span style={{ fontSize: 18 }}>✦</span>
+        <div style={{ flex: 1 }}>
+          <p style={{ margin: 0, fontSize: 12, fontWeight: 700, letterSpacing: 0.4, color: '#7c3aed', textTransform: 'uppercase' }}>
+            Vista profunda · /macro/pulso
+          </p>
+          <p style={{ margin: '2px 0 0', fontSize: 12, color: '#475569' }}>
+            18 indicadores agrupados por familia · termómetro 0-100 · lectura ejecutiva IA · alertas · calendario releases · drill 9 subpestañas por indicador
+          </p>
+        </div>
+        <span style={{ fontSize: 11, color: '#7c3aed', fontWeight: 700 }}>Abrir →</span>
+      </a>
+
       {/* KPIs principales · click drill */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
         <MacroKpiCard
