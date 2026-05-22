@@ -125,6 +125,37 @@ export async function fetchPulsoIndicator(
         }));
         break;
       }
+      case "datos-gob-csv": {
+        // Output del endpoint /api/datos-gob/csv: { ok, rows: [...], fields: [...] }
+        const rows = Array.isArray(json?.rows) ? json.rows : [];
+        const cfg = ind.csv;
+        if (cfg) {
+          const dateField = cfg.dateField;
+          const valueField = cfg.valueField;
+          let filtered = rows;
+          if (cfg.filter) {
+            filtered = rows.filter(
+              (r: any) => String(r[cfg.filter!.column] ?? "") === cfg.filter!.equals
+            );
+          }
+          series = filtered
+            .map((r: any) => {
+              const periodRaw = r[dateField as any];
+              const valueRaw = r[valueField as any];
+              const period = periodRaw == null ? "" : String(periodRaw);
+              const value =
+                typeof valueRaw === "number"
+                  ? valueRaw
+                  : Number.isFinite(Number(valueRaw))
+                  ? Number(valueRaw)
+                  : null;
+              return { period, value } as PulsoPoint;
+            })
+            .filter((p: PulsoPoint) => p.period && p.value != null);
+          if (cfg.reverse) series = series.slice().reverse();
+        }
+        break;
+      }
     }
 
     const last = pickLast(series);

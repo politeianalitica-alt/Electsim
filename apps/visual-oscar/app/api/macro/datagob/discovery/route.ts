@@ -27,6 +27,12 @@ const SUBTAB_KEYWORDS: Record<string, string[]> = {
   "productividad-competitividad": ["productividad", "I+D"],
   "empresas-beneficios": ["empresas", "DIRCE", "creacion empresas"],
   "hogares-empleo-vivienda": ["vivienda", "alquiler", "renta hogares"],
+  // Sprint F · 5 nuevas subtabs
+  "demografia-territorio": ["poblacion", "padron", "migraciones"],
+  "sociedad-bienestar": ["pobreza", "desigualdad", "renta hogares", "AROPE"],
+  "medio-rural": ["PAC", "FEGA", "agricultura", "regadio"],
+  "cultura-ocio": ["turismo", "frontur", "patrimonio", "cultura"],
+  "instituciones-estado": ["contratacion publica", "subvenciones", "BDNS", "PLACE"],
 };
 
 interface CkanResult {

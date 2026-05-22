@@ -38,11 +38,33 @@ export interface PulsoIndicatorMeta {
   /** Endpoint local que devuelve la serie temporal. */
   endpoint: string
   /** Adapter para extraer (lastValue, series, lastPeriod) del JSON. */
-  parser: 'ine-cnt-desglose' | 'ine-cnt-extra' | 'ine-ipc' | 'ine-epa' | 'imf-country' | 'eurostat-simple'
+  parser:
+    | 'ine-cnt-desglose'
+    | 'ine-cnt-extra'
+    | 'ine-ipc'
+    | 'ine-epa'
+    | 'imf-country'
+    | 'eurostat-simple'
+    | 'datos-gob-csv'
   /** Sub-clave dentro del JSON (p.ej. 'pib_total', 'general'). */
   parserKey?: string
   /** Si parserKey es para imf-country, el indicador IMF. */
   imfIndicator?: string
+  /**
+   * Config CSV (parser='datos-gob-csv'). El endpoint debe apuntar al proxy
+   * `/api/datos-gob/csv?url=...` y este bloque le dice al fetcher de qué columnas
+   * extraer periodo + valor.
+   */
+  csv?: {
+    /** Columna o índice (0-based) con la fecha/periodo. */
+    dateField: string | number
+    /** Columna o índice con el valor numérico. */
+    valueField: string | number
+    /** Filtro opcional: ej. {column:'CCAA', equals:'Andalucía'} */
+    filter?: { column: string; equals: string }
+    /** Si la serie es decreciente (más reciente primero) y queremos invertir */
+    reverse?: boolean
+  }
   threshold?: {
     amber?: number
     red?: number

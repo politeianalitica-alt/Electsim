@@ -315,8 +315,8 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
               }}
             >
               Fuentes: INE WSTempus, IMF DataMapper (WEO), Eurostat SDMX-JSON, BCE SDW, BIS, datos.gob.es.
-              Datos live cacheados 30min. Análisis IA Groq GPT-OSS con cascade Anthropic. Las lecturas IA no
-              son recomendaciones de inversión.
+              Datos live cacheados 30min. Análisis IA Groq GPT-OSS (server-side). Las lecturas IA no son
+              recomendaciones de inversión.
             </footer>
           </div>
         )}
