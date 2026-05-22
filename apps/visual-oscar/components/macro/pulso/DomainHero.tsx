@@ -47,6 +47,233 @@ function colorForValue(v: number | null, good: 'high' | 'low', amberThreshold: n
 }
 
 export function DomainHero({ subtabSlug, byId, accent }: Props) {
+  // ─── Sprint N2 · 10 primeras subtabs ──────────────────────────────────
+
+  if (subtabSlug === 'pulso-macro') {
+    const pib = findValue(byId, 'pib-yoy')
+    const paro = findValue(byId, 'paro-epa-general')
+    const ipc = findValue(byId, 'ipc-anual')
+    const cc = findValue(byId, 'cuenta-corriente')
+    return (
+      <DomainPanel accent={accent} title="Régimen macro · radiografía del ciclo" subtitle="Las 4 variables que definen el estado actual del cuadro macroeconómico español">
+        <div style={gridStyle}>
+          <BigMetric label="PIB YoY" value={pib} unit="%" decimals={2} color={colorForValue(pib, 'high', 0.5, -1)} caption="crecimiento real" period={findPeriod(byId, 'pib-yoy')} />
+          <BigMetric label="Paro EPA" value={paro} unit="%" decimals={2} color={colorForValue(paro, 'low', 12, 18)} caption="armonizado UE" period={findPeriod(byId, 'paro-epa-general')} />
+          <BigMetric label="IPC YoY" value={ipc} unit="%" decimals={2} color={colorForValue(ipc, 'low', 2, 4)} caption="objetivo BCE 2%" period={findPeriod(byId, 'ipc-anual')} />
+          <BigMetric label="CC %PIB" value={cc} unit="%" decimals={2} color={colorForValue(cc, 'high', -2, -4)} caption="financiación neta exterior" period={findPeriod(byId, 'cuenta-corriente')} />
+        </div>
+        <Interpretation>
+          {pib != null && paro != null && ipc != null
+            ? `PIB ${pib >= 0 ? '+' : ''}${pib.toFixed(1)}% · Paro ${paro.toFixed(1)}% · IPC ${ipc.toFixed(1)}%. ${pib > 1.5 && paro < 13 && ipc < 3 ? 'Expansión sólida con inflación contenida.' : pib > 0 && ipc < 4 ? 'Crecimiento moderado, vigilar persistencia inflacionaria.' : 'Cuadro mixto con riesgos asimétricos.'}`
+            : 'Cuadro macro español · cruzar PIB, paro y precios para identificar régimen.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'regimen-monetario') {
+    const hicp = findValue(byId, 'rm-hicp-eurostat') ?? findValue(byId, 'rm-ipc-anual')
+    const tipo10y = findValue(byId, 'rm-tipos-largo-eurostat')
+    const conf = findValue(byId, 'rm-confianza-consumidor-eurostat')
+    const reer = findValue(byId, 'rm-reer-bis')
+    return (
+      <DomainPanel accent={accent} title="Régimen monetario · transmisión BCE → economía real" subtitle="Inflación armonizada, coste financiación soberana, confianza y competitividad-precio">
+        <div style={gridStyle}>
+          <BigMetric label="HICP YoY" value={hicp} unit="%" decimals={2} color={colorForValue(hicp, 'low', 2, 4)} caption="armonizada UE · target BCE 2%" period={findPeriod(byId, 'rm-hicp-eurostat') || findPeriod(byId, 'rm-ipc-anual')} />
+          <BigMetric label="10Y yield" value={tipo10y} unit="%" decimals={2} color={colorForValue(tipo10y, 'low', 3.5, 5)} caption="coste financiación" period={findPeriod(byId, 'rm-tipos-largo-eurostat')} />
+          <BigMetric label="Conf. consumidor" value={conf} unit="" decimals={1} color="#8b5cf6" caption="balance opiniones" period={findPeriod(byId, 'rm-confianza-consumidor-eurostat')} />
+          <BigMetric label="REER" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption=">100 = apreciación" period={findPeriod(byId, 'rm-reer-bis')} />
+        </div>
+        <Interpretation>
+          {hicp != null
+            ? `Inflación armonizada ${hicp.toFixed(1)}% ${hicp > 4 ? '— por encima del umbral BCE, presión persistente' : hicp > 2 ? '— por encima del target 2% pero contenida' : '— consistente con target BCE'}. ${tipo10y != null ? `Yield 10Y ${tipo10y.toFixed(2)}% refleja primas de riesgo.` : ''}`
+            : 'Marco monetario · cruzar HICP, yields y competitividad para entender postura BCE y transmisión.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'margen-fiscal') {
+    const deuda = findValue(byId, 'mf-deuda-imf')
+    const saldo = findValue(byId, 'mf-saldo-total')
+    const primario = findValue(byId, 'mf-saldo-primario')
+    const deudaNeta = findValue(byId, 'mf-deuda-neta-eurostat') ?? findValue(byId, 'mf-deuda-neta-imf')
+    return (
+      <DomainPanel accent={accent} title="Margen fiscal · espacio para actuar del Estado" subtitle="Stock de deuda, saldo total, saldo primario y deuda neta — métricas Maastricht + AIReF">
+        <div style={gridStyle}>
+          <BigMetric label="Deuda %PIB" value={deuda} unit="%" decimals={1} color={colorForValue(deuda, 'low', 100, 120)} caption="Maastricht criterion" period={findPeriod(byId, 'mf-deuda-imf')} />
+          <BigMetric label="Saldo total" value={saldo} unit="%" decimals={2} color={colorForValue(saldo, 'high', -3, -6)} caption="déficit/superávit AAPP" period={findPeriod(byId, 'mf-saldo-total')} />
+          <BigMetric label="Saldo primario" value={primario} unit="%" decimals={2} color={colorForValue(primario, 'high', 0, -2)} caption="ex-intereses" period={findPeriod(byId, 'mf-saldo-primario')} />
+          <BigMetric label="Deuda neta" value={deudaNeta} unit="%" decimals={1} color={colorForValue(deudaNeta, 'low', 90, 110)} caption="bruta menos activos" period={findPeriod(byId, 'mf-deuda-neta-eurostat') || findPeriod(byId, 'mf-deuda-neta-imf')} />
+        </div>
+        <Interpretation>
+          {deuda != null && saldo != null
+            ? `Deuda ${deuda.toFixed(1)}% PIB con saldo ${saldo >= 0 ? '+' : ''}${saldo.toFixed(2)}%. ${deuda > 120 ? '⚠️ Espacio fiscal limitado, sostenibilidad bajo presión si suben tipos.' : deuda > 100 ? 'Espacio fiscal estrecho; vigilar prima de riesgo y refinanciación.' : 'Posición fiscal razonable dentro del rango Maastricht.'}`
+            : 'Margen fiscal español · cruzar deuda + saldo + intereses para evaluar sostenibilidad.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'dependencias-externas') {
+    const cc = findValue(byId, 'de-cuenta-corriente')
+    const exports = findValue(byId, 'de-exports-yoy-imf') ?? findValue(byId, 'de-cnt-exports')
+    const iip = findValue(byId, 'de-iip-eurostat')
+    const yield10 = findValue(byId, 'de-yield-10y')
+    return (
+      <DomainPanel accent={accent} title="Dependencias externas · exposición al exterior" subtitle="Balance corriente, dinámica exportaciones, posición inversión internacional, coste financiación externa">
+        <div style={gridStyle}>
+          <BigMetric label="CC %PIB" value={cc} unit="%" decimals={2} color={colorForValue(cc, 'high', -2, -4)} caption="ahorro neto exterior" period={findPeriod(byId, 'de-cuenta-corriente')} />
+          <BigMetric label="Exports YoY" value={exports} unit="%" decimals={2} color={colorForValue(exports, 'high', 2, 0)} caption="demanda externa" period={findPeriod(byId, 'de-exports-yoy-imf') || findPeriod(byId, 'de-cnt-exports')} />
+          <BigMetric label="IIP neta" value={iip} unit="%" decimals={1} color={colorForValue(iip, 'high', -50, -80)} caption="stock pasivos netos" period={findPeriod(byId, 'de-iip-eurostat')} />
+          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="prima de riesgo exterior" period={findPeriod(byId, 'de-yield-10y')} />
+        </div>
+        <Interpretation>
+          {cc != null && iip != null
+            ? `Cuenta corriente ${cc >= 0 ? '+' : ''}${cc.toFixed(2)}% · IIP neta ${iip.toFixed(1)}% PIB. ${cc > 0 && iip > -70 ? 'España exportador neto de ahorro y mejorando posición externa.' : cc < 0 ? 'Déficit corriente que requiere financiación exterior continuada.' : 'Posición externa estable pero deudora estructural.'}`
+            : 'Exposición exterior española · cruzar saldo corriente, IIP y yields para evaluar vulnerabilidad.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'riesgo-sistemico') {
+    const deuda = findValue(byId, 'rs-deuda-imf')
+    const deficit = findValue(byId, 'rs-deficit-imf')
+    const ipc = findValue(byId, 'rs-ipc-anual')
+    const paro = findValue(byId, 'rs-paro-imf')
+    const yield10 = findValue(byId, 'rs-yield-10y-eurostat')
+    return (
+      <DomainPanel accent={accent} title="Riesgo sistémico · termómetro de vulnerabilidades agregadas" subtitle="Estrés fiscal + financiero + inflacionario + laboral cruzados con umbrales académicos">
+        <div style={gridStyle}>
+          <BigMetric label="Deuda %PIB" value={deuda} unit="%" decimals={1} color={colorForValue(deuda, 'low', 100, 120)} caption="Maastricht criterion" period={findPeriod(byId, 'rs-deuda-imf')} />
+          <BigMetric label="Déficit" value={deficit} unit="%" decimals={2} color={colorForValue(deficit, 'high', -3, -6)} caption="Pacto Estabilidad" period={findPeriod(byId, 'rs-deficit-imf')} />
+          <BigMetric label="IPC YoY" value={ipc} unit="%" decimals={2} color={colorForValue(ipc, 'low', 2, 4)} caption="presión precios" period={findPeriod(byId, 'rs-ipc-anual')} />
+          <BigMetric label="Paro" value={paro} unit="%" decimals={1} color={colorForValue(paro, 'low', 12, 18)} caption="estrés laboral" period={findPeriod(byId, 'rs-paro-imf')} />
+          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="prima riesgo soberano" period={findPeriod(byId, 'rs-yield-10y-eurostat')} />
+        </div>
+        <Interpretation>
+          {deuda != null && paro != null
+            ? `Estrés sistémico actual · deuda ${deuda.toFixed(1)}% · paro ${paro.toFixed(1)}% · IPC ${ipc?.toFixed(1) ?? '?'}%. ${deuda > 120 || paro > 18 || (ipc != null && ipc > 4) ? '⚠️ Al menos un umbral rojo cruzado · vulnerabilidad elevada.' : 'Indicadores dentro de bandas amber/verde · riesgo contenido pero monitorizable.'}`
+            : 'Termómetro de riesgo sistémico español · 5 dimensiones cruzadas con umbrales académicos para detectar tensión agregada.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'mercados-activos') {
+    // Mercados usa endpoints externos (Finnhub) → DomainHero muestra macro context
+    const reer = findValue(byId, 'ma-reer-bis')
+    const yield10 = findValue(byId, 'ma-tipo-largo-eurostat')
+    const tipoCorto = findValue(byId, 'ma-tipo-corto-eurostat')
+    const inflacion = findValue(byId, 'ma-inflacion-imf')
+    return (
+      <DomainPanel accent={accent} title="Mercados · qué descuentan los activos del régimen macro" subtitle="Yields, FX, inflación esperada y competitividad — el ancla macroeconómica de los precios de activos">
+        <div style={gridStyle}>
+          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="coste capital benchmark" period={findPeriod(byId, 'ma-tipo-largo-eurostat')} />
+          <BigMetric label="Tipo corto" value={tipoCorto} unit="%" decimals={2} color="#0F766E" caption="referencia BCE" period={findPeriod(byId, 'ma-tipo-corto-eurostat')} />
+          <BigMetric label="Inflación" value={inflacion} unit="%" decimals={2} color={colorForValue(inflacion, 'low', 2, 4)} caption="ancla nominal" period={findPeriod(byId, 'ma-inflacion-imf')} />
+          <BigMetric label="REER" value={reer} unit="" decimals={1} color="#7c3aed" caption="competitividad-precio" period={findPeriod(byId, 'ma-reer-bis')} />
+        </div>
+        <Interpretation>
+          Régimen mercado · debajo aparece IBEX live + paneles enriquecidos (sector breakdown, yield slope, market breadth, FX matrix, commodity heatmap). Cruza yields + inflación esperada para entender qué descuentan los activos en términos de crecimiento, política monetaria y prima de riesgo país.
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'flujos-capital') {
+    const cc = findValue(byId, 'fc-cuenta-corriente')
+    const iip = findValue(byId, 'fc-iip-eurostat')
+    const yield10 = findValue(byId, 'fc-tipos-largo-eurostat')
+    const ctaFin = findValue(byId, 'fc-bop-cuenta-financiera-eurostat')
+    return (
+      <DomainPanel accent={accent} title="Flujos de capital · entrada/salida y posición externa neta" subtitle="Saldo corriente, posición internacional acumulada, cuenta financiera y coste financiación exterior">
+        <div style={gridStyle}>
+          <BigMetric label="CC %PIB" value={cc} unit="%" decimals={2} color={colorForValue(cc, 'high', -2, -4)} caption="exportador/importador ahorro" period={findPeriod(byId, 'fc-cuenta-corriente')} />
+          <BigMetric label="IIP neta" value={iip} unit="%" decimals={1} color={colorForValue(iip, 'high', -50, -80)} caption="stock pasivos netos" period={findPeriod(byId, 'fc-iip-eurostat')} />
+          <BigMetric label="Cta financiera" value={ctaFin} unit="%" decimals={2} color="#0EA5E9" caption="flujos netos BoP" period={findPeriod(byId, 'fc-bop-cuenta-financiera-eurostat')} />
+          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="coste capital exterior" period={findPeriod(byId, 'fc-tipos-largo-eurostat')} />
+        </div>
+        <Interpretation>
+          {iip != null && cc != null
+            ? `Posición externa neta ${iip.toFixed(1)}% PIB · cuenta corriente ${cc >= 0 ? '+' : ''}${cc.toFixed(2)}%. ${cc > 0 ? 'Mejora la posición externa (entrada neta de capital reducida).' : 'Necesidad de financiación exterior continua mantiene el stock pasivo elevado.'}`
+            : 'Flujos de capital · cruzar IIP + saldo corriente + yields para evaluar la sostenibilidad de la posición externa.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'productividad-competitividad') {
+    const pibPc = findValue(byId, 'pc-pib-percapita')
+    const inversion = findValue(byId, 'pc-inversion-bruta')
+    const idGdp = findValue(byId, 'pc-id-pib-eurostat')
+    const reer = findValue(byId, 'pc-reer-bis')
+    return (
+      <DomainPanel accent={accent} title="Productividad & competitividad · capacidad estructural" subtitle="Renta por habitante, inversión productiva, esfuerzo I+D y competitividad-precio internacional">
+        <div style={gridStyle}>
+          <BigMetric label="PIB pc" value={pibPc} unit=" USD" decimals={0} color="#0F766E" caption="renta media" period={findPeriod(byId, 'pc-pib-percapita')} />
+          <BigMetric label="Inversión %PIB" value={inversion} unit="%" decimals={2} color={colorForValue(inversion, 'high', 22, 18)} caption="FBCF total" period={findPeriod(byId, 'pc-inversion-bruta')} />
+          <BigMetric label="I+D %PIB" value={idGdp} unit="%" decimals={2} color={colorForValue(idGdp, 'high', 2, 1.5)} caption="vs UE-27 ~2.3%" period={findPeriod(byId, 'pc-id-pib-eurostat')} />
+          <BigMetric label="REER" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption=">100 = pérdida competitividad" period={findPeriod(byId, 'pc-reer-bis')} />
+        </div>
+        <Interpretation>
+          {idGdp != null && pibPc != null
+            ? `Renta ${(pibPc / 1000).toFixed(1)}k USD pc · I+D ${idGdp.toFixed(2)}% PIB ${idGdp < 1.5 ? '— gap estructural con UE de ~0.8 pp' : '— en mejora, pero aún por debajo de la media UE'}. La competitividad estructural se juega en cerrar el gap de inversión y I+D.`
+            : 'Competitividad estructural · cruzar renta + inversión + I+D + REER para evaluar capacidad de crecimiento sostenible.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'empresas-beneficios') {
+    const pib = findValue(byId, 'eb-pib-imf')
+    const costeLaboral = findValue(byId, 'eb-etcl-coste-laboral')
+    const inversion = findValue(byId, 'eb-inversion-bruta')
+    const confianza = findValue(byId, 'eb-confianza-empresarial-eurostat')
+    return (
+      <DomainPanel accent={accent} title="Empresas & beneficios · salud del tejido empresarial" subtitle="Crecimiento, costes laborales, inversión y confianza industrial — los drivers de márgenes y empleo">
+        <div style={gridStyle}>
+          <BigMetric label="PIB YoY" value={pib} unit="%" decimals={2} color={colorForValue(pib, 'high', 1, 0)} caption="ciclo económico" period={findPeriod(byId, 'eb-pib-imf')} />
+          <BigMetric label="Coste laboral" value={costeLaboral} unit=" €/mes" decimals={0} color="#7c3aed" caption="ETCL trimestral" period={findPeriod(byId, 'eb-etcl-coste-laboral')} />
+          <BigMetric label="Inversión %PIB" value={inversion} unit="%" decimals={2} color={colorForValue(inversion, 'high', 22, 18)} caption="capex empresarial" period={findPeriod(byId, 'eb-inversion-bruta')} />
+          <BigMetric label="Conf. industrial" value={confianza} unit="" decimals={1} color={colorForValue(confianza, 'high', 0, -10)} caption="balance opiniones" period={findPeriod(byId, 'eb-confianza-empresarial-eurostat')} />
+        </div>
+        <Interpretation>
+          {pib != null && inversion != null
+            ? `Ciclo PIB ${pib >= 0 ? '+' : ''}${pib.toFixed(1)}% · inversión ${inversion.toFixed(1)}% PIB. ${pib > 1.5 && inversion > 22 ? 'Tejido empresarial expansivo con capex sólido.' : 'Crecimiento moderado, vigilar capex como anticipador de empleo y márgenes.'}`
+            : 'Salud corporativa española · cruzar PIB + capex + costes laborales + confianza para anticipar márgenes y empleo futuro.'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  if (subtabSlug === 'hogares-empleo-vivienda') {
+    const paro = findValue(byId, 'hev-paro-epa-general')
+    const paroJoven = findValue(byId, 'hev-paro-epa-jovenes')
+    const ipv = findValue(byId, 'hev-ipv-general')
+    const etcl = findValue(byId, 'hev-etcl-coste-laboral')
+    const ipc = findValue(byId, 'hev-ipc-anual')
+    return (
+      <DomainPanel accent={accent} title="Hogares · ¿llega la mejora macro a la vida material?" subtitle="Empleo + salarios + vivienda + inflación cruzados — el termómetro real del bienestar agregado">
+        <div style={gridStyle}>
+          <BigMetric label="Paro EPA" value={paro} unit="%" decimals={1} color={colorForValue(paro, 'low', 12, 18)} caption="armonizado UE" period={findPeriod(byId, 'hev-paro-epa-general')} />
+          <BigMetric label="Paro <25" value={paroJoven} unit="%" decimals={1} color={colorForValue(paroJoven, 'low', 25, 35)} caption="exclusión juvenil" period={findPeriod(byId, 'hev-paro-epa-jovenes')} />
+          <BigMetric label="IPV vivienda" value={ipv} unit="" decimals={1} color="#dc2626" caption="precio vivienda" period={findPeriod(byId, 'hev-ipv-general')} />
+          <BigMetric label="Coste laboral" value={etcl} unit=" €/mes" decimals={0} color="#0F766E" caption="ETCL salario+cot." period={findPeriod(byId, 'hev-etcl-coste-laboral')} />
+          <BigMetric label="IPC YoY" value={ipc} unit="%" decimals={2} color={colorForValue(ipc, 'low', 2, 4)} caption="erosión poder adquisitivo" period={findPeriod(byId, 'hev-ipc-anual')} />
+        </div>
+        <Interpretation>
+          {paro != null && paroJoven != null && ipc != null
+            ? `Paro ${paro.toFixed(1)}% · juvenil ${paroJoven.toFixed(1)}% · IPC ${ipc.toFixed(1)}%. ${paro < 14 && paroJoven > 25 ? 'Empleo agregado mejora pero la presión sobre jóvenes y rentas reales sigue activa. Vigilar alquiler/renta y AROPE como termómetros sociales.' : 'Cuadro de hogares · vigilar cruce empleo–vivienda–salarios reales para evaluar si la macro está llegando a la vida material.'}`
+            : 'Termómetro de bienestar agregado · empleo + vivienda + salarios reales + percepción CIS. Próximas secciones: segmentos y CIS-cruces (Sprint N4).'}
+        </Interpretation>
+      </DomainPanel>
+    )
+  }
+
+  // ─── Sprint F · 5 nuevas subtabs (mantenidas igual) ────────────────────
+
   if (subtabSlug === 'demografia-territorio') {
     const edadMedia = findValue(byId, 'dt-poblacion-eurostat')
     const fertilidad = findValue(byId, 'dt-fertilidad-eurostat')
