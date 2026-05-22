@@ -1,15 +1,18 @@
 'use client'
 /**
- * `<AIChartAnalysisButton />` · Pill button "✦ Explicar con IA" que
- * dispara `/api/macro/ai/analyze-chart` y renderiza `<AIInsightPanel>`
- * inline debajo del chart cuando responde.
+ * `<AIChartAnalysisButton />` · AUTO-LOAD del análisis Groq al montar.
+ *
+ * Comportamiento actualizado (2026-05-22):
+ * - Se dispara automáticamente al montar; no requiere click.
+ * - Render por defecto: panel inline con la lectura IA.
+ * - Botón "Regenerar IA" disponible tras éxito para ignorar caché.
  *
  * Caché en cliente vía sessionStorage por `indicatorId + last period`
- * (TTL durante la sesión) → segundo click instantáneo.
+ * (TTL durante la sesión) → re-renders instantáneos.
  *
- * Props: `input` = `ChartAnalysisInput` (sin tier; el botón decide).
+ * Props: `input` = `ChartAnalysisInput` (sin tier; el componente decide).
  */
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import type {
   ChartAnalysisInput,
   ChartAnalysisResponse,
@@ -100,50 +103,55 @@ export function AIChartAnalysisButton({ input, accent = '#7c3aed', inline = true
     run()
   }, [input, run])
 
+  // Auto-dispara el análisis al montar (cuando hay input válido y >= 4 puntos).
+  // Se re-ejecuta solo si cambia el indicatorId o el último periodo.
+  const indicatorId = input.indicatorId
+  const lastPeriod = input.series[input.series.length - 1]?.period
+  useEffect(() => {
+    if (input.series && input.series.length >= 4) {
+      run()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indicatorId, lastPeriod])
+
   return (
     <>
-      {state === 'idle' && (
-        <button
-          onClick={run}
-          style={pillStyle(accent, false)}
-          type="button"
-        >
-          ✦ Explicar con IA
-        </button>
-      )}
       {state === 'loading' && (
-        <button disabled style={pillStyle(accent, true)} type="button">
-          <span className="ai-spin" style={{ display: 'inline-block' }}>✦</span> Analizando…
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: 8, fontSize: 12, color: accent, fontWeight: 600 }}>
+          <span className="ai-spin" style={{ display: 'inline-block' }}>✦</span>
+          <span>Groq leyendo la curva · cargando análisis…</span>
+        </div>
       )}
       {state === 'error' && (
-        <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
-          <span style={{ fontSize: 11, color: '#dc2626' }}>Error IA · {error}</span>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '6px 12px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8 }}>
+          <span style={{ fontSize: 11, color: '#dc2626' }}>Análisis IA no disponible · {error}</span>
           <button onClick={run} style={pillStyle('#dc2626', false)} type="button">
             ↻ Reintentar
           </button>
         </div>
       )}
-      {state === 'success' && (
-        <button
-          onClick={regenerate}
-          style={pillStyle(accent, false)}
-          type="button"
-          title="Regenerar análisis (ignora caché)"
-        >
-          ↻ Regenerar IA
-        </button>
-      )}
 
       {inline && state === 'success' && data && (
-        <AIInsightPanel
-          data={data}
-          accent={accent}
-          onClose={() => {
-            setData(null)
-            setState('idle')
-          }}
-        />
+        <>
+          <AIInsightPanel
+            data={data}
+            accent={accent}
+            onClose={() => {
+              setData(null)
+              setState('idle')
+            }}
+          />
+          <div style={{ marginTop: 6, textAlign: 'right' }}>
+            <button
+              onClick={regenerate}
+              style={pillStyle(accent, false)}
+              type="button"
+              title="Regenerar análisis (ignora caché)"
+            >
+              ↻ Regenerar IA
+            </button>
+          </div>
+        </>
       )}
 
       <style jsx>{`

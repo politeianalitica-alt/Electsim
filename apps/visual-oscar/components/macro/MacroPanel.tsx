@@ -2,9 +2,9 @@
 /**
  * `<MacroPanel />` · Wrapper de sección con header + badge LIVE/STALE/MISSING.
  *
- * Si recibe `aiAnalysis`, renderiza un botón "✦ Explicar con IA" en el
- * header (rightSlot) que dispara `/api/macro/ai/analyze-chart` y muestra
- * el análisis estructurado debajo del body del panel.
+ * Si recibe `aiAnalysis`, AUTO-CARGA el análisis Groq al montar (sin botón).
+ * El bloque IA aparece directamente debajo del body con headline,
+ * trend/why/consequences/risks/watchlist + opción "Regenerar IA".
  */
 import { ReactNode } from 'react'
 import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'

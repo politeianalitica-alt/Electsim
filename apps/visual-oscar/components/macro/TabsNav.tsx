@@ -7,6 +7,7 @@
  * - Indicador numérico (1, 2, 3...) en cada pill
  * - Click cambia el activeId
  */
+import Link from 'next/link'
 import { MACRO_TABS, MacroTabId } from '@/lib/macro/sources-matrix'
 
 interface TabsNavProps {
@@ -40,30 +41,60 @@ export function TabsNav({ activeId, onChange }: TabsNavProps) {
       >
         {MACRO_TABS.map((tab) => {
           const isActive = tab.id === activeId
+          const pillStyle: React.CSSProperties = {
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '8px 14px',
+            borderRadius: 999,
+            border: '1px solid',
+            borderColor: isActive ? tab.themeAccent : '#e5e7eb',
+            background: isActive ? '#fff' : '#f9fafb',
+            color: isActive ? tab.themeAccent : '#475569',
+            fontWeight: isActive ? 700 : 500,
+            fontSize: 12,
+            fontFamily: 'inherit',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            scrollSnapAlign: 'start',
+            flexShrink: 0,
+            boxShadow: isActive ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
+            transition: 'all 180ms ease',
+            textDecoration: 'none',
+          }
+          const numberBadge = (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 18,
+                height: 18,
+                borderRadius: '50%',
+                background: isActive ? tab.themeAccent : '#e5e7eb',
+                color: isActive ? '#fff' : '#64748b',
+                fontSize: 10,
+                fontWeight: 700,
+                fontVariantNumeric: 'tabular-nums',
+              }}
+            >
+              {tab.number}
+            </span>
+          )
+          // Tabs nuevos (11-15) navegan a su landing v3 propio
+          if (tab.linkTo) {
+            return (
+              <Link key={tab.id} href={tab.linkTo} title={tab.description} style={pillStyle}>
+                {numberBadge}
+                <span>{tab.label}</span>
+              </Link>
+            )
+          }
           return (
             <button
               key={tab.id}
               onClick={() => onChange(tab.id)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '8px 14px',
-                borderRadius: 999,
-                border: '1px solid',
-                borderColor: isActive ? tab.themeAccent : '#e5e7eb',
-                background: isActive ? '#fff' : '#f9fafb',
-                color: isActive ? tab.themeAccent : '#475569',
-                fontWeight: isActive ? 700 : 500,
-                fontSize: 12,
-                fontFamily: 'inherit',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                scrollSnapAlign: 'start',
-                flexShrink: 0,
-                boxShadow: isActive ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
-                transition: 'all 180ms ease',
-              }}
+              style={pillStyle}
               onMouseEnter={(e) => {
                 if (!isActive) {
                   e.currentTarget.style.background = '#fff'
@@ -78,23 +109,7 @@ export function TabsNav({ activeId, onChange }: TabsNavProps) {
               }}
               title={tab.description}
             >
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 18,
-                  height: 18,
-                  borderRadius: '50%',
-                  background: isActive ? tab.themeAccent : '#e5e7eb',
-                  color: isActive ? '#fff' : '#64748b',
-                  fontSize: 10,
-                  fontWeight: 700,
-                  fontVariantNumeric: 'tabular-nums',
-                }}
-              >
-                {tab.number}
-              </span>
+              {numberBadge}
               <span>{tab.label}</span>
             </button>
           )

@@ -31,6 +31,11 @@ export type MacroTabId =
   | 'productividad-competitividad'
   | 'empresas-beneficios'
   | 'hogares-empleo-vivienda'
+  | 'demografia-territorio'
+  | 'sociedad-bienestar'
+  | 'medio-rural'
+  | 'cultura-ocio'
+  | 'instituciones-estado'
 
 export interface MacroTab {
   id: MacroTabId
@@ -45,6 +50,8 @@ export interface MacroTab {
     endpoint?: string
   }[]
   themeAccent: string  // hex color for tab accent stripe
+  /** Si está presente, la tab navega a esta URL en lugar de renderizar inline. */
+  linkTo?: string
 }
 
 export const MACRO_TABS: MacroTab[] = [
@@ -193,6 +200,77 @@ export const MACRO_TABS: MacroTab[] = [
       { key: 'cis', name: 'CIS · Problemas vivienda', cadence: 'monthly', endpoint: '/api/cis/problemas' },
     ],
     themeAccent: '#16A34A', // green
+  },
+  // Sprint F · 5 nuevas subtabs (11-15) · cada una linkea a su landing v3 dedicado
+  {
+    id: 'demografia-territorio',
+    number: 11,
+    label: 'Demografía & territorio',
+    shortLabel: 'Demografía',
+    description: 'Cifras de población, migraciones, dinámica territorial, vivienda y cohesión urbana-rural.',
+    sources: [
+      { key: 'ine', name: 'INE · Padrón continuo', cadence: 'annual', endpoint: '/api/ine/serie' },
+      { key: 'ine', name: 'INE · IPV vivienda', cadence: 'quarterly', endpoint: '/api/ine/ipv' },
+      { key: 'imf', name: 'IMF · PIB per cápita', cadence: 'annual', endpoint: '/api/imf/country' },
+    ],
+    themeAccent: '#0EA5E9', // sky
+    linkTo: '/macro/demografia-territorio',
+  },
+  {
+    id: 'sociedad-bienestar',
+    number: 12,
+    label: 'Sociedad, bienestar & desigualdad',
+    shortLabel: 'Bienestar',
+    description: 'Distribución del bienestar: pobreza, desigualdad, renta real, vivienda, educación, sanidad, prestaciones.',
+    sources: [
+      { key: 'ine', name: 'INE EPA paro general + jóvenes', cadence: 'quarterly', endpoint: '/api/ine/epa' },
+      { key: 'ine', name: 'INE IPV', cadence: 'quarterly', endpoint: '/api/ine/ipv' },
+      { key: 'ine', name: 'INE ETCL coste laboral', cadence: 'quarterly', endpoint: '/api/ine/etcl' },
+      { key: 'imf', name: 'IMF PIB pc + gasto AAPP', cadence: 'annual', endpoint: '/api/imf/country' },
+    ],
+    themeAccent: '#DC2626', // red
+    linkTo: '/macro/sociedad-bienestar',
+  },
+  {
+    id: 'medio-rural',
+    number: 13,
+    label: 'Medio rural & cohesión territorial',
+    shortLabel: 'Rural',
+    description: 'Vulnerabilidad rural, agricultura, ganadería, agua, PAC, servicios públicos rurales y cohesión territorial.',
+    sources: [
+      { key: 'imf', name: 'IMF · PIB pc + inversión + paro', cadence: 'annual', endpoint: '/api/imf/country' },
+      { key: 'ine', name: 'INE Frontur · turismo rural', cadence: 'monthly', endpoint: '/api/ine/frontur' },
+      { key: 'ine', name: 'INE IPC · alimentos', cadence: 'monthly', endpoint: '/api/ine/ipc' },
+    ],
+    themeAccent: '#16A34A', // green
+    linkTo: '/macro/medio-rural',
+  },
+  {
+    id: 'cultura-ocio',
+    number: 14,
+    label: 'Cultura, ocio & economía social',
+    shortLabel: 'Cultura',
+    description: 'Turismo, cultura, industrias creativas, ocio, deporte, patrimonio, eventos y presión turística.',
+    sources: [
+      { key: 'ine', name: 'INE Frontur turistas internacionales', cadence: 'monthly', endpoint: '/api/ine/frontur' },
+      { key: 'ine', name: 'INE IPV + IPC servicios', cadence: 'quarterly', endpoint: '/api/ine/ipv' },
+      { key: 'imf', name: 'IMF PIB + exports + paro', cadence: 'annual', endpoint: '/api/imf/country' },
+    ],
+    themeAccent: '#8B5CF6', // violet
+    linkTo: '/macro/cultura-ocio',
+  },
+  {
+    id: 'instituciones-estado',
+    number: 15,
+    label: 'Instituciones, sector público & capacidad estatal',
+    shortLabel: 'Instituciones',
+    description: 'Ejecución presupuestaria, contratación pública, subvenciones, justicia, empleo público, transparencia.',
+    sources: [
+      { key: 'imf', name: 'IMF · 6 indicadores fiscales (deuda/saldo/ingresos/gasto)', cadence: 'annual', endpoint: '/api/imf/country' },
+      { key: 'ine', name: 'INE DIRCE · altas empresariales', cadence: 'annual', endpoint: '/api/ine/dirce-creacion' },
+    ],
+    themeAccent: '#0891B2', // cyan
+    linkTo: '/macro/instituciones-estado',
   },
 ]
 
