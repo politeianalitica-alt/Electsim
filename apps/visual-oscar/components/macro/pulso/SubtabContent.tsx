@@ -17,6 +17,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { HeroEjecutivo } from './HeroEjecutivo'
+import { DomainHero } from './DomainHero'
 import { TermometroPulso } from './TermometroPulso'
 import { FamilyKpiGrid } from './FamilyKpiGrid'
 import { CalendarioReleases } from './CalendarioReleases'
@@ -204,6 +205,9 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
             signals={signalsForHero}
             loading={loading}
           />
+
+          {/* Sprint M F1 · DomainHero específico por subtab (visual identity propia) */}
+          <DomainHero subtabSlug={subtabSlug} byId={overview.byId} accent={config.accent} />
 
           <TermometroPulso
             score={overview.termometro.score}

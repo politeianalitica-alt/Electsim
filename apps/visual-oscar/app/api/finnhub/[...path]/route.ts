@@ -35,7 +35,30 @@ export const revalidate = 0
 
 const FH = 'https://finnhub.io/api/v1'
 
-const SPANISH_ADRS = { SAN: 'Banco Santander', BBVA: 'BBVA', TEF: 'Telefónica', FER: 'Ferrovial' }
+// Sprint M F2: expanded IBEX-35 coverage. Antes sólo 4 ADRs (SAN/BBVA/TEF/FER)
+// → ahora 14 tickers cubriendo bancos, energía, telecom, retail, infraestructuras,
+// utilities y empresas tractoras. US ADRs cuando existen + OTC + Madrid (.MC).
+const SPANISH_ADRS = {
+  // Bancos (NYSE ADRs)
+  SAN: 'Banco Santander',
+  BBVA: 'BBVA',
+  // Telecom
+  TEF: 'Telefónica',
+  // Infraestructuras
+  FER: 'Ferrovial',
+  // OTC ADRs (Pink Sheets)
+  REPYY: 'Repsol',
+  IBDRY: 'Iberdrola',
+  ELEZF: 'Endesa',
+  GGGRY: 'Gas Natural / Naturgy',
+  IBKRY: 'Inditex',
+  CLNXY: 'Cellnex Telecom',
+  // Madrid Exchange (Finnhub free tier soporta .MC)
+  'CABK.MC': 'CaixaBank',
+  'AENA.MC': 'Aena',
+  'AMS.MC': 'Amadeus IT',
+  'ACS.MC': 'ACS Construcción',
+}
 const US_BIG_TECH = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA']
 const EU_BIG_CAPS = { LVMUY: 'LVMH', SAP: 'SAP', ASML: 'ASML', SIEGY: 'Siemens' }
 const CRYPTO_TOP = ['BINANCE:BTCUSDT', 'BINANCE:ETHUSDT']

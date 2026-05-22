@@ -49,6 +49,21 @@ function isReasoningModel(model: string): boolean {
   return /gpt-oss/i.test(model);
 }
 
+/**
+ * Modelos Groq que aceptan response_format=json_schema con strict validation.
+ * Lista basada en docs Groq septiembre 2025. Si el modelo activo NO está
+ * aquí, generateJSON cae a json_object con schema-as-prompt-hint para
+ * mantener compatibilidad universal.
+ */
+const MODELS_WITH_JSON_SCHEMA_SUPPORT = new Set<string>([
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
+  "qwen/qwen3-32b",
+  "deepseek-r1-distill-llama-70b",
+  "meta-llama/llama-4-scout-17b-16e-instruct",
+  "meta-llama/llama-4-maverick-17b-128e-instruct",
+]);
+
 // ─── Helper: convertir AiMessage[] → OpenAI chat format ─────────────────
 
 interface OpenAIMessage {
@@ -259,7 +274,18 @@ export async function generateJSON<T = unknown>(
     payload.reasoning_format = "hidden";
   }
 
-  if (opts.jsonSchema) {
+  // Sprint M (2026-05-22): Smart response_format dispatch.
+  // Algunos modelos Groq NO soportan response_format=json_schema (devuelven
+  // HTTP 400 "This model does not support response format json_schema"):
+  //   - llama-3.3-70b-versatile, llama-3.1-8b-instant
+  // Otros sí lo soportan:
+  //   - openai/gpt-oss-120b, openai/gpt-oss-20b
+  //   - qwen/qwen3-32b, deepseek-r1-distill-llama-70b, llama-4-*
+  // Para no romper en model swaps, detectamos capacidad y caemos a
+  // json_object (compatible universalmente) inyectando el schema como hint
+  // en el system prompt.
+  const supportsJsonSchema = MODELS_WITH_JSON_SCHEMA_SUPPORT.has(model);
+  if (opts.jsonSchema && supportsJsonSchema) {
     payload.response_format = {
       type: "json_schema",
       json_schema: {
@@ -268,6 +294,19 @@ export async function generateJSON<T = unknown>(
         strict: true,
       },
     };
+  } else if (opts.jsonSchema) {
+    // Modelo no soporta json_schema → usar json_object + inyectar schema en
+    // system prompt para guiar al modelo.
+    payload.response_format = { type: "json_object" };
+    const schemaHint = `\n\nIMPORTANTE: La respuesta debe ser JSON VÁLIDO que cumpla este schema exacto (sin propiedades adicionales):\n\n${JSON.stringify(opts.jsonSchema, null, 2).slice(0, 4000)}\n\nResponde SÓLO con el objeto JSON, sin markdown ni comentarios.`;
+    if (payload.messages.length > 0 && payload.messages[0].role === "system") {
+      payload.messages[0] = {
+        ...payload.messages[0],
+        content: payload.messages[0].content + schemaHint,
+      };
+    } else {
+      payload.messages.unshift({ role: "system", content: schemaHint });
+    }
   } else {
     payload.response_format = { type: "json_object" };
   }
