@@ -31,10 +31,14 @@ export function MercadosActivosTab() {
     return () => { alive = false }
   }, [])
 
-  const ibex = finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex
-  const adrs = finnhub?.adrs || finnhub?.spanish_stocks || []
-  const bigtech = finnhub?.bigtech || finnhub?.us_bigtech || []
-  const crypto = finnhub?.crypto || []
+  // Finnhub backend devuelve `spain_adrs`, `us_big_tech`, `eu_big_caps`, `crypto`, `change_percent`
+  // Normalizamos a la nomenclatura usada en el componente (`adrs`, `bigtech`, `change_pct`)
+  const normalize = (q: any) => q && ({ ...q, change_pct: q.change_pct ?? q.change_percent, volume: q.volume ?? q.v })
+  const ibex = (finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex) ? normalize(finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex) : null
+  const adrs = (finnhub?.spain_adrs || finnhub?.adrs || finnhub?.spanish_stocks || []).map(normalize)
+  const bigtech = (finnhub?.us_big_tech || finnhub?.bigtech || finnhub?.us_bigtech || []).map(normalize)
+  const eu_big_caps = (finnhub?.eu_big_caps || []).map(normalize)
+  const crypto = (finnhub?.crypto || []).map(normalize)
   const yieldCurve = markets?.yield_curve || []
   const policyRates = markets?.policy_rates || []
   const fxRates = markets?.fx || markets?.exchange_rates || []

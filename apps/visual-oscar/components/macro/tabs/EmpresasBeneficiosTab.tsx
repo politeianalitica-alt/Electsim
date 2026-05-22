@@ -26,9 +26,11 @@ export function EmpresasBeneficiosTab() {
     return () => { alive = false }
   }, [])
 
-  const adrs = finnhub?.adrs || finnhub?.spanish_stocks || []
-  const ibex = finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex
-  const bigtech = finnhub?.bigtech || finnhub?.us_bigtech || []
+  // Finnhub backend devuelve `spain_adrs`, `us_big_tech`, `change_percent` (no `change_pct`)
+  const normalize = (q: any) => q && ({ ...q, change_pct: q.change_pct ?? q.change_percent })
+  const adrs = (finnhub?.spain_adrs || finnhub?.adrs || finnhub?.spanish_stocks || []).map(normalize)
+  const ibex = (finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex) ? normalize(finnhub?.indices?.find?.((q: any) => q.symbol?.includes('IBEX')) || finnhub?.ibex) : null
+  const bigtech = (finnhub?.us_big_tech || finnhub?.bigtech || finnhub?.us_bigtech || []).map(normalize)
   const crypto = finnhub?.crypto || []
 
   const gainers = adrs.filter((a: any) => (a.change_pct ?? 0) > 0)
