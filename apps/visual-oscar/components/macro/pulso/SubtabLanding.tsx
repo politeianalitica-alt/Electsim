@@ -27,6 +27,10 @@ import { CalendarioReleases } from './CalendarioReleases'
 import { AlertasMacro } from './AlertasMacro'
 import { DatosGobRadar } from './DatosGobRadar'
 import { RadarChart } from '../charts/RadarChart'
+import { Treemap } from '../charts/Treemap'
+import { SECTOR_CATALOG } from '@/lib/macro/sector-catalog'
+import { COMPANY_CATALOG } from '@/lib/macro/company-catalog'
+import { ASSET_CATALOG } from '@/lib/macro/asset-catalog'
 import { getSubtab, FAMILY_META, type SubtabConfig } from '@/lib/macro/subtab-registry'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
@@ -225,6 +229,79 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
             <FamilyKpiGrid byFamily={overview.byFamily} subtabSlug={subtabSlug} />
 
             <CalendarioReleases />
+
+            {/* Bloque sectorial · sólo en empresas-beneficios */}
+            {subtabSlug === 'empresas-beneficios' && (
+              <>
+                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
+                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                    Composición sectorial · {SECTOR_CATALOG.length} sectores · click → detalle
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
+                    Tamaño = peso aproximado sobre PIB · color por sector
+                  </p>
+                  <div style={{ marginTop: 12 }}>
+                    <Treemap
+                      data={SECTOR_CATALOG.map((s) => ({
+                        id: s.id,
+                        label: s.label,
+                        value: s.gdpShare,
+                        href: `/macro/empresas-beneficios/sector/${s.id}`,
+                      }))}
+                      width={760}
+                      height={320}
+                      unit="% PIB"
+                      formatValue={(v) => `${v.toFixed(1)}% PIB`}
+                    />
+                  </div>
+                </section>
+
+                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
+                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                    Cotizadas tractoras · {COMPANY_CATALOG.length} empresas IBEX core
+                  </p>
+                  <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 6 }}>
+                    {COMPANY_CATALOG.map((c) => (
+                      <Link
+                        key={c.id}
+                        href={`/macro/empresas-beneficios/company/${c.id}`}
+                        style={{
+                          background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 6, padding: '6px 10px',
+                          fontSize: 11, color: '#0f172a', textDecoration: 'none', fontWeight: 600,
+                        }}
+                      >
+                        {c.shortName}
+                        <span style={{ display: 'block', fontSize: 9, color: '#64748b', fontWeight: 400 }}>{c.sector}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              </>
+            )}
+
+            {/* Bloque activos · sólo en mercados-activos */}
+            {subtabSlug === 'mercados-activos' && (
+              <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
+                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                  Activos financieros · {ASSET_CATALOG.length} con análisis IA por activo
+                </p>
+                <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8 }}>
+                  {ASSET_CATALOG.map((a) => (
+                    <Link
+                      key={a.id}
+                      href={`/macro/mercados-activos/asset/${a.id}`}
+                      style={{
+                        display: 'block', background: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: 8, padding: 10,
+                        textDecoration: 'none', color: '#0f172a',
+                      }}
+                    >
+                      <p style={{ margin: 0, fontSize: 12, fontWeight: 700 }}>{a.shortLabel}</p>
+                      <p style={{ margin: '2px 0 0', fontSize: 10, color: '#64748b' }}>{a.assetClass.replace('_', ' ')}</p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <DatosGobRadar subtabSlug={subtabSlug} />
 
