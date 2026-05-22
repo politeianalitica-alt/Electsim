@@ -32,7 +32,7 @@ import { SECTOR_CATALOG } from '@/lib/macro/sector-catalog'
 import { COMPANY_CATALOG } from '@/lib/macro/company-catalog'
 import { ASSET_CATALOG } from '@/lib/macro/asset-catalog'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
-import { listCCAA } from '@/lib/macro/ccaa-catalog'
+import { listCCAA, getCCAAByNuts2 } from '@/lib/macro/ccaa-catalog'
 import { getSubtab, FAMILY_META, type SubtabConfig } from '@/lib/macro/subtab-registry'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
@@ -67,6 +67,15 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
   const [overview, setOverview] = useState<OverviewResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [ccaaData, setCcaaData] = useState<{ id: string; value: number | null; tooltipLabel?: string }[]>(
+    () =>
+      listCCAA().map((c) => ({
+        id: c.id,
+        value: c.gdpShare,
+        tooltipLabel: c.label,
+      }))
+  )
+  const [ccaaMetric, setCcaaMetric] = useState<'gdpShare' | 'gdp_per_capita' | 'unemployment'>('gdpShare')
 
   useEffect(() => {
     if (!config) {
@@ -92,6 +101,48 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
       alive = false
     }
   }, [subtabSlug, config])
+
+  // Hidratar Hexmap con datos Eurostat NUTS2 reales cuando se cambia la métrica.
+  useEffect(() => {
+    if (ccaaMetric === 'gdpShare') {
+      setCcaaData(
+        listCCAA().map((c) => ({
+          id: c.id,
+          value: c.gdpShare,
+          tooltipLabel: c.label,
+        }))
+      )
+      return
+    }
+    let alive = true
+    fetch(`/api/eurostat/regions-nuts2?metric=${ccaaMetric}`, { cache: 'force-cache' })
+      .then((r) => r.json())
+      .then((j) => {
+        if (!alive || !j?.ok) return
+        // Map NUTS2 → CCAA id usando catalog
+        const mapped = (j.regions || [])
+          .map((r: { nuts2: string; value: number | null }) => {
+            const ccaa = getCCAAByNuts2(r.nuts2)
+            return ccaa ? { id: ccaa.id, value: r.value, tooltipLabel: ccaa.label } : null
+          })
+          .filter(Boolean) as { id: string; value: number | null; tooltipLabel?: string }[]
+        // Mantenemos los 19 ids visibles: si Eurostat no devuelve ES63/ES64 (Ceuta/Melilla) los marcamos null
+        const byId: Record<string, { id: string; value: number | null; tooltipLabel?: string }> = {}
+        for (const m of mapped) byId[m.id] = m
+        setCcaaData(
+          listCCAA().map((c) => byId[c.id] || { id: c.id, value: null, tooltipLabel: c.label })
+        )
+      })
+      .catch(() => {
+        // Fallback silencioso a gdpShare si falla Eurostat
+        setCcaaData(
+          listCCAA().map((c) => ({ id: c.id, value: c.gdpShare, tooltipLabel: c.label }))
+        )
+      })
+    return () => {
+      alive = false
+    }
+  }, [ccaaMetric])
 
   const labelMap = useMemo(() => {
     if (!config) return {}
@@ -305,7 +356,7 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
               </section>
             )}
 
-            {/* Mapa hexagonal CCAA · vista territorial 19 regiones */}
+            {/* Mapa hexagonal CCAA · vista territorial 19 regiones · datos live Eurostat */}
             <section
               style={{
                 background: '#fff',
@@ -315,23 +366,56 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
                 padding: 16,
               }}
             >
-              <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
-                Distribución territorial · 19 CCAA · click → análisis regional
-              </p>
-              <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
-                Intensidad de color = peso aproximado sobre PIB nacional. Cada celda navega al detalle regional.
-              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 8 }}>
+                <div>
+                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                    Distribución territorial · 19 CCAA · click → análisis regional
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
+                    {ccaaMetric === 'gdpShare' && 'Color = peso aproximado sobre PIB nacional.'}
+                    {ccaaMetric === 'gdp_per_capita' && 'Color = PIB per cápita por NUTS2 · Eurostat nama_10r_2gdp.'}
+                    {ccaaMetric === 'unemployment' && 'Color = tasa de paro 15-74y por NUTS2 · Eurostat lfst_r_lfu3rt.'}
+                  </p>
+                </div>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  {(
+                    [
+                      ['gdpShare', '% PIB'],
+                      ['gdp_per_capita', 'PIB pc'],
+                      ['unemployment', 'Paro %'],
+                    ] as const
+                  ).map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => setCcaaMetric(key)}
+                      style={{
+                        fontSize: 10,
+                        padding: '4px 10px',
+                        border: `1px solid ${ccaaMetric === key ? config.accent : '#e5e7eb'}`,
+                        background: ccaaMetric === key ? config.accent : '#fff',
+                        color: ccaaMetric === key ? '#fff' : '#475569',
+                        fontWeight: 600,
+                        borderRadius: 6,
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div style={{ marginTop: 12 }}>
                 <CCAAHexmap
                   accent={config.accent}
-                  unit="% PIB"
-                  formatValue={(v) => v.toFixed(1)}
+                  unit={ccaaMetric === 'unemployment' ? '%' : ccaaMetric === 'gdp_per_capita' ? '€' : '% PIB'}
+                  formatValue={(v) =>
+                    ccaaMetric === 'gdp_per_capita'
+                      ? v.toLocaleString('es-ES', { maximumFractionDigits: 0 })
+                      : v.toFixed(1)
+                  }
                   hrefFor={(id) => `/macro/${subtabSlug}/region/${id}`}
-                  data={listCCAA().map((c) => ({
-                    id: c.id,
-                    value: c.gdpShare,
-                    tooltipLabel: c.label,
-                  }))}
+                  data={ccaaData}
                 />
               </div>
             </section>
