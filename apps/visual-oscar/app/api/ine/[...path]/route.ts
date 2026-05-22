@@ -330,6 +330,229 @@ export async function GET(
     })
   }
 
+  // ─── EPF · Encuesta de Presupuestos Familiares ───────────────────────
+  // Operación 314 · publicación anual · base COICOP 2018 · datos hasta 2024.
+  //
+  // Tablas clave:
+  //   - 75003: gasto por grupos (2 dígitos COICOP) · precios constantes
+  //   - 73778: gasto por grupos (2 dígitos COICOP) · precios corrientes
+  //   - 73991: gasto medio por hogar por CCAA × grupo
+  //   - 28486: serie histórica anual base 2006 + 2024
+  //
+  // Códigos de los 13 grandes grupos COICOP 2018 (gasto medio por hogar
+  // precios CORRIENTES · tabla 73778 · Total Nacional · Dato base · Gasto total):
+  //   EPF534971 Índice general (gasto medio total)
+  //   EPF528965/534995 Alimentos y bebidas no alcohólicas
+  //   etc · resolvemos dinámicamente filtrando por nombre.
+
+  // /api/ine/epf-overview · KPIs grandes
+  if (action === 'epf-overview') {
+    const [tabCorrientes, tabConstantes] = await Promise.all([
+      ineFetch('/DATOS_TABLA/73778?nult=1'),
+      ineFetch('/DATOS_TABLA/75003?nult=1'),
+    ])
+    if (
+      (tabCorrientes.error && tabConstantes.error) ||
+      (!Array.isArray(tabCorrientes) && !Array.isArray(tabConstantes))
+    ) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'INE WSTempus · EPF', tabCorrientes.error || tabConstantes.error || 'unexpected shape'),
+      })
+    }
+    const findHogar = (rows: any[], filterCorrientes: boolean) => {
+      if (!Array.isArray(rows)) return null
+      const want = filterCorrientes ? 'Precios corrientes' : 'Precios constantes'
+      // Total nacional · Índice general · Gasto total · Gasto medio por hogar
+      const s = rows.find((r) => {
+        const n = (r.Nombre || '')
+        return n.includes('Índice general')
+          && n.includes('Gasto total')
+          && n.includes('Gasto medio por hogar')
+          && n.includes(want)
+          && n.includes('Dato base')
+      })
+      return s ? { cod: s.COD, value: s.Data?.[0]?.Valor, year: s.Data?.[0]?.Anyo } : null
+    }
+    const findPersona = (rows: any[]) => {
+      if (!Array.isArray(rows)) return null
+      const s = rows.find((r) => {
+        const n = (r.Nombre || '')
+        return n.includes('Índice general')
+          && n.includes('Gasto total')
+          && n.includes('Gasto medio por persona')
+          && n.includes('Precios corrientes')
+          && n.includes('Dato base')
+      })
+      return s ? { cod: s.COD, value: s.Data?.[0]?.Valor, year: s.Data?.[0]?.Anyo } : null
+    }
+    const findUC = (rows: any[]) => {
+      if (!Array.isArray(rows)) return null
+      const s = rows.find((r) => {
+        const n = (r.Nombre || '')
+        return n.includes('Índice general')
+          && n.includes('Gasto total')
+          && n.includes('Gasto medio por unidad de consumo')
+          && n.includes('Precios corrientes')
+          && n.includes('Dato base')
+      })
+      return s ? { cod: s.COD, value: s.Data?.[0]?.Valor, year: s.Data?.[0]?.Anyo } : null
+    }
+    const hogarCorr = findHogar(tabCorrientes, true)
+    const hogarConst = findHogar(tabConstantes, false)
+    const persona = findPersona(tabCorrientes)
+    const uc = findUC(tabCorrientes)
+    return NextResponse.json({
+      ok: true,
+      data_quality: quality('live', 'INE EPF · Encuesta de Presupuestos Familiares'),
+      year: hogarCorr?.year ?? null,
+      gasto_medio_hogar_corrientes: hogarCorr,
+      gasto_medio_hogar_constantes: hogarConst,
+      gasto_medio_persona_corrientes: persona,
+      gasto_medio_unidad_consumo_corrientes: uc,
+      methodology: 'EPF anual · COICOP 2018 · 24.000 hogares encuestados · INE WSTempus tablas 73778 (corrientes) + 75003 (constantes)',
+    })
+  }
+
+  // /api/ine/epf-grupos · 13 grupos COICOP con gasto + share
+  if (action === 'epf-grupos') {
+    // Usamos corrientes para % share contemporáneo
+    const data = await ineFetch('/DATOS_TABLA/73778?nult=1')
+    if (data.error || !Array.isArray(data)) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'INE WSTempus · EPF grupos', data.error || 'unexpected shape'),
+      })
+    }
+    // Buscamos: Total Nacional · {Grupo} · Dato base · Gasto total · Gasto medio por hogar · Precios corrientes
+    // Excluimos "Índice general"
+    const grupos: { name: string; cod: string; value: number; year: number }[] = []
+    for (const s of data as any[]) {
+      const n = s.Nombre || ''
+      if (
+        n.includes('Gasto medio por hogar') &&
+        n.includes('Gasto total') &&
+        n.includes('Precios corrientes') &&
+        n.includes('Dato base') &&
+        !n.includes('Índice general') &&
+        !n.includes('Gasto monetario')
+      ) {
+        const grp = n.split('.')[0].trim()
+        // Filtramos para sólo grupos de 1er nivel · evitamos sub-grupos largos
+        // Los grupos COICOP 2018 de 2 dígitos suelen tener nombres concretos
+        if (grp.length < 80 && grp.length > 3) {
+          const last = s.Data?.[0]
+          if (last?.Valor != null) {
+            // Dedupe: si ya tenemos este grupo, saltamos
+            if (!grupos.find((g) => g.name === grp)) {
+              grupos.push({ name: grp, cod: s.COD, value: last.Valor, year: last.Anyo })
+            }
+          }
+        }
+      }
+    }
+    // Ordenamos por valor desc
+    grupos.sort((a, b) => b.value - a.value)
+    const totalSum = grupos.reduce((acc, g) => acc + g.value, 0)
+    return NextResponse.json({
+      ok: true,
+      data_quality: quality('live', 'INE EPF · Gasto medio por hogar por grupo COICOP'),
+      year: grupos[0]?.year ?? null,
+      n_grupos: grupos.length,
+      total_sum_eur: totalSum,
+      grupos: grupos.map((g) => ({ ...g, share_pct: totalSum > 0 ? (g.value / totalSum) * 100 : 0 })),
+      methodology: 'EPF · COICOP 2018 · 13 grupos de gasto · precios corrientes · tabla 73778 INE',
+    })
+  }
+
+  // /api/ine/epf-ccaa · ranking por CCAA del gasto medio por hogar
+  if (action === 'epf-ccaa') {
+    const data = await ineFetch('/DATOS_TABLA/73991?nult=1')
+    if (data.error || !Array.isArray(data)) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'INE WSTempus · EPF CCAA', data.error || 'unexpected shape'),
+      })
+    }
+    // CCAA tiene un map único · cada CCAA tiene su gasto medio por hogar Índice general
+    const ccaaMap = new Map<string, { cod: string; value: number; year: number }>()
+    for (const s of data as any[]) {
+      const n = s.Nombre || ''
+      // Total Nacional / Andalucía / etc. · Índice general · Dato base · Gasto medio por hogar
+      if (
+        n.includes('Gasto medio por hogar') &&
+        n.includes('Índice general') &&
+        n.includes('Dato base')
+      ) {
+        const ccaa = n.split('.')[0].trim()
+        const last = s.Data?.[0]
+        if (last?.Valor != null && !ccaaMap.has(ccaa)) {
+          ccaaMap.set(ccaa, { cod: s.COD, value: last.Valor, year: last.Anyo })
+        }
+      }
+    }
+    const nacional = ccaaMap.get('Total Nacional')
+    const ccaa = Array.from(ccaaMap.entries())
+      .filter(([name]) => name !== 'Total Nacional')
+      .map(([name, v]) => ({
+        name, cod: v.cod, value: v.value, year: v.year,
+        delta_vs_nacional: nacional ? v.value - nacional.value : null,
+        ratio_vs_nacional: nacional && nacional.value > 0 ? (v.value / nacional.value) * 100 : null,
+      }))
+      .sort((a, b) => b.value - a.value)
+    return NextResponse.json({
+      ok: true,
+      data_quality: quality('live', 'INE EPF · Gasto medio por hogar por CCAA'),
+      year: nacional?.year ?? null,
+      nacional,
+      n_ccaa: ccaa.length,
+      ccaa,
+      methodology: 'EPF · tabla 73991 INE · COICOP 2018 · precios corrientes',
+    })
+  }
+
+  // /api/ine/epf-historico · serie temporal Total Nacional · gasto medio hogar
+  if (action === 'epf-historico') {
+    const n = url.searchParams.get('n') || '12'
+    // Tabla 28486 = serie histórica base 2006 (continúa hasta 2024)
+    // Buscamos serie: Base 2006. Anual. Total Nacional. Índice general. Dato base. Gasto medio por hogar.
+    const data = await ineFetch(`/DATOS_TABLA/28486?nult=${n}`)
+    if (data.error || !Array.isArray(data)) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'INE WSTempus · EPF histórico', data.error || 'unexpected shape'),
+      })
+    }
+    // Primera serie tipicamente: gasto medio hogar nacional
+    const hogar = (data as any[]).find((s) => {
+      const n = s.Nombre || ''
+      return n.includes('Total Nacional') &&
+        n.includes('Índice general') &&
+        n.includes('Dato base') &&
+        n.includes('Gasto medio por hogar')
+    })
+    const persona = (data as any[]).find((s) => {
+      const n = s.Nombre || ''
+      return n.includes('Total Nacional') &&
+        n.includes('Índice general') &&
+        n.includes('Dato base') &&
+        n.includes('Gasto medio por persona')
+    })
+    if (!hogar) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'INE WSTempus · EPF histórico', 'serie no encontrada'),
+      })
+    }
+    return NextResponse.json({
+      ok: true,
+      data_quality: quality('live', 'INE EPF · Serie histórica Total Nacional'),
+      hogar: { cod: hogar.COD, name: hogar.Nombre, points: mapInePoints(hogar) },
+      persona: persona ? { cod: persona.COD, name: persona.Nombre, points: mapInePoints(persona) } : null,
+      methodology: 'EPF · tabla 28486 INE · base 2006 · serie hasta 2024',
+    })
+  }
+
   // /api/ine/serie?cod={code}&n={n} · query libre por código de serie
   if (action === 'serie') {
     const cod = url.searchParams.get('cod')
@@ -399,6 +622,10 @@ export async function GET(
         'GET /api/ine/dirce-creacion?n=12 · demografía empresarial DIRCE',
         'GET /api/ine/etcl?n=12        · ETCL coste laboral trimestral',
         'GET /api/ine/frontur?n=24     · Frontur turistas internacionales',
+        'GET /api/ine/epf-overview     · EPF KPIs gasto medio hogar/persona/UC',
+        'GET /api/ine/epf-grupos       · EPF 13 grupos COICOP 2018 + share %',
+        'GET /api/ine/epf-ccaa         · EPF ranking 17 CCAA gasto medio hogar',
+        'GET /api/ine/epf-historico?n=12 · EPF serie histórica nacional',
         'GET /api/ine/serie?cod=CNTR6654&n=12 · query libre por código',
         'GET /api/ine/tabla?id=67824&nult=5 · query libre por tabla',
       ],

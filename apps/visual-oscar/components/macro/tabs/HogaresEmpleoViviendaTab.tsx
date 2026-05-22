@@ -16,6 +16,7 @@ import { DeepLineChart } from '../DeepLineChart'
 import { TrendNarrative } from '../TrendNarrative'
 import { CountryCompareBars } from '../CountryCompareBars'
 import { IndicatorDrill } from '../IndicatorDrill'
+import { EncuestaConsumoPanel } from '../EncuestaConsumoPanel'
 import { getTab } from '@/lib/macro/sources-matrix'
 import { useMacroDrawer } from '../MacroDrawerProvider'
 
@@ -267,6 +268,9 @@ export function HogaresEmpleoViviendaTab() {
           decimals={2}
         />
       </MacroPanel>
+
+      {/* EPF · Encuesta Presupuestos Familiares · comportamiento gasto hogares */}
+      <EncuestaConsumoPanel />
     </div>
   )
 }
