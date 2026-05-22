@@ -42,6 +42,8 @@ const ALLOWED_HOSTS = new Set([
   "miteco.gob.es",
   "datos.fega.es",
   "fega.es",
+  "www.fega.gob.es",
+  "fega.gob.es",
   "www.poderjudicial.es",
   "poderjudicial.es",
   "infosubvenciones.es",
@@ -51,6 +53,34 @@ const ALLOWED_HOSTS = new Set([
   "ipyme.org",
   "www.ipyme.org",
   "raw.githubusercontent.com", // útil para datasets en git público
+  // Sprint H · ampliación europea + organismos económicos clave
+  "ec.europa.eu",            // Eurostat SDMX CSV exports
+  "data.europa.eu",          // EU Open Data Portal
+  "www.aemet.es",
+  "aemet.es",
+  "opendata.aemet.es",
+  "www.cnmv.es",
+  "cnmv.es",
+  "www.bde.es",
+  "bde.es",
+  "www.tesoro.es",
+  "tesoro.es",
+  "www.aemps.gob.es",
+  "aemps.gob.es",
+  "www.cnmc.es",
+  "cnmc.es",
+  "www.boe.es",
+  "boe.es",
+  "datos.aragon.es",
+  "datos.castillalamancha.es",
+  "datosabiertos.galicia.gal",
+  "abierto.gobierno.aragon.es",
+  "datosabiertos.cantabria.es",
+  "datosabiertos.larioja.org",
+  "datosabiertos.gobiernodecanarias.org",
+  "datos.cnig.es",
+  "centrodedescargas.cnig.es", // IGN / catastro
+  "www.epdata.es",             // periodismo de datos pública
 ]);
 
 function hostAllowed(url: string): boolean {

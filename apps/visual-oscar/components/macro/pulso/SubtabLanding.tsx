@@ -31,6 +31,8 @@ import { Treemap } from '../charts/Treemap'
 import { SECTOR_CATALOG } from '@/lib/macro/sector-catalog'
 import { COMPANY_CATALOG } from '@/lib/macro/company-catalog'
 import { ASSET_CATALOG } from '@/lib/macro/asset-catalog'
+import { CCAAHexmap } from '../charts/CCAAHexmap'
+import { listCCAA } from '@/lib/macro/ccaa-catalog'
 import { getSubtab, FAMILY_META, type SubtabConfig } from '@/lib/macro/subtab-registry'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
@@ -302,6 +304,37 @@ export function SubtabLanding({ subtabSlug, overrideLabel }: Props) {
                 </div>
               </section>
             )}
+
+            {/* Mapa hexagonal CCAA · vista territorial 19 regiones */}
+            <section
+              style={{
+                background: '#fff',
+                border: '1px solid #e5e7eb',
+                borderLeft: `4px solid ${config.accent}`,
+                borderRadius: 10,
+                padding: 16,
+              }}
+            >
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                Distribución territorial · 19 CCAA · click → análisis regional
+              </p>
+              <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
+                Intensidad de color = peso aproximado sobre PIB nacional. Cada celda navega al detalle regional.
+              </p>
+              <div style={{ marginTop: 12 }}>
+                <CCAAHexmap
+                  accent={config.accent}
+                  unit="% PIB"
+                  formatValue={(v) => v.toFixed(1)}
+                  hrefFor={(id) => `/macro/${subtabSlug}/region/${id}`}
+                  data={listCCAA().map((c) => ({
+                    id: c.id,
+                    value: c.gdpShare,
+                    tooltipLabel: c.label,
+                  }))}
+                />
+              </div>
+            </section>
 
             <DatosGobRadar subtabSlug={subtabSlug} />
 

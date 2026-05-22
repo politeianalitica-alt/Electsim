@@ -125,6 +125,20 @@ export async function fetchPulsoIndicator(
         }));
         break;
       }
+      case "ine-frontur": {
+        // /api/ine/frontur · output: { total: { points: [...] } }
+        const points = json?.total?.points;
+        series = reverseInePoints(points);
+        break;
+      }
+      case "ine-dirce": {
+        // /api/ine/dirce-creacion · output: { series_top: [{ points: [...] }, ...] }
+        // parserKey = índice (string) de la serie a usar. Default 0.
+        const idx = ind.parserKey ? Number(ind.parserKey) : 0;
+        const points = json?.series_top?.[Number.isFinite(idx) ? idx : 0]?.points;
+        series = reverseInePoints(points);
+        break;
+      }
       case "datos-gob-csv": {
         // Output del endpoint /api/datos-gob/csv: { ok, rows: [...], fields: [...] }
         const rows = Array.isArray(json?.rows) ? json.rows : [];

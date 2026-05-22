@@ -106,6 +106,23 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 0, red: -2, goodAbove: true },
     accent: "#10b981",
   },
+  {
+    id: "ie-dirce-altas",
+    family: "demanda",
+    label: "Altas empresariales · INE DIRCE 30706",
+    shortLabel: "Altas DIRCE",
+    unit: "",
+    decimals: 0,
+    source: "INE WSTempus · DIRCE",
+    sourceCode: "DIRCE30706",
+    frequency: "annual",
+    description:
+      "Creación anual de empresas (DIRCE). Proxy de actividad económica formal y respuesta del tejido empresarial a la capacidad estatal regulatoria.",
+    endpoint: "/api/ine/dirce-creacion?n=12",
+    parser: "ine-dirce",
+    parserKey: "0",
+    accent: "#0891b2",
+  },
 ];
 
 export const INSTITUCIONES_ESTADO_META = {

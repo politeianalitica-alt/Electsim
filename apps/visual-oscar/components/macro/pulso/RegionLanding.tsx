@@ -25,6 +25,7 @@ import { getCCAA, listCCAA, type CCAA } from '@/lib/macro/ccaa-catalog'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
 import type { TabAnalysisResponse } from '@/lib/macro/ai-tab-schema'
+import { CCAAHexmap } from '../charts/CCAAHexmap'
 
 interface FamilyGroup {
   meta: typeof FAMILY_META[PulsoFamily]
@@ -292,6 +293,38 @@ export function RegionLanding({ subtabSlug, ccaaId }: Props) {
             />
             <AlertasMacro byId={overview.byId} catalog={config.indicators} subtabSlug={subtabSlug} />
             <FamilyKpiGrid byFamily={overview.byFamily} subtabSlug={subtabSlug} />
+
+            {/* Mapa hexagonal 19 CCAA · color por peso PIB regional */}
+            <section
+              style={{
+                background: '#fff',
+                border: '1px solid #e5e7eb',
+                borderLeft: `4px solid ${config.accent}`,
+                borderRadius: 10,
+                padding: 16,
+              }}
+            >
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: config.accent, textTransform: 'uppercase' }}>
+                Mapa hexagonal · 19 CCAA · click → navegar a esa región
+              </p>
+              <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
+                Color por peso aproximado sobre PIB nacional ·{' '}
+                <strong style={{ color: '#0f172a' }}>{ccaa.label}</strong> resaltada
+              </p>
+              <div style={{ marginTop: 12 }}>
+                <CCAAHexmap
+                  accent={config.accent}
+                  unit="% PIB"
+                  formatValue={(v) => v.toFixed(1)}
+                  hrefFor={(id) => `/macro/${subtabSlug}/region/${id}`}
+                  data={listCCAA().map((c) => ({
+                    id: c.id,
+                    value: c.gdpShare,
+                    tooltipLabel: c.label,
+                  }))}
+                />
+              </div>
+            </section>
 
             {/* Navegación entre CCAA */}
             <section

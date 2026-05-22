@@ -43,6 +43,8 @@ export interface PulsoIndicatorMeta {
     | 'ine-cnt-extra'
     | 'ine-ipc'
     | 'ine-epa'
+    | 'ine-frontur'
+    | 'ine-dirce'
     | 'imf-country'
     | 'eurostat-simple'
     | 'datos-gob-csv'

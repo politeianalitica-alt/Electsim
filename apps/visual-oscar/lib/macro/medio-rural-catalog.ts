@@ -89,6 +89,22 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: "#dc2626",
   },
+  {
+    id: "mr-frontur-rural",
+    family: "demanda",
+    label: "Turistas internacionales · INE Frontur 23988",
+    shortLabel: "Turistas",
+    unit: "",
+    decimals: 0,
+    source: "INE WSTempus · Frontur",
+    sourceCode: "FRONTUR23988",
+    frequency: "monthly",
+    description:
+      "Llegadas mensuales de turistas internacionales. El turismo rural absorbe ~15% del flujo total — relevante para vertebración territorial.",
+    endpoint: "/api/ine/frontur?n=24",
+    parser: "ine-frontur",
+    accent: "#16a34a",
+  },
 ];
 
 export const MEDIO_RURAL_META = {
