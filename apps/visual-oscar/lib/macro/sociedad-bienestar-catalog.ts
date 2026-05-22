@@ -138,6 +138,23 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 22, red: 28, goodAbove: false },
     accent: "#dc2626",
   },
+  {
+    id: "sb-gini-eurostat",
+    family: "demanda",
+    label: "Coeficiente Gini · Eurostat ilc_di12",
+    shortLabel: "Gini",
+    unit: "",
+    decimals: 1,
+    source: "Eurostat · ilc_di12",
+    sourceCode: "ilc_di12",
+    frequency: "annual",
+    description:
+      "Índice de Gini de la renta disponible equivalente. 0=igualdad perfecta, 100=desigualdad máxima. Métrica estándar internacional de desigualdad.",
+    endpoint: "/api/eurostat/dataset?code=ilc_di12&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 32, red: 36, goodAbove: false },
+    accent: "#8b5cf6",
+  },
 ];
 
 export const SOCIEDAD_BIENESTAR_META = {
