@@ -9,16 +9,6 @@ import type { Indic } from '@/data/macro-fixture'
 import { useUrlState } from '@/lib/useUrlState'
 import { MacroShell } from '@/components/macro/MacroShell'
 import { TAB_IDS, type MacroTabId } from '@/lib/macro/sources-matrix'
-import { PulsoMacroTab } from '@/components/macro/tabs/PulsoMacroTab'
-import { RegimenMonetarioTab } from '@/components/macro/tabs/RegimenMonetarioTab'
-import { MargenFiscalTab } from '@/components/macro/tabs/MargenFiscalTab'
-import { DependenciasExternasTab } from '@/components/macro/tabs/DependenciasExternasTab'
-import { RiesgoSistemicoTab } from '@/components/macro/tabs/RiesgoSistemicoTab'
-import { MercadosActivosTab } from '@/components/macro/tabs/MercadosActivosTab'
-import { FlujosCapitalTab } from '@/components/macro/tabs/FlujosCapitalTab'
-import { ProductividadCompetitividadTab } from '@/components/macro/tabs/ProductividadCompetitividadTab'
-import { EmpresasBeneficiosTab } from '@/components/macro/tabs/EmpresasBeneficiosTab'
-import { HogaresEmpleoViviendaTab } from '@/components/macro/tabs/HogaresEmpleoViviendaTab'
 import { SubtabContent } from '@/components/macro/pulso/SubtabContent'
 
 // Termómetro score 0-100 desde KPIs · cada indicador suma/resta puntos
@@ -46,6 +36,32 @@ function getFlashKpis(kpis: Indic[]): { label: string; value: string; unit?: str
   })
 }
 
+/**
+ * Sprint N1 (2026-05-22): las 15 subtabs unifican arquitectura.
+ * Antes las 10 primeras usaban custom Tab components (PulsoMacroTab,
+ * RegimenMonetarioTab, ...) de 200-560 LoC cada uno. Ahora todas usan
+ * `<SubtabContent subtabSlug>` igual que las 5 nuevas (Sprint F+).
+ *
+ * Los legacy Tab components quedan archivados en
+ * `components/macro/tabs/legacy/` por si hay que volver atrás puntualmente.
+ *
+ * Mejoras automáticas obtenidas por la migración:
+ *  - Score 0-100 (TermometroPulso) basado en thresholds del catálogo
+ *  - HeroEjecutivo con IA Gemini auto-load + diagnóstico transversal
+ *  - DomainHero específico (Sprint N2 lo extenderá a las 10)
+ *  - AlertasMacro derivadas del catálogo
+ *  - FamilyKpiGrid agrupando indicadores por familia
+ *  - CalendarioReleases próximas publicaciones
+ *  - CCAAHexmap territorial con selector métricas
+ *  - DatosGobRadar con DatasetAnalyzer expandible (CSV inline)
+ *  - RadarChart de dimensiones (top 8 señales)
+ *  - Análisis IA auto-loading por gráfica
+ *
+ * Excepción · Mercados-activos: el legacy tenía 5 paneles enriquecidos
+ * (sector breakdown via COMPANY_CATALOG + yield slope + market breadth +
+ * FX matrix + commodity heatmap). Extraídos a `<MercadosEnrichmentBlock>`
+ * que SubtabContent renderiza condicional cuando subtabSlug='mercados-activos'.
+ */
 export default function MacroPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
@@ -68,21 +84,8 @@ export default function MacroPage() {
           thermometerScore={termometro}
           flashKpis={flashKpis}
         >
-          {safeActiveTab === 'pulso-macro' && <PulsoMacroTab />}
-          {safeActiveTab === 'regimen-monetario' && <RegimenMonetarioTab />}
-          {safeActiveTab === 'margen-fiscal' && <MargenFiscalTab />}
-          {safeActiveTab === 'dependencias-externas' && <DependenciasExternasTab />}
-          {safeActiveTab === 'riesgo-sistemico' && <RiesgoSistemicoTab />}
-          {safeActiveTab === 'mercados-activos' && <MercadosActivosTab />}
-          {safeActiveTab === 'flujos-capital' && <FlujosCapitalTab />}
-          {safeActiveTab === 'productividad-competitividad' && <ProductividadCompetitividadTab />}
-          {safeActiveTab === 'empresas-beneficios' && <EmpresasBeneficiosTab />}
-          {safeActiveTab === 'hogares-empleo-vivienda' && <HogaresEmpleoViviendaTab />}
-          {safeActiveTab === 'demografia-territorio' && <SubtabContent subtabSlug="demografia-territorio" showHeader={false} />}
-          {safeActiveTab === 'sociedad-bienestar' && <SubtabContent subtabSlug="sociedad-bienestar" showHeader={false} />}
-          {safeActiveTab === 'medio-rural' && <SubtabContent subtabSlug="medio-rural" showHeader={false} />}
-          {safeActiveTab === 'cultura-ocio' && <SubtabContent subtabSlug="cultura-ocio" showHeader={false} />}
-          {safeActiveTab === 'instituciones-estado' && <SubtabContent subtabSlug="instituciones-estado" showHeader={false} />}
+          {/* Las 15 subtabs ahora renderizan via SubtabContent (unified architecture) */}
+          <SubtabContent subtabSlug={safeActiveTab} showHeader={false} />
         </MacroShell>
 
         <footer style={{ marginTop: 28, padding: '14px 0', borderTop: '1px solid #e5e7eb', fontSize: 10, color: '#94a3b8', textAlign: 'center' }}>

@@ -31,6 +31,10 @@ import {
   RIESGO_SISTEMICO_META,
 } from "./riesgo-sistemico-catalog";
 import {
+  DEPENDENCIAS_EXTERNAS_INDICATORS,
+  DEPENDENCIAS_EXTERNAS_META,
+} from "./dependencias-externas-catalog";
+import {
   MERCADOS_ACTIVOS_INDICATORS,
   MERCADOS_ACTIVOS_META,
 } from "./mercados-activos-catalog";
@@ -101,6 +105,10 @@ export const SUBTAB_REGISTRY: Record<string, SubtabConfig> = {
   "riesgo-sistemico": {
     ...RIESGO_SISTEMICO_META,
     indicators: RIESGO_SISTEMICO_INDICATORS,
+  },
+  "dependencias-externas": {
+    ...DEPENDENCIAS_EXTERNAS_META,
+    indicators: DEPENDENCIAS_EXTERNAS_INDICATORS,
   },
   "mercados-activos": {
     ...MERCADOS_ACTIVOS_META,
