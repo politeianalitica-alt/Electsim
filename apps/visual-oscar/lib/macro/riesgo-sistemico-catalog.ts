@@ -140,6 +140,24 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: -2, red: -4, goodAbove: true },
     accent: "#7c3aed",
   },
+  // Sprint L F6 · +1 yield soberano como proxy de stress
+  {
+    id: "rs-yield-10y-eurostat",
+    family: "forecast",
+    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
+    shortLabel: "10Y yield",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m",
+    frequency: "monthly",
+    description:
+      "Yield mensual del bono soberano a 10 años. Termómetro directo de riesgo soberano percibido por inversores; subidas anticipan stress fiscal o macro.",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 3.5, red: 5, goodAbove: false },
+    accent: "#dc2626",
+  },
 ];
 
 export const RIESGO_SISTEMICO_META = {

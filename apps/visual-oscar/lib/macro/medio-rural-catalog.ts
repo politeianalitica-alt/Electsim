@@ -121,6 +121,23 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     accent: "#84cc16",
   },
+  // Sprint L F6 · +1 superficie agraria utilizada (SAU)
+  {
+    id: "mr-sau-eurostat",
+    family: "oferta",
+    label: "Superficie agraria útil · Eurostat ef_lus_main",
+    shortLabel: "SAU",
+    unit: " ha",
+    decimals: 0,
+    source: "Eurostat · ef_lus_main",
+    sourceCode: "ef_lus_main:UAA",
+    frequency: "annual",
+    description:
+      "Superficie agraria útil (UAA) total. Mide cuánta tierra está realmente cultivada o usada para ganadería — proxy de presión territorial agraria y desertificación.",
+    endpoint: "/api/eurostat/dataset?code=ef_lus_main&filters=geo=ES;crops=UAA;agrarea=TOTAL",
+    parser: "eurostat-simple",
+    accent: "#16a34a",
+  },
 ];
 
 export const MEDIO_RURAL_META = {

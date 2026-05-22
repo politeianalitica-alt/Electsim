@@ -127,6 +127,39 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: "TX_RPCH",
     accent: "#0891b2",
   },
+  // Sprint L F6 · +2 indicadores Eurostat
+  {
+    id: "eb-confianza-empresarial-eurostat",
+    family: "sentimiento",
+    label: "Confianza industrial · Eurostat ei_bsin_m",
+    shortLabel: "Conf. ind.",
+    unit: "",
+    decimals: 1,
+    source: "Eurostat · ei_bsin_m",
+    sourceCode: "ei_bsin_m",
+    frequency: "monthly",
+    description:
+      "Indicador de confianza empresarial industrial (balance opiniones, mensual). Lead indicator de inversión, producción y empleo en manufactura.",
+    endpoint: "/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS-ICI;s_adj=SA;nace_r2=C",
+    parser: "eurostat-simple",
+    accent: "#7c3aed",
+  },
+  {
+    id: "eb-demografia-empresas-eurostat",
+    family: "demanda",
+    label: "Demografía empresarial · Eurostat bd_size_r3",
+    shortLabel: "Empresas",
+    unit: "",
+    decimals: 0,
+    source: "Eurostat · bd_size_r3",
+    sourceCode: "bd_size_r3:V11910",
+    frequency: "annual",
+    description:
+      "Número total de empresas activas (NACE B-N). Stock comparable UE, mide la profundidad del tejido empresarial.",
+    endpoint: "/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_sb=V11910;nace_r2=B-N",
+    parser: "eurostat-simple",
+    accent: "#16a34a",
+  },
 ];
 
 export const EMPRESAS_BENEFICIOS_META = {

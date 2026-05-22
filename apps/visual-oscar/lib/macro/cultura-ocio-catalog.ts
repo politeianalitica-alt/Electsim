@@ -120,6 +120,23 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     accent: "#a855f7",
   },
+  // Sprint L F6 · +1 turismo non-residente (gasto cultural-ocio)
+  {
+    id: "co-tourism-arrivals-eurostat",
+    family: "exterior",
+    label: "Llegadas turistas non-resident · Eurostat tour_occ_arm",
+    shortLabel: "Arrivals",
+    unit: "",
+    decimals: 0,
+    source: "Eurostat · tour_occ_arm",
+    sourceCode: "tour_occ_arm",
+    frequency: "monthly",
+    description:
+      "Llegadas mensuales de turistas no residentes a establecimientos en España (Eurostat armonizado UE). Complementa Frontur con visión comparable europea.",
+    endpoint: "/api/eurostat/dataset?code=tour_occ_arm&filters=geo=ES;c_resid=FOR;nace_r2=I551-I553;unit=NR",
+    parser: "eurostat-simple",
+    accent: "#7c3aed",
+  },
 ];
 
 export const CULTURA_OCIO_META = {

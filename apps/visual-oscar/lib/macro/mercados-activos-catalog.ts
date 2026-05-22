@@ -128,6 +128,40 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: -2, red: -4, goodAbove: true },
     accent: "#0891b2",
   },
+  // Sprint L F6 · +2 indicadores Eurostat (yields)
+  {
+    id: "ma-tipo-largo-eurostat",
+    family: "forecast",
+    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
+    shortLabel: "10Y bono",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m",
+    frequency: "monthly",
+    description:
+      "Yield mensual del bono soberano a 10 años (Maastricht criteria). Benchmark del coste de capital y descuento implícito de los activos de riesgo locales.",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 3.5, red: 5, goodAbove: false },
+    accent: "#dc2626",
+  },
+  {
+    id: "ma-tipo-corto-eurostat",
+    family: "forecast",
+    label: "Tipo corto plazo · Eurostat irt_st_a",
+    shortLabel: "Tipo corto",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_st_a",
+    sourceCode: "irt_st_a",
+    frequency: "annual",
+    description:
+      "Tipo de interés de referencia a corto plazo zona euro (3 meses). Refleja decisiones del BCE y el coste de financiación interbancaria.",
+    endpoint: "/api/eurostat/dataset?code=irt_st_a&filters=geo=EA",
+    parser: "eurostat-simple",
+    accent: "#0F766E",
+  },
 ];
 
 export const MERCADOS_ACTIVOS_META = {

@@ -103,6 +103,57 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "broad",
     accent: "#0891b2",
   },
+  // Sprint L F6 · +3 indicadores Eurostat para enriquecer régimen monetario
+  {
+    id: "rm-hicp-eurostat",
+    family: "precios",
+    label: "HICP zona euro España · Eurostat prc_hicp_manr",
+    shortLabel: "HICP YoY",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · prc_hicp_manr",
+    sourceCode: "prc_hicp_manr:CP00",
+    frequency: "monthly",
+    description:
+      "Inflación armonizada (HICP) anual mensual · armonizada UE. Métrica que sigue el BCE para decisiones de política monetaria. Comparable con Alemania/Francia/Italia.",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=CP00;unit=RCH_A",
+    parser: "eurostat-simple",
+    threshold: { amber: 2, red: 4, goodAbove: false },
+    accent: "#dc2626",
+  },
+  {
+    id: "rm-tipos-largo-eurostat",
+    family: "forecast",
+    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
+    shortLabel: "10Y bono",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m",
+    frequency: "monthly",
+    description:
+      "Yield a 10 años del bono soberano español (Maastricht criteria). Termómetro de las condiciones financieras del régimen monetario.",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 3.5, red: 5, goodAbove: false },
+    accent: "#0f172a",
+  },
+  {
+    id: "rm-confianza-consumidor-eurostat",
+    family: "sentimiento",
+    label: "Confianza consumidor · Eurostat ei_bsco_m",
+    shortLabel: "Conf. cons.",
+    unit: "",
+    decimals: 1,
+    source: "Eurostat · ei_bsco_m",
+    sourceCode: "ei_bsco_m",
+    frequency: "monthly",
+    description:
+      "Indicador de confianza del consumidor (mensual, balance de opiniones). Lead indicator de demanda agregada — caídas anticipan menor consumo y menor inflación de servicios.",
+    endpoint: "/api/eurostat/dataset?code=ei_bsco_m&filters=geo=ES;indic=BS-CSMCI;s_adj=SA",
+    parser: "eurostat-simple",
+    accent: "#8b5cf6",
+  },
 ];
 
 export const REGIMEN_MONETARIO_META = {

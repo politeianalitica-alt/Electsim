@@ -124,6 +124,24 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 45, red: 50, goodAbove: false },
     accent: "#0EA5E9",
   },
+  // Sprint L F6 · +1 fertilidad
+  {
+    id: "dt-fertilidad-eurostat",
+    family: "demanda",
+    label: "Tasa de fertilidad · Eurostat demo_find",
+    shortLabel: "Fertilidad",
+    unit: " h/m",
+    decimals: 2,
+    source: "Eurostat · demo_find",
+    sourceCode: "demo_find:TOTFERRT",
+    frequency: "annual",
+    description:
+      "Tasa global de fecundidad (hijos por mujer). España ~1.2 es de las más bajas UE-27 (media ~1.5). Driver estructural del problema demográfico y de la pirámide poblacional.",
+    endpoint: "/api/eurostat/dataset?code=demo_find&filters=geo=ES;indic_de=TOTFERRT",
+    parser: "eurostat-simple",
+    threshold: { amber: 1.5, red: 1.2, goodAbove: true },
+    accent: "#dc2626",
+  },
 ];
 
 export const DEMOGRAFIA_TERRITORIO_META = {

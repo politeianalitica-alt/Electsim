@@ -109,6 +109,57 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: -3, red: -6, goodAbove: true },
     accent: "#f59e0b",
   },
+  // Sprint L F6 · +3 indicadores Eurostat
+  {
+    id: "fc-iip-eurostat",
+    family: "exterior",
+    label: "Posición Inversión Internacional Neta · Eurostat bop_iip6_q",
+    shortLabel: "IIP neta",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · bop_iip6_q",
+    sourceCode: "bop_iip6_q:NIIP",
+    frequency: "quarterly",
+    description:
+      "Posición de Inversión Internacional Neta sobre PIB. Stock acumulado activos exteriores - pasivos. España estructuralmente -70/-80% PIB (deudor neto), métrica de vulnerabilidad financiera externa.",
+    endpoint: "/api/eurostat/dataset?code=bop_iip6_q&filters=geo=ES;sector=S1;stk_flow=NIIP;bop_item=FA;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: -50, red: -80, goodAbove: true },
+    accent: "#8b5cf6",
+  },
+  {
+    id: "fc-tipos-largo-eurostat",
+    family: "forecast",
+    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
+    shortLabel: "10Y yield",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m",
+    frequency: "monthly",
+    description:
+      "Yield a 10 años del bono soberano español (Maastricht criteria). Coste de financiación exterior. Subidas indican deterioro de percepción de riesgo país por inversores externos.",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 3.5, red: 5, goodAbove: false },
+    accent: "#dc2626",
+  },
+  {
+    id: "fc-bop-cuenta-financiera-eurostat",
+    family: "exterior",
+    label: "Cuenta financiera %PIB · Eurostat bop_c6_q",
+    shortLabel: "Cta financ.",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · bop_c6_q",
+    sourceCode: "bop_c6_q:FA",
+    frequency: "quarterly",
+    description:
+      "Saldo cuenta financiera Balanza de Pagos %PIB. Flujos netos entrada/salida de capital (IED + cartera + otros).",
+    endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=FA;unit=PC_GDP",
+    parser: "eurostat-simple",
+    accent: "#0EA5E9",
+  },
 ];
 
 export const FLUJOS_CAPITAL_META = {

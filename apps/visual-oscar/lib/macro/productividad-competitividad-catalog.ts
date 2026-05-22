@@ -122,6 +122,40 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "total",
     accent: "#7c3aed",
   },
+  // Sprint L F6 · +2 indicadores Eurostat
+  {
+    id: "pc-id-pib-eurostat",
+    family: "oferta",
+    label: "Gasto I+D total %PIB · Eurostat rd_e_gerdtot",
+    shortLabel: "I+D %PIB",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · rd_e_gerdtot",
+    sourceCode: "rd_e_gerdtot:GERD",
+    frequency: "annual",
+    description:
+      "Gasto total en investigación y desarrollo (público + empresas + universidades) sobre PIB. España persiste ~1.4% vs media UE-27 ~2.3% — gap estructural de competitividad.",
+    endpoint: "/api/eurostat/dataset?code=rd_e_gerdtot&filters=geo=ES;sectperf=TOTAL;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 2, red: 1.5, goodAbove: true },
+    accent: "#0891b2",
+  },
+  {
+    id: "pc-patentes-epo-eurostat",
+    family: "oferta",
+    label: "Patentes EPO per cápita · Eurostat pat_ep_ntot",
+    shortLabel: "Patentes",
+    unit: "/M hab",
+    decimals: 1,
+    source: "Eurostat · pat_ep_ntot",
+    sourceCode: "pat_ep_ntot",
+    frequency: "annual",
+    description:
+      "Solicitudes anuales de patente ante la Oficina Europea de Patentes por millón de habitantes. Output directo de innovación. España ~30 vs Alemania ~250.",
+    endpoint: "/api/eurostat/dataset?code=pat_ep_ntot&filters=geo=ES;unit=P_MHAB",
+    parser: "eurostat-simple",
+    accent: "#7c3aed",
+  },
 ];
 
 export const PRODUCTIVIDAD_COMPETITIVIDAD_META = {

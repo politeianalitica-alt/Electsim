@@ -122,6 +122,24 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 0.6, red: 0.4, goodAbove: true },
     accent: "#7c3aed",
   },
+  // Sprint L F6 · +1 inversión pública %PIB (Eurostat gov_10a_main GFCF)
+  {
+    id: "ie-inversion-publica-eurostat",
+    family: "oferta",
+    label: "Inversión pública %PIB · Eurostat gov_10a_main",
+    shortLabel: "Inversión pub.",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · gov_10a_main",
+    sourceCode: "gov_10a_main:P51G",
+    frequency: "annual",
+    description:
+      "Formación bruta de capital fijo de las AAPP (P51G) sobre PIB. Capacidad del Estado para invertir en infraestructura, equipamiento y modernización. Crítica para sostener productividad.",
+    endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=P51G;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 3, red: 2, goodAbove: true },
+    accent: "#16a34a",
+  },
 ];
 
 export const INSTITUCIONES_ESTADO_META = {
