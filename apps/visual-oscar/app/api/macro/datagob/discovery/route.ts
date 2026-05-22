@@ -42,6 +42,13 @@ interface CkanResult {
   url: string
   modified?: string
   formats?: string[]
+  /** Sprint L F4: URL directa de la primera distribución CSV (si existe).
+   *  El frontend usa esto en <DatasetAnalyzer> para extraer y mostrar
+   *  el contenido procesado inline en lugar de sólo el link al dataset. */
+  csvUrl?: string | null
+  /** Tamaño en bytes de la distribución CSV si CKAN lo expone. Usado para
+   *  saltar datasets >5MB en modo conservador. */
+  csvByteSize?: number | null
 }
 
 /**
@@ -72,17 +79,38 @@ async function searchDatosGob(keyword: string): Promise<CkanResult[]> {
       const url = it._about || it.url || `https://datos.gob.es/es/catalogo/${encodeURIComponent(it.identifier || "")}`;
       const modified = it.modified || it.released || "";
       const formats: string[] = [];
+      let csvUrl: string | null = null;
+      let csvByteSize: number | null = null;
       const distributions = it.distribution || it.distributions || [];
       if (Array.isArray(distributions)) {
-        for (const d of distributions.slice(0, 5)) {
-          const fmt = d?.format?.value || d?.format || d?.mediaType;
-          if (typeof fmt === "string") {
-            const short = fmt.split("/").pop()?.toUpperCase() || fmt;
+        for (const d of distributions.slice(0, 8)) {
+          const fmtRaw = d?.format?.value || d?.format || d?.mediaType || "";
+          const fmt = typeof fmtRaw === "string" ? fmtRaw.toLowerCase() : "";
+          if (fmt) {
+            const short = fmt.split("/").pop()?.toUpperCase() || fmt.toUpperCase();
             formats.push(short);
+          }
+          // Sprint L F4: capturar primera distribución CSV/JSON con URL directa.
+          // accessURL es el campo estándar NTI; algunos publishers usan downloadURL o url.
+          const accessURL: string | undefined =
+            d?.accessURL || d?.downloadURL || d?.url || d?._about;
+          if (!csvUrl && accessURL && (fmt.includes("csv") || fmt.includes("text/csv"))) {
+            csvUrl = accessURL;
+            const sz = Number(d?.byteSize);
+            if (Number.isFinite(sz) && sz > 0) csvByteSize = sz;
           }
         }
       }
-      return { title, description, publisher, url, modified, formats: Array.from(new Set(formats)) };
+      return {
+        title,
+        description,
+        publisher,
+        url,
+        modified,
+        formats: Array.from(new Set(formats)),
+        csvUrl,
+        csvByteSize,
+      };
     });
   } catch {
     return [];

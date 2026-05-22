@@ -3,10 +3,13 @@
  * `<DatosGobRadar subtabSlug=... />` · panel de descubrimiento de
  * datasets en datos.gob.es relevantes al subtab.
  *
- * Consume `/api/macro/datagob/discovery?subtab=...`. Permite al analista
- * encontrar fuentes oficiales adicionales sin abandonar la pantalla.
+ * Sprint L F4: cada dataset es ahora un `<details>` colapsable que al
+ * expandirse renderiza `<DatasetAnalyzer>` (extrae el CSV, infiere
+ * columnas, muestra mini chart + tabla 5 filas + stats inline). Antes
+ * eran sólo cards-link a la página externa.
  */
 import { useEffect, useState } from 'react'
+import { DatasetAnalyzer } from './DatasetAnalyzer'
 
 interface DatasetHit {
   title: string
@@ -15,11 +18,12 @@ interface DatasetHit {
   url: string
   modified?: string
   formats?: string[]
+  csvUrl?: string | null
+  csvByteSize?: number | null
 }
 
 interface Props {
   subtabSlug: string
-  /** Si quieres sobreescribir los términos de búsqueda */
   keywords?: string[]
 }
 
@@ -51,6 +55,8 @@ export function DatosGobRadar({ subtabSlug, keywords }: Props) {
     }
   }, [subtabSlug, keywords])
 
+  const withCsv = hits.filter((h) => h.csvUrl).length
+
   return (
     <section
       style={{
@@ -63,10 +69,10 @@ export function DatosGobRadar({ subtabSlug, keywords }: Props) {
     >
       <header style={{ marginBottom: 12 }}>
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#0F766E', textTransform: 'uppercase' }}>
-          Radar datos.gob.es · datasets relacionados
+          Radar datos.gob.es · {hits.length} datasets · {withCsv} con CSV analizable
         </p>
         <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
-          Catálogo CKAN del Gobierno de España · ministerios, organismos y CCAA · clic abre el dataset oficial
+          Catálogo CKAN del Gobierno · click sobre un dataset para extraer CSV y mostrar mini chart + filas + stats.
         </p>
       </header>
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Buscando en datos.gob.es…</p>}
@@ -77,53 +83,51 @@ export function DatosGobRadar({ subtabSlug, keywords }: Props) {
       )}
       {!loading && hits.length === 0 && !error && (
         <p style={{ fontSize: 11, color: '#94a3b8' }}>
-          Sin datasets relevantes en datos.gob.es para este subtab. La búsqueda CKAN puede tardar en
-          indexar nuevos publicadores.
+          Sin datasets relevantes en datos.gob.es para este subtab.
         </p>
       )}
       {hits.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {hits.slice(0, 8).map((h, i) => (
-            <a
+            <details
               key={i}
-              href={h.url}
-              target="_blank"
-              rel="noopener noreferrer"
               style={{
-                display: 'block',
                 background: '#f0fdfa',
                 border: '1px solid #99f6e4',
-                borderRadius: 8,
-                padding: 12,
-                textDecoration: 'none',
-                color: '#0f172a',
+                borderRadius: 6,
+                padding: '6px 10px',
               }}
             >
-              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#0F766E', lineHeight: 1.3 }}>
-                {h.title}
-              </p>
-              {h.description && (
-                <p style={{ margin: '4px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                  {h.description.length > 200 ? `${h.description.slice(0, 200)}…` : h.description}
-                </p>
-              )}
-              <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 4, fontSize: 9, color: '#64748b' }}>
-                {h.publisher && (
-                  <span style={{ background: '#fff', padding: '2px 6px', borderRadius: 4, border: '1px solid #cbd5e1' }}>
-                    {h.publisher}
+              <summary style={{ cursor: 'pointer', fontSize: 12, color: '#0f172a', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <span style={{ fontWeight: 700, color: '#0F766E' }}>{h.title}</span>
+                {h.csvUrl && (
+                  <span style={{ background: '#0F766E', color: '#fff', fontSize: 8, padding: '1px 5px', borderRadius: 3, fontWeight: 700 }}>
+                    CSV
                   </span>
                 )}
-                {h.formats?.slice(0, 4).map((f, j) => (
-                  <span
-                    key={j}
-                    style={{ background: '#e0f2fe', padding: '2px 6px', borderRadius: 4, color: '#075985', fontWeight: 600 }}
-                  >
+                {h.publisher && (
+                  <span style={{ fontSize: 9, color: '#475569', background: '#fff', padding: '1px 5px', border: '1px solid #cbd5e1', borderRadius: 3 }}>
+                    {h.publisher.length > 50 ? h.publisher.slice(0, 47) + '…' : h.publisher}
+                  </span>
+                )}
+                {h.modified && (
+                  <span style={{ fontSize: 9, color: '#94a3b8' }}>
+                    · {h.modified.slice(0, 10)}
+                  </span>
+                )}
+                {h.formats?.slice(0, 3).map((f, j) => (
+                  <span key={j} style={{ background: '#e0f2fe', padding: '1px 5px', borderRadius: 3, color: '#075985', fontSize: 8, fontWeight: 600 }}>
                     {f}
                   </span>
                 ))}
-                {h.modified && <span>· {h.modified.slice(0, 10)}</span>}
-              </div>
-            </a>
+              </summary>
+              {h.description && (
+                <p style={{ margin: '8px 0 4px', fontSize: 11, color: '#475569', lineHeight: 1.4 }}>
+                  {h.description.length > 250 ? h.description.slice(0, 250) + '…' : h.description}
+                </p>
+              )}
+              <DatasetAnalyzer dataset={h} accent="#0F766E" />
+            </details>
           ))}
         </div>
       )}
