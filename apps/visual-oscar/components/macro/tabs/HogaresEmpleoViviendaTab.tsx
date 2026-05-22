@@ -19,6 +19,15 @@ import { IndicatorDrill } from '../IndicatorDrill'
 import { EncuestaConsumoPanel } from '../EncuestaConsumoPanel'
 import { getTab } from '@/lib/macro/sources-matrix'
 import { useMacroDrawer } from '../MacroDrawerProvider'
+import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
+
+function aiSeries(
+  pts: { period: string; value: number | null; forecast?: boolean }[],
+): { period: string; value: number; forecast?: boolean }[] {
+  return pts
+    .filter((p) => p.value != null && Number.isFinite(p.value))
+    .map((p) => ({ period: p.period, value: p.value as number, ...(p.forecast ? { forecast: true } : {}) }))
+}
 
 export function HogaresEmpleoViviendaTab() {
   const tab = getTab('hogares-empleo-vivienda')
@@ -139,6 +148,25 @@ export function HogaresEmpleoViviendaTab() {
           title="EPA · Paro España · 24 trimestres"
           subtitle="Tasa paro general vs juvenil <25 · INE trimestral nacional"
           status="live"
+          aiAnalysis={{
+            indicator: 'Tasa paro general EPA · INE 86913',
+            indicatorId: 'ine.epa86913.general',
+            tabSlug: 'hogares-empleo-vivienda',
+            series: aiSeries(epaGeneralSeries),
+            metadata: {
+              unit: '%',
+              source: 'INE WSTempus · EPA',
+              sourceCode: 'EPA86913',
+              lastUpdate: epaGeneralLast?.period,
+              frequency: 'quarterly',
+              threshold: { amber: 12, red: 18, goodAbove: false },
+              notes: [
+                `Paro juvenil <25 último (EPA86912): ${epaJovenesLast?.value ?? '?'}% en ${epaJovenesLast?.period ?? '?'}.`,
+                'EPA es muestra (~65k hogares). Diferencias con paro registrado SEPE habituales.',
+              ],
+            },
+            windowLabel: '24 trimestres',
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[
@@ -170,6 +198,25 @@ export function HogaresEmpleoViviendaTab() {
           title="IMF WEO · Paro España 20y + forecast"
           subtitle="LUR · histórica + proyección 5y · % población activa"
           status="live"
+          aiAnalysis={{
+            indicator: 'Tasa paro · IMF LUR (vista hogares)',
+            indicatorId: 'imf.weo.lur.esp.hogares',
+            tabSlug: 'hogares-empleo-vivienda',
+            series: [
+              ...aiSeries(imfHist),
+              ...aiSeries(imfFc.map((p: any) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '%',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'LUR',
+              lastUpdate: imfHist[imfHist.length - 1]?.period,
+              frequency: 'annual',
+              threshold: { amber: 12, red: 18, goodAbove: false },
+              notes: ['Pico 26.1% (2013). NAIRU España estimada ~13%.'],
+            },
+            windowLabel: `${imfHist.length}y hist + ${imfFc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
@@ -209,6 +256,24 @@ export function HogaresEmpleoViviendaTab() {
           title="IPV · Índice Precio Vivienda España"
           subtitle="INE base 2015 · trimestral · general + nueva + segunda mano"
           status="live"
+          aiAnalysis={{
+            indicator: 'IPV general · INE 76201',
+            indicatorId: 'ine.ipv76201.general',
+            tabSlug: 'hogares-empleo-vivienda',
+            series: aiSeries(ipvGeneralSeries),
+            metadata: {
+              unit: 'índice',
+              source: 'INE WSTempus · IPV',
+              sourceCode: 'IPV76201',
+              lastUpdate: ipvLast?.period,
+              frequency: 'quarterly',
+              notes: [
+                'Base 2015=100. IPV mide precio de transacciones efectivas.',
+                'No incluye alquiler ni stock; sólo compraventa registrada.',
+              ],
+            },
+            windowLabel: '24 trimestres',
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[
@@ -239,6 +304,21 @@ export function HogaresEmpleoViviendaTab() {
           title="ETCL · Coste laboral medio por trabajador y mes"
           subtitle="INE ETCL trimestral · euros · serie 24 trimestres"
           status="live"
+          aiAnalysis={{
+            indicator: 'Coste laboral medio · INE ETCL',
+            indicatorId: 'ine.etcl.total',
+            tabSlug: 'hogares-empleo-vivienda',
+            series: aiSeries(etclSeries),
+            metadata: {
+              unit: '€/mes',
+              source: 'INE WSTempus · ETCL',
+              sourceCode: 'ETCL',
+              lastUpdate: etclLast?.period,
+              frequency: 'quarterly',
+              notes: ['Coste por trabajador y mes (incluye salarios brutos + cotizaciones empresariales).'],
+            },
+            windowLabel: '24 trimestres',
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{ id: 'etcl', label: 'Coste laboral', color: '#7c3aed', points: etclSeries, fillBelow: true }]}

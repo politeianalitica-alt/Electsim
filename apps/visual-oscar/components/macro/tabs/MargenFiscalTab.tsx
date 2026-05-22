@@ -21,6 +21,15 @@ import { CountryCompareBars } from '../CountryCompareBars'
 import { IndicatorDrill } from '../IndicatorDrill'
 import { getTab } from '@/lib/macro/sources-matrix'
 import { useMacroDrawer } from '../MacroDrawerProvider'
+import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
+
+function aiSeries(
+  pts: { period: string; value: number | null; forecast?: boolean }[],
+): { period: string; value: number; forecast?: boolean }[] {
+  return pts
+    .filter((p) => p.value != null && Number.isFinite(p.value))
+    .map((p) => ({ period: p.period, value: p.value as number, ...(p.forecast ? { forecast: true } : {}) }))
+}
 
 export function MargenFiscalTab() {
   const tab = getTab('margen-fiscal')
@@ -144,6 +153,28 @@ export function MargenFiscalTab() {
           title="Trayectoria deuda pública · 30 años + forecast"
           subtitle="IMF GGXWDG_NGDP · stock deuda Maastricht %PIB · histórica + proyección 5y"
           status="live"
+          aiAnalysis={{
+            indicator: 'Deuda pública %PIB · IMF GGXWDG_NGDP',
+            indicatorId: 'imf.weo.ggxwdg_ngdp.esp',
+            tabSlug: 'margen-fiscal',
+            series: [
+              ...aiSeries(deudaSplit.hist),
+              ...aiSeries(deudaSplit.fc.map((p: any) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '% PIB',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'GGXWDG_NGDP',
+              lastUpdate: deudaLast?.period,
+              frequency: 'annual',
+              threshold: { amber: 100, red: 120, goodAbove: false },
+              notes: [
+                'Regla Maastricht: 60% PIB.',
+                '2008-2014 explosión por crisis financiera; 2020 salto COVID +20pp.',
+              ],
+            },
+            windowLabel: `${deudaSplit.hist.length}y hist + ${deudaSplit.fc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
@@ -183,6 +214,29 @@ export function MargenFiscalTab() {
           title="Saldo fiscal · descompuesto"
           subtitle="Saldo total vs Saldo primario · intereses = diferencia · regla Maastricht 3%"
           status="live"
+          aiAnalysis={{
+            indicator: 'Saldo fiscal · IMF GGXCNL_NGDP',
+            indicatorId: 'imf.weo.ggxcnl_ngdp.esp',
+            tabSlug: 'margen-fiscal',
+            series: [
+              ...aiSeries(saldoSplit.hist),
+              ...aiSeries(saldoSplit.fc.map((p: any) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '% PIB',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'GGXCNL_NGDP',
+              lastUpdate: saldoLast?.period,
+              frequency: 'annual',
+              threshold: { amber: -3, red: -6, goodAbove: true },
+              notes: [
+                `Saldo primario último (GGXONLB_NGDP): ${primaryLast?.value?.toFixed?.(2) ?? '?'}% en ${primaryLast?.period ?? '?'}.`,
+                `Intereses derivados (primario − total): ${intereses?.toFixed?.(2) ?? '?'}% PIB.`,
+                'Regla Maastricht: déficit máximo 3% PIB.',
+              ],
+            },
+            windowLabel: `${saldoSplit.hist.length}y hist + ${saldoSplit.fc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[
@@ -218,6 +272,27 @@ export function MargenFiscalTab() {
           title="Ingresos vs Gasto AAPP"
           subtitle="Tamaño Estado %PIB · GGR_NGDP vs GGX_NGDP"
           status="live"
+          aiAnalysis={{
+            indicator: 'Ingresos AAPP %PIB · IMF GGR_NGDP',
+            indicatorId: 'imf.weo.ggr_ngdp.esp',
+            tabSlug: 'margen-fiscal',
+            series: [
+              ...aiSeries(ingresosSplit.hist),
+              ...aiSeries(ingresosSplit.fc.map((p: any) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '% PIB',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'GGR_NGDP',
+              lastUpdate: ingLast?.period,
+              frequency: 'annual',
+              notes: [
+                `Gasto AAPP (GGX_NGDP) último: ${gastoLast?.value?.toFixed?.(2) ?? '?'}% en ${gastoLast?.period ?? '?'}.`,
+                `Diferencia ingresos − gasto = ${ingLast && gastoLast ? (ingLast.value - gastoLast.value).toFixed(2) : '?'}pp PIB (proxy saldo).`,
+              ],
+            },
+            windowLabel: `${ingresosSplit.hist.length}y hist + ${ingresosSplit.fc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[

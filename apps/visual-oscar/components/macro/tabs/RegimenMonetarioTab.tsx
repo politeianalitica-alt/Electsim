@@ -21,6 +21,15 @@ import { CountryCompareBars } from '../CountryCompareBars'
 import { IndicatorDrill } from '../IndicatorDrill'
 import { getTab } from '@/lib/macro/sources-matrix'
 import { useMacroDrawer } from '../MacroDrawerProvider'
+import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
+
+function aiSeries(
+  pts: { period: string; value: number | null; forecast?: boolean }[],
+): { period: string; value: number; forecast?: boolean }[] {
+  return pts
+    .filter((p) => p.value != null && Number.isFinite(p.value))
+    .map((p) => ({ period: p.period, value: p.value as number, ...(p.forecast ? { forecast: true } : {}) }))
+}
 
 export function RegimenMonetarioTab() {
   const tab = getTab('regimen-monetario')
@@ -136,6 +145,27 @@ export function RegimenMonetarioTab() {
           title="IPC España · 36 meses"
           subtitle="Variación anual + mensual + acumulada año · INE base 2021"
           status="live"
+          aiAnalysis={{
+            indicator: 'IPC nacional general · INE 290750',
+            indicatorId: 'ine.ipc290750.anual',
+            tabSlug: 'regimen-monetario',
+            series: aiSeries(ipcAnualSeries),
+            metadata: {
+              unit: '%',
+              source: 'INE WSTempus · IPC',
+              sourceCode: 'IPC290750',
+              lastUpdate: ipcAnualLast?.period,
+              frequency: 'monthly',
+              threshold: { amber: 2, red: 4, goodAbove: false },
+              notes: [
+                `IPC mensual último (IPC290752): ${ipcMensualLast?.value ?? '?'}% en ${ipcMensualLast?.period ?? '?'}.`,
+                `IPC acumulada YTD (IPC290753) último: ${ipcAcumuladaLast?.value ?? '?'}% en ${ipcAcumuladaLast?.period ?? '?'}.`,
+                'Pico inflación reciente: 10.8% en jun-2022 por shock energético.',
+                'Objetivo BCE: 2% a medio plazo.',
+              ],
+            },
+            windowLabel: '36 meses',
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[
@@ -172,6 +202,24 @@ export function RegimenMonetarioTab() {
           title="IMF WEO · Inflación serie 20y + forecast"
           subtitle="PCPIPCH · histórica + proyección 5 años"
           status="live"
+          aiAnalysis={{
+            indicator: 'Inflación IPC · IMF PCPIPCH',
+            indicatorId: 'imf.weo.pcpipch.esp',
+            tabSlug: 'regimen-monetario',
+            series: [
+              ...aiSeries(imfHist),
+              ...aiSeries(imfFc.map((p: any) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '%',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'PCPIPCH',
+              lastUpdate: imfHist[imfHist.length - 1]?.period,
+              frequency: 'annual',
+              threshold: { amber: 2, red: 4, goodAbove: false },
+            },
+            windowLabel: `${imfHist.length}y hist + ${imfFc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
@@ -234,7 +282,30 @@ export function RegimenMonetarioTab() {
 
       {/* REER BIS */}
       {reerSeries.length > 5 && (
-        <MacroPanel accent="#0891b2" title="BIS · Tipo de cambio real efectivo España" subtitle="Broad effective FX index · base 2010=100" status="live">
+        <MacroPanel
+          accent="#0891b2"
+          title="BIS · Tipo de cambio real efectivo España"
+          subtitle="Broad effective FX index · base 2010=100"
+          status="live"
+          aiAnalysis={{
+            indicator: 'REER broad · BIS',
+            indicatorId: 'bis.reer.broad.esp',
+            tabSlug: 'regimen-monetario',
+            series: aiSeries(reerSeries),
+            metadata: {
+              unit: 'índice',
+              source: 'BIS Effective Exchange Rates',
+              sourceCode: 'REER_BROAD',
+              lastUpdate: reerSeries[reerSeries.length - 1]?.period,
+              frequency: 'monthly',
+              notes: [
+                'Índice base 2010=100. >100 → apreciación real frente a peers.',
+                'Captura competitividad-precio agregada vía cesta ponderada por comercio.',
+              ],
+            },
+            windowLabel: `${reerSeries.length} obs`,
+          } as ChartAnalysisInput}
+        >
           <DeepLineChart
             series={[{ id: 'reer', label: 'REER broad', color: '#0891b2', points: reerSeries, fillBelow: true }]}
             height={180}

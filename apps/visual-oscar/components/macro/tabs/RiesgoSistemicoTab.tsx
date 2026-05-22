@@ -17,6 +17,15 @@ import { DeepLineChart } from '../DeepLineChart'
 import { TrendNarrative } from '../TrendNarrative'
 import { CountryCompareBars } from '../CountryCompareBars'
 import { getTab } from '@/lib/macro/sources-matrix'
+import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
+
+function aiSeries(
+  pts: { period: string; value: number | null; forecast?: boolean }[],
+): { period: string; value: number; forecast?: boolean }[] {
+  return pts
+    .filter((p) => p.value != null && Number.isFinite(p.value))
+    .map((p) => ({ period: p.period, value: p.value as number, ...(p.forecast ? { forecast: true } : {}) }))
+}
 
 interface SemaforoRow {
   indicator: string
@@ -201,6 +210,29 @@ export function RiesgoSistemicoTab() {
           title="Deuda pública %PIB · trayectoria + forecast"
           subtitle="IMF GGXWDG_NGDP · histórica + proyección 5y · alerta a 100%/120%"
           status="live"
+          aiAnalysis={{
+            indicator: 'Deuda pública %PIB (vista riesgo) · IMF GGXWDG_NGDP',
+            indicatorId: 'imf.weo.ggxwdg_ngdp.esp.riesgo',
+            tabSlug: 'riesgo-sistemico',
+            series: [
+              ...aiSeries(deudaHist),
+              ...aiSeries(deudaFc.map((p: any) => ({ ...p, forecast: true }))),
+            ],
+            metadata: {
+              unit: '% PIB',
+              source: 'IMF DataMapper · WEO',
+              sourceCode: 'GGXWDG_NGDP',
+              lastUpdate: deudaHist[deudaHist.length - 1]?.period,
+              frequency: 'annual',
+              threshold: { amber: 100, red: 120, goodAbove: false },
+              notes: [
+                `Score compuesto del semáforo (5 indicadores): ${scoreNum?.toFixed?.(0) ?? '?'}/100.`,
+                `Spread vs Bund último: ${spreadEsDe?.toFixed?.(0) ?? '?'} pb. Bono 10y: ${bondEs10y?.toFixed?.(2) ?? '?'}%.`,
+                'Interpretar como factor de estrés en interacción con spread y déficit.',
+              ],
+            },
+            windowLabel: `${deudaHist.length}y hist + ${deudaFc.length}y forecast`,
+          } as ChartAnalysisInput}
         >
           <DeepLineChart
             series={[{
