@@ -105,6 +105,22 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-frontur",
     accent: "#16a34a",
   },
+  {
+    id: "mr-aei-eurostat",
+    family: "oferta",
+    label: "Renta empresarial agraria · Eurostat aact_eaa04",
+    shortLabel: "Renta agraria",
+    unit: "",
+    decimals: 0,
+    source: "Eurostat · aact_eaa04",
+    sourceCode: "aact_eaa04",
+    frequency: "annual",
+    description:
+      "Renta empresarial agraria por unidad de trabajo anual (índice). Mide rentabilidad efectiva del campo español frente al ciclo y a la PAC. Volátil por dependencia climatológica.",
+    endpoint: "/api/eurostat/dataset?code=aact_eaa04&filters=geo=ES;indic_ag=ENTREP_HOL_RY",
+    parser: "eurostat-simple",
+    accent: "#84cc16",
+  },
 ];
 
 export const MEDIO_RURAL_META = {

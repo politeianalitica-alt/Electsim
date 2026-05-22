@@ -123,6 +123,23 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "0",
     accent: "#0891b2",
   },
+  {
+    id: "ie-id-rd-eurostat",
+    family: "oferta",
+    label: "I+D pública %PIB · Eurostat rd_e_gerdtot",
+    shortLabel: "I+D %PIB",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · rd_e_gerdtot",
+    sourceCode: "rd_e_gerdtot",
+    frequency: "annual",
+    description:
+      "Gasto en I+D sobre PIB. Proxy de capacidad institucional para invertir en conocimiento y ciencia. España persiste ~30% por debajo de la media UE.",
+    endpoint: "/api/eurostat/dataset?code=rd_e_gerdtot&filters=geo=ES;sectperf=GOV;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 0.6, red: 0.4, goodAbove: true },
+    accent: "#7c3aed",
+  },
 ];
 
 export const INSTITUCIONES_ESTADO_META = {

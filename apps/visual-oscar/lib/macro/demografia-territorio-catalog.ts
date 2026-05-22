@@ -107,6 +107,23 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "total",
     accent: "#7c3aed",
   },
+  {
+    id: "dt-poblacion-eurostat",
+    family: "demanda",
+    label: "Edad media población · Eurostat demo_pjanind",
+    shortLabel: "Edad media",
+    unit: " años",
+    decimals: 1,
+    source: "Eurostat · demo_pjanind",
+    sourceCode: "demo_pjanind",
+    frequency: "annual",
+    description:
+      "Edad media de la población residente. Indicador de envejecimiento estructural — España es uno de los países más envejecidos de la UE.",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=AGEMEDPOP",
+    parser: "eurostat-simple",
+    threshold: { amber: 45, red: 50, goodAbove: false },
+    accent: "#0EA5E9",
+  },
 ];
 
 export const DEMOGRAFIA_TERRITORIO_META = {

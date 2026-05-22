@@ -104,6 +104,22 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-frontur",
     accent: "#8b5cf6",
   },
+  {
+    id: "co-tourism-nights-eurostat",
+    family: "demanda",
+    label: "Pernoctaciones turísticas · Eurostat tour_occ_nin",
+    shortLabel: "Pernoct.",
+    unit: "",
+    decimals: 0,
+    source: "Eurostat · tour_occ_nin",
+    sourceCode: "tour_occ_nin",
+    frequency: "monthly",
+    description:
+      "Pernoctaciones en establecimientos turísticos. Métrica intensiva (no sólo llegadas) — refleja estancia media y peso económico real del turismo cultural.",
+    endpoint: "/api/eurostat/dataset?code=tour_occ_nin&filters=geo=ES;c_resid=TOTAL;nace_r2=I551-I553;unit=NR",
+    parser: "eurostat-simple",
+    accent: "#a855f7",
+  },
 ];
 
 export const CULTURA_OCIO_META = {

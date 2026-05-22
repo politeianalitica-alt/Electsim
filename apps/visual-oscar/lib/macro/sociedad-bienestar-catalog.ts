@@ -121,6 +121,23 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "total",
     accent: "#7c3aed",
   },
+  {
+    id: "sb-arope-eurostat",
+    family: "demanda",
+    label: "AROPE · Eurostat ilc_peps01n",
+    shortLabel: "AROPE",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · ilc_peps01n",
+    sourceCode: "ilc_peps01n",
+    frequency: "annual",
+    description:
+      "People at risk of poverty or social exclusion (AROPE). Indicador EU oficial que combina pobreza monetaria + carencia material severa + baja intensidad laboral en el hogar.",
+    endpoint: "/api/eurostat/dataset?code=ilc_peps01n&filters=geo=ES;sex=T;age=TOTAL;unit=PC",
+    parser: "eurostat-simple",
+    threshold: { amber: 22, red: 28, goodAbove: false },
+    accent: "#dc2626",
+  },
 ];
 
 export const SOCIEDAD_BIENESTAR_META = {
