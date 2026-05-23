@@ -24,6 +24,7 @@ import { CalendarioReleases } from './CalendarioReleases'
 import { AlertasMacro } from './AlertasMacro'
 import { DatosGobRadar } from './DatosGobRadar'
 import { MercadosEnrichmentBlock } from './MercadosEnrichmentBlock'
+import { HogaresExtrasBlock } from './HogaresExtrasBlock'
 import { RadarChart } from '../charts/RadarChart'
 import { Treemap } from '../charts/Treemap'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
@@ -290,6 +291,9 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
           {/* Sprint N1 · bloques enriquecidos heredados del legacy MercadosActivosTab */}
           {subtabSlug === 'mercados-activos' && <MercadosEnrichmentBlock />}
+
+          {/* Sprint N4 · Hogares profundo · Segments sociales + cruces CIS */}
+          {subtabSlug === 'hogares-empleo-vivienda' && <HogaresExtrasBlock />}
 
           {subtabSlug === 'mercados-activos' && (
             <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${config.accent}`, borderRadius: 10, padding: 16 }}>
