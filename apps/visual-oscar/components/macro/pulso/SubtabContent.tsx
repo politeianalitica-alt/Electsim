@@ -18,13 +18,16 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { HeroEjecutivo } from './HeroEjecutivo'
 import { DomainHero } from './DomainHero'
-import { TermometroPulso } from './TermometroPulso'
+// Sprint N5: TermometroPulso retirado del body (redundante con PressureBar del hero superior).
+// import { TermometroPulso } from './TermometroPulso'
 import { FamilyKpiGrid } from './FamilyKpiGrid'
 import { CalendarioReleases } from './CalendarioReleases'
 import { AlertasMacro } from './AlertasMacro'
 import { DatosGobRadar } from './DatosGobRadar'
 import { MercadosEnrichmentBlock } from './MercadosEnrichmentBlock'
 import { HogaresExtrasBlock } from './HogaresExtrasBlock'
+import { TrendsTable } from './TrendsTable'
+import { SourcesFooter } from './SourcesFooter'
 import { RadarChart } from '../charts/RadarChart'
 import { Treemap } from '../charts/Treemap'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
@@ -211,10 +214,18 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
           {/* Sprint M F1 · DomainHero específico por subtab (visual identity propia) */}
           <DomainHero subtabSlug={subtabSlug} byId={overview.byId} accent={config.accent} />
 
-          <TermometroPulso
-            score={overview.termometro.score}
-            bySignal={overview.termometro.bySignal}
-            labelMap={labelMap}
+          {/* Sprint N5 (2026-05-23): TermometroPulso retirado del body porque
+              el score ya se muestra en el hero superior con barra horizontal
+              (PressureBar) + el RadarChart de abajo visualiza la descomposición
+              de las 8 señales. Decisión del usuario: "no me gusta el termómetro".
+              Conservado el RadarChart porque ofrece una vista visual distinta. */}
+
+          {/* Tabla de tendencias compacta · toda la matriz en una vista escaneable */}
+          <TrendsTable
+            indicators={config.indicators}
+            byId={overview.byId}
+            accent={config.accent}
+            subtabSlug={subtabSlug}
           />
 
           {overview.termometro.bySignal.length >= 4 && (
@@ -373,10 +384,12 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
           <DatosGobRadar subtabSlug={subtabSlug} />
 
+          {/* Sprint N5 · Footer de fuentes activas · audit completo del subtab */}
+          <SourcesFooter indicators={config.indicators} byId={overview.byId} accent={config.accent} />
+
           <footer style={{ marginTop: 14, padding: '14px 0', borderTop: '1px solid #e5e7eb', fontSize: 10, color: '#94a3b8' }}>
-            Fuentes: INE WSTempus, IMF DataMapper (WEO), Eurostat SDMX-JSON, BCE SDW, BIS, datos.gob.es.
-            Datos live cacheados 30min. Análisis IA Groq llama-3.3-70b (server-side). Las lecturas IA no son
-            recomendaciones de inversión.
+            Datos live cacheados 30min · Análisis IA Gemini 2.0 Flash Lite (primario) → Groq llama-3.3-70b (fallback) · server-side.
+            Las lecturas IA no son recomendaciones de inversión.
           </footer>
         </div>
       )}

@@ -42,16 +42,25 @@ export function HeroEjecutivo({ tabSlug, tabLabel, termometroScore, signals, loa
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [data, setData] = useState<TabAnalysisResponse | null>(null)
   const [err, setErr] = useState<string | null>(null)
-  const triedRef = useRef(false)
+  // Sprint N5 fix: cacheKey-based tried tracking en lugar de useRef plano.
+  // El useRef persistía entre cambios de tabSlug y bloqueaba el refetch, por
+  // eso la lectura ejecutiva mostraba el análisis del primer tab visitado en
+  // todas las pestañas posteriores.
+  const triedKeyRef = useRef<string>('')
 
   useEffect(() => {
-    // Auto-trigger una vez cuando hay datos válidos y aún no se ha intentado.
     if (loading) return
-    if (triedRef.current) return
     if (signals.length < 3) return
-    triedRef.current = true
 
     const cacheKey = `macro:hero:${tabSlug}:${termometroScore}:${signals.map((s) => s.id + s.lastValue).join('|')}`
+    if (triedKeyRef.current === cacheKey) return
+    triedKeyRef.current = cacheKey
+
+    // Reset estado al cambiar de tab antes de leer cache (evita parpadeos del análisis anterior)
+    setData(null)
+    setErr(null)
+    setState('loading')
+
     try {
       const cached = window.sessionStorage.getItem(cacheKey)
       if (cached) {
@@ -63,7 +72,6 @@ export function HeroEjecutivo({ tabSlug, tabLabel, termometroScore, signals, loa
       /* ignore */
     }
 
-    setState('loading')
     const input: TabAnalysisInput = {
       tabSlug,
       tabLabel,

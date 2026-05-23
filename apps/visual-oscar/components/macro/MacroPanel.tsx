@@ -8,7 +8,9 @@
  */
 import { ReactNode } from 'react'
 import type { ChartAnalysisInput } from '@/lib/macro/ai-schema'
-import { AIChartAnalysisButton } from './AIChartAnalysisButton'
+// Sprint N5: AIChartAnalysisButton retirado del render (una sola IA por página).
+// Import comentado para conservar referencia si decidimos reintroducirlo.
+// import { AIChartAnalysisButton } from './AIChartAnalysisButton'
 
 export function MacroPanel({
   accent,
@@ -62,11 +64,11 @@ export function MacroPanel({
         </div>
       </header>
       {children}
-      {aiAnalysis && (
-        <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-          <AIChartAnalysisButton input={aiAnalysis} accent={accent} inline={true} />
-        </div>
-      )}
+      {/* Sprint N5 (2026-05-23): IA por gráfica deshabilitada. El usuario pidió
+          una sola explicación IA por página (HeroEjecutivo arriba). El prop
+          aiAnalysis se mantiene en la interfaz para compatibilidad pero el
+          botón ya no se renderiza aquí. Para análisis específico de un
+          indicador → click en la card → IndicatorDetailLayout tiene tab "Groq". */}
     </section>
   )
 }
