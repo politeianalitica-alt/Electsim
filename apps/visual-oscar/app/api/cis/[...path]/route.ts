@@ -32,9 +32,98 @@ import { NextResponse } from 'next/server'
 import { quality } from '@/lib/macro-utils'
 
 export const revalidate = 86400 // 24h
+export const runtime = 'nodejs'
+export const maxDuration = 60
 
 const CKAN_BASE = 'https://datos.gob.es/apidata'
 const CIS_PUBLIC = 'http://www.cis.es'
+
+// ─── Sprint N18 · Inline PDF scraper Avance Resultados CIS ────────────────
+const CIS_LISTING = `https://www.cis.es/cis/opencm/ES/1_encuestas/estudios/buscarBarometros.jsp`
+const TEMA_REGEX: Record<string, RegExp[]> = {
+  vivienda: [
+    /(?:^|\n)\s*La\s+vivienda\s+[^\d]*(\d{1,2}[,\.]\d)/im,
+    /(?:^|\n)\s*Vivienda\s+[^\d]*(\d{1,2}[,\.]\d)/im,
+  ],
+  paro: [
+    /(?:^|\n)\s*El\s+paro\s+[^\d]*(\d{1,2}[,\.]\d)/im,
+    /(?:^|\n)\s*Paro\s+[^\d]*(\d{1,2}[,\.]\d)/im,
+    /(?:^|\n)\s*Los\s+problemas\s+de\s+(?:tipo\s+)?económico[^\d]{0,40}(\d{1,2}[,\.]\d)/im,
+  ],
+  precios: [
+    /(?:^|\n)\s*(?:Los\s+precios|La\s+inflaci[óo]n|Los\s+precios.*?[^\d]+)(\d{1,2}[,\.]\d)/im,
+    /(?:^|\n)\s*Precios\s+[^\d]+(\d{1,2}[,\.]\d)/im,
+  ],
+  sanidad: [
+    /(?:^|\n)\s*La\s+sanidad\s+[^\d]+(\d{1,2}[,\.]\d)/im,
+    /(?:^|\n)\s*Sanidad\s+[^\d]+(\d{1,2}[,\.]\d)/im,
+  ],
+  inmigracion: [
+    /(?:^|\n)\s*La\s+inmigraci[óo]n\s+[^\d]+(\d{1,2}[,\.]\d)/im,
+    /(?:^|\n)\s*Inmigraci[óo]n\s+[^\d]+(\d{1,2}[,\.]\d)/im,
+  ],
+}
+
+function extractTema(text: string, tema: string): number | null {
+  const patterns = TEMA_REGEX[tema] || []
+  for (const pat of patterns) {
+    const m = text.match(pat)
+    if (m && m[1]) {
+      const v = Number(m[1].replace(',', '.'))
+      if (Number.isFinite(v)) return v
+    }
+  }
+  return null
+}
+
+async function findLatestCisAvancePdfUrl(): Promise<string | null> {
+  try {
+    const r = await fetch(CIS_LISTING, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)' },
+      next: { revalidate: 86400 },
+    } as RequestInit)
+    if (!r.ok) return null
+    const html = await r.text()
+    const m = html.match(/href="([^"]+(?:avance|Av|av)[^"]*\.pdf)"/i)
+    if (!m) return null
+    const href = m[1]
+    return href.startsWith('http') ? href : `${CIS_PUBLIC}${href.startsWith('/') ? href : `/${href}`}`
+  } catch {
+    return null
+  }
+}
+
+async function scrapeCisLatestPdf(): Promise<{
+  ok: boolean
+  pdf_url: string | null
+  text_length: number
+  all_temas: Record<string, number | null>
+  extracted_count: number
+  error?: string
+}> {
+  const pdfUrl = await findLatestCisAvancePdfUrl()
+  if (!pdfUrl) {
+    return { ok: false, pdf_url: null, text_length: 0, all_temas: {}, extracted_count: 0, error: 'no_pdf_url_found' }
+  }
+  try {
+    const r = await fetch(pdfUrl, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)' },
+      next: { revalidate: 86400 },
+    } as RequestInit)
+    if (!r.ok) return { ok: false, pdf_url: pdfUrl, text_length: 0, all_temas: {}, extracted_count: 0, error: `HTTP ${r.status}` }
+    const buf = await r.arrayBuffer()
+    const { extractText, getDocumentProxy } = await import('unpdf')
+    const pdf = await getDocumentProxy(new Uint8Array(buf))
+    const { text } = await extractText(pdf, { mergePages: true })
+    const out = typeof text === 'string' ? text : (Array.isArray(text) ? (text as unknown as string[]).join('\n') : '')
+    const all: Record<string, number | null> = {}
+    for (const t of Object.keys(TEMA_REGEX)) all[t] = extractTema(out, t)
+    const extracted_count = Object.values(all).filter((v) => v != null).length
+    return { ok: true, pdf_url: pdfUrl, text_length: out.length, all_temas: all, extracted_count }
+  } catch (e: any) {
+    return { ok: false, pdf_url: pdfUrl, text_length: 0, all_temas: {}, extracted_count: 0, error: String(e?.message ?? e).slice(0, 200) }
+  }
+}
 
 async function ckanFetch(path: string): Promise<any> {
   try {
@@ -123,7 +212,24 @@ export async function GET(
       backend_ckan: !probe.error,
       catalog_endpoint: `${CKAN_BASE}/catalog/dataset`,
       cis_portal: CIS_PUBLIC,
-      note: 'CIS data via CKAN passthrough · sin valores hardcoded',
+      note: 'CIS data via CKAN passthrough · scraper PDF N18 inline',
+    })
+  }
+
+  // Sprint N18 · /api/cis/scrape-pdf?tema=X inline (sin Vercel function adicional)
+  if (action === 'scrape-pdf') {
+    const tema = (url.searchParams.get('tema') || 'vivienda').toLowerCase()
+    const r = await scrapeCisLatestPdf()
+    const value = r.all_temas?.[tema] ?? null
+    return NextResponse.json({
+      ...r,
+      tema,
+      value,
+      generated_at: new Date().toISOString(),
+      fallback_used: r.extracted_count < 2,
+      note: r.extracted_count >= 2
+        ? `Scraper extrajo ${r.extracted_count}/${Object.keys(TEMA_REGEX).length} temas`
+        : 'Scraper <2 temas · use /api/cis/serie?tema=X (curado)',
     })
   }
 
@@ -337,26 +443,19 @@ export async function GET(
         error: `tema desconocido · disponibles: ${Object.keys(CURATED).join(', ')}`,
       })
     }
-    // Sprint N18 · Best-effort merge con scrape-pdf:
-    // Si scraper logra extraer valor reciente, lo añadimos como último punto.
+    // Sprint N18 · Best-effort merge con scraper inline (sin HTTP roundtrip)
     let scrapedAdded = false
     let scraperMeta: any = null
     try {
-      const baseUrl = req.url.split('/api/')[0]
-      const scrapeRes = await fetch(`${baseUrl}/api/cis/scrape-pdf?tema=${tema}`, {
-        next: { revalidate: 86400 },
-      } as RequestInit)
-      if (scrapeRes.ok) {
-        const j = await scrapeRes.json()
-        scraperMeta = { ok: j?.ok, extracted_count: j?.extracted_count, pdf_url: j?.pdf_url }
-        if (j?.ok && typeof j?.value === 'number') {
-          // Period del último mes si no hay PDF date
-          const thisMonth = new Date().toISOString().slice(0, 7)
-          const lastCurated = points[points.length - 1]?.period
-          if (lastCurated !== thisMonth) {
-            points.push({ period: thisMonth, value: j.value })
-            scrapedAdded = true
-          }
+      const scrape = await scrapeCisLatestPdf()
+      scraperMeta = { ok: scrape.ok, extracted_count: scrape.extracted_count, pdf_url: scrape.pdf_url }
+      const v = scrape.all_temas?.[tema]
+      if (scrape.ok && typeof v === 'number') {
+        const thisMonth = new Date().toISOString().slice(0, 7)
+        const lastCurated = points[points.length - 1]?.period
+        if (lastCurated !== thisMonth) {
+          points.push({ period: thisMonth, value: v })
+          scrapedAdded = true
         }
       }
     } catch {
