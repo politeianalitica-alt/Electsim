@@ -30,6 +30,25 @@ interface CisResp {
   data?: CisPoint[]
   rows?: CisPoint[]
   message?: string
+  // Sprint N12 · empty state shape del endpoint cis/problemas
+  indicator?: string
+  activation_steps?: string[]
+  avance_url?: string
+  microdata_portal?: string
+  methodology?: string
+}
+
+interface CisCatalogItem {
+  id: string
+  title: string
+  issued: string | null
+  modified: string | null
+  distribution_urls: string[]
+}
+interface CisCatalogResp {
+  ok: boolean
+  n_items?: number
+  items?: CisCatalogItem[]
 }
 
 interface Props { cruceId: string }
@@ -42,12 +61,18 @@ export function CISCruceLanding({ cruceId }: Props) {
   const subtab = getSubtab('hogares-empleo-vivienda')
   const [overview, setOverview] = useState<OverviewResp | null>(null)
   const [cisSeries, setCisSeries] = useState<CisPoint[] | null>(null)
+  const [cisMeta, setCisMeta] = useState<CisResp | null>(null)
+  const [cisCatalog, setCisCatalog] = useState<CisCatalogItem[] | null>(null)
   const [cisError, setCisError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!cruce) { setLoading(false); return }
     let alive = true
+    // Sprint N12 · 3 fetches paralelos:
+    //  1. overview del subtab (para el indicador económico cruzado)
+    //  2. cis/problemas?tag=... (suele devolver empty state didáctico de CIS)
+    //  3. cis/catalogo (timeline real de barómetros vía CKAN datos.gob.es)
     const tasks = [
       fetch('/api/macro/hogares-empleo-vivienda/overview', { cache: 'force-cache' })
         .then((r) => r.json())
@@ -57,11 +82,18 @@ export function CISCruceLanding({ cruceId }: Props) {
         .then((r) => r.json())
         .then((j: CisResp) => {
           if (!alive) return
+          setCisMeta(j) // guardar metadata aunque sea empty state
           const series = j?.series || j?.data || j?.rows || []
           if (Array.isArray(series) && series.length > 0) setCisSeries(series)
-          else setCisError(j?.message || 'sin datos CIS disponibles para este tag')
+          else setCisError(j?.message || 'CIS no expone serie numérica vía API · ver catálogo de barómetros publicados')
         })
         .catch(() => { if (alive) setCisError('endpoint CIS no disponible') }),
+      fetch('/api/cis/catalogo', { cache: 'force-cache' })
+        .then((r) => r.json())
+        .then((j: CisCatalogResp) => {
+          if (alive && j?.ok && Array.isArray(j.items)) setCisCatalog(j.items.slice(0, 8))
+        })
+        .catch(() => {}),
     ]
     Promise.all(tasks).finally(() => { if (alive) setLoading(false) })
     return () => { alive = false }
@@ -149,6 +181,34 @@ export function CISCruceLanding({ cruceId }: Props) {
                 <p style={{ margin: '12px 0 0', fontSize: 10, color: '#94a3b8' }}>
                   Endpoint: <code>{cruce.cisEndpoint}</code>
                 </p>
+                {/* Sprint N12 · Activación didáctica del empty state CIS */}
+                {!lastCis && cisMeta?.activation_steps && (
+                  <details style={{ marginTop: 10, fontSize: 10, color: '#64748b' }}>
+                    <summary style={{ cursor: 'pointer', fontWeight: 600 }}>
+                      ¿Por qué no hay serie numérica? · Cómo activar
+                    </summary>
+                    <ol style={{ margin: '6px 0 0', paddingLeft: 18, lineHeight: 1.6 }}>
+                      {cisMeta.activation_steps.map((s, i) => <li key={i}>{s}</li>)}
+                    </ol>
+                    {cisMeta.methodology && (
+                      <p style={{ margin: '8px 0 0', fontStyle: 'italic', color: '#94a3b8' }}>
+                        Metodología: {cisMeta.methodology}
+                      </p>
+                    )}
+                    <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+                      {cisMeta.avance_url && (
+                        <a href={cisMeta.avance_url} target="_blank" rel="noopener noreferrer" style={{ color: cruce.accent, fontWeight: 600 }}>
+                          Avance PDF →
+                        </a>
+                      )}
+                      {cisMeta.microdata_portal && (
+                        <a href={cisMeta.microdata_portal} target="_blank" rel="noopener noreferrer" style={{ color: cruce.accent, fontWeight: 600 }}>
+                          Microdato CSV/SPSS →
+                        </a>
+                      )}
+                    </div>
+                  </details>
+                )}
               </section>
 
               <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #0F766E', borderRadius: 10, padding: 16 }}>
@@ -195,6 +255,53 @@ export function CISCruceLanding({ cruceId }: Props) {
                 Mientras tanto, la interpretación viene del catálogo hogares-cis.ts curado manualmente.
               </p>
             </section>
+
+            {/* Sprint N12 · Catálogo real de barómetros CIS publicados (CKAN datos.gob.es) */}
+            {cisCatalog && cisCatalog.length > 0 && (
+              <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${cruce.accent}`, borderRadius: 10, padding: 16 }}>
+                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: cruce.accent, textTransform: 'uppercase' }}>
+                  Últimos {cisCatalog.length} barómetros CIS publicados · vía CKAN datos.gob.es
+                </p>
+                <p style={{ margin: '2px 0 0', fontSize: 11, color: '#94a3b8' }}>
+                  Timeline real de publicaciones. Click en cualquiera abre el dataset oficial con distribución PDF + microdato CSV/SPSS.
+                </p>
+                <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {cisCatalog.map((item) => {
+                    const dateLabel = (item.modified || item.issued || '').slice(0, 10)
+                    const primaryUrl = item.distribution_urls[0] || item.id
+                    return (
+                      <a
+                        key={item.id}
+                        href={primaryUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: '90px 1fr auto',
+                          gap: 12,
+                          alignItems: 'center',
+                          padding: '8px 10px',
+                          background: '#f8fafc',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: 6,
+                          textDecoration: 'none',
+                          fontSize: 11,
+                          color: '#0f172a',
+                        }}
+                      >
+                        <span style={{ fontFamily: 'ui-monospace, monospace', fontSize: 10, color: '#64748b' }}>
+                          {dateLabel || '—'}
+                        </span>
+                        <span style={{ color: '#0f172a', fontWeight: 500 }}>{item.title}</span>
+                        <span style={{ fontSize: 9, color: cruce.accent, fontWeight: 700 }}>
+                          {item.distribution_urls.length > 0 ? `${item.distribution_urls.length} archivo${item.distribution_urls.length > 1 ? 's' : ''} →` : 'ficha →'}
+                        </span>
+                      </a>
+                    )
+                  })}
+                </div>
+              </section>
+            )}
 
             {/* Navegación entre cruces */}
             <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #0F766E', borderRadius: 10, padding: 16 }}>

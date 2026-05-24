@@ -201,6 +201,107 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     accent: "#16a34a",
   },
+
+  // ─── Live equity ES · Finnhub snapshots (Sprint N12) ─────────────────
+  // Finnhub free no expone candles históricas, solo quote actual + previous_close.
+  // Devolvemos serie de 2 puntos (ayer/hoy) para mostrar nivel + variación
+  // diaria. El analista ve nivel real intradía del IBEX vía cotizadas tractoras.
+  {
+    id: "ma-santander-adr",
+    family: "forecast",
+    label: "Santander ADR · NYSE",
+    shortLabel: "SAN",
+    unit: " USD",
+    decimals: 2,
+    source: "Finnhub · NYSE",
+    sourceCode: "SAN",
+    frequency: "daily",
+    description:
+      "Cotización Santander ADR (NYSE). Proxy live del banco español más capitalizado. Movimiento intradía indica appetite del mercado por banca ES.",
+    endpoint: "/api/finnhub/quote/SAN",
+    parser: "finnhub-quote",
+    accent: "#dc2626",
+  },
+  {
+    id: "ma-bbva-adr",
+    family: "forecast",
+    label: "BBVA ADR · NYSE",
+    shortLabel: "BBVA",
+    unit: " USD",
+    decimals: 2,
+    source: "Finnhub · NYSE",
+    sourceCode: "BBVA",
+    frequency: "daily",
+    description:
+      "Cotización BBVA ADR (NYSE). Segundo banco ES. Exposición LatAm + Turquía añade beta vs SAN puramente eurozona.",
+    endpoint: "/api/finnhub/quote/BBVA",
+    parser: "finnhub-quote",
+    accent: "#0891b2",
+  },
+  {
+    id: "ma-telefonica-adr",
+    family: "forecast",
+    label: "Telefónica ADR · NYSE",
+    shortLabel: "TEF",
+    unit: " USD",
+    decimals: 2,
+    source: "Finnhub · NYSE",
+    sourceCode: "TEF",
+    frequency: "daily",
+    description:
+      "Cotización Telefónica ADR (NYSE). Proxy del sector telecom ES + exposición Brasil/UK. Tradicionalmente high-yield (dividendo).",
+    endpoint: "/api/finnhub/quote/TEF",
+    parser: "finnhub-quote",
+    accent: "#0F766E",
+  },
+  {
+    id: "ma-aena-mc",
+    family: "forecast",
+    label: "Aena · BME (.MC)",
+    shortLabel: "AENA",
+    unit: " €",
+    decimals: 2,
+    source: "Finnhub · BME",
+    sourceCode: "AENA.MC",
+    frequency: "daily",
+    description:
+      "Cotización Aena (BME). Gestor aeroportuario nacional · proxy directo del ciclo turístico ES (record histórico turistas 2024). Earnings ligados a pax + duty-free.",
+    endpoint: "/api/finnhub/quote/AENA.MC",
+    parser: "finnhub-quote",
+    accent: "#8b5cf6",
+  },
+  {
+    id: "ma-iberdrola-adr",
+    family: "forecast",
+    label: "Iberdrola ADR · OTC",
+    shortLabel: "IBDRY",
+    unit: " USD",
+    decimals: 2,
+    source: "Finnhub · OTC",
+    sourceCode: "IBDRY",
+    frequency: "daily",
+    description:
+      "Cotización Iberdrola ADR (OTC). Utility líder en renovables · proxy del sector energía limpia ES + exposición global (US, UK, Brasil, México).",
+    endpoint: "/api/finnhub/quote/IBDRY",
+    parser: "finnhub-quote",
+    accent: "#16a34a",
+  },
+  {
+    id: "ma-inditex-adr",
+    family: "forecast",
+    label: "Inditex ADR · OTC",
+    shortLabel: "IBKRY",
+    unit: " USD",
+    decimals: 2,
+    source: "Finnhub · OTC",
+    sourceCode: "IBKRY",
+    frequency: "daily",
+    description:
+      "Cotización Inditex ADR (OTC). Top valor IBEX35 por capitalización · global retail con presencia 90+ países. Indicador del consumer cyclical ES + global.",
+    endpoint: "/api/finnhub/quote/IBKRY",
+    parser: "finnhub-quote",
+    accent: "#f59e0b",
+  },
 ];
 
 export const MERCADOS_ACTIVOS_META = {

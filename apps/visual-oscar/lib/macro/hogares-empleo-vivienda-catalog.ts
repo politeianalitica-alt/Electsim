@@ -174,6 +174,30 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "total",
     accent: "#7c3aed",
   },
+
+  // ─── CIS · cadencia barómetros publicados (Sprint N12) ──────────────────
+  // Importante: CIS NO expone valores agregados de % problemas (vivienda, paro,
+  // precios) vía API · los publica en PDF de avance + microdato CSV/SPSS por
+  // descarga manual. Lo que SÍ exponemos via CKAN datos.gob.es es metadata de
+  // barómetros publicados (cadencia mensual ~). El parser cis-catalogo devuelve
+  // 1 punto por barómetro publicado · útil para verificar regularidad del
+  // operador estadístico (CIS publica ~12 estudios/año).
+  {
+    id: "hev-cis-cadencia",
+    family: "sentimiento",
+    label: "Cadencia barómetros CIS publicados",
+    shortLabel: "CIS publica",
+    unit: " (1=evento)",
+    decimals: 0,
+    source: "CKAN datos.gob.es · CIS",
+    sourceCode: "CIS_BAROMETRO_TIMESTAMPS",
+    frequency: "monthly",
+    description:
+      "Timeline de barómetros CIS publicados (vía CKAN datos.gob.es). 1 punto = 1 barómetro publicado en su fecha de release. Para datos numéricos reales (% vivienda como problema, % paro como problema, valoraciones), los cruces CIS dedicados muestran link al PDF + microdato porque CIS no expone series agregadas vía API pública.",
+    endpoint: "/api/cis/catalogo",
+    parser: "cis-catalogo",
+    accent: "#dc2626",
+  },
 ];
 
 export const HOGARES_EMPLEO_VIVIENDA_META = {

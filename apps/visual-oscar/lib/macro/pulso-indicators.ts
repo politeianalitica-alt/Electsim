@@ -48,6 +48,8 @@ export interface PulsoIndicatorMeta {
     | 'imf-country'
     | 'eurostat-simple'
     | 'datos-gob-csv'
+    | 'finnhub-quote'   // Sprint N12 · snapshot Finnhub quote (price + previous_close)
+    | 'cis-catalogo'    // Sprint N12 · catálogo barómetros CIS publicados (vía CKAN datos.gob.es)
   /** Sub-clave dentro del JSON (p.ej. 'pib_total', 'general'). */
   parserKey?: string
   /** Si parserKey es para imf-country, el indicador IMF. */

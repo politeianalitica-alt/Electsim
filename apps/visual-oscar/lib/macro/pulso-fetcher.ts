@@ -170,6 +170,47 @@ export async function fetchPulsoIndicator(
         }
         break;
       }
+      case "finnhub-quote": {
+        // Sprint N12 · Finnhub /quote devuelve snapshot live: { c, d, dp, h, l, o, pc, t }
+        // c=current, pc=previous_close, t=timestamp. Construimos serie sintética de 2
+        // puntos (ayer y hoy) para que el sparkline tenga al menos algo y se vea
+        // la variación intradía vs cierre anterior. No es historia real (Finnhub free
+        // tier no expone /stock/candle), pero da nivel live + delta diario al analista.
+        if (json?.ok && typeof json.price === "number") {
+          const today = new Date(json.timestamp ? json.timestamp * 1000 : Date.now());
+          const yesterday = new Date(today.getTime() - 86400000);
+          const fmt = (d: Date) => d.toISOString().slice(0, 10);
+          if (typeof json.previous_close === "number") {
+            series.push({ period: fmt(yesterday), value: json.previous_close });
+          }
+          series.push({ period: fmt(today), value: json.price });
+        }
+        break;
+      }
+      case "cis-catalogo": {
+        // Sprint N12 · /api/cis/catalogo devuelve metadata de barómetros CIS
+        // publicados (via CKAN datos.gob.es). No son series numéricas (CIS no
+        // expone valores agregados por API), pero podemos representar cada
+        // barómetro publicado como un "evento" con period=fecha_modified y
+        // value=1 (ocurrió). Sirve para ver cadencia de publicaciones + linkar
+        // al PDF/microdato. El parserKey opcional puede filtrar el catálogo.
+        const items = Array.isArray(json?.items) ? json.items : [];
+        const titleFilter = ind.parserKey?.toLowerCase();
+        const filtered = titleFilter
+          ? items.filter((it: any) =>
+              String(it.title || "").toLowerCase().includes(titleFilter)
+            )
+          : items;
+        series = filtered
+          .map((it: any) => {
+            const dateRaw = it.modified || it.issued || "";
+            const period = String(dateRaw).slice(0, 10);
+            return period ? ({ period, value: 1 } as PulsoPoint) : null;
+          })
+          .filter((p: PulsoPoint | null): p is PulsoPoint => p !== null)
+          .sort((a: PulsoPoint, b: PulsoPoint) => a.period.localeCompare(b.period));
+        break;
+      }
     }
 
     const last = pickLast(series);
