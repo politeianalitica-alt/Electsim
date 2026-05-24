@@ -14,10 +14,11 @@
  * Diseñada para densidad informativa máxima · una sola página = todo el catálogo.
  */
 import { useMemo } from 'react'
-import Link from 'next/link'
-import { FAMILY_META } from '@/lib/macro/subtab-registry'
+import { FAMILY_META, getSubtab } from '@/lib/macro/subtab-registry'
 import type { PulsoIndicatorMeta } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult, PulsoPoint } from '@/lib/macro/pulso-fetcher'
+import { useMacroDrawer } from '../MacroDrawerProvider'
+import { IndicatorDrillContent } from './IndicatorDrillContent'
 
 interface Props {
   indicators: PulsoIndicatorMeta[]
@@ -76,6 +77,34 @@ function Sparkline({ points, color }: { points: PulsoPoint[]; color: string }) {
 }
 
 export function TrendsTable({ indicators, byId, accent, subtabSlug }: Props) {
+  const { openDrill } = useMacroDrawer()
+  const subtabCfg = getSubtab(subtabSlug)
+  const indicatorMap = useMemo(() => {
+    const m = new Map<string, PulsoIndicatorMeta>()
+    for (const ind of indicators) m.set(ind.id, ind)
+    return m
+  }, [indicators])
+
+  const handleOpenDrill = (indicatorId: string) => {
+    const meta = indicatorMap.get(indicatorId)
+    if (!meta || !subtabCfg) return
+    openDrill({
+      title: meta.label,
+      subtitle: meta.shortLabel || meta.source,
+      accent,
+      source: { name: meta.source, updatedAt: byId[indicatorId]?.last?.period || undefined },
+      content: (
+        <IndicatorDrillContent
+          indicator={meta}
+          subtabSlug={subtabSlug}
+          subtabLabel={subtabCfg.label}
+          accent={accent}
+          preloaded={byId[indicatorId]}
+        />
+      ),
+    })
+  }
+
   const rows = useMemo(() => {
     return indicators.map((meta) => {
       const result = byId[meta.id]
@@ -121,7 +150,7 @@ export function TrendsTable({ indicators, byId, accent, subtabSlug }: Props) {
         Matriz de tendencias · {rows.length} indicadores · escaneable de un vistazo
       </p>
       <p style={{ margin: '2px 0 0 0', fontSize: 11, color: '#94a3b8' }}>
-        Último valor · variación vs periodo anterior · YoY · estado vs umbral · sparkline. Click en cualquier fila → detalle.
+        Último valor · variación vs periodo anterior · YoY · estado vs umbral · sparkline. Click en cualquier fila → drill-down lateral (sin navegación).
       </p>
       <div style={{ marginTop: 14, overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11, fontVariantNumeric: 'tabular-nums' as any }}>
@@ -141,11 +170,13 @@ export function TrendsTable({ indicators, byId, accent, subtabSlug }: Props) {
             {rows.map((r) => {
               const statusCfg = STATUS_COLORS[r.status]
               return (
-                <tr key={r.id} style={{ borderTop: '1px solid #f1f5f9' }}>
+                <tr key={r.id} style={{ borderTop: '1px solid #f1f5f9', cursor: 'pointer' }} onClick={() => handleOpenDrill(r.id)}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#fafbfc' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}>
                   <td style={{ padding: '8px 8px' }}>
-                    <Link href={`/macro/${subtabSlug}/indicator/${r.id}`} style={{ color: '#0f172a', fontWeight: 600, textDecoration: 'none' }}>
+                    <span style={{ color: '#0f172a', fontWeight: 600 }}>
                       {r.label}
-                    </Link>
+                    </span>
                     {r.last?.period && <span style={{ display: 'block', fontSize: 9, color: '#94a3b8', fontWeight: 400 }}>{r.last.period}</span>}
                   </td>
                   <td style={{ padding: '8px 8px', color: '#64748b', fontSize: 10 }}>
