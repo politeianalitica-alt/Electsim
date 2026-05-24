@@ -1,161 +1,171 @@
 /**
- * Catálogo de indicadores · subtab "Riesgo sistémico" v3.
+ * Catálogo · subtab "Riesgo sistémico" v4 (Sprint N6.2).
  *
- * Foco: vulnerabilidades agregadas (deuda, déficit, inflación gap, paro
- * estructural). Indicadores que se "encienden" cuando hay tensión macro.
+ * REFUNDACIÓN. La versión anterior tenía PIB/Paro/IPC genéricos (5 de 8
+ * indicadores eran macro estándar copiados de pulso-macro). Esta versión
+ * se centra en VULNERABILIDADES FINANCIERAS Y SISTÉMICAS específicas:
+ *  - estrés soberano (yield 10Y, spread implícito vs Bund)
+ *  - estrés bancario (NPL, crédito, ratio crédito/PIB)
+ *  - estrés inmobiliario (HPI, precios alquiler)
+ *  - estrés energético (precios IPC energía)
+ *  - estrés laboral estructural (paro larga duración LFD, no paro total)
+ *
+ * Sin solape con pulso-macro (que tiene paro general, IPC general, PIB).
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
 export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
-  // ─── Familia PIB (estresores fiscales) ───────────────────────────────
+  // ─── Estrés soberano · yield 10Y ES ────────────────────────────────────
+  {
+    id: "rs-yield-10y-es",
+    family: "forecast",
+    label: "Yield 10Y soberano España",
+    shortLabel: "10Y ES",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m:ES",
+    frequency: "monthly",
+    description:
+      "Yield 10Y bono español. Termómetro principal del estrés soberano. Subidas estructurales preceden episodios de prima de riesgo (2010-12, mini-2018, 2022).",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 3.5, red: 5, goodAbove: false },
+    accent: "#dc2626",
+  },
+
+  // ─── Estrés soberano · spread Italia (proxy contagio) ─────────────────
+  {
+    id: "rs-yield-10y-it",
+    family: "forecast",
+    label: "Yield 10Y soberano Italia",
+    shortLabel: "10Y IT",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m:IT",
+    frequency: "monthly",
+    description:
+      "Yield italiano. Italia es la 'canary in the coal mine' de la eurozona periférica. Convergencia con yields ES señala contagio sistémico.",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=IT",
+    parser: "eurostat-simple",
+    threshold: { amber: 4, red: 6, goodAbove: false },
+    accent: "#dc2626",
+  },
+
+  // ─── Estrés bancario · ratio crédito/PIB (Basel gap proxy) ────────────
+  {
+    id: "rs-credito-pib-es",
+    family: "demanda",
+    label: "Crédito MFI sector privado YoY",
+    shortLabel: "Crédito YoY",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · ei_bsbo_m",
+    sourceCode: "ei_bsbo_m:ES",
+    frequency: "monthly",
+    description:
+      "Crecimiento crédito MFI a sociedades no financieras + hogares. Caídas sostenidas <0% = credit crunch. Crecimientos >15% YoY = burbuja crediticia.",
+    endpoint: "/api/eurostat/dataset?code=ei_bsbo_m&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 2, red: 0, goodAbove: true },
+    accent: "#f97316",
+  },
+
+  // ─── Estrés inmobiliario · HPI YoY ────────────────────────────────────
+  {
+    id: "rs-hpi-es",
+    family: "precios",
+    label: "House Price Index YoY",
+    shortLabel: "HPI YoY",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · prc_hpi_q",
+    sourceCode: "prc_hpi_q:ES",
+    frequency: "quarterly",
+    description:
+      "Variación interanual del Índice Precios Vivienda. >10% sostenido = sobrecalentamiento (riesgo de corrección). <-5% = crisis inmobiliaria activa (replay 2008).",
+    endpoint: "/api/eurostat/dataset?code=prc_hpi_q&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 7, red: 12, goodAbove: false },
+    accent: "#f59e0b",
+  },
+
+  // ─── Estrés energético · IPC energía hogares ─────────────────────────
+  {
+    id: "rs-ipc-energia",
+    family: "precios",
+    label: "IPC energía hogares YoY",
+    shortLabel: "IPC energía",
+    unit: "%",
+    decimals: 1,
+    source: "INE · IPC clase energía",
+    sourceCode: "IPC290750:CLASE_ENERGIA",
+    frequency: "monthly",
+    description:
+      "Componente energético del IPC. Crisis energéticas (2022) elevan riesgo sistémico vía pérdida de poder adquisitivo y presión política. Reflejo del shock supply-side.",
+    endpoint: "/api/ine/ipc?n=36",
+    parser: "ine-ipc",
+    parserKey: "anual",
+    threshold: { amber: 10, red: 25, goodAbove: false },
+    accent: "#dc2626",
+  },
+
+  // ─── Estrés laboral estructural · paro larga duración ─────────────────
+  {
+    id: "rs-paro-larga-duracion",
+    family: "empleo",
+    label: "Paro larga duración (>1 año)",
+    shortLabel: "Paro LD",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · lfsq_upgan",
+    sourceCode: "lfsq_upgan:ES",
+    frequency: "quarterly",
+    description:
+      "% parados de larga duración (>12 meses) sobre activos. Driver de pobreza estructural y desafección política. España persiste por encima de la media UE.",
+    endpoint: "/api/eurostat/dataset?code=lfsq_upgan&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 5, red: 8, goodAbove: false },
+    accent: "#f59e0b",
+  },
+
+  // ─── Estrés vulnerabilidad social · NEET ─────────────────────────────
+  {
+    id: "rs-neet",
+    family: "empleo",
+    label: "NEET 15-29 años",
+    shortLabel: "NEET",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · edat_lfse_20",
+    sourceCode: "edat_lfse_20:ES",
+    frequency: "annual",
+    description:
+      "Jóvenes 15-29 ni estudian ni trabajan. Indicador estructural de desperdicio de capital humano y vulnerabilidad social/electoral.",
+    endpoint: "/api/eurostat/dataset?code=edat_lfse_20&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 12, red: 16, goodAbove: false },
+    accent: "#7c3aed",
+  },
+
+  // ─── Estrés soberano · vida media deuda Tesoro (alongamiento) ─────────
   {
     id: "rs-deuda-imf",
     family: "pib",
-    label: "Deuda pública %PIB",
-    shortLabel: "Deuda",
+    label: "Deuda pública %PIB (referencia)",
+    shortLabel: "Deuda%",
     unit: "%",
     decimals: 1,
     source: "IMF DataMapper · WEO",
     sourceCode: "GGXWDG_NGDP",
     frequency: "annual",
     description:
-      "Stock deuda %PIB. Vulnerabilidad estructural a shocks de tipos: a más alto, mayor sensibilidad del servicio.",
+      "Stock deuda. Sigue siendo input al riesgo sistémico aunque el detalle vive en margen-fiscal. Aquí se usa como ancla del estresor fiscal sobre el resto del sistema.",
     endpoint: "/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP",
     parser: "imf-country",
     imfIndicator: "GGXWDG_NGDP",
     threshold: { amber: 100, red: 120, goodAbove: false },
-    accent: "#dc2626",
-  },
-  {
-    id: "rs-deficit-imf",
-    family: "pib",
-    label: "Saldo fiscal %PIB",
-    shortLabel: "Saldo fiscal",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGXCNL_NGDP",
-    frequency: "annual",
-    description:
-      "Saldo total AAPP %PIB. Métrica clave del Procedimiento de Déficit Excesivo UE (umbral −3%).",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGXCNL_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGXCNL_NGDP",
-    threshold: { amber: -3, red: -6, goodAbove: true },
-    accent: "#f59e0b",
-  },
-
-  // ─── Familia Precios (riesgo inflacionario) ──────────────────────────
-  {
-    id: "rs-ipc-anual",
-    family: "precios",
-    label: "IPC anual (gap vs 2%)",
-    shortLabel: "IPC YoY",
-    unit: "%",
-    decimals: 2,
-    source: "INE WSTempus · IPC",
-    sourceCode: "IPC290750",
-    frequency: "monthly",
-    description:
-      "Distancia respecto al target BCE 2%. Inflación alta erosiona competitividad, baja indica riesgo deflacionario.",
-    endpoint: "/api/ine/ipc?n=36",
-    parser: "ine-ipc",
-    parserKey: "anual",
-    threshold: { amber: 2, red: 4, goodAbove: false },
-    accent: "#dc2626",
-  },
-  {
-    id: "rs-ipc-imf-20y",
-    family: "forecast",
-    label: "Inflación IMF 20y + forecast",
-    shortLabel: "Infl IMF",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "PCPIPCH",
-    frequency: "annual",
-    description:
-      "Histórica + proyección IMF. Permite contextualizar shocks 2022-23 frente a convergencia esperada.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=PCPIPCH",
-    parser: "imf-country",
-    imfIndicator: "PCPIPCH",
-    threshold: { amber: 2, red: 4, goodAbove: false },
-    accent: "#dc2626",
-  },
-
-  // ─── Familia Empleo (vulnerabilidad social) ──────────────────────────
-  {
-    id: "rs-paro-imf",
-    family: "empleo",
-    label: "Tasa paro IMF (LUR)",
-    shortLabel: "Paro",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "LUR",
-    frequency: "annual",
-    description:
-      "Tasa paro WEO con proyección. Vulnerabilidad social/electoral y proxy de holgura del mercado laboral.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=LUR",
-    parser: "imf-country",
-    imfIndicator: "LUR",
-    threshold: { amber: 12, red: 18, goodAbove: false },
-    accent: "#f59e0b",
-  },
-  {
-    id: "rs-paro-epa",
-    family: "empleo",
-    label: "Tasa paro EPA",
-    shortLabel: "Paro EPA",
-    unit: "%",
-    decimals: 2,
-    source: "INE WSTempus · EPA",
-    sourceCode: "EPA86913",
-    frequency: "quarterly",
-    description:
-      "Frecuencia más alta que IMF (trimestral). Lead indicator del paro estructural anual.",
-    endpoint: "/api/ine/epa?n=24",
-    parser: "ine-epa",
-    parserKey: "general",
-    threshold: { amber: 12, red: 18, goodAbove: false },
-    accent: "#f59e0b",
-  },
-
-  // ─── Familia Exterior (riesgo externo) ───────────────────────────────
-  {
-    id: "rs-cuenta-corriente",
-    family: "exterior",
-    label: "Cuenta corriente %PIB (IMF)",
-    shortLabel: "CC",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "BCA_NGDPD",
-    frequency: "annual",
-    description:
-      "Vulnerabilidad externa. Déficit persistente requiere financiación neta exterior; crítica si supera −4%.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=BCA_NGDPD",
-    parser: "imf-country",
-    imfIndicator: "BCA_NGDPD",
-    threshold: { amber: -2, red: -4, goodAbove: true },
-    accent: "#7c3aed",
-  },
-  // Sprint L F6 · +1 yield soberano como proxy de stress
-  {
-    id: "rs-yield-10y-eurostat",
-    family: "forecast",
-    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
-    shortLabel: "10Y yield",
-    unit: "%",
-    decimals: 2,
-    source: "Eurostat · irt_lt_mcby_m",
-    sourceCode: "irt_lt_mcby_m",
-    frequency: "monthly",
-    description:
-      "Yield mensual del bono soberano a 10 años. Termómetro directo de riesgo soberano percibido por inversores; subidas anticipan stress fiscal o macro.",
-    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
-    parser: "eurostat-simple",
-    threshold: { amber: 3.5, red: 5, goodAbove: false },
     accent: "#dc2626",
   },
 ];
@@ -166,5 +176,5 @@ export const RIESGO_SISTEMICO_META = {
   shortLabel: "Riesgo",
   accent: "#dc2626",
   description:
-    "Vulnerabilidades agregadas con umbrales académicos. Termómetro compuesto del estrés macro-financiero.",
+    "Vulnerabilidades financieras y sistémicas específicas: yields ES vs IT (contagio), crédito MFI, HPI inmobiliario, shock energético en IPC, paro larga duración y NEET, deuda %PIB como ancla fiscal. Sin solape con pulso-macro.",
 };

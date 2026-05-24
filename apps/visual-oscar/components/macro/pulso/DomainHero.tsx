@@ -116,89 +116,102 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
   }
 
   if (subtabSlug === 'dependencias-externas') {
-    const cc = findValue(byId, 'de-cuenta-corriente')
-    const exports = findValue(byId, 'de-exports-yoy-imf') ?? findValue(byId, 'de-cnt-exports')
-    const iip = findValue(byId, 'de-iip-eurostat')
-    const yield10 = findValue(byId, 'de-yield-10y')
+    // Sprint N6.2: refundación · indicadores estructura comercio exterior
+    const apertura = findValue(byId, 'de-apertura-exports')
+    const turistas = findValue(byId, 'de-turistas-anual')
+    const energia = findValue(byId, 'de-energia-dependence')
+    const reer = findValue(byId, 'de-reer-narrow')
     return (
-      <DomainPanel accent={accent} title="Dependencias externas · exposición al exterior" subtitle="Balance corriente, dinámica exportaciones, posición inversión internacional, coste financiación externa">
+      <DomainPanel accent={accent} title="Dependencias externas · estructura del comercio español" subtitle="Apertura X%PIB, turismo (driver clave), dependencia energética crítica, REER narrow intra-eurozona">
         <div style={gridStyle}>
-          <BigMetric label="CC %PIB" value={cc} unit="%" decimals={2} color={colorForValue(cc, 'high', -2, -4)} caption="ahorro neto exterior" period={findPeriod(byId, 'de-cuenta-corriente')} />
-          <BigMetric label="Exports YoY" value={exports} unit="%" decimals={2} color={colorForValue(exports, 'high', 2, 0)} caption="demanda externa" period={findPeriod(byId, 'de-exports-yoy-imf') || findPeriod(byId, 'de-cnt-exports')} />
-          <BigMetric label="IIP neta" value={iip} unit="%" decimals={1} color={colorForValue(iip, 'high', -50, -80)} caption="stock pasivos netos" period={findPeriod(byId, 'de-iip-eurostat')} />
-          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="prima de riesgo exterior" period={findPeriod(byId, 'de-yield-10y')} />
+          <BigMetric label="X %PIB" value={apertura} unit="%" decimals={1} color={colorForValue(apertura, 'high', 35, 30)} caption="apertura comercial" period={findPeriod(byId, 'de-apertura-exports')} />
+          <BigMetric label="Turistas" value={turistas} unit="M" decimals={1} color="#0F766E" caption="non-resident llegadas" period={findPeriod(byId, 'de-turistas-anual')} />
+          <BigMetric label="Dep. energía" value={energia} unit="%" decimals={1} color={colorForValue(energia, 'low', 60, 75)} caption="imports/consumo bruto" period={findPeriod(byId, 'de-energia-dependence')} />
+          <BigMetric label="REER narrow" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption="competitividad EA" period={findPeriod(byId, 'de-reer-narrow')} />
         </div>
         <Interpretation>
-          {cc != null && iip != null
-            ? `Cuenta corriente ${cc >= 0 ? '+' : ''}${cc.toFixed(2)}% · IIP neta ${iip.toFixed(1)}% PIB. ${cc > 0 && iip > -70 ? 'España exportador neto de ahorro y mejorando posición externa.' : cc < 0 ? 'Déficit corriente que requiere financiación exterior continuada.' : 'Posición externa estable pero deudora estructural.'}`
-            : 'Exposición exterior española · cruzar saldo corriente, IIP y yields para evaluar vulnerabilidad.'}
+          {apertura != null && energia != null
+            ? `Apertura comercial ${apertura.toFixed(1)}% PIB · dependencia energética ${energia.toFixed(1)}%. ${energia > 70 ? '⚠️ Alta vulnerabilidad energética: shock precios = transferencia inmediata al IPC y déficit corriente.' : 'Estructura comercio: 60% intra-EA, turismo motor del superávit servicios.'}`
+            : 'Estructura del comercio exterior español · cruzar apertura, partners y dependencia energética para evaluar vulnerabilidad sectorial.'}
         </Interpretation>
       </DomainPanel>
     )
   }
 
   if (subtabSlug === 'riesgo-sistemico') {
-    const deuda = findValue(byId, 'rs-deuda-imf')
-    const deficit = findValue(byId, 'rs-deficit-imf')
-    const ipc = findValue(byId, 'rs-ipc-anual')
-    const paro = findValue(byId, 'rs-paro-imf')
-    const yield10 = findValue(byId, 'rs-yield-10y-eurostat')
+    // Sprint N6.2: refundación · estresores financieros específicos
+    const yieldES = findValue(byId, 'rs-yield-10y-es')
+    const yieldIT = findValue(byId, 'rs-yield-10y-it')
+    const hpi = findValue(byId, 'rs-hpi-es')
+    const credito = findValue(byId, 'rs-credito-pib-es')
+    const paroLD = findValue(byId, 'rs-paro-larga-duracion')
     return (
-      <DomainPanel accent={accent} title="Riesgo sistémico · termómetro de vulnerabilidades agregadas" subtitle="Estrés fiscal + financiero + inflacionario + laboral cruzados con umbrales académicos">
+      <DomainPanel accent={accent} title="Riesgo sistémico · estresores financieros y estructurales" subtitle="Yields ES vs IT (contagio), HPI inmobiliario, crédito MFI, paro larga duración">
         <div style={gridStyle}>
-          <BigMetric label="Deuda %PIB" value={deuda} unit="%" decimals={1} color={colorForValue(deuda, 'low', 100, 120)} caption="Maastricht criterion" period={findPeriod(byId, 'rs-deuda-imf')} />
-          <BigMetric label="Déficit" value={deficit} unit="%" decimals={2} color={colorForValue(deficit, 'high', -3, -6)} caption="Pacto Estabilidad" period={findPeriod(byId, 'rs-deficit-imf')} />
-          <BigMetric label="IPC YoY" value={ipc} unit="%" decimals={2} color={colorForValue(ipc, 'low', 2, 4)} caption="presión precios" period={findPeriod(byId, 'rs-ipc-anual')} />
-          <BigMetric label="Paro" value={paro} unit="%" decimals={1} color={colorForValue(paro, 'low', 12, 18)} caption="estrés laboral" period={findPeriod(byId, 'rs-paro-imf')} />
-          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="prima riesgo soberano" period={findPeriod(byId, 'rs-yield-10y-eurostat')} />
+          <BigMetric label="10Y ES" value={yieldES} unit="%" decimals={2} color={colorForValue(yieldES, 'low', 3.5, 5)} caption="estrés soberano" period={findPeriod(byId, 'rs-yield-10y-es')} />
+          <BigMetric label="10Y IT" value={yieldIT} unit="%" decimals={2} color={colorForValue(yieldIT, 'low', 4, 6)} caption="contagio EA periférica" period={findPeriod(byId, 'rs-yield-10y-it')} />
+          <BigMetric label="HPI YoY" value={hpi} unit="%" decimals={1} color={colorForValue(hpi, 'low', 7, 12)} caption="ciclo inmobiliario" period={findPeriod(byId, 'rs-hpi-es')} />
+          <BigMetric label="Crédito MFI" value={credito} unit="%" decimals={1} color={colorForValue(credito, 'high', 2, 0)} caption="canal bancario" period={findPeriod(byId, 'rs-credito-pib-es')} />
+          <BigMetric label="Paro LD" value={paroLD} unit="%" decimals={1} color={colorForValue(paroLD, 'low', 5, 8)} caption="vulnerabilidad social" period={findPeriod(byId, 'rs-paro-larga-duracion')} />
         </div>
         <Interpretation>
-          {deuda != null && paro != null
-            ? `Estrés sistémico actual · deuda ${deuda.toFixed(1)}% · paro ${paro.toFixed(1)}% · IPC ${ipc?.toFixed(1) ?? '?'}%. ${deuda > 120 || paro > 18 || (ipc != null && ipc > 4) ? '⚠️ Al menos un umbral rojo cruzado · vulnerabilidad elevada.' : 'Indicadores dentro de bandas amber/verde · riesgo contenido pero monitorizable.'}`
-            : 'Termómetro de riesgo sistémico español · 5 dimensiones cruzadas con umbrales académicos para detectar tensión agregada.'}
+          {yieldES != null && hpi != null
+            ? `Estrés sistémico · 10Y ES ${yieldES.toFixed(2)}% · HPI ${hpi.toFixed(1)}% YoY · crédito ${credito?.toFixed(1) ?? '?'}%. ${yieldES > 5 || hpi > 12 || (credito != null && credito < 0) ? '⚠️ Al menos un estresor crítico activo · revisar exposición.' : 'Estresores financieros contenidos · monitorizar contagio italiano y dinámica inmobiliaria.'}`
+            : 'Termómetro de estrés sistémico · yields soberanos, inmobiliario, crédito y empleo estructural.'}
         </Interpretation>
       </DomainPanel>
     )
   }
 
   if (subtabSlug === 'mercados-activos') {
-    // Mercados usa endpoints externos (Finnhub) → DomainHero muestra macro context
+    // Sprint N6.2: refundación · cuadro de mando trader/analista
+    const yieldES = findValue(byId, 'ma-yield-10y-es')
+    const yieldDE = findValue(byId, 'ma-yield-10y-de')
+    const eurusd = findValue(byId, 'ma-eurusd')
     const reer = findValue(byId, 'ma-reer-bis')
-    const yield10 = findValue(byId, 'ma-tipo-largo-eurostat')
-    const tipoCorto = findValue(byId, 'ma-tipo-corto-eurostat')
-    const inflacion = findValue(byId, 'ma-inflacion-imf')
+    const slope = (yieldES != null && yieldDE != null) ? yieldES - yieldDE : null
     return (
-      <DomainPanel accent={accent} title="Mercados · qué descuentan los activos del régimen macro" subtitle="Yields, FX, inflación esperada y competitividad — el ancla macroeconómica de los precios de activos">
+      <DomainPanel accent={accent} title="Mercados · cuadro de mando trader/analista España" subtitle="Yields ES vs Bund (spread), EUR/USD, REER, agregados monetarios y crédito MFI">
         <div style={gridStyle}>
-          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="coste capital benchmark" period={findPeriod(byId, 'ma-tipo-largo-eurostat')} />
-          <BigMetric label="Tipo corto" value={tipoCorto} unit="%" decimals={2} color="#0F766E" caption="referencia BCE" period={findPeriod(byId, 'ma-tipo-corto-eurostat')} />
-          <BigMetric label="Inflación" value={inflacion} unit="%" decimals={2} color={colorForValue(inflacion, 'low', 2, 4)} caption="ancla nominal" period={findPeriod(byId, 'ma-inflacion-imf')} />
-          <BigMetric label="REER" value={reer} unit="" decimals={1} color="#7c3aed" caption="competitividad-precio" period={findPeriod(byId, 'ma-reer-bis')} />
+          <BigMetric label="10Y ES" value={yieldES} unit="%" decimals={2} color={colorForValue(yieldES, 'low', 3.5, 5)} caption="benchmark coste capital" period={findPeriod(byId, 'ma-yield-10y-es')} />
+          <BigMetric label="10Y DE" value={yieldDE} unit="%" decimals={2} color="#94a3b8" caption="risk-free eurozona" period={findPeriod(byId, 'ma-yield-10y-de')} />
+          <BigMetric label="Spread ES-DE" value={slope} unit="pb" decimals={0} color={colorForValue(slope, 'low', 1.0, 1.5)} caption="prima riesgo país" period={findPeriod(byId, 'ma-yield-10y-es')} />
+          <BigMetric label="EUR/USD" value={eurusd} unit="" decimals={4} color="#0891b2" caption="cross divisas" period={findPeriod(byId, 'ma-eurusd')} />
+          <BigMetric label="REER ES" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption="competitividad" period={findPeriod(byId, 'ma-reer-bis')} />
         </div>
         <Interpretation>
-          Régimen mercado · debajo aparece IBEX live + paneles enriquecidos (sector breakdown, yield slope, market breadth, FX matrix, commodity heatmap). Cruza yields + inflación esperada para entender qué descuentan los activos en términos de crecimiento, política monetaria y prima de riesgo país.
+          {yieldES != null && yieldDE != null
+            ? `Spread ES-DE ${((yieldES - yieldDE) * 100).toFixed(0)}pb. ${(yieldES - yieldDE) > 1.5 ? '⚠️ Prima de riesgo elevada · activos ES descuentan stress.' : 'Prima riesgo contenida vs Bund · entorno benigno para equity y deuda corporativa ES.'}`
+            : 'Lectura macro-financiera España · yields, FX, agregados monetarios. Debajo: panel enriquecido con IBEX live, sector breakdown, FX matrix y commodity heatmap.'}
         </Interpretation>
       </DomainPanel>
     )
   }
 
   if (subtabSlug === 'flujos-capital') {
-    const cc = findValue(byId, 'fc-cuenta-corriente')
-    const iip = findValue(byId, 'fc-iip-eurostat')
-    const yield10 = findValue(byId, 'fc-tipos-largo-eurostat')
-    const ctaFin = findValue(byId, 'fc-bop-cuenta-financiera-eurostat')
+    // Sprint N6.2: refundación · BoP por componente
+    const iip = findValue(byId, 'fc-iip-neta')
+    const iedIn = findValue(byId, 'fc-ied-inbound')
+    const iedOut = findValue(byId, 'fc-ied-outbound')
+    const portfolio = findValue(byId, 'fc-portfolio-net')
+    const ctaFin = findValue(byId, 'fc-cuenta-financiera')
+    // Aliases por compatibilidad con interpretación heredada
+    const yield10: number | null = null
+    const cc: number | null = null
+    void yield10; void cc; // marcadores compatibilidad legacy
     return (
-      <DomainPanel accent={accent} title="Flujos de capital · entrada/salida y posición externa neta" subtitle="Saldo corriente, posición internacional acumulada, cuenta financiera y coste financiación exterior">
+      <DomainPanel accent={accent} title="Flujos de capital · BoP descompuesta por tipo de flujo" subtitle="IED inbound/outbound (estable), portfolio investment (hot money), other investment (banca cross-border), IIP neta">
         <div style={gridStyle}>
-          <BigMetric label="CC %PIB" value={cc} unit="%" decimals={2} color={colorForValue(cc, 'high', -2, -4)} caption="exportador/importador ahorro" period={findPeriod(byId, 'fc-cuenta-corriente')} />
-          <BigMetric label="IIP neta" value={iip} unit="%" decimals={1} color={colorForValue(iip, 'high', -50, -80)} caption="stock pasivos netos" period={findPeriod(byId, 'fc-iip-eurostat')} />
-          <BigMetric label="Cta financiera" value={ctaFin} unit="%" decimals={2} color="#0EA5E9" caption="flujos netos BoP" period={findPeriod(byId, 'fc-bop-cuenta-financiera-eurostat')} />
-          <BigMetric label="10Y yield" value={yield10} unit="%" decimals={2} color={colorForValue(yield10, 'low', 3.5, 5)} caption="coste capital exterior" period={findPeriod(byId, 'fc-tipos-largo-eurostat')} />
+          <BigMetric label="IIP neta" value={iip} unit="%" decimals={1} color={colorForValue(iip, 'high', -50, -80)} caption="stock pasivos netos" period={findPeriod(byId, 'fc-iip-neta')} />
+          <BigMetric label="IED in" value={iedIn} unit="%" decimals={2} color={colorForValue(iedIn, 'high', 1, 0)} caption="capital long-term entrante" period={findPeriod(byId, 'fc-ied-inbound')} />
+          <BigMetric label="IED out" value={iedOut} unit="%" decimals={2} color="#f59e0b" caption="multinacionales ES fuera" period={findPeriod(byId, 'fc-ied-outbound')} />
+          <BigMetric label="Portfolio" value={portfolio} unit="%" decimals={2} color="#dc2626" caption="hot money cartera" period={findPeriod(byId, 'fc-portfolio-net')} />
+          <BigMetric label="Cta financiera" value={ctaFin} unit="%" decimals={2} color="#0EA5E9" caption="flujos netos BoP" period={findPeriod(byId, 'fc-cuenta-financiera')} />
         </div>
         <Interpretation>
-          {iip != null && cc != null
-            ? `Posición externa neta ${iip.toFixed(1)}% PIB · cuenta corriente ${cc >= 0 ? '+' : ''}${cc.toFixed(2)}%. ${cc > 0 ? 'Mejora la posición externa (entrada neta de capital reducida).' : 'Necesidad de financiación exterior continua mantiene el stock pasivo elevado.'}`
-            : 'Flujos de capital · cruzar IIP + saldo corriente + yields para evaluar la sostenibilidad de la posición externa.'}
+          {iip != null && iedIn != null
+            ? `Posición externa neta ${iip.toFixed(1)}% PIB · IED inbound ${iedIn.toFixed(2)}% PIB. ${(iedIn > 1 && portfolio != null && portfolio > 0) ? 'Capital estable entrando y portfolio neutro/positivo · entorno favorable.' : 'Composición BoP volátil · revisar dominio portfolio vs IED.'}`
+            : 'Balanza de pagos descompuesta · IED (estable, long-term) vs portfolio (volátil) vs other investment (banca cross-border).'}
         </Interpretation>
       </DomainPanel>
     )

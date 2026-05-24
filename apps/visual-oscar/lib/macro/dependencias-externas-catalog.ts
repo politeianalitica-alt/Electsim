@@ -1,147 +1,184 @@
 /**
- * Catálogo · Subtab 4 "Dependencias externas" v3 (Sprint N1).
- * Foco: cuenta corriente, exposición exterior, concentración de partners,
- * dependencia financiera neta, exposición a shocks externos.
+ * Catálogo · Subtab "Dependencias externas" v4 (Sprint N6.2).
+ *
+ * REFUNDACIÓN. La versión anterior duplicaba cuenta corriente y deuda con
+ * pulso-macro y flujos-capital. Esta versión se centra en LA ESTRUCTURA DEL
+ * COMERCIO EXTERIOR ESPAÑOL: granularidad geográfica + sectorial.
+ *
+ * Foco: ¿de qué países, qué productos, cuánto pesan en PIB, qué dependencias
+ * críticas (energía, tecnología), cómo evoluciona la apertura comercial?
+ *
+ * Sin solape con flujos-capital (BoP/IIP/IED) ni pulso-macro (CC agregada).
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
 export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
+  // ─── Apertura comercial · exports + imports %PIB ─────────────────────
   {
-    id: "de-cuenta-corriente",
+    id: "de-apertura-exports",
     family: "exterior",
-    label: "Cuenta corriente %PIB · IMF BCA_NGDPD",
-    shortLabel: "CC %PIB",
+    label: "Exportaciones bienes+servicios %PIB",
+    shortLabel: "X %PIB",
     unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "BCA_NGDPD",
-    frequency: "annual",
+    decimals: 1,
+    source: "Eurostat · namq_10_gdp",
+    sourceCode: "namq_10_gdp:P6:ES",
+    frequency: "quarterly",
     description:
-      "Saldo cuenta corriente sobre PIB. Métrica fundamental de dependencia externa: positivo = exportador neto de ahorro, negativo = necesita financiación exterior.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=BCA_NGDPD",
-    parser: "imf-country",
-    imfIndicator: "BCA_NGDPD",
-    threshold: { amber: -2, red: -4, goodAbove: true },
+      "Exportaciones reales de bienes y servicios sobre PIB. España ~37% PIB, vs DEU 50%, FRA 32%. Mide la apertura externa estructural.",
+    endpoint: "/api/eurostat/dataset?code=namq_10_gdp&filters=geo=ES;na_item=P6;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 35, red: 30, goodAbove: true },
     accent: "#0F766E",
   },
   {
-    id: "de-exports-yoy-imf",
+    id: "de-apertura-imports",
     family: "exterior",
-    label: "Exportaciones reales YoY · IMF TX_RPCH",
-    shortLabel: "Exports YoY",
+    label: "Importaciones bienes+servicios %PIB",
+    shortLabel: "M %PIB",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · namq_10_gdp",
+    sourceCode: "namq_10_gdp:P7:ES",
+    frequency: "quarterly",
+    description:
+      "Importaciones reales sobre PIB. Apertura por el lado de demanda. Su diferencia con exports = saldo exterior neto. Crecimiento >exports indica déficit exterior.",
+    endpoint: "/api/eurostat/dataset?code=namq_10_gdp&filters=geo=ES;na_item=P7;unit=PC_GDP",
+    parser: "eurostat-simple",
+    accent: "#f97316",
+  },
+
+  // ─── Comercio servicios · turismo y servicios no-turismo ──────────────
+  {
+    id: "de-servicios-export",
+    family: "exterior",
+    label: "Exportaciones servicios YoY",
+    shortLabel: "Serv. exp",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · bop_its6_det",
+    sourceCode: "bop_its6_det:S:ES",
+    frequency: "quarterly",
+    description:
+      "Variación interanual exportaciones de servicios (turismo, transporte, tech). España es 2º exportador mundial servicios per cápita. Driver del superávit por cuenta corriente.",
+    endpoint: "/api/eurostat/dataset?code=bop_its6_det&filters=geo=ES;bop_item=S",
+    parser: "eurostat-simple",
+    accent: "#16a34a",
+  },
+
+  // ─── Comercio bienes · INE Aduanas mensual ────────────────────────────
+  {
+    id: "de-bienes-export-mensual",
+    family: "exterior",
+    label: "Exportaciones bienes mensual",
+    shortLabel: "X bienes",
+    unit: "M€",
+    decimals: 0,
+    source: "INE · Comercio Exterior",
+    sourceCode: "COMERCIO_EXT_EXPORT",
+    frequency: "monthly",
+    description:
+      "Valor mensual exportaciones bienes (Aduanas). Sigue de cerca el ciclo industrial y la demanda externa. Más fino que CNT trimestral.",
+    endpoint: "/api/ine/cnt-extra?n=36",
+    parser: "ine-cnt-extra",
+    parserKey: "exports",
+    accent: "#0891b2",
+  },
+
+  // ─── Dependencia energética ─────────────────────────────────────────
+  {
+    id: "de-energia-dependence",
+    family: "exterior",
+    label: "Dependencia energética neta",
+    shortLabel: "Energía",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · nrg_ind_id",
+    sourceCode: "nrg_ind_id:ES",
+    frequency: "annual",
+    description:
+      "% del consumo bruto energético importado. España ~67% vs UE 58%. Vulnerabilidad clave: shock energético 2022 disparó la importación neta (gas natural, petróleo).",
+    endpoint: "/api/eurostat/dataset?code=nrg_ind_id&filters=geo=ES",
+    parser: "eurostat-simple",
+    threshold: { amber: 60, red: 75, goodAbove: false },
+    accent: "#dc2626",
+  },
+
+  // ─── Saldo turístico · key driver superávit ───────────────────────────
+  {
+    id: "de-turistas-anual",
+    family: "exterior",
+    label: "Turistas internacionales anual",
+    shortLabel: "Turistas",
+    unit: "M",
+    decimals: 1,
+    source: "INE · FRONTUR",
+    sourceCode: "FRONTUR23988",
+    frequency: "monthly",
+    description:
+      "Millones de turistas internacionales (FRONTUR). 2º país del mundo por llegadas (84M en 2023). Driver del superávit por cuenta corriente y ~12% PIB directo.",
+    endpoint: "/api/ine/frontur?n=36",
+    parser: "ine-frontur",
+    accent: "#0F766E",
+  },
+
+  // ─── Concentración partners · proxy via REER broad ────────────────────
+  {
+    id: "de-reer-narrow",
+    family: "exterior",
+    label: "REER narrow (intra-EA) · BIS",
+    shortLabel: "REER narrow",
+    unit: "",
+    decimals: 1,
+    source: "BIS Effective Exchange Rates",
+    sourceCode: "REER_NARROW:ES",
+    frequency: "monthly",
+    description:
+      "REER narrow (27 socios principales, intra-EA pesa). Detecta pérdidas competitividad-precio frente al núcleo eurozona donde van 60% exports ES.",
+    endpoint: "/api/bis/fx-effective",
+    parser: "eurostat-simple",
+    parserKey: "narrow",
+    threshold: { amber: 105, red: 115, goodAbove: false },
+    accent: "#7c3aed",
+  },
+
+  // ─── Exports growth · IMF anual ───────────────────────────────────────
+  {
+    id: "de-exports-yoy",
+    family: "exterior",
+    label: "Exportaciones reales YoY (IMF)",
+    shortLabel: "X YoY",
     unit: "%",
     decimals: 2,
     source: "IMF DataMapper · WEO",
     sourceCode: "TX_RPCH",
     frequency: "annual",
     description:
-      "Variación interanual de exportaciones reales totales. Sensible a demanda externa y competitividad-precio.",
+      "Crecimiento exportaciones reales anual + forecast IMF. Visión a medio plazo de la robustez exportadora vs ciclo de comercio mundial.",
     endpoint: "/api/imf/country?iso=ESP&indicator=TX_RPCH",
     parser: "imf-country",
     imfIndicator: "TX_RPCH",
-    accent: "#0891b2",
+    threshold: { amber: 3, red: 0, goodAbove: true },
+    accent: "#0F766E",
   },
+
+  // ─── Imports growth · IMF anual ───────────────────────────────────────
   {
-    id: "de-imports-yoy-imf",
+    id: "de-imports-yoy",
     family: "exterior",
-    label: "Importaciones reales YoY · IMF TM_RPCH",
-    shortLabel: "Imports YoY",
+    label: "Importaciones reales YoY (IMF)",
+    shortLabel: "M YoY",
     unit: "%",
     decimals: 2,
     source: "IMF DataMapper · WEO",
     sourceCode: "TM_RPCH",
     frequency: "annual",
     description:
-      "Variación interanual de importaciones reales. Indicador procíclico — correlaciona con demanda interna.",
+      "Crecimiento importaciones reales. Procíclica con demanda interna. Su diferencia con exports indica contribución neta del sector exterior al PIB.",
     endpoint: "/api/imf/country?iso=ESP&indicator=TM_RPCH",
     parser: "imf-country",
     imfIndicator: "TM_RPCH",
     accent: "#f97316",
-  },
-  {
-    id: "de-cnt-exports",
-    family: "exterior",
-    label: "Exportaciones b/s YoY · INE CNT 7267",
-    shortLabel: "Exp INE",
-    unit: "%",
-    decimals: 2,
-    source: "INE WSTempus · CNT",
-    sourceCode: "CNTR7267",
-    frequency: "quarterly",
-    description:
-      "Exportaciones reales totales (bienes + servicios) según CNT base 2010 SA. Mensualidad trimestral más fina que IMF anual.",
-    endpoint: "/api/ine/cnt-extra?n=24",
-    parser: "ine-cnt-extra",
-    parserKey: "exports",
-    accent: "#0891b2",
-  },
-  {
-    id: "de-cnt-imports",
-    family: "exterior",
-    label: "Importaciones b/s YoY · INE CNT 7287",
-    shortLabel: "Imp INE",
-    unit: "%",
-    decimals: 2,
-    source: "INE WSTempus · CNT",
-    sourceCode: "CNTR7287",
-    frequency: "quarterly",
-    description:
-      "Importaciones reales totales según CNT base 2010 SA. Procíclica con demanda interna.",
-    endpoint: "/api/ine/cnt-extra?n=24",
-    parser: "ine-cnt-extra",
-    parserKey: "imports",
-    accent: "#f97316",
-  },
-  {
-    id: "de-iip-eurostat",
-    family: "exterior",
-    label: "Posición Inversión Internacional Neta %PIB · Eurostat bop_iip6_q",
-    shortLabel: "IIP neta",
-    unit: "%",
-    decimals: 1,
-    source: "Eurostat · bop_iip6_q",
-    sourceCode: "bop_iip6_q:NIIP",
-    frequency: "quarterly",
-    description:
-      "Stock acumulado activos exteriores - pasivos sobre PIB. España estructuralmente -70/-80% PIB (deudor neto). Métrica directa de dependencia exterior.",
-    endpoint: "/api/eurostat/dataset?code=bop_iip6_q&filters=geo=ES;sector=S1;stk_flow=NIIP;bop_item=FA;unit=PC_GDP",
-    parser: "eurostat-simple",
-    threshold: { amber: -50, red: -80, goodAbove: true },
-    accent: "#8b5cf6",
-  },
-  {
-    id: "de-yield-10y",
-    family: "exterior",
-    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
-    shortLabel: "10Y yield",
-    unit: "%",
-    decimals: 2,
-    source: "Eurostat · irt_lt_mcby_m",
-    sourceCode: "irt_lt_mcby_m",
-    frequency: "monthly",
-    description:
-      "Yield mensual del bono soberano a 10 años. Coste implícito de financiación exterior; subidas = inversores externos exigen más prima por dependencia financiera.",
-    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
-    parser: "eurostat-simple",
-    threshold: { amber: 3.5, red: 5, goodAbove: false },
-    accent: "#dc2626",
-  },
-  {
-    id: "de-inversion-bruta",
-    family: "exterior",
-    label: "Inversión bruta %PIB · IMF NID_NGDP",
-    shortLabel: "Inversión",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "NID_NGDP",
-    frequency: "annual",
-    description:
-      "FBCF sobre PIB. Una economía con baja inversión doméstica tiende a depender más del ahorro exterior para financiar capital nuevo.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=NID_NGDP",
-    parser: "imf-country",
-    imfIndicator: "NID_NGDP",
-    accent: "#16a34a",
   },
 ];
 
@@ -151,5 +188,5 @@ export const DEPENDENCIAS_EXTERNAS_META = {
   shortLabel: "Externo",
   accent: "#7c3aed",
   description:
-    "Exposición exterior agregada: cuenta corriente, concentración de partners comerciales, posición de inversión internacional, dependencia financiera y vulnerabilidad ante shocks externos.",
+    "Estructura del comercio exterior español: apertura X/M %PIB, servicios vs bienes, turismo (driver clave), dependencia energética crítica, REER narrow intra-EA, evolución X/M anual. Sin solape con flujos-capital (BoP/IIP) ni pulso-macro (CC agregada).",
 };
