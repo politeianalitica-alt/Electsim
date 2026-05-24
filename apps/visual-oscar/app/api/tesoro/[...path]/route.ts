@@ -43,26 +43,49 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
   }
 
   // /api/tesoro/snapshot · datos snapshot del último boletín conocido
-  // Estos valores son LECTURA ESTÁTICA verificada de boletín reciente; un
-  // scraper PDF real los rotaría. Mientras tanto da contexto al analista.
+  // Sprint N18: intenta llamar /api/tesoro/scrape-pdf primero (best-effort PDF
+  // scraper). Si falla o devuelve <2 métricas extraídas, fallback a curado.
+  // Curado mantiene su lectura como referencia oct-2024.
   if (action === 'snapshot') {
-    // Valores extraídos del Boletín Mensual Tesoro Público (referencia oct-2024)
-    // El analista debe consultar boletines.pdf para versión actual.
+    const CURATED = {
+      vida_media_deuda_anios: 7.92,
+      coste_medio_emisiones_pct: 3.18,
+      coste_medio_stock_pct: 2.16,
+      deuda_total_meur: 1622000,
+      pct_no_residentes: 41.8,
+      pct_bce_eurosistema: 31.4,
+      pct_inversores_domesticos: 26.8,
+    }
+    // Try scrape internally (same Vercel deployment)
+    let scrapeMeta: any = null
+    try {
+      const baseUrl = req.url.split('/api/')[0]
+      const scrapeRes = await fetch(`${baseUrl}/api/tesoro/scrape-pdf`, {
+        next: { revalidate: 86400 },
+      } as RequestInit)
+      if (scrapeRes.ok) scrapeMeta = await scrapeRes.json()
+    } catch {
+      scrapeMeta = null
+    }
+    const usingScraped = scrapeMeta?.ok === true && scrapeMeta?.extracted_count >= 2
     return NextResponse.json({
       ok: true,
-      data_quality: { source_type: 'curated', source_name: 'Tesoro Público boletín' },
-      snapshot: {
-        vida_media_deuda_anios: 7.92,
-        coste_medio_emisiones_pct: 3.18,
-        coste_medio_stock_pct: 2.16,
-        deuda_total_meur: 1622000,
-        pct_no_residentes: 41.8,
-        pct_bce_eurosistema: 31.4,
-        pct_inversores_domesticos: 26.8,
+      data_quality: {
+        source_type: usingScraped ? 'live' : 'curated',
+        source_name: usingScraped ? 'Tesoro Público PDF scrape' : 'Tesoro Público boletín (curado)',
       },
-      reference_period: '2024-10',
-      reference_pdf: `${TESORO_PUBLIC}${TESORO_BOLETIN_PATH}`,
-      next_update_note: 'Boletín se publica mensualmente · scraper PDF pendiente para auto-update',
+      snapshot: usingScraped ? scrapeMeta.snapshot : CURATED,
+      reference_period: scrapeMeta?.pdf_url ? new Date().toISOString().slice(0, 7) : '2024-10',
+      reference_pdf: scrapeMeta?.pdf_url || `${TESORO_PUBLIC}${TESORO_BOLETIN_PATH}`,
+      scraper_meta: scrapeMeta ? {
+        attempted: true,
+        ok: scrapeMeta.ok,
+        extracted_count: scrapeMeta.extracted_count,
+        fallback_used: scrapeMeta.fallback_used,
+      } : { attempted: false },
+      next_update_note: usingScraped
+        ? 'Auto-actualizado vía scraper PDF (cache 24h)'
+        : 'Snapshot curado · scraper PDF intentado pero usó fallback',
     })
   }
 

@@ -232,14 +232,14 @@ interface RenderedRelease {
   daysFromNow: number;
 }
 
-export async function GET(): Promise<NextResponse> {
+export async function GET(req: Request): Promise<NextResponse> {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const horizonDays = 45;
 
   const releases: RenderedRelease[] = [];
 
-  // Genera próximos 2 meses para cubrir 45 días
+  // Genera próximos 2 meses para cubrir 45 días desde templates estáticos
   for (let offset = 0; offset < 60; offset++) {
     const d = new Date(today);
     d.setDate(d.getDate() + offset);
@@ -261,6 +261,37 @@ export async function GET(): Promise<NextResponse> {
     if (offset >= horizonDays && releases.length > 6) break;
   }
 
+  // Sprint N18 · Merge con calendario REAL INE PEN-API.
+  // Best-effort: si /api/ine/calendario responde, sus eventos sobrescriben
+  // templates INE en las fechas que coinciden y añaden los nuevos. Sustituye
+  // estimación heurística por dato oficial.
+  let ineLiveCount = 0;
+  try {
+    const baseUrl = req.url.split("/api/")[0];
+    const ineRes = await fetch(`${baseUrl}/api/ine/calendario?dias=${horizonDays}`, {
+      next: { revalidate: 21600 },
+    } as RequestInit);
+    if (ineRes.ok) {
+      const ineData = await ineRes.json();
+      if (Array.isArray(ineData?.events)) {
+        for (const e of ineData.events) {
+          if (e.daysFromNow < 0 || e.daysFromNow > horizonDays) continue;
+          releases.push({
+            date: e.date,
+            source: "INE",
+            indicator: `[LIVE] ${e.indicator}`,
+            url: e.url,
+            importance: e.importance || "medium",
+            daysFromNow: e.daysFromNow,
+          });
+          ineLiveCount++;
+        }
+      }
+    }
+  } catch {
+    /* silent · seguimos con templates */
+  }
+
   releases.sort((a, b) => a.daysFromNow - b.daysFromNow);
 
   return NextResponse.json(
@@ -269,9 +300,12 @@ export async function GET(): Promise<NextResponse> {
       generated_at: today.toISOString(),
       horizon_days: horizonDays,
       total: releases.length,
-      releases: releases.slice(0, 30),
+      ine_live_events: ineLiveCount,
+      releases: releases.slice(0, 40),
       disclaimer:
-        "Calendario indicativo basado en cadencia mensual habitual. Fechas exactas en INE PEN-API / Eurostat / IMF.",
+        ineLiveCount > 0
+          ? `Calendario · ${ineLiveCount} eventos INE en vivo + templates indicativos para Eurostat/BCE/IMF.`
+          : "Calendario indicativo basado en cadencia mensual habitual (INE PEN-API no respondió). Fechas exactas en Eurostat / IMF directly.",
     },
     {
       headers: {

@@ -609,6 +609,60 @@ export async function GET(
     })
   }
 
+  // /api/ine/calendario?dias=45 · Sprint N18
+  // Calendario REAL de próximas publicaciones INE vía WSTempus CALENDARIO.
+  // Endpoint nativo INE: GET /CALENDARIO/{fini}/{ffin} (formato YYYYMMDD).
+  if (action === 'calendario') {
+    const reqUrl = new URL(req.url)
+    const dias = Math.min(120, Math.max(7, Number(reqUrl.searchParams.get('dias') || 45)))
+    const today = new Date()
+    const ffin = new Date(today.getTime() + dias * 86400000)
+    const fmt = (d: Date) => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
+    const path = `/CALENDARIO/${fmt(today)}/${fmt(ffin)}`
+    const data = await ineFetch(path)
+    if (data?.error) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'INE WSTempus CALENDARIO', data.error),
+      })
+    }
+    const items = Array.isArray(data) ? data : []
+    // INE devuelve cada item con FechaPublicacion timestamp ms + Nombre + IdOperacion
+    const events = items
+      .map((it: any) => {
+        const ts = it.FechaPublicacion ?? it.Fecha ?? null
+        if (!ts) return null
+        const d = new Date(typeof ts === 'number' ? ts : Date.parse(String(ts)))
+        if (isNaN(d.getTime())) return null
+        const isoDate = d.toISOString().slice(0, 10)
+        const daysFromNow = Math.round((d.getTime() - today.getTime()) / 86400000)
+        return {
+          date: isoDate,
+          source: 'INE' as const,
+          indicator: String(it.Nombre || it.NombreOperacion || 'Publicación INE').slice(0, 120),
+          operation_id: it.IdOperacion ?? null,
+          url: it.IdOperacion
+            ? `https://www.ine.es/dyngs/INEbase/listaoperaciones.htm`
+            : 'https://www.ine.es/calendario',
+          importance: 'medium' as const,
+          daysFromNow,
+        }
+      })
+      .filter((e: any): e is NonNullable<typeof e> => e !== null)
+      .sort((a: { daysFromNow: number }, b: { daysFromNow: number }) => a.daysFromNow - b.daysFromNow)
+    return NextResponse.json({
+      ok: events.length > 0,
+      data_quality: quality('live', 'INE WSTempus CALENDARIO'),
+      horizon_days: dias,
+      n_events: events.length,
+      events: events.slice(0, 80),
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400',
+      },
+    })
+  }
+
   return NextResponse.json(
     {
       ok: false,
@@ -626,6 +680,7 @@ export async function GET(
         'GET /api/ine/epf-grupos       · EPF 13 grupos COICOP 2018 + share %',
         'GET /api/ine/epf-ccaa         · EPF ranking 17 CCAA gasto medio hogar',
         'GET /api/ine/epf-historico?n=12 · EPF serie histórica nacional',
+        'GET /api/ine/calendario?dias=45 · Sprint N18 · calendario REAL próximas publicaciones',
         'GET /api/ine/serie?cod=CNTR6654&n=12 · query libre por código',
         'GET /api/ine/tabla?id=67824&nult=5 · query libre por tabla',
       ],

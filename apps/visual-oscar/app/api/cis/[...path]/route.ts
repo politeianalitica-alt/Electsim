@@ -330,22 +330,50 @@ export async function GET(
         { period: '2025-04', value: 12.8 },
       ],
     }
-    const points = CURATED[tema] || []
+    const points = [...(CURATED[tema] || [])]
     if (!points.length) {
       return NextResponse.json({
         ok: false,
         error: `tema desconocido · disponibles: ${Object.keys(CURATED).join(', ')}`,
       })
     }
+    // Sprint N18 · Best-effort merge con scrape-pdf:
+    // Si scraper logra extraer valor reciente, lo añadimos como último punto.
+    let scrapedAdded = false
+    let scraperMeta: any = null
+    try {
+      const baseUrl = req.url.split('/api/')[0]
+      const scrapeRes = await fetch(`${baseUrl}/api/cis/scrape-pdf?tema=${tema}`, {
+        next: { revalidate: 86400 },
+      } as RequestInit)
+      if (scrapeRes.ok) {
+        const j = await scrapeRes.json()
+        scraperMeta = { ok: j?.ok, extracted_count: j?.extracted_count, pdf_url: j?.pdf_url }
+        if (j?.ok && typeof j?.value === 'number') {
+          // Period del último mes si no hay PDF date
+          const thisMonth = new Date().toISOString().slice(0, 7)
+          const lastCurated = points[points.length - 1]?.period
+          if (lastCurated !== thisMonth) {
+            points.push({ period: thisMonth, value: j.value })
+            scrapedAdded = true
+          }
+        }
+      }
+    } catch {
+      /* silent */
+    }
     return NextResponse.json({
       ok: true,
-      data_quality: quality('seed', 'CIS Barómetro mensual (curado N17 · pendiente scraper PDF auto-update)'),
+      data_quality: quality(scrapedAdded ? 'cache' : 'seed', scrapedAdded
+        ? 'CIS curado + scrape PDF (último punto)'
+        : 'CIS Barómetro mensual (curado N17 · scraper opcional N18)'),
       tema,
       n_points: points.length,
       points,
       reference_period: points[points.length - 1].period,
-      source: 'cis.es · Avance Resultados Barómetro (curado manual)',
-      methodology: 'Pregunta P4 multirespuesta hasta 3 menciones. Series extraídas manualmente del PDF avance + nota prensa. Para auto-update pendiente parser PDF dedicated (Sprint N18+).',
+      scraper_meta: scraperMeta,
+      source: 'cis.es · Avance Resultados Barómetro (curado + scrape opcional)',
+      methodology: 'Pregunta P4 multirespuesta hasta 3 menciones. Historia curada manualmente del PDF avance. Sprint N18 intenta scrape PDF para último punto · si falla, mantiene serie curada.',
     })
   }
 

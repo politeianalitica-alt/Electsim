@@ -121,10 +121,18 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
                 const v = data?.last?.value ?? null
                 const period = data?.last?.period
                 const color = statusColor(meta, v)
+                // Sprint N18 · Tooltip nativo HTML title con methodology + release + confidence
+                const tipParts: string[] = [meta.label]
+                if (meta.methodologyNote) tipParts.push(`Metodología: ${meta.methodologyNote}`)
+                if (meta.releaseSchedule) tipParts.push(`Release: ${meta.releaseSchedule}`)
+                if (meta.confidenceLevel) tipParts.push(`Confianza: ${meta.confidenceLevel.toUpperCase()}`)
+                if (tipParts.length === 1) tipParts.push(meta.description)
+                const tooltip = tipParts.join('\n\n')
                 return (
                   <Link
                     key={id}
                     href={`/macro/${subtabSlug}/indicator/${id}`}
+                    title={tooltip}
                     style={{
                       textDecoration: 'none',
                       background: '#fff',
@@ -134,6 +142,7 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
                       padding: 12,
                       display: 'block',
                       transition: 'box-shadow 120ms ease, transform 120ms ease',
+                      position: 'relative',
                     }}
                     className="pulso-kpi-card"
                   >
@@ -145,9 +154,32 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
                         fontWeight: 600,
                         letterSpacing: 0.4,
                         textTransform: 'uppercase',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4,
                       }}
                     >
                       {meta.shortLabel || meta.label}
+                      {meta.methodologyNote && (
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 11,
+                            height: 11,
+                            background: '#fef3c7',
+                            color: '#92400e',
+                            borderRadius: '50%',
+                            fontSize: 8,
+                            fontWeight: 700,
+                            lineHeight: 1,
+                          }}
+                          aria-hidden
+                        >
+                          ?
+                        </span>
+                      )}
                     </p>
                     <p
                       style={{

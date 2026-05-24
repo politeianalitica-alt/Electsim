@@ -13,6 +13,6 @@ import { GET as legacyGET } from "../pulso/releases/route";
 export const runtime = "nodejs";
 export const revalidate = 21600; // 6h
 
-export async function GET(): Promise<Response> {
-  return legacyGET();
+export async function GET(req: Request): Promise<Response> {
+  return legacyGET(req);
 }
