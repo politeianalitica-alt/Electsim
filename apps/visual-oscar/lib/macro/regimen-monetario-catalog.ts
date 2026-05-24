@@ -65,23 +65,26 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     accent: "#a855f7",
   },
 
-  // ─── Familia Forecast (IMF) ──────────────────────────────────────────
+  // Sprint N6.3 cleanup: rm-ipc-imf-20y removido · HICP Eurostat lo cubre
+  // mejor (mensual + armonizada UE + comparable con peers). PCPIPCH IMF anual
+  // queda solo en pulso-macro como ancla forecast.
+
+  // ─── Inflación subyacente (core HICP) · driver de decisión BCE ────────
   {
-    id: "rm-ipc-imf-20y",
-    family: "forecast",
-    label: "Inflación IMF · 20y histórica + forecast 5y",
-    shortLabel: "Infl IMF 20y",
+    id: "rm-hicp-core",
+    family: "precios",
+    label: "HICP core (sin energía/alimentos)",
+    shortLabel: "HICP core",
     unit: "%",
     decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "PCPIPCH",
-    frequency: "annual",
+    source: "Eurostat · prc_hicp_manr",
+    sourceCode: "prc_hicp_manr:CP00X:ES",
+    frequency: "monthly",
     description:
-      "Serie larga del IMF WEO con proyección 5 años. Captura el shock 2022-23 y la convergencia esperada hacia el target del BCE.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=PCPIPCH",
-    parser: "imf-country",
-    imfIndicator: "PCPIPCH",
-    threshold: { amber: 2, red: 4, goodAbove: false },
+      "Inflación subyacente (HICP all-items excluding energy and food). Variable que sigue BCE para política monetaria · más persistente que headline, menos ruido.",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=CP00X;unit=RCH_A",
+    parser: "eurostat-simple",
+    threshold: { amber: 2.5, red: 4, goodAbove: false },
     accent: "#dc2626",
   },
 

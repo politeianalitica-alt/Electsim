@@ -1,57 +1,147 @@
 /**
- * Catálogo de indicadores · subtab "Empresas & beneficios" v3.
+ * Catálogo · subtab "Empresas & beneficios" v4 (Sprint N6.3).
  *
- * Foco: ¿cómo se traslada la coyuntura macro al tejido empresarial?
- * Beneficios, márgenes, inversión, creación/destrucción, sectores.
+ * REFUNDACIÓN. La versión anterior tenía PIB, IPC, Paro, Inversión, Exports
+ * (todos macro genéricos de pulso-macro). Esta versión se centra en LA SALUD
+ * DEL TEJIDO EMPRESARIAL ESPAÑOL: producción industrial, ventas, demografía
+ * de empresas, expectativas, márgenes proxy.
  *
- * Para v3 v1 uso indicadores macro que afectan el entorno empresarial:
- * crecimiento (demanda), inflación (poder fijación precios), salarios
- * (presión costes), inversión bruta. Indicadores DIRCE y Registro
- * Mercantil específicos quedan para integraciones futuras.
+ * Sin solape con pulso-macro / margen-fiscal / mercados-activos.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
 export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
-  // ─── Familia PIB · entorno de demanda ─────────────────────────────────
+  // ─── Producción industrial · cíclico líder ─────────────────────────────
   {
-    id: "eb-pib-imf",
-    family: "pib",
-    label: "PIB real · IMF NGDP_RPCH",
-    shortLabel: "PIB",
+    id: "eb-prod-industrial",
+    family: "oferta",
+    label: "Producción industrial · IPI",
+    shortLabel: "IPI YoY",
     unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "NGDP_RPCH",
-    frequency: "annual",
+    decimals: 1,
+    source: "Eurostat · sts_inpr_m",
+    sourceCode: "sts_inpr_m:ES",
+    frequency: "monthly",
     description:
-      "Crecimiento PIB real. Driver más directo de ventas agregadas y beneficios empresariales. Mercados de equity cíclicos lo siguen.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=NGDP_RPCH",
-    parser: "imf-country",
-    imfIndicator: "NGDP_RPCH",
+      "Índice de Producción Industrial (IPI) variación interanual. Mide la actividad fabril real. Lead indicator del PIB industria (~20% PIB ES). Caídas <0% YoY = recesión sector.",
+    endpoint: "/api/eurostat/dataset?code=sts_inpr_m&filters=geo=ES;nace_r2=B-D;unit=I15_A",
+    parser: "eurostat-simple",
+    threshold: { amber: 0, red: -3, goodAbove: true },
     accent: "#0F766E",
   },
 
-  // ─── Familia Precios · poder de fijación de precios ──────────────────
+  // ─── Cifra de negocios industria ────────────────────────────────────────
   {
-    id: "eb-ipc-anual",
-    family: "precios",
-    label: "IPC anual · INE 290750",
-    shortLabel: "IPC YoY",
+    id: "eb-volumen-negocios",
+    family: "demanda",
+    label: "Volumen negocios industria YoY",
+    shortLabel: "Negocios YoY",
     unit: "%",
-    decimals: 2,
-    source: "INE WSTempus · IPC",
-    sourceCode: "IPC290750",
+    decimals: 1,
+    source: "Eurostat · sts_intvi_m",
+    sourceCode: "sts_intvi_m:ES",
     frequency: "monthly",
     description:
-      "Inflación general. Si las empresas pueden trasladar costes a precios mantienen márgenes; si no, los márgenes se comprimen.",
-    endpoint: "/api/ine/ipc?n=36",
-    parser: "ine-ipc",
-    parserKey: "anual",
-    threshold: { amber: 2, red: 4, goodAbove: false },
-    accent: "#dc2626",
+      "Variación interanual del volumen de negocio industrial. Reflejo directo de ventas reales (no producción). Caídas precoces señalan deterioro demanda final.",
+    endpoint: "/api/eurostat/dataset?code=sts_intvi_m&filters=geo=ES;nace_r2=B-E",
+    parser: "eurostat-simple",
+    accent: "#16a34a",
   },
 
-  // ─── Familia Empleo · presión costes laborales ───────────────────────
+  // ─── Confianza empresarial industrial ──────────────────────────────────
+  {
+    id: "eb-confianza-empresarial-eurostat",
+    family: "sentimiento",
+    label: "Confianza industrial",
+    shortLabel: "Conf. ind.",
+    unit: "",
+    decimals: 1,
+    source: "Eurostat · ei_bsin_m",
+    sourceCode: "ei_bsin_m:ES",
+    frequency: "monthly",
+    description:
+      "Balance opiniones empresarios industriales sobre pedidos + producción + stocks. Lead indicator del IPI · valor <0 = pesimismo dominante.",
+    endpoint: "/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS-ICI;s_adj=SA;nace_r2=C",
+    parser: "eurostat-simple",
+    threshold: { amber: -5, red: -15, goodAbove: true },
+    accent: "#7c3aed",
+  },
+
+  // ─── Confianza sector servicios (~70% PIB) ─────────────────────────────
+  {
+    id: "eb-confianza-servicios",
+    family: "sentimiento",
+    label: "Confianza servicios",
+    shortLabel: "Conf. serv.",
+    unit: "",
+    decimals: 1,
+    source: "Eurostat · ei_bssi_m",
+    sourceCode: "ei_bssi_m:ES",
+    frequency: "monthly",
+    description:
+      "Balance opiniones sector servicios (que pesa ~70% PIB ES). Más representativo del ciclo empresarial agregado que la confianza industrial.",
+    endpoint: "/api/eurostat/dataset?code=ei_bssi_m&filters=geo=ES;indic=BS-SCI;s_adj=SA",
+    parser: "eurostat-simple",
+    threshold: { amber: -5, red: -15, goodAbove: true },
+    accent: "#8b5cf6",
+  },
+
+  // ─── Stock empresas activas ────────────────────────────────────────────
+  {
+    id: "eb-demografia-empresas-eurostat",
+    family: "demanda",
+    label: "Stock empresas activas",
+    shortLabel: "Stock empresas",
+    unit: "",
+    decimals: 0,
+    source: "Eurostat · bd_size_r3",
+    sourceCode: "bd_size_r3:V11910:ES",
+    frequency: "annual",
+    description:
+      "Número total de empresas activas (NACE B-N). Stock comparable UE. Caídas absolutas = destrucción neta tejido (raras: solo 2009-13).",
+    endpoint: "/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_sb=V11910;nace_r2=B-N",
+    parser: "eurostat-simple",
+    accent: "#16a34a",
+  },
+
+  // ─── Tasa creación de empresas ─────────────────────────────────────────
+  {
+    id: "eb-tasa-creacion-empresas",
+    family: "demanda",
+    label: "Tasa creación empresas",
+    shortLabel: "Altas %",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · bd_size_r3",
+    sourceCode: "bd_size_r3:BUSI_CR:ES",
+    frequency: "annual",
+    description:
+      "% empresas creadas en el año sobre stock total. España ~9% (vs UE 8%). Métrica de dinamismo · caídas anticipan destrucción neta.",
+    endpoint: "/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_sb=BUSI_CR;nace_r2=B-N",
+    parser: "eurostat-simple",
+    threshold: { amber: 7, red: 5, goodAbove: true },
+    accent: "#0891b2",
+  },
+
+  // ─── Empleo asalariado total (Eurostat LFS) ────────────────────────────
+  {
+    id: "eb-empleo-asalariado",
+    family: "empleo",
+    label: "Empleo asalariado total",
+    shortLabel: "Asalariados",
+    unit: " mil",
+    decimals: 0,
+    source: "Eurostat · lfsq_egais",
+    sourceCode: "lfsq_egais:ES",
+    frequency: "quarterly",
+    description:
+      "Número total de asalariados (LFS, miles). Cruzar con ETCL para inferir masa salarial agregada — proxy de costes laborales empresariales totales.",
+    endpoint: "/api/eurostat/dataset?code=lfsq_egais&filters=geo=ES;sex=T;age=Y15-74",
+    parser: "eurostat-simple",
+    accent: "#0F766E",
+  },
+
+  // ─── Coste laboral ETCL (presión sobre márgenes) ──────────────────────
   {
     id: "eb-etcl-coste-laboral",
     family: "empleo",
@@ -63,102 +153,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     sourceCode: "ETCL",
     frequency: "quarterly",
     description:
-      "Coste laboral medio por trabajador y mes (salarios + cotizaciones). Driver principal de presión sobre márgenes empresariales.",
+      "Coste laboral medio por trabajador y mes (salarios + cotizaciones). Driver principal de presión sobre márgenes empresariales. Su comparación con productividad determina competitividad.",
     endpoint: "/api/ine/etcl?n=24",
     parser: "ine-ipc",
     parserKey: "total",
     accent: "#f59e0b",
-  },
-
-  // ─── Familia Demanda · inversión empresarial ─────────────────────────
-  {
-    id: "eb-inversion-bruta",
-    family: "demanda",
-    label: "Inversión bruta %PIB · IMF NID_NGDP",
-    shortLabel: "Inversión",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "NID_NGDP",
-    frequency: "annual",
-    description:
-      "Formación bruta de capital sobre PIB. Proxy de capacidad inversora empresarial agregada (incluye FBCF privado y público).",
-    endpoint: "/api/imf/country?iso=ESP&indicator=NID_NGDP",
-    parser: "imf-country",
-    imfIndicator: "NID_NGDP",
-    accent: "#f97316",
-  },
-
-  // ─── Familia Empleo · paro (proxy demanda interna) ───────────────────
-  {
-    id: "eb-paro-imf",
-    family: "empleo",
-    label: "Tasa paro · IMF LUR",
-    shortLabel: "Paro",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "LUR",
-    frequency: "annual",
-    description:
-      "Tasa de paro. Afecta consumo interno y por tanto ventas en sectores B2C (retail, turismo, restauración, banca minorista).",
-    endpoint: "/api/imf/country?iso=ESP&indicator=LUR",
-    parser: "imf-country",
-    imfIndicator: "LUR",
-    threshold: { amber: 12, red: 18, goodAbove: false },
-    accent: "#f59e0b",
-  },
-
-  // ─── Familia Exterior · exportaciones (ingresos empresariales) ───────
-  {
-    id: "eb-exports-growth",
-    family: "exterior",
-    label: "Crecimiento exportaciones · IMF TX_RPCH",
-    shortLabel: "Exports",
-    unit: "%",
-    decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "TX_RPCH",
-    frequency: "annual",
-    description:
-      "Variación volumen exportaciones. Ingresos extra para empresas exportadoras (Inditex, Acerinox, automoción, alimentación).",
-    endpoint: "/api/imf/country?iso=ESP&indicator=TX_RPCH",
-    parser: "imf-country",
-    imfIndicator: "TX_RPCH",
-    accent: "#0891b2",
-  },
-  // Sprint L F6 · +2 indicadores Eurostat
-  {
-    id: "eb-confianza-empresarial-eurostat",
-    family: "sentimiento",
-    label: "Confianza industrial · Eurostat ei_bsin_m",
-    shortLabel: "Conf. ind.",
-    unit: "",
-    decimals: 1,
-    source: "Eurostat · ei_bsin_m",
-    sourceCode: "ei_bsin_m",
-    frequency: "monthly",
-    description:
-      "Indicador de confianza empresarial industrial (balance opiniones, mensual). Lead indicator de inversión, producción y empleo en manufactura.",
-    endpoint: "/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS-ICI;s_adj=SA;nace_r2=C",
-    parser: "eurostat-simple",
-    accent: "#7c3aed",
-  },
-  {
-    id: "eb-demografia-empresas-eurostat",
-    family: "demanda",
-    label: "Demografía empresarial · Eurostat bd_size_r3",
-    shortLabel: "Empresas",
-    unit: "",
-    decimals: 0,
-    source: "Eurostat · bd_size_r3",
-    sourceCode: "bd_size_r3:V11910",
-    frequency: "annual",
-    description:
-      "Número total de empresas activas (NACE B-N). Stock comparable UE, mide la profundidad del tejido empresarial.",
-    endpoint: "/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_sb=V11910;nace_r2=B-N",
-    parser: "eurostat-simple",
-    accent: "#16a34a",
   },
 ];
 
@@ -168,5 +167,5 @@ export const EMPRESAS_BENEFICIOS_META = {
   shortLabel: "Empresas",
   accent: "#7c3aed",
   description:
-    "Tejido empresarial · beneficios · márgenes · creación/destrucción · cotizadas · sectores · contratación pública · innovación · IED.",
+    "Salud del tejido empresarial: producción industrial IPI, volumen negocios, confianza industrial y servicios, stock empresas y tasa creación, empleo asalariado, coste laboral. Sin solape con pulso-macro / margen-fiscal / mercados-activos.",
 };

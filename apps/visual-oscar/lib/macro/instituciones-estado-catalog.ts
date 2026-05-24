@@ -36,58 +36,67 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     accent: "#16a34a",
   },
+  // Sprint N6.3 cleanup: ie-saldo-imf, ie-deuda-imf, ie-saldo-primario
+  // removidos · viven todos en margen-fiscal (su tab natural). Aquí dejamos
+  // gov_10a_main (gasto/ingresos como % PIB) que mide "tamaño efectivo del
+  // Estado" + indicadores de capacidad ejecutiva (inversión, I+D público,
+  // demografía empresas para regulación).
+
+  // ─── Carga intereses %PIB (capacidad presupuestaria) ──────────────────
   {
-    id: "ie-saldo-imf",
-    family: "forecast",
-    label: "Saldo fiscal · IMF GGXCNL_NGDP",
-    shortLabel: "Saldo",
+    id: "ie-intereses-pib",
+    family: "demanda",
+    label: "Intereses deuda pública %PIB",
+    shortLabel: "Intereses",
     unit: "%",
     decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGXCNL_NGDP",
+    source: "Eurostat · gov_10a_main",
+    sourceCode: "gov_10a_main:D41PAY:ES",
     frequency: "annual",
-    description: "Saldo total AAPP %PIB. Refleja equilibrio entre ingreso y gasto ejecutado. Crítico para credibilidad fiscal y margen administrativo.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGXCNL_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGXCNL_NGDP",
-    threshold: { amber: -3, red: -6, goodAbove: true },
-    accent: "#f59e0b",
+    description:
+      "Pagos por intereses de las AAPP (D41) sobre PIB. Restan margen para gasto productivo. España ~2.3% PIB · cada +50pb del 10Y se traslada en 3-5 años.",
+    endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=D41PAY;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 2.5, red: 4, goodAbove: false },
+    accent: "#dc2626",
   },
+
+  // ─── Gasto sanitario %PIB (capacidad welfare) ─────────────────────────
   {
-    id: "ie-deuda-imf",
-    family: "pib",
-    label: "Deuda pública · IMF GGXWDG_NGDP",
-    shortLabel: "Deuda",
+    id: "ie-gasto-sanitario",
+    family: "demanda",
+    label: "Gasto sanitario público %PIB",
+    shortLabel: "Sanidad",
     unit: "%",
     decimals: 1,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGXWDG_NGDP",
+    source: "Eurostat · gov_10a_exp",
+    sourceCode: "gov_10a_exp:GF07:ES",
     frequency: "annual",
-    description: "Stock deuda Maastricht %PIB. Alta deuda reduce flexibilidad fiscal y aumenta carga de intereses sobre ejecución presupuestaria.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGXWDG_NGDP",
-    threshold: { amber: 100, red: 120, goodAbove: false },
-    accent: "#0F766E",
-  },
-  // Saldo estructural eliminado en Sprint L F3: IMF GGSB_NGDP no devuelve dato
-  // en el endpoint público; Eurostat no expone equivalente directo (AIReF lo
-  // calcula vía PDF). Pendiente de scraper AIReF futuro.
-  {
-    id: "ie-saldo-primario",
-    family: "forecast",
-    label: "Saldo primario %PIB · Eurostat gov_10dd_edpt1",
-    shortLabel: "Primario",
-    unit: "%",
-    decimals: 2,
-    source: "Eurostat · gov_10dd_edpt1",
-    sourceCode: "gov_10dd_edpt1:B9P",
-    frequency: "annual",
-    description: "Saldo excluyendo intereses (net lending excl. interest). Diferencia con saldo total indica carga de servicio de deuda.",
-    endpoint: "/api/eurostat/dataset?code=gov_10dd_edpt1&filters=geo=ES;na_item=B9P;sector=S13;unit=PC_GDP",
+    description:
+      "Gasto en sanidad por las AAPP sobre PIB (COFOG GF07). España ~7% vs UE 7.5%. Métrica directa de capacidad welfare estatal.",
+    endpoint: "/api/eurostat/dataset?code=gov_10a_exp&filters=geo=ES;cofog99=GF07;sector=S13;unit=PC_GDP",
     parser: "eurostat-simple",
-    threshold: { amber: 0, red: -2, goodAbove: true },
-    accent: "#10b981",
+    threshold: { amber: 6.5, red: 5.5, goodAbove: true },
+    accent: "#0EA5E9",
+  },
+
+  // ─── Gasto educativo %PIB ─────────────────────────────────────────────
+  {
+    id: "ie-gasto-educacion",
+    family: "demanda",
+    label: "Gasto educación pública %PIB",
+    shortLabel: "Educación",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · gov_10a_exp",
+    sourceCode: "gov_10a_exp:GF09:ES",
+    frequency: "annual",
+    description:
+      "Gasto en educación AAPP (COFOG GF09) %PIB. España ~4.4% vs UE 4.7%. Inversión en capital humano de largo plazo.",
+    endpoint: "/api/eurostat/dataset?code=gov_10a_exp&filters=geo=ES;cofog99=GF09;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 4, red: 3.5, goodAbove: true },
+    accent: "#7c3aed",
   },
   {
     id: "ie-altas-empresas-eurostat",

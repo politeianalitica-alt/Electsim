@@ -218,44 +218,50 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
   }
 
   if (subtabSlug === 'productividad-competitividad') {
-    const pibPc = findValue(byId, 'pc-pib-percapita')
-    const inversion = findValue(byId, 'pc-inversion-bruta')
+    // Sprint N6.3: refundación · drivers reales productividad (no PIB pc genérico)
+    const prodHora = findValue(byId, 'pc-productividad-hora')
+    const ulc = findValue(byId, 'pc-ulc')
     const idGdp = findValue(byId, 'pc-id-pib-eurostat')
+    const berd = findValue(byId, 'pc-id-empresarial')
     const reer = findValue(byId, 'pc-reer-bis')
     return (
-      <DomainPanel accent={accent} title="Productividad & competitividad · capacidad estructural" subtitle="Renta por habitante, inversión productiva, esfuerzo I+D y competitividad-precio internacional">
+      <DomainPanel accent={accent} title="Productividad & competitividad · drivers estructurales" subtitle="Productividad por hora, ULC, I+D total y empresarial (BERD), REER · gap UE-27">
         <div style={gridStyle}>
-          <BigMetric label="PIB pc" value={pibPc} unit=" USD" decimals={0} color="#0F766E" caption="renta media" period={findPeriod(byId, 'pc-pib-percapita')} />
-          <BigMetric label="Inversión %PIB" value={inversion} unit="%" decimals={2} color={colorForValue(inversion, 'high', 22, 18)} caption="FBCF total" period={findPeriod(byId, 'pc-inversion-bruta')} />
+          <BigMetric label="Prod/hora" value={prodHora} unit="" decimals={1} color={colorForValue(prodHora, 'high', 100, 90)} caption="UE-27=100" period={findPeriod(byId, 'pc-productividad-hora')} />
+          <BigMetric label="ULC YoY" value={ulc} unit="%" decimals={1} color={colorForValue(ulc, 'low', 2, 4)} caption="costes laborales unit." period={findPeriod(byId, 'pc-ulc')} />
           <BigMetric label="I+D %PIB" value={idGdp} unit="%" decimals={2} color={colorForValue(idGdp, 'high', 2, 1.5)} caption="vs UE-27 ~2.3%" period={findPeriod(byId, 'pc-id-pib-eurostat')} />
-          <BigMetric label="REER" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption=">100 = pérdida competitividad" period={findPeriod(byId, 'pc-reer-bis')} />
+          <BigMetric label="BERD %PIB" value={berd} unit="%" decimals={2} color={colorForValue(berd, 'high', 1.2, 0.8)} caption="I+D empresarial" period={findPeriod(byId, 'pc-id-empresarial')} />
+          <BigMetric label="REER" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption=">100 = pérdida comp." period={findPeriod(byId, 'pc-reer-bis')} />
         </div>
         <Interpretation>
-          {idGdp != null && pibPc != null
-            ? `Renta ${(pibPc / 1000).toFixed(1)}k USD pc · I+D ${idGdp.toFixed(2)}% PIB ${idGdp < 1.5 ? '— gap estructural con UE de ~0.8 pp' : '— en mejora, pero aún por debajo de la media UE'}. La competitividad estructural se juega en cerrar el gap de inversión y I+D.`
-            : 'Competitividad estructural · cruzar renta + inversión + I+D + REER para evaluar capacidad de crecimiento sostenible.'}
+          {idGdp != null && berd != null
+            ? `I+D ${idGdp.toFixed(2)}% PIB · BERD empresarial ${berd.toFixed(2)}% PIB. ${berd < 1 ? '⚠️ Gap esencial en I+D PRIVADA · refleja modelo productivo poco intensivo en tecnología.' : 'Esfuerzo en I+D empresarial mejorando.'} La competitividad se juega en cerrar el gap BERD vs UE.`
+            : 'Drivers estructurales · cruzar productividad/hora, ULC, BERD y REER para evaluar competitividad sostenible.'}
         </Interpretation>
       </DomainPanel>
     )
   }
 
   if (subtabSlug === 'empresas-beneficios') {
-    const pib = findValue(byId, 'eb-pib-imf')
-    const costeLaboral = findValue(byId, 'eb-etcl-coste-laboral')
-    const inversion = findValue(byId, 'eb-inversion-bruta')
-    const confianza = findValue(byId, 'eb-confianza-empresarial-eurostat')
+    // Sprint N6.3: refundación · salud tejido empresarial real (no PIB/IPC)
+    const ipi = findValue(byId, 'eb-prod-industrial')
+    const volNeg = findValue(byId, 'eb-volumen-negocios')
+    const confInd = findValue(byId, 'eb-confianza-empresarial-eurostat')
+    const confServ = findValue(byId, 'eb-confianza-servicios')
+    const stockEmp = findValue(byId, 'eb-demografia-empresas-eurostat')
     return (
-      <DomainPanel accent={accent} title="Empresas & beneficios · salud del tejido empresarial" subtitle="Crecimiento, costes laborales, inversión y confianza industrial — los drivers de márgenes y empleo">
+      <DomainPanel accent={accent} title="Empresas & beneficios · salud del tejido empresarial" subtitle="IPI producción industrial, volumen negocios, confianza industrial+servicios, stock empresas">
         <div style={gridStyle}>
-          <BigMetric label="PIB YoY" value={pib} unit="%" decimals={2} color={colorForValue(pib, 'high', 1, 0)} caption="ciclo económico" period={findPeriod(byId, 'eb-pib-imf')} />
-          <BigMetric label="Coste laboral" value={costeLaboral} unit=" €/mes" decimals={0} color="#7c3aed" caption="ETCL trimestral" period={findPeriod(byId, 'eb-etcl-coste-laboral')} />
-          <BigMetric label="Inversión %PIB" value={inversion} unit="%" decimals={2} color={colorForValue(inversion, 'high', 22, 18)} caption="capex empresarial" period={findPeriod(byId, 'eb-inversion-bruta')} />
-          <BigMetric label="Conf. industrial" value={confianza} unit="" decimals={1} color={colorForValue(confianza, 'high', 0, -10)} caption="balance opiniones" period={findPeriod(byId, 'eb-confianza-empresarial-eurostat')} />
+          <BigMetric label="IPI YoY" value={ipi} unit="%" decimals={1} color={colorForValue(ipi, 'high', 0, -3)} caption="producción real" period={findPeriod(byId, 'eb-prod-industrial')} />
+          <BigMetric label="Negocios YoY" value={volNeg} unit="%" decimals={1} color={colorForValue(volNeg, 'high', 1, -3)} caption="cifra ventas industria" period={findPeriod(byId, 'eb-volumen-negocios')} />
+          <BigMetric label="Conf. ind." value={confInd} unit="" decimals={1} color={colorForValue(confInd, 'high', -5, -15)} caption="balance opiniones" period={findPeriod(byId, 'eb-confianza-empresarial-eurostat')} />
+          <BigMetric label="Conf. serv." value={confServ} unit="" decimals={1} color={colorForValue(confServ, 'high', -5, -15)} caption="~70% PIB" period={findPeriod(byId, 'eb-confianza-servicios')} />
+          <BigMetric label="Stock empresas" value={stockEmp} unit="" decimals={0} color="#16a34a" caption="activas NACE B-N" period={findPeriod(byId, 'eb-demografia-empresas-eurostat')} />
         </div>
         <Interpretation>
-          {pib != null && inversion != null
-            ? `Ciclo PIB ${pib >= 0 ? '+' : ''}${pib.toFixed(1)}% · inversión ${inversion.toFixed(1)}% PIB. ${pib > 1.5 && inversion > 22 ? 'Tejido empresarial expansivo con capex sólido.' : 'Crecimiento moderado, vigilar capex como anticipador de empleo y márgenes.'}`
-            : 'Salud corporativa española · cruzar PIB + capex + costes laborales + confianza para anticipar márgenes y empleo futuro.'}
+          {ipi != null && volNeg != null
+            ? `IPI ${ipi >= 0 ? '+' : ''}${ipi.toFixed(1)}% · negocios ${volNeg >= 0 ? '+' : ''}${volNeg.toFixed(1)}%. ${ipi > 0 && volNeg > 0 ? 'Ciclo industrial expansivo · confianza alineada.' : 'Lectura mixta · vigilar pedidos en próximos meses.'}`
+            : 'Salud corporativa · IPI + ventas + confianza industrial y servicios anticipan ciclo de empleo y márgenes.'}
         </Interpretation>
       </DomainPanel>
     )
@@ -376,25 +382,28 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
   }
 
   if (subtabSlug === 'instituciones-estado') {
-    const deuda = findValue(byId, 'ie-deuda-imf')
-    const saldo = findValue(byId, 'ie-saldo-imf')
+    // Sprint N6.3: refundación · gasto/ingresos AAPP + carga intereses + welfare
     const gasto = findValue(byId, 'ie-gasto-aapp')
-    const id = findValue(byId, 'ie-id-rd-eurostat')
+    const ingresos = findValue(byId, 'ie-ingresos-aapp')
+    const intereses = findValue(byId, 'ie-intereses-pib')
+    const sanidad = findValue(byId, 'ie-gasto-sanitario')
+    const educacion = findValue(byId, 'ie-gasto-educacion')
     const inversion = findValue(byId, 'ie-inversion-publica-eurostat')
 
     return (
-      <DomainPanel accent={accent} title="Capacidad estatal · ¿con cuánto margen actúa el Estado?" subtitle="Espacio fiscal real, capacidad inversora pública e innovación">
+      <DomainPanel accent={accent} title="Capacidad estatal · tamaño y prioridades del Estado" subtitle="Gasto e ingresos AAPP, carga intereses (margen fiscal), prioridades welfare (sanidad/educación), inversión pública">
         <div style={gridStyle}>
-          <BigMetric label="Deuda %PIB" value={deuda} unit="%" decimals={1} color={colorForValue(deuda, 'low', 100, 120)} caption="Maastricht criterion" period={findPeriod(byId, 'ie-deuda-imf')} />
-          <BigMetric label="Saldo fiscal" value={saldo} unit="%" decimals={2} color={colorForValue(saldo, 'high', -3, -6)} caption="déficit/superávit AAPP" period={findPeriod(byId, 'ie-saldo-imf')} />
-          <BigMetric label="Gasto AAPP" value={gasto} unit="%" decimals={1} color="#0891b2" caption="tamaño efectivo Estado" period={findPeriod(byId, 'ie-gasto-aapp')} />
-          <BigMetric label="I+D pública" value={id} unit="%" decimals={2} color={colorForValue(id, 'high', 0.6, 0.4)} caption="capacidad innovadora" period={findPeriod(byId, 'ie-id-rd-eurostat')} />
+          <BigMetric label="Gasto AAPP" value={gasto} unit="%" decimals={1} color="#dc2626" caption="tamaño efectivo Estado" period={findPeriod(byId, 'ie-gasto-aapp')} />
+          <BigMetric label="Ingresos AAPP" value={ingresos} unit="%" decimals={1} color="#16a34a" caption="capacidad recaudatoria" period={findPeriod(byId, 'ie-ingresos-aapp')} />
+          <BigMetric label="Intereses %PIB" value={intereses} unit="%" decimals={2} color={colorForValue(intereses, 'low', 2.5, 4)} caption="resta margen fiscal" period={findPeriod(byId, 'ie-intereses-pib')} />
+          <BigMetric label="Sanidad" value={sanidad} unit="%" decimals={1} color={colorForValue(sanidad, 'high', 6.5, 5.5)} caption="welfare COFOG GF07" period={findPeriod(byId, 'ie-gasto-sanitario')} />
+          <BigMetric label="Educación" value={educacion} unit="%" decimals={1} color={colorForValue(educacion, 'high', 4, 3.5)} caption="capital humano GF09" period={findPeriod(byId, 'ie-gasto-educacion')} />
           <BigMetric label="Inversión pub." value={inversion} unit="%" decimals={2} color={colorForValue(inversion, 'high', 3, 2)} caption="FBCF AAPP" period={findPeriod(byId, 'ie-inversion-publica-eurostat')} />
         </div>
         <Interpretation>
-          {deuda != null && saldo != null
-            ? `Deuda en ${deuda.toFixed(1)}% PIB con saldo ${saldo.toFixed(2)}% — el espacio fiscal depende de mantener el saldo primario contenido y la prima de riesgo baja. La inversión pública (${inversion?.toFixed(2) ?? '?'}%) y la I+D (${id?.toFixed(2) ?? '?'}%) son los multiplicadores futuros de capacidad estatal.`
-            : 'Margen fiscal vs capacidad inversora del Estado. Tensión entre sostenibilidad de deuda y necesidad de inversión productiva.'}
+          {gasto != null && intereses != null
+            ? `Estado gasta ${gasto.toFixed(1)}% PIB · ${intereses.toFixed(2)}% en intereses (resta margen). Sanidad ${sanidad?.toFixed(1) ?? '?'}% + Educación ${educacion?.toFixed(1) ?? '?'}% = pilares welfare. Inversión pública ${inversion?.toFixed(2) ?? '?'}% multiplicador futuro de capacidad estatal.`
+            : 'Capacidad estatal española · cruzar gasto, recaudación, carga intereses y prioridades de gasto productivo (sanidad/educación/inversión).'}
         </Interpretation>
       </DomainPanel>
     )
