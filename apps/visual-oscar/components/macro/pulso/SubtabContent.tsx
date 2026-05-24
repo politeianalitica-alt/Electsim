@@ -29,6 +29,7 @@ import { HogaresExtrasBlock } from './HogaresExtrasBlock'
 import { TrendsTable } from './TrendsTable'
 import { SourcesFooter } from './SourcesFooter'
 import { PeerComparisonBlock } from './PeerComparisonBlock'
+import { InsightsBlock } from './InsightsBlock'
 import { RadarChart } from '../charts/RadarChart'
 import { Treemap } from '../charts/Treemap'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
@@ -238,6 +239,16 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
           {/* Sprint M F1 · DomainHero específico por subtab (visual identity propia) */}
           <DomainHero subtabSlug={subtabSlug} byId={overview.byId} accent={config.accent} />
+
+          {/* Sprint N9 · Insights automáticos · titulares accionables sin IA */}
+          <InsightsBlock
+            indicators={config.indicators}
+            byId={overview.byId}
+            subtabSlug={subtabSlug}
+            accent={config.accent}
+            termometroScore={overview.termometro.score}
+            coverage={overview.coverage}
+          />
 
           {/* Sprint N5 (2026-05-23): TermometroPulso retirado del body porque
               el score ya se muestra en el hero superior con barra horizontal
