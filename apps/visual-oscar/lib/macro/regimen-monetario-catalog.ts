@@ -88,23 +88,25 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     accent: "#dc2626",
   },
 
-  // ─── Familia Exterior (BIS REER) ─────────────────────────────────────
+  // Sprint N13.1 cleanup · rm-reer-bis removido · vive en mercados-activos
+  // (su tab natural · ancla FX para activos). Cross-link en lugar de duplicar.
+
+  // ─── Sprint N13.2 · EURIBOR 3M (transmisión BCE → hipotecas) ──────────
   {
-    id: "rm-reer-bis",
-    family: "exterior",
-    label: "Tipo cambio real efectivo · BIS broad",
-    shortLabel: "REER",
-    unit: "",
-    decimals: 1,
-    source: "BIS Effective Exchange Rates",
-    sourceCode: "REER_BROAD",
+    id: "rm-euribor-3m",
+    family: "forecast",
+    label: "EURIBOR 3M mensual",
+    shortLabel: "EURIBOR 3M",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · irt_st_m",
+    sourceCode: "irt_st_m:EUR_RT_M3",
     frequency: "monthly",
     description:
-      "Índice REER broad (base 2010=100) ponderado por cesta comercial. >100 = apreciación real frente a peers; pérdida de competitividad-precio.",
-    endpoint: "/api/bis/fx-effective",
+      "Tipo interbancario eurozona a 3 meses. Benchmark del corto plazo del crédito · transmisión inmediata de cambios MRO/DFR del BCE.",
+    endpoint: "/api/eurostat/dataset?code=irt_st_m&filters=geo=EA",
     parser: "eurostat-simple",
-    parserKey: "broad",
-    accent: "#0891b2",
+    accent: "#7c3aed",
   },
   // Sprint L F6 · +3 indicadores Eurostat para enriquecer régimen monetario
   {
@@ -124,22 +126,59 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: "#dc2626",
   },
+  // Sprint N13.1 cleanup · rm-tipos-largo-eurostat removido · duplica el
+  // ma-yield-10y-es de mercados-activos (mismo dataset + filtro).
+
+  // ─── Sprint N13.2 · HICP componentes (driver headline vs core) ───────
   {
-    id: "rm-tipos-largo-eurostat",
-    family: "forecast",
-    label: "Yield 10Y bono soberano · Eurostat irt_lt_mcby_m",
-    shortLabel: "10Y bono",
+    id: "rm-hicp-energia",
+    family: "precios",
+    label: "HICP componente energía",
+    shortLabel: "HICP energía",
     unit: "%",
-    decimals: 2,
-    source: "Eurostat · irt_lt_mcby_m",
-    sourceCode: "irt_lt_mcby_m",
+    decimals: 1,
+    source: "Eurostat · prc_hicp_manr",
+    sourceCode: "prc_hicp_manr:NRG:ES",
     frequency: "monthly",
     description:
-      "Yield a 10 años del bono soberano español (Maastricht criteria). Termómetro de las condiciones financieras del régimen monetario.",
-    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
+      "Variación interanual del componente energético del HICP. Driver volátil del headline · pico 2022 (+44%). Crítico para análisis BCE 'mira through' transitorio vs persistente.",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=NRG;unit=RCH_A",
     parser: "eurostat-simple",
-    threshold: { amber: 3.5, red: 5, goodAbove: false },
-    accent: "#0f172a",
+    threshold: { amber: 5, red: 15, goodAbove: false },
+    accent: "#dc2626",
+  },
+  {
+    id: "rm-hicp-alimentos",
+    family: "precios",
+    label: "HICP componente alimentos",
+    shortLabel: "HICP food",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · prc_hicp_manr",
+    sourceCode: "prc_hicp_manr:FOOD:ES",
+    frequency: "monthly",
+    description:
+      "Inflación alimentaria · pesa más en cesta de hogares bajos quintiles. Sticky vs energía · refleja shock transmisión a precios consumidor.",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=FOOD;unit=RCH_A",
+    parser: "eurostat-simple",
+    threshold: { amber: 3, red: 6, goodAbove: false },
+    accent: "#f97316",
+  },
+  {
+    id: "rm-hicp-mom",
+    family: "precios",
+    label: "HICP m/m momentum",
+    shortLabel: "HICP m/m",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · prc_hicp_mmor",
+    sourceCode: "prc_hicp_mmor:CP00:ES",
+    frequency: "monthly",
+    description:
+      "Variación mensual HICP (no anualizada). Captura momentum intra-año sin base effect. Lectura más limpia para anticipar ritmo subyacente.",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_mmor&filters=geo=ES;coicop=CP00",
+    parser: "eurostat-simple",
+    accent: "#8b5cf6",
   },
   {
     id: "rm-confianza-consumidor-eurostat",

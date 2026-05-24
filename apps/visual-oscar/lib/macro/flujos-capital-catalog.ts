@@ -142,24 +142,56 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     accent: "#0891b2",
   },
 
-  // ─── REER · driver atractivo capital extranjero ──────────────────────
+  // Sprint N13.1 cleanup · fc-reer-broad removido · vive en mercados-activos.
+
+  // ─── Sprint N13.2 · Tipo cambio efectivo nominal NEER + Remesas ──────
   {
-    id: "fc-reer-broad",
+    id: "fc-neer",
     family: "exterior",
-    label: "REER broad España",
-    shortLabel: "REER",
+    label: "Tipo cambio efectivo nominal (NEER)",
+    shortLabel: "NEER",
     unit: "",
     decimals: 1,
-    source: "BIS Effective Exchange Rates",
-    sourceCode: "REER_BROAD:ES",
+    source: "Eurostat · ert_eff_ic_m",
+    sourceCode: "ert_eff_ic_m:ES",
     frequency: "monthly",
     description:
-      "Tipo de cambio real efectivo. >100 = apreciación real, abarata activos extranjeros para inversores ES. <100 = activos ES más atractivos para capital exterior.",
-    endpoint: "/api/bis/fx-effective",
+      "Tipo cambio efectivo nominal (sin deflactar). Complemento al REER · captura solo movimiento divisas, no inflación diferencial. Útil para ver apreciación pura euro.",
+    endpoint: "/api/eurostat/dataset?code=ert_eff_ic_m&filters=geo=ES",
     parser: "eurostat-simple",
-    parserKey: "broad",
-    threshold: { amber: 105, red: 115, goodAbove: false },
-    accent: "#0EA5E9",
+    accent: "#0891b2",
+  },
+  {
+    id: "fc-remesas",
+    family: "exterior",
+    label: "Remesas emigrantes neto %PIB",
+    shortLabel: "Remesas",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · bop_rem6",
+    sourceCode: "bop_rem6:ES",
+    frequency: "annual",
+    description:
+      "Saldo neto remesas (envíos por trabajadores extranjeros en ES vs recibidos de emigrantes ES). ES estructuralmente saldo negativo · ~1% PIB de salida bruta hacia LatAm, Marruecos, Europa Este.",
+    endpoint: "/api/eurostat/dataset?code=bop_rem6&filters=geo=ES",
+    parser: "eurostat-simple",
+    accent: "#dc2626",
+  },
+  {
+    id: "fc-rentas-primarias",
+    family: "exterior",
+    label: "Rentas primarias %PIB",
+    shortLabel: "Rentas prim.",
+    unit: "%",
+    decimals: 2,
+    source: "Eurostat · bop_c6_q",
+    sourceCode: "bop_c6_q:IN:ES",
+    frequency: "quarterly",
+    description:
+      "Rentas primarias BoP (dividendos + intereses + salarios). Componente CC clave: refleja repatriación beneficios multinacionales y carga financiera deuda externa.",
+    endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=IN;unit=PC_GDP",
+    parser: "eurostat-simple",
+    accent: "#7c3aed",
   },
 
   // ─── Inversión bruta %PIB (IMF, contexto agregado) ───────────────────

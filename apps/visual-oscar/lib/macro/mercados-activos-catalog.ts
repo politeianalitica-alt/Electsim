@@ -146,42 +146,42 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     accent: "#7c3aed",
   },
 
-  // ─── Crédito · préstamos al sector privado España ─────────────────────
+  // Sprint N13.1 cleanup · ma-credito-privado-es y ma-hpi-es removidos · viven
+  // en riesgo-sistemico (su tab natural). Eliminar duplicación fetcher.
+
+  // ─── Sprint N13.2 · Spread credit IG vs Bund + Yields panel UE ─────────
   {
-    id: "ma-credito-privado-es",
-    family: "demanda",
-    label: "Crédito MFI sector privado ES",
-    shortLabel: "Crédito ES",
+    id: "ma-spread-credit-ig",
+    family: "forecast",
+    label: "Spread crédito IG corporativo vs Bund",
+    shortLabel: "Spread IG",
+    unit: "pb",
+    decimals: 0,
+    source: "Eurostat · irt_h_eurcrd_d",
+    sourceCode: "irt_h_eurcrd_d:CORP_IG",
+    frequency: "daily",
+    description:
+      "Spread daily entre yield medio corporativo Investment Grade EUR y bund alemán 10Y. Termómetro de risk-off · ensanchamiento = credit stress (2020, 2022, 2023 SVB).",
+    endpoint: "/api/eurostat/dataset?code=irt_h_eurcrd_d&filters=fcat=CORP_IG",
+    parser: "eurostat-simple",
+    threshold: { amber: 150, red: 250, goodAbove: false },
+    accent: "#dc2626",
+  },
+  {
+    id: "ma-yield-greece-10y",
+    family: "forecast",
+    label: "Yield 10Y soberano Grecia",
+    shortLabel: "10Y GR",
     unit: "%",
-    decimals: 1,
-    source: "Eurostat · ei_bsbo_m",
-    sourceCode: "ei_bsbo_m:ES",
+    decimals: 2,
+    source: "Eurostat · irt_lt_mcby_m",
+    sourceCode: "irt_lt_mcby_m:GR",
     frequency: "monthly",
     description:
-      "Crecimiento crédito a sociedades no financieras + hogares en España. Termómetro del canal bancario · síntoma directo de tensión financiera (credit crunch <0%).",
-    endpoint: "/api/eurostat/dataset?code=ei_bsbo_m&filters=geo=ES",
+      "Yield Grecia · históricamente outlier peripheral EA. Convergencia hacia ES = mercado normaliza. Divergencia = stress reaparece. Memoria 2010-12.",
+    endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=EL",
     parser: "eurostat-simple",
-    threshold: { amber: 2, red: 0, goodAbove: true },
-    accent: "#f97316",
-  },
-
-  // ─── Mercado inmobiliario como activo (House Price Index ES) ──────────
-  {
-    id: "ma-hpi-es",
-    family: "precios",
-    label: "House Price Index España",
-    shortLabel: "HPI ES",
-    unit: "%",
-    decimals: 1,
-    source: "Eurostat · prc_hpi_q",
-    sourceCode: "prc_hpi_q:ES",
-    frequency: "quarterly",
-    description:
-      "Índice de precios de vivienda España YoY · Eurostat armonizado. Activo dominante en hogares españoles (60% riqueza neta). Proxy del ciclo financiero amplio.",
-    endpoint: "/api/eurostat/dataset?code=prc_hpi_q&filters=geo=ES",
-    parser: "eurostat-simple",
-    threshold: { amber: 5, red: 10, goodAbove: false },
-    accent: "#f59e0b",
+    accent: "#0891b2",
   },
 
   // ─── Acciones · índice de precios sector financiero eurozona ──────────

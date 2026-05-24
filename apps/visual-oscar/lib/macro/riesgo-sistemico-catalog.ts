@@ -91,24 +91,44 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     accent: "#f59e0b",
   },
 
-  // ─── Estrés energético · IPC energía hogares ─────────────────────────
+  // ─── Estrés energético · HICP energía Eurostat (componente real) ────
+  // Sprint N13.1 fix · el dataset INE IPC290750 filtrado por parserKey=anual
+  // devuelve IPC GENERAL, no energía. Cambiamos a HICP componente NRG Eurostat
+  // que sí filtra correctamente energía con coicop=NRG.
   {
-    id: "rs-ipc-energia",
+    id: "rs-hicp-energia",
     family: "precios",
-    label: "IPC energía hogares YoY",
-    shortLabel: "IPC energía",
+    label: "HICP energía hogares YoY",
+    shortLabel: "HICP energía",
     unit: "%",
     decimals: 1,
-    source: "INE · IPC clase energía",
-    sourceCode: "IPC290750:CLASE_ENERGIA",
+    source: "Eurostat · prc_hicp_manr",
+    sourceCode: "prc_hicp_manr:NRG:ES",
     frequency: "monthly",
     description:
-      "Componente energético del IPC. Crisis energéticas (2022) elevan riesgo sistémico vía pérdida de poder adquisitivo y presión política. Reflejo del shock supply-side.",
-    endpoint: "/api/ine/ipc?n=36",
-    parser: "ine-ipc",
-    parserKey: "anual",
+      "Componente energético del HICP armonizado. Pico 2022 +44%. Crisis energéticas elevan riesgo sistémico vía pérdida poder adquisitivo + presión política · refleja shock supply-side.",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=NRG;unit=RCH_A",
+    parser: "eurostat-simple",
     threshold: { amber: 10, red: 25, goodAbove: false },
     accent: "#dc2626",
+  },
+  // ─── Sprint N13.2 · Pasivos contingentes AAPP (avales explícitos) ───
+  {
+    id: "rs-pasivos-contingentes",
+    family: "pib",
+    label: "Pasivos contingentes AAPP %PIB",
+    shortLabel: "Avales AAPP",
+    unit: "%",
+    decimals: 1,
+    source: "Eurostat · gov_cl_liab",
+    sourceCode: "gov_cl_liab:CLG:ES",
+    frequency: "annual",
+    description:
+      "Avales y garantías explícitas otorgadas por las AAPP. Pueden materializarse como deuda en escenarios de stress. ICO covid (~140k M€), Sareb (~50k M€), Reactiva, etc.",
+    endpoint: "/api/eurostat/dataset?code=gov_cl_liab&filters=geo=ES;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 12, red: 20, goodAbove: false },
+    accent: "#7c3aed",
   },
 
   // ─── Estrés laboral estructural · paro larga duración ─────────────────
