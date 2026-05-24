@@ -9,6 +9,11 @@ import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
 import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 import { GeoKpiGrid } from '@/components/geopolitica/GeoKpiGrid'
+import { GeoTermometro } from '@/components/geopolitica/GeoTermometro'
+import { GeoTopRisks } from '@/components/geopolitica/GeoTopRisks'
+import { GeoEventStream } from '@/components/geopolitica/GeoEventStream'
+import { GeoSanctionsFeed } from '@/components/geopolitica/GeoSanctionsFeed'
+import { GeoCalendarPanel } from '@/components/geopolitica/GeoCalendarPanel'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -466,6 +471,11 @@ export default function GeopoliticaPage() {
           <AcledSpainContext days={30} />
         </div>
 
+        {/* Sprint G2 · Hero superior · Spain Composite Risk Index 0-100 */}
+        <div style={{ marginBottom: 16 }}>
+          <GeoTermometro />
+        </div>
+
         <TabBar
           items={['Teatro Global', 'OSINT', 'Alertas', 'Impacto España', 'Presencia Española', 'Análisis Politeia']}
           active={tab}
@@ -778,6 +788,10 @@ export default function GeopoliticaPage() {
             <div style={{ marginBottom: 20 }}>
               <GeoKpiGrid />
             </div>
+            {/* Sprint G2 · Cascading Event Stream (multi-source vertical timeline) */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoEventStream limit={40} />
+            </div>
             {/* Resumen contadores por urgencia (clicable: minimo) */}
             <div className="geo-osint-urg-grid">
               {[5, 4, 3, 2, 1].map((u) => {
@@ -908,6 +922,14 @@ export default function GeopoliticaPage() {
         {/* TAB 2 — Alertas (visual igual a Alertas Prioritarias) */}
         {tab === 2 && (
           <div>
+            {/* Sprint G2 · Top 10 Risks (estilo Eurasia Group) + Sanciones + Calendar */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
+              <GeoTopRisks />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16 }}>
+                <GeoSanctionsFeed />
+                <GeoCalendarPanel />
+              </div>
+            </div>
             {/* Resumen contadores por nivel */}
             <div className="geo-nivel-grid">
               {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as NivelGeo[]).map((lv) => {
