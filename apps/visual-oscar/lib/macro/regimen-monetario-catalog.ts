@@ -1,5 +1,5 @@
 /**
- * Catálogo de indicadores · subtab "Régimen monetario" v3.
+ * Catálogo de indicadores · subtab "Régimen monetario" v3 (Sprint N17).
  *
  * Foco: inflación (general + componentes), tipos BCE (snapshot via tabs),
  * tipo de cambio real efectivo, expectativas IMF.
@@ -7,6 +7,8 @@
  * Sólo se incluyen indicadores con SERIE temporal (≥4 puntos). Métricas
  * snapshot (curva soberana actual, depo rate puntual) se quedan en el
  * subtab clásico /macro?tab=regimen-monetario.
+ *
+ * Sprint N17 · methodology + release + confidence + related ids por indicador.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -29,6 +31,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "anual",
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "IPC nacional INE (no armonizado). Para política monetaria BCE usar HICP (rm-hicp-eurostat). Diferencia ES vs HICP típica ~0.1-0.3 pp por diferencia metodológica (cesta + ponderaciones).",
+    releaseSchedule: "Mensual · publicación 13-14 día siguiente al mes de referencia",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-hicp-eurostat", "rm-hicp-core", "rm-ipc-mensual"],
   },
   {
     id: "rm-ipc-mensual",
@@ -46,6 +53,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "mensual",
     accent: "#8b5cf6",
+    methodologyNote:
+      "Variación m/m sin desestacionalizar. Picos típicos julio (rebajas) + enero (precios públicos). Para tendencia limpia anualizar el dato desestacionalizado HICP m/m.",
+    releaseSchedule: "Mensual · igual IPC anual",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-ipc-anual", "rm-hicp-mom"],
   },
   {
     id: "rm-ipc-acumulada",
@@ -63,6 +75,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "acumulada",
     accent: "#a855f7",
+    methodologyNote:
+      "Variación encadenada enero → mes actual. Útil para escenarios de cierre anual (extrapolar resto del año). Atención: efectos base hacen que YoY y YTD diverjan mucho a partir del Q4.",
+    releaseSchedule: "Mensual · igual IPC anual",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-ipc-anual"],
   },
 
   // Sprint N6.3 cleanup: rm-ipc-imf-20y removido · HICP Eurostat lo cubre
@@ -86,6 +103,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2.5, red: 4, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Excluye 'energy + unprocessed food'. Variable preferida BCE por menor ruido. Sticky: para volver a target 2% suele requerir 18-24 meses tras pico shock.",
+    releaseSchedule: "Mensual · publicación T+15-20 días (Eurostat flash T+1)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-hicp-eurostat", "rm-hicp-energia", "rm-hicp-alimentos"],
   },
 
   // Sprint N13.1 cleanup · rm-reer-bis removido · vive en mercados-activos
@@ -107,6 +129,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=irt_st_m&filters=geo=EA",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "Tipo interbancario EA 3 meses publicado por EMMI. Refleja casi puro tipo BCE depo + risk premium banca. Para versión 12M (referencia hipotecaria) usar hev-euribor-12m.",
+    releaseSchedule: "Mensual · T+15 días (datos diarios disponibles vía EMMI directo)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-tipo-corto-ea", "hev-euribor-12m"],
   },
   // Sprint L F6 · +3 indicadores Eurostat para enriquecer régimen monetario
   {
@@ -125,6 +152,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "HICP CP00 = all items, RCH_A = % change annual. Metodología armonizada UE (cesta cuasi-idéntica + tratamiento housing 'rental equivalence'). Variable target BCE: 2% medio plazo simétrico.",
+    releaseSchedule: "Mensual · Eurostat flash T+1 · cifra definitiva T+15",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-ipc-anual", "rm-hicp-core", "rm-hicp-mom"],
   },
   // Sprint N13.1 cleanup · rm-tipos-largo-eurostat removido · duplica el
   // ma-yield-10y-es de mercados-activos (mismo dataset + filtro).
@@ -146,6 +178,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 5, red: 15, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "NRG = electricidad + gas + combustibles líquidos + carburantes. Sensibilidad alta a precio mayorista gas (TTF) + tipo cambio EUR/USD petróleo. Iberian exception 2022-23 contuvo el spike español vs media EA.",
+    releaseSchedule: "Mensual · T+15",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-hicp-energia", "rm-hicp-eurostat"],
   },
   {
     id: "rm-hicp-alimentos",
@@ -163,6 +200,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3, red: 6, goodAbove: false },
     accent: "#f97316",
+    methodologyNote:
+      "Coicop FOOD incluye alimentos elaborados + sin elaborar + bebidas. Sticky downward — sube rápido pero baja despacio (sticky inflation). Sensible a shock cereales, energía agraria, cambio climático cosechas.",
+    releaseSchedule: "Mensual · T+15",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-hicp-eurostat", "rm-hicp-core"],
   },
   {
     id: "rm-hicp-mom",
@@ -179,6 +221,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=prc_hicp_mmor&filters=geo=ES;coicop=CP00",
     parser: "eurostat-simple",
     accent: "#8b5cf6",
+    methodologyNote:
+      "Variación m/m sin desestacionalizar. Para tendencia limpia mirar promedio anualizado de últimos 3-6 meses (suaviza ruido + base year drift). Usado por BCE staff para 'inflation impetus'.",
+    releaseSchedule: "Mensual · T+15",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rm-hicp-eurostat", "rm-ipc-mensual"],
   },
   {
     id: "rm-confianza-consumidor-eurostat",
@@ -195,6 +242,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=ei_bsco_m&filters=geo=ES;indic=BS-CSMCI;s_adj=SA",
     parser: "eurostat-simple",
     accent: "#8b5cf6",
+    methodologyNote:
+      "Balance opiniones consumidores (DG ECFIN). Escala -100 a +100. Caídas sostenidas anticipan menor consumo discrecional (servicios + bienes duraderos). Sirve como lead indicator del IPC subyacente servicios.",
+    releaseSchedule: "Mensual · publicación T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pulso-esi-sentiment", "pulso-ventas-retail"],
   },
 ];
 

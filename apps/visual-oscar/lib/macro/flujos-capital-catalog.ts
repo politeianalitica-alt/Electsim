@@ -1,5 +1,5 @@
 /**
- * Catálogo · subtab "Flujos de capital" v4 (Sprint N6.2).
+ * Catálogo · subtab "Flujos de capital" v4 (Sprint N6.2 + N17).
  *
  * REFUNDACIÓN. La versión anterior tenía PIB pc, saldo fiscal y deuda
  * (todos solapan con margen-fiscal). Esta versión se centra en LA BALANZA
@@ -10,6 +10,7 @@
  * estabilidad (IED long-term vs portfolio hot money)?
  *
  * Sin solape con dependencias-externas (comercio) ni margen-fiscal (deuda).
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -31,6 +32,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: -50, red: -80, goodAbove: true },
     accent: "#8b5cf6",
+    methodologyNote:
+      "NIIP = Net International Investment Position. Stock acumulado activos extranjeros menos pasivos. Si crece negativamente = país endeudándose con exterior. España: -75% PIB (mejor que Grecia -150%, peor que Alemania +75%).",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["fc-cuenta-financiera", "fc-portfolio-net", "cuenta-corriente"],
   },
 
   // ─── Cuenta financiera total %PIB ────────────────────────────────────
@@ -49,6 +55,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=FA;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#0EA5E9",
+    methodologyNote:
+      "FA = Financial Account. Por identidad contable, debe ser ~espejo de cuenta corriente (CA + KA = FA). Diferencias residuales = errores u omisiones (E&O). Lectura ES post-2013: superávit CC → exporta capital neto.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["fc-iip-neta", "cuenta-corriente"],
   },
 
   // ─── IED entrante (Foreign Direct Investment inbound) ────────────────
@@ -68,6 +79,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 1, red: 0, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "LE = Liabilities (entrante desde perspectiva ES). Incluye reinversión beneficios (no caja real). Para greenfield real ver Datainvex Ministerio Comercio. Concentrado: financiero + energía + auto + hospitality.",
+    releaseSchedule: "Trimestral · T+100 días",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["fc-ied-outbound", "fc-cuenta-financiera"],
   },
 
   // ─── IED saliente (Foreign Direct Investment outbound) ───────────────
@@ -86,6 +102,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_fdi6_q&filters=geo=ES;bop_item=FDI;stk_flow=LIAB;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#f59e0b",
+    methodologyNote:
+      "Outbound desde perspectiva ES. Concentrado pocos players: Santander + BBVA (LatAm), Iberdrola (UK/US/MX), Telefónica (LatAm), ACS/Ferrovial (infraestructura global). Sensible a ciclo destino.",
+    releaseSchedule: "Trimestral · T+100 días",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["fc-ied-inbound"],
   },
 
   // ─── Portfolio investment (acciones + deuda) ─────────────────────────
@@ -104,6 +125,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=PI;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "PI = Portfolio Investment. Capital fugaz (vs IED estable). Sensible a yield differential ES-DE. Salidas brutas en momentos stress (2010-12, mini-2018 Italia) son lead indicator de presión spread.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["fc-cuenta-financiera", "rs-yield-10y-es"],
   },
 
   // ─── Other investment (banca cross-border, TARGET2 proxy) ────────────
@@ -122,6 +148,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=OI;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "OI = Other Investment. Captura préstamos interbancarios + depósitos + repos + créditos comerciales. Componente que más sangró ES en 2010-12 (TARGET2 imbalance -440 bn€ pico). Hoy ~estable.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["fc-portfolio-net", "fc-bis-claims"],
   },
 
   // ─── BIS cross-border claims · banca internacional sobre España ──────
@@ -140,6 +171,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/bis/bis-exposures?country=ES",
     parser: "eurostat-simple",
     accent: "#0891b2",
+    methodologyNote:
+      "LBS = Locational Banking Statistics BIS. Captura claims de bancos extranjeros (countries reporting BIS) sobre residentes ES. Refleja dependencia financiación mayorista cross-border. Reportado en USD nominales.",
+    releaseSchedule: "Trimestral · BIS publica T+90 días",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["fc-other-investment", "rs-npl-banca"],
   },
 
   // Sprint N13.1 cleanup · fc-reer-broad removido · vive en mercados-activos.
@@ -160,6 +196,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=ert_eff_ic_m&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#0891b2",
+    methodologyNote:
+      "NEER = Nominal Effective Exchange Rate. Diferencia con REER (real) es el deflactor IPC. NEER aísla el movimiento divisas — útil para BCE estance. Base 2010=100.",
+    releaseSchedule: "Mensual · T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-reer-bis", "ma-eurusd"],
   },
   {
     id: "fc-remesas",
@@ -176,6 +217,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_rem6&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "BoP item D721 'Personal transfers'. ES emisor neto ~1% PIB. Receptor histórico: LatAm + Marruecos. Sensibilidad a ciclo empleo extranjeros en ES.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["fc-cuenta-financiera"],
   },
   {
     id: "fc-rentas-primarias",
@@ -192,6 +238,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=IN;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "IN = Primary Income (dividendos + intereses + remuneración trabajo cross-border). Saldo ES tradicionalmente negativo (paga más intereses al exterior que recibe). Mejora con desapalancamiento externo post-2013.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["cuenta-corriente", "fc-ied-outbound"],
   },
 
   // ─── Inversión bruta %PIB (IMF, contexto agregado) ───────────────────
@@ -211,6 +262,11 @@ export const FLUJOS_CAPITAL_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "imf-country",
     imfIndicator: "NID_NGDP",
     accent: "#16a34a",
+    methodologyNote:
+      "NID = Total Investment (FBCF + cambios inventarios). Identidad clásica: S - I = CA. Si S > I, el país exporta capital (CA positiva); si S < I, importa capital.",
+    releaseSchedule: "Anual · WEO abril+octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["inversion-fbcf-yoy", "cuenta-corriente"],
   },
 ];
 

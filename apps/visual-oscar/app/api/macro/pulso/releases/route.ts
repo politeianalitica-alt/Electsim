@@ -140,6 +140,87 @@ const RELEASES_CATALOG: ReleaseTemplate[] = [
     url: "https://www.bde.es/wbe/es/publicaciones/analisis-economico-investigacion/proyecciones-macro/",
     importance: "high",
   },
+  // ─── Sprint N17 · Nuevas fuentes wireadas (BdE webstat + Tesoro + AEMET + CIS) ──
+  {
+    source: "BdE",
+    indicator: "EURIBOR mensual (1M/3M/6M/12M)",
+    dayOfMonth: 1,
+    url: "https://app.bde.es/webstat/api/catalogue/TI_1_1",
+    importance: "medium",
+  },
+  {
+    source: "BdE",
+    indicator: "Boletín Estadístico · NPL banca + tipos hipotecas",
+    dayOfMonth: 25,
+    url: "https://www.bde.es/webbe/es/estadisticas/temas/Boletin-Estadistico.html",
+    importance: "medium",
+  },
+  {
+    source: "BdE",
+    indicator: "Tesoro Público · boletín mensual deuda",
+    dayOfMonth: 25,
+    url: "https://www.tesoro.es/deuda-publica/boletin-mensual",
+    importance: "medium",
+  },
+  {
+    source: "INE",
+    indicator: "Comercio Exterior · Aduanas",
+    dayOfMonth: 22,
+    url: "https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176855",
+    importance: "medium",
+  },
+  {
+    source: "INE",
+    indicator: "EGATUR · gasto turistas no residentes",
+    dayOfMonth: 3,
+    url: "https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177002",
+    importance: "low",
+  },
+  {
+    source: "INE",
+    indicator: "Cifras de negocio sector servicios (IASS)",
+    dayOfMonth: 21,
+    url: "https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176856",
+    importance: "low",
+  },
+  {
+    source: "INE",
+    indicator: "Hipotecas constituidas (estadística mensual)",
+    dayOfMonth: 27,
+    url: "https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177197",
+    importance: "medium",
+  },
+  {
+    source: "Eurostat",
+    indicator: "PDE Notificación Déficit y Deuda (semestral)",
+    dayOfMonth: 22,
+    monthsOfYear: [4, 10],
+    url: "https://ec.europa.eu/eurostat/web/government-finance-statistics",
+    importance: "high",
+  },
+  {
+    source: "Eurostat",
+    indicator: "Cuentas Sectoriales · Balance Pagos trimestral",
+    dayOfMonth: 22,
+    monthsOfYear: [1, 4, 7, 10],
+    url: "https://ec.europa.eu/eurostat/web/balance-of-payments",
+    importance: "medium",
+  },
+  {
+    source: "Eurostat",
+    indicator: "Eurobarómetro Confianza Consumidor flash",
+    dayOfMonth: 22,
+    url: "https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/business-and-consumer-surveys_en",
+    importance: "medium",
+  },
+  // CIS barómetro mensual (publica ~1º semana de cada mes)
+  {
+    source: "INE",
+    indicator: "CIS Barómetro mensual (avance + microdato)",
+    dayOfMonth: 5,
+    url: "https://www.cis.es/cis/opencms/ES/index.html",
+    importance: "low",
+  },
 ];
 
 interface RenderedRelease {

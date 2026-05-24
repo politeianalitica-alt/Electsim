@@ -1,5 +1,5 @@
 /**
- * Catálogo · subtab "Empresas & beneficios" v4 (Sprint N6.3).
+ * Catálogo · subtab "Empresas & beneficios" v4 (Sprint N6.3 + N17).
  *
  * REFUNDACIÓN. La versión anterior tenía PIB, IPC, Paro, Inversión, Exports
  * (todos macro genéricos de pulso-macro). Esta versión se centra en LA SALUD
@@ -7,6 +7,7 @@
  * de empresas, expectativas, márgenes proxy.
  *
  * Sin solape con pulso-macro / margen-fiscal / mercados-activos.
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -28,6 +29,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 0, red: -3, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "Cobertura B-D NACE (minería + manufactura + energía). Base 2015 desestacionalizado. Lead indicator del PIB industria. Para volumen real (no índice) usar IPI INE.",
+    releaseSchedule: "Mensual · T+45 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-volumen-negocios", "eb-capacidad-utilizada", "pulso-ipi-manufactura"],
   },
 
   // ─── Cifra de negocios industria ────────────────────────────────────────
@@ -46,6 +52,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=sts_intvi_m&filters=geo=ES;nace_r2=B-E",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "Cifra de negocios = ventas netas industria. Diferencia con IPI: producción vs ventas. Si IPI > Negocios → acumulación inventario (señal débil). Si Negocios > IPI → vaciado inventario.",
+    releaseSchedule: "Mensual · T+50 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-prod-industrial", "eb-inventarios-industria"],
   },
 
   // ─── Confianza empresarial industrial ──────────────────────────────────
@@ -65,6 +76,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: -5, red: -15, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "Industrial Confidence Indicator (DG ECFIN). Balance ±100 entre respuestas optimistas y pesimistas sobre pedidos, producción, stocks. Lead indicator del IPI: anticipa cambios 2-3 meses.",
+    releaseSchedule: "Mensual · publicación T+25 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-prod-industrial", "eb-confianza-servicios", "pulso-esi-sentiment"],
   },
 
   // ─── Confianza sector servicios (~70% PIB) ─────────────────────────────
@@ -84,6 +100,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: -5, red: -15, goodAbove: true },
     accent: "#8b5cf6",
+    methodologyNote:
+      "Services Confidence Indicator (DG ECFIN). Cubre comercio, transporte, hostelería, profesionales. Más representativo que industrial por peso PIB servicios (~70%).",
+    releaseSchedule: "Mensual · T+25 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-confianza-empresarial-eurostat", "pulso-esi-sentiment"],
   },
 
   // ─── Stock empresas activas ────────────────────────────────────────────
@@ -102,6 +123,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_sb=V11910;nace_r2=B-N",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "V11910 = Number of active enterprises. Cobertura B-N (excluye administración pública + actividades inmobiliarias residenciales). Stock anual fin de año. Para serie mensual usar DIRCE INE.",
+    releaseSchedule: "Anual · publicación T+24 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["eb-tasa-creacion-empresas", "eb-supervivencia-empresas"],
   },
 
   // ─── Tasa creación de empresas ─────────────────────────────────────────
@@ -121,6 +147,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 7, red: 5, goodAbove: true },
     accent: "#0891b2",
+    methodologyNote:
+      "Business birth rate. Sesgo: incluye autónomos (alta rotación) y micros — sobre-pondera entrada de baja productividad. Para visión 'genuina' cruzar con eb-supervivencia-empresas.",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["eb-demografia-empresas-eurostat", "eb-supervivencia-empresas"],
   },
 
   // ─── Empleo asalariado total (Eurostat LFS) ────────────────────────────
@@ -139,6 +170,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=lfsq_egais&filters=geo=ES;sex=T;age=Y15-74",
     parser: "eurostat-simple",
     accent: "#0F766E",
+    methodologyNote:
+      "LFS asalariados (employees, no self-employed). Cruzar con eb-etcl-coste-laboral para inferir masa salarial total. Diferencia con afiliados SS por economía sumergida (~10%).",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-etcl-coste-laboral", "hev-paro-epa-general"],
   },
 
   // ─── Coste laboral ETCL (presión sobre márgenes) ──────────────────────
@@ -158,6 +194,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "total",
     accent: "#f59e0b",
+    methodologyNote:
+      "Encuesta Trimestral Coste Laboral. Salario base + complementos + SS empresa. NO autónomos. Comparado con productividad (pc-productividad-hora) determina ULC (pc-ulc).",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-etcl-coste-laboral", "pc-ulc", "eb-empleo-asalariado"],
   },
 
   // ─── Sprint N13.2 · Métricas nicho empresariales ────────────────────
@@ -177,6 +218,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 75, red: 70, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "Encuesta empresarial DG ECFIN. >82% sostenido suele anticipar pico de capex industrial. <70% durante recesión. Para ES media 77%.",
+    releaseSchedule: "Trimestral · publicación enero/abril/julio/octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-prod-industrial", "inversion-fbcf-yoy"],
   },
   {
     id: "eb-inventarios-industria",
@@ -193,6 +239,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS-IS;s_adj=SA;nace_r2=C",
     parser: "eurostat-simple",
     accent: "#f97316",
+    methodologyNote:
+      "BS-IS (Industry Stocks balance). Encuesta DG ECFIN. Lectura contrarian: stocks altos = empresa NO confía en demanda futura.",
+    releaseSchedule: "Mensual · T+25 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["eb-volumen-negocios", "eb-confianza-empresarial-eurostat"],
   },
   {
     id: "eb-exports-hitech",
@@ -209,6 +260,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=htec_si_exp4&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "Cobertura OCDE hi-tech: aerospace + pharma + computers + electronics + scientific instruments. España ~6% del total exports vs UE ~15% — refleja modelo productivo poco intensivo en tech.",
+    releaseSchedule: "Anual · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-htec-trade", "pc-id-empresarial"],
   },
   {
     id: "eb-supervivencia-empresas",
@@ -226,6 +282,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 45, red: 40, goodAbove: true },
     accent: "#0EA5E9",
+    methodologyNote:
+      "% empresas nacidas hace 5 años aún activas. Indicador calidad emprendimiento. ES varía mucho por sector: pharma/tech ~70%, comercio/restauración ~35%.",
+    releaseSchedule: "Anual · T+30 meses (datos cohorte 2019 → publicados 2024)",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["eb-tasa-creacion-empresas", "eb-demografia-empresas-eurostat"],
   },
   {
     id: "eb-stock-capital",
@@ -242,6 +303,11 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=nama_10_nfa_st&filters=geo=ES;asset10=N11G;sector=TOTAL",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "N11G = Gross fixed assets, todos sectores. Stock acumulado neto depreciación. Subinversión 2009-15 generó gap estructural vs DEU ~15 pp PIB que aún se está cerrando.",
+    releaseSchedule: "Anual · T+18 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["inversion-fbcf-yoy", "fc-inversion-bruta"],
   },
 ];
 

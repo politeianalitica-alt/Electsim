@@ -1,16 +1,17 @@
 /**
- * Catálogo · Subtab 15 "Cultura, ocio & economía social" v3.
+ * Catálogo · Subtab 15 "Cultura, ocio & economía social" v3 (Sprint N17).
  * Foco: turismo, cultura, industrias creativas, eventos, ocio, presión
  * turística. v1 con turismo INE Frontur + IPC servicios + IMF + macro.
- */
-import type { PulsoIndicatorMeta } from "./pulso-indicators";
-
-/**
+ *
  * Sprint N6.2 cleanup: removidos PIB/Paro/IPC/IPV/Exports genéricos copiados
  * de pulso-macro. Conservado solo turismo + pernoctaciones + arrivals
  * (verdaderamente específicos del sector). Añadidos: hostelería empleo,
  * IPC hostelería (componente sectorial), gasto turismo no-residente.
+ *
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
+import type { PulsoIndicatorMeta } from "./pulso-indicators";
+
 export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
   {
     id: "co-empleo-hosteleria",
@@ -27,6 +28,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=lfsq_egan2&filters=geo=ES;nace_r2=I",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "NACE I = Accommodation + Food Service. España 12% empleo total (vs UE 7%) — sobreponderación turismo. Alta temporalidad: pico Q3 +35% vs Q1.",
+    releaseSchedule: "Trimestral · LFS · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["co-frontur", "co-tourism-services-export", "co-establecimientos-tur"],
   },
   {
     id: "co-tourism-services-export",
@@ -44,6 +50,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 4, red: 3, goodAbove: true },
     accent: "#16a34a",
+    methodologyNote:
+      "BoP item SC = Travel. Captura gasto turistas no-residentes en ES. ~5.5% PIB — uno de los % más altos del mundo. Pico Q3, mínimo Q1.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-servicios-export", "co-frontur", "co-tourism-arrivals-eurostat"],
   },
   {
     id: "co-frontur",
@@ -60,6 +71,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/ine/frontur?n=24",
     parser: "ine-frontur",
     accent: "#8b5cf6",
+    methodologyNote:
+      "FRONTUR = Encuesta Movimientos Turísticos Frontera. Cuenta llegadas (no pernoctaciones). Estacionalidad: jul-ago concentra ~30% anual. Para gasto medio ver EGATUR INE.",
+    releaseSchedule: "Mensual · publicación T+25 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-turistas-anual", "co-tourism-nights-eurostat"],
   },
   {
     id: "co-tourism-nights-eurostat",
@@ -76,6 +92,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=tour_occ_nin&filters=geo=ES;c_resid=TOTAL;nace_r2=I551-I553;unit=NR",
     parser: "eurostat-simple",
     accent: "#a855f7",
+    methodologyNote:
+      "Nights spent at tourist accommodations (hotels + camping + similar). Métrica intensiva: cruza estancia × ocupación. España: ratio noches/llegadas ~3.5 — turismo de bastante estancia (vs city break 1.5).",
+    releaseSchedule: "Mensual · T+50 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["co-frontur", "co-pernoct-nuts2"],
   },
   // ─── Sprint N13.2 · Cultura, empleo cultural y comercio bienes ──────
   {
@@ -93,6 +114,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=cult_emp_n2&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#8b5cf6",
+    methodologyNote:
+      "Cobertura cultural sectors según definición EU (J58 edición + J59-60 audiovisual + R90-91-92 artes/museos + M73-74 publicidad/diseño + M71.11 arquitectura). ~3.5% empleo total ES.",
+    releaseSchedule: "Anual · publicación T+18 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["co-cult-trade"],
   },
   {
     id: "co-cult-trade",
@@ -109,6 +135,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=cult_trd1&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "Saldo exports - imports bienes culturales (libros + música + arte + antigüedades + instrumentos). Métrica complementaria al soft-power 'marca-cultura España' (Cervantes, Almodóvar, Reina Sofía, Prado).",
+    releaseSchedule: "Anual · publicación T+15 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["co-empleo-cultural"],
   },
   {
     id: "co-turismo-nacional",
@@ -125,6 +156,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=tour_dem_tttot&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "Total trips by residents (domestic + outbound). Indicador procíclico con renta hogares. Cuando IPC sube + salarios reales caen, viajes nacionales declinan más rápido que internacionales.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["co-frontur", "consumo-hogares-yoy"],
   },
   {
     id: "co-establecimientos-tur",
@@ -141,6 +177,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=tour_cap_nat&filters=geo=ES;nace_r2=I551-I553",
     parser: "eurostat-simple",
     accent: "#0EA5E9",
+    methodologyNote:
+      "Plazas alojamiento (hoteles + camping + apartamentos turísticos). NO incluye VUT (vivienda uso turístico) por su difícil registro. Stock estructural — para crecer requiere licencias municipales.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["co-empleo-hosteleria", "co-pernoct-nuts2"],
   },
   {
     id: "co-pernoct-nuts2",
@@ -157,6 +198,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=tour_occ_arn&filters=geo=ES;c_resid=TOTAL;unit=NR;nace_r2=I551-I553",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "Agregado NUTS2 (CCAA). Concentración brutal: 4 CCAA (CAN, BAL, CAT, AND) concentran ~65% pernoctaciones. Driver tensión vivienda en grandes urbes/insulares.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["co-tourism-nights-eurostat", "co-frontur"],
   },
 
   // Sprint L F6 · +1 turismo non-residente (gasto cultural-ocio)
@@ -175,6 +221,11 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=tour_occ_arm&filters=geo=ES;c_resid=FOR;nace_r2=I551-I553;unit=NR",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "Cobertura establecimientos colectivos (no VUT). Comparable UE — útil para benchmark con FRA/ITA/GRC. Suele ser inferior a FRONTUR porque no incluye visitantes day-trip + VUT.",
+    releaseSchedule: "Mensual · publicación T+50 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["co-frontur", "co-tourism-services-export"],
   },
 ];
 

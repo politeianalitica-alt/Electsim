@@ -1,17 +1,18 @@
 /**
- * Catálogo · Subtab 12 "Sociedad, bienestar & desigualdad" v3.
+ * Catálogo · Subtab 12 "Sociedad, bienestar & desigualdad" v3 (Sprint N17).
  * Foco: cómo se distribuye el bienestar — pobreza, desigualdad, renta
  * real, educación, salud, prestaciones, malestar percibido.
- */
-import type { PulsoIndicatorMeta } from "./pulso-indicators";
-
-/**
+ *
  * Sprint N6.2 cleanup: removidos PIB pc, IPC, Paro general, Paro juvenil,
  * Gasto AAPP, IPV, ETCL (todos duplicados de pulso-macro / margen-fiscal /
  * hogares-empleo-vivienda). Conservado AROPE + Gini (estructurales únicos)
  * y añadidos indicadores específicos de bienestar: pobreza monetaria,
  * carencia material severa, abandono escolar, S80/S20 (desigualdad extremos).
+ *
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
+import type { PulsoIndicatorMeta } from "./pulso-indicators";
+
 export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
   {
     id: "sb-pobreza-monetaria",
@@ -29,6 +30,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 18, red: 22, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Renta equivalente <60% mediana. Métrica EU oficial pobreza relativa. España persistente ~20% — mejor 2008-13 (recesión sube todos los % rel) que post-recovery (sube proporción 'no recuperada').",
+    releaseSchedule: "Anual · encuesta SILC · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-arope-eurostat", "sb-carencia-material-severa", "sb-gini-eurostat"],
   },
   {
     id: "sb-carencia-material-severa",
@@ -46,6 +52,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 7, red: 10, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Hogares con >4 de 9 items privación: facturas, comer carne, calefacción, vacaciones, lavadora, coche, TV, teléfono, comida proteica. Pobreza 'dura' (absoluta). Menos sensible al ciclo que pobreza relativa.",
+    releaseSchedule: "Anual · SILC · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-pobreza-monetaria", "sb-pobreza-energetica", "sb-arope-eurostat"],
   },
   {
     id: "sb-s80-s20",
@@ -63,6 +74,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 5.5, red: 6.5, goodAbove: false },
     accent: "#8b5cf6",
+    methodologyNote:
+      "Renta quintil 5 / quintil 1. Más sensible a extremos que Gini. España ~6.0 vs UE 4.7. IMV + reformas IRPF 2021-22 redujeron 0.3 pp.",
+    releaseSchedule: "Anual · SILC · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-gini-eurostat", "sb-pobreza-monetaria"],
   },
   {
     id: "sb-abandono-escolar",
@@ -80,6 +96,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 10, red: 14, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "18-24 con máximo ESO + no en formación. Tendencia descendente desde 32% (2008) → 13% (2024) — gran avance, aún por encima objetivo UE 2030 (<9%).",
+    releaseSchedule: "Anual · LFS · T+6 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["paro-epa-jovenes", "rs-neet", "pc-educacion-terciaria"],
   },
   {
     id: "sb-gasto-social-pib",
@@ -97,6 +118,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 24, red: 22, goodAbove: true },
     accent: "#0891b2",
+    methodologyNote:
+      "ESSPROS (European System of Integrated Social Protection Statistics). Mayor partida: vejez (44%) + sanidad (28%) + desempleo (7%) + familia (5%) + exclusión social (3%). España gap UE -3 pp.",
+    releaseSchedule: "Anual · publicación T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-pension-pib", "mf-prestaciones-d62", "ie-gasto-sanitario"],
   },
   {
     id: "sb-arope-eurostat",
@@ -114,6 +140,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 22, red: 28, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "AROPE = at-risk-of-poverty + severe material deprivation + low work intensity (unión). Métrica oficial EU 2030 (target ES: -2.8M personas vs 2019). Histórico ES ~25-26%.",
+    releaseSchedule: "Anual · SILC · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-pobreza-monetaria", "sb-carencia-material-severa"],
   },
   {
     id: "sb-gini-eurostat",
@@ -131,6 +162,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 32, red: 36, goodAbove: false },
     accent: "#8b5cf6",
+    methodologyNote:
+      "Renta disponible equivalente (post-impuestos + post-transferencias). Captura efecto redistribución. Pre-transferencias ES ~48 (alto); post ~33. Diferencia mide poder redistributivo Estado.",
+    releaseSchedule: "Anual · SILC · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-s80-s20", "sb-pobreza-monetaria"],
   },
 
   // ─── Sprint N13.2 · Bienestar nicho · pobreza energética + salud + working poor ──
@@ -150,6 +186,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 10, red: 15, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "% hogares 'unable to keep home adequately warm'. España elevada vs UE (peor aislamiento + facturas energía). Pico 2022 +3pp con crisis gas — bono social eléctrico mitiga parcialmente.",
+    releaseSchedule: "Anual · SILC · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-hicp-energia", "sb-carencia-material-severa"],
   },
   {
     id: "sb-esperanza-vida-saludable",
@@ -166,6 +207,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=hlth_hlye&filters=geo=ES;age=Y65_GE;sex=F",
     parser: "eurostat-simple",
     accent: "#0EA5E9",
+    methodologyNote:
+      "HLY = años esperados sin discapacidad. España ~10 años desde 65 (peor que Suecia 14, Francia 12). Gap entre esperanza vida total y HLY → presión gasto sanitario crónicos.",
+    releaseSchedule: "Anual · publicación T+18 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["dt-esperanza-vida", "ie-gasto-sanitario"],
   },
   {
     id: "sb-pension-pib",
@@ -183,6 +229,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 14, red: 17, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "Sólo pensiones (jubilación + invalidez + viudedad). NO incluye desempleo + IT. Reforma 2021-23 indexa IPC + MEI demográfico — proyección 2050: ~17% PIB (AIReF central scenario).",
+    releaseSchedule: "Anual · publicación T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["mf-prestaciones-d62", "sb-gasto-social-pib", "dt-poblacion-mayores"],
   },
   {
     id: "sb-working-poor",
@@ -200,6 +251,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 12, red: 15, goodAbove: false },
     accent: "#7c3aed",
+    methodologyNote:
+      "Ocupados en riesgo pobreza (<60% renta mediana). Driver: temporalidad + parcialidad involuntaria + sectores baja productividad. SMI 2018-23 +47% redujo levemente la ratio.",
+    releaseSchedule: "Anual · SILC · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-tiempo-parcial-involunt", "sb-pobreza-monetaria"],
   },
   {
     id: "sb-neet-15-29",
@@ -217,6 +273,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 12, red: 16, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Not in Education, Employment or Training. Cohorte 15-29 (más amplia que clásica 16-24). Espa ~12% — recuperación post-2013 pero aún encima UE 10%. Categoría 25-29 peor (gap formación-empleo).",
+    releaseSchedule: "Anual · publicación abril del año T+1",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-neet", "paro-epa-jovenes", "sb-abandono-escolar"],
   },
   {
     id: "sb-mortalidad-infantil",
@@ -234,6 +295,11 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3.5, red: 5, goodAbove: false },
     accent: "#16a34a",
+    methodologyNote:
+      "Muertes <1 año / 1000 nacidos vivos. Proxy calidad sistema sanitario público (atención prenatal + parto + neonatal). España ~2.6 — entre mejores UE.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-gasto-sanitario", "dt-esperanza-vida"],
   },
 ];
 

@@ -1,7 +1,9 @@
 /**
- * Catálogo · Subtab 16 "Instituciones, sector público & capacidad estatal" v3.
+ * Catálogo · Subtab 16 "Instituciones, sector público & capacidad estatal" v3 (Sprint N17).
  * Foco: ejecución presupuestaria, contratación, subvenciones, justicia,
  * empleo público, transparencia, confianza institucional.
+ *
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -20,6 +22,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=TE;sector=S13;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "TE = Total Expenditure AAPP. Tamaño efectivo del Estado. España ~47% PIB (vs DEU 50%, FRA 58%, IT 56%). Mayor partida: pensiones (mf-prestaciones-d62) + salarios (ie-masa-salarial-aapp).",
+    releaseSchedule: "Anual · notificación PDE abril+octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-ingresos-aapp", "mf-gasto-aapp", "ie-masa-salarial-aapp"],
   },
   {
     id: "ie-ingresos-aapp",
@@ -35,6 +42,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=TR;sector=S13;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "TR = Total Revenue AAPP. España ~43% PIB · estructuralmente -5 pp vs media UE explicado por economía sumergida + bases imponibles + tipos efectivos IS bajos.",
+    releaseSchedule: "Anual · notificación PDE abril+octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-gasto-aapp", "mf-ingresos-aapp"],
   },
   // Sprint N6.3 cleanup: ie-saldo-imf, ie-deuda-imf, ie-saldo-primario
   // removidos · viven todos en margen-fiscal (su tab natural). Aquí dejamos
@@ -59,6 +71,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2.5, red: 4, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Intereses devengados D41PAY. España ~2.3% PIB — crowding-out de gasto productivo. La transmisión de tipos al stock es gradual (~8-9 años vida media).",
+    releaseSchedule: "Anual · PDE",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["mf-intereses-pib", "rs-yield-10y-es"],
   },
 
   // ─── Gasto sanitario %PIB (capacidad welfare) ─────────────────────────
@@ -78,6 +95,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 6.5, red: 5.5, goodAbove: true },
     accent: "#0EA5E9",
+    methodologyNote:
+      "GF07 = Health (COFOG). Incluye hospitales + atención primaria + farmacia + salud pública. Competencia transferida CCAA (financiación capítulo CCAA). España gap UE -0.5 pp.",
+    releaseSchedule: "Anual · publicación T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["sb-esperanza-vida-saludable", "ie-gasto-aapp"],
   },
 
   // ─── Gasto educativo %PIB ─────────────────────────────────────────────
@@ -97,6 +119,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 4, red: 3.5, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "GF09 = Education. Incluye primaria + secundaria + terciaria. España competencia CCAA. Caída secular desde pico 4.9% (2009) → 4.4% (2024). Compromiso LOMLOE: 5% PIB.",
+    releaseSchedule: "Anual · publicación T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-educacion-terciaria", "sb-abandono-escolar"],
   },
   {
     id: "ie-altas-empresas-eurostat",
@@ -113,6 +140,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_sb=BUSI_CR;nace_r2=B-S_X_O_S94",
     parser: "eurostat-simple",
     accent: "#0891b2",
+    methodologyNote:
+      "Business birth rate. NACE B-S excluyendo O y S94 (administración + asociaciones). Proxy respuesta tejido empresarial a entorno regulatorio (burocracia, fiscalidad, licencias).",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["eb-tasa-creacion-empresas", "eb-demografia-empresas-eurostat"],
   },
   {
     id: "ie-id-rd-eurostat",
@@ -130,6 +162,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 0.6, red: 0.4, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "GOV sector = government performance (CSIC + universidades + OPIs). España ~0.5% PIB vs UE ~0.7%. Gap menor que BERD pero estructural.",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-id-pib-eurostat", "pc-id-empresarial"],
   },
   // ─── Sprint N13.2 · Gasto por función COFOG + masa salarial AAPP ────
   {
@@ -148,6 +185,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 1.5, red: 1, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "GF02 = Defence. COFOG cubre presupuesto Defensa + parte de Industria. NO equivalente exacto a métrica OTAN (que incluye pensiones militares + gendarmería). España: 1.3% COFOG ≈ 1.5% OTAN.",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-gasto-aapp"],
   },
   {
     id: "ie-gasto-seguridad",
@@ -164,6 +206,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=gov_10a_exp&filters=geo=ES;cofog99=GF03;sector=S13;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#0EA5E9",
+    methodologyNote:
+      "GF03 = Public order + safety. Policía + bomberos + justicia + prisiones. España competencia mixta (Estado + autonomías). Indicador estructura Estado Derecho.",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-gasto-defensa", "ie-gasto-aapp"],
   },
   {
     id: "ie-masa-salarial-aapp",
@@ -180,6 +227,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=D1PAY;sector=S13;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "D1PAY = Compensation of employees (salarios + SS empresa). 2ª partida gasto. España ~11% vs media UE 10%. Rigidez alta (oposiciones).",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-empleo-publico-pct", "ie-gasto-aapp"],
   },
   {
     id: "ie-empleo-publico-pct",
@@ -196,6 +248,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=tepsr_sp110&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "% empleados S13 (AAPP) sobre total. España ~16% mediana UE (Suecia 28%, Italia 14%). NO incluye empresa pública (SEPI) ni concesionados.",
+    releaseSchedule: "Anual · LFS · T+9 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-masa-salarial-aapp"],
   },
   {
     id: "ie-fbcf-capital-aapp",
@@ -213,6 +270,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3, red: 2, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "P51G = Gross Fixed Capital Formation. Caída brutal 2010 (5%) → 2.5% (2024) por ajuste post-rescate. Multiplicador fiscal estimado 1.5-2x — reducción de inversión pública lastra crecimiento potencial.",
+    releaseSchedule: "Anual · PDE · T+6 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-inversion-publica-eurostat", "inversion-fbcf-yoy"],
   },
 
   // Sprint L F6 · +1 inversión pública %PIB (Eurostat gov_10a_main GFCF)
@@ -232,6 +294,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3, red: 2, goodAbove: true },
     accent: "#16a34a",
+    methodologyNote:
+      "Cifra idéntica a ie-fbcf-capital-aapp pero vía dataset gov_10a_main (más fresh). Use cualquiera de los dos como sinónimo.",
+    releaseSchedule: "Anual · T+6 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ie-fbcf-capital-aapp"],
   },
 ];
 

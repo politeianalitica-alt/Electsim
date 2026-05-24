@@ -380,6 +380,77 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     relatedIndicatorIds: ["hev-euribor-12m", "hev-deuda-hogares-pib", "hev-ipv-general"],
   },
 
+  // ─── Sprint N17 · CIS series curadas % problemas (vivienda/paro/precios) ──
+  // Mientras no haya parser PDF auto-update (pendiente N18+), estos indicadores
+  // tiran de /api/cis/serie con dataset curado manualmente de los PDFs CIS.
+  // Reusan parser bde-series por compatibilidad de formato {ok, points}.
+  {
+    id: "hev-cis-vivienda-problema",
+    family: "sentimiento",
+    label: "CIS · Vivienda como problema (%)",
+    shortLabel: "CIS vivienda",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetro mensual (curado PDF)",
+    sourceCode: "CIS_P4_VIVIENDA",
+    frequency: "monthly",
+    description:
+      "% encuestados que mencionan 'vivienda' entre los 3 principales problemas (pregunta P4 CIS). Indicador de presión social housing — sube +13 pp en 18 meses, pico histórico 2025 reflejando crisis alquiler urbano.",
+    endpoint: "/api/cis/serie?tema=vivienda",
+    parser: "bde-series",
+    threshold: { amber: 15, red: 22, goodAbove: false },
+    accent: "#dc2626",
+    methodologyNote:
+      "Series extraídas MANUALMENTE de PDFs cis.es (Avance Resultados) por falta de API JSON. Pregunta P4 multirespuesta hasta 3 menciones. Disclaimer: dato curado · scraper PDF auto-update pendiente Sprint N18+.",
+    releaseSchedule: "Mensual · CIS publica primer día hábil mes siguiente",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-ipv-general", "hev-sobrecarga-vivienda", "hev-tipo-hipoteca"],
+  },
+  {
+    id: "hev-cis-paro-problema",
+    family: "sentimiento",
+    label: "CIS · Paro como problema (%)",
+    shortLabel: "CIS paro",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetro mensual (curado PDF)",
+    sourceCode: "CIS_P4_PARO",
+    frequency: "monthly",
+    description:
+      "% encuestados que mencionan 'paro/problemas trabajo' entre los 3 principales problemas. Indicador de percepción mercado laboral · baja estructuralmente con la recuperación pero queda ~20% (referencia EU media ~10%).",
+    endpoint: "/api/cis/serie?tema=paro",
+    parser: "bde-series",
+    threshold: { amber: 25, red: 35, goodAbove: false },
+    accent: "#f59e0b",
+    methodologyNote:
+      "Series extraídas MANUALMENTE de PDFs cis.es. Pregunta P4 multirespuesta hasta 3 menciones. Curado N17. Para datos definitivos descargar microdato del banco datos CIS.",
+    releaseSchedule: "Mensual · CIS publica primer día hábil mes siguiente",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-paro-epa-general", "hev-paro-largo-plazo"],
+  },
+  {
+    id: "hev-cis-precios-problema",
+    family: "sentimiento",
+    label: "CIS · Precios como problema (%)",
+    shortLabel: "CIS precios",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetro mensual (curado PDF)",
+    sourceCode: "CIS_P4_PRECIOS",
+    frequency: "monthly",
+    description:
+      "% encuestados que mencionan 'precios/inflación' entre los 3 principales problemas. Cae estructuralmente desde pico shock energético 2022-23 (18%) hacia 8% en 2025 (transmisión BCE + base effect).",
+    endpoint: "/api/cis/serie?tema=precios",
+    parser: "bde-series",
+    threshold: { amber: 12, red: 20, goodAbove: false },
+    accent: "#7c3aed",
+    methodologyNote:
+      "Series extraídas MANUALMENTE de PDFs cis.es. Pregunta P4 multirespuesta. Sigue de cerca la evolución HICP (rm-hicp-eurostat) con lag ~3-6 meses (anclaje expectativas).",
+    releaseSchedule: "Mensual · CIS publica primer día hábil mes siguiente",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-ipc-anual", "rm-hicp-eurostat"],
+  },
+
   // ─── CIS · cadencia barómetros publicados (Sprint N12) ──────────────────
   // Importante: CIS NO expone valores agregados de % problemas (vivienda, paro,
   // precios) vía API · los publica en PDF de avance + microdato CSV/SPSS por

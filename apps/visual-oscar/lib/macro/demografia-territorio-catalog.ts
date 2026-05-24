@@ -1,18 +1,19 @@
 /**
- * Catálogo · Subtab 11 "Demografía & territorio" v3.
+ * Catálogo · Subtab 11 "Demografía & territorio" v3 (Sprint N17).
  * Foco: crecimiento, envejecimiento, despoblación, migración, hogares.
  * Para v1 usamos los indicadores macro disponibles que tienen relación
  * con el área demográfica. Datasets específicos de padrón/censo INE
  * via /api/datos-gob/csv quedan para alimentar bloques especializados.
- */
-import type { PulsoIndicatorMeta } from "./pulso-indicators";
-
-/**
+ *
  * Sprint N6.2 cleanup: removidos PIB pc, Paro IMF, Paro EPA general, IPV, ETCL
  * (todos copiados de pulso-macro u otros catálogos). Conservado solo
  * indicadores realmente demográficos: edad media, fertilidad, paro juvenil.
  * Añadidos: esperanza de vida, ratio dependencia, densidad media, % >65.
+ *
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
+import type { PulsoIndicatorMeta } from "./pulso-indicators";
+
 export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
   {
     id: "dt-paro-epa-jovenes",
@@ -31,6 +32,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "menores_25",
     threshold: { amber: 25, red: 35, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Activos 16-24. Sesgo: base activa pequeña (mayoría estudia) → ratio volátil. Driver migración interna (vaciado interior) + externa (movilidad UE post-Erasmus).",
+    releaseSchedule: "Trimestral · INE 4º viernes posterior a fin trimestre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["paro-epa-jovenes", "dt-migracion-saldo"],
   },
   {
     id: "dt-esperanza-vida",
@@ -47,6 +53,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=demo_mlexpec&filters=geo=ES;sex=T;age=Y_LT1",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "Promedio años esperados al nacer dadas tasas mortalidad actuales por edad. España top-3 mundial (Japón, Suiza). Driver pensiones: cada +1 año esperanza vida ~+1.5% gasto pensiones medio plazo.",
+    releaseSchedule: "Anual · publicación primavera del año T+1",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-poblacion-mayores", "dt-ratio-dependencia", "sb-pension-pib"],
   },
   {
     id: "dt-ratio-dependencia",
@@ -64,6 +75,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 30, red: 40, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "OLDDEP = old-age dependency ratio. España subirá de 32% (2024) a ~60% (2050) según proyecciones Eurostat. Driver insostenibilidad pensiones sin reforma estructural.",
+    releaseSchedule: "Anual · publicación T+6 meses (datos padrón)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-esperanza-vida", "dt-poblacion-mayores", "dt-fertilidad-eurostat"],
   },
   {
     id: "dt-migracion-saldo",
@@ -80,6 +96,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=demo_gind&filters=geo=ES;indic_de=CNMIGRAT",
     parser: "eurostat-simple",
     accent: "#0EA5E9",
+    methodologyNote:
+      "Crude rate of net migration. Cifra residual: variación población - (nacimientos - defunciones). Incluye correcciones censales. Único motor crecimiento poblacional ES tras 2015.",
+    releaseSchedule: "Anual · publicación T+10 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["dt-poblacion-eurostat", "dt-fertilidad-eurostat"],
   },
   {
     id: "dt-poblacion-eurostat",
@@ -97,6 +118,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 45, red: 50, goodAbove: false },
     accent: "#0EA5E9",
+    methodologyNote:
+      "Mediana edad población residente. España ~45 años (top-5 UE envejecidas). Sube +0.2 años/año. Para distribución completa por cohortes ver Padrón INE.",
+    releaseSchedule: "Anual · padrón cierre año (publicación junio T+1)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-esperanza-vida", "dt-fertilidad-eurostat", "dt-poblacion-mayores"],
   },
   // ─── Sprint N13.2 · Granularidad territorial NUTS3 + estructura edad ──
   {
@@ -114,6 +140,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=demo_r_d3dens&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#7c3aed",
+    methodologyNote:
+      "Densidad NUTS3 (provincial). Media nacional engaña por concentración extrema: 80% población en 30% territorio. Mejor visualizar mapa CCAA para 'España vaciada'.",
+    releaseSchedule: "Anual · publicación T+10 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-poblacion-rural"],
   },
   {
     id: "dt-poblacion-mayores",
@@ -131,6 +162,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 22, red: 28, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "Cohorte ≥65. España 20% (2024) → 30% (2050) según proyecciones Eurostat. Driver: gasto pensiones (mf-prestaciones-d62) + sanidad (ie-gasto-sanitario).",
+    releaseSchedule: "Anual · padrón T+6 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-ratio-dependencia", "dt-esperanza-vida", "sb-pension-pib"],
   },
   {
     id: "dt-poblacion-rural",
@@ -147,6 +183,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=urt_pjanaggr3&filters=geo=ES;deg_urb=DEG3",
     parser: "eurostat-simple",
     accent: "#0F766E",
+    methodologyNote:
+      "DEGURBA 3 = thinly populated areas (<300 hab/km²). Caída estructural histórica: 25% (1980) → 17% (2024). 'España vaciada' concentrada en CYL, ARA, CLM, EXT, RIO.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-densidad-nuts3", "mr-empleo-agrario"],
   },
   {
     id: "dt-paro-nuts2",
@@ -163,6 +204,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=lfst_r_lfu3rt&filters=geo=ES;age=Y15-74;sex=T",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "Paro EPA agregado NUTS2 (CCAA). Media simple (no ponderada por población). Brecha estructural ES: AND/EXT ~17-20% vs NAV/PV ~8-9%.",
+    releaseSchedule: "Anual · LFS · T+9 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["paro-epa-general"],
   },
 
   // Sprint L F6 · +1 fertilidad
@@ -182,6 +228,11 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 1.5, red: 1.2, goodAbove: true },
     accent: "#dc2626",
+    methodologyNote:
+      "Total Fertility Rate = hijos por mujer en edad fértil (15-49). Reemplazo poblacional requiere 2.1. España 1.2 — junto con Italia/Corea Sur en mínimos OCDE. Sin migración → colapso pirámide.",
+    releaseSchedule: "Anual · publicación T+18 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["dt-ratio-dependencia", "dt-migracion-saldo"],
   },
 ];
 

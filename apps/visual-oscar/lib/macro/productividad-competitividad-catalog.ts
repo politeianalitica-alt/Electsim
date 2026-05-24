@@ -1,5 +1,5 @@
 /**
- * Catálogo · subtab "Productividad & competitividad" v4 (Sprint N6.3).
+ * Catálogo · subtab "Productividad & competitividad" v4 (Sprint N6.3 + N17).
  *
  * REFUNDACIÓN. La versión anterior tenía PIB pc, Inversión, Exports, Imports
  * (todos macro genéricos). Esta versión se centra en LOS DRIVERS REALES DE
@@ -7,6 +7,7 @@
  * I+D, patentes, capital humano, complejidad exportadora.
  *
  * Sin solape con pulso-macro / mercados-activos / dependencias-externas.
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -28,6 +29,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 100, red: 90, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "RLPR_HW = real labour productivity per hour worked. Índice base UE-27=100. España 92% — gap explicado por composición sectorial (más servicios baja productividad), tamaño pyme + baja I+D privada.",
+    releaseSchedule: "Anual · publicación T+10-12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-ulc", "pc-id-empresarial", "pc-stem-graduates"],
   },
 
   // ─── Costes Laborales Unitarios (ULC) ──────────────────────────────────
@@ -47,6 +53,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "NULC_HW = Nominal Unit Labour Costs per hour. Cociente compensación trabajador / productividad. Devaluación interna 2010-13 logró bajar ULC ES ~10% vs UE — pieza clave del rebound exportador.",
+    releaseSchedule: "Anual · T+10-12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-productividad-hora", "ma-reer-bis", "hev-etcl-coste-laboral"],
   },
 
   // ─── I+D total %PIB ────────────────────────────────────────────────────
@@ -66,6 +77,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2, red: 1.5, goodAbove: true },
     accent: "#0891b2",
+    methodologyNote:
+      "GERD = Gross Expenditure on R&D. Pacto Lisboa 2000 target 3% (no cumplido ningún año). Gap ES vs UE explicado por baja BERD (sector privado).",
+    releaseSchedule: "Anual · publicación T+24 meses (datos 2023 → diciembre 2024)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-id-empresarial", "pc-patentes-epo-eurostat"],
   },
 
   // ─── I+D empresarial (BERD) ────────────────────────────────────────────
@@ -85,6 +101,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 1.2, red: 0.8, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "BES = Business Enterprise Sector. España estructuralmente baja: poca pharma + electronics + aerospace. Concentrado en Madrid + Cataluña + Euskadi. Bonus fiscal I+D infrautilizado por PYMES.",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-id-pib-eurostat", "pc-patentes-epo-eurostat", "de-htec-trade"],
   },
 
   // ─── Patentes EPO per cápita ───────────────────────────────────────────
@@ -104,6 +125,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 40, red: 25, goodAbove: true },
     accent: "#16a34a",
+    methodologyNote:
+      "EPO Office European Patent. Solicitudes (no concesiones). Per cápita normalizado. España ~30/Mhab — gap brutal con líderes EU (CH 1100, SE 400, DE 250). Refleja BERD baja + escala empresarial.",
+    releaseSchedule: "Anual · T+18 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-id-empresarial", "pc-stem-graduates", "de-htec-trade"],
   },
 
   // ─── Capital humano · tertiary attainment ──────────────────────────────
@@ -123,6 +149,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 45, red: 40, goodAbove: true },
     accent: "#0EA5E9",
+    methodologyNote:
+      "ISCED 5-8 (terciaria corta + universitaria + máster + doctorado). Paradoja ES: buen stock terciaria pero baja productividad — gap por mismatch educación-mercado (sobre-cualificación) + baja BERD.",
+    releaseSchedule: "Anual · LFS · T+6 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-stem-graduates", "pc-empleo-knowledge"],
   },
 
   // ─── Empleo intensivo en conocimiento (KIA) ────────────────────────────
@@ -142,6 +173,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 32, red: 28, goodAbove: true },
     accent: "#8b5cf6",
+    methodologyNote:
+      "KIA = Knowledge-Intensive Activities (definición OCDE: NACE 26+58+59+60+61+62+63+64-66+68-75+78+80+84-93). Captura empleo en sectores 'modern services + hi-tech manufacturing'. España gap por baja KIA manufacturas + over-weight hospitality.",
+    releaseSchedule: "Anual · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-educacion-terciaria", "pc-stem-graduates"],
   },
 
   // Sprint N13.1 cleanup · pc-reer-bis removido · vive en mercados-activos.
@@ -163,6 +199,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 12, red: 10, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "NACE C = Manufacturing. Caída secular: 17% (1990) → 11% (2024). Causas: deslocalización + cambio modelo productivo hacia servicios. Estrategia 're-industrialización' UE: target 20% PIB para 2030.",
+    releaseSchedule: "Anual · T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pulso-ipi-manufactura", "pc-id-empresarial"],
   },
   {
     id: "pc-stem-graduates",
@@ -179,6 +220,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=educ_uoe_grad04&filters=geo=ES",
     parser: "eurostat-simple",
     accent: "#0EA5E9",
+    methodologyNote:
+      "ISCED 5-8 + áreas STEM. España ~22/1000 vs UE 24, líderes Finlandia 35 + Irlanda 30. Pipeline correcto pero brain drain (emigración post-grado a UK/DE/US).",
+    releaseSchedule: "Anual · T+24 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-educacion-terciaria", "pc-id-empresarial"],
   },
   {
     id: "pc-desi-digital",
@@ -196,6 +242,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 30, red: 25, goodAbove: true },
     accent: "#8b5cf6",
+    methodologyNote:
+      "DII = Digital Intensity Index (12 indicadores tech). VHIGH = ≥10 tech adoptados. España bueno en banda ancha + cloud + e-commerce; gap en IA + big data + ciberseguridad PYMES.",
+    releaseSchedule: "Anual · publicación T+15 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-ict-invest", "pc-empleo-knowledge"],
   },
   {
     id: "pc-ict-invest",
@@ -212,6 +263,11 @@ export const PRODUCTIVIDAD_COMPETITIVIDAD_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=nama_10_nfa_st&filters=geo=ES;asset10=N111G",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "N111G = software + databases (intangible). España ~1.5% PIB vs líderes 3-4%. Driver clave TFP digital. Capital intangible no se mide bien en estadísticas tradicionales — underestimates.",
+    releaseSchedule: "Anual · T+18 meses",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["pc-desi-digital", "pc-id-empresarial"],
   },
 ];
 

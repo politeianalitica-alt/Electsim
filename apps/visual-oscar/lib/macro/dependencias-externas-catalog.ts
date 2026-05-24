@@ -1,5 +1,5 @@
 /**
- * Catálogo · Subtab "Dependencias externas" v4 (Sprint N6.2).
+ * Catálogo · Subtab "Dependencias externas" v4 (Sprint N6.2 + N17).
  *
  * REFUNDACIÓN. La versión anterior duplicaba cuenta corriente y deuda con
  * pulso-macro y flujos-capital. Esta versión se centra en LA ESTRUCTURA DEL
@@ -9,6 +9,7 @@
  * críticas (energía, tecnología), cómo evoluciona la apertura comercial?
  *
  * Sin solape con flujos-capital (BoP/IIP/IED) ni pulso-macro (CC agregada).
+ * Sprint N17 · methodology + release + confidence + related ids.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -30,6 +31,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 35, red: 30, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "P6 = Exports of goods and services. Volumen real (no nominal). España ha pasado de ~25% pre-2008 a ~37% post-crisis — recomposición estructural hacia economía exportadora.",
+    releaseSchedule: "Trimestral · T+90 días (mismas fechas CNT INE)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-apertura-imports", "de-servicios-export", "exports-yoy"],
   },
   {
     id: "de-apertura-imports",
@@ -46,6 +52,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=namq_10_gdp&filters=geo=ES;na_item=P7;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#f97316",
+    methodologyNote:
+      "P7 = Imports of goods and services. Co-evoluciona con la demanda interna. Componente energía importa ~25% — sensible a precio gas/petróleo.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-apertura-exports", "de-import-petroleo", "de-import-gas"],
   },
 
   // ─── Comercio servicios · turismo y servicios no-turismo ──────────────
@@ -64,6 +75,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_its6_det&filters=geo=ES;bop_item=S",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "Item S = Services (BoP). Incluye turismo (~50%) + transporte + servicios empresariales/profesionales + ICT + royalties. Driver clave del superávit cuenta corriente post-2013.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-turistas-anual", "de-apertura-exports", "cuenta-corriente"],
   },
 
   // ─── Comercio bienes · INE Aduanas mensual ────────────────────────────
@@ -83,6 +99,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-cnt-extra",
     parserKey: "exports",
     accent: "#0891b2",
+    methodologyNote:
+      "Datos Aduanas (no balanza pagos). Valor nominal en miles de €. Sujeto a revisión 2-3 meses por reclasificación arancelaria. Mensualmente más volátil que trimestral CNT.",
+    releaseSchedule: "Mensual · publicación T+50 días (INE Comercio Exterior)",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["de-apertura-exports", "exports-yoy"],
   },
 
   // ─── Dependencia energética ─────────────────────────────────────────
@@ -102,6 +123,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 60, red: 75, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Net imports / gross inland energy consumption × 100. Captura dependencia agregada. España: petróleo 99%, gas ~99%, carbón en declive. Renovables crecientes reducen ratio gradualmente.",
+    releaseSchedule: "Anual · publicación T+15 meses (datos 2023 publicados marzo 2025)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-import-petroleo", "de-import-gas"],
   },
 
   // ─── Saldo turístico · key driver superávit ───────────────────────────
@@ -120,6 +146,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/ine/frontur?n=36",
     parser: "ine-frontur",
     accent: "#0F766E",
+    methodologyNote:
+      "FRONTUR = Encuesta Movimientos Turísticos en Fronteras. Cuenta llegadas (no pernoctaciones ni gastos). Para gasto medio + estancia ver EGATUR. Estacionalidad fuerte: julio-agosto ~30% del total anual.",
+    releaseSchedule: "Mensual · publicación T+25 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-servicios-export", "ma-aena-mc"],
   },
 
   // Sprint N13.1 cleanup · de-reer-narrow removido · REER vive en mercados-activos.
@@ -140,6 +171,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=DE;sector10=S1;bop_item=CA;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#0F766E",
+    methodologyNote:
+      "Cuenta corriente bilateral (bienes + servicios + rentas + transferencias). España es tradicionalmente déficit bilateral con DEU (importa máquinas + automoción). Recesión industria DE en 2023-24 reduce exports ES.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-bop-usa", "de-bop-chn"],
   },
   {
     id: "de-bop-usa",
@@ -156,6 +192,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=US;sector10=S1;bop_item=CA;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#dc2626",
+    methodologyNote:
+      "Cuenta corriente bilateral. Vulnerabilidad: tarifas EU-US (2018-19 Trump, 2025+ Trump 2.0) afectan aceite, vino, lácteos, acero. España exporta US ~8% del total + servicios turismo.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-bop-deu", "ma-eurusd"],
   },
   {
     id: "de-bop-chn",
@@ -172,6 +213,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=CN_X_HK;sector10=S1;bop_item=CA;unit=PC_GDP",
     parser: "eurostat-simple",
     accent: "#a16207",
+    methodologyNote:
+      "CN_X_HK excluye Hong Kong. Déficit estructural ~2% PIB. Composición import: paneles solares + baterías + textil + maquinaria. Risk: dual-use tech + dependencia minerales críticos (litio, tierras raras).",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-bop-deu", "de-bop-usa", "de-htec-trade"],
   },
   {
     id: "de-htec-trade",
@@ -189,6 +235,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 8, red: 5, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "Definición OCDE/Eurostat hi-tech: aerospace + pharma + computers + electronics + scientific instruments. España gap con UE explicado por baja participación pharma + electronics. Sintoma del modelo productivo.",
+    releaseSchedule: "Anual · publicación T+12 meses",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["pc-id-empresarial", "pc-patentes-epo-eurostat"],
   },
   {
     id: "de-import-petroleo",
@@ -206,6 +257,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 90, red: 98, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Net imports / inland consumption (oil products). España no tiene producción nacional relevante. Fuentes: Arabia Saudí + Nigeria + México + USA. Sensibilidad refinerías Repsol/Cepsa.",
+    releaseSchedule: "Mensual · T+60 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-energia-dependence", "de-import-gas"],
   },
   {
     id: "de-import-gas",
@@ -222,6 +278,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=nrg_cb_gasm&filters=geo=ES;nrg_bal=IMP_MAR_T",
     parser: "eurostat-simple",
     accent: "#f59e0b",
+    methodologyNote:
+      "IMP_MAR_T = imports total (gaseoducto + LNG). España tiene 6 plantas LNG (Barcelona, Bilbao, Cartagena, Huelva, Sagunto, Mugardos) — única conectividad UE sur. Re-export a Europa central 2022-23 (gas hub strategy).",
+    releaseSchedule: "Mensual · T+60 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-energia-dependence", "de-import-petroleo"],
   },
 
   // ─── Exports growth · IMF anual ───────────────────────────────────────
@@ -242,6 +303,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: "TX_RPCH",
     threshold: { amber: 3, red: 0, goodAbove: true },
     accent: "#0F766E",
+    methodologyNote:
+      "TX_RPCH = volume of exports of goods and services. Anual + 5y forecast. IMF suele sub-estimar el rebound exportador post-recesión (visto en 2010-13 y 2021-22).",
+    releaseSchedule: "Anual · WEO abril+octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-apertura-exports", "de-imports-yoy"],
   },
 
   // ─── Imports growth · IMF anual ───────────────────────────────────────
@@ -261,6 +327,11 @@ export const DEPENDENCIAS_EXTERNAS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "imf-country",
     imfIndicator: "TM_RPCH",
     accent: "#f97316",
+    methodologyNote:
+      "TM_RPCH = volume of imports of goods and services. Driven by demanda interna y precios relativos. Multiplicador alto: cada +1pp consumo añade ~0.4pp imports.",
+    releaseSchedule: "Anual · WEO abril+octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["de-exports-yoy", "consumo-hogares-yoy"],
   },
 ];
 
