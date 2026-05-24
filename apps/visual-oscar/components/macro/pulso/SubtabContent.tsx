@@ -30,6 +30,7 @@ import { TrendsTable } from './TrendsTable'
 import { SourcesFooter } from './SourcesFooter'
 import { PeerComparisonBlock } from './PeerComparisonBlock'
 import { InsightsBlock } from './InsightsBlock'
+import { ApiEnrichmentBlock } from './ApiEnrichmentBlock'
 import { RadarChart } from '../charts/RadarChart'
 import { Treemap } from '../charts/Treemap'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
@@ -292,6 +293,9 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
           {/* Sprint N8 · Comparativa España vs peers UE (DE/FR/IT/PT/EA20) */}
           <PeerComparisonBlock subtabSlug={subtabSlug} accent={config.accent} />
+
+          {/* Sprint N13.3 · Enriquecimiento APIs huérfanas (ember, entsoe, portwatch, acled, gdelt) */}
+          <ApiEnrichmentBlock subtabSlug={subtabSlug} accent={config.accent} />
 
           <CalendarioReleases />
 
