@@ -211,6 +211,75 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     accent: "#16a34a",
   },
+
+  // ─── Sprint N16 · AEMET clima rural (requiere AEMET_API_KEY en Vercel) ─
+  {
+    id: "mr-precipitacion-and",
+    family: "oferta",
+    label: "Precipitación mensual Andalucía (Almería)",
+    shortLabel: "Lluvia AND",
+    unit: " mm",
+    decimals: 1,
+    source: "AEMET · OpenData climatologías",
+    sourceCode: "AEMET_PRECIP_04",
+    frequency: "monthly",
+    description:
+      "Precipitación acumulada mensual estación representativa Almería (provincia 04). Andalucía es uno de los principales focos de sequía hidrológica en España · driver del estrés hídrico agrícola.",
+    endpoint: "/api/aemet/precipitacion-ccaa?ccaa=AND",
+    parser: "aemet-precipitacion",
+    parserKey: "precip",
+    threshold: { amber: 20, red: 8, goodAbove: true },
+    accent: "#0891b2",
+    methodologyNote:
+      "Climatología mensual oficial AEMET. Una sola estación por provincia (no agregado areal). Valores 'Ip' (inapreciable) tratados como 0. Series oficiales del Banco de Datos Climatológico.",
+    releaseSchedule: "Mensual · publicación T+15 días tras fin de mes",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["mr-cereales-produccion", "mr-erosion-suelo"],
+  },
+  {
+    id: "mr-precipitacion-cyl",
+    family: "oferta",
+    label: "Precipitación mensual Castilla y León (Valladolid)",
+    shortLabel: "Lluvia CYL",
+    unit: " mm",
+    decimals: 1,
+    source: "AEMET · OpenData climatologías",
+    sourceCode: "AEMET_PRECIP_47",
+    frequency: "monthly",
+    description:
+      "Precipitación mensual Valladolid. Indicador hidrológico para cereal de secano en la principal cuenca productora · sensibilidad a sequía determina cosecha trigo/cebada.",
+    endpoint: "/api/aemet/precipitacion-ccaa?ccaa=CYL",
+    parser: "aemet-precipitacion",
+    parserKey: "precip",
+    threshold: { amber: 25, red: 10, goodAbove: true },
+    accent: "#0891b2",
+    methodologyNote:
+      "Climatología mensual estación Valladolid. CYL es la mayor superficie cerealista de España (~1.3M ha); lluvia en abril-mayo determina la cosecha de junio.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["mr-cereales-produccion"],
+  },
+  {
+    id: "mr-temperatura-mad",
+    family: "oferta",
+    label: "Temperatura media mensual Madrid",
+    shortLabel: "Tm MAD",
+    unit: " ºC",
+    decimals: 1,
+    source: "AEMET · OpenData climatologías",
+    sourceCode: "AEMET_TM_28",
+    frequency: "monthly",
+    description:
+      "Temperatura media mensual estación Madrid (provincia 28). Driver del estrés térmico veraniego: anomalías superiores a +2ºC sobre la media histórica activan olas de calor con impacto en mortalidad y demanda eléctrica.",
+    endpoint: "/api/aemet/precipitacion-ccaa?ccaa=MAD",
+    parser: "aemet-precipitacion",
+    parserKey: "tm",
+    accent: "#dc2626",
+    methodologyNote:
+      "Temperatura media diaria agregada mensualmente. Comparativa con periodo climático estándar 1991-2020 (referencia OMM). Anomalías estructurales reflejan calentamiento.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+  },
 ];
 
 export const MEDIO_RURAL_META = {

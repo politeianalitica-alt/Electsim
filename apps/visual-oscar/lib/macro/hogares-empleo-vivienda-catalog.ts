@@ -6,6 +6,8 @@
  *
  * Este catálogo se beneficia de las fuentes INE más maduras (EPA, IPC,
  * IPV, ETCL) + IMF LUR. EPF queda como bloque especial en el tab v1.
+ *
+ * Sprint N16: methodology + release schedule + confidence + related ids.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -28,6 +30,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "general",
     threshold: { amber: 12, red: 18, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "Encuesta Población Activa (~65k hogares, 180k personas) muestra rotatoria 1/6 cada trimestre. Definición OIT: parado = activo sin empleo + busca activamente. Lectura mensual SEPE NO comparable (sólo demandantes inscritos).",
+    releaseSchedule: "Trimestral · publicación INE 4 viernes posterior a fin de trimestre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-paro-epa-jovenes", "hev-paro-imf-lur", "hev-paro-largo-plazo"],
   },
   {
     id: "hev-paro-epa-jovenes",
@@ -46,6 +53,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "menores_25",
     threshold: { amber: 25, red: 35, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Activos 16-24. Sesgo importante: muchos jóvenes 16-19 no están en la fuerza de trabajo (estudios), por lo que la 'base activa' es pequeña — la ratio se mueve mucho con cambios marginales de empleo.",
+    releaseSchedule: "Trimestral · igual que paro general",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-paro-epa-general", "hev-tiempo-parcial-involunt"],
   },
   {
     id: "hev-paro-imf-lur",
@@ -64,6 +76,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: "LUR",
     threshold: { amber: 12, red: 18, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "Promedio anual de la tasa EPA. Proyección IMF basada en su modelo macro España — útil para benchmark pero ojo: revisiones de los pronósticos suelen ser optimistas en expansión y conservadoras en recesión.",
+    releaseSchedule: "Anual · WEO abril+octubre",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-paro-epa-general"],
   },
 
   // ─── Familia Precios · poder adquisitivo ─────────────────────────────
@@ -84,6 +101,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "anual",
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "IPC base 2021. Cesta de 939 artículos ponderados por gasto medio. Lectura adelantada (IPCA) sale 2-3 días antes del IPC nacional. Para análisis ciclo monetario usar IPCA armonizado, no nacional.",
+    releaseSchedule: "Mensual · publicación 13-14 día siguiente mes",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-ipc-mensual", "hev-etcl-coste-laboral"],
   },
   {
     id: "hev-ipc-mensual",
@@ -101,6 +123,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "mensual",
     accent: "#8b5cf6",
+    methodologyNote:
+      "Variación m/m sin desestacionalizar. España tiene picos típicos en julio (rebajas) y enero (precios públicos). Para tendencia subyacente mirar la versión core (sin alimentos+energía) o IPC subyacente trimestral.",
+    releaseSchedule: "Mensual · igual que IPC anual",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-ipc-anual"],
   },
 
   // ─── Familia Vivienda · IPV ─────────────────────────────────────────
@@ -120,6 +147,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "general",
     accent: "#16a34a",
+    methodologyNote:
+      "Índice base 2015=100. Construido a partir de las transacciones registradas en notarías (no precios de oferta). Sujeto a revisiones materiales por late-reporting + cambios composición territorial.",
+    releaseSchedule: "Trimestral · publicación día 8-10 del 3er mes siguiente al trimestre",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-ipv-nueva", "hev-ipv-segunda", "hev-tipo-hipoteca", "hev-sobrecarga-vivienda"],
   },
   {
     id: "hev-ipv-nueva",
@@ -137,6 +169,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "nueva",
     accent: "#10b981",
+    methodologyNote:
+      "Sólo viviendas con primera transmisión. Volumen <15% del total transacciones → serie más volátil. Cambios composición geográfica (mucho rural vs urbano un trimestre) distorsionan.",
+    releaseSchedule: "Trimestral · igual IPV general",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-ipv-general", "hev-ipv-segunda"],
   },
   {
     id: "hev-ipv-segunda",
@@ -154,6 +191,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "segunda",
     accent: "#0d9488",
+    methodologyNote:
+      "85% de las transacciones residenciales. Mejor referencia de presión real sobre comprador típico. Cuidado: precios medianos por CCAA varían 4x entre Soria y Madrid — el agregado nacional puede ser engañoso.",
+    releaseSchedule: "Trimestral · igual IPV general",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-ipv-general", "hev-ipv-nueva", "hev-tipo-hipoteca"],
   },
 
   // ─── Familia Empleo · coste laboral ───────────────────────────────────
@@ -173,6 +215,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "ine-ipc",
     parserKey: "total",
     accent: "#7c3aed",
+    methodologyNote:
+      "Encuesta Trimestral Coste Laboral (ETCL). Incluye salario base + complementos + Seguridad Social a cargo empresa. NO incluye autónomos. Para salario neto trabajador real, restar SS empleado (~6.5%) + IRPF.",
+    releaseSchedule: "Trimestral · publicación T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-ipc-anual", "hev-paro-epa-general"],
   },
 
   // ─── Sprint N13.2 · Métricas vivienda + deuda hogares + alquiler ───
@@ -192,6 +239,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 10, red: 15, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Definición Eurostat housing cost overburden: hogares cuyo gasto en vivienda (alquiler + suministros + hipoteca interés + comunidad - subsidios) supera 40% renta disponible bruta. Encuesta SILC anual. Inquilinos urbanos: tasa real ~25-30%.",
+    releaseSchedule: "Anual · publicación T+12 meses (datos 2023 publicados en 2024)",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-ipv-general", "hev-tipo-hipoteca"],
   },
   {
     id: "hev-deuda-hogares-pib",
@@ -209,6 +261,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 60, red: 75, goodAbove: false },
     accent: "#7c3aed",
+    methodologyNote:
+      "F4 = préstamos (no incluye otros pasivos como comerciales). Sectores S14 (hogares) + S15 (ISFLSH instituciones sin fines de lucro). 75% es deuda hipotecaria, el resto consumo + autónomos.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-tipo-hipoteca", "hev-euribor-12m", "rs-npl-banca"],
   },
   {
     id: "hev-ahorro-hogares",
@@ -226,6 +283,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 5, red: 3, goodAbove: true },
     accent: "#16a34a",
+    methodologyNote:
+      "SRG = ahorro bruto (incluye depreciación). Numerador = renta - consumo final. PC_HHGDIB = % renta disponible bruta hogares. Lectura ajustada estacionalmente — el dato sin desestacionalizar oscila ~3-5 pp por trimestre.",
+    releaseSchedule: "Trimestral · T+100 días",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-deuda-hogares-pib", "hev-ipc-anual"],
   },
   {
     id: "hev-paro-largo-plazo",
@@ -243,6 +305,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 5, red: 8, goodAbove: false },
     accent: "#f97316",
+    methodologyNote:
+      "Eurostat LFS trimestral · PC_ACT = % población activa. Aproximadamente 40-50% del total parados en España son LD (mucho más alto que media UE ~30%). Histéresis post-crisis: salir de paro LD requiere reciclaje activo.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-paro-epa-general", "rs-paro-larga-duracion"],
   },
   {
     id: "hev-tiempo-parcial-involunt",
@@ -260,6 +327,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 30, red: 45, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Subempleo: trabajan part-time pero querrían full-time. Más relevante que tasa paro para medir holgura del mercado laboral. España estructuralmente alta vs UE (~50%) por estacionalidad turismo + comercio.",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-paro-epa-general", "hev-paro-epa-jovenes"],
   },
 
   // ─── Sprint N15 · BdE webstat · EURIBOR + tipos hipoteca ───────────
@@ -279,6 +351,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "bde-series",
     threshold: { amber: 3.5, red: 5, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Promedio mensual del tipo EURIBOR 12M publicado por EMMI. Es el tipo al que los bancos europeos se prestan dinero a 12 meses. Las hipotecas variables se revisan típicamente cada 6 o 12 meses contra esta referencia + diferencial fijo.",
+    releaseSchedule: "Mensual · publicado primer día hábil del mes siguiente",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-tipo-hipoteca", "hev-deuda-hogares-pib", "rs-yield-10y-es"],
   },
   {
     id: "hev-tipo-hipoteca",
@@ -296,6 +373,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "bde-series",
     threshold: { amber: 4, red: 5.5, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "MIR (Monetary Financial Institutions Interest Rate Statistics). TAE ponderada por volumen nuevo contratado en el mes. Diferencia con EURIBOR = margen comercial banca (típicamente 50-100 pb).",
+    releaseSchedule: "Mensual · BdE Boletín Estadístico · T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-euribor-12m", "hev-deuda-hogares-pib", "hev-ipv-general"],
   },
 
   // ─── CIS · cadencia barómetros publicados (Sprint N12) ──────────────────
@@ -320,6 +402,11 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/cis/catalogo",
     parser: "cis-catalogo",
     accent: "#dc2626",
+    methodologyNote:
+      "Catálogo CKAN datos.gob.es: NO contiene valores agregados (% por respuesta) sino sólo metadata. Para series de % CIS por problema usar scraper PDF del Avance Resultados (pendiente Sprint N17).",
+    releaseSchedule: "Mensual · CIS publica primer día hábil mes siguiente",
+    confidenceLevel: "low",
+    relatedIndicatorIds: ["hev-paro-epa-general", "hev-ipc-anual"],
   },
 ];
 

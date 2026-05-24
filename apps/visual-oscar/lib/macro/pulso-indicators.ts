@@ -12,6 +12,8 @@
  *  - cards agrupadas por familia (24 cards en grid)
  *  - calcula termómetro 0-100 vía heurística por familia
  *  - cada card clicable → `/macro/pulso/indicator/{id}` (detail 9 subtabs)
+ *
+ * Sprint N16 · methodology + release + confidence + related ids en cada entry.
  */
 
 export type PulsoFamily =
@@ -48,10 +50,11 @@ export interface PulsoIndicatorMeta {
     | 'imf-country'
     | 'eurostat-simple'
     | 'datos-gob-csv'
-    | 'finnhub-quote'   // Sprint N12 · snapshot Finnhub quote (price + previous_close)
-    | 'cis-catalogo'    // Sprint N12 · catálogo barómetros CIS publicados (vía CKAN datos.gob.es)
-    | 'bde-series'      // Sprint N15 · BdE webstat CSV series (EURIBOR, hipotecas, NPL, etc.)
-    | 'tesoro-snapshot' // Sprint N15 · Tesoro Público boletín mensual snapshot (vida media, % tenedores)
+    | 'finnhub-quote'        // Sprint N12 · snapshot Finnhub quote (price + previous_close)
+    | 'cis-catalogo'         // Sprint N12 · catálogo barómetros CIS publicados (vía CKAN datos.gob.es)
+    | 'bde-series'           // Sprint N15 · BdE webstat CSV series (EURIBOR, hipotecas, NPL, etc.)
+    | 'tesoro-snapshot'      // Sprint N15 · Tesoro Público boletín mensual snapshot (vida media, % tenedores)
+    | 'aemet-precipitacion'  // Sprint N16 · AEMET OpenData climatologías mensuales por provincia/CCAA
   /** Sub-clave dentro del JSON (p.ej. 'pib_total', 'general'). */
   parserKey?: string
   /** Si parserKey es para imf-country, el indicador IMF. */
@@ -77,6 +80,36 @@ export interface PulsoIndicatorMeta {
     goodAbove?: boolean
   }
   accent: string
+  // ─── Sprint N16 · Profundización analista ──────────────────────────────
+  /**
+   * Nota metodológica corta (1-3 frases) que explica CÓMO se calcula el
+   * indicador, sus limitaciones y caveats típicos. Se muestra en el
+   * IndicatorDrillContent (drawer) y en el tab "Fuentes" del detalle.
+   * Foco analista: aporta el "asterisco" que diferencia un número usable
+   * de un número engañoso (revisiones, base year, ajuste estacional, etc.).
+   */
+  methodologyNote?: string
+  /**
+   * Cadencia legible para humanos: cuándo se publica el indicador respecto
+   * a su periodo de referencia. Ej: "Mensual · T+30 días", "Trimestral · T+90",
+   * "Anual · abril año siguiente". Útil para construir un calendario real
+   * de releases y para que el analista sepa cuán fresca es la cifra.
+   */
+  releaseSchedule?: string
+  /**
+   * Nivel de confianza en la cifra reportada:
+   *  - high   = serie oficial, sin revisiones materiales (Eurostat, INE EPA)
+   *  - medium = puede revisarse (CNT, IPV) o derivada (proxy)
+   *  - low    = snapshot puntual, estimado o sintético (Finnhub free tier)
+   */
+  confidenceLevel?: 'high' | 'medium' | 'low'
+  /**
+   * IDs de otros indicadores Pulso relacionados (mismo catálogo o crossover).
+   * Alimenta la subtab "Relaciones" del IndicatorDetailLayout y permite
+   * construir vistas comparativas/scatter automáticas. Convención: usar los
+   * `id` exactos (ej. ['hev-tipo-hipoteca', 'rs-yield-10y-es']).
+   */
+  relatedIndicatorIds?: string[]
 }
 
 export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
@@ -98,6 +131,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: 'pib_total',
     threshold: { amber: 0.5, red: -1, goodAbove: true },
     accent: '#0F766E',
+    methodologyNote:
+      'Contabilidad Nacional Trimestral (CNTR), serie en volumen encadenado base 2015. Ajustada de estacionalidad y efectos calendario (CVEC). Tres revisiones cada trimestre: avance (T+30 días), provisional (T+60), definitivo (T+90). El avance es el más comentado pero el más revisado.',
+    releaseSchedule: 'Trimestral · avance T+30 días, definitivo T+90 días',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['pib-imf-growth', 'consumo-hogares-yoy', 'inversion-fbcf-yoy', 'paro-epa-general'],
   },
   {
     id: 'pib-imf-growth',
@@ -116,6 +154,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: 'NGDP_RPCH',
     threshold: { amber: 1, red: 0, goodAbove: true },
     accent: '#7c3aed',
+    methodologyNote:
+      'PIB real anual % WEO. Coincide con CNTR anual pero con metodología armonizada IMF. Proyección 5y basada en su modelo macro España revisado cada abril/octubre — históricamente conservador (sub-proyecta recuperaciones, sobre-proyecta recesiones).',
+    releaseSchedule: 'Anual · WEO abril+octubre',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['pib-yoy', 'paro-imf-lur', 'ipc-imf'],
   },
   {
     id: 'pib-per-capita',
@@ -133,6 +176,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'imf-country',
     imfIndicator: 'NGDPDPC',
     accent: '#7c3aed',
+    methodologyNote:
+      'USD nominales corrientes (no PPP). Muy sensible al tipo cambio EUR/USD — apreciación €1 = +10% PIB pc sin cambio real. Para comparativa welfare entre países usar versión PPP (PPPPC) que ajusta diferencias coste vida.',
+    releaseSchedule: 'Anual · WEO abril+octubre',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['pib-imf-growth'],
   },
 
   // ─── Familia Demanda ──────────────────────────────────────────────────
@@ -152,6 +200,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-cnt-desglose',
     parserKey: 'consumo_hogares',
     accent: '#16a34a',
+    methodologyNote:
+      'CNTR componente C de la cuenta nacional. Incluye gasto residente nacional (no extranjero turista, que va aparte en exports turismo). Lectura adelantada vía pulso-ventas-retail (mensual). Sensibilidad alta a tasa ahorro y renta disponible.',
+    releaseSchedule: 'Trimestral · igual PIB',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['pib-yoy', 'pulso-ventas-retail', 'paro-epa-general'],
   },
   {
     id: 'consumo-aapp-yoy',
@@ -169,6 +222,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-cnt-desglose',
     parserKey: 'consumo_aapp',
     accent: '#0891b2',
+    methodologyNote:
+      'Consumo final efectivo AAPP (S13). Mayor parte = salarios + bienes/servicios producidos para sí mismo. NO incluye transferencias monetarias a hogares (pensiones, paro) que van en mf-prestaciones-d62.',
+    releaseSchedule: 'Trimestral · igual PIB',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['pib-yoy', 'mf-gasto-aapp'],
   },
   {
     id: 'inversion-fbcf-yoy',
@@ -186,6 +244,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-cnt-desglose',
     parserKey: 'inversion',
     accent: '#f97316',
+    methodologyNote:
+      'FBCF = construcción residencial + no residencial + maquinaria/equipo + propiedad intelectual. España estructuralmente FBCF construcción >50% (alta vs UE ~40%). Componente más volátil del PIB — multiplicador del crédito.',
+    releaseSchedule: 'Trimestral · igual PIB',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['pib-yoy', 'pulso-construccion'],
   },
   {
     id: 'exterior-pp',
@@ -203,6 +266,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-cnt-desglose',
     parserKey: 'exterior',
     accent: '#7c3aed',
+    methodologyNote:
+      'Contribución (X-M)/PIB ponderada. Es residual de la cuenta nacional: si demanda interna acelera + importaciones suben → exterior aporta NEGATIVO (recordar 2015-19 vs 2010-13). Mide cómo se "reparte" el crecimiento entre demanda interna y externa.',
+    releaseSchedule: 'Trimestral · igual PIB',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['exports-yoy', 'imports-yoy', 'cuenta-corriente'],
   },
 
   // ─── Familia Oferta / Sectorial ───────────────────────────────────────
@@ -222,6 +290,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-cnt-extra',
     parserKey: 'exports',
     accent: '#0891b2',
+    methodologyNote:
+      'Bienes + servicios (incluido turismo). España exports/PIB ~35% (vs DE ~50%, FR ~30%). Driver clave de competitividad-precio (REER en mercados-activos) + demanda externa (PIB UE).',
+    releaseSchedule: 'Trimestral · CNT T+30/60/90',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['imports-yoy', 'cuenta-corriente', 'ma-reer-bis'],
   },
   {
     id: 'imports-yoy',
@@ -239,6 +312,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-cnt-extra',
     parserKey: 'imports',
     accent: '#f97316',
+    methodologyNote:
+      'Procíclica con consumo + FBCF. Componente energía ~25% — sensible a precio gas/petróleo. Si imports crecen >exports = empeora cuenta corriente.',
+    releaseSchedule: 'Trimestral · CNT T+30/60/90',
+    confidenceLevel: 'medium',
+    relatedIndicatorIds: ['exports-yoy', 'cuenta-corriente', 'consumo-hogares-yoy'],
   },
   {
     id: 'cuenta-corriente',
@@ -257,6 +335,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: 'BCA_NGDPD',
     threshold: { amber: -2, red: -4, goodAbove: true },
     accent: '#7c3aed',
+    methodologyNote:
+      'BCA = Balance Cuenta Corriente (bienes + servicios + rentas + transferencias). España logró superávit estructural desde 2013 (saneamiento balanza pagos post-burbuja). Crítico para narrativa "exportador de ahorro" vs déficit pre-2008.',
+    releaseSchedule: 'Anual · WEO abril+octubre',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['exports-yoy', 'imports-yoy', 'exterior-pp'],
   },
 
   // ─── Familia Empleo ────────────────────────────────────────────────────
@@ -277,6 +360,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: 'general',
     threshold: { amber: 12, red: 18, goodAbove: false },
     accent: '#f59e0b',
+    methodologyNote:
+      'Encuesta a ~65k hogares panel rotatorio. Definición OIT. SEPE mensual NO comparable (sólo demandantes inscritos). Margen error ~0.3 pp para tasa general; mayor para subgrupos.',
+    releaseSchedule: 'Trimestral · INE 4 viernes posterior a fin trimestre',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['paro-epa-jovenes', 'paro-imf-lur', 'hev-paro-epa-general'],
   },
   {
     id: 'paro-epa-jovenes',
@@ -295,6 +383,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: 'menores_25',
     threshold: { amber: 25, red: 35, goodAbove: false },
     accent: '#dc2626',
+    methodologyNote:
+      'Activos 16-24 años. Base activa pequeña (mayoría en estudios) → ratio volátil. Para visión estructural NEET ver rs-neet.',
+    releaseSchedule: 'Trimestral · igual EPA general',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['paro-epa-general', 'rs-neet'],
   },
   {
     id: 'paro-imf-lur',
@@ -313,6 +406,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: 'LUR',
     threshold: { amber: 12, red: 18, goodAbove: false },
     accent: '#f59e0b',
+    methodologyNote:
+      'Promedio anual tasa EPA. NAIRU España estimada ~13% — debajo activa presión salarial inflacionista; encima genera histéresis (paro LD). Proyección IMF suele sub-revisar ajustes en recuperación.',
+    releaseSchedule: 'Anual · WEO abril+octubre',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['paro-epa-general'],
   },
 
   // ─── Familia Precios ──────────────────────────────────────────────────
@@ -333,6 +431,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: 'anual',
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: '#dc2626',
+    methodologyNote:
+      'IPC nacional (no armonizado HICP). 939 artículos ponderados por gasto medio de la Encuesta Presupuestos Familiares. Base 2021. Para política monetaria BCE usar HICP (Eurostat prc_hicp_manr).',
+    releaseSchedule: 'Mensual · publicación 13-14 día siguiente',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['ipc-mensual', 'ipc-imf', 'hev-ipc-anual'],
   },
   {
     id: 'ipc-mensual',
@@ -350,6 +453,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'ine-ipc',
     parserKey: 'mensual',
     accent: '#8b5cf6',
+    methodologyNote:
+      'm/m sin desestacionalizar. Picos estacionales julio (rebajas) y enero. Mejor lectura tendencia con IPC subyacente (excluye energía + alimentos sin elaborar).',
+    releaseSchedule: 'Mensual · igual IPC anual',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['ipc-anual'],
   },
   {
     id: 'ipc-imf',
@@ -368,6 +476,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: 'PCPIPCH',
     threshold: { amber: 2, red: 4, goodAbove: false },
     accent: '#dc2626',
+    methodologyNote:
+      'Inflación promedio anual WEO. Proyección refleja consenso IMF — no expectativas mercado (que están en swap inflation 5y5y BCE).',
+    releaseSchedule: 'Anual · WEO abril+octubre',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['ipc-anual'],
   },
 
   // ─── Sprint N13.1 cleanup · removidos pib-imf-forecast-1y, paro-imf-forecast-1y,
@@ -392,6 +505,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'eurostat-simple',
     threshold: { amber: 95, red: 90, goodAbove: true },
     accent: '#8b5cf6',
+    methodologyNote:
+      'Compuesto ponderado: industria 40% + servicios 30% + consumidor 20% + construcción 5% + retail 5%. Base 100=media largo plazo. >100 = sentimiento por encima de la media histórica. Lead indicator del PIB (~2 trimestres).',
+    releaseSchedule: 'Mensual · publicación T+30 días',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['pulso-ventas-retail', 'consumo-hogares-yoy'],
   },
   {
     id: 'pulso-ventas-retail',
@@ -408,6 +526,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: '/api/eurostat/dataset?code=sts_trtu_m&filters=geo=ES;nace_r2=G47;indic_bt=TOVV',
     parser: 'eurostat-simple',
     accent: '#16a34a',
+    methodologyNote:
+      'NACE G47 = comercio minorista (excl. vehículos). TOVV = volumen total ventas. Sensibilidad alta a inflación: aunque ventas nominales suban, lectura real (volumen) puede caer si IPC sube más.',
+    releaseSchedule: 'Mensual · T+30 días',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['consumo-hogares-yoy', 'pulso-esi-sentiment'],
   },
   {
     id: 'pulso-ipi-manufactura',
@@ -425,6 +548,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: 'eurostat-simple',
     threshold: { amber: 0, red: -3, goodAbove: true },
     accent: '#0F766E',
+    methodologyNote:
+      'Cobertura B-D NACE (incluye minería + manufactura + energía). I15_A = índice base 2015 desestacionalizado. Lectura adelantada respecto a CNTR producción industrial trimestral.',
+    releaseSchedule: 'Mensual · T+45 días',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['pib-yoy', 'pulso-construccion'],
   },
   {
     id: 'pulso-construccion',
@@ -441,6 +569,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: '/api/eurostat/dataset?code=sts_copr_m&filters=geo=ES;nace_r2=F;unit=I15_A',
     parser: 'eurostat-simple',
     accent: '#f59e0b',
+    methodologyNote:
+      'NACE F = construcción. Base 2015. España recovery post-2008 aún por debajo del pico — sector estructuralmente más pequeño tras crash inmobiliario. Sensibilidad fuerte a tipos hipotecarios + crédito promotor.',
+    releaseSchedule: 'Mensual · T+45 días',
+    confidenceLevel: 'high',
+    relatedIndicatorIds: ['inversion-fbcf-yoy', 'pulso-ipi-manufactura', 'hev-tipo-hipoteca'],
   },
 ]
 

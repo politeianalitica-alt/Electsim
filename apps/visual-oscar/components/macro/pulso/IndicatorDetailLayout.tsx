@@ -469,23 +469,76 @@ function Territorio({ meta }: { meta: PulsoIndicatorMeta }) {
 }
 
 function Relaciones({ meta }: { meta: PulsoIndicatorMeta }) {
+  // Sprint N16 · Si el catálogo declara relatedIndicatorIds, los enseñamos como
+  // grid de cross-links accionables. Si no, mantenemos el placeholder heurístico.
+  const ids = meta.relatedIndicatorIds || []
+  if (ids.length === 0) {
+    return (
+      <Placeholder title="Relaciones con otros indicadores">
+        Para <strong>{meta.label}</strong> ({meta.family}) aún no se han declarado cruces explícitos
+        en el catálogo. Heurística por familia:
+        <ul style={{ marginTop: 8 }}>
+          <li>Procíclicos: <em>consumo, inversión, empleo</em></li>
+          <li>Contracíclicos: <em>paro, déficit, spread soberano</em></li>
+          <li>Adelantados: <em>PMI, confianza consumidor</em></li>
+        </ul>
+      </Placeholder>
+    )
+  }
   return (
-    <Placeholder title="Relaciones con otros indicadores">
-      Próximamente: matriz de correlación y leads/lags con otros indicadores Pulso. Para{' '}
-      <strong>{meta.label}</strong> ({meta.family}), relaciones esperadas:
-      <ul style={{ marginTop: 8 }}>
-        <li>
-          Indicadores procíclicos: <em>consumo, inversión, empleo</em>
-        </li>
-        <li>
-          Indicadores contracíclicos: <em>paro, déficit, spread soberano</em>
-        </li>
-        <li>
-          Adelantados: <em>PMI, confianza consumidor</em>
-        </li>
-      </ul>
-    </Placeholder>
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 16 }}>
+      <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, color: meta.accent, textTransform: 'uppercase' }}>
+        ⇄ Cruzar con · {ids.length} indicadores relacionados
+      </p>
+      <p style={{ margin: '4px 0 12px', fontSize: 11, color: '#64748b' }}>
+        El catálogo declara estos vínculos para análisis comparado/scatter. Click → abre el detalle del indicador relacionado.
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
+        {ids.map((relId) => {
+          const slug = guessSlug(relId)
+          return (
+            <Link
+              key={relId}
+              href={`/macro/${slug}/indicator/${relId}`}
+              style={{
+                display: 'block',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderLeft: `3px solid ${meta.accent}`,
+                borderRadius: 6,
+                padding: '8px 10px',
+                textDecoration: 'none',
+                color: '#0f172a',
+              }}
+            >
+              <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.5, color: meta.accent, textTransform: 'uppercase' }}>
+                {slug}
+              </p>
+              <p style={{ margin: '2px 0 0', fontSize: 12, fontFamily: 'ui-monospace, monospace' }}>{relId}</p>
+            </Link>
+          )
+        })}
+      </div>
+    </section>
   )
+}
+
+/**
+ * Heurística reusada del IndicatorDrillContent.
+ */
+function guessSlug(id: string): string {
+  if (id.startsWith('hev-')) return 'hogares-empleo-vivienda'
+  if (id.startsWith('mf-')) return 'margen-fiscal'
+  if (id.startsWith('rs-')) return 'riesgo-sistemico'
+  if (id.startsWith('ma-')) return 'mercados-activos'
+  if (id.startsWith('mr-')) return 'medio-rural'
+  if (id.startsWith('ee-') || id.startsWith('eb-')) return 'empresas-beneficios'
+  if (id.startsWith('pulso-') || id.startsWith('pib-') || id.startsWith('paro-') || id.startsWith('ipc-')) return 'pulso-macro'
+  if (id.startsWith('fc-')) return 'flujos-capital'
+  if (id.startsWith('de-')) return 'dependencias-externas'
+  if (id.startsWith('rm-')) return 'regimen-monetario'
+  if (id.startsWith('pc-')) return 'productividad-competitividad'
+  return 'pulso-macro'
 }
 
 function Impacto({ ai, aiState }: { ai: DetailAnalysisResponse | null; aiState: string }) {
@@ -554,10 +607,34 @@ function Fuentes({ meta, trend, periods }: { meta: PulsoIndicatorMeta; trend: st
       <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, color: meta.accent, textTransform: 'uppercase' }}>
         Fuentes y metadata
       </p>
-      <dl style={{ marginTop: 10, fontSize: 12, color: '#334155', display: 'grid', gridTemplateColumns: '160px 1fr', gap: '4px 12px' }}>
+      <dl style={{ marginTop: 10, fontSize: 12, color: '#334155', display: 'grid', gridTemplateColumns: '180px 1fr', gap: '4px 12px' }}>
         <dt style={{ color: '#94a3b8' }}>Fuente</dt><dd style={{ margin: 0 }}>{meta.source}</dd>
         <dt style={{ color: '#94a3b8' }}>Código fuente</dt><dd style={{ margin: 0, fontFamily: 'monospace' }}>{meta.sourceCode}</dd>
         <dt style={{ color: '#94a3b8' }}>Frecuencia</dt><dd style={{ margin: 0 }}>{meta.frequency}</dd>
+        {meta.releaseSchedule && (
+          <>
+            <dt style={{ color: '#94a3b8' }}>Calendario release</dt>
+            <dd style={{ margin: 0, color: '#0f172a' }}>{meta.releaseSchedule}</dd>
+          </>
+        )}
+        {meta.confidenceLevel && (
+          <>
+            <dt style={{ color: '#94a3b8' }}>Confianza dato</dt>
+            <dd style={{ margin: 0 }}>
+              <span style={{
+                fontSize: 10,
+                padding: '2px 6px',
+                borderRadius: 4,
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                background: meta.confidenceLevel === 'high' ? '#dcfce7' : meta.confidenceLevel === 'medium' ? '#fef3c7' : '#fee2e2',
+                color: meta.confidenceLevel === 'high' ? '#166534' : meta.confidenceLevel === 'medium' ? '#92400e' : '#991b1b',
+              }}>
+                {meta.confidenceLevel}
+              </span>
+            </dd>
+          </>
+        )}
         <dt style={{ color: '#94a3b8' }}>Familia</dt><dd style={{ margin: 0 }}>{meta.family}</dd>
         <dt style={{ color: '#94a3b8' }}>Endpoint local</dt><dd style={{ margin: 0, fontFamily: 'monospace', fontSize: 11 }}>{meta.endpoint}</dd>
         <dt style={{ color: '#94a3b8' }}>Periodos cargados</dt><dd style={{ margin: 0 }}>{periods}</dd>
@@ -566,6 +643,18 @@ function Fuentes({ meta, trend, periods }: { meta: PulsoIndicatorMeta; trend: st
       <p style={{ marginTop: 12, fontSize: 11, color: '#64748b', lineHeight: 1.5 }}>
         {meta.description}
       </p>
+
+      {/* Sprint N16 · Bloque metodología destacado */}
+      {meta.methodologyNote && (
+        <div style={{ marginTop: 16, background: '#fffbeb', borderLeft: '4px solid #f59e0b', borderRadius: 6, padding: '10px 12px' }}>
+          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.6, color: '#92400e', textTransform: 'uppercase' }}>
+            ⓘ Metodología y caveats analista
+          </p>
+          <p style={{ margin: '4px 0 0', fontSize: 12, color: '#78350f', lineHeight: 1.55 }}>
+            {meta.methodologyNote}
+          </p>
+        </div>
+      )}
     </section>
   )
 }

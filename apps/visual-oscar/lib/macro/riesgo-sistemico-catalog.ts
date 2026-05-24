@@ -1,16 +1,17 @@
 /**
- * Catálogo · subtab "Riesgo sistémico" v4 (Sprint N6.2).
+ * Catálogo · subtab "Riesgo sistémico" v4 (Sprint N6.2 + N16).
  *
  * REFUNDACIÓN. La versión anterior tenía PIB/Paro/IPC genéricos (5 de 8
  * indicadores eran macro estándar copiados de pulso-macro). Esta versión
  * se centra en VULNERABILIDADES FINANCIERAS Y SISTÉMICAS específicas:
  *  - estrés soberano (yield 10Y, spread implícito vs Bund)
- *  - estrés bancario (NPL, crédito, ratio crédito/PIB)
+ *  - estrés bancario (NPL, crédito, ratio crédito/PIB, tipos)
  *  - estrés inmobiliario (HPI, precios alquiler)
  *  - estrés energético (precios IPC energía)
  *  - estrés laboral estructural (paro larga duración LFD, no paro total)
  *
  * Sin solape con pulso-macro (que tiene paro general, IPC general, PIB).
+ * Sprint N16: methodology + release + confidence + related ids por indicador.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -32,6 +33,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3.5, red: 5, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Yield secundario mensual bono benchmark 10Y (criterio convergencia Maastricht). NO es coste medio del stock — para eso usar mf-coste-medio-emisiones. La diferencia entre yield mercado y coste stock = ahorro futuro (si yield < stock) o coste creciente (si yield > stock).",
+    releaseSchedule: "Mensual · publicación T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-yield-10y-it", "mf-vida-media-deuda", "mf-coste-medio-emisiones", "rs-deuda-imf"],
   },
 
   // ─── Estrés soberano · spread Italia (proxy contagio) ─────────────────
@@ -51,6 +57,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 4, red: 6, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Mismo dataset Eurostat, geo=IT. Spread IT-ES suele invertirse en crisis (IT pasa por encima en estrés periférico). Para construir spread real, restar este valor al rs-yield-10y-es.",
+    releaseSchedule: "Mensual · igual que ES",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-yield-10y-es"],
   },
 
   // ─── Estrés bancario · ratio crédito/PIB (Basel gap proxy) ────────────
@@ -70,6 +81,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2, red: 0, goodAbove: true },
     accent: "#f97316",
+    methodologyNote:
+      "Sociedades no financieras + hogares + ISFLSH. NO incluye AAPP. Variación m/m anualizada — más reactiva que YoY pero más ruidosa. Para tracking estructural usar Basel credit gap (no disponible vía API pública).",
+    releaseSchedule: "Mensual · T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-npl-banca", "rs-tipo-prestamo-empresas", "hev-deuda-hogares-pib"],
   },
 
   // ─── Estrés inmobiliario · HPI YoY ────────────────────────────────────
@@ -89,6 +105,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 7, red: 12, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "Eurostat HPI armonizado. Coincide con el INE IPV pero con metodología comparable UE (encadenamiento Laspeyres modificado). Suele estar 5-10 pp por encima de los precios reportados por portales (que reflejan oferta, no transacción).",
+    releaseSchedule: "Trimestral · publicación T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-ipv-general", "hev-tipo-hipoteca"],
   },
 
   // ─── Estrés energético · HICP energía Eurostat (componente real) ────
@@ -111,6 +132,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 10, red: 25, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Coicop NRG = electricidad + gas + combustibles líquidos + carburantes. RCH_A = variación interanual mensual. Sensibilidad alta a precio mayorista gas (TTF) + tipo cambio EUR/USD para petróleo. España suaviza pico via Iberian exception 2022-23.",
+    releaseSchedule: "Mensual · publicación T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-ipc-anual", "rs-credito-pib-es"],
   },
   // ─── Sprint N13.2 · Pasivos contingentes AAPP (avales explícitos) ───
   {
@@ -129,6 +155,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 12, red: 20, goodAbove: false },
     accent: "#7c3aed",
+    methodologyNote:
+      "CLG = Contingent Liabilities Government, sólo garantías explícitas (excluye PPP off-balance + pensiones futuras + deudas latentes). Materialización histórica España ~5-10% del valor avalado.",
+    releaseSchedule: "Anual · publicación enero del año T+2 (datos 2022 publicados ene 2024)",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["mf-deuda-imf", "mf-deuda-bruta-eurostat"],
   },
 
   // ─── Estrés laboral estructural · paro larga duración ─────────────────
@@ -148,6 +179,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 5, red: 8, goodAbove: false },
     accent: "#f59e0b",
+    methodologyNote:
+      "Definición OIT: parado >12 meses continuos. Histéresis estructural: la probabilidad de salir cae al 5% mensual después de 12 meses sin empleo (vs 25% para LD<6 meses).",
+    releaseSchedule: "Trimestral · T+90 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-paro-largo-plazo", "hev-paro-epa-general"],
   },
 
   // ─── Estrés vulnerabilidad social · NEET ─────────────────────────────
@@ -167,6 +203,11 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 12, red: 16, goodAbove: false },
     accent: "#7c3aed",
+    methodologyNote:
+      "Not in Education, Employment or Training. Cohorte 15-29 (más amplia que la definición clásica 16-24). Sub-componente clave de la 'generación perdida' post-2008. España duplica media OCDE en categoría 25-29.",
+    releaseSchedule: "Anual · publicación abril del año T+1",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["hev-paro-epa-jovenes"],
   },
 
   // ─── Estrés soberano · vida media deuda Tesoro (alongamiento) ─────────
@@ -187,6 +228,57 @@ export const RIESGO_SISTEMICO_INDICATORS: PulsoIndicatorMeta[] = [
     imfIndicator: "GGXWDG_NGDP",
     threshold: { amber: 100, red: 120, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Deuda bruta consolidada Maastricht según IMF WEO (alineado con notificación Eurostat PDE pero con proyecciones 5y). Si quieres últimas cifras oficiales, ver mf-deuda-bruta-eurostat en margen-fiscal.",
+    releaseSchedule: "Anual · WEO publica abril+octubre · revisiones materiales en revisiones de octubre",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-yield-10y-es", "mf-deuda-bruta-eurostat", "mf-saldo-total"],
+  },
+
+  // ─── Sprint N16 · Estrés bancario fino · BdE webstat NPL/crédito ──────
+  {
+    id: "rs-npl-banca",
+    family: "demanda",
+    label: "Ratio dudosos (NPL) crédito sector privado",
+    shortLabel: "NPL",
+    unit: "%",
+    decimals: 2,
+    source: "BdE · webstat BE_4_18",
+    sourceCode: "BE_4_18",
+    frequency: "monthly",
+    description:
+      "Ratio créditos dudosos (NPL) sobre crédito total al sector privado residente. Termómetro de la calidad de cartera bancaria. Pico 2013: 13.6% (saneamiento Sareb). Hoy <4% pero subiendo con shock tipos 2022-24.",
+    endpoint: "/api/bde/series/BE_4_18?n=36",
+    parser: "bde-series",
+    threshold: { amber: 5, red: 8, goodAbove: false },
+    accent: "#dc2626",
+    methodologyNote:
+      "Ratio mensual sector OSR (Otros Sectores Residentes) BdE Boletín Estadístico cap.4.18. No incluye Sareb · refleja banca operativa. Salto Dic 2017 por reclasificación CCAA-DDA.",
+    releaseSchedule: "Mensual · publicación T+45 días tras fin de mes",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-credito-pib-es", "rs-yield-10y-es", "rs-tipo-prestamo-empresas"],
+  },
+  {
+    id: "rs-tipo-prestamo-empresas",
+    family: "forecast",
+    label: "Tipo medio préstamos empresas (<1M€)",
+    shortLabel: "Tipo PYMEs",
+    unit: "%",
+    decimals: 2,
+    source: "BdE · webstat TI_1_1245",
+    sourceCode: "TI_1_1245",
+    frequency: "monthly",
+    description:
+      "Tipo de interés medio aplicado a nuevas operaciones de préstamo a sociedades no financieras por importes <1M€ (PYMEs). Driver del estrés financiero corporativo · cada +100pb erosiona ~1.5 puntos de beneficio antes de impuestos.",
+    endpoint: "/api/bde/series/TI_1_1245?n=36",
+    parser: "bde-series",
+    threshold: { amber: 4.5, red: 6, goodAbove: false },
+    accent: "#f59e0b",
+    methodologyNote:
+      "MIR (Monetary Financial Institutions Interest Rate Statistics) Eurosistema · ponderado por nuevo volumen contratado en el mes. Diferencia con tipo BCE = prima riesgo + margen banca.",
+    releaseSchedule: "Mensual · T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["rs-yield-10y-es", "rs-credito-pib-es", "rs-npl-banca"],
   },
 ];
 

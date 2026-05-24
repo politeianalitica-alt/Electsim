@@ -211,6 +211,41 @@ export async function fetchPulsoIndicator(
         }
         break;
       }
+      case "aemet-precipitacion": {
+        // Sprint N16 · /api/aemet/precipitacion-ccaa?ccaa=XYZ devuelve
+        // { ok, items: [{ fecha:'2024-1', p_mes:'45.2', tm_mes:'15.3', ... }] }
+        // Construimos serie temporal por mes-año. parserKey opcional:
+        //  - 'precip'  → campo p_mes  (precipitación mensual en mm)  · default
+        //  - 'tm'      → campo tm_mes (temperatura media mensual ºC)
+        //  - 'tmax'    → campo ta_max (temp máxima mes)
+        //  - 'tmin'    → campo ti_min (temp mínima mes)
+        const items = Array.isArray(json?.items) ? json.items : [];
+        const fieldMap: Record<string, string> = {
+          precip: 'p_mes',
+          tm: 'tm_mes',
+          tmax: 'ta_max',
+          tmin: 'ti_min',
+        };
+        const wanted = fieldMap[ind.parserKey || 'precip'] || 'p_mes';
+        series = items
+          .map((it: any) => {
+            // AEMET fechas vienen como "2024-1" (año-mes) o "2024-1-15" (año-mes-día)
+            const fecha = String(it.fecha || '').trim();
+            const periodMatch = fecha.match(/^(\d{4})-(\d{1,2})/);
+            if (!periodMatch) return null;
+            const period = `${periodMatch[1]}-${String(periodMatch[2]).padStart(2, '0')}`;
+            const raw = it[wanted];
+            // AEMET devuelve valores como string "45.2" o "Ip" (inapreciable) o vacío
+            const value = typeof raw === 'string'
+              ? (raw === 'Ip' ? 0 : Number(raw.replace(',', '.')))
+              : (typeof raw === 'number' ? raw : null);
+            if (value == null || !Number.isFinite(value)) return null;
+            return { period, value } as PulsoPoint;
+          })
+          .filter((p: PulsoPoint | null): p is PulsoPoint => p !== null)
+          .sort((a: PulsoPoint, b: PulsoPoint) => a.period.localeCompare(b.period));
+        break;
+      }
       case "cis-catalogo": {
         // Sprint N12 · /api/cis/catalogo devuelve metadata de barómetros CIS
         // publicados (via CKAN datos.gob.es). No son series numéricas (CIS no

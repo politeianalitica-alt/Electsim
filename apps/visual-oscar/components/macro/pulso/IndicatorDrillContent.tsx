@@ -69,6 +69,38 @@ const STATUS_COLORS = {
   na:    { bg: '#f1f5f9', fg: '#64748b' },
 }
 
+/**
+ * Heurística: dado un indicatorId y el subtab actual, intenta adivinar
+ * el slug del catálogo al que pertenece el indicador relacionado.
+ * Convención: cada catálogo usa prefijo en sus IDs:
+ *   hev-* → hogares-empleo-vivienda
+ *   mf-*  → margen-fiscal
+ *   rs-*  → riesgo-sistemico
+ *   ma-*  → mercados-activos
+ *   mr-*  → medio-rural
+ *   ee-*  → empresas-beneficios
+ *   pulso-* → pulso-macro
+ *   fc-*  → flujos-capital
+ *   de-*  → dependencias-externas
+ *   rm-*  → regimen-monetario
+ *   pc-*  → productividad-competitividad
+ * Si no matchea, fallback al currentSlug.
+ */
+function guessSlugForId(id: string, currentSlug: string): string {
+  if (id.startsWith('hev-')) return 'hogares-empleo-vivienda'
+  if (id.startsWith('mf-')) return 'margen-fiscal'
+  if (id.startsWith('rs-')) return 'riesgo-sistemico'
+  if (id.startsWith('ma-')) return 'mercados-activos'
+  if (id.startsWith('mr-')) return 'medio-rural'
+  if (id.startsWith('ee-') || id.startsWith('eb-')) return 'empresas-beneficios'
+  if (id.startsWith('pulso-') || id.startsWith('pib-') || id.startsWith('paro-') || id.startsWith('ipc-')) return 'pulso-macro'
+  if (id.startsWith('fc-')) return 'flujos-capital'
+  if (id.startsWith('de-')) return 'dependencias-externas'
+  if (id.startsWith('rm-')) return 'regimen-monetario'
+  if (id.startsWith('pc-')) return 'productividad-competitividad'
+  return currentSlug
+}
+
 /** Mini line chart SVG con thresholds overlay */
 function HistoricalChart({ series, threshold, color, unit }: {
   series: PulsoPoint[]
@@ -264,6 +296,72 @@ export function IndicatorDrillContent({ indicator, subtabSlug, subtabLabel, acce
           {indicator.description}
         </p>
       </section>
+
+      {/* Sprint N16 · Bloque metodología (sólo si presente) */}
+      {indicator.methodologyNote && (
+        <section style={{ background: '#fffbeb', borderLeft: '3px solid #f59e0b', borderRadius: 6, padding: 10 }}>
+          <p style={{ margin: '0 0 4px', fontSize: 10, fontWeight: 700, color: '#92400e', letterSpacing: 0.5, textTransform: 'uppercase' }}>
+            ⓘ Metodología y caveats
+          </p>
+          <p style={{ margin: 0, fontSize: 11, color: '#78350f', lineHeight: 1.5 }}>
+            {indicator.methodologyNote}
+          </p>
+        </section>
+      )}
+
+      {/* Sprint N16 · Release schedule + confidence chips */}
+      {(indicator.releaseSchedule || indicator.confidenceLevel) && (
+        <section style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {indicator.releaseSchedule && (
+            <span style={{ fontSize: 10, padding: '4px 8px', background: '#eff6ff', color: '#1e40af', borderRadius: 4, fontWeight: 600 }}>
+              ⏱ {indicator.releaseSchedule}
+            </span>
+          )}
+          {indicator.confidenceLevel && (
+            <span style={{
+              fontSize: 10,
+              padding: '4px 8px',
+              background: indicator.confidenceLevel === 'high' ? '#dcfce7' : indicator.confidenceLevel === 'medium' ? '#fef3c7' : '#fee2e2',
+              color: indicator.confidenceLevel === 'high' ? '#166534' : indicator.confidenceLevel === 'medium' ? '#92400e' : '#991b1b',
+              borderRadius: 4,
+              fontWeight: 700,
+              letterSpacing: 0.5,
+              textTransform: 'uppercase',
+            }}>
+              Confianza · {indicator.confidenceLevel}
+            </span>
+          )}
+        </section>
+      )}
+
+      {/* Sprint N16 · Indicadores relacionados con cross-link */}
+      {indicator.relatedIndicatorIds && indicator.relatedIndicatorIds.length > 0 && (
+        <section>
+          <p style={{ margin: '0 0 6px', fontSize: 10, fontWeight: 700, color: '#64748b', letterSpacing: 0.5, textTransform: 'uppercase' }}>
+            ⇄ Cruzar con
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {indicator.relatedIndicatorIds.map((relId) => (
+              <Link
+                key={relId}
+                href={`/macro/${guessSlugForId(relId, subtabSlug)}/indicator/${relId}`}
+                style={{
+                  fontSize: 10,
+                  padding: '4px 8px',
+                  background: '#f1f5f9',
+                  color: '#0f172a',
+                  borderRadius: 4,
+                  fontFamily: 'ui-monospace, monospace',
+                  textDecoration: 'none',
+                  border: '1px solid #e2e8f0',
+                }}
+              >
+                {relId}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section style={{ background: '#f8fafc', borderRadius: 8, padding: 10, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px 12px', fontSize: 10, color: '#64748b' }}>
         <div><strong style={{ color: '#0f172a' }}>Familia:</strong> {indicator.family}</div>

@@ -1,5 +1,5 @@
 /**
- * Catálogo · subtab "Mercados & activos" v4 (Sprint N6.2).
+ * Catálogo · subtab "Mercados & activos" v4 (Sprint N6.2 + N16).
  *
  * REFUNDACIÓN COMPLETA. La versión anterior copiaba PIB/Paro/IPC del catálogo
  * pulso-macro (5 de 8 indicadores eran macro genérico). El usuario detectó
@@ -14,6 +14,8 @@
  *  - regimen-monetario: HICP/REER eurozona + confianza consumidor
  *  - margen-fiscal: deuda/saldo/AIReF
  *  - mercados-activos (esta): yields ES + spreads + EUR/USD + money + crédito
+ *
+ * Sprint N16 · methodology + release + confidence + related ids por indicador.
  */
 import type { PulsoIndicatorMeta } from "./pulso-indicators";
 
@@ -35,6 +37,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3.5, red: 5, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Yield secundario mensual bono benchmark 10Y (criterio convergencia Maastricht). Para spread vs Bund, restar ma-yield-10y-de. Para coste medio del stock deuda Tesoro usar mf-coste-medio-emisiones.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-yield-10y-de", "ma-yield-curve-slope", "rs-yield-10y-es", "mf-vida-media-deuda"],
   },
   {
     id: "ma-yield-10y-de",
@@ -52,6 +59,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 2.5, red: 4, goodAbove: false },
     accent: "#94a3b8",
+    methodologyNote:
+      "Bund 10Y mensual. Benchmark europeo de tipo libre de riesgo. Movimientos suelen liderar el resto de yields EA. Si Bund sube +50pb sin contagio periféricos = compresion de spreads (risk-on); si sube +50pb con widening periféricos = stress crediticio.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-yield-10y-es", "ma-yield-greece-10y"],
   },
 
   // ─── Política monetaria BCE · tipo corto eurozona ─────────────────────
@@ -70,6 +82,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=irt_st_m&filters=geo=EA",
     parser: "eurostat-simple",
     accent: "#0F766E",
+    methodologyNote:
+      "Media mensual del tipo interbancario 3M en operaciones no garantizadas eurozona. Refleja casi puro tipo BCE depo + risk premium banca. Para serie pura EURIBOR diaria usar hev-euribor-12m.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-yield-curve-slope", "hev-euribor-12m"],
   },
   {
     id: "ma-yield-curve-slope",
@@ -87,6 +104,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 0.5, red: 0, goodAbove: true },
     accent: "#8b5cf6",
+    methodologyNote:
+      "Construido como ma-yield-10y-es − ma-tipo-corto-ea. Indicador derivado (no es dato directo Eurostat). Curva invertida sostenida 3+ meses precede recesión EA en histórico 1995-2024.",
+    releaseSchedule: "Mensual · derivado",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["ma-yield-10y-es", "ma-tipo-corto-ea"],
   },
 
   // ─── FX · EUR/USD spot mensual ────────────────────────────────────────
@@ -105,6 +127,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=ert_bil_eur_m&filters=currency=USD",
     parser: "eurostat-simple",
     accent: "#0891b2",
+    methodologyNote:
+      "BCE reference rate publicado diariamente, agregado mensual por Eurostat. Cuántos USD por 1 EUR · valores >1 = euro fuerte. Para histórico intra-mes usar el feed BCE directamente (no cubierto aquí).",
+    releaseSchedule: "Mensual · T+5 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-reer-bis", "ma-m3-growth-ea"],
   },
 
   // ─── FX · REER broad España · BIS ─────────────────────────────────────
@@ -125,6 +152,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parserKey: "broad",
     threshold: { amber: 105, red: 115, goodAbove: false },
     accent: "#0891b2",
+    methodologyNote:
+      "Tipo cambio efectivo broad BIS (cesta 61 socios) deflactado por IPC relativo. Base 2010=100. Solo apreciación REAL (no nominal) — recoge inflación diferencial. Si REER sube por inflación interna mayor, hay erosión competitiva aunque el nominal no se mueva.",
+    releaseSchedule: "Mensual · T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-eurusd"],
   },
 
   // ─── Política monetaria · crecimiento M3 eurozona ─────────────────────
@@ -144,6 +176,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 3, red: 1, goodAbove: true },
     accent: "#7c3aed",
+    methodologyNote:
+      "M3 = M2 + repos + cuotas fondos monetarios + valores deuda <2y. Crecimiento <0% (raro) anticipa deflación. Crecimiento >10% sostenido anticipa inflación según marco BCE 'two pillar'.",
+    releaseSchedule: "Mensual · T+30 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-tipo-corto-ea", "rs-credito-pib-es"],
   },
 
   // Sprint N13.1 cleanup · ma-credito-privado-es y ma-hpi-es removidos · viven
@@ -166,6 +203,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     parser: "eurostat-simple",
     threshold: { amber: 150, red: 250, goodAbove: false },
     accent: "#dc2626",
+    methodologyNote:
+      "Spread medio Investment Grade EUR yield minus Bund 10Y. Eurostat publica diario pero con lag 2-3 días. Para spread por sector banca usar fuentes complementarias (no cubiertas aquí).",
+    releaseSchedule: "Diario · T+3 días",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["ma-yield-10y-de", "rs-tipo-prestamo-empresas"],
   },
   {
     id: "ma-yield-greece-10y",
@@ -182,6 +224,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=EL",
     parser: "eurostat-simple",
     accent: "#0891b2",
+    methodologyNote:
+      "Bono benchmark griego 10Y mensual. Tras crisis 2010-12, GR pasó de yields >25% (default) a converger por debajo de ES en 2024 (rating upgrade S&P). Histórico de extremos.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-yield-10y-es", "rs-yield-10y-it"],
   },
 
   // ─── Acciones · índice de precios sector financiero eurozona ──────────
@@ -200,6 +247,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/eurostat/dataset?code=ei_bsfi_m&filters=geo=EA",
     parser: "eurostat-simple",
     accent: "#16a34a",
+    methodologyNote:
+      "Subíndice EuroStoxx Financials. Sector banca + seguros + servicios financieros. Refleja sentimiento sobre solvencia + márgenes + regulación. Lead indicator de stress crediticio.",
+    releaseSchedule: "Mensual · T+15 días",
+    confidenceLevel: "high",
+    relatedIndicatorIds: ["ma-santander-adr", "ma-bbva-adr", "rs-npl-banca"],
   },
 
   // ─── Live equity ES · Finnhub snapshots (Sprint N12) ─────────────────
@@ -221,6 +273,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/finnhub/quote/SAN",
     parser: "finnhub-quote",
     accent: "#dc2626",
+    methodologyNote:
+      "ADR = American Depositary Receipt sobre 1 acción Santander. Cotiza NYSE en USD. Para precio EUR multiplicar por EUR/USD inverso. Finnhub free tier solo snapshot (no candles).",
+    releaseSchedule: "Intradía · refresh manual",
+    confidenceLevel: "low",
+    relatedIndicatorIds: ["ma-bbva-adr", "ma-stocks-financial-ea", "rs-npl-banca"],
   },
   {
     id: "ma-bbva-adr",
@@ -237,6 +294,11 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/finnhub/quote/BBVA",
     parser: "finnhub-quote",
     accent: "#0891b2",
+    methodologyNote:
+      "ADR sobre 1 acción BBVA. Beta más alta que SAN por exposición Garanti Turquía (lira) + México. Tracking error vs banca eurozona pura.",
+    releaseSchedule: "Intradía · refresh manual",
+    confidenceLevel: "low",
+    relatedIndicatorIds: ["ma-santander-adr", "ma-stocks-financial-ea"],
   },
   {
     id: "ma-telefonica-adr",
@@ -253,6 +315,10 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/finnhub/quote/TEF",
     parser: "finnhub-quote",
     accent: "#0F766E",
+    methodologyNote:
+      "ADR sobre 1 acción TEF. Histórico high-dividend yield 5-7%. Sensibilidad alta a tipos (proxy bond-like) y a real brasileño.",
+    releaseSchedule: "Intradía · refresh manual",
+    confidenceLevel: "low",
   },
   {
     id: "ma-aena-mc",
@@ -269,6 +335,10 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/finnhub/quote/AENA.MC",
     parser: "finnhub-quote",
     accent: "#8b5cf6",
+    methodologyNote:
+      "Acción Aena cotizando BME en EUR. Gestor aeroportuario monopolio España. 51% capital Estado · float libre 49%. Ingresos = pax × tarifa + comercial. Driver: tráfico aéreo + capacidad fee.",
+    releaseSchedule: "Intradía · refresh manual",
+    confidenceLevel: "low",
   },
   {
     id: "ma-iberdrola-adr",
@@ -285,6 +355,10 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/finnhub/quote/IBDRY",
     parser: "finnhub-quote",
     accent: "#16a34a",
+    methodologyNote:
+      "ADR Iberdrola en USD. Spread vs ADR puede no convergir intradía por arbitraje limitado. Para precio EUR usar IBE.MC en BME (preferido).",
+    releaseSchedule: "Intradía · refresh manual",
+    confidenceLevel: "low",
   },
   {
     id: "ma-inditex-adr",
@@ -301,6 +375,10 @@ export const MERCADOS_ACTIVOS_INDICATORS: PulsoIndicatorMeta[] = [
     endpoint: "/api/finnhub/quote/IBKRY",
     parser: "finnhub-quote",
     accent: "#f59e0b",
+    methodologyNote:
+      "ADR Inditex en USD (OTC). El primer valor del IBEX35 por capitalización. Sensibilidad alta al consumo discrecional + tipo cambio (40% ventas fuera EA). Inventario lean = beta operativa baja.",
+    releaseSchedule: "Intradía · refresh manual",
+    confidenceLevel: "low",
   },
 ];
 
