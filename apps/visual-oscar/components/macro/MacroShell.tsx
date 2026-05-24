@@ -150,6 +150,32 @@ function fmt(v: number | null, unit: string): string {
 }
 
 /**
+ * Sparkline mini SVG · 70x18 sobre fondo oscuro del hero.
+ * Sprint N7.1 · cada KPI flash muestra trend visual de las últimas 24 observaciones.
+ */
+function MiniSparkline({ values, color }: { values: number[]; color: string }) {
+  if (values.length < 2) return <span style={{ display: 'inline-block', width: 70, height: 18 }} />
+  const min = Math.min(...values)
+  const max = Math.max(...values)
+  const range = max - min || 1
+  const w = 70
+  const h = 18
+  const stepX = w / Math.max(1, values.length - 1)
+  const pts = values.map((v, i) => {
+    const x = i * stepX
+    const y = h - ((v - min) / range) * (h - 2) - 1
+    return `${x.toFixed(1)},${y.toFixed(1)}`
+  }).join(' ')
+  return (
+    <svg width={w} height={h} style={{ display: 'block', opacity: 0.85 }}>
+      <polyline points={pts} fill="none" stroke={color} strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round" />
+      {/* Último punto destacado */}
+      <circle cx={(values.length - 1) * stepX} cy={h - ((values[values.length - 1] - min) / range) * (h - 2) - 1} r={1.8} fill={color} />
+    </svg>
+  )
+}
+
+/**
  * Barra horizontal segmentada (rojo 0-30 · amber 30-60 · verde 60-100).
  * Reemplaza el termómetro circular antiguo. Pedido explícito del usuario en N5.
  */
@@ -197,13 +223,36 @@ export function MacroShell({ activeId, onTabChange, children }: MacroShellProps)
 
   const kpiSpecs = HERO_KPIS_BY_SUBTAB[activeId] || []
   const flashKpis = useMemo(() => kpiSpecs.map((spec) => {
-    const last = overview?.byId?.[spec.id]?.last
+    const result = overview?.byId?.[spec.id]
+    const last = result?.last
+    const series = result?.series || []
+    // Calcular YoY: heurística por frecuencia (monthly=12, quarterly=4, annual=1)
+    // Inferida del frecuencia del catálogo via heuristic sobre periodicidad de la serie.
+    const validPoints = series.filter((p) => p.value != null)
+    let yoy: number | null = null
+    if (validPoints.length >= 2 && last?.value != null) {
+      // detect frequency by counting points per year (~12 → monthly, ~4 → quarterly)
+      const lastPeriod = String(last.period || '')
+      const firstPeriod = String(validPoints[0]?.period || '')
+      const yearsSpan = validPoints.length / 12 // crude proxy
+      const lag = lastPeriod.includes('M') || lastPeriod.length === 7 ? 12 : (yearsSpan > 4 ? 4 : 1)
+      const yoyIdx = validPoints.length - 1 - lag
+      void firstPeriod
+      if (yoyIdx >= 0) {
+        const yoyPoint = validPoints[yoyIdx]
+        if (yoyPoint?.value != null && yoyPoint.value !== 0) {
+          yoy = ((last.value - yoyPoint.value) / Math.abs(yoyPoint.value)) * 100
+        }
+      }
+    }
     return {
       label: spec.label,
       value: fmt(last?.value ?? null, spec.unit),
       unit: spec.unit,
       period: last?.period || null,
       color: colorForKpi(last?.value ?? null, spec.goodHigh, spec.amber, spec.red),
+      series: validPoints.slice(-24).map((p) => p.value as number),
+      yoy,
     }
   }), [kpiSpecs, overview])
 
@@ -246,20 +295,40 @@ export function MacroShell({ activeId, onTabChange, children }: MacroShellProps)
           {flashKpis.length === 0 && !loading && (
             <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>Sin KPIs configurados para {activeId}</p>
           )}
-          {flashKpis.map((kpi) => (
-            <div key={kpi.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 80 }}>
-              <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: 0.6, color: 'rgba(255,255,255,0.55)', margin: 0, textTransform: 'uppercase' }}>
-                {kpi.label}
-              </p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: kpi.color, margin: '3px 0 0', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1 }}>
-                {kpi.value}
-                {kpi.unit && kpi.value !== '—' && <span style={{ fontSize: 11, fontWeight: 500, marginLeft: 2, opacity: 0.7 }}>{kpi.unit}</span>}
-              </p>
-              {kpi.period && (
-                <p style={{ margin: '2px 0 0', fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>{kpi.period}</p>
-              )}
-            </div>
-          ))}
+          {flashKpis.map((kpi) => {
+            const yoyColor = kpi.yoy == null
+              ? 'rgba(255,255,255,0.4)'
+              : kpi.yoy > 0
+              ? '#86EFAC'
+              : kpi.yoy < 0
+              ? '#FCA5A5'
+              : 'rgba(255,255,255,0.6)'
+            return (
+              <div key={kpi.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 90 }}>
+                <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: 0.6, color: 'rgba(255,255,255,0.55)', margin: 0, textTransform: 'uppercase' }}>
+                  {kpi.label}
+                </p>
+                <p style={{ fontSize: 20, fontWeight: 700, color: kpi.color, margin: '3px 0 0', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1 }}>
+                  {kpi.value}
+                  {kpi.unit && kpi.value !== '—' && <span style={{ fontSize: 11, fontWeight: 500, marginLeft: 2, opacity: 0.7 }}>{kpi.unit}</span>}
+                </p>
+                {/* Sparkline + variación YoY · Sprint N7.1 */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                  <MiniSparkline values={kpi.series} color={kpi.color} />
+                  {kpi.yoy != null && (
+                    <span style={{ fontSize: 9, fontWeight: 700, color: yoyColor, fontVariantNumeric: 'tabular-nums' as const }}>
+                      {kpi.yoy > 0 ? '+' : ''}{kpi.yoy.toFixed(1)}%
+                    </span>
+                  )}
+                </div>
+                {kpi.period && (
+                  <p style={{ margin: '2px 0 0', fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>
+                    {kpi.period}{kpi.yoy != null && <span style={{ opacity: 0.7 }}> · YoY</span>}
+                  </p>
+                )}
+              </div>
+            )
+          })}
         </div>
 
         <BriefingButton activeId={activeId} />

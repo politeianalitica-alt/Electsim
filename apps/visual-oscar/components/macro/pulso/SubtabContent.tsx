@@ -203,6 +203,30 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
       {overview && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {/* Sprint N7.2 · Toolbar con export CSV */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, alignItems: 'center', fontSize: 11 }}>
+            <a
+              href={`/api/macro/export-csv/${subtabSlug}`}
+              download
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '6px 12px',
+                background: '#fff',
+                border: `1px solid ${config.accent}`,
+                color: config.accent,
+                borderRadius: 6,
+                textDecoration: 'none',
+                fontWeight: 600,
+                fontSize: 11,
+              }}
+              title={`Descarga ${config.indicators.length} indicadores como CSV (metadatos + series temporales)`}
+            >
+              ⬇ Exportar CSV · {config.indicators.length} indicadores
+            </a>
+          </div>
+
           <HeroEjecutivo
             tabSlug={subtabSlug}
             tabLabel={label}
