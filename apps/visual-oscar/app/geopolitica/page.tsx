@@ -8,6 +8,7 @@ import { useUrlState } from '@/lib/useUrlState'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
 import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
+import { GeoKpiGrid } from '@/components/geopolitica/GeoKpiGrid'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -773,6 +774,10 @@ export default function GeopoliticaPage() {
         {/* TAB 1 — OSINT (visual estilo Alertas Prioritarias + enlace a noticia) */}
         {tab === 1 && (
           <div>
+            {/* Sprint G1 · Indicadores OSINT estructurados con methodology tooltips */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoKpiGrid />
+            </div>
             {/* Resumen contadores por urgencia (clicable: minimo) */}
             <div className="geo-osint-urg-grid">
               {[5, 4, 3, 2, 1].map((u) => {
