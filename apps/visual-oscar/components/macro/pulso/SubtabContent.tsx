@@ -28,6 +28,7 @@ import { MercadosEnrichmentBlock } from './MercadosEnrichmentBlock'
 import { HogaresExtrasBlock } from './HogaresExtrasBlock'
 import { TrendsTable } from './TrendsTable'
 import { SourcesFooter } from './SourcesFooter'
+import { PeerComparisonBlock } from './PeerComparisonBlock'
 import { RadarChart } from '../charts/RadarChart'
 import { Treemap } from '../charts/Treemap'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
@@ -277,6 +278,10 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
           <AlertasMacro byId={overview.byId} catalog={config.indicators} subtabSlug={subtabSlug} />
           <FamilyKpiGrid byFamily={overview.byFamily} subtabSlug={subtabSlug} />
+
+          {/* Sprint N8 · Comparativa España vs peers UE (DE/FR/IT/PT/EA20) */}
+          <PeerComparisonBlock subtabSlug={subtabSlug} accent={config.accent} />
+
           <CalendarioReleases />
 
           {subtabSlug === 'empresas-beneficios' && (
