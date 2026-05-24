@@ -14,6 +14,9 @@ import { GeoTopRisks } from '@/components/geopolitica/GeoTopRisks'
 import { GeoEventStream } from '@/components/geopolitica/GeoEventStream'
 import { GeoSanctionsFeed } from '@/components/geopolitica/GeoSanctionsFeed'
 import { GeoCalendarPanel } from '@/components/geopolitica/GeoCalendarPanel'
+import { GeopoliticalClock } from '@/components/geopolitica/GeopoliticalClock'
+import { GeoIaBrief } from '@/components/geopolitica/GeoIaBrief'
+import { GeoStakeholderGraph } from '@/components/geopolitica/GeoStakeholderGraph'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -474,6 +477,11 @@ export default function GeopoliticaPage() {
         {/* Sprint G2 · Hero superior · Spain Composite Risk Index 0-100 */}
         <div style={{ marginBottom: 16 }}>
           <GeoTermometro />
+        </div>
+
+        {/* Sprint G3 · IA Brief geopolítico (Eurasia-style diario) */}
+        <div style={{ marginBottom: 16 }}>
+          <GeoIaBrief />
         </div>
 
         <TabBar
@@ -1269,7 +1277,16 @@ export default function GeopoliticaPage() {
         })()}
 
         {/* TAB 5 — Análisis IA */}
-        {tab === 5 && <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>}
+        {tab === 5 && (
+          <div>
+            {/* Sprint G3 · features novedosas (Geopolitical Clock + Stakeholder Network) */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
+              <GeopoliticalClock />
+              <GeoStakeholderGraph />
+            </div>
+            <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>
+          </div>
+        )}
 
       </main>
 
