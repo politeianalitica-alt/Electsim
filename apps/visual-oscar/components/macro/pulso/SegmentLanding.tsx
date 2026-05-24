@@ -93,7 +93,7 @@ export function SegmentLanding({ segmentId }: Props) {
             {segment.description}
           </p>
           <p style={{ margin: '8px 0 0', fontSize: 12, color: '#0f172a', fontStyle: 'italic', maxWidth: 760, fontWeight: 600 }}>
-            🔎 {segment.analyticalQuestion}
+            ⌕ {segment.analyticalQuestion}
           </p>
         </header>
 

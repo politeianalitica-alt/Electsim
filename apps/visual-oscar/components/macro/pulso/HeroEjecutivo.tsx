@@ -115,7 +115,7 @@ export function HeroEjecutivo({ tabSlug, tabLabel, termometroScore, signals, loa
       <header style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
         <div>
           <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#7c3aed', textTransform: 'uppercase' }}>
-            ✦ Lectura ejecutiva IA · {tabLabel}
+            ◆ Lectura ejecutiva IA · {tabLabel}
           </p>
           <p style={{ margin: '4px 0 0', fontSize: 22, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>
             {state === 'success' && data
@@ -135,7 +135,7 @@ export function HeroEjecutivo({ tabSlug, tabLabel, termometroScore, signals, loa
           )}
           {state === 'loading' && (
             <span style={{ fontSize: 11, color: '#7c3aed' }}>
-              <span className="ai-spin" style={{ display: 'inline-block', marginRight: 6 }}>✦</span>
+              <span className="ai-spin" style={{ display: 'inline-block', marginRight: 6 }}>◆</span>
               Razonando…
             </span>
           )}

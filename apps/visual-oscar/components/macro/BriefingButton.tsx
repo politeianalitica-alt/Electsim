@@ -57,7 +57,7 @@ export function BriefingButton({ activeId }: { activeId: MacroTabId }) {
         e.currentTarget.style.background = 'rgba(255,255,255,0.12)'
       }}
     >
-      <span style={{ fontSize: 14 }}>✦</span>
+      <span style={{ fontSize: 14 }}>◆</span>
       Briefing IA
     </button>
   )

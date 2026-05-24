@@ -96,7 +96,7 @@ export function InsightsBlock({ indicators, byId, subtabSlug, accent, termometro
     const coveragePct = coverage.total > 0 ? (coverage.live / coverage.total) * 100 : 0
     if (coverage.missing > coverage.total * 0.3) {
       out.push({
-        icon: '⚠',
+        icon: '!',
         severity: 'warn',
         text: `Cobertura limitada · ${coverage.live}/${coverage.total} series live (${coveragePct.toFixed(0)}%) · ${coverage.missing} sin dato. Algunas lecturas pueden ser incompletas.`,
       })
@@ -111,7 +111,7 @@ export function InsightsBlock({ indicators, byId, subtabSlug, accent, termometro
     // ─── Insight 2: score global del subtab ─────────────────────────────
     if (termometroScore < 30) {
       out.push({
-        icon: '🚨',
+        icon: '!',
         severity: 'crit',
         text: `Score sectorial CRÍTICO · ${termometroScore}/100. Mayoría de indicadores en zona roja según umbrales académicos del catálogo.`,
       })
@@ -143,14 +143,14 @@ export function InsightsBlock({ indicators, byId, subtabSlug, accent, termometro
     if (reds.length > 0) {
       const sample = reds.slice(0, 3).map((r) => `${r.meta.shortLabel || r.meta.label} (${r.value.toFixed(2)}${r.meta.unit})`).join(' · ')
       out.push({
-        icon: '🚨',
+        icon: '!',
         severity: 'crit',
         text: `${reds.length} indicador${reds.length > 1 ? 'es' : ''} en zona crítica: ${sample}${reds.length > 3 ? ` · +${reds.length - 3} más` : ''}.`,
       })
     } else if (ambers.length > 0) {
       const sample = ambers.slice(0, 3).map((r) => `${r.meta.shortLabel || r.meta.label} (${r.value.toFixed(2)}${r.meta.unit})`).join(' · ')
       out.push({
-        icon: '⚠',
+        icon: '!',
         severity: 'warn',
         text: `${ambers.length} indicador${ambers.length > 1 ? 'es' : ''} en zona de alerta: ${sample}${ambers.length > 3 ? ` · +${ambers.length - 3} más` : ''}.`,
       })
@@ -194,7 +194,7 @@ export function InsightsBlock({ indicators, byId, subtabSlug, accent, termometro
       if (bestRanks.length > 0) {
         const sample = bestRanks.slice(0, 2).map((p) => `${p.label} #${p.spainPosition}`).join(' · ')
         out.push({
-          icon: '🏆',
+          icon: '★',
           severity: 'good',
           text: `España lidera vs peers UE en ${bestRanks.length} indicador${bestRanks.length > 1 ? 'es' : ''}: ${sample}.`,
         })
@@ -222,7 +222,7 @@ export function InsightsBlock({ indicators, byId, subtabSlug, accent, termometro
         const isBad = goodHigh ? worstDelta.spainVsAvgPct < 0 : worstDelta.spainVsAvgPct > 0
         if (isBad) {
           out.push({
-            icon: '📉',
+            icon: '↓',
             severity: 'warn',
             text: `Mayor gap vs peers UE: ${worstDelta.label} · España ${worstDelta.spainVsAvgPct > 0 ? '+' : ''}${worstDelta.spainVsAvgPct.toFixed(1)}% vs media (${goodHigh ? 'por debajo' : 'por encima'} de lo deseable).`,
           })

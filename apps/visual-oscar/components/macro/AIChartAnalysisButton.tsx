@@ -121,7 +121,7 @@ export function AIChartAnalysisButton({ input, accent = '#7c3aed', inline = true
     <>
       {state === 'loading' && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 12px', background: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: 8, fontSize: 12, color: accent, fontWeight: 600 }}>
-          <span className="ai-spin" style={{ display: 'inline-block' }}>✦</span>
+          <span className="ai-spin" style={{ display: 'inline-block' }}>◆</span>
           <span>Groq leyendo la curva · cargando análisis…</span>
         </div>
       )}

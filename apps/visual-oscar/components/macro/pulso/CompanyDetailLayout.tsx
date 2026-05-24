@@ -194,7 +194,7 @@ export function CompanyDetailLayout({ companyId }: { companyId: string }) {
               }}
             >
               <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#7c3aed', textTransform: 'uppercase' }}>
-                ✦ Posicionamiento macro · análisis IA
+                ◆ Posicionamiento macro · análisis IA
               </p>
               {aiState === 'loading' && (
                 <p style={{ margin: '8px 0 0', fontSize: 12, color: '#64748b' }}>

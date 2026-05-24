@@ -26,7 +26,7 @@ export function MacroPanel({
   subtitle?: string
   status?: 'idle' | 'live' | 'cache' | 'stale' | 'missing' | 'loading'
   rightSlot?: ReactNode
-  /** Si se pasa, renderiza botón "✦ Explicar con IA" + panel inline. */
+  /** Si se pasa, renderiza botón "◆ Explicar con IA" + panel inline. */
   aiAnalysis?: ChartAnalysisInput
   children: ReactNode
 }) {

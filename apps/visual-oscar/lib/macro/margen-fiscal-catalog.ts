@@ -26,23 +26,26 @@ export const MARGEN_FISCAL_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: 100, red: 120, goodAbove: false },
     accent: "#0F766E",
   },
+  // Sprint N14: GGXWDN_NGDP IMF no devuelve datos en endpoint público.
+  // La métrica de deuda neta requiere balance financiero AAPP que España no
+  // publica de forma sistemática. Sustituido por carga intereses como proxy
+  // del servicio de deuda neta (Eurostat gov_10a_main D41PAY).
   {
-    id: "mf-deuda-neta-imf",
+    id: "mf-intereses-pib",
     family: "pib",
-    label: "Deuda neta %PIB",
-    shortLabel: "Deuda neta",
+    label: "Carga intereses deuda %PIB",
+    shortLabel: "Intereses",
     unit: "%",
-    decimals: 1,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGXWDN_NGDP",
+    decimals: 2,
+    source: "Eurostat · gov_10a_main",
+    sourceCode: "gov_10a_main:D41PAY:ES",
     frequency: "annual",
     description:
-      "Deuda pública neta (bruta menos activos financieros líquidos). Métrica complementaria al ratio Maastricht.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGXWDN_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGXWDN_NGDP",
-    threshold: { amber: 80, red: 100, goodAbove: false },
-    accent: "#0F766E",
+      "Pagos por intereses de la deuda pública %PIB. Proxy de servicio neto deuda · España ~2.3% (cada +50pb del 10Y se traslada en 3-5 años).",
+    endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=D41PAY;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
+    threshold: { amber: 2.5, red: 4, goodAbove: false },
+    accent: "#dc2626",
   },
 
   // ─── Familia Saldos ───────────────────────────────────────────────────
@@ -64,6 +67,8 @@ export const MARGEN_FISCAL_INDICATORS: PulsoIndicatorMeta[] = [
     threshold: { amber: -3, red: -6, goodAbove: true },
     accent: "#f59e0b",
   },
+  // Sprint N14 fix: IMF GGXONLB_NGDP no devuelve datos en endpoint público.
+  // Migrado a Eurostat gov_10dd_edpt1:B9P:ES que es el saldo primario PDE oficial.
   {
     id: "mf-saldo-primario",
     family: "forecast",
@@ -71,37 +76,38 @@ export const MARGEN_FISCAL_INDICATORS: PulsoIndicatorMeta[] = [
     shortLabel: "Primario",
     unit: "%",
     decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGXONLB_NGDP",
+    source: "Eurostat · gov_10dd_edpt1",
+    sourceCode: "gov_10dd_edpt1:B9P:ES",
     frequency: "annual",
     description:
-      "Saldo excluyendo intereses. Diferencia (total − primario) = carga de intereses sobre PIB.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGXONLB_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGXONLB_NGDP",
+      "Saldo público excluyendo intereses. Diferencia con saldo total = carga intereses %PIB. Eurostat oficial PDE.",
+    endpoint: "/api/eurostat/dataset?code=gov_10dd_edpt1&filters=geo=ES;na_item=B9P;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
     threshold: { amber: 0, red: -2, goodAbove: true },
     accent: "#10b981",
   },
+  // Sprint N14 fix: GGSB_NGDP IMF no público. Sustituido por saldo estructural
+  // AMECO (vía Eurostat ei_isfb_n) que sí está accesible.
   {
     id: "mf-saldo-estructural",
     family: "forecast",
-    label: "Saldo estructural %PIB",
+    label: "Saldo estructural primario %PIB",
     shortLabel: "Estructural",
     unit: "%",
     decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGSB_NGDP",
+    source: "Eurostat · ei_isfb_n",
+    sourceCode: "ei_isfb_n:STA_PRIM:ES",
     frequency: "annual",
     description:
-      "Saldo cíclicamente ajustado (sin componente cíclico ni one-offs). Métrica de la AIReF / Pacto de Estabilidad.",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGSB_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGSB_NGDP",
+      "Saldo estructural primario (cíclicamente ajustado, sin intereses ni one-offs). Métrica AMECO/AIReF/Pacto Estabilidad para evaluar política fiscal subyacente.",
+    endpoint: "/api/eurostat/dataset?code=ei_isfb_n&filters=geo=ES",
+    parser: "eurostat-simple",
     threshold: { amber: -1, red: -3, goodAbove: true },
     accent: "#7c3aed",
   },
 
-  // ─── Familia Ingresos/Gasto ──────────────────────────────────────────
+  // ─── Familia Ingresos/Gasto · Eurostat gov_10a_main (más fiable que IMF) ──
+  // Sprint N14 fix: GGR_NGDP IMF devuelve null en endpoint público
   {
     id: "mf-ingresos-aapp",
     family: "demanda",
@@ -109,14 +115,13 @@ export const MARGEN_FISCAL_INDICATORS: PulsoIndicatorMeta[] = [
     shortLabel: "Ingresos",
     unit: "%",
     decimals: 2,
-    source: "IMF DataMapper · WEO",
-    sourceCode: "GGR_NGDP",
+    source: "Eurostat · gov_10a_main",
+    sourceCode: "gov_10a_main:TR:ES",
     frequency: "annual",
     description:
-      "Recursos totales de las AAPP en %PIB (presión fiscal agregada). Comparable con peers UE (Alemania ~46%, Francia ~52%).",
-    endpoint: "/api/imf/country?iso=ESP&indicator=GGR_NGDP",
-    parser: "imf-country",
-    imfIndicator: "GGR_NGDP",
+      "Total revenue (TR) AAPP %PIB. Capacidad recaudatoria global · comparable con DE (~46%), FR (~52%), IT (~47%), PT (~43%).",
+    endpoint: "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=TR;sector=S13;unit=PC_GDP",
+    parser: "eurostat-simple",
     accent: "#16a34a",
   },
   {

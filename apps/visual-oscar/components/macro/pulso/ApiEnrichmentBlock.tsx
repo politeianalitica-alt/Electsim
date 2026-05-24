@@ -35,13 +35,22 @@ interface EntsoePrices {
   prices?: { date: string; avg_price_eur_mwh: number }[]
 }
 interface PortwatchPort {
-  port_name: string
-  iso3: string
+  // El response de IMF PortWatch (ArcGIS) puede traer distintos field names.
+  // Soportamos varios para robustez.
+  port_name?: string
+  portname?: string
+  name?: string
+  PORTNAME?: string
+  iso3?: string
+  ISO3?: string
   vessel_count_total?: number
   vessel_count_container?: number
   industry_top1?: string
 }
 interface PortwatchResp { ok: boolean; ports?: PortwatchPort[] }
+function pickPortName(p: PortwatchPort): string {
+  return p.port_name || p.portname || p.name || p.PORTNAME || 'Puerto sin nombre'
+}
 
 interface AcledEvent {
   event_date: string
@@ -208,15 +217,18 @@ function PortwatchSection({ accent }: { accent: string }) {
         Top puertos España · IMF PortWatch (buques activos)
       </p>
       <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {top.map((p) => (
-          <div key={p.port_name} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 10, fontSize: 11, alignItems: 'center' }}>
-            <span style={{ fontWeight: 600, color: '#0f172a' }}>{p.port_name}</span>
-            <span style={{ fontSize: 10, color: '#64748b' }}>{p.industry_top1 || ''}</span>
-            <span style={{ fontWeight: 700, color: '#1e40af', fontVariantNumeric: 'tabular-nums' as const }}>
-              {p.vessel_count_total} buques
-            </span>
-          </div>
-        ))}
+        {top.map((p, i) => {
+          const name = pickPortName(p)
+          return (
+            <div key={`${name}-${i}`} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 10, fontSize: 11, alignItems: 'center' }}>
+              <span style={{ fontWeight: 600, color: '#0f172a' }}>{name}</span>
+              <span style={{ fontSize: 10, color: '#64748b' }}>{p.industry_top1 || ''}</span>
+              <span style={{ fontWeight: 700, color: '#1e40af', fontVariantNumeric: 'tabular-nums' as const }}>
+                {p.vessel_count_total?.toLocaleString('es-ES')} buques
+              </span>
+            </div>
+          )
+        })}
       </div>
       <p style={{ margin: '6px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>
         Fuente: IMF PortWatch (AIS satellite tracking)

@@ -90,11 +90,29 @@ export function MercadosEnrichmentBlock() {
     const flat = valid.length - advancing - declining
     const pct = (advancing / valid.length) * 100
     const sorted = [...valid].sort((a, b) => (b.change_pct ?? 0) - (a.change_pct ?? 0))
-    return {
-      total: valid.length, advancing, declining, flat, pct,
-      gainers: sorted.slice(0, 5),
-      losers: sorted.slice(-5).reverse(),
-    }
+    // Sprint N14 fix: gainers SOLO los positivos, losers SOLO los negativos.
+    // Antes incluía TEF +0.00% en gainers cuando todos estaban en rojo.
+    const gainers = sorted.filter((q) => q.change_pct > 0).slice(0, 5)
+    const losers = sorted.filter((q) => q.change_pct < 0).slice(-5).reverse()
+    return { total: valid.length, advancing, declining, flat, pct, gainers, losers }
+  }, [adrs])
+
+  // Sprint N14 · enriquece cada ADR con metadata del COMPANY_CATALOG
+  const enrichedAdrs = useMemo(() => {
+    return adrs
+      .map((q) => {
+        const sym = (q.symbol || '').split('.')[0]
+        const company = COMPANY_CATALOG.find((c) => c.ticker.split('.')[0] === sym)
+        return {
+          symbol: q.symbol || '',
+          name: company?.shortName || q.symbol || '',
+          sector: company?.sector || 'otros',
+          price: q.price ?? null,
+          change_pct: typeof q.change_pct === 'number' ? q.change_pct : null,
+          companyId: company?.id,
+        }
+      })
+      .sort((a, b) => (b.change_pct ?? -999) - (a.change_pct ?? -999))
   }, [adrs])
 
   const fxList = useMemo(() => {
@@ -112,18 +130,36 @@ export function MercadosEnrichmentBlock() {
 
   return (
     <>
-      {sectorBreakdown.length > 0 && (
-        <MacroPanel accent="#7c3aed" title={`IBEX sector breakdown · ${sectorBreakdown.length} sectores`} subtitle="ADRs agrupados por sector COMPANY_CATALOG · tamaño = nº tickers · color = performance media" status="live">
-          <Treemap
-            data={sectorBreakdown.map((s) => ({ id: s.id, label: `${s.label} (${s.value})`, value: s.value }))}
-            width={760} height={220} unit=" ADRs" formatValue={(v) => `${v} tickers`}
-          />
-          <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', gap: 6, fontSize: 10 }}>
-            {sectorBreakdown.map((s) => (
-              <span key={s.id} style={{ padding: '3px 8px', borderRadius: 4, background: s.perfAvg >= 0 ? '#dcfce7' : '#fee2e2', color: s.perfAvg >= 0 ? '#166534' : '#991b1b', fontWeight: 600 }}>
-                {s.label}: {s.perfAvg >= 0 ? '+' : ''}{s.perfAvg.toFixed(2)}%
-              </span>
-            ))}
+      {/* Sprint N14: reemplazado treemap de sectores por grid de empresas
+          individuales. El analista quería ver empresas directamente, no
+          categorías. El badge sector está al lado para mantener contexto. */}
+      {enrichedAdrs.length > 0 && (
+        <MacroPanel accent="#7c3aed" title={`IBEX cotizadas tractoras · ${enrichedAdrs.length} empresas live`} subtitle="ADRs + acciones BME ordenadas por performance del día · click para detalle empresa" status="live">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 8 }}>
+            {enrichedAdrs.map((c) => {
+              const chColor = c.change_pct == null ? '#94a3b8' : c.change_pct > 0 ? '#16a34a' : c.change_pct < 0 ? '#dc2626' : '#64748b'
+              const inner = (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <span style={{ fontWeight: 700, fontSize: 12, color: '#0f172a', fontFamily: 'ui-monospace, monospace' }}>{c.symbol}</span>
+                    <span style={{ fontSize: 9, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.4 }}>{c.sector}</span>
+                  </div>
+                  <p style={{ margin: '4px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.3 }}>{c.name}</p>
+                  <div style={{ marginTop: 6, display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' as const }}>
+                      {c.price != null ? c.price.toLocaleString('es-ES', { maximumFractionDigits: 2 }) : '—'}
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: chColor, fontVariantNumeric: 'tabular-nums' as const }}>
+                      {c.change_pct != null ? `${c.change_pct >= 0 ? '+' : ''}${c.change_pct.toFixed(2)}%` : '—'}
+                    </span>
+                  </div>
+                </>
+              )
+              const baseStyle = { background: '#fff', border: '1px solid #e5e7eb', borderLeft: `3px solid ${chColor}`, borderRadius: 6, padding: 10, textDecoration: 'none', color: '#0f172a', display: 'block' }
+              return c.companyId
+                ? <a key={c.symbol} href={`/macro/empresas-beneficios/company/${c.companyId}`} style={baseStyle}>{inner}</a>
+                : <div key={c.symbol} style={baseStyle}>{inner}</div>
+            })}
           </div>
         </MacroPanel>
       )}
@@ -170,6 +206,9 @@ export function MercadosEnrichmentBlock() {
           <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
               <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#166534', textTransform: 'uppercase', letterSpacing: 0.6 }}>Top gainers</p>
+              {breadth.gainers.length === 0 && (
+                <p style={{ margin: '4px 0', fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>Ningún ticker en positivo intraday</p>
+              )}
               {breadth.gainers.map((q, i) => (
                 <p key={i} style={{ margin: '4px 0', fontSize: 11, fontFamily: 'monospace', display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontWeight: 600 }}>{q.symbol}</span>
@@ -179,6 +218,9 @@ export function MercadosEnrichmentBlock() {
             </div>
             <div>
               <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#991b1b', textTransform: 'uppercase', letterSpacing: 0.6 }}>Top losers</p>
+              {breadth.losers.length === 0 && (
+                <p style={{ margin: '4px 0', fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>Ningún ticker en negativo intraday</p>
+              )}
               {breadth.losers.map((q, i) => (
                 <p key={i} style={{ margin: '4px 0', fontSize: 11, fontFamily: 'monospace', display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontWeight: 600 }}>{q.symbol}</span>

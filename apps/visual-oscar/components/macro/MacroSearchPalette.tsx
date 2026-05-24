@@ -122,7 +122,7 @@ export function MacroSearchPalette({ open: openProp, onOpenChange }: Props) {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderBottom: '1px solid #f1f5f9' }}>
-          <span style={{ fontSize: 16, color: '#94a3b8' }}>🔍</span>
+          <span style={{ fontSize: 16, color: '#94a3b8' }}>⌕</span>
           <input
             ref={inputRef}
             type="text"
@@ -240,7 +240,7 @@ export function MacroSearchTrigger() {
           fontFamily: 'inherit',
         }}
       >
-        🔍 Buscar indicador
+        ⌕ Buscar indicador
         <span style={{ fontSize: 9, padding: '1px 6px', background: 'rgba(255,255,255,0.12)', borderRadius: 3, fontWeight: 700 }}>
           {isMac ? '⌘K' : 'Ctrl+K'}
         </span>

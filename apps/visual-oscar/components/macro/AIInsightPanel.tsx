@@ -90,7 +90,7 @@ export function AIInsightPanel({
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
         <div style={{ flex: 1 }}>
           <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.6, color: '#7c3aed', textTransform: 'uppercase' }}>
-            ✦ Análisis IA · {data.provider === 'groq' ? 'Groq GPT-OSS' : 'Anthropic Claude'} {data.cache_hit && '· (cache)'}
+            ◆ Análisis IA · {data.provider === 'groq' ? 'Groq GPT-OSS' : 'Anthropic Claude'} {data.cache_hit && '· (cache)'}
           </p>
           <p style={{ margin: '4px 0 0', fontWeight: 700, fontSize: 15, color: '#0f172a' }}>{i.headline}</p>
         </div>

@@ -226,7 +226,7 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
               }}
               title={`Descarga ${config.indicators.length} indicadores como CSV (metadatos + series temporales)`}
             >
-              ⬇ Exportar CSV · {config.indicators.length} indicadores
+              ↓ Exportar CSV · {config.indicators.length} indicadores
             </a>
           </div>
 

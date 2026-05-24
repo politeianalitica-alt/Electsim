@@ -143,7 +143,7 @@ export function CISCruceLanding({ cruceId }: Props) {
             {cruce.description}
           </p>
           <p style={{ margin: '8px 0 0', fontSize: 12, color: '#0f172a', fontStyle: 'italic', maxWidth: 760, fontWeight: 600 }}>
-            🔎 {cruce.analyticalQuestion}
+            ⌕ {cruce.analyticalQuestion}
           </p>
         </header>
 

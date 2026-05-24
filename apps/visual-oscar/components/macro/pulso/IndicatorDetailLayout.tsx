@@ -273,7 +273,7 @@ function Resumen({
         }}
       >
         <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.6, color: '#7c3aed', textTransform: 'uppercase' }}>
-          ✦ Análisis profundo IA · detail
+          ◆ Análisis profundo IA · detail
         </p>
         {aiState === 'loading' && <p style={{ marginTop: 8, fontSize: 12, color: '#64748b' }}>Generando análisis profundo…</p>}
         {aiState === 'error' && <p style={{ marginTop: 8, fontSize: 12, color: '#dc2626' }}>Error IA: {aiError}</p>}

@@ -146,7 +146,12 @@ function colorForKpi(v: number | null, goodHigh: boolean | undefined, amber: num
 function fmt(v: number | null, unit: string): string {
   if (v == null) return '—'
   const abs = Math.abs(v)
-  if (abs >= 1000) return v.toLocaleString('es-ES', { maximumFractionDigits: 0 })
+  // Sprint N14 fix: si el valor es muy grande Y la unit ya indica M (millones)
+  // o no tiene unit, convertir a notación compacta para no mostrar "96.803.894M"
+  // como si fueran billones. Ejemplo: 96803894 con unit='M' → "96.8" + "M" = "96.8M".
+  if (abs >= 1e9) return (v / 1e9).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + 'B'
+  if (abs >= 1e6) return (v / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + 'M'
+  if (abs >= 1e4) return v.toLocaleString('es-ES', { maximumFractionDigits: 0 })
   return v.toLocaleString('es-ES', { maximumFractionDigits: 2 })
 }
 
@@ -311,7 +316,10 @@ export function MacroShell({ activeId, onTabChange, children }: MacroShellProps)
                 </p>
                 <p style={{ fontSize: 20, fontWeight: 700, color: kpi.color, margin: '3px 0 0', fontVariantNumeric: 'tabular-nums', lineHeight: 1.1 }}>
                   {kpi.value}
-                  {kpi.unit && kpi.value !== '—' && <span style={{ fontSize: 11, fontWeight: 500, marginLeft: 2, opacity: 0.7 }}>{kpi.unit}</span>}
+                  {/* Sprint N14: omitir unit M si el fmt ya lo añadió */}
+                  {kpi.unit && kpi.value !== '—' && !(/[MB]$/.test(kpi.value) && /^[MB]?$/i.test(kpi.unit.trim())) && (
+                    <span style={{ fontSize: 11, fontWeight: 500, marginLeft: 2, opacity: 0.7 }}>{kpi.unit}</span>
+                  )}
                 </p>
                 {/* Sparkline + variación YoY · Sprint N7.1 */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
