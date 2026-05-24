@@ -18,6 +18,7 @@ import { MacroDrawerProvider } from './MacroDrawerProvider'
 import { MacroDrawer } from './MacroDrawer'
 import { TabsNav } from './TabsNav'
 import { BriefingButton } from './BriefingButton'
+import { MacroSearchPalette, MacroSearchTrigger } from './MacroSearchPalette'
 import { getSubtab } from '@/lib/macro/subtab-registry'
 import type { MacroTabId } from '@/lib/macro/sources-matrix'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
@@ -331,7 +332,10 @@ export function MacroShell({ activeId, onTabChange, children }: MacroShellProps)
           })}
         </div>
 
-        <BriefingButton activeId={activeId} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
+          <BriefingButton activeId={activeId} />
+          <MacroSearchTrigger />
+        </div>
       </section>
 
       <TabsNav activeId={activeId} onChange={onTabChange} />
@@ -339,6 +343,9 @@ export function MacroShell({ activeId, onTabChange, children }: MacroShellProps)
       <main>{children}</main>
 
       <MacroDrawer />
+
+      {/* Sprint N10 · Atajo global Cmd+K abre palette de búsqueda en cualquier vista del módulo */}
+      <MacroSearchPalette />
     </MacroDrawerProvider>
   )
 }
