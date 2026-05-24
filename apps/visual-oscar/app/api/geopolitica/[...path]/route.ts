@@ -23,6 +23,7 @@
  * Cache 6h (geopolítica change-frequency moderada).
  */
 import { NextResponse } from 'next/server'
+import { findAnalogs, HISTORICAL_CRISES, type CrisisType } from '@/lib/geopolitica/historical-crises'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -599,6 +600,179 @@ REGLAS:
   }
 }
 
+// ─── Historical Analog Finder (Sprint G4) ─────────────────────────────
+// Pattern matching crisis pasadas vs contexto actual.
+// Inspiración: RAND historical analogy methodology + CIA's "How to Think
+// Like an Intelligence Analyst" pattern recognition heuristics.
+async function buildHistoricalAnalog(url: URL) {
+  // Context puede venir como query params: ?types=military,energy&regions=Ucrania&tags=invasion
+  const typesParam = url.searchParams.get('types') || ''
+  const regionsParam = url.searchParams.get('regions') || ''
+  const tagsParam = url.searchParams.get('tags') || ''
+  const ctx = {
+    types: typesParam ? (typesParam.split(',').map((s) => s.trim()) as CrisisType[]) : [],
+    regions: regionsParam ? regionsParam.split(',').map((s) => s.trim()) : [],
+    tags: tagsParam ? tagsParam.split(',').map((s) => s.trim()) : [],
+  }
+  // Si no hay context explícito, derivamos del estado geo actual (best-guess)
+  const usedDerived = !typesParam && !regionsParam && !tagsParam
+  if (usedDerived) {
+    // Defaults útiles para Spain analyst hoy: combina military + migration + energy
+    // con Ucrania + Israel + Sahel + Canarias.
+    ctx.types = ['military', 'migration', 'energy', 'sanctions']
+    ctx.regions = ['Ucrania', 'Israel', 'Sahel', 'España', 'Canarias', 'Oriente Medio']
+    ctx.tags = ['invasion', 'sanctions', 'refugees', 'energy-crisis']
+  }
+  const analogs = findAnalogs(ctx, 5)
+  return {
+    ok: true,
+    context_used: ctx,
+    derived: usedDerived,
+    n_analogs: analogs.length,
+    analogs,
+    methodology: 'Similarity scoring: tipo crisis match (+30) + region overlap (+8/match, max +30) + tag overlap (+8/match, max +40). 30 crisis curadas 1962-2025. Para escalar a miles, migrar a ChromaDB con nomic-embed-text.',
+    inspiration: 'RAND historical analogy methodology + CIA pattern recognition',
+    corpus_size: HISTORICAL_CRISES.length,
+  }
+}
+
+// ─── Scenario Impact Slider (Sprint G4) ───────────────────────────────
+// Causal model heurístico para what-if interactivo.
+// Inspiración: BlackRock GRI scenario stress testing + war-gaming.
+function buildScenarioImpact(url: URL) {
+  // Variables: cada slider 0-100 representa intensidad del shock
+  const sanctionsLevel = Math.min(100, Math.max(0, Number(url.searchParams.get('sanctions') || 50)))
+  const conflictEscalation = Math.min(100, Math.max(0, Number(url.searchParams.get('conflict') || 50)))
+  const energyShock = Math.min(100, Math.max(0, Number(url.searchParams.get('energy') || 50)))
+  const migrationPressure = Math.min(100, Math.max(0, Number(url.searchParams.get('migration') || 50)))
+  const cyberThreat = Math.min(100, Math.max(0, Number(url.searchParams.get('cyber') || 30)))
+  // Heurística simple pero defensible: cada dimensión impacta una métrica España
+  const inputs = { sanctionsLevel, conflictEscalation, energyShock, migrationPressure, cyberThreat }
+  // Impacto España (0-100 cada métrica)
+  const impacts = {
+    spain_risk_index: Math.round(
+      (sanctionsLevel * 0.20) + (conflictEscalation * 0.25) + (energyShock * 0.25) + (migrationPressure * 0.20) + (cyberThreat * 0.10),
+    ),
+    eurusd_pressure_pct: Number(((conflictEscalation * 0.04) + (energyShock * 0.03) + (sanctionsLevel * 0.02)).toFixed(1)),
+    gas_price_change_pct: Number(((energyShock * 0.8) + (conflictEscalation * 0.3) + (sanctionsLevel * 0.2)).toFixed(0)),
+    ibex_drop_pct: Number(((conflictEscalation * 0.10) + (sanctionsLevel * 0.05) + (cyberThreat * 0.06)).toFixed(1)),
+    migration_arrivals_uplift_pct: Number(((migrationPressure * 0.7) + (conflictEscalation * 0.3)).toFixed(0)),
+    yield_10y_shift_pb: Math.round((conflictEscalation * 0.5) + (sanctionsLevel * 0.3)),
+    tourism_drop_pct: Number(((conflictEscalation * 0.07) + (cyberThreat * 0.04)).toFixed(1)),
+  }
+  // Top 3 risks que se materializan más con este escenario
+  const triggeredRisks: string[] = []
+  if (energyShock > 70 || conflictEscalation > 70) triggeredRisks.push('R2: Escalada Ucrania-Rusia + cortes energéticos')
+  if (migrationPressure > 60) triggeredRisks.push('R3: Crisis migratoria masiva ruta atlántica')
+  if (sanctionsLevel > 70) triggeredRisks.push('R4: Trump 2.0 aranceles UE > 20%')
+  if (conflictEscalation > 80) triggeredRisks.push('R7: Israel-Hezbolá + cierre Suez')
+  if (cyberThreat > 70) triggeredRisks.push('R8: Cyberataque infraestructura crítica EU')
+  // Band general
+  const compositeBand = impacts.spain_risk_index < 30 ? 'BAJO'
+    : impacts.spain_risk_index < 55 ? 'MEDIO'
+    : impacts.spain_risk_index < 75 ? 'ALTO' : 'CRITICO'
+  return {
+    ok: true,
+    inputs,
+    impacts,
+    composite_band: compositeBand,
+    triggered_top_risks: triggeredRisks,
+    methodology: 'Causal model heurístico (no full simulation). Cada slider 0-100 contribuye a impactos España con pesos calibrados. Inspirado en BlackRock GRI scenario stress + war-gaming clásico. NO predice probabilidad, sólo magnitud potencial.',
+    disclaimer: 'Modelo heurístico simplificado. Para análisis riguroso usar simulación Monte Carlo con full causal graph. No tomar como forecast.',
+  }
+}
+
+// ─── EU + OFAC Sanctions LIVE (count only, evita 5MB XML) ────────────
+// Sprint G4: streaming/sampling para no descargar full XML.
+// EU: usamos endpoint JSON ligero si está disponible.
+// OFAC: parse parcial del SDN.xml (head + tail counts).
+async function fetchOfacSdnCount(): Promise<{ count: number | null; error?: string }> {
+  try {
+    // Treasury SDN list resumen vía sdn_advanced.xml structure (header con count)
+    // Si falla, devolvemos null sin bloquear.
+    const r = await fetch('https://www.treasury.gov/ofac/downloads/sdn.xml', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/xml' },
+      next: { revalidate: 86400 },
+    } as RequestInit)
+    if (!r.ok) return { count: null, error: `HTTP ${r.status}` }
+    // Stream con timeout 8s para no bloquear serverless
+    const reader = r.body?.getReader()
+    if (!reader) return { count: null, error: 'no_body_reader' }
+    const decoder = new TextDecoder('utf-8')
+    let buf = ''
+    let count = 0
+    let total = 0
+    const TIME_LIMIT = 8000
+    const start = Date.now()
+    try {
+      while (Date.now() - start < TIME_LIMIT) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buf += decoder.decode(value, { stream: true })
+        total += value.length
+        // Count <sdnEntry> per chunk (lossless si no se rompe a la mitad)
+        const matches = buf.match(/<sdnEntry>/g)
+        if (matches) {
+          count += matches.length
+          // Drop processed
+          const lastIdx = buf.lastIndexOf('<sdnEntry>')
+          buf = buf.slice(lastIdx)
+        }
+        // Stop si ya escaneamos primer ~3MB (suficiente para estimar)
+        if (total > 3_000_000) {
+          // Devuelve scaled estimate basado en density
+          const density = count / total
+          // SDN file ~7MB total approx
+          return { count: Math.round(density * 7_000_000) }
+        }
+      }
+      return { count }
+    } finally {
+      try { reader.releaseLock() } catch {}
+    }
+  } catch (e: any) {
+    return { count: null, error: String(e?.message ?? e).slice(0, 160) }
+  }
+}
+
+async function fetchEuSanctionsCount(): Promise<{ count: number | null; error?: string }> {
+  try {
+    // EU Financial Sanctions Database: el endpoint público está en
+    // https://webgate.ec.europa.eu/fsd/fsf · requiere POST auth.
+    // Alternative: usamos OpenSanctions.org REST API que consolida EU (free).
+    const r = await fetch('https://api.opensanctions.org/datasets/eu_fsf', {
+      headers: { 'User-Agent': 'Politeia/1.0', Accept: 'application/json' },
+      next: { revalidate: 86400 },
+    } as RequestInit)
+    if (!r.ok) return { count: null, error: `HTTP ${r.status}` }
+    const j = await r.json()
+    return { count: typeof j?.target_count === 'number' ? j.target_count : null }
+  } catch (e: any) {
+    return { count: null, error: String(e?.message ?? e).slice(0, 160) }
+  }
+}
+
+async function buildSanctionsLive() {
+  const [un, ofac, eu] = await Promise.all([
+    fetchUnSanctionsCount(),
+    fetchOfacSdnCount(),
+    fetchEuSanctionsCount(),
+  ])
+  const total = (un || 0) + (ofac.count || 0) + (eu.count || 0)
+  return {
+    ok: true,
+    generated_at: new Date().toISOString(),
+    sources: {
+      UN: { count: un, source_url: 'https://scsanctions.un.org/resources/xml/en/consolidated.xml', method: 'XML scrape entity count' },
+      OFAC: { count: ofac.count, source_url: 'https://www.treasury.gov/ofac/downloads/sdn.xml', method: 'XML stream count first 3MB then extrapolate', error: ofac.error },
+      EU: { count: eu.count, source_url: 'https://api.opensanctions.org/datasets/eu_fsf', method: 'OpenSanctions API consolidator', error: eu.error },
+    },
+    total_estimated: total,
+    methodology: 'Streaming + sampling para XMLs grandes (OFAC ~7MB). UN parse completo. EU via OpenSanctions consolidator (más estable que webgate.ec.europa.eu).',
+    cache_hours: 24,
+  }
+}
+
 // ─── Momentum Score (2nd-order indicator) ──────────────────────────────
 async function buildMomentumScore(req: Request, country: string, days: number) {
   const base = baseUrl(req)
@@ -703,6 +877,25 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G4 · nuevos endpoints
+  if (action === 'historical-analog') {
+    return NextResponse.json(await buildHistoricalAnalog(url), {
+      headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' },
+    })
+  }
+
+  if (action === 'scenario-impact') {
+    return NextResponse.json(buildScenarioImpact(url), {
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }, // 5 min · interactive
+    })
+  }
+
+  if (action === 'sanciones-live') {
+    return NextResponse.json(await buildSanctionsLive(), {
+      headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400' },
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -711,12 +904,15 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/calendario?dias=45 · LIVE Crisis Group + NATO RSS',
       'GET /api/geopolitica/top-risks',
       'GET /api/geopolitica/sanciones?source=EU|OFAC|UN|all · LIVE UN XML count',
+      'GET /api/geopolitica/sanciones-live · STREAM EU+OFAC+UN counts (Sprint G4)',
       'GET /api/geopolitica/cascading-events?limit=50',
       'GET /api/geopolitica/momentum?country=ES&days=14',
       'GET /api/geopolitica/black-swan',
-      'GET /api/geopolitica/acled-granular · breakdown event_type + country (Sprint G3)',
-      'GET /api/geopolitica/stakeholder-network · force-directed nodes+edges (Sprint G3)',
-      'GET /api/geopolitica/ia-brief · Gemini AI executive brief (Sprint G3)',
+      'GET /api/geopolitica/acled-granular',
+      'GET /api/geopolitica/stakeholder-network',
+      'GET /api/geopolitica/ia-brief',
+      'GET /api/geopolitica/historical-analog?types=military,energy&regions=Ucrania (Sprint G4)',
+      'GET /api/geopolitica/scenario-impact?sanctions=50&conflict=70&energy=60 (Sprint G4)',
     ],
   }, { status: 404 })
 }

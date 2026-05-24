@@ -13,6 +13,7 @@
  * (briefing diario), pero automatizado y refrescado cada 6h.
  */
 import { useEffect, useState } from 'react'
+import { GeoAudioBrief } from './GeoAudioBrief'
 
 interface BriefResp {
   ok: boolean
@@ -86,13 +87,16 @@ export function GeoIaBrief() {
       padding: 18,
       color: '#f1f5f9',
     }}>
-      <header style={{ marginBottom: 12 }}>
-        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#a855f7', textTransform: 'uppercase' }}>
-          ◆ Brief geopolítico IA · estilo Eurasia Group diario
-        </p>
-        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8' }}>
-          Generado por Gemini 2.0 Flash Lite · contexto: risk index + top risks + eventos + sanciones
-        </p>
+      <header style={{ marginBottom: 12, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#a855f7', textTransform: 'uppercase' }}>
+            ◆ Brief geopolítico IA · estilo Eurasia Group diario
+          </p>
+          <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8' }}>
+            Generado por Gemini 2.0 Flash Lite · contexto: risk index + top risks + eventos + sanciones
+          </p>
+        </div>
+        <GeoAudioBrief />
       </header>
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Generando brief…</p>}
       {data?.error && (

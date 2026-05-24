@@ -17,6 +17,8 @@ import { GeoCalendarPanel } from '@/components/geopolitica/GeoCalendarPanel'
 import { GeopoliticalClock } from '@/components/geopolitica/GeopoliticalClock'
 import { GeoIaBrief } from '@/components/geopolitica/GeoIaBrief'
 import { GeoStakeholderGraph } from '@/components/geopolitica/GeoStakeholderGraph'
+import { GeoAnalogFinder } from '@/components/geopolitica/GeoAnalogFinder'
+import { GeoScenarioSlider } from '@/components/geopolitica/GeoScenarioSlider'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1279,7 +1281,12 @@ export default function GeopoliticaPage() {
         {/* TAB 5 — Análisis IA */}
         {tab === 5 && (
           <div>
-            {/* Sprint G3 · features novedosas (Geopolitical Clock + Stakeholder Network) */}
+            {/* Sprint G4 · WAR-GAMING interactivo + Historical Analog Finder */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
+              <GeoScenarioSlider />
+              <GeoAnalogFinder />
+            </div>
+            {/* Sprint G3 · features visuales novedosas */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
               <GeopoliticalClock />
               <GeoStakeholderGraph />
