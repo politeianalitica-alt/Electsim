@@ -261,13 +261,15 @@ export async function GET(req: Request): Promise<NextResponse> {
     if (offset >= horizonDays && releases.length > 6) break;
   }
 
-  // Sprint N18 · Merge con calendario REAL INE PEN-API.
-  // Best-effort: si /api/ine/calendario responde, sus eventos sobrescriben
-  // templates INE en las fechas que coinciden y añaden los nuevos. Sustituye
-  // estimación heurística por dato oficial.
+  // Sprint N18+N19 · Merge con calendarios REALES INE + Eurostat.
+  // Best-effort: si los endpoints calendario responden, sus eventos se añaden
+  // a los templates. Sustituye estimación heurística por datos oficiales.
   let ineLiveCount = 0;
+  let eurostatLiveCount = 0;
+  const baseUrl = req.url.split("/api/")[0];
+
+  // INE PEN-API CALENDARIO
   try {
-    const baseUrl = req.url.split("/api/")[0];
     const ineRes = await fetch(`${baseUrl}/api/ine/calendario?dias=${horizonDays}`, {
       next: { revalidate: 21600 },
     } as RequestInit);
@@ -289,7 +291,33 @@ export async function GET(req: Request): Promise<NextResponse> {
       }
     }
   } catch {
-    /* silent · seguimos con templates */
+    /* silent */
+  }
+
+  // Sprint N19 · Eurostat release calendar
+  try {
+    const euRes = await fetch(`${baseUrl}/api/eurostat/calendario?dias=${horizonDays}`, {
+      next: { revalidate: 21600 },
+    } as RequestInit);
+    if (euRes.ok) {
+      const euData = await euRes.json();
+      if (Array.isArray(euData?.events)) {
+        for (const e of euData.events) {
+          if (e.daysFromNow < 0 || e.daysFromNow > horizonDays) continue;
+          releases.push({
+            date: e.date,
+            source: "Eurostat",
+            indicator: `[LIVE] ${e.indicator}`,
+            url: e.url,
+            importance: e.importance || "medium",
+            daysFromNow: e.daysFromNow,
+          });
+          eurostatLiveCount++;
+        }
+      }
+    }
+  } catch {
+    /* silent */
   }
 
   releases.sort((a, b) => a.daysFromNow - b.daysFromNow);
@@ -301,11 +329,12 @@ export async function GET(req: Request): Promise<NextResponse> {
       horizon_days: horizonDays,
       total: releases.length,
       ine_live_events: ineLiveCount,
-      releases: releases.slice(0, 40),
+      eurostat_live_events: eurostatLiveCount,
+      releases: releases.slice(0, 60),
       disclaimer:
-        ineLiveCount > 0
-          ? `Calendario · ${ineLiveCount} eventos INE en vivo + templates indicativos para Eurostat/BCE/IMF.`
-          : "Calendario indicativo basado en cadencia mensual habitual (INE PEN-API no respondió). Fechas exactas en Eurostat / IMF directly.",
+        ineLiveCount + eurostatLiveCount > 0
+          ? `Calendario · ${ineLiveCount} INE + ${eurostatLiveCount} Eurostat eventos en vivo + templates indicativos para BCE/IMF.`
+          : "Calendario indicativo basado en cadencia mensual habitual (calendarios live no respondieron). Fechas exactas en Eurostat / IMF / BCE directly.",
     },
     {
       headers: {

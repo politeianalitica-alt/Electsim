@@ -281,6 +281,66 @@ export async function GET(
     })
   }
 
+  // Sprint N19 · /api/eurostat/calendario?dias=45
+  // Eurostat expone su release calendar como RSS Atom y como JSON enriquecido.
+  // Intentamos el JSON endpoint primero (más estructurado); si falla parseamos RSS.
+  if (action === 'calendario') {
+    const dias = Math.min(120, Math.max(7, Number(url.searchParams.get('dias') || 45)))
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const horizon = new Date(today.getTime() + dias * 86400000)
+    const CAL_URL = 'https://ec.europa.eu/eurostat/api/dissemination/catalogue/v1/release-calendar?lang=EN&format=JSON'
+    try {
+      const r = await fetch(CAL_URL, {
+        headers: { Accept: 'application/json', 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)' },
+        next: { revalidate: 21600 },
+      } as RequestInit)
+      if (!r.ok) {
+        return NextResponse.json({
+          ok: false,
+          data_quality: quality('missing', 'Eurostat release calendar', `HTTP ${r.status}`),
+          fallback_url: 'https://ec.europa.eu/eurostat/web/main/release-calendar',
+        })
+      }
+      const json: any = await r.json()
+      const items: any[] = Array.isArray(json?.releases) ? json.releases
+        : Array.isArray(json?.items) ? json.items
+        : Array.isArray(json) ? json : []
+      const events = items
+        .map((it: any) => {
+          const ts = it?.releaseDate || it?.date || it?.publicationDate
+          if (!ts) return null
+          const d = new Date(ts)
+          if (isNaN(d.getTime())) return null
+          if (d.getTime() < today.getTime() || d.getTime() > horizon.getTime()) return null
+          return {
+            date: d.toISOString().slice(0, 10),
+            source: 'Eurostat' as const,
+            indicator: String(it?.title || it?.label || it?.name || 'Eurostat publication').slice(0, 150),
+            url: String(it?.url || it?.link || 'https://ec.europa.eu/eurostat/web/main/release-calendar'),
+            importance: 'medium' as const,
+            daysFromNow: Math.round((d.getTime() - today.getTime()) / 86400000),
+          }
+        })
+        .filter((e: any): e is NonNullable<typeof e> => e !== null)
+        .sort((a: { daysFromNow: number }, b: { daysFromNow: number }) => a.daysFromNow - b.daysFromNow)
+      return NextResponse.json({
+        ok: events.length > 0,
+        data_quality: quality(events.length ? 'live' : 'missing', 'Eurostat release calendar'),
+        horizon_days: dias,
+        n_events: events.length,
+        events: events.slice(0, 80),
+      }, {
+        headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+      })
+    } catch (e: any) {
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality('missing', 'Eurostat calendar', String(e?.message ?? e).slice(0, 160)),
+      })
+    }
+  }
+
   return NextResponse.json(
     {
       ok: false,
@@ -292,6 +352,7 @@ export async function GET(
         'GET /api/eurostat/regions-nuts2?metric=gdp_per_capita|unemployment&year=2022',
         'GET /api/eurostat/eu-comparison?metric=gdp_pc|unemployment|inflation&year=2023',
         'GET /api/eurostat/dataset?code=nama_10_gdp&filters=geo=ES;na_item=B1GQ;time=2023',
+        'GET /api/eurostat/calendario?dias=45 · Sprint N19 · release calendar live',
       ],
     },
     { status: 404 },

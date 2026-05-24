@@ -18,6 +18,7 @@ import { FAMILY_META, getSubtab } from '@/lib/macro/subtab-registry'
 import type { PulsoIndicatorMeta } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult, PulsoPoint } from '@/lib/macro/pulso-fetcher'
 import { useMacroDrawer } from '../MacroDrawerProvider'
+import { MethodologyTooltip } from './MethodologyTooltip'
 import { IndicatorDrillContent } from './IndicatorDrillContent'
 
 interface Props {
@@ -128,20 +129,17 @@ export function TrendsTable({ indicators, byId, accent, subtabSlug }: Props) {
         }
       }
 
-      // Sprint N18 · Tooltip metodología nativo
-      const tipParts: string[] = [meta.label]
-      if (meta.methodologyNote) tipParts.push(`Metodología: ${meta.methodologyNote}`)
-      if (meta.releaseSchedule) tipParts.push(`Release: ${meta.releaseSchedule}`)
-      if (meta.confidenceLevel) tipParts.push(`Confianza: ${meta.confidenceLevel.toUpperCase()}`)
-      if (tipParts.length === 1) tipParts.push(meta.description)
-
       return {
         id: meta.id,
         label: meta.shortLabel || meta.label,
+        fullLabel: meta.label,
+        methodologyNote: meta.methodologyNote,
+        releaseSchedule: meta.releaseSchedule,
+        confidenceLevel: meta.confidenceLevel,
+        description: meta.description,
         family: meta.family,
         unit: meta.unit,
         source: meta.source,
-        tooltip: tipParts.join('\n\n'),
         hasMethodology: Boolean(meta.methodologyNote),
         last,
         prev,
@@ -179,33 +177,41 @@ export function TrendsTable({ indicators, byId, accent, subtabSlug }: Props) {
             {rows.map((r) => {
               const statusCfg = STATUS_COLORS[r.status]
               return (
-                <tr key={r.id} title={r.tooltip} style={{ borderTop: '1px solid #f1f5f9', cursor: 'pointer' }} onClick={() => handleOpenDrill(r.id)}
+                <tr key={r.id} style={{ borderTop: '1px solid #f1f5f9', cursor: 'pointer' }} onClick={() => handleOpenDrill(r.id)}
                   onMouseEnter={(e) => { e.currentTarget.style.background = '#fafbfc' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}>
                   <td style={{ padding: '8px 8px' }}>
-                    <span style={{ color: '#0f172a', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                      {r.label}
-                      {r.hasMethodology && (
-                        <span
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: 11,
-                            height: 11,
-                            background: '#fef3c7',
-                            color: '#92400e',
-                            borderRadius: '50%',
-                            fontSize: 8,
-                            fontWeight: 700,
-                            lineHeight: 1,
-                          }}
-                          aria-hidden
-                        >
-                          ?
-                        </span>
-                      )}
-                    </span>
+                    <MethodologyTooltip
+                      label={r.fullLabel}
+                      methodology={r.methodologyNote}
+                      release={r.releaseSchedule}
+                      confidence={r.confidenceLevel}
+                      description={r.description}
+                    >
+                      <span style={{ color: '#0f172a', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        {r.label}
+                        {r.hasMethodology && (
+                          <span
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              width: 11,
+                              height: 11,
+                              background: '#fef3c7',
+                              color: '#92400e',
+                              borderRadius: '50%',
+                              fontSize: 8,
+                              fontWeight: 700,
+                              lineHeight: 1,
+                            }}
+                            aria-hidden
+                          >
+                            ?
+                          </span>
+                        )}
+                      </span>
+                    </MethodologyTooltip>
                     {r.last?.period && <span style={{ display: 'block', fontSize: 9, color: '#94a3b8', fontWeight: 400 }}>{r.last.period}</span>}
                   </td>
                   <td style={{ padding: '8px 8px', color: '#64748b', fontSize: 10 }}>

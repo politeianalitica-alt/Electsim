@@ -11,6 +11,7 @@ import Link from 'next/link'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import { PULSO_FAMILY_META } from '@/lib/macro/pulso-indicators'
 import type { PulsoFetchResult } from '@/lib/macro/pulso-fetcher'
+import { MethodologyTooltip } from './MethodologyTooltip'
 
 interface FamilyGroup {
   meta: typeof PULSO_FAMILY_META[PulsoFamily]
@@ -121,18 +122,17 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
                 const v = data?.last?.value ?? null
                 const period = data?.last?.period
                 const color = statusColor(meta, v)
-                // Sprint N18 · Tooltip nativo HTML title con methodology + release + confidence
-                const tipParts: string[] = [meta.label]
-                if (meta.methodologyNote) tipParts.push(`Metodología: ${meta.methodologyNote}`)
-                if (meta.releaseSchedule) tipParts.push(`Release: ${meta.releaseSchedule}`)
-                if (meta.confidenceLevel) tipParts.push(`Confianza: ${meta.confidenceLevel.toUpperCase()}`)
-                if (tipParts.length === 1) tipParts.push(meta.description)
-                const tooltip = tipParts.join('\n\n')
                 return (
-                  <Link
+                  <MethodologyTooltip
                     key={id}
+                    label={meta.label}
+                    methodology={meta.methodologyNote}
+                    release={meta.releaseSchedule}
+                    confidence={meta.confidenceLevel}
+                    description={meta.description}
+                  >
+                  <Link
                     href={`/macro/${subtabSlug}/indicator/${id}`}
-                    title={tooltip}
                     style={{
                       textDecoration: 'none',
                       background: '#fff',
@@ -214,6 +214,7 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
                       </span>
                     )}
                   </Link>
+                  </MethodologyTooltip>
                 )
               })}
             </div>

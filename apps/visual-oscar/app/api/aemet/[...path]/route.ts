@@ -89,8 +89,11 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       return NextResponse.json({ ok: false, error: `ccaa ${ccaa} sin mapeo provincial` })
     }
     // climatologías mensuales últimos años (no requiere fecha en path)
+    // Sprint N19: ampliado rango 2010-2025 para serie ~15 años (era 2020-2024).
+    // AEMET tolera ventanas hasta 20 años; aceptamos delay de ~500ms extra
+    // a cambio de tendencias estructurales visibles (calentamiento + sequías históricas).
     const data = await aemetFetch(
-      `/valores/climatologicos/mensualesanuales/datos/anioini/2020/aniofin/2024/provincia/${provincia}`
+      `/valores/climatologicos/mensualesanuales/datos/anioini/2010/aniofin/2025/provincia/${provincia}`
     )
     if (data?.error) {
       return NextResponse.json({
