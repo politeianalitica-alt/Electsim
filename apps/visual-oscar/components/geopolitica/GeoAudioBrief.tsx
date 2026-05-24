@@ -1,37 +1,34 @@
 'use client'
 /**
- * `<GeoAudioBrief />` · Sprint G4.
+ * `<GeoAudioBrief />` · Sprint G4 + G5.
  *
- * Audio briefing del IA brief geopolítico vía Web Speech API (gratuita,
- * sin auth, todos los navegadores modernos). Útil para escuchar el brief
- * mientras se hace otra cosa (mañana al cocinar café, etc.).
+ * Audio briefing del IA brief geopolítico con dos tiers:
  *
- * Si OPENAI/ElevenLabs API key disponible en futuro, fallback a TTS
- * premium. Por ahora Web Speech API basta y es 100% gratis.
+ *  1. TTS premium (ElevenLabs > OpenAI) vía `/api/geopolitica/tts`. Si el
+ *     servidor tiene `ELEVENLABS_API_KEY` o `OPENAI_API_KEY` configuradas en
+ *     Vercel, responde `Content-Type: audio/mpeg` y lo reproducimos con un
+ *     `<audio>` nativo. Calidad neural, voz española consistente.
  *
- * Funciones:
- *  - Play/Pause/Stop
- *  - Selector voz (filtra voces ES)
- *  - Velocidad 0.8x-1.5x
- *  - Auto-strip markdown headers/links del brief antes de speak
+ *  2. Fallback Web Speech API · si el endpoint contesta `ok:false` (no hay
+ *     keys) o el navegador no soporta `<audio>` con MP3, caemos a la API
+ *     nativa del navegador (gratis, todos los browsers modernos).
+ *
+ * El usuario sólo ve un botón ESCUCHAR. Internamente decidimos el tier.
  */
 import { useEffect, useRef, useState } from 'react'
 
-interface Voice {
-  name: string
-  lang: string
-  voiceURI: string
-}
+interface Voice { name: string; lang: string; voiceURI: string }
+type TtsTier = 'auto' | 'web-speech' | 'elevenlabs' | 'openai'
 
 function stripMarkdown(md: string): string {
   return md
-    .replace(/^#{1,6}\s+/gm, '')           // headers
-    .replace(/\*\*(.+?)\*\*/g, '$1')        // bold
-    .replace(/\*(.+?)\*/g, '$1')            // italic
-    .replace(/\[(.+?)\]\((.+?)\)/g, '$1')   // links
-    .replace(/`([^`]+)`/g, '$1')            // code inline
-    .replace(/^\s*[-*]\s+/gm, '')           // list bullets
-    .replace(/\n{2,}/g, '. ')               // párrafos → pausas
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/^\s*[-*]\s+/gm, '')
+    .replace(/\n{2,}/g, '. ')
     .replace(/\n/g, ' ')
     .trim()
 }
@@ -42,8 +39,13 @@ export function GeoAudioBrief() {
   const [voiceURI, setVoiceURI] = useState<string>('')
   const [rate, setRate] = useState(1.0)
   const [playing, setPlaying] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [supported, setSupported] = useState(true)
+  const [tier, setTier] = useState<TtsTier>('auto')
+  const [providerUsed, setProviderUsed] = useState<string>('')
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const blobUrlRef = useRef<string | null>(null)
 
   // Fetch brief
   useEffect(() => {
@@ -67,7 +69,6 @@ export function GeoAudioBrief() {
         .filter((v) => v.lang.startsWith('es') || v.lang.startsWith('en'))
         .map((v) => ({ name: v.name, lang: v.lang, voiceURI: v.voiceURI }))
       setVoices(list)
-      // Default: prefer es-ES voice
       if (!voiceURI && list.length > 0) {
         const esES = list.find((v) => v.lang === 'es-ES') || list.find((v) => v.lang.startsWith('es')) || list[0]
         setVoiceURI(esES.voiceURI)
@@ -79,12 +80,20 @@ export function GeoAudioBrief() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const speak = () => {
+  // Cleanup blob URL on unmount
+  useEffect(() => {
+    return () => {
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current)
+      try { window.speechSynthesis.cancel() } catch { /* noop */ }
+    }
+  }, [])
+
+  const playWebSpeech = () => {
     if (!supported || !brief) return
-    window.speechSynthesis.cancel() // stop anything previous
+    window.speechSynthesis.cancel()
     const cleanText = stripMarkdown(brief)
     const u = new SpeechSynthesisUtterance(cleanText)
-    u.lang = voiceURI && voices.find((v) => v.voiceURI === voiceURI)?.lang || 'es-ES'
+    u.lang = (voiceURI && voices.find((v) => v.voiceURI === voiceURI)?.lang) || 'es-ES'
     if (voiceURI) {
       const allVoices = window.speechSynthesis.getVoices()
       const match = allVoices.find((v) => v.voiceURI === voiceURI)
@@ -96,31 +105,78 @@ export function GeoAudioBrief() {
     u.onend = () => setPlaying(false)
     u.onerror = () => setPlaying(false)
     utteranceRef.current = u
+    setProviderUsed('Web Speech API')
     window.speechSynthesis.speak(u)
   }
 
-  const pause = () => {
-    if (!supported) return
-    window.speechSynthesis.pause()
-    setPlaying(false)
+  const playPremium = async () => {
+    if (!brief) return
+    setLoading(true)
+    try {
+      const cleanText = stripMarkdown(brief).slice(0, 2000)
+      const r = await fetch(`/api/geopolitica/tts?text=${encodeURIComponent(cleanText)}`, {
+        cache: 'force-cache',
+      })
+      const ct = r.headers.get('content-type') || ''
+      // Servidor sin keys: contesta JSON con ok:false → fallback Web Speech
+      if (!ct.includes('audio/')) {
+        setLoading(false)
+        playWebSpeech()
+        return
+      }
+      const provider = r.headers.get('x-tts-provider') || 'tts'
+      const blob = await r.blob()
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current)
+      const url = URL.createObjectURL(blob)
+      blobUrlRef.current = url
+      const audio = new Audio(url)
+      audio.playbackRate = rate
+      audio.onplay = () => setPlaying(true)
+      audio.onended = () => setPlaying(false)
+      audio.onerror = () => { setPlaying(false); playWebSpeech() }
+      audioRef.current = audio
+      setProviderUsed(provider === 'elevenlabs' ? 'ElevenLabs neural' : provider === 'openai' ? 'OpenAI nova' : provider)
+      await audio.play()
+    } catch {
+      playWebSpeech()
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const resume = () => {
-    if (!supported) return
-    window.speechSynthesis.resume()
-    setPlaying(true)
+  const speak = () => {
+    if (tier === 'web-speech') return playWebSpeech()
+    // 'auto' o premium → intenta endpoint
+    return playPremium()
+  }
+
+  const pause = () => {
+    if (audioRef.current && !audioRef.current.paused) {
+      audioRef.current.pause()
+      setPlaying(false)
+      return
+    }
+    if (supported) {
+      window.speechSynthesis.pause()
+      setPlaying(false)
+    }
   }
 
   const stop = () => {
-    if (!supported) return
-    window.speechSynthesis.cancel()
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
+    if (supported) {
+      try { window.speechSynthesis.cancel() } catch { /* noop */ }
+    }
     setPlaying(false)
   }
 
-  if (!supported) {
+  if (!supported && tier !== 'auto') {
     return (
       <div style={{ fontSize: 10, color: '#94a3b8', padding: 8 }}>
-        Audio briefing no soportado en este navegador (requiere Web Speech API).
+        Audio briefing no soportado en este navegador (requiere Web Speech API o &lt;audio&gt; MP3).
       </div>
     )
   }
@@ -134,26 +190,28 @@ export function GeoAudioBrief() {
       background: '#1e293b',
       borderRadius: 6,
       border: '1px solid #312e81',
+      flexWrap: 'wrap',
     }}>
       <span style={{ fontSize: 9, color: '#a855f7', fontWeight: 700, letterSpacing: 0.6, textTransform: 'uppercase' }}>
-        🔊 Audio
+        ◉ Audio
       </span>
       {!playing ? (
         <button
           onClick={speak}
-          disabled={!brief}
+          disabled={!brief || loading}
           style={{
-            background: brief ? '#a855f7' : '#475569',
+            background: brief && !loading ? '#a855f7' : '#475569',
             color: '#fff',
             border: 'none',
             padding: '4px 12px',
             borderRadius: 4,
             fontSize: 10,
             fontWeight: 700,
-            cursor: brief ? 'pointer' : 'not-allowed',
+            cursor: brief && !loading ? 'pointer' : 'not-allowed',
+            letterSpacing: 0.4,
           }}
         >
-          ▶ ESCUCHAR
+          {loading ? '… GENERANDO' : '▶ ESCUCHAR'}
         </button>
       ) : (
         <button
@@ -167,9 +225,10 @@ export function GeoAudioBrief() {
             fontSize: 10,
             fontWeight: 700,
             cursor: 'pointer',
+            letterSpacing: 0.4,
           }}
         >
-          ⏸ PAUSAR
+          ‖ PAUSA
         </button>
       )}
       {playing && (
@@ -181,8 +240,9 @@ export function GeoAudioBrief() {
         </button>
       )}
       <select
-        value={voiceURI}
-        onChange={(e) => setVoiceURI(e.target.value)}
+        value={tier}
+        onChange={(e) => setTier(e.target.value as TtsTier)}
+        title="Calidad de la voz"
         style={{
           background: '#0f172a',
           color: '#cbd5e1',
@@ -190,16 +250,34 @@ export function GeoAudioBrief() {
           fontSize: 9,
           padding: '2px 4px',
           borderRadius: 3,
-          maxWidth: 140,
         }}
       >
-        {voices.map((v) => (
-          <option key={v.voiceURI} value={v.voiceURI}>{v.name.slice(0, 20)} ({v.lang})</option>
-        ))}
+        <option value="auto">AUTO (premium si disponible)</option>
+        <option value="web-speech">Web Speech (gratis, nativo)</option>
       </select>
+      {tier !== 'auto' && (
+        <select
+          value={voiceURI}
+          onChange={(e) => setVoiceURI(e.target.value)}
+          style={{
+            background: '#0f172a',
+            color: '#cbd5e1',
+            border: '1px solid #334155',
+            fontSize: 9,
+            padding: '2px 4px',
+            borderRadius: 3,
+            maxWidth: 140,
+          }}
+        >
+          {voices.map((v) => (
+            <option key={v.voiceURI} value={v.voiceURI}>{v.name.slice(0, 20)} ({v.lang})</option>
+          ))}
+        </select>
+      )}
       <select
         value={rate}
         onChange={(e) => setRate(Number(e.target.value))}
+        title="Velocidad de reproducción"
         style={{
           background: '#0f172a',
           color: '#cbd5e1',
@@ -214,6 +292,11 @@ export function GeoAudioBrief() {
         <option value={1.2}>1.2x</option>
         <option value={1.5}>1.5x</option>
       </select>
+      {providerUsed && (
+        <span style={{ fontSize: 9, color: '#64748b', fontStyle: 'italic' }}>
+          · {providerUsed}
+        </span>
+      )}
     </div>
   )
 }

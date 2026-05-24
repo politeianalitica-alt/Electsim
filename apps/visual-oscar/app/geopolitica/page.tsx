@@ -19,6 +19,7 @@ import { GeoIaBrief } from '@/components/geopolitica/GeoIaBrief'
 import { GeoStakeholderGraph } from '@/components/geopolitica/GeoStakeholderGraph'
 import { GeoAnalogFinder } from '@/components/geopolitica/GeoAnalogFinder'
 import { GeoScenarioSlider } from '@/components/geopolitica/GeoScenarioSlider'
+import { GeoRiskHeatmap } from '@/components/geopolitica/GeoRiskHeatmap'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -573,6 +574,11 @@ export default function GeopoliticaPage() {
 
           return (
           <div>
+            {/* Sprint G5 · World Risk Heatmap (Plotly choropleth · click → drill país) */}
+            <div style={{ marginBottom: 18 }}>
+              <GeoRiskHeatmap />
+            </div>
+
             <div className="geo-map-container">
               <Plot
                 data={[{

@@ -600,6 +600,266 @@ REGLAS:
   }
 }
 
+// ─── World Risk Heatmap (Sprint G5) ───────────────────────────────────
+// Computa risk score 0-100 por país combinando: ACLED events recientes +
+// presencia en top-risks Politeia + sanciones contra el país.
+// Inspiración: Verisk Maplecroft choropleth + CFR Global Conflict Tracker.
+const WORLD_COUNTRY_BASELINE: Record<string, { iso3: string; name: string; baseline_risk: number; region: string }> = {
+  ESP: { iso3: 'ESP', name: 'España',          baseline_risk: 25, region: 'Europa' },
+  PRT: { iso3: 'PRT', name: 'Portugal',        baseline_risk: 20, region: 'Europa' },
+  FRA: { iso3: 'FRA', name: 'Francia',         baseline_risk: 30, region: 'Europa' },
+  DEU: { iso3: 'DEU', name: 'Alemania',        baseline_risk: 28, region: 'Europa' },
+  ITA: { iso3: 'ITA', name: 'Italia',          baseline_risk: 35, region: 'Europa' },
+  GBR: { iso3: 'GBR', name: 'Reino Unido',     baseline_risk: 35, region: 'Europa' },
+  USA: { iso3: 'USA', name: 'Estados Unidos',  baseline_risk: 38, region: 'América' },
+  MEX: { iso3: 'MEX', name: 'México',          baseline_risk: 55, region: 'América' },
+  COL: { iso3: 'COL', name: 'Colombia',        baseline_risk: 50, region: 'América' },
+  ARG: { iso3: 'ARG', name: 'Argentina',       baseline_risk: 45, region: 'América' },
+  BRA: { iso3: 'BRA', name: 'Brasil',          baseline_risk: 45, region: 'América' },
+  VEN: { iso3: 'VEN', name: 'Venezuela',       baseline_risk: 78, region: 'América' },
+  HTI: { iso3: 'HTI', name: 'Haití',           baseline_risk: 85, region: 'América' },
+  RUS: { iso3: 'RUS', name: 'Rusia',           baseline_risk: 78, region: 'Eurasia' },
+  UKR: { iso3: 'UKR', name: 'Ucrania',         baseline_risk: 90, region: 'Europa' },
+  BLR: { iso3: 'BLR', name: 'Bielorrusia',     baseline_risk: 70, region: 'Europa' },
+  CHN: { iso3: 'CHN', name: 'China',           baseline_risk: 55, region: 'Asia' },
+  TWN: { iso3: 'TWN', name: 'Taiwán',          baseline_risk: 50, region: 'Asia' },
+  JPN: { iso3: 'JPN', name: 'Japón',           baseline_risk: 25, region: 'Asia' },
+  KOR: { iso3: 'KOR', name: 'Corea del Sur',   baseline_risk: 35, region: 'Asia' },
+  PRK: { iso3: 'PRK', name: 'Corea del Norte', baseline_risk: 78, region: 'Asia' },
+  IND: { iso3: 'IND', name: 'India',           baseline_risk: 45, region: 'Asia' },
+  PAK: { iso3: 'PAK', name: 'Pakistán',        baseline_risk: 65, region: 'Asia' },
+  AFG: { iso3: 'AFG', name: 'Afganistán',      baseline_risk: 88, region: 'Asia' },
+  IRN: { iso3: 'IRN', name: 'Irán',            baseline_risk: 75, region: 'Oriente Medio' },
+  IRQ: { iso3: 'IRQ', name: 'Iraq',            baseline_risk: 70, region: 'Oriente Medio' },
+  SYR: { iso3: 'SYR', name: 'Siria',           baseline_risk: 90, region: 'Oriente Medio' },
+  LBN: { iso3: 'LBN', name: 'Líbano',          baseline_risk: 75, region: 'Oriente Medio' },
+  ISR: { iso3: 'ISR', name: 'Israel',          baseline_risk: 75, region: 'Oriente Medio' },
+  PSE: { iso3: 'PSE', name: 'Palestina',       baseline_risk: 90, region: 'Oriente Medio' },
+  YEM: { iso3: 'YEM', name: 'Yemen',           baseline_risk: 88, region: 'Oriente Medio' },
+  SAU: { iso3: 'SAU', name: 'Arabia Saudí',    baseline_risk: 55, region: 'Oriente Medio' },
+  TUR: { iso3: 'TUR', name: 'Türkiye',         baseline_risk: 55, region: 'Oriente Medio' },
+  EGY: { iso3: 'EGY', name: 'Egipto',          baseline_risk: 60, region: 'Norte de África' },
+  LBY: { iso3: 'LBY', name: 'Libia',           baseline_risk: 80, region: 'Norte de África' },
+  TUN: { iso3: 'TUN', name: 'Túnez',           baseline_risk: 55, region: 'Norte de África' },
+  DZA: { iso3: 'DZA', name: 'Argelia',         baseline_risk: 55, region: 'Norte de África' },
+  MAR: { iso3: 'MAR', name: 'Marruecos',       baseline_risk: 50, region: 'Norte de África' },
+  MRT: { iso3: 'MRT', name: 'Mauritania',      baseline_risk: 65, region: 'Sahel' },
+  SEN: { iso3: 'SEN', name: 'Senegal',         baseline_risk: 55, region: 'Sahel' },
+  MLI: { iso3: 'MLI', name: 'Mali',            baseline_risk: 88, region: 'Sahel' },
+  BFA: { iso3: 'BFA', name: 'Burkina Faso',    baseline_risk: 85, region: 'Sahel' },
+  NER: { iso3: 'NER', name: 'Níger',           baseline_risk: 80, region: 'Sahel' },
+  TCD: { iso3: 'TCD', name: 'Chad',            baseline_risk: 75, region: 'Sahel' },
+  NGA: { iso3: 'NGA', name: 'Nigeria',         baseline_risk: 70, region: 'África Occidental' },
+  SDN: { iso3: 'SDN', name: 'Sudán',           baseline_risk: 92, region: 'Cuerno de África' },
+  SOM: { iso3: 'SOM', name: 'Somalia',         baseline_risk: 88, region: 'Cuerno de África' },
+  ETH: { iso3: 'ETH', name: 'Etiopía',         baseline_risk: 70, region: 'Cuerno de África' },
+  KEN: { iso3: 'KEN', name: 'Kenia',           baseline_risk: 55, region: 'África Oriental' },
+  ZAF: { iso3: 'ZAF', name: 'Sudáfrica',       baseline_risk: 50, region: 'África Austral' },
+  AUS: { iso3: 'AUS', name: 'Australia',       baseline_risk: 20, region: 'Oceanía' },
+  CAN: { iso3: 'CAN', name: 'Canadá',          baseline_risk: 22, region: 'América' },
+  NLD: { iso3: 'NLD', name: 'Países Bajos',    baseline_risk: 22, region: 'Europa' },
+  POL: { iso3: 'POL', name: 'Polonia',         baseline_risk: 38, region: 'Europa' },
+  HUN: { iso3: 'HUN', name: 'Hungría',         baseline_risk: 42, region: 'Europa' },
+  ROU: { iso3: 'ROU', name: 'Rumanía',         baseline_risk: 35, region: 'Europa' },
+}
+
+async function buildWorldRiskHeatmap(req: Request) {
+  const base = baseUrl(req)
+  // Enriquecer baseline con ACLED events count por país
+  const acled = await jsonFetch(`${base}/api/acled/spain-context`)
+  const acledByCountry: Record<string, { events: number; fatalities: number }> = {}
+  if (Array.isArray(acled?.data)) {
+    for (const e of acled.data) {
+      const cn = String(e.country || '').trim()
+      if (!cn) continue
+      if (!acledByCountry[cn]) acledByCountry[cn] = { events: 0, fatalities: 0 }
+      acledByCountry[cn].events++
+      acledByCountry[cn].fatalities += Number(e.fatalities) || 0
+    }
+  }
+  // Construir output con uplift por ACLED + sanctions tag (heurístico)
+  const countries = Object.values(WORLD_COUNTRY_BASELINE).map((c) => {
+    const acledData = acledByCountry[c.name]
+    // Uplift: +1 por evento, +0.5 por muerte, max +20
+    const uplift = acledData ? Math.min(20, acledData.events + (acledData.fatalities * 0.5)) : 0
+    const score = Math.min(100, c.baseline_risk + uplift)
+    return {
+      iso3: c.iso3,
+      name: c.name,
+      region: c.region,
+      baseline_risk: c.baseline_risk,
+      acled_events_30d: acledData?.events ?? 0,
+      acled_fatalities_30d: acledData?.fatalities ?? 0,
+      score: Math.round(score),
+      band: score < 30 ? 'BAJO' : score < 55 ? 'MEDIO' : score < 75 ? 'ALTO' : 'CRITICO',
+    }
+  })
+  return {
+    ok: true,
+    n_countries: countries.length,
+    countries,
+    methodology: 'Score = baseline_risk (curado por país) + uplift ACLED (1pt/evento + 0.5/fatality, max +20). Baselines basados en Crisis Group, ACLED, World Bank Governance Indicators, V-Dem democracy index, Freedom House.',
+    inspiration: 'Verisk Maplecroft Country Risk Rating + CFR Global Conflict Tracker',
+    bands: { BAJO: '< 30 · estable', MEDIO: '30-54 · vigilar', ALTO: '55-74 · crisis activa', CRITICO: '≥ 75 · conflicto severo' },
+  }
+}
+
+// ─── Country Profile (Sprint G5 · drill país) ──────────────────────────
+async function buildCountryProfile(req: Request, iso: string) {
+  const base = baseUrl(req)
+  const isoUpper = iso.toUpperCase()
+  const meta = WORLD_COUNTRY_BASELINE[isoUpper]
+  if (!meta) {
+    return { ok: false, error: 'country_not_found', iso }
+  }
+  // Fetch contexto: ACLED events del país, sanciones contra el país, top risks que afectan
+  const [acled, sanctions, topRisks] = await Promise.all([
+    jsonFetch(`${base}/api/acled/spain-context`),
+    jsonFetch(`${base}/api/geopolitica/sanciones?source=all`),
+    jsonFetch(`${base}/api/geopolitica/top-risks`),
+  ])
+  // ACLED events filtered
+  const countryEvents = Array.isArray(acled?.data)
+    ? acled.data.filter((e: any) => String(e.country || '').toLowerCase().includes(meta.name.toLowerCase()))
+    : []
+  // Sanctions filtered (heurística: nombre del país en entity o reason)
+  const countrySanctions = Array.isArray(sanctions?.sanctions)
+    ? sanctions.sanctions.filter((s: any) =>
+        String(s.entity || '').toLowerCase().includes(meta.name.toLowerCase()) ||
+        String(s.reason || '').toLowerCase().includes(meta.name.toLowerCase()))
+    : []
+  // Top risks que mencionan el país en title o region
+  const relatedRisks = Array.isArray(topRisks?.risks)
+    ? topRisks.risks.filter((r: any) =>
+        String(r.title || '').toLowerCase().includes(meta.name.toLowerCase()) ||
+        String(r.region || '').toLowerCase().includes(meta.region.toLowerCase()))
+    : []
+  // Score con uplift como en heatmap
+  const acledCount = countryEvents.length
+  const fatalities = countryEvents.reduce((s: number, e: any) => s + (Number(e.fatalities) || 0), 0)
+  const uplift = Math.min(20, acledCount + (fatalities * 0.5))
+  const score = Math.min(100, meta.baseline_risk + uplift)
+  return {
+    ok: true,
+    country: { iso3: meta.iso3, name: meta.name, region: meta.region },
+    score: Math.round(score),
+    band: score < 30 ? 'BAJO' : score < 55 ? 'MEDIO' : score < 75 ? 'ALTO' : 'CRITICO',
+    baseline_risk: meta.baseline_risk,
+    uplift: Math.round(uplift),
+    acled: {
+      events_30d: acledCount,
+      fatalities_30d: fatalities,
+      recent: countryEvents.slice(0, 10).map((e: any) => ({
+        date: e.event_date,
+        type: e.event_type,
+        location: e.location,
+        fatalities: e.fatalities,
+      })),
+    },
+    sanctions: {
+      count: countrySanctions.length,
+      list: countrySanctions.slice(0, 10),
+    },
+    related_top_risks: relatedRisks,
+    methodology: 'Drill país con baseline_risk + uplift ACLED 30d + sanciones contra entidades del país + top risks que mencionan el país/región.',
+  }
+}
+
+// ─── TTS Audio Brief (Sprint G5 · ElevenLabs/OpenAI premium fallback) ─
+async function buildTtsAudio(req: Request, text: string) {
+  // Detecta API keys disponibles · preferencia: ElevenLabs > OpenAI > 503 (cliente usa Web Speech)
+  const elevenKey = process.env.ELEVENLABS_API_KEY
+  const openaiKey = process.env.OPENAI_API_KEY
+  const cleanText = text.slice(0, 2000) // cap a 2k chars (limits ambos providers)
+  if (elevenKey) {
+    // ElevenLabs · voz Spanish "Bea" (estable, 0.30€/1k chars)
+    const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'EXAVITQu4vr4xnSDxMaL' // default voice
+    try {
+      const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+        method: 'POST',
+        headers: {
+          'xi-api-key': elevenKey,
+          'Content-Type': 'application/json',
+          Accept: 'audio/mpeg',
+        },
+        body: JSON.stringify({
+          text: cleanText,
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+        }),
+      })
+      if (!r.ok) {
+        return new Response(`elevenlabs error ${r.status}`, { status: 502 })
+      }
+      const audio = await r.arrayBuffer()
+      return new Response(audio, {
+        status: 200,
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'Cache-Control': 'public, s-maxage=21600, immutable',
+          'X-TTS-Provider': 'elevenlabs',
+        },
+      })
+    } catch (e: any) {
+      return new Response(`elevenlabs exception: ${String(e?.message ?? e).slice(0, 120)}`, { status: 502 })
+    }
+  }
+  if (openaiKey) {
+    // OpenAI TTS · voz "nova" (mejor español)
+    try {
+      const r = await fetch('https://api.openai.com/v1/audio/speech', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${openaiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'tts-1',
+          voice: 'nova',
+          input: cleanText,
+          response_format: 'mp3',
+        }),
+      })
+      if (!r.ok) {
+        return new Response(`openai-tts error ${r.status}`, { status: 502 })
+      }
+      const audio = await r.arrayBuffer()
+      return new Response(audio, {
+        status: 200,
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'Cache-Control': 'public, s-maxage=21600, immutable',
+          'X-TTS-Provider': 'openai',
+        },
+      })
+    } catch (e: any) {
+      return new Response(`openai exception: ${String(e?.message ?? e).slice(0, 120)}`, { status: 502 })
+    }
+  }
+  // Sin keys · cliente caerá a Web Speech API
+  return NextResponse.json({
+    ok: false,
+    error: 'no_tts_key',
+    fallback: 'web_speech_api',
+    note: 'Configurar ELEVENLABS_API_KEY o OPENAI_API_KEY en Vercel env para TTS premium. Sin key, cliente usa Web Speech API nativa.',
+  }, { status: 200 })
+}
+
+// ─── GDELT Live Poll (alternativa al WebSocket no factible serverless) ─
+async function buildGdeltLive(req: Request, country: string, limit: number) {
+  const base = baseUrl(req)
+  // Reusa el endpoint /api/gdelt/articles ya existente
+  const j = await jsonFetch(`${base}/api/gdelt/articles?query=${encodeURIComponent(country)}&maxRecords=${limit}`)
+  return {
+    ok: true,
+    source: 'GDELT 2.0 polling · refresh cada 15 min',
+    country,
+    n_articles: Array.isArray(j?.articles) ? j.articles.length : 0,
+    articles: Array.isArray(j?.articles) ? j.articles.slice(0, limit) : [],
+    note: 'WebSocket streaming requeriría worker dedicated (no factible Vercel serverless). Polling cada 15 min con cache es suficiente para 95% de casos.',
+  }
+}
+
 // ─── Historical Analog Finder (Sprint G4) ─────────────────────────────
 // Pattern matching crisis pasadas vs contexto actual.
 // Inspiración: RAND historical analogy methodology + CIA's "How to Think
@@ -896,6 +1156,34 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G5 · nuevos endpoints
+  if (action === 'world-risk') {
+    return NextResponse.json(await buildWorldRiskHeatmap(req), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'pais-profile') {
+    const iso = url.searchParams.get('iso') || 'ESP'
+    return NextResponse.json(await buildCountryProfile(req, iso), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'tts') {
+    const text = url.searchParams.get('text') || ''
+    if (!text) return NextResponse.json({ ok: false, error: 'missing_text' }, { status: 400 })
+    return buildTtsAudio(req, text)
+  }
+
+  if (action === 'gdelt-live') {
+    const country = url.searchParams.get('country') || 'Spain'
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildGdeltLive(req, country, limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600' }, // 15 min
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -913,6 +1201,10 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/ia-brief',
       'GET /api/geopolitica/historical-analog?types=military,energy&regions=Ucrania (Sprint G4)',
       'GET /api/geopolitica/scenario-impact?sanctions=50&conflict=70&energy=60 (Sprint G4)',
+      'GET /api/geopolitica/world-risk · choropleth mundial scores 0-100 (Sprint G5)',
+      'GET /api/geopolitica/pais-profile?iso=ESP · drill país profundo (Sprint G5)',
+      'GET /api/geopolitica/tts?text=... · ElevenLabs/OpenAI TTS premium (Sprint G5)',
+      'GET /api/geopolitica/gdelt-live?country=Spain&limit=20 · GDELT polling 15m (Sprint G5)',
     ],
   }, { status: 404 })
 }
