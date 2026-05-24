@@ -4,5 +4,5 @@ import { RegionLanding } from '@/components/macro/pulso/RegionLanding'
 
 export default function RegionPage() {
   const params = useParams<{ ccaa: string }>()
-  return <RegionLanding subtabSlug="pulso" ccaaId={params?.ccaa || ''} />
+  return <RegionLanding subtabSlug="pulso-macro" ccaaId={params?.ccaa || ''} />
 }
