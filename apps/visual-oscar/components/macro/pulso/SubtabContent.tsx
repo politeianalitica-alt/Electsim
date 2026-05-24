@@ -31,6 +31,7 @@ import { SourcesFooter } from './SourcesFooter'
 import { PeerComparisonBlock } from './PeerComparisonBlock'
 import { InsightsBlock } from './InsightsBlock'
 import { ApiEnrichmentBlock } from './ApiEnrichmentBlock'
+import { EmpresasEnrichmentBlock } from './EmpresasEnrichmentBlock'
 import { RadarChart } from '../charts/RadarChart'
 import { Treemap } from '../charts/Treemap'
 import { CCAAHexmap } from '../charts/CCAAHexmap'
@@ -296,6 +297,9 @@ export function SubtabContent({ subtabSlug, overrideLabel, showHeader = true }: 
 
           {/* Sprint N13.3 · Enriquecimiento APIs huérfanas (ember, entsoe, portwatch, acled, gdelt) */}
           <ApiEnrichmentBlock subtabSlug={subtabSlug} accent={config.accent} />
+
+          {/* Sprint N15 · Eventos corporativos CNMV + earnings calendar (solo empresas) */}
+          {subtabSlug === 'empresas-beneficios' && <EmpresasEnrichmentBlock accent={config.accent} />}
 
           <CalendarioReleases />
 

@@ -187,6 +187,30 @@ export async function fetchPulsoIndicator(
         }
         break;
       }
+      case "bde-series": {
+        // Sprint N15 · /api/bde/series/{code}?n=24 devuelve { ok, points: [{period, value}] }
+        const pts = Array.isArray(json?.points) ? json.points : [];
+        series = pts
+          .map((p: any) => ({
+            period: String(p.period || ''),
+            value: typeof p.value === 'number' ? p.value : null,
+          }) as PulsoPoint)
+          .filter((p: PulsoPoint) => p.period && p.value != null);
+        break;
+      }
+      case "tesoro-snapshot": {
+        // Sprint N15 · /api/tesoro/snapshot devuelve un objeto puntual con
+        // métricas estáticas del último boletín. Convertimos a serie de 1 punto.
+        // parserKey indica qué campo del snapshot extraer.
+        const snap = json?.snapshot || {};
+        const key = ind.parserKey || 'vida_media_deuda_anios';
+        const value = snap[key];
+        const period = String(json?.reference_period || new Date().toISOString().slice(0, 7));
+        if (typeof value === 'number') {
+          series.push({ period, value });
+        }
+        break;
+      }
       case "cis-catalogo": {
         // Sprint N12 · /api/cis/catalogo devuelve metadata de barómetros CIS
         // publicados (via CKAN datos.gob.es). No son series numéricas (CIS no

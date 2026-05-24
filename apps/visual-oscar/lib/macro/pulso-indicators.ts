@@ -50,6 +50,8 @@ export interface PulsoIndicatorMeta {
     | 'datos-gob-csv'
     | 'finnhub-quote'   // Sprint N12 · snapshot Finnhub quote (price + previous_close)
     | 'cis-catalogo'    // Sprint N12 · catálogo barómetros CIS publicados (vía CKAN datos.gob.es)
+    | 'bde-series'      // Sprint N15 · BdE webstat CSV series (EURIBOR, hipotecas, NPL, etc.)
+    | 'tesoro-snapshot' // Sprint N15 · Tesoro Público boletín mensual snapshot (vida media, % tenedores)
   /** Sub-clave dentro del JSON (p.ej. 'pib_total', 'general'). */
   parserKey?: string
   /** Si parserKey es para imf-country, el indicador IMF. */

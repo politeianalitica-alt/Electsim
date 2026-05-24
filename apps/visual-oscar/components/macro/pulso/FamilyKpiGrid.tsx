@@ -2,9 +2,11 @@
 /**
  * Grid de KPIs agrupados por familia (PIB · Demanda · Empleo · Precios ...).
  *
- * Cada card es clicable → `/macro/pulso/indicator/{id}`.
- * Color del valor según semáforo del umbral (verde/ámbar/rojo).
+ * Sprint N15: headers de cada familia ahora son COLLAPSE expandible
+ * (default expanded). El usuario esperaba acción al click sobre la categoría.
+ * Cada card sigue siendo clicable → `/macro/{slug}/indicator/{id}`.
  */
+import { useState } from 'react'
 import Link from 'next/link'
 import type { PulsoIndicatorMeta, PulsoFamily } from '@/lib/macro/pulso-indicators'
 import { PULSO_FAMILY_META } from '@/lib/macro/pulso-indicators'
@@ -46,14 +48,41 @@ function formatValue(v: number | null, unit: string, decimals: number): string {
 export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
   // Orden estable de familias
   const order: PulsoFamily[] = ['pib', 'demanda', 'exterior', 'empleo', 'precios', 'forecast', 'oferta', 'sentimiento']
+  // Sprint N15: estado collapse por familia (default expanded=true)
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
+  const toggle = (fam: string) => setCollapsed((c) => ({ ...c, [fam]: !c[fam] }))
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       {order.map((fam) => {
         const group = byFamily[fam]
         if (!group || group.indicators.length === 0) return null
+        const isCollapsed = !!collapsed[fam]
         return (
           <div key={fam}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 8 }}>
+            <button
+              type="button"
+              onClick={() => toggle(fam)}
+              aria-expanded={!isCollapsed}
+              style={{
+                display: 'flex',
+                alignItems: 'baseline',
+                gap: 10,
+                marginBottom: 8,
+                background: 'transparent',
+                border: 0,
+                padding: '4px 0',
+                cursor: 'pointer',
+                width: '100%',
+                textAlign: 'left',
+                fontFamily: 'inherit',
+                borderRadius: 4,
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#fafafa' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
+            >
+              <span style={{ fontSize: 10, color: '#64748b', width: 12, display: 'inline-block', fontWeight: 700, fontVariantNumeric: 'tabular-nums' as const }}>
+                {isCollapsed ? '▸' : '▾'}
+              </span>
               <span
                 style={{
                   width: 12,
@@ -79,7 +108,8 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
               <span style={{ marginLeft: 'auto', fontSize: 10, color: '#94a3b8' }}>
                 {group.indicators.length} indicadores
               </span>
-            </div>
+            </button>
+            {!isCollapsed && (
             <div
               style={{
                 display: 'grid',
@@ -155,6 +185,7 @@ export function FamilyKpiGrid({ byFamily, subtabSlug = 'pulso-macro' }: Props) {
                 )
               })}
             </div>
+            )}
           </div>
         )
       })}

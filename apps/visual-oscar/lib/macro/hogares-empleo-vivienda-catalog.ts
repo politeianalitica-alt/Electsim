@@ -262,6 +262,42 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     accent: "#dc2626",
   },
 
+  // ─── Sprint N15 · BdE webstat · EURIBOR + tipos hipoteca ───────────
+  {
+    id: "hev-euribor-12m",
+    family: "forecast",
+    label: "EURIBOR 12M (referencia hipoteca variable)",
+    shortLabel: "EURIBOR 12M",
+    unit: "%",
+    decimals: 3,
+    source: "BdE · webstat TI_1_1.6",
+    sourceCode: "TI_1_1.6",
+    frequency: "monthly",
+    description:
+      "EURIBOR 12 meses mensual · referencia mayoritaria de hipotecas variables en España. Cada +25pb se traslada en 6-12m a cuota efectiva.",
+    endpoint: "/api/bde/series/TI_1_1.6?n=36",
+    parser: "bde-series",
+    threshold: { amber: 3.5, red: 5, goodAbove: false },
+    accent: "#dc2626",
+  },
+  {
+    id: "hev-tipo-hipoteca",
+    family: "forecast",
+    label: "Tipo medio hipoteca vivienda nueva",
+    shortLabel: "Hipoteca media",
+    unit: "%",
+    decimals: 2,
+    source: "BdE · webstat TI_1_1240",
+    sourceCode: "TI_1_1240",
+    frequency: "monthly",
+    description:
+      "Tipo de interés medio de nuevas operaciones hipotecarias para vivienda · BdE Boletín Estadístico cap.19. Determina cuota mensual real.",
+    endpoint: "/api/bde/series/TI_1_1240?n=24",
+    parser: "bde-series",
+    threshold: { amber: 4, red: 5.5, goodAbove: false },
+    accent: "#f59e0b",
+  },
+
   // ─── CIS · cadencia barómetros publicados (Sprint N12) ──────────────────
   // Importante: CIS NO expone valores agregados de % problemas (vivienda, paro,
   // precios) vía API · los publica en PDF de avance + microdato CSV/SPSS por
