@@ -23,6 +23,8 @@ import {
   type CatalogMedio,
   CCAA_LABEL,
 } from './news-aggregator'
+// Sprint M4 FASE C · readings opcionales para sentiment HACIA actor
+import type { ArticleReading } from './medios/media-methodology'
 import {
   PARTY_TOKENS,
   KNOWN_FIGURE_TOKENS,
@@ -554,18 +556,37 @@ export function narrativesDeep(articles: AggregatedArticle[], minArticles = 3): 
 }
 
 // ── Topic × Party sentiment heatmap ────────────────────────────────────────
+//
+// Sprint M4 FASE C · si recibe `readings`, usa sentiment HACIA cada partido
+// (de assessSentiment) en lugar de sentiment plano del titular.
+// Resuelve: "Vox denuncia corrupción del PSOE" no debe contar como tono
+// negativo para Vox, sino tono activo/neutro de Vox y negativo HACIA PSOE.
 
-export function topicPartySentiment(articles: AggregatedArticle[]): TopicPartyCell[] {
+export function topicPartySentiment(
+  articles: AggregatedArticle[],
+  readings?: ArticleReading[],
+): TopicPartyCell[] {
   const topics = discoverTopics(articles, 3, 14)
   const cells: TopicPartyCell[] = []
+  // Index readings por url para lookup O(1)
+  const readingByUrl = new Map<string, ArticleReading>()
+  if (readings) for (const r of readings) readingByUrl.set(r.url, r)
+
   for (const t of topics) {
     const byParty: Record<string, { pos: number; neg: number; neu: number; n: number }> = {}
     for (const a of t.articles) {
       const parties = detectParties(`${a.title} ${a.description}`)
+      const reading = readingByUrl.get(a.link)
       for (const p of parties) {
         const cur = byParty[p] || { pos: 0, neg: 0, neu: 0, n: 0 }
-        if (a.sentiment_score >  0.1) cur.pos++
-        else if (a.sentiment_score < -0.1) cur.neg++
+        // M4 FASE C · si hay reading, busca sentiment HACIA este partido
+        let score = a.sentiment_score
+        if (reading) {
+          const actorSent = reading.sentiment.actor_sentiment.find((as) => as.actor === p)
+          if (actorSent && actorSent.confidence >= 0.4) score = actorSent.sentiment
+        }
+        if (score > 0.1) cur.pos++
+        else if (score < -0.1) cur.neg++
         else cur.neu++
         cur.n++
         byParty[p] = cur
@@ -580,9 +601,20 @@ export function topicPartySentiment(articles: AggregatedArticle[]): TopicPartyCe
 }
 
 // ── Figures (deep) ─────────────────────────────────────────────────────────
+//
+// Sprint M4 FASE C · si recibe `readings`, calcula pos/neg/neu/polarity
+// usando sentiment HACIA cada figura · separa sentimiento del evento del
+// sentimiento dirigido al actor.
 
-export function figuresDeep(articles: AggregatedArticle[], n = 15): FigureSentimentDeep[] {
+export function figuresDeep(
+  articles: AggregatedArticle[],
+  n = 15,
+  readings?: ArticleReading[],
+): FigureSentimentDeep[] {
   const acc = new Map<string, AggregatedArticle[]>()
+  const readingByUrl = new Map<string, ArticleReading>()
+  if (readings) for (const r of readings) readingByUrl.set(r.url, r)
+
   for (const a of articles) {
     const figs = detectFigures(`${a.title} ${a.description}`)
     for (const f of figs) {
@@ -594,10 +626,27 @@ export function figuresDeep(articles: AggregatedArticle[], n = 15): FigureSentim
   const now = Date.now()
   for (const [label, mine] of Array.from(acc.entries())) {
     if (mine.length < 2) continue
-    const pos = mine.filter(a => a.sentiment === 'positive').length
-    const neg = mine.filter(a => a.sentiment === 'negative').length
-    const neu = mine.filter(a => a.sentiment === 'neutral').length
-    const polarity = mine.length > 0 ? +(mine.reduce((s, a) => s + a.sentiment_score, 0) / mine.length).toFixed(2) : 0
+    // M4 FASE C · sentiment HACIA la figura si hay readings
+    let pos = 0, neg = 0, neu = 0, polaritySum = 0, polarityN = 0
+    if (readings) {
+      for (const a of mine) {
+        const r = readingByUrl.get(a.link)
+        const actorSent = r?.sentiment.actor_sentiment.find((as) => as.actor === label || as.actor.toLowerCase() === label.toLowerCase())
+        const score = (actorSent && actorSent.confidence >= 0.4) ? actorSent.sentiment : a.sentiment_score
+        if (score > 0.1) pos++
+        else if (score < -0.1) neg++
+        else neu++
+        polaritySum += score; polarityN++
+      }
+    } else {
+      // fallback legacy · sentiment plano del titular
+      pos = mine.filter(a => a.sentiment === 'positive').length
+      neg = mine.filter(a => a.sentiment === 'negative').length
+      neu = mine.filter(a => a.sentiment === 'neutral').length
+      polaritySum = mine.reduce((s, a) => s + a.sentiment_score, 0)
+      polarityN = mine.length
+    }
+    const polarity = polarityN > 0 ? +(polaritySum / polarityN).toFixed(2) : 0
 
     // CCAA principal donde aparece
     const ccaaCount: Record<string, number> = {}
@@ -625,11 +674,17 @@ export function figuresDeep(articles: AggregatedArticle[], n = 15): FigureSentim
     const whoMentions = Object.values(mediosCounts).sort((a, b) => b.n - a.n).slice(0, 6)
       .map(v => ({ medio: v.nombre, n: v.n, ideology: v.ideology }))
 
-    // Trend 24h
+    // Trend 24h · M4 FASE C · usa sentiment HACIA actor si hay reading
     const recent  = mine.filter(a => a.pubDate && (now - a.pubDate.getTime() <  86400_000))
     const earlier = mine.filter(a => a.pubDate && (now - a.pubDate.getTime() >= 86400_000) && (now - a.pubDate.getTime() < 172800_000))
-    const polR = recent.length  ? recent.reduce((s, a) => s + a.sentiment_score, 0) / recent.length  : 0
-    const polE = earlier.length ? earlier.reduce((s, a) => s + a.sentiment_score, 0) / earlier.length : 0
+    const scoreOf = (a: AggregatedArticle): number => {
+      if (!readings) return a.sentiment_score
+      const r = readingByUrl.get(a.link)
+      const actorSent = r?.sentiment.actor_sentiment.find((as) => as.actor === label || as.actor.toLowerCase() === label.toLowerCase())
+      return (actorSent && actorSent.confidence >= 0.4) ? actorSent.sentiment : a.sentiment_score
+    }
+    const polR = recent.length  ? recent.reduce((s, a) => s + scoreOf(a), 0) / recent.length  : 0
+    const polE = earlier.length ? earlier.reduce((s, a) => s + scoreOf(a), 0) / earlier.length : 0
     const trend24h = +(polR - polE).toFixed(2)
 
     const recentTitles = mine

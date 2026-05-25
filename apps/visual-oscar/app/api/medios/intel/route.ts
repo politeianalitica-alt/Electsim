@@ -95,9 +95,11 @@ export async function GET(req: NextRequest) {
     }
 
     if (include.includes('feed'))       out.feed       = tieredFeed(articles, 25)
+    // Sprint M4 FASE C · narrativesDeep/topicPartySentiment/figuresDeep aceptan
+    // readings opcionales · usan sentiment HACIA actor (de assessSentiment) en
+    // lugar de sentiment plano del titular. Wireado más abajo cuando readings
+    // ya esté construido. Si no, fallback legacy automático.
     if (include.includes('narratives')) out.narratives = narrativesDeep(articles).slice(0, 12)
-    if (include.includes('topicparty')) out.topicparty = topicPartySentiment(articles).slice(0, 60)
-    if (include.includes('figures'))    out.figures    = figuresDeep(articles, 15)
     if (include.includes('companies'))  out.companies  = companiesSentiment(articles).slice(0, 25)
     if (include.includes('sectors'))    out.sectors    = sectorsSentiment(articles)
     if (include.includes('clusters'))   out.clusters   = storyCluster(articles)
@@ -170,6 +172,20 @@ export async function GET(req: NextRequest) {
     // Sprint M2 · resumen ejecutivo de readings · listo para enviar a lectura IA
     if (include.includes('readings_summary') && readings.length > 0) {
       out.readings_summary = summarizeReadings(readings)
+    }
+
+    // Sprint M4 FASE C · funciones legacy con sentiment HACIA actor
+    // Ahora que readings está construido, recompute topicparty + figures con
+    // sentiment HACIA actor (assessSentiment) en lugar de sentiment plano titular.
+    if (include.includes('topicparty')) {
+      out.topicparty = readings.length > 0
+        ? topicPartySentiment(articles, readings).slice(0, 60)
+        : topicPartySentiment(articles).slice(0, 60)
+    }
+    if (include.includes('figures')) {
+      out.figures = readings.length > 0
+        ? figuresDeep(articles, 15, readings)
+        : figuresDeep(articles, 15)
     }
 
     // Sprint M4 FASE B · análisis NewsAPI-grade sobre RSS readings
