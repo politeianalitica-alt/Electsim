@@ -916,3 +916,154 @@ class WorkspaceSavedSearch(Base):
     __table_args__ = (
         UniqueConstraint("workspace_id", "search_code", name="uq_workspace_saved_search"),
     )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# DOSIERES DE PERSONAS (políticos, líderes) · migración 0081
+# ════════════════════════════════════════════════════════════════════════════
+# Sistema de dosieres estructurados: 1 dossier por persona, organizado en
+# apartados tipificados (identidad, trayectoria, posiciones, redes,
+# declaraciones, controversias, evidencia). Cada apartado contiene N items
+# con contenido, fuente opcional y fecha opcional.
+# RLS habilitada con tenant_id en las tres tablas.
+
+from sqlalchemy import Date as _SQLDate  # noqa: E402
+
+
+class Dossier(Base):
+    """Dossier completo de una persona política.
+
+    Usar `slug` como identificador estable en URL: /api/dosieres/pedro-sanchez.
+    """
+
+    __tablename__ = "dosieres"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    slug: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
+    nombre_completo: Mapped[str] = mapped_column(String(200), nullable=False)
+    alias: Mapped[Optional[str]] = mapped_column(String(120))
+    cargo_actual: Mapped[Optional[str]] = mapped_column(String(300))
+    partido: Mapped[Optional[str]] = mapped_column(String(80))
+    foto_url: Mapped[Optional[str]] = mapped_column(Text)
+    bio_corta: Mapped[Optional[str]] = mapped_column(Text)
+    tags: Mapped[list] = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
+    fuente_principal: Mapped[Optional[str]] = mapped_column(Text)
+    tenant_id: Mapped[str] = mapped_column(
+        String(40), nullable=False, server_default="default"
+    )
+    created_by: Mapped[Optional[str]] = mapped_column(String(80))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    apartados: Mapped[list["DossierApartado"]] = relationship(
+        back_populates="dossier", cascade="all, delete-orphan",
+        order_by="DossierApartado.orden",
+    )
+
+
+class DossierApartado(Base):
+    """Sección tipificada dentro de un dossier (identidad, trayectoria, etc.).
+
+    `tipo` es un enum PostgreSQL con valores fijos · 1 apartado por tipo
+    como máximo por dossier (UNIQUE constraint).
+    """
+
+    __tablename__ = "dossier_apartados"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    dossier_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("dosieres.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    # tipo · valores fijos: identidad, trayectoria, posiciones, redes,
+    # declaraciones, controversias, evidencia (PG ENUM creado en migración)
+    tipo: Mapped[str] = mapped_column(
+        PGEnum(
+            "identidad", "trayectoria", "posiciones", "redes",
+            "declaraciones", "controversias", "evidencia",
+            name="tipo_apartado",
+            create_type=False,
+        ),
+        nullable=False,
+    )
+    titulo: Mapped[Optional[str]] = mapped_column(String(200))
+    resumen: Mapped[Optional[str]] = mapped_column(Text)
+    orden: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    tenant_id: Mapped[str] = mapped_column(
+        String(40), nullable=False, server_default="default"
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    dossier: Mapped[Dossier] = relationship(back_populates="apartados")
+    items: Mapped[list["DossierItem"]] = relationship(
+        back_populates="apartado", cascade="all, delete-orphan",
+        order_by="DossierItem.orden",
+    )
+
+    __table_args__ = (
+        UniqueConstraint("dossier_id", "tipo", name="uq_dossier_apartado_tipo"),
+    )
+
+
+class DossierItem(Base):
+    """Item concreto dentro de un apartado.
+
+    Tipos: dato, declaracion, evento, contacto, documento.
+    `fecha` es opcional (algunos items son atemporales).
+    `fuente_url` + `fuente_titulo` recomendados para auditabilidad.
+    """
+
+    __tablename__ = "dossier_items"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    apartado_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("dossier_apartados.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    tipo: Mapped[str] = mapped_column(
+        PGEnum(
+            "dato", "declaracion", "evento", "contacto", "documento",
+            name="tipo_item",
+            create_type=False,
+        ),
+        nullable=False, server_default="dato",
+    )
+    titulo: Mapped[Optional[str]] = mapped_column(String(300))
+    contenido: Mapped[str] = mapped_column(Text, nullable=False)
+    fecha: Mapped[Optional[date]] = mapped_column(_SQLDate)
+    fuente_url: Mapped[Optional[str]] = mapped_column(Text)
+    fuente_titulo: Mapped[Optional[str]] = mapped_column(String(200))
+    tags: Mapped[list] = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
+    orden: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    tenant_id: Mapped[str] = mapped_column(
+        String(40), nullable=False, server_default="default"
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    apartado: Mapped[DossierApartado] = relationship(back_populates="items")

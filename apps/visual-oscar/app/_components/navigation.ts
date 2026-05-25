@@ -44,6 +44,7 @@ export const MODULES: NavModule[] = [
     full: 'Inteligencia Política',
     items: [
       { label: 'Mapa de Actores',                href: '/mapa-actores' },
+      { label: 'Dosieres de personas',           href: '/dosieres' },
       { label: 'Partidos y Grupos',              href: '/partidos' },
       { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
       { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
