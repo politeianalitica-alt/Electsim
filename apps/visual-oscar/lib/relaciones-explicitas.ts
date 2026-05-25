@@ -55,6 +55,7 @@ export interface RelacionExplicita {
 // no hay ciclo runtime.
 import { RELACIONES_CSV_CURADAS } from './relaciones-csv-curadas'
 import { RELACIONES_CSV_TOP50 } from './relaciones-csv-top50'
+import { RELACIONES_DESDE_DOSIERES } from './relaciones-from-dosieres'
 
 // Slugs comunes (mismo algoritmo que actores.ts buildActor → id)
 const id = (nombre: string) => nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -1071,6 +1072,19 @@ export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
   // ─── 47 relaciones adicionales importadas del CSV top50 ───────────
   // Fechas más precisas + descripciones complementarias (mayo 2026)
   ...RELACIONES_CSV_TOP50,
+
+  // ─── Relaciones generadas desde los 400 dosieres del Informe ──────
+  // Cada dossier tiene apartado 'redes' con relaciones valoradas (+10/-10).
+  // Solo se incluyen las FUERTES (|nota| >= 5) y solo si ambos actores
+  // están en el mapa. Se mapean a tipos de línea según la nota:
+  //   +9..+10 → aliado_partido (verde fuerte)
+  //   +5..+8  → pacto_investidura (verde)
+  //   -4..-1  → critica_publica (naranja suave)
+  //   -8..-5  → critica_publica → ajustado en helper
+  //  -10..-9  → oposicion_frontal (rojo fuerte)
+  // El grafo deduplica con las curadas anteriores · si una relación ya
+  // existía aquí arriba, la curada gana (más rica en contexto).
+  ...RELACIONES_DESDE_DOSIERES,
 ]
 
 /**
