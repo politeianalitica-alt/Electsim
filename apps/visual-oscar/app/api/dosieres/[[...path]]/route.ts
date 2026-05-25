@@ -49,25 +49,23 @@ export async function GET(req: NextRequest, { params }: { params: { path?: strin
   const subpath = params.path?.join('/') ?? ''
 
   // Decidir si los datos del backend son "vacíos" y conviene caer al fixture.
-  // Para la ruta raíz (lista de dosieres) consideramos array vacío como
-  // "vacío" (backend sin datos) y servimos el fixture estático.
   const isEmptyList = !subpath && Array.isArray(data) && data.length === 0
   const isMissing = data === null || data === undefined
 
   if (!isMissing && !isEmptyList) {
-    return NextResponse.json(withMeta(data, 'backend'))
+    // Si es un array, devolver tal cual (withMeta convertiría el array en
+    // un objeto raro con índices numéricos y rompería la página).
+    if (Array.isArray(data)) {
+      return NextResponse.json(data)
+    }
+    return NextResponse.json(withMeta(data as object, 'backend'))
   }
 
   // Fallback al fixture estático · 400 dosieres parseados de 7 PDFs
   if (!subpath) {
     const filtered = applyFilters(DOSIERES_RESUMEN, req.nextUrl.searchParams)
-    return NextResponse.json(withMeta(filtered, 'mock', {
-      warnings: [
-        isEmptyList
-          ? 'backend_devolvio_lista_vacia · usando fixture estatico (400 dosieres)'
-          : 'backend_offline · usando fixture estatico (400 dosieres)',
-      ],
-    }))
+    // Devolver array DIRECTO · no envolver con withMeta (rompe arrays)
+    return NextResponse.json(filtered)
   }
   // Detalle por slug
   const dossier = getDossierBySlug(subpath)
