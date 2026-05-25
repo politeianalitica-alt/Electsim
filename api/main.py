@@ -62,6 +62,7 @@ from api.routers import (
     commodities,     # Sprint 14 (Vesper-FE) · /api/v1/commodities/* · catálogo + precios + recipe cost
     ports,           # Módulo Puertos · /api/v1/ports/* · AIS + comercio global + sanciones marítimas
     sector_intel,    # FE-Sectoriales · /api/v1/sector-intel/* · overviews unificados S7-S15
+    dosieres,        # Dosieres personas · /api/dosieres/* · CRUD con apartados tipificados
 )
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
@@ -254,6 +255,9 @@ app.include_router(dashboard.router, tags=["dashboard"])
 app.include_router(news_intelligence.router, tags=["news-intelligence"])
 app.include_router(media_intel.router, tags=["media-intel"])
 app.include_router(narratives.router, tags=["narratives"])
+# Dosieres de personas · CRUD con apartados tipificados (identidad,
+# trayectoria, posiciones, redes, declaraciones, controversias, evidencia)
+app.include_router(dosieres.router, tags=["dosieres"])
 app.include_router(laws.router, tags=["laws"])
 app.include_router(persons.router, tags=["persons"])
 app.include_router(risk_intelligence.router, tags=["risk-intelligence"])
