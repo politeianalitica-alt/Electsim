@@ -46,20 +46,30 @@ function applyFilters(items: typeof DOSIERES_RESUMEN, search: URLSearchParams) {
 export async function GET(req: NextRequest, { params }: { params: { path?: string[] } }) {
   const path = buildBackendPath(params, req.nextUrl.search.replace(/^\?/, ''))
   const data = await fromBackend<unknown>(path)
-  if (data !== null && data !== undefined) {
+  const subpath = params.path?.join('/') ?? ''
+
+  // Decidir si los datos del backend son "vacíos" y conviene caer al fixture.
+  // Para la ruta raíz (lista de dosieres) consideramos array vacío como
+  // "vacío" (backend sin datos) y servimos el fixture estático.
+  const isEmptyList = !subpath && Array.isArray(data) && data.length === 0
+  const isMissing = data === null || data === undefined
+
+  if (!isMissing && !isEmptyList) {
     return NextResponse.json(withMeta(data, 'backend'))
   }
 
-  // Fallback al fixture estático · misma forma que el backend
-  const subpath = params.path?.join('/') ?? ''
+  // Fallback al fixture estático · 400 dosieres parseados de 7 PDFs
   if (!subpath) {
-    // Lista resumida con filtros
     const filtered = applyFilters(DOSIERES_RESUMEN, req.nextUrl.searchParams)
     return NextResponse.json(withMeta(filtered, 'mock', {
-      warnings: ['backend_offline · usando fixture estático con 24 dosieres del Gobierno'],
+      warnings: [
+        isEmptyList
+          ? 'backend_devolvio_lista_vacia · usando fixture estatico (400 dosieres)'
+          : 'backend_offline · usando fixture estatico (400 dosieres)',
+      ],
     }))
   }
-  // Detalle por slug · `params.path[0]` es el slug
+  // Detalle por slug
   const dossier = getDossierBySlug(subpath)
   if (!dossier) {
     return NextResponse.json(
@@ -70,7 +80,7 @@ export async function GET(req: NextRequest, { params }: { params: { path?: strin
     )
   }
   return NextResponse.json(withMeta(dossier, 'mock', {
-    warnings: ['backend_offline · usando fixture estático'],
+    warnings: ['backend_offline · usando fixture estatico'],
   }))
 }
 
