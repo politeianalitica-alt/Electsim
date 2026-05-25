@@ -26,6 +26,7 @@ INPUTS = [
     Path("/tmp/dosieres_regio.json"),   # Regionalistas + Grupo Mixto (33)
     Path("/tmp/dosieres_sumar.json"),   # Diputados Sumar no ministros (20)
     Path("/tmp/dosieres_vox.json"),     # Diputados Vox (33)
+    Path("/tmp/dosieres_psoe.json"),    # Diputados PSOE no ministros (112)
 ]
 
 PARTIDO_OVERRIDES = {
