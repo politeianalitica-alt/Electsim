@@ -131,8 +131,24 @@ async function acledFetch(req: Request): Promise<any[]> {
 }
 
 async function gdeltGlobalFetch(req: Request): Promise<any[]> {
+  // Sprint G12 · filtro por GKG themes para reducir ruido vs query keyword OR
+  // Antes: "politics+OR+economy+OR+conflict" → mucho ruido temático
+  // Ahora: theme filter combina conflicto interno + relaciones exteriores +
+  // protesta + terror + económico crítico + migración = relevante geopolítica.
+  const themes = [
+    'INTERNAL_CONFLICT',
+    'EXTERNAL_RELATIONS',
+    'PROTEST',
+    'TERROR',
+    'MIGRATION',
+    'REFUGEES',
+    'ECON_INFLATION',
+    'ECON_RECESSION',
+    'SANCTIONS',
+    'ARMEDCONFLICT',
+  ].join(',')
   try {
-    const r = await fetch(`${baseUrlFromReq(req)}/api/gdelt/articles?query=politics+OR+economy+OR+conflict&timespan=24h&maxrows=250`, {
+    const r = await fetch(`${baseUrlFromReq(req)}/api/gdelt/articles?theme=${themes}&timespan=24h&maxrows=250&sort=datedesc`, {
       next: { revalidate: 1800 },
     } as RequestInit)
     if (!r.ok) return []

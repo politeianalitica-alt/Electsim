@@ -34,6 +34,7 @@ import { GeoDataHealth } from '@/components/geopolitica/GeoDataHealth'
 import { GeoSpainWatchlist } from '@/components/geopolitica/GeoSpainWatchlist'
 import { GeoThemeClusters } from '@/components/geopolitica/GeoThemeClusters'
 import { GeoGdeltSummary } from '@/components/geopolitica/GeoGdeltSummary'
+import { GeoTvBroadcast } from '@/components/geopolitica/GeoTvBroadcast'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -905,6 +906,10 @@ export default function GeopoliticaPage() {
             {/* Sprint G10 · Theme clustering emergente sobre 6 RSS feeds (Gemini) */}
             <div style={{ marginBottom: 20 }}>
               <GeoThemeClusters />
+            </div>
+            {/* Sprint G12 · TV broadcast narrative tracking (GDELT TV API) */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoTvBroadcast />
             </div>
             {/* Sprint G7 · ICG CrisisWatch + ISW briefings (OSINT cualitativo) */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16, marginBottom: 20 }}>
