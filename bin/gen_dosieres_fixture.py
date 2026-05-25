@@ -28,6 +28,7 @@ INPUTS = [
     Path("/tmp/dosieres_vox.json"),     # Diputados Vox (33)
     Path("/tmp/dosieres_psoe.json"),    # Diputados PSOE no ministros (118)
     Path("/tmp/dosieres_pp.json"),      # Diputados PP (135)
+    Path("/tmp/dosieres_pp_nuevos.json"), # Nuevos PP correctores (37)
 ]
 
 PARTIDO_OVERRIDES = {
