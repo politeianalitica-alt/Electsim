@@ -20,15 +20,24 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT = REPO_ROOT / "apps" / "visual-oscar" / "data" / "dosieres-fixture.ts"
 
-# JSONs a combinar (en orden de prioridad · primero gana en caso de duplicado)
+# JSONs a combinar (en orden de prioridad · primero gana en caso de duplicado).
+# Cada input es (path, allow_homonyms):
+#   - True : si hay slug duplicado, se renombra con sufijo de partido
+#            (caso clásico: María Isabel Prieto Serrano que existe PSOE y PP,
+#             son personas distintas).
+#   - False: si hay slug duplicado, se descarta silenciosamente
+#            (caso típico: PDFs consolidados que repiten personas ya cargadas).
 INPUTS = [
-    Path("/tmp/dosieres.json"),         # Gobierno + Feijóo (24)
-    Path("/tmp/dosieres_regio.json"),   # Regionalistas + Grupo Mixto (33)
-    Path("/tmp/dosieres_sumar.json"),   # Diputados Sumar no ministros (20)
-    Path("/tmp/dosieres_vox.json"),     # Diputados Vox (33)
-    Path("/tmp/dosieres_psoe.json"),    # Diputados PSOE no ministros (118)
-    Path("/tmp/dosieres_pp.json"),      # Diputados PP (135)
-    Path("/tmp/dosieres_pp_nuevos.json"), # Nuevos PP correctores (37)
+    (Path("/tmp/dosieres.json"),           True),  # Gobierno + Feijóo (24)
+    (Path("/tmp/dosieres_regio.json"),     True),  # Regionalistas + Grupo Mixto (33)
+    (Path("/tmp/dosieres_sumar.json"),     True),  # Diputados Sumar (20)
+    (Path("/tmp/dosieres_vox.json"),       True),  # Diputados Vox (33)
+    (Path("/tmp/dosieres_psoe.json"),      True),  # Diputados PSOE (118)
+    (Path("/tmp/dosieres_pp.json"),        True),  # Diputados PP (135)
+    (Path("/tmp/dosieres_pp_nuevos.json"), True),  # Nuevos PP correctores (37)
+    # El PDF "influencia" es un consolidado y REPITE actores ya cargados.
+    # No tratar como homónimos · solo guardar los NUEVOS (no presentes antes).
+    (Path("/tmp/dosieres_influencia.json"), False),
 ]
 
 PARTIDO_OVERRIDES = {
@@ -56,42 +65,43 @@ def ts_string(s):
 
 
 def load_all():
-    """Carga todos los JSONs y combina.
-
-    Si dos personas distintas comparten slug (homónimos como
-    'maria-isabel-prieto-serrano' que existe en PSOE Y PP), añade
-    sufijo de partido al slug del segundo para no perderla.
-    """
+    """Carga todos los JSONs y combina · respetando allow_homonyms por input."""
     seen_slugs = set()
     combined = []
-    for inp in INPUTS:
+    for inp, allow_homonyms in INPUTS:
         if not inp.exists():
             print(f"⚠ skip {inp} (no existe)", file=sys.stderr)
             continue
         data = json.loads(inp.read_text(encoding="utf-8"))
         added = 0
         renamed = 0
+        skipped = 0
         for d in data:
             slug = d["slug"]
             if slug in seen_slugs:
-                # Homónimo · añadir sufijo de partido
+                if not allow_homonyms:
+                    # PDF consolidado · descartar silenciosamente
+                    skipped += 1
+                    continue
+                # Homónimo real · renombrar con sufijo de partido
                 partido = (d.get("partido") or "x").lower().replace(" ", "-")
                 new_slug = f"{slug}-{partido}"
-                # Si aún colisiona (p.ej. dos del mismo partido), añadir num
                 attempt = 1
                 while new_slug in seen_slugs:
                     attempt += 1
                     new_slug = f"{slug}-{partido}-{attempt}"
-                print(f"  ◆ homónimo, renombrado: {slug} → {new_slug} ({d['nombre_completo']})", file=sys.stderr)
+                print(f"  ◆ homónimo: {slug} → {new_slug} ({d['nombre_completo']})", file=sys.stderr)
                 d["slug"] = new_slug
                 slug = new_slug
                 renamed += 1
             seen_slugs.add(slug)
             combined.append(d)
             added += 1
-        msg = f"✓ {inp.name}: {added} dosieres añadidos"
+        msg = f"✓ {inp.name}: {added} añadidos"
         if renamed:
             msg += f" ({renamed} homónimos renombrados)"
+        if skipped:
+            msg += f" ({skipped} duplicados descartados)"
         print(msg, file=sys.stderr)
     return combined
 
