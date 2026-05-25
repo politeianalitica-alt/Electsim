@@ -28,7 +28,9 @@ function applyFilters(items: typeof DOSIERES_RESUMEN, search: URLSearchParams) {
   let result = items
   const partido = search.get('partido')
   const q = search.get('q')
-  const limit = parseInt(search.get('limit') ?? '100', 10)
+  // Default ALTO · queremos ver todos los 400 dosieres por defecto en la
+  // página de lista. El cliente puede pedir un límite menor con ?limit=N.
+  const limit = parseInt(search.get('limit') ?? '1000', 10)
   if (partido) {
     result = result.filter(d => (d.partido ?? '').toLowerCase() === partido.toLowerCase())
   }
@@ -40,7 +42,7 @@ function applyFilters(items: typeof DOSIERES_RESUMEN, search: URLSearchParams) {
       (d.cargo_actual ?? '').toLowerCase().includes(ql)
     )
   }
-  return result.slice(0, isNaN(limit) ? 100 : limit)
+  return result.slice(0, isNaN(limit) ? 1000 : limit)
 }
 
 export async function GET(req: NextRequest, { params }: { params: { path?: string[] } }) {
