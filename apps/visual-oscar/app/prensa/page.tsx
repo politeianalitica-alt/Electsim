@@ -57,6 +57,10 @@ import {
 import { NarrativeClustersView } from './_components/NarrativeClustersView'
 import { LecturaPoliteiaPanel, type LecturaContext } from './_components/LecturaPoliteiaPanel'
 import { MapasImpacto } from './_components/MapasImpacto'
+import {
+  MetodologiaConfianzaPanel, ActoresImpactoPanel, FramingComparisonPanel,
+  CoverageGapsPanel, FollowupQueriesPanel,
+} from './_components/AnalysisPanels'
 
 import type {
   TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep,
@@ -141,6 +145,34 @@ interface IntelResponse {
     top_affected: Array<{ actor: string; count: number }>
     action_verbs: Array<{ verb: string; count: number }>
   }
+  // Sprint M4 FASE B · mismo análisis que NewsAPI search
+  framing_comparison?: Array<{
+    bucket: string
+    count: number
+    dominant_topics: { topic: string; count: number }[]
+    dominant_frames: { frame: string; count: number }[]
+    actors_emphasized: { actor: string; mentions: number }[]
+    actors_omitted: string[]
+    average_tone: number
+    controversy_score: number
+    representative_titles: string[]
+    distinctive_terms: { term: string; lift: number }[]
+    interpretation: string
+  }>
+  actor_impacts?: Array<{
+    actor: string
+    mentions: number
+    dominant_impact: 'beneficial' | 'harmful' | 'neutral' | 'uncertain'
+    beneficial: number
+    harmful: number
+    neutral: number
+    uncertain: number
+    sample_reasons: string[]
+  }>
+  coverage_gaps?: Array<{ topic: string; total_mentions: number; interpretation: string }>
+  methodology_confidence?: { overall: number; reasons: string[] }
+  analysis_warnings?: Array<{ level: 'info' | 'warning' | 'critical'; category: string; message: string; evidence?: string }>
+  suggested_followup_queries?: Array<{ query: string; reason: string; expected_focus: string }>
   figures_v2?: Array<{
     name: string
     mentions: number
@@ -252,6 +284,7 @@ export default function PrensaPage() {
   const isFresh = !!updatedAt && Date.now() - new Date(updatedAt).getTime() < 600_000
 
   // Contexto IA por tab · alimenta LecturaPoliteiaPanel con datos estructurados
+  // Sprint M4 FASE B · ahora incluye framing + actor_impacts + warnings + gaps
   function buildLecturaContext(): LecturaContext {
     const ctx: LecturaContext = {
       n_articles: totalArticles,
@@ -272,6 +305,13 @@ export default function PrensaPage() {
           }
         : undefined,
     }
+    // Sprint M4 FASE B · pasar contexto enriquecido como any (LecturaContext typed sólo
+    // los campos base; el endpoint lectura ya entiende los extra y construye prompt rich)
+    ;(ctx as any).narrative_clusters = data?.narrative_clusters
+    ;(ctx as any).framing_comparison = data?.framing_comparison
+    ;(ctx as any).actor_impacts = data?.actor_impacts
+    ;(ctx as any).analysis_warnings = data?.analysis_warnings
+    ;(ctx as any).coverage_gaps = data?.coverage_gaps
     return ctx
   }
   const lecturaCtx = buildLecturaContext()
@@ -388,6 +428,19 @@ export default function PrensaPage() {
                     question="¿Qué está dominando ahora mismo la agenda?"
                     answer="Narrativas auditables emergentes · feed por tiers nacional/europeo/regional/local · agenda topic × partido · historias que aceleran · contexto GDELT global · Lectura IA con todo lo anterior."
                   />
+                  {/* Sprint M4 FASE B · metodología + confianza + warnings (mismo motor que NewsAPI search) */}
+                  {(data?.methodology_confidence || data?.analysis_warnings) && (
+                    <MetodologiaConfianzaPanel
+                      totalResults={totalArticles}
+                      nArticles={data?.readings_summary?.n_readings ?? totalArticles}
+                      confidence={data?.methodology_confidence}
+                      balanceIdeo={methodology?.ideological_balance_score}
+                      balanceTerr={methodology?.territorial_balance_score}
+                      latencyMs={_meta?.latency_ms}
+                      warnings={data?.analysis_warnings}
+                      providerLabel="RSS · 100 medios"
+                    />
+                  )}
                   {/* Lectura IA transversal · colapsada por defecto · receive contexto estructurado */}
                   <LecturaPoliteiaPanel
                     tabId="pulso"
@@ -441,6 +494,13 @@ export default function PrensaPage() {
                     title="Lectura Politeia de Narrativas"
                     collapsedByDefault
                   />
+                  {/* Sprint M4 FASE B · framing + coverage gaps + followups · mismo motor que NewsAPI search */}
+                  {data?.framing_comparison && data.framing_comparison.length > 0 && (
+                    <FramingComparisonPanel framing={data.framing_comparison} />
+                  )}
+                  {data?.coverage_gaps && data.coverage_gaps.length > 0 && (
+                    <CoverageGapsPanel gaps={data.coverage_gaps} />
+                  )}
                   {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
                     <NarrativeClustersView clusters={data.narrative_clusters} />
                   )}
@@ -472,6 +532,10 @@ export default function PrensaPage() {
                     title="Lectura Politeia de Actores"
                     collapsedByDefault
                   />
+                  {/* Sprint M4 FASE B · actor_impacts agregado (mismo motor que NewsAPI search) */}
+                  {data?.actor_impacts && data.actor_impacts.length > 0 && (
+                    <ActoresImpactoPanel impacts={data.actor_impacts} max={15} />
+                  )}
                   {/* Figures v2 · sentiment HACIA actor + impacto político */}
                   {data?.figures_v2 && data.figures_v2.length > 0 && <FiguresV2View figures={data.figures_v2} />}
                   <SentimentDualView
@@ -536,6 +600,13 @@ export default function PrensaPage() {
                   {/* Alertas por aceleración (transversal viralidad) */}
                   {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
                     <ViralidadStrip clusters={data.narrative_clusters} mode="compact" />
+                  )}
+                  {/* Sprint M4 FASE B · followup queries · guarda como monitores */}
+                  {data?.suggested_followup_queries && data.suggested_followup_queries.length > 0 && (
+                    <FollowupQueriesPanel
+                      followups={data.suggested_followup_queries}
+                      onRun={(q) => router.push(`/prensa?tab=busqueda&q=${encodeURIComponent(q)}`)}
+                    />
                   )}
                   <InformesAlertas />
                 </div>

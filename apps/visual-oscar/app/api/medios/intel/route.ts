@@ -34,6 +34,11 @@ import {
   profileFromCatalog, buildNarrativeClusters, figuresFromReadings, summarizeReadings,
   type BalanceMode, type ArticleReading,
 } from '@/lib/medios/media-methodology'
+// Sprint M4 FASE B · misma capa de análisis que NewsAPI search
+import {
+  framingComparison, coverageGapsAnalysis, mediaAnalysisWarnings,
+  computeMethodologyConfidence, suggestedFollowupQueries,
+} from '@/lib/medios/media-analysis'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -45,7 +50,7 @@ const VALID_MODES: BalanceMode[] = ['audience', 'pluralism', 'regional', 'ideolo
 export async function GET(req: NextRequest) {
   const startedAt = Date.now()
   const params = req.nextUrl.searchParams
-  const include = (params.get('include') || 'feed,narratives,topicparty,figures,companies,sectors,clusters,gaps,ccaa,methodology,narrative_clusters,figures_v2,readings_summary').split(',')
+  const include = (params.get('include') || 'feed,narratives,topicparty,figures,companies,sectors,clusters,gaps,ccaa,methodology,narrative_clusters,figures_v2,readings_summary,framing_comparison,actor_impacts,coverage_gaps,analysis_warnings,methodology_confidence,followup_queries').split(',')
   const hours = Math.min(168, Math.max(6, Number(params.get('hours') || 72)))
   const sources = Math.min(100, Math.max(15, Number(params.get('sources') || 80)))
   const balanceModeParam = (params.get('balance_mode') || 'pluralism').toLowerCase()
@@ -125,14 +130,21 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Sprint M1+M2 · construir readings UNA VEZ (es la materia prima)
+    // Sprint M1+M2+M4 · construir readings UNA VEZ (es la materia prima)
     // - readings completos sólo si los piden con ?readings=1 (response pesado)
-    // - narrative_clusters, figures_v2 y readings_summary los usan internamente
+    // - narrative_clusters, figures_v2, readings_summary, framing_comparison,
+    //   coverage_gaps, actor_impacts y analysis_warnings los usan internamente
     const needsReadings =
       includeReadings ||
       include.includes('narrative_clusters') ||
       include.includes('figures_v2') ||
-      include.includes('readings_summary')
+      include.includes('readings_summary') ||
+      include.includes('framing_comparison') ||
+      include.includes('actor_impacts') ||
+      include.includes('coverage_gaps') ||
+      include.includes('analysis_warnings') ||
+      include.includes('methodology_confidence') ||
+      include.includes('followup_queries')
     let readings: ArticleReading[] = []
     if (needsReadings) {
       const profilesByMediumId: Record<string, ReturnType<typeof profileFromCatalog>> = {}
@@ -158,6 +170,64 @@ export async function GET(req: NextRequest) {
     // Sprint M2 · resumen ejecutivo de readings · listo para enviar a lectura IA
     if (include.includes('readings_summary') && readings.length > 0) {
       out.readings_summary = summarizeReadings(readings)
+    }
+
+    // Sprint M4 FASE B · análisis NewsAPI-grade sobre RSS readings
+    // Reusa exactamente las mismas funciones que /api/medios/search · puerta común.
+    let framing: ReturnType<typeof framingComparison> | undefined
+    if (readings.length > 0 && (include.includes('framing_comparison') || include.includes('followup_queries') || include.includes('analysis_warnings'))) {
+      framing = framingComparison(readings)
+      if (include.includes('framing_comparison')) out.framing_comparison = framing
+    }
+
+    if (readings.length > 0 && include.includes('actor_impacts')) {
+      // Agregar actor_impact desde readings · mismo shape que /search
+      const actorImpactMap = new Map<string, { beneficial: number; harmful: number; neutral: number; uncertain: number; mentions: number; reasons: string[] }>()
+      for (const r of readings) {
+        for (const ai of r.sentiment.actor_impact) {
+          if (!actorImpactMap.has(ai.actor)) actorImpactMap.set(ai.actor, { beneficial: 0, harmful: 0, neutral: 0, uncertain: 0, mentions: 0, reasons: [] })
+          const cur = actorImpactMap.get(ai.actor)!
+          cur[ai.impact]++
+          cur.mentions++
+          if (cur.reasons.length < 3 && ai.reason) cur.reasons.push(ai.reason)
+        }
+      }
+      out.actor_impacts = Array.from(actorImpactMap.entries())
+        .map(([actor, agg]) => {
+          const dominant = (['beneficial', 'harmful', 'neutral', 'uncertain'] as const).reduce((best, k) =>
+            (agg[k] as number) > best.count ? { kind: k, count: agg[k] as number } : best,
+            { kind: 'uncertain' as 'beneficial' | 'harmful' | 'neutral' | 'uncertain', count: 0 },
+          )
+          return {
+            actor,
+            mentions: agg.mentions,
+            dominant_impact: dominant.kind,
+            beneficial: agg.beneficial,
+            harmful: agg.harmful,
+            neutral: agg.neutral,
+            uncertain: agg.uncertain,
+            sample_reasons: agg.reasons,
+          }
+        })
+        .sort((a, b) => b.mentions - a.mentions)
+        .slice(0, 25)
+    }
+
+    if (readings.length > 0 && include.includes('coverage_gaps')) {
+      out.coverage_gaps = coverageGapsAnalysis(readings)
+    }
+
+    if (readings.length > 0 && include.includes('methodology_confidence')) {
+      out.methodology_confidence = computeMethodologyConfidence(readings, diversity)
+    }
+
+    if (readings.length > 0 && include.includes('analysis_warnings')) {
+      out.analysis_warnings = mediaAnalysisWarnings(readings, diversity, framing)
+    }
+
+    if (readings.length > 0 && include.includes('followup_queries')) {
+      // Sin query original (pulse general) · usamos "agenda" como placeholder semántico
+      out.suggested_followup_queries = suggestedFollowupQueries(readings, 'agenda mediática actual', framing)
     }
 
     // Sprint M1 · _meta homogéneo (en paralelo a meta legacy)
