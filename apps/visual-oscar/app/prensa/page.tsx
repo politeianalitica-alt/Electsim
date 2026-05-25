@@ -41,6 +41,7 @@ import { MapaNarrativasGlobal } from './_components/MapaNarrativasGlobal'
 import { AnalisisGroq } from './_components/AnalisisGroq'
 import { IntelRegional } from './_components/IntelRegional'
 import { MEDIOS_TAB_IDS, getMediosTab, MediosTabId } from '@/lib/medios/sources-matrix'
+import { SourceMethodologyCard, ConfidenceBadge, MethodologyWarnings } from './_components/MethodologyComponents'
 
 import type {
   TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep,
@@ -48,8 +49,21 @@ import type {
 } from '@/lib/news-intel'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
 
+interface ApiMeta {
+  source: string
+  ts: string
+  latency_ms: number
+  warnings: string[]
+  methodology_version: string
+  sources_requested?: number
+  sources_used?: number
+  articles_read?: number
+  confidence?: number
+}
+
 interface IntelResponse {
   meta: { updatedAt: string; total: number; hours: number; sources: number }
+  _meta?: ApiMeta
   feed?: TieredFeed
   narratives?: NarrativeAnatomy[]
   topicparty?: TopicPartyCell[]
@@ -59,7 +73,27 @@ interface IntelResponse {
   clusters?: StoryCluster[]
   gaps?: CoverageGap[]
   ccaa?: Record<string, CCAARegionStat>
+  source_methodology?: {
+    selected_sources: number
+    eligible_sources: number
+    catalog_total: number
+    balance_mode: string
+    ideological_distribution: Record<string, number>
+    territorial_distribution: Record<string, number>
+    media_type_distribution: Record<string, number>
+    group_distribution: Array<{ group: string; count: number; share: number }>
+    ccaa_distribution: Array<{ ccaa: string; count: number }>
+    ideological_balance_score: number
+    territorial_balance_score: number
+    type_balance_score: number
+    credibility_avg: number
+    audience_total_M: number
+    warnings: string[]
+    copy_for_hero?: string
+  }
 }
+
+type BalanceMode = 'audience' | 'pluralism' | 'regional' | 'ideological' | 'crisis'
 
 export default function PrensaPage() {
   const router = useRouter()
@@ -72,15 +106,19 @@ export default function PrensaPage() {
   const tab = getMediosTab(safeActiveTab)
 
   const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
-  // Solo cargamos /intel cuando la tab lo necesita (evitamos pegada RSS innecesaria)
+  // Sprint M1 · 100 fuentes + balance_mode pluralism por defecto + toggle metodología
+  const [balanceMode, setBalanceMode] = useUrlState<BalanceMode>('balance', 'pluralism')
+  const [showMethodology, setShowMethodology] = useState(false)
   const tabsThatNeedIntel: MediosTabId[] = ['pulso', 'actores-sentimiento', 'cobertura-ideologica']
   const needsIntel = tabsThatNeedIntel.includes(safeActiveTab)
   const { data, source, loading, refresh, updatedAt } = useApi<IntelResponse>(
-    `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 50 : 0}`,
+    `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 100 : 0}&balance_mode=${balanceMode}`,
     { refreshInterval: needsIntel ? 300_000 : 0 },
   )
 
   const meta = data?.meta
+  const _meta = data?._meta
+  const methodology = data?.source_methodology
   const totalArticles = meta?.total ?? 0
   const isFresh = !!updatedAt && Date.now() - new Date(updatedAt).getTime() < 600_000
 
@@ -115,9 +153,30 @@ export default function PrensaPage() {
                 {tab.description}
               </h1>
               {needsIntel && (
-                <p style={{ fontSize: 11, opacity: 0.78, margin: '6px 0 0' }}>
-                  {totalArticles > 0 ? `${totalArticles} noticias · ${meta?.sources ?? '…'} medios analizados` : 'Cargando feed RSS…'}
+                <p style={{ fontSize: 11, opacity: 0.86, margin: '6px 0 0' }}>
+                  {totalArticles > 0
+                    ? (methodology?.copy_for_hero
+                        ? `${totalArticles} noticias · ${methodology.copy_for_hero}`
+                        : `${totalArticles} noticias · ${methodology?.selected_sources ?? meta?.sources ?? '…'}/${methodology?.catalog_total ?? '?'} medios analizados (modo "${balanceMode}")`)
+                    : 'Cargando feed RSS…'}
                 </p>
+              )}
+              {needsIntel && _meta?.confidence !== undefined && (
+                <div style={{ marginTop: 6, display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <ConfidenceBadge value={_meta.confidence} label="confianza muestra" size="xs" reasons={_meta.warnings} />
+                  <button
+                    onClick={() => setShowMethodology(!showMethodology)}
+                    style={{
+                      background: 'rgba(255,255,255,0.16)',
+                      color: '#fff', border: 'none',
+                      padding: '3px 10px', borderRadius: 4,
+                      fontSize: 10, fontWeight: 700, cursor: 'pointer', letterSpacing: 0.4,
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    {showMethodology ? '× ocultar metodología' : '◆ ver metodología'}
+                  </button>
+                </div>
               )}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
@@ -140,6 +199,26 @@ export default function PrensaPage() {
                   ))}
                 </div>
               )}
+              {needsIntel && (
+                <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.16)', borderRadius: 999, padding: 3 }}>
+                  {(['pluralism', 'audience', 'regional', 'ideological', 'crisis'] as const).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setBalanceMode(m)}
+                      title={`Balance · ${m}`}
+                      style={{
+                        background: balanceMode === m ? '#fff' : 'transparent',
+                        color: balanceMode === m ? tab.themeAccent : '#fff',
+                        border: 'none', borderRadius: 999, padding: '3px 10px',
+                        fontSize: 9, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', letterSpacing: 0.4,
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      {m === 'pluralism' ? 'plural' : m.slice(0, 6)}
+                    </button>
+                  ))}
+                </div>
+              )}
               {updatedAt && (
                 <span style={{ fontSize: 10, opacity: 0.78 }}>
                   Actualizado hace {Math.max(1, Math.round((Date.now() - new Date(updatedAt).getTime()) / 60_000))} min
@@ -151,6 +230,18 @@ export default function PrensaPage() {
               )}
             </div>
           </section>
+
+          {/* Sprint M1 · Metodología de fuentes (colapsable) */}
+          {showMethodology && methodology && (
+            <div style={{ marginBottom: 14 }}>
+              <SourceMethodologyCard data={methodology} />
+            </div>
+          )}
+          {needsIntel && !showMethodology && methodology && methodology.warnings.length > 0 && (
+            <div style={{ marginBottom: 14 }}>
+              <MethodologyWarnings warnings={methodology.warnings} title="Sesgo de muestra detectado" />
+            </div>
+          )}
 
           {/* Sub-nav 10 tabs */}
           <MediosTabsNav activeId={safeActiveTab} onTabChange={setActiveTab} />

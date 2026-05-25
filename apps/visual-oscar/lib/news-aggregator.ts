@@ -59,29 +59,61 @@ async function pool<T, R>(items: T[], concurrency: number, worker: (it: T) => Pr
 }
 
 interface AggregateOptions {
-  maxSources?: number      // cuántos medios poolear (default 35)
+  maxSources?: number      // cuántos medios poolear (default 35, máx 100)
   hoursBack?: number       // descartar artículos más viejos (default 72h)
-  ccaa?: string | null     // filtrar por CCAA del medio
+  ccaa?: string | null     // filtrar por CCAA del medio (legacy · prefer balance_mode)
   tipo?: string            // filtrar por tipo (Prensa | Digital | TV | Radio…)
   ideologia?: 'izquierda' | 'centro' | 'derecha'
+  // Sprint M1 · priorización inteligente
+  balanceMode?: 'audience' | 'pluralism' | 'regional' | 'ideological' | 'crisis'
+  includeEuropean?: boolean
+  includeRegional?: boolean
+}
+
+// Export del catálogo para que selectPrioritySources lo lea sin re-import
+export function getCatalog(): CatalogMedio[] {
+  return CATALOG
 }
 
 /**
- * Devuelve los artículos agregados de los principales medios con RSS.
- * Cacheado a nivel de edge (10 min/feed) gracias a fetchRSS.
+ * Devuelve los artículos agregados con priorización inteligente de fuentes.
+ * Sprint M1: ahora pasa por selectPrioritySources si se pide balance_mode,
+ * caso contrario hace el fallback legacy (top-N por audiencia).
  */
 export async function getAggregatedNews(opts: AggregateOptions = {}): Promise<AggregatedArticle[]> {
-  const { maxSources = 35, hoursBack = 72 } = opts
+  const { maxSources = 35, hoursBack = 72, balanceMode } = opts
 
-  let pool_medios = CATALOG.filter(m => !!m.rss)
-  if (opts.ccaa)  pool_medios = pool_medios.filter(m => m.ccaa === opts.ccaa)
-  if (opts.tipo)  pool_medios = pool_medios.filter(m => m.tipo === opts.tipo)
-  if (opts.ideologia === 'izquierda') pool_medios = pool_medios.filter(m => m.ideologia < -20)
-  else if (opts.ideologia === 'derecha') pool_medios = pool_medios.filter(m => m.ideologia > 20)
-  else if (opts.ideologia === 'centro') pool_medios = pool_medios.filter(m => m.ideologia >= -20 && m.ideologia <= 20)
+  let pool_medios: CatalogMedio[]
 
-  pool_medios.sort((a, b) => b.audiencia_M - a.audiencia_M)
-  const targets = pool_medios.slice(0, maxSources)
+  if (balanceMode) {
+    // Sprint M1 · priorización inteligente
+    // Import dinámico para evitar ciclos
+    const { selectPrioritySources } = await import('./medios/media-methodology')
+    const { selected } = selectPrioritySources(CATALOG, {
+      maxSources: Math.min(100, maxSources),
+      balanceMode,
+      ccaa: opts.ccaa ?? null,
+      includeEuropean: opts.includeEuropean !== false,
+      includeRegional: opts.includeRegional !== false,
+    })
+    // Mapear de vuelta al CatalogMedio original (necesitamos el RSS)
+    const byId: Record<string, CatalogMedio> = {}
+    for (const m of CATALOG) byId[m.id] = m
+    pool_medios = selected.map((p) => byId[p.id]).filter(Boolean)
+  } else {
+    // Modo legacy · top-N por audiencia con filtros opcionales
+    pool_medios = CATALOG.filter(m => !!m.rss)
+    if (opts.ccaa)  pool_medios = pool_medios.filter(m => m.ccaa === opts.ccaa)
+    if (opts.tipo)  pool_medios = pool_medios.filter(m => m.tipo === opts.tipo)
+    if (opts.ideologia === 'izquierda') pool_medios = pool_medios.filter(m => m.ideologia < -20)
+    else if (opts.ideologia === 'derecha') pool_medios = pool_medios.filter(m => m.ideologia > 20)
+    else if (opts.ideologia === 'centro') pool_medios = pool_medios.filter(m => m.ideologia >= -20 && m.ideologia <= 20)
+
+    pool_medios.sort((a, b) => b.audiencia_M - a.audiencia_M)
+    pool_medios = pool_medios.slice(0, Math.min(100, maxSources))
+  }
+
+  const targets = pool_medios
 
   const results = await pool(targets, 12, async (medio: CatalogMedio) => {
     const r = await fetchRSS(medio.rss as string, 7000)

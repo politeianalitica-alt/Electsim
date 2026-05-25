@@ -12,6 +12,7 @@
  */
 import { NextResponse } from 'next/server'
 import { generateText } from '@/lib/ai'
+import { buildMeta } from '@/lib/medios/media-methodology'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -31,6 +32,23 @@ interface LecturaRequest {
     ideologicalComparison?: { bucket: string; count: number; sentiment: number; dominantFrames?: string[] }[]
     timeline_summary?: { from: string; to: string; peak_date?: string; peak_value?: number }
     sample_titles?: string[]
+    // Sprint M1 · soporta ArticleReading estructurado como input enriquecido
+    readings_summary?: {
+      n_readings?: number
+      dominant_frames?: { frame: string; count: number }[]
+      avg_controversy?: number
+      avg_political_risk?: number
+      avg_confidence?: number
+      top_beneficiaries?: { actor: string; count: number }[]
+      top_affected?: { actor: string; count: number }[]
+      action_verbs?: { verb: string; count: number }[]
+    }
+    source_methodology?: {
+      selected_sources?: number
+      balance_mode?: string
+      ideological_balance_score?: number
+      warnings?: string[]
+    }
   }
   language?: 'es' | 'en'
 }
@@ -75,6 +93,31 @@ function buildPrompt(req: LecturaRequest): string {
     lines.push('Muestra de titulares:')
     for (const t of c.sample_titles.slice(0, 8)) lines.push(`  - ${t}`)
   }
+  // Sprint M1 · meter readings_summary y source_methodology si vienen
+  if (c.readings_summary) {
+    const rs = c.readings_summary
+    lines.push('')
+    lines.push('Lectura estructurada (ArticleReading):')
+    if (rs.n_readings != null) lines.push(`  · ${rs.n_readings} artículos leídos estructuradamente`)
+    if (rs.dominant_frames?.length) lines.push(`  · Frames dominantes: ${rs.dominant_frames.slice(0, 5).map((f) => `${f.frame}(${f.count})`).join(', ')}`)
+    if (rs.avg_controversy != null) lines.push(`  · Controversia media: ${rs.avg_controversy.toFixed(0)}/100`)
+    if (rs.avg_political_risk != null) lines.push(`  · Riesgo político medio: ${rs.avg_political_risk.toFixed(0)}/100`)
+    if (rs.avg_confidence != null) lines.push(`  · Confianza metodológica media: ${(rs.avg_confidence * 100).toFixed(0)}%`)
+    if (rs.action_verbs?.length) lines.push(`  · Acciones dominantes: ${rs.action_verbs.slice(0, 6).map((a) => `${a.verb}(${a.count})`).join(', ')}`)
+    if (rs.top_beneficiaries?.length) lines.push(`  · Actores beneficiados: ${rs.top_beneficiaries.slice(0, 5).map((a) => `${a.actor}(${a.count})`).join(', ')}`)
+    if (rs.top_affected?.length) lines.push(`  · Actores perjudicados: ${rs.top_affected.slice(0, 5).map((a) => `${a.actor}(${a.count})`).join(', ')}`)
+  }
+  if (c.source_methodology) {
+    const sm = c.source_methodology
+    lines.push('')
+    lines.push('Metodología de fuentes:')
+    if (sm.selected_sources != null) lines.push(`  · ${sm.selected_sources} fuentes seleccionadas con modo "${sm.balance_mode || 'pluralism'}"`)
+    if (sm.ideological_balance_score != null) lines.push(`  · Balance ideológico: ${(sm.ideological_balance_score * 100).toFixed(0)}% (1=perfecto)`)
+    if (sm.warnings?.length) {
+      lines.push('  · Advertencias de muestra:')
+      for (const w of sm.warnings.slice(0, 3)) lines.push(`    - ${w}`)
+    }
+  }
   lines.push('')
   lines.push('Produce un análisis estructurado en español con este formato exacto:')
   lines.push('')
@@ -99,14 +142,23 @@ function buildPrompt(req: LecturaRequest): string {
 }
 
 export async function POST(req: Request) {
+  const startedAt = Date.now()
   let body: LecturaRequest
   try {
     body = await req.json()
   } catch {
-    return NextResponse.json({ ok: false, error: 'invalid JSON body' }, { status: 400 })
+    return NextResponse.json({
+      ok: false,
+      error: 'invalid JSON body',
+      _meta: buildMeta({ source: 'error', startedAt, warnings: ['JSON parse failed'] }),
+    }, { status: 400 })
   }
   if (!body.context) {
-    return NextResponse.json({ ok: false, error: 'context required' }, { status: 400 })
+    return NextResponse.json({
+      ok: false,
+      error: 'context required',
+      _meta: buildMeta({ source: 'error', startedAt, warnings: ['context missing'] }),
+    }, { status: 400 })
   }
   try {
     const prompt = buildPrompt(body)
@@ -115,6 +167,9 @@ export async function POST(req: Request) {
       maxTokens: 600,
       temperature: 0.3,
     })
+    // confianza · si vino source_methodology+readings_summary la subimos
+    const hasStructured = !!(body.context.readings_summary || body.context.source_methodology)
+    const confidence = hasStructured ? 0.85 : 0.55
     return NextResponse.json({
       ok: true,
       tabId: body.tabId,
@@ -123,6 +178,13 @@ export async function POST(req: Request) {
       disclaimer: 'Generado por IA · revisar antes de citar · Politeia · CLAUDE.md A2',
       lectura: text,
       generated_at: new Date().toISOString(),
+      _meta: buildMeta({
+        source: 'live',
+        startedAt,
+        confidence,
+        articles_read: body.context.n_articles,
+        warnings: hasStructured ? [] : ['Lectura sin readings_summary · contexto pobre · considera enviar contexto estructurado'],
+      }),
     })
   } catch (e: any) {
     const msg = String(e?.message ?? e).slice(0, 200)
@@ -131,6 +193,7 @@ export async function POST(req: Request) {
       error: msg,
       generated_by_llm: false,
       hint: 'Verifica AI_CONFIG · ANTHROPIC_API_KEY / GROQ_API_KEY / OPENAI_API_KEY en Vercel env',
+      _meta: buildMeta({ source: 'error', startedAt, warnings: [msg] }),
     }, { status: 502 })
   }
 }
