@@ -212,7 +212,9 @@ export interface NarrativeCluster {
   first_seen: string                // ISO
   last_seen: string                 // ISO
   velocity_score: number            // articles/hour en ventana reciente
+  velocity_confidence: number       // 0..1 · cae rápido cuando last24h < 4 (muestra insuficiente para tasa)
   acceleration_score: number        // delta vs ventana anterior
+  acceleration_confidence: number   // 0..1 · cae cuando prev24h baja
   reach_estimate: number            // suma audience_M de medios involucrados
   source_diversity: SourceDiversityBreakdown
   ideological_spread: { left: number; center: number; right: number; balanced: boolean }
@@ -552,13 +554,71 @@ const PARTIDOS_DICT: Array<{ canonical: string; aliases: string[] }> = [
   { canonical: 'Cs',      aliases: ['ciudadanos', /\bcs\b/i.source] },
 ]
 
-const FIGURAS_DICT: string[] = [
-  'Pedro Sánchez', 'Alberto Núñez Feijóo', 'Feijóo', 'Santiago Abascal', 'Yolanda Díaz',
-  'Isabel Díaz Ayuso', 'Salvador Illa', 'Carlos Mazón', 'Juanma Moreno', 'Alfonso Rueda',
-  'Alfonso Fernández Mañueco', 'Pere Aragonès', 'Carles Puigdemont', 'Imanol Pradales',
-  'Alejandro Soler', 'María Jesús Montero', 'Margarita Robles', 'José Luis Escrivá',
-  'Nadia Calviño', 'Óscar Puente',
+/**
+ * Sprint M5 FASE 4 · Catálogo de figuras políticas con desambiguación.
+ *
+ * Cada figura declara:
+ *   - canonical: nombre canónico que aparecerá en la salida (siempre el mismo)
+ *   - full: forma completa (cuando aparece, match unívoco)
+ *   - lastname: apellido(s) que pueden aparecer solos en titulares (apellidos
+ *     compuestos como "Núñez Feijóo" cuentan como uno)
+ *   - context: términos que, si aparecen cerca, confirman que el lastname
+ *     ambiguo se refiere a esta figura concreta (partido, cargo, territorio)
+ *   - ambiguous_lastname: true si el apellido es homónimo de otra figura en
+ *     este catálogo (Sánchez, Montero, Moreno, Díaz, Rueda...) → requiere
+ *     context para ser atribuido; sin context se devuelve "Apellido (ambiguo)"
+ *
+ * Esto evita el bug que mezclaba "María Jesús Montero (PSOE Hacienda)" con
+ * "Irene Montero (Podemos)" simplemente por compartir apellido en titulares.
+ */
+interface FiguraPolitica {
+  canonical: string
+  full: string
+  lastname: string
+  context: string[]
+  ambiguous_lastname?: boolean
+}
+
+const FIGURAS_DICT_V2: FiguraPolitica[] = [
+  // Presidente y líderes nacionales · Sánchez es ambiguo (Joan Sánchez Llibre CEOE, etc.)
+  // Cross-context · cuando aparecen Feijóo/Abascal/Yolanda Díaz en el texto, el
+  // "Sánchez" suelto casi siempre se refiere al presidente. Idem en sentido
+  // inverso para Feijóo cuando aparece Sánchez/Moncloa.
+  { canonical: 'Pedro Sánchez',           full: 'Pedro Sánchez',           lastname: 'Sánchez', context: ['psoe', 'presidente', 'moncloa', 'gobierno', 'sumar', 'pedro', 'feijóo', 'feijoo', 'abascal', 'yolanda díaz', 'yolanda diaz', 'junts', 'erc'], ambiguous_lastname: true },
+  { canonical: 'Alberto Núñez Feijóo',    full: 'Alberto Núñez Feijóo',    lastname: 'Feijóo',  context: ['pp', 'popular', 'oposición', 'genova', 'alberto', 'sánchez', 'sanchez', 'moncloa'] },
+  { canonical: 'Santiago Abascal',        full: 'Santiago Abascal',        lastname: 'Abascal', context: ['vox', 'ultraderecha'] },
+  { canonical: 'Yolanda Díaz',            full: 'Yolanda Díaz',            lastname: 'Díaz',    context: ['sumar', 'trabajo', 'vicepresidenta', 'vicepresidencia', 'yolanda', 'smi', 'salario mínimo'], ambiguous_lastname: true },
+  { canonical: 'Ione Belarra',            full: 'Ione Belarra',            lastname: 'Belarra', context: ['podemos', 'ione'] },
+  // Presidentes autonómicos · Moreno y Mazón son ambiguos (varios "Moreno")
+  { canonical: 'Isabel Díaz Ayuso',       full: 'Isabel Díaz Ayuso',       lastname: 'Ayuso',   context: ['madrid', 'pp', 'isabel'] },
+  { canonical: 'Salvador Illa',           full: 'Salvador Illa',           lastname: 'Illa',    context: ['psc', 'catalunya', 'cataluña', 'salvador'] },
+  { canonical: 'Carlos Mazón',            full: 'Carlos Mazón',            lastname: 'Mazón',   context: ['valencia', 'comunidad valenciana', 'pp', 'carlos', 'dana'] },
+  { canonical: 'Juanma Moreno',           full: 'Juanma Moreno',           lastname: 'Moreno',  context: ['andalucía', 'andalucia', 'pp', 'sevilla', 'juanma'], ambiguous_lastname: true },
+  { canonical: 'Alfonso Rueda',           full: 'Alfonso Rueda',           lastname: 'Rueda',   context: ['galicia', 'pp', 'alfonso'] },
+  { canonical: 'Alfonso Fernández Mañueco', full: 'Alfonso Fernández Mañueco', lastname: 'Mañueco', context: ['castilla', 'león', 'leon', 'pp'] },
+  { canonical: 'Pere Aragonès',           full: 'Pere Aragonès',           lastname: 'Aragonès', context: ['cataluña', 'erc', 'generalitat'] },
+  { canonical: 'Carles Puigdemont',       full: 'Carles Puigdemont',       lastname: 'Puigdemont', context: ['junts', 'cataluña', 'expresidente', 'bruselas'] },
+  { canonical: 'Imanol Pradales',         full: 'Imanol Pradales',         lastname: 'Pradales', context: ['pnv', 'lehendakari', 'euskadi', 'pais vasco'] },
+  // Ministros · Montero ambiguo (María Jesús PSOE vs Irene Podemos)
+  { canonical: 'María Jesús Montero',     full: 'María Jesús Montero',     lastname: 'Montero', context: ['psoe', 'hacienda', 'vicepresidenta', 'maría jesús', 'maria jesus', 'ministra de hacienda'], ambiguous_lastname: true },
+  { canonical: 'Irene Montero',           full: 'Irene Montero',           lastname: 'Montero', context: ['podemos', 'irene', 'igualdad', 'exministra'], ambiguous_lastname: true },
+  { canonical: 'Margarita Robles',        full: 'Margarita Robles',        lastname: 'Robles',  context: ['defensa', 'ministra', 'margarita'] },
+  { canonical: 'José Luis Escrivá',       full: 'José Luis Escrivá',       lastname: 'Escrivá', context: ['transformación digital', 'función pública', 'bde', 'banco de españa', 'gobernador'] },
+  { canonical: 'Nadia Calviño',           full: 'Nadia Calviño',           lastname: 'Calviño', context: ['bei', 'vicepresidenta', 'economía', 'nadia'] },
+  { canonical: 'Óscar Puente',            full: 'Óscar Puente',            lastname: 'Puente',  context: ['transportes', 'ministro', 'óscar', 'oscar'] },
+  { canonical: 'Alejandro Soler',         full: 'Alejandro Soler',         lastname: 'Soler',   context: ['psoe', 'portavoz', 'alejandro'] },
 ]
+
+// Lastname → list of figuras con ese apellido · usado para resolver ambigüedades
+const LASTNAME_INDEX: Map<string, FiguraPolitica[]> = (() => {
+  const m = new Map<string, FiguraPolitica[]>()
+  for (const f of FIGURAS_DICT_V2) {
+    const k = f.lastname.toLowerCase()
+    if (!m.has(k)) m.set(k, [])
+    m.get(k)!.push(f)
+  }
+  return m
+})()
 
 const INSTITUCIONES_DICT: Array<{ canonical: string; aliases: string[] }> = [
   { canonical: 'Gobierno',        aliases: ['gobierno', 'ejecutivo', 'moncloa'] },
@@ -628,7 +688,7 @@ const ACTION_VERB_RX: Array<{ verb: ActionVerb; rx: RegExp }> = [
   { verb: 'pacta',     rx: /\b(pacta|acuerda|alcanza un acuerdo)\b/i },
   { verb: 'rompe',     rx: /\b(rompe|fractura)\b/i },
   { verb: 'dimite',    rx: /\b(dimite|dimisión|dimision|renuncia|cese)\b/i },
-  { verb: 'imputa',    rx: /\b(imputa|imputado|imputada)\b/i },
+  { verb: 'imputa',    rx: /\b(imputa|imputan|imputado|imputada|imputados|imputadas)\b/i },
   { verb: 'absuelve',  rx: /\b(absuelve|absolución|absolucion)\b/i },
   { verb: 'investiga', rx: /\b(investiga|investigación|investigacion)\b/i },
   { verb: 'sentencia', rx: /\b(sentencia|condena|fallo)\b/i },
@@ -676,11 +736,71 @@ function matchAlias(text: string, aliases: string[]): boolean {
   return false
 }
 
-function detectActorsList(text: string): string[] {
+/**
+ * Sprint M5 FASE 4 · Detección con desambiguación de homónimos.
+ *
+ * Algoritmo:
+ *   1. Si el texto contiene la `full` form → atribuye sin ambigüedad.
+ *   2. Si sólo aparece el `lastname` y NO es ambiguo → atribuye al único
+ *      titular de ese apellido.
+ *   3. Si aparece el `lastname` y SÍ es ambiguo → busca términos `context`
+ *      en el texto; el primer figura cuya lista de context terms tenga al
+ *      menos un hit (o el match más fuerte) gana. Sin context → se devuelve
+ *      `"{Apellido} (ambiguo)"` para que el analista sepa que hay
+ *      indeterminación y la lectura humana debe resolver.
+ *
+ * Esto cambia la salida en caso de homonimia: antes "Montero" se atribuía
+ * al primer match del catálogo silenciosamente; ahora obtiene
+ * "Montero (ambiguo)" si falta context o "María Jesús Montero" / "Irene
+ * Montero" si el context lo resuelve.
+ */
+export function detectActorsList(text: string): string[] {
   const found = new Set<string>()
-  for (const name of FIGURAS_DICT) {
-    if (text.includes(name) || (name.includes(' ') && text.includes(name.split(' ').pop()!))) found.add(name)
+  const lowText = text.toLowerCase()
+
+  // Paso 1 · full-name matches (sin ambigüedad)
+  const fullMatched = new Set<string>()
+  for (const f of FIGURAS_DICT_V2) {
+    if (text.includes(f.full)) {
+      found.add(f.canonical)
+      fullMatched.add(f.lastname.toLowerCase())
+    }
   }
+
+  // Paso 2 · lastname-only matches
+  const entries = Array.from(LASTNAME_INDEX.entries())
+  for (const [lastnameKey, candidates] of entries) {
+    if (fullMatched.has(lastnameKey)) continue // ya cubierto por full
+    // Buscar apellido como palabra completa (evita "Sánchez" dentro de
+    // "Sánchez-Camacho" como falso positivo trivial — aún así word-boundary
+    // ES razonable, no perfecto)
+    const lastnameRx = new RegExp(`\\b${candidates[0].lastname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i')
+    if (!lastnameRx.test(text)) continue
+
+    if (candidates.length === 1 && !candidates[0].ambiguous_lastname) {
+      // Único titular y no marcado como ambiguo → atribuye
+      found.add(candidates[0].canonical)
+      continue
+    }
+
+    // Hay ≥1 candidato ambiguo · resolver con context
+    let best: { figura: FiguraPolitica; score: number } | null = null
+    for (const cand of candidates) {
+      let score = 0
+      for (const ctx of cand.context) {
+        if (lowText.includes(ctx.toLowerCase())) score++
+      }
+      if (!best || score > best.score) best = { figura: cand, score }
+    }
+    if (best && best.score > 0) {
+      found.add(best.figura.canonical)
+    } else {
+      // Ambigüedad no resuelta · marcador explícito para que la UI lo refleje
+      const labels = candidates.map((c) => c.canonical.split(' ').slice(-2).join(' '))
+      found.add(`${candidates[0].lastname} (ambiguo · posiblemente ${labels.slice(0, 2).join(' o ')})`)
+    }
+  }
+
   return Array.from(found)
 }
 
@@ -855,7 +975,26 @@ export function readArticle(article: AggregatedArticle, mediumProfile?: MediaSou
   const headline = article.title || ''
   const summary = (article.description || '').slice(0, 320)
 
-  const profile = mediumProfile || profileFromCatalog(article.medio)
+  // Sprint M5 FASE 4 · profileFromCatalog crasheaba si article.medio era undefined
+  // (caso real cuando NewsAPI devuelve fuentes externas al catálogo o cuando un
+  // fixture/test prepara un AggregatedArticle sin perfil). Fallback a un perfil
+  // mínimo neutro.
+  const profile: MediaSourceProfile = mediumProfile
+    || (article.medio ? profileFromCatalog(article.medio) : {
+      id: 'desconocido',
+      name: 'fuente externa',
+      group: 'Independiente',
+      type: 'digital' as MediaTypeBucket,
+      ambito: 'nacional' as AmbitoBucket,
+      ccaa: null,
+      ideology_raw: 0,
+      ideology_bucket: 'center' as IdeologyBucket,
+      audience_M: 0,
+      credibility: 0.5,
+      rss_url: null,
+      web: '',
+      has_rss: false,
+    })
   const actors = detectActorsList(text)
   const parties = detectPartiesList(text)
   const institutions = detectInstitutionsList(text)
@@ -1138,6 +1277,19 @@ function narrativeFromArticles(
   }).length
   const velocity_score = last24h / 24
   const acceleration_score = prev24h > 0 ? (last24h - prev24h) / prev24h : (last24h > 0 ? 1 : 0)
+  // Sprint M5 FASE 4 · velocity_confidence baja cuando hay <4 artículos en las
+  // últimas 24h · una tasa de "1 artículo/día" basada en N=1 es ruido
+  const velocity_confidence =
+    last24h >= 8 ? 1.0
+    : last24h >= 4 ? 0.7
+    : last24h >= 2 ? 0.4
+    : last24h === 1 ? 0.2
+    : 0
+  // acceleration_confidence requiere AMBAS ventanas con muestras
+  const acceleration_confidence =
+    prev24h >= 4 && last24h >= 4 ? 1.0
+    : prev24h >= 2 && last24h >= 2 ? 0.5
+    : 0.1
 
   // Source diversity · construye profiles desde readings
   const uniqueMediums = new Map<string, { id: string; ideology_bucket: IdeologyBucket; ambito: AmbitoBucket; type: MediaTypeBucket; ccaa: string | null; group: string; name: string; audience_M: number; credibility: number; web: string; rss_url: string | null; has_rss: boolean; ideology_raw: number }>()
@@ -1184,14 +1336,36 @@ function narrativeFromArticles(
     arts.reduce((s, a) => s + a.sentiment.controversy_score, 0) / arts.length,
   )
 
-  // Confidence
+  // Sprint M5 FASE 4 · Confidence más estricta:
+  // - Cap duro 0.55 si arts.length < 3 (narrativa de 2 artículos no es narrativa)
+  // - Penalización -0.15 si balance ideológico falla (sesgo de un único bloque)
+  // - Penalización -0.10 si velocity_confidence < 0.4 (tasa basada en muestra pobre)
+  // - Penalización -0.10 si source_diversity tiene warnings
   const avgConf = arts.reduce((s, a) => s + a.confidence.overall, 0) / arts.length
   const confidenceReasons: string[] = []
-  if (arts.length < 4) confidenceReasons.push(`narrativa pequeña (${arts.length} artículos)`)
-  if (!balanced) confidenceReasons.push('cobertura ideológica desequilibrada · sesgo posible')
-  if (source_diversity.warnings.length > 0) confidenceReasons.push(source_diversity.warnings[0])
+  let sampleCap = 1
+  if (arts.length < 3) {
+    sampleCap = 0.55
+    confidenceReasons.push(`narrativa muy pequeña (${arts.length} artículos · no es una narrativa estabilizada)`)
+  } else if (arts.length < 5) {
+    sampleCap = 0.75
+    confidenceReasons.push(`narrativa pequeña (${arts.length} artículos) · podría no ser representativa`)
+  }
+  let penalty = 0
+  if (!balanced) {
+    penalty += 0.15
+    confidenceReasons.push('cobertura ideológica desequilibrada · sesgo posible · no extrapolable a opinión pública')
+  }
+  if (velocity_confidence < 0.4) {
+    penalty += 0.10
+    confidenceReasons.push(`velocidad calculada sobre muestra pobre (last24h=${last24h}) · trend no fiable`)
+  }
+  if (source_diversity.warnings.length > 0) {
+    penalty += 0.10
+    confidenceReasons.push(source_diversity.warnings[0])
+  }
   const confidence: MethodologyConfidence = {
-    overall: Math.min(1, avgConf * (arts.length >= 3 ? 1 : 0.7)),
+    overall: Math.max(0, Math.min(sampleCap, avgConf - penalty)),
     reasons: confidenceReasons,
     components: {
       source_quality: avgConf,
@@ -1223,7 +1397,9 @@ function narrativeFromArticles(
     first_seen,
     last_seen,
     velocity_score,
+    velocity_confidence,
     acceleration_score,
+    acceleration_confidence,
     reach_estimate,
     source_diversity,
     ideological_spread: { left, center, right, balanced },
