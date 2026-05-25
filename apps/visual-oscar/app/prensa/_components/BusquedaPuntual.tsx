@@ -83,6 +83,19 @@ interface SearchResponse {
     distinctive_terms: { term: string; lift: number }[]
     interpretation: string
   }>
+  // Sprint M5 FASE 3 · comparative real (presente sólo si mode='comparative')
+  comparative_runs?: Array<{
+    bucket: SourceGroup
+    n_articles: number
+    sentiment_mean: number
+    positive: number
+    negative: number
+    neutral: number
+    top_frames: { frame: string; count: number }[]
+    top_actors: { actor: string; mentions: number }[]
+    top_domains: { domain: string; count: number }[]
+    representative_titles: string[]
+  }>
   suggested_followup_queries?: Array<{
     query: string
     reason: string
@@ -121,6 +134,8 @@ export function BusquedaPuntual() {
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [pageSize, setPageSize] = useState(50)
+  // Sprint M5 FASE 3 · modo análisis · 'deep' = una query con todos · 'comparative' = N queries por bucket
+  const [mode, setMode] = useState<'deep' | 'comparative'>('deep')
 
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<SearchResponse | null>(null)
@@ -141,7 +156,7 @@ export function BusquedaPuntual() {
           from: from || undefined,
           to: to || undefined,
           pageSize,
-          mode: 'deep',   // Sprint M4 · activa article_readings + narrative_clusters + framing_comparison
+          mode,   // Sprint M5 FASE 3 · 'deep' (default) o 'comparative' (queries por bucket)
         }),
       })
       const data: SearchResponse = await r.json()
@@ -155,7 +170,7 @@ export function BusquedaPuntual() {
     } finally {
       setLoading(false)
     }
-  }, [query, language, sortBy, sourceGroups, from, to, pageSize])
+  }, [query, language, sortBy, sourceGroups, from, to, pageSize, mode])
 
   const toggleSourceGroup = (g: SourceGroup) => {
     setSourceGroups((prev) => prev.includes(g) ? prev.filter((x) => x !== g) : [...prev, g])
@@ -297,6 +312,42 @@ export function BusquedaPuntual() {
               <option value={100}>100 (max)</option>
             </select>
           </Field>
+        </div>
+
+        {/* Sprint M5 FASE 3 · Toggle modo análisis */}
+        <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 10, color: '#64748b', fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>
+            Modo análisis
+          </span>
+          <div style={{ display: 'inline-flex', gap: 0, border: '1px solid #e5e7eb', borderRadius: 999, overflow: 'hidden' }}>
+            <button
+              onClick={() => setMode('deep')}
+              style={{
+                background: mode === 'deep' ? ACCENT : '#fff',
+                color: mode === 'deep' ? '#fff' : '#475569',
+                border: 'none', padding: '5px 14px', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}
+              title="Una query con todos los dominios juntos"
+            >
+              Único pase (deep)
+            </button>
+            <button
+              onClick={() => setMode('comparative')}
+              style={{
+                background: mode === 'comparative' ? ACCENT : '#fff',
+                color: mode === 'comparative' ? '#fff' : '#475569',
+                border: 'none', padding: '5px 14px', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}
+              title="N queries · una por bucket ideológico · balance garantizado"
+            >
+              Comparativo por bucket
+            </button>
+          </div>
+          <span style={{ fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>
+            {mode === 'comparative'
+              ? 'Ejecuta 3+ queries paralelas (izquierda, centro, derecha). Cuesta más cuota API pero garantiza balance.'
+              : 'Una query con todos los dominios. Más rápido. Riesgo: dominios mayoritarios ahogan a minoritarios.'}
+          </span>
         </div>
 
         {/* Bloques ideológicos */}
@@ -475,6 +526,11 @@ export function BusquedaPuntual() {
           {/* Sprint M4 · Panel 3 · Actores e impacto */}
           {result.actor_impacts && result.actor_impacts.length > 0 && (
             <ActoresImpactoPanel impacts={result.actor_impacts} />
+          )}
+
+          {/* Sprint M5 FASE 3 · Comparative runs (N queries por bucket) */}
+          {result.comparative_runs && result.comparative_runs.length > 0 && (
+            <ComparativeRunsPanel runs={result.comparative_runs} />
           )}
 
           {/* Sprint M4 · Panel 4 · Comparación ideológica enriquecida */}
@@ -1120,6 +1176,108 @@ function ArticleReadingPanel({ reading }: { reading: any }) {
         ) : (
           <p style={{ margin: 0, fontSize: 10, color: '#94a3b8' }}>—</p>
         )}
+      </div>
+    </section>
+  )
+}
+
+/**
+ * `<ComparativeRunsPanel />` · Sprint M5 FASE 3
+ *
+ * Renderiza el agregado por bucket ideológico cuando mode='comparative'.
+ * Cada bucket es una query independiente contra NewsAPI (no slice del total).
+ * Permite ver de un golpe: cuánto cubrió cada bloque, sentiment medio, frames
+ * dominantes, actores enfatizados y dominios líderes.
+ */
+function ComparativeRunsPanel({ runs }: { runs: NonNullable<SearchResponse['comparative_runs']> }) {
+  const bucketColor: Record<string, string> = {
+    left: '#dc2626', 'center-left': '#f97316', center: '#64748b',
+    'center-right': '#0ea5e9', right: '#1e40af',
+    economic: '#7c3aed', regional: '#059669', international: '#0d9488', 'fact-checkers': '#475569',
+  }
+  const bucketLabel: Record<string, string> = {
+    left: 'Izquierda', 'center-left': 'Centro-izq.', center: 'Centro',
+    'center-right': 'Centro-der.', right: 'Derecha',
+    economic: 'Económico', regional: 'Regional', international: 'Internacional', 'fact-checkers': 'Fact-checkers',
+  }
+  const totalN = runs.reduce((s, r) => s + r.n_articles, 0)
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #6366f1', borderRadius: 10, padding: 14 }}>
+      <header style={{ marginBottom: 10 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#6366f1', textTransform: 'uppercase' }}>
+          ◆ Comparativa real por bucket · {runs.length} queries paralelas · {totalN} artículos
+        </p>
+        <p style={{ margin: '2px 0 0', fontSize: 10, color: '#64748b' }}>
+          Cada bucket es una query independiente contra NewsAPI con dominios filtrados. Balance garantizado: ningún bucket "ahoga" a otro.
+        </p>
+      </header>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(runs.length, 3)}, 1fr)`, gap: 10 }}>
+        {runs.map((r) => {
+          const color = bucketColor[r.bucket] || '#475569'
+          const senPct = Math.round((r.sentiment_mean + 1) * 50) // -1..1 → 0..100
+          return (
+            <div key={r.bucket} style={{ padding: 10, background: '#f8fafc', border: '1px solid #e5e7eb', borderTop: `3px solid ${color}`, borderRadius: 6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+                <strong style={{ fontSize: 12, color }}>{bucketLabel[r.bucket] || r.bucket}</strong>
+                <span style={{ fontSize: 11, color: '#0f172a', fontWeight: 700 }}>{r.n_articles} arts</span>
+              </div>
+              <div style={{ fontSize: 10, color: '#475569', marginBottom: 6 }}>
+                Sentiment · <strong style={{ color: r.sentiment_mean > 0.1 ? '#059669' : r.sentiment_mean < -0.1 ? '#dc2626' : '#64748b' }}>
+                  {r.sentiment_mean > 0 ? '+' : ''}{r.sentiment_mean.toFixed(2)}
+                </strong>{' '}· {r.positive}+ / {r.neutral}● / {r.negative}−
+              </div>
+              <div style={{ width: '100%', height: 4, background: '#e5e7eb', borderRadius: 2, marginBottom: 8 }}>
+                <div style={{ width: `${senPct}%`, height: '100%', background: color, borderRadius: 2 }} />
+              </div>
+              {r.top_frames.length > 0 && (
+                <div style={{ marginBottom: 6 }}>
+                  <p style={{ margin: '0 0 2px', fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Frames</p>
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                    {r.top_frames.slice(0, 4).map((f) => (
+                      <span key={f.frame} style={{ fontSize: 9, padding: '2px 6px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 999, color: '#475569' }}>
+                        {f.frame} <strong>{f.count}</strong>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {r.top_actors.length > 0 && (
+                <div style={{ marginBottom: 6 }}>
+                  <p style={{ margin: '0 0 2px', fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Actores</p>
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                    {r.top_actors.slice(0, 5).map((a) => (
+                      <span key={a.actor} style={{ fontSize: 9, padding: '2px 6px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 999, color: '#0f172a' }}>
+                        {a.actor} <strong>{a.mentions}</strong>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {r.top_domains.length > 0 && (
+                <div style={{ marginBottom: 6 }}>
+                  <p style={{ margin: '0 0 2px', fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Dominios</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    {r.top_domains.slice(0, 4).map((d) => (
+                      <span key={d.domain} style={{ fontSize: 9, color: '#475569', fontFamily: 'ui-monospace, monospace' }}>
+                        {d.domain} · {d.count}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {r.representative_titles.length > 0 && (
+                <details style={{ marginTop: 4 }}>
+                  <summary style={{ cursor: 'pointer', fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Titulares</summary>
+                  <ul style={{ margin: '4px 0 0 14px', padding: 0, fontSize: 10, color: '#334155' }}>
+                    {r.representative_titles.slice(0, 3).map((t, i) => (
+                      <li key={i} style={{ marginBottom: 2, lineHeight: 1.4 }}>{t}</li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </div>
+          )
+        })}
       </div>
     </section>
   )

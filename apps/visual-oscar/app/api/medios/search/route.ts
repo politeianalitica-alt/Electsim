@@ -320,51 +320,126 @@ async function runSearch(req: MediaSearchRequest) {
   }
   const excludeDomains = req.excludeDomains || []
 
-  // Construir params NewsAPI
-  const params: Record<string, string> = {
+  const baseParams: Record<string, string> = {
     q: req.query,
     language: req.language || 'es',
     sortBy: req.sortBy || 'publishedAt',
     pageSize: String(Math.min(req.pageSize || 50, 100)),
     page: String(req.page || 1),
   }
-  if (req.from) params.from = req.from
-  if (req.to) params.to = req.to
-  if (req.searchIn?.length) params.searchIn = req.searchIn.join(',')
-  if (domains.length) params.domains = domains.slice(0, 20).join(',')
-  if (excludeDomains.length) params.excludeDomains = excludeDomains.slice(0, 20).join(',')
+  if (req.from) baseParams.from = req.from
+  if (req.to) baseParams.to = req.to
+  if (req.searchIn?.length) baseParams.searchIn = req.searchIn.join(',')
+  if (excludeDomains.length) baseParams.excludeDomains = excludeDomains.slice(0, 20).join(',')
 
-  const data = await newsapiFetch('/everything', params)
-  if (data.error) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: data.error,
-        data_quality: { source_type: 'missing', source_name: 'NewsAPI', note: data.error },
-      },
-      { status: data.error === 'rate_limited' ? 429 : 502 },
-    )
-  }
+  // ── Sprint M5 FASE 3 · Comparative mode real ────────────────────────────
+  // En lugar de UNA query mezclada con todos los dominios, ejecutamos N queries
+  // (una por bucket ideológico) con domains balanceados. Garantiza que ningún
+  // bucket "ahogue" a otro por volumen de dominios en el catálogo.
+  let articles: MediaArticle[] = []
+  let totalResultsAggregate = 0
+  let params: Record<string, string> = { ...baseParams }
+  // perBucketArticles · usado para construir comparative_runs
+  const perBucketArticles = new Map<SourceGroup, MediaArticle[]>()
 
-  // Mapear artículos
-  const articles: MediaArticle[] = (data.articles || []).map((a: any) => {
-    const domain = domainFromUrl(a.url || '')
-    const text = `${a.title} ${a.description || ''}`
-    return {
-      title: a.title,
-      description: a.description,
-      url: a.url,
-      image: a.urlToImage,
-      source: a.source?.name || domain,
-      source_id: a.source?.id || null,
-      domain,
-      author: a.author,
-      published: a.publishedAt,
-      language: req.language || 'es',
-      sentiment_score: sentimentScore(text),
-      ideology_bucket: ideologyBucket(domain),
+  if (req.mode === 'comparative') {
+    const buckets: SourceGroup[] = (req.sourceGroups?.length
+      ? req.sourceGroups
+      : ['left', 'center', 'right']) as SourceGroup[]
+    const perBucketSize = Math.max(20, Math.floor((req.pageSize || 50) / Math.max(buckets.length, 1)) + 10)
+    // Sub-fetches en paralelo
+    const subFetches = await Promise.all(buckets.map(async (bucket) => {
+      const bucketDomains = domainsFromSourceGroups([bucket]).slice(0, 20)
+      if (!bucketDomains.length) return { bucket, articles: [] as MediaArticle[], totalResults: 0, error: null as string | null }
+      const sub = await newsapiFetch('/everything', {
+        ...baseParams,
+        pageSize: String(Math.min(perBucketSize, 100)),
+        domains: bucketDomains.join(','),
+      })
+      if (sub.error) return { bucket, articles: [] as MediaArticle[], totalResults: 0, error: String(sub.error) }
+      const arts: MediaArticle[] = (sub.articles || []).map((a: any) => {
+        const domain = domainFromUrl(a.url || '')
+        const text = `${a.title} ${a.description || ''}`
+        return {
+          title: a.title,
+          description: a.description,
+          url: a.url,
+          image: a.urlToImage,
+          source: a.source?.name || domain,
+          source_id: a.source?.id || null,
+          domain,
+          author: a.author,
+          published: a.publishedAt,
+          language: req.language || 'es',
+          sentiment_score: sentimentScore(text),
+          // Bucket stamped del sub-fetch (no del catálogo) · garantiza que comparative_runs refleja la query enviada
+          ideology_bucket: bucket,
+        }
+      })
+      return { bucket, articles: arts, totalResults: sub.totalResults || 0, error: null }
+    }))
+    // Merge dedup por URL · cada bucket aporta sus artículos
+    const seen = new Set<string>()
+    for (const sf of subFetches) {
+      const dedup: MediaArticle[] = []
+      for (const a of sf.articles) {
+        if (a.url && !seen.has(a.url)) {
+          seen.add(a.url)
+          dedup.push(a)
+          articles.push(a)
+        }
+      }
+      perBucketArticles.set(sf.bucket, dedup)
+      totalResultsAggregate += sf.totalResults
     }
-  })
+    params = {
+      ...baseParams,
+      domains: buckets.flatMap((b) => domainsFromSourceGroups([b]).slice(0, 20)).slice(0, 60).join(','),
+    }
+    if (!articles.length) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'comparative_no_articles',
+          hint: 'Ningún bucket devolvió artículos · prueba ventana más amplia o sin filtros',
+          data_quality: { source_type: 'live', source_name: 'NewsAPI · comparative' },
+        },
+        { status: 502 },
+      )
+    }
+  } else {
+    if (domains.length) params.domains = domains.slice(0, 20).join(',')
+    const data = await newsapiFetch('/everything', params)
+    if (data.error) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: data.error,
+          data_quality: { source_type: 'missing', source_name: 'NewsAPI', note: data.error },
+        },
+        { status: data.error === 'rate_limited' ? 429 : 502 },
+      )
+    }
+    totalResultsAggregate = data.totalResults || 0
+    articles = (data.articles || []).map((a: any) => {
+      const domain = domainFromUrl(a.url || '')
+      const text = `${a.title} ${a.description || ''}`
+      return {
+        title: a.title,
+        description: a.description,
+        url: a.url,
+        image: a.urlToImage,
+        source: a.source?.name || domain,
+        source_id: a.source?.id || null,
+        domain,
+        author: a.author,
+        published: a.publishedAt,
+        language: req.language || 'es',
+        sentiment_score: sentimentScore(text),
+        ideology_bucket: ideologyBucket(domain),
+      }
+    })
+  }
 
   // Agregaciones enriquecidas
   const timelineMap = new Map<string, number>()
@@ -459,7 +534,7 @@ async function runSearch(req: MediaSearchRequest) {
   const coverageGapsRich = coverageGapsAnalysis(readings)
   const narrativeClusters = isDeep ? buildNarrativeClusters(readings, { maxClusters: 10 }) : []
   const followups = suggestedFollowupQueries(readings, req.query, framing)
-  const confidence = computeMethodologyConfidence(readings, sourceDiversity, data.totalResults)
+  const confidence = computeMethodologyConfidence(readings, sourceDiversity, totalResultsAggregate)
   const warnings = mediaAnalysisWarnings(readings, sourceDiversity, framing)
   // Actor impacts agregados · cuenta beneficial/harmful por actor
   const actorImpactMap = new Map<string, { beneficial: number; harmful: number; neutral: number; uncertain: number; mentions: number; reasons: string[] }>()
@@ -492,12 +567,73 @@ async function runSearch(req: MediaSearchRequest) {
     .sort((a, b) => b.mentions - a.mentions)
     .slice(0, 20)
 
+  // ── Sprint M5 FASE 3 · comparative_runs · resumen por bucket ────────────
+  // Si mode='comparative' construimos un agregado por bucket con count, sentiment
+  // medio (heurístico), top frames, top actores, top dominios y sample titles.
+  // Los buckets se calculan SIEMPRE sobre perBucketArticles (stamping del fetch)
+  // para reflejar las queries que se enviaron a NewsAPI, no la atribución
+  // ideológica derivada del catálogo (que puede dispersar).
+  let comparativeRuns:
+    | Array<{
+        bucket: SourceGroup
+        n_articles: number
+        sentiment_mean: number
+        positive: number
+        negative: number
+        neutral: number
+        top_frames: { frame: string; count: number }[]
+        top_actors: { actor: string; mentions: number }[]
+        top_domains: { domain: string; count: number }[]
+        representative_titles: string[]
+      }>
+    | undefined = undefined
+  if (req.mode === 'comparative' && perBucketArticles.size > 0) {
+    comparativeRuns = []
+    const bucketEntries = Array.from(perBucketArticles.entries())
+    for (const [bucket, arts] of bucketEntries) {
+      const sentSum = arts.reduce((s: number, a: MediaArticle) => s + (a.sentiment_score || 0), 0)
+      const pos = arts.filter((a: MediaArticle) => (a.sentiment_score || 0) > 0.1).length
+      const neg = arts.filter((a: MediaArticle) => (a.sentiment_score || 0) < -0.1).length
+      const neu = arts.length - pos - neg
+      // Frames sobre titulares del bucket
+      const frameMap = new Map<string, number>()
+      for (const a of arts) {
+        const txt = (a.title + ' ' + (a.description || '')).toLowerCase()
+        for (const [frame, kws] of Object.entries(NARRATIVE_FRAMES)) {
+          if (kws.some((kw) => txt.includes(kw))) frameMap.set(frame, (frameMap.get(frame) || 0) + 1)
+        }
+      }
+      const actorMap = new Map<string, number>()
+      for (const a of arts) {
+        const txt = a.title + ' ' + (a.description || '')
+        for (const ac of ACTORS_KNOWN) if (txt.includes(ac)) actorMap.set(ac, (actorMap.get(ac) || 0) + 1)
+      }
+      const domMap = new Map<string, number>()
+      for (const a of arts) if (a.domain) domMap.set(a.domain, (domMap.get(a.domain) || 0) + 1)
+      comparativeRuns.push({
+        bucket,
+        n_articles: arts.length,
+        sentiment_mean: arts.length ? sentSum / arts.length : 0,
+        positive: pos,
+        negative: neg,
+        neutral: neu,
+        top_frames: Array.from(frameMap.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([frame, count]) => ({ frame, count })),
+        top_actors: Array.from(actorMap.entries()).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([actor, mentions]) => ({ actor, mentions })),
+        top_domains: Array.from(domMap.entries()).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([domain, count]) => ({ domain, count })),
+        representative_titles: arts.slice(0, 5).map((a: MediaArticle) => a.title).filter(Boolean),
+      })
+    }
+    // Orden estable izquierda → derecha
+    const order: Record<string, number> = { left: 1, 'center-left': 2, center: 3, 'center-right': 4, right: 5, economic: 6, regional: 7, international: 8, 'fact-checkers': 9 }
+    comparativeRuns.sort((a, b) => (order[a.bucket] || 99) - (order[b.bucket] || 99))
+  }
+
   return NextResponse.json({
     ok: true,
     query: req.query,
     mode: req.mode || 'quick',
-    data_quality: { source_type: 'live', source_name: 'NewsAPI · everything' },
-    totalResults: data.totalResults || 0,
+    data_quality: { source_type: 'live', source_name: req.mode === 'comparative' ? 'NewsAPI · comparative (per-bucket fetch)' : 'NewsAPI · everything' },
+    totalResults: totalResultsAggregate,
     n_articles: articles.length,
     articles,
     timeline,
@@ -508,6 +644,8 @@ async function runSearch(req: MediaSearchRequest) {
     narratives: extractNarratives(articles),
     sentiment,
     ideologicalComparison: ideologicalComparison.length ? ideologicalComparison : null,
+    // Sprint M5 FASE 3 · comparative real (sólo presente si mode='comparative')
+    comparative_runs: comparativeRuns,
     // Sprint M4 · campos nuevos analítica enriquecida
     article_readings: isDeep ? readings.slice(0, 80) : undefined,  // sólo en deep · evita payload pesado
     narrative_clusters: narrativeClusters,
@@ -537,6 +675,7 @@ async function runSearch(req: MediaSearchRequest) {
         'framing_comparison',
         'methodology_confidence',
         'coverage_gaps',
+        'comparative_runs',
         'suggested_followup_queries',
       ],
       legacy_fallback: [
