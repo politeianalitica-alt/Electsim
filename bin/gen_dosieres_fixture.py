@@ -1,26 +1,36 @@
 #!/usr/bin/env python3
-"""Genera apps/visual-oscar/data/dosieres-fixture.ts a partir de /tmp/dosieres.json.
+"""Genera apps/visual-oscar/data/dosieres-fixture.ts combinando TODOS los JSON
+parseados (/tmp/dosieres*.json).
+
+Detecta duplicados por slug — si una persona aparece en dos PDFs, gana el
+primero (más relevante / con más detalle).
 
 Mapeo de campos del PDF → BD:
   perfil_completo  → apartado tipo='identidad', item único con contenido=perfil
   relaciones[]     → apartado tipo='redes', items tipo='contacto' con título=persona,
-                     contenido=tipo + explicación, tags=[nota_signo]
+                     contenido=tipo + nota + explicación, tags=[nivel, nota-N]
   patrimonio[]     → apartado tipo='evidencia', items tipo='documento' con
                      título=concepto, contenido=valor
 """
 import json
-import re
-from datetime import datetime
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
-DATA = json.loads(Path("/tmp/dosieres.json").read_text(encoding="utf-8"))
-OUT = Path("/Users/oscargarciaretuerta/Electsim/apps/visual-oscar/data/dosieres-fixture.ts")
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUT = REPO_ROOT / "apps" / "visual-oscar" / "data" / "dosieres-fixture.ts"
+
+# JSONs a combinar (en orden de prioridad · primero gana en caso de duplicado)
+INPUTS = [
+    Path("/tmp/dosieres.json"),         # Gobierno + Feijóo (24)
+    Path("/tmp/dosieres_regio.json"),   # Regionalistas + Grupo Mixto (33)
+]
 
 PARTIDO_OVERRIDES = {
     "alberto-nunez-feijoo": "PP",
 }
 
-# Tag por signo de la nota
+
 def nota_tag(n: int) -> str:
     if n >= 7:
         return "alianza-fuerte"
@@ -34,17 +44,43 @@ def nota_tag(n: int) -> str:
 
 
 def ts_string(s):
-    """Escapa para template literal TS · backticks + ${} + backslashes."""
+    """Escapa para template literal TS."""
     if s is None:
         return ""
     return s.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
 
 
+def load_all():
+    seen_slugs = set()
+    combined = []
+    for inp in INPUTS:
+        if not inp.exists():
+            print(f"⚠ skip {inp} (no existe)", file=sys.stderr)
+            continue
+        data = json.loads(inp.read_text(encoding="utf-8"))
+        added = 0
+        for d in data:
+            slug = d["slug"]
+            if slug in seen_slugs:
+                print(f"  ↻ slug duplicado, skip: {slug}", file=sys.stderr)
+                continue
+            seen_slugs.add(slug)
+            combined.append(d)
+            added += 1
+        print(f"✓ {inp.name}: {added} dosieres añadidos", file=sys.stderr)
+    return combined
+
+
 def gen():
+    DATA = load_all()
+    print(f"\nTotal combinado: {len(DATA)} dosieres", file=sys.stderr)
+
     lines = []
-    lines.append("// AUTO-GENERADO desde Informe_politicos_publicos.pdf · 25 may 2026")
-    lines.append("// Fuente: PDF con 24 dosieres (Gobierno de España + Feijóo)")
-    lines.append("// Re-generar: python3 /tmp/parse_dosieres.py && python3 /tmp/gen_fixture.py")
+    lines.append("// AUTO-GENERADO desde PDFs de dosieres · ver bin/gen_dosieres_fixture.py")
+    lines.append("// Fuentes:")
+    lines.append("//   · Informe_politicos_publicos.pdf · Gobierno de España + Feijóo (24)")
+    lines.append("//   · Informe_regionalistas_grupo_mixto.pdf · PNV/ERC/Junts/EH Bildu/Mixto (33)")
+    lines.append("// Re-generar: pdftotext -layout <pdf> /tmp/X.txt → python3 bin/parse_*.py → python3 bin/gen_dosieres_fixture.py")
     lines.append("//")
     lines.append("// Estructura → mismo shape que /api/dosieres (api/routers/dosieres.py):")
     lines.append("//   dossier · apartados[] · items[]")
@@ -106,8 +142,8 @@ def gen():
     lines.append("}")
     lines.append("")
 
-    now = datetime.utcnow().isoformat() + "Z"
-    lines.append("const NOW = " + repr(now).replace("'", "\""))
+    now = datetime.now(timezone.utc).isoformat()
+    lines.append('const NOW = ' + json.dumps(now))
     lines.append("")
     lines.append("export const DOSIERES_FIXTURE: DossierCompleto[] = [")
 
@@ -115,12 +151,12 @@ def gen():
         slug = d["slug"]
         partido = PARTIDO_OVERRIDES.get(slug, d.get("partido"))
         nombre = ts_string(d["nombre_completo"])
-        cargo = ts_string(d["cargo_actual"])
-        bio = ts_string(d["bio_corta"])
-        perfil_full = ts_string(d["perfil_completo"])
+        cargo = ts_string(d.get("cargo_actual") or "")
+        bio = ts_string(d.get("bio_corta") or "")
+        perfil_full = ts_string(d.get("perfil_completo") or "")
 
         lines.append("  {")
-        lines.append(f"    id: 'fxt-{idx+1:02d}',")
+        lines.append(f"    id: 'fxt-{idx+1:03d}',")
         lines.append(f"    slug: {json.dumps(slug, ensure_ascii=False)},")
         lines.append(f"    nombre_completo: `{nombre}`,")
         lines.append(f"    alias: null,")
@@ -129,21 +165,21 @@ def gen():
         lines.append(f"    foto_url: null,")
         lines.append(f"    bio_corta: `{bio}`,")
         lines.append(f"    tags: [],")
-        lines.append(f"    fuente_principal: 'Informe Politicos Publicos · mayo 2026',")
+        lines.append(f"    fuente_principal: 'Informes públicos de mayo 2026',")
         lines.append(f"    apartados: [")
 
-        # Apartado 1: IDENTIDAD (perfil general)
+        # 1. IDENTIDAD
         if perfil_full:
             lines.append(f"      {{")
-            lines.append(f"        id: 'fxt-{idx+1:02d}-ap-iden',")
+            lines.append(f"        id: 'fxt-{idx+1:03d}-ap-iden',")
             lines.append(f"        tipo: 'identidad',")
             lines.append(f"        titulo: null,")
             lines.append(f"        resumen: null,")
             lines.append(f"        orden: 0,")
             lines.append(f"        items: [")
             lines.append(f"          {{")
-            lines.append(f"            id: 'fxt-{idx+1:02d}-iden-1',")
-            lines.append(f"            apartado_id: 'fxt-{idx+1:02d}-ap-iden',")
+            lines.append(f"            id: 'fxt-{idx+1:03d}-iden-1',")
+            lines.append(f"            apartado_id: 'fxt-{idx+1:03d}-ap-iden',")
             lines.append(f"            tipo: 'dato',")
             lines.append(f"            titulo: 'Perfil general',")
             lines.append(f"            contenido: `{perfil_full}`,")
@@ -156,10 +192,10 @@ def gen():
             lines.append(f"        ],")
             lines.append(f"      }},")
 
-        # Apartado 2: REDES (relaciones)
-        if d["relaciones"]:
+        # 2. REDES
+        if d.get("relaciones"):
             lines.append(f"      {{")
-            lines.append(f"        id: 'fxt-{idx+1:02d}-ap-redes',")
+            lines.append(f"        id: 'fxt-{idx+1:03d}-ap-redes',")
             lines.append(f"        tipo: 'redes',")
             lines.append(f"        titulo: 'Relaciones políticas',")
             lines.append(f"        resumen: 'Valoración analítica de relaciones persona-persona (escala +10 a -10). Las puntuaciones son lecturas razonadas, no datos oficiales.',")
@@ -167,14 +203,16 @@ def gen():
             lines.append(f"        items: [")
             for ridx, r in enumerate(d["relaciones"]):
                 persona = ts_string(r["persona"])
-                tipo_rel = ts_string(r["tipo"])
-                expl = ts_string(r["explicacion"])
+                tipo_rel = ts_string(r.get("tipo") or "Relación política")
+                expl = ts_string(r.get("explicacion") or "")
                 nota = r["nota"]
                 tag = nota_tag(nota)
-                contenido = f"**{tipo_rel}** (nota {nota:+d}/10) — {expl}"
+                contenido = f"**{tipo_rel}** (nota {nota:+d}/10)"
+                if expl:
+                    contenido += f" — {expl}"
                 lines.append(f"          {{")
-                lines.append(f"            id: 'fxt-{idx+1:02d}-redes-{ridx+1}',")
-                lines.append(f"            apartado_id: 'fxt-{idx+1:02d}-ap-redes',")
+                lines.append(f"            id: 'fxt-{idx+1:03d}-redes-{ridx+1}',")
+                lines.append(f"            apartado_id: 'fxt-{idx+1:03d}-ap-redes',")
                 lines.append(f"            tipo: 'contacto',")
                 lines.append(f"            titulo: `{persona}`,")
                 lines.append(f"            contenido: `{ts_string(contenido)}`,")
@@ -187,10 +225,10 @@ def gen():
             lines.append(f"        ],")
             lines.append(f"      }},")
 
-        # Apartado 3: EVIDENCIA (patrimonio)
-        if d["patrimonio"]:
+        # 3. EVIDENCIA
+        if d.get("patrimonio"):
             lines.append(f"      {{")
-            lines.append(f"        id: 'fxt-{idx+1:02d}-ap-evid',")
+            lines.append(f"        id: 'fxt-{idx+1:03d}-ap-evid',")
             lines.append(f"        tipo: 'evidencia',")
             lines.append(f"        titulo: 'Patrimonio declarado',")
             lines.append(f"        resumen: 'Cifras procedentes de declaraciones públicas. Patrimonio declarado localizable, no riqueza total de mercado. Los inmuebles pueden no estar a precio de mercado actual.',")
@@ -200,8 +238,8 @@ def gen():
                 concepto = ts_string(p["concepto"])
                 valor = ts_string(p["valor"])
                 lines.append(f"          {{")
-                lines.append(f"            id: 'fxt-{idx+1:02d}-evid-{pidx+1}',")
-                lines.append(f"            apartado_id: 'fxt-{idx+1:02d}-ap-evid',")
+                lines.append(f"            id: 'fxt-{idx+1:03d}-evid-{pidx+1}',")
+                lines.append(f"            apartado_id: 'fxt-{idx+1:03d}-ap-evid',")
                 lines.append(f"            tipo: 'documento',")
                 lines.append(f"            titulo: `{concepto}`,")
                 lines.append(f"            contenido: `{valor}`,")
@@ -243,7 +281,7 @@ def gen():
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(lines), encoding="utf-8")
-    print(f"✓ Generado {OUT} ({len(lines)} líneas)")
+    print(f"\n✓ Generado {OUT} ({len(lines)} líneas)", file=sys.stderr)
 
 
 if __name__ == "__main__":
