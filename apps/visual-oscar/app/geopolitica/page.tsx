@@ -32,6 +32,7 @@ import { GeoSpainOfficial } from '@/components/geopolitica/GeoSpainOfficial'
 import { GeoConvergenceAlerts } from '@/components/geopolitica/GeoConvergenceAlerts'
 import { GeoDataHealth } from '@/components/geopolitica/GeoDataHealth'
 import { GeoSpainWatchlist } from '@/components/geopolitica/GeoSpainWatchlist'
+import { GeoThemeClusters } from '@/components/geopolitica/GeoThemeClusters'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -895,6 +896,10 @@ export default function GeopoliticaPage() {
                 cascading events GDELT. Análisis cualitativo, no dato duro · validar siempre
                 con ACLED + UCDP.
               </p>
+            </div>
+            {/* Sprint G10 · Theme clustering emergente sobre 6 RSS feeds (Gemini) */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoThemeClusters />
             </div>
             {/* Sprint G7 · ICG CrisisWatch + ISW briefings (OSINT cualitativo) */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16, marginBottom: 20 }}>

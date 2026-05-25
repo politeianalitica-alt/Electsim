@@ -1684,6 +1684,176 @@ async function buildConvergenceAlerts(req: Request) {
   }
 }
 
+// ─── Theme Clustering · Sprint G10 ───────────────────────────────────
+// Detección de TEMAS emergentes cruzando 6 RSS feeds (ICG + ISW + NATO +
+// UN SC + EEAS + Spain Official) en una sola llamada a Gemini Flash Lite
+// con responseSchema. Replaces embeddings/k-means con LLM-as-clusterer.
+//
+// Diferenciador vs hardcode: zero temas predefinidos · todo emerge del
+// contenido real de los feeds del día. Si hoy explota un tema nuevo
+// (ej. "drones marítimos Mar Negro"), aparece sin tocar código.
+async function buildThemeClustering(req: Request) {
+  const base = baseUrl(req)
+  // 6 feeds en paralelo (todos cacheados individualmente vía Vercel)
+  const [crisis, isw, nato, unsc, eeas, spain] = await Promise.all([
+    jsonFetch(`${base}/api/geopolitica/crisis-group?limit=15`),
+    jsonFetch(`${base}/api/geopolitica/isw-briefings?limit=15`),
+    jsonFetch(`${base}/api/geopolitica/nato-press?limit=15`),
+    jsonFetch(`${base}/api/geopolitica/unsc-news?limit=15`),
+    jsonFetch(`${base}/api/geopolitica/eeas-news?limit=15`),
+    jsonFetch(`${base}/api/geopolitica/spain-official?limit=15`),
+  ])
+
+  // Aplanar a lista única con tags de fuente
+  const allItems: Array<{ idx: number; source: string; title: string; date: string; link: string }> = []
+  let idx = 0
+  const sources: Array<[string, any]> = [
+    ['ICG', crisis], ['ISW', isw], ['NATO', nato],
+    ['UNSC', unsc], ['EEAS', eeas], ['SPAIN', spain],
+  ]
+  for (const [src, data] of sources) {
+    const items = Array.isArray(data?.items) ? data.items : []
+    for (const it of items) {
+      const title = String(it.title || '').slice(0, 200)
+      if (!title) continue
+      allItems.push({
+        idx,
+        source: src,
+        title,
+        date: String(it.pubDate || it.date || ''),
+        link: String(it.link || it.url || ''),
+      })
+      idx++
+    }
+  }
+
+  if (allItems.length === 0) {
+    return {
+      ok: false,
+      error: 'no_items_loaded',
+      sources_status: sources.map(([s, d]) => ({ source: s, n_items: Array.isArray(d?.items) ? d.items.length : 0 })),
+    }
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY
+  if (!apiKey) {
+    return {
+      ok: false,
+      error: 'no_ai_key',
+      n_items_loaded: allItems.length,
+      note: 'Configurar GEMINI_API_KEY en Vercel env para activar clustering temático.',
+    }
+  }
+
+  const prompt = `Eres un analista de inteligencia geopolítica. Te paso ${allItems.length} noticias recientes de 6 fuentes oficiales europeas/internacionales. Identifica 5-8 TEMAS emergentes que cruzan múltiples noticias.
+
+NOTICIAS:
+${allItems.map((it) => `${it.idx}. [${it.source}] ${it.title}`).join('\n')}
+
+Para cada tema produce:
+- name · nombre corto del tema (3-6 palabras en español)
+- summary · 1-2 frases describiendo el tema y por qué importa para España
+- relevance · "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" (impacto potencial sobre intereses ES)
+- member_indices · array de idx de noticias que pertenecen al tema (mínimo 2)
+- sources_count · cuántas fuentes distintas tocan el tema (de las 6: ICG, ISW, NATO, UNSC, EEAS, SPAIN)
+
+REGLAS:
+- Cada noticia pertenece a 1 tema máximo (la asignación más relevante)
+- Prioriza temas que cruzan >1 fuente (señal de convergencia narrativa)
+- No menciones títulos concretos en el summary, describe el tema
+- Nada de inferencia que no esté en los títulos. Si no estás seguro, no incluyas
+
+Output JSON estricto: { "themes": [...] }`
+
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-001:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.2,
+          maxOutputTokens: 2500,
+          responseMimeType: 'application/json',
+          responseSchema: {
+            type: 'object',
+            properties: {
+              themes: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string' },
+                    summary: { type: 'string' },
+                    relevance: { type: 'string', enum: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'] },
+                    member_indices: { type: 'array', items: { type: 'integer' } },
+                    sources_count: { type: 'integer' },
+                  },
+                  required: ['name', 'summary', 'relevance', 'member_indices'],
+                },
+              },
+            },
+            required: ['themes'],
+          },
+        },
+      }),
+    })
+    if (!r.ok) {
+      const body = await r.text().catch(() => '')
+      return {
+        ok: false,
+        error: `gemini HTTP ${r.status}`,
+        gemini_body: body.slice(0, 300),
+        n_items_loaded: allItems.length,
+      }
+    }
+    const j = await r.json()
+    const text: string = j?.candidates?.[0]?.content?.parts?.[0]?.text || '{}'
+    let parsed: any
+    try { parsed = JSON.parse(text) } catch {
+      return { ok: false, error: 'gemini_response_not_json', raw: text.slice(0, 400), n_items_loaded: allItems.length }
+    }
+    const rawThemes: any[] = Array.isArray(parsed?.themes) ? parsed.themes : []
+    // Enriquecer themes con detalles de miembros + dedupe sources
+    const themes = rawThemes.map((t: any) => {
+      const memberIdx: number[] = Array.isArray(t.member_indices) ? t.member_indices.filter((i: any) => Number.isInteger(i) && i >= 0 && i < allItems.length) : []
+      const members = memberIdx.map((i) => allItems[i]).filter(Boolean)
+      const actualSources = new Set(members.map((m) => m.source))
+      return {
+        name: String(t.name || '(sin nombre)'),
+        summary: String(t.summary || ''),
+        relevance: ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'].includes(t.relevance) ? t.relevance : 'MEDIUM',
+        n_members: members.length,
+        n_sources: actualSources.size,
+        sources: Array.from(actualSources),
+        members,
+      }
+    }).filter((t: any) => t.n_members >= 2)
+    // Ordenar: relevance CRITICAL > HIGH > MEDIUM > LOW, luego por sources_count desc
+    const relevanceWeight: Record<string, number> = { CRITICAL: 4, HIGH: 3, MEDIUM: 2, LOW: 1 }
+    themes.sort((a: any, b: any) => {
+      const dr = (relevanceWeight[b.relevance] || 0) - (relevanceWeight[a.relevance] || 0)
+      if (dr !== 0) return dr
+      return b.n_sources - a.n_sources
+    })
+
+    return {
+      ok: true,
+      n_themes: themes.length,
+      n_items_analyzed: allItems.length,
+      n_items_clustered: themes.reduce((s: number, t: any) => s + t.n_members, 0),
+      sources_status: sources.map(([s, d]) => ({ source: s, n_items: Array.isArray(d?.items) ? d.items.length : 0 })),
+      themes,
+      model: 'gemini-2.0-flash-lite-001',
+      generated_at: new Date().toISOString(),
+      methodology: 'Clustering temático emergente · Gemini Flash Lite sobre 6 RSS feeds live (ICG + ISW + NATO + UNSC + EEAS + Spain). Sin temas pre-hardcoded · clustering data-driven con structured JSON output · Spain-centric framing.',
+      disclaimer: 'Tematización generada por LLM. Los miembros y resúmenes pueden contener errores de asignación · usar como brújula, no como ground truth.',
+    }
+  } catch (e: any) {
+    return { ok: false, error: String(e?.message ?? e).slice(0, 200), n_items_loaded: allItems.length }
+  }
+}
+
 // ─── Spain Watchlist (Sprint G9) ──────────────────────────────────────
 // Cruza convergence alerts con catálogo Presencia España. Output: países
 // donde España tiene exposición Y la convergencia está elevada → debe
@@ -2276,6 +2446,13 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G10 · Theme clustering emergente (Gemini sobre 6 RSS feeds live)
+  if (action === 'themes') {
+    return NextResponse.json(await buildThemeClustering(req), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' }, // 6h
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -2310,6 +2487,7 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/data-health · transparencia · 20 endpoints status + latency (Sprint G8)',
       'GET /api/geopolitica/spain-watchlist · join convergence × presencia ES (Sprint G9 · data-driven)',
       'GET /api/geopolitica/country-timeline?iso=UKR · cronología multi-source país (Sprint G9)',
+      'GET /api/geopolitica/themes · clustering temático emergente Gemini sobre 6 RSS feeds (Sprint G10)',
     ],
   }, { status: 404 })
 }
