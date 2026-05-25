@@ -42,6 +42,7 @@ import { AnalisisGroq } from './_components/AnalisisGroq'
 import { IntelRegional } from './_components/IntelRegional'
 import { MEDIOS_TAB_IDS, getMediosTab, MediosTabId } from '@/lib/medios/sources-matrix'
 import { SourceMethodologyCard, ConfidenceBadge, MethodologyWarnings } from './_components/MethodologyComponents'
+import { NarrativeClustersView } from './_components/NarrativeClustersView'
 
 import type {
   TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep,
@@ -91,9 +92,69 @@ interface IntelResponse {
     warnings: string[]
     copy_for_hero?: string
   }
+  // Sprint M2 · narrativas auditables + figuras v2 + resumen lecturas
+  narrative_clusters?: Array<{
+    id: string
+    title: string
+    short_summary: string
+    frame_type: string
+    main_topic: string
+    secondary_topics: string[]
+    articles: string[]
+    representative_titles: string[]
+    first_seen: string
+    last_seen: string
+    velocity_score: number
+    acceleration_score: number
+    reach_estimate: number
+    source_diversity?: { warnings?: string[]; ideological_balance_score?: number }
+    ideological_spread: { left: number; center: number; right: number; balanced: boolean }
+    territorial_spread: string[]
+    dominant_actors: string[]
+    benefited_actors: string[]
+    harmed_actors: string[]
+    emotional_register: string
+    controversy_score: number
+    confidence: { overall: number; reasons: string[] }
+    why_this_is_a_narrative: string
+    evidence: Array<{ title: string; medium: string; url: string; ideology: string }>
+  }>
+  readings_summary?: {
+    n_readings: number
+    dominant_frames: Array<{ frame: string; count: number }>
+    avg_controversy: number
+    avg_political_risk: number
+    avg_confidence: number
+    top_beneficiaries: Array<{ actor: string; count: number }>
+    top_affected: Array<{ actor: string; count: number }>
+    action_verbs: Array<{ verb: string; count: number }>
+  }
 }
 
 type BalanceMode = 'audience' | 'pluralism' | 'regional' | 'ideological' | 'crisis'
+
+// Sprint M2 · explainer por tab · responde "¿a qué pregunta sirve esta tab?"
+function TabExplainerBlock({ question, answer }: { question: string; answer: string }) {
+  return (
+    <section style={{
+      background: '#f8fafc',
+      border: '1px solid #e5e7eb',
+      borderLeft: '3px solid #0891b2',
+      borderRadius: 8,
+      padding: '10px 14px',
+    }}>
+      <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.5, color: '#0891b2', textTransform: 'uppercase' }}>
+        ◆ Esta tab responde
+      </p>
+      <p style={{ margin: '4px 0 0', fontSize: 13, fontWeight: 600, color: '#0f172a', lineHeight: 1.3 }}>
+        {question}
+      </p>
+      <p style={{ margin: '4px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.5 }}>
+        {answer}
+      </p>
+    </section>
+  )
+}
 
 export default function PrensaPage() {
   const router = useRouter()
@@ -254,9 +315,16 @@ export default function PrensaPage() {
             </div>
           ) : (
             <>
-              {/* Tab 1 · Pulso de medios · feed + GDELT + topic heatmap (NO mapa CCAA, ya está en Tab 9) */}
+              {/* Tab 1 · Pulso de medios · responde "qué está dominando la agenda ahora" */}
               {safeActiveTab === 'pulso' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué está dominando ahora mismo la agenda mediática?"
+                    answer="Narrativas auditables emergentes del cruce ACLED+UCDP+RSS+GDELT, feed por tiers nacionales/europeos/regionales y heatmap topic × partido."
+                  />
+                  {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
+                    <NarrativeClustersView clusters={data.narrative_clusters} />
+                  )}
                   <FeedTiered feed={data?.feed} />
                   <GdeltGlobalPanel query="Spain" />
                   {data?.topicparty && data.topicparty.length > 0 && (
@@ -272,15 +340,35 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 2 · Búsqueda puntual */}
-              {safeActiveTab === 'busqueda' && <BusquedaPuntual />}
+              {/* Tab 2 · Búsqueda puntual · responde "qué se ha publicado sobre X" */}
+              {safeActiveTab === 'busqueda' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué se ha publicado sobre X tema o actor?"
+                    answer="Búsqueda libre NewsAPI everything con filtros booleanos + dominios + fechas · timeline · fuentes · actores · comparación ideológica · lectura IA basada en datos estructurados."
+                  />
+                  <BusquedaPuntual />
+                </div>
+              )}
 
-              {/* Tab 3 · Mapa global narrativas (NUEVO) */}
-              {safeActiveTab === 'mapa-global' && <MapaNarrativasGlobal />}
+              {/* Tab 3 · Mapa global · responde "qué eventos externos generan narrativas para España" */}
+              {safeActiveTab === 'mapa-global' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué eventos externos están generando narrativas con relevancia para España?"
+                    answer="World map ACLED+GDELT por categoría · cada país/evento con volumen mediático + severidad + relevancia España + frame dominante + confianza + explicación."
+                  />
+                  <MapaNarrativasGlobal />
+                </div>
+              )}
 
-              {/* Tab 4 · Actores & sentimiento (merge ex-Actores + Sentimiento) */}
+              {/* Tab 4 · Actores & sentimiento · responde "quién aparece y si le beneficia" */}
               {safeActiveTab === 'actores-sentimiento' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Quién aparece, cómo aparece y si le beneficia o perjudica?"
+                    answer="Sentiment HACIA cada actor separado de mention plana · impacto político (beneficial/harmful/neutral/uncertain) con confianza y razón."
+                  />
                   <SentimentDualView
                     cells={data?.topicparty ?? []}
                     figures={data?.figures ?? []}
@@ -293,28 +381,75 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 5 · Cobertura ideológica */}
+              {/* Tab 5 · Cobertura ideológica · responde "cómo cambia el framing por bloque" */}
               {safeActiveTab === 'cobertura-ideologica' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Cómo cambia el framing según el bloque mediático?"
+                    answer="Cada narrativa muestra su barra ideológica izq/centro/der · si está balanceada o sesgada · diff de frames y actores enfatizados por cada bloque."
+                  />
+                  {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
+                    <NarrativeClustersView clusters={data.narrative_clusters} />
+                  )}
                   <NarrativesV3View />
                   <StoryClustersView clusters={data?.clusters ?? []} />
                 </div>
               )}
 
-              {/* Tab 6 · Viralidad */}
-              {safeActiveTab === 'viralidad' && <ViralidadDifusion />}
+              {/* Tab 6 · Viralidad · responde "qué historias se propagan más rápido" */}
+              {safeActiveTab === 'viralidad' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué historias se están propagando más rápido?"
+                    answer="Velocity + acceleration + first_seen + first_movers + replication path · señales de aceleración multi-fuente con NewsAPI sortBy=popularity."
+                  />
+                  <ViralidadDifusion />
+                </div>
+              )}
 
-              {/* Tab 7 · Análisis IA Groq (NUEVO) */}
-              {safeActiveTab === 'analisis-ia' && <AnalisisGroq />}
+              {/* Tab 7 · Análisis IA Groq · responde "qué lectura ejecutiva produce Politeia" */}
+              {safeActiveTab === 'analisis-ia' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué lectura ejecutiva produce Politeia sobre el conjunto?"
+                    answer="IA recibe ArticleReading + NarrativeCluster + SourceMethodology + Confidence (no sólo titulares) y produce briefing ejecutivo + hallazgos + riesgo framing + qué vigilar."
+                  />
+                  <AnalisisGroq />
+                </div>
+              )}
 
-              {/* Tab 8 · Desinformación */}
-              {safeActiveTab === 'desinformacion' && <DesinformacionLive />}
+              {/* Tab 8 · Desinformación · responde "qué claims son sospechosos" */}
+              {safeActiveTab === 'desinformacion' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué claims están verificados o son sospechosos?"
+                    answer="Maldita + Newtral + EFE Verifica + Google Fact Check · cada claim con narrativa afectada + actores beneficiados/perjudicados."
+                  />
+                  <DesinformacionLive />
+                </div>
+              )}
 
-              {/* Tab 9 · Regional CCAA (extraído del mapa antiguo, ahora autocontenido) */}
-              {safeActiveTab === 'regional' && <IntelRegional />}
+              {/* Tab 9 · Regional · responde "qué CCAA concentran tensión" */}
+              {safeActiveTab === 'regional' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Qué CCAA concentran tensión mediática y política?"
+                    answer="Separa origen del medio · territorio mencionado · territorio afectado · regional_signal_score = volumen + negatividad + relevancia institucional/electoral + diversidad fuentes."
+                  />
+                  <IntelRegional />
+                </div>
+              )}
 
-              {/* Tab 10 · Informes */}
-              {safeActiveTab === 'informes' && <InformesAlertas />}
+              {/* Tab 10 · Informes · responde "cómo exportar y monitorizar" */}
+              {safeActiveTab === 'informes' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <TabExplainerBlock
+                    question="¿Cómo exportar o monitorizar esta inteligencia?"
+                    answer="Búsquedas guardadas · monitores · dossier MD/HTML export con metodología incluida y advertencias auditables · plantillas alertas."
+                  />
+                  <InformesAlertas />
+                </div>
+              )}
             </>
           )}
         </main>

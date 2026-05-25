@@ -31,7 +31,8 @@ import {
 } from '@/lib/news-intel'
 import {
   selectPrioritySources, buildDiversityBreakdown, buildMeta, readArticle,
-  profileFromCatalog, type BalanceMode,
+  profileFromCatalog, buildNarrativeClusters, figuresFromReadings, summarizeReadings,
+  type BalanceMode, type ArticleReading,
 } from '@/lib/medios/media-methodology'
 
 export const dynamic = 'force-dynamic'
@@ -44,7 +45,7 @@ const VALID_MODES: BalanceMode[] = ['audience', 'pluralism', 'regional', 'ideolo
 export async function GET(req: NextRequest) {
   const startedAt = Date.now()
   const params = req.nextUrl.searchParams
-  const include = (params.get('include') || 'feed,narratives,topicparty,figures,companies,sectors,clusters,gaps,ccaa,methodology').split(',')
+  const include = (params.get('include') || 'feed,narratives,topicparty,figures,companies,sectors,clusters,gaps,ccaa,methodology,narrative_clusters,figures_v2,readings_summary').split(',')
   const hours = Math.min(168, Math.max(6, Number(params.get('hours') || 72)))
   const sources = Math.min(100, Math.max(15, Number(params.get('sources') || 80)))
   const balanceModeParam = (params.get('balance_mode') || 'pluralism').toLowerCase()
@@ -124,14 +125,39 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Sprint M1 · readings estructurados opcionales (caro · sólo si se piden)
-    if (includeReadings) {
+    // Sprint M1+M2 · construir readings UNA VEZ (es la materia prima)
+    // - readings completos sólo si los piden con ?readings=1 (response pesado)
+    // - narrative_clusters, figures_v2 y readings_summary los usan internamente
+    const needsReadings =
+      includeReadings ||
+      include.includes('narrative_clusters') ||
+      include.includes('figures_v2') ||
+      include.includes('readings_summary')
+    let readings: ArticleReading[] = []
+    if (needsReadings) {
       const profilesByMediumId: Record<string, ReturnType<typeof profileFromCatalog>> = {}
       for (const p of selected) profilesByMediumId[p.id] = p
-      out.readings = articles.slice(0, 200).map((a) => {
+      readings = articles.slice(0, 240).map((a) => {
         const profile = profilesByMediumId[a.medio.id] || profileFromCatalog(a.medio)
         return readArticle(a, profile)
       })
+      if (includeReadings) out.readings = readings
+    }
+
+    // Sprint M2 · narrative clusters auditables
+    if (include.includes('narrative_clusters') && readings.length > 0) {
+      out.narrative_clusters = buildNarrativeClusters(readings, { maxClusters: 12 })
+    }
+
+    // Sprint M2 · figuras agregadas usando assessSentiment · separa
+    // sentiment HACIA actor vs mention plana
+    if (include.includes('figures_v2') && readings.length > 0) {
+      out.figures_v2 = figuresFromReadings(readings, 20)
+    }
+
+    // Sprint M2 · resumen ejecutivo de readings · listo para enviar a lectura IA
+    if (include.includes('readings_summary') && readings.length > 0) {
+      out.readings_summary = summarizeReadings(readings)
     }
 
     // Sprint M1 · _meta homogéneo (en paralelo a meta legacy)

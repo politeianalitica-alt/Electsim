@@ -957,7 +957,473 @@ export function readArticle(article: AggregatedArticle, mediumProfile?: MediaSou
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 8 · Meta builder unificado para endpoints
+// 8 · NarrativeCluster builder · Sprint M2
+// ════════════════════════════════════════════════════════════════════════
+//
+// Distingue 3 conceptos:
+//   topic     · asunto del que se habla ("vivienda")
+//   frame     · cómo se encuadra (crisis | gestión | identidad | ...)
+//   narrative · combinación estable de topic + frame + actores + medios + tiempo
+//                ej. "El alquiler como crisis de gobernabilidad urbana que presiona
+//                     al Gobierno y a las CCAA"
+//
+// Algoritmo greedy O(n²) sobre readings:
+//   1. seed: el reading con mayor entity_coverage + spain_relevance
+//   2. agregar readings con similarity >= THRESHOLD
+//   3. al saturar, construir NarrativeCluster con metadata derivada
+//   4. repetir hasta no quedar seeds viables
+//
+// Similarity: Jaccard sobre entidades + match de frame + match topic +
+//             solape de ngrams + proximidad temporal (decay 48h).
+
+const SIMILARITY_THRESHOLD = 0.32
+const MAX_NARRATIVE_SIZE = 30
+
+function jaccard(a: string[], b: string[]): number {
+  if (a.length === 0 && b.length === 0) return 0
+  const setA = new Set(a.map((x) => x.toLowerCase()))
+  const setB = new Set(b.map((x) => x.toLowerCase()))
+  let inter = 0
+  setA.forEach((x) => { if (setB.has(x)) inter++ })
+  const union = setA.size + setB.size - inter
+  return union > 0 ? inter / union : 0
+}
+
+function tokenizeHeadline(s: string): string[] {
+  return (s || '')
+    .toLowerCase()
+    .replace(/[^a-záéíóúñü\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 4)
+}
+
+function bigrams(words: string[]): string[] {
+  const out: string[] = []
+  for (let i = 0; i < words.length - 1; i++) out.push(`${words[i]}_${words[i + 1]}`)
+  return out
+}
+
+function ageHoursBetween(a: string | null, b: string | null): number {
+  if (!a || !b) return 24
+  const ta = new Date(a).getTime()
+  const tb = new Date(b).getTime()
+  if (isNaN(ta) || isNaN(tb)) return 24
+  return Math.abs(ta - tb) / 3_600_000
+}
+
+function similarity(a: ArticleReading, b: ArticleReading): number {
+  // Entidades (peso fuerte)
+  const actorsJ = jaccard(a.actors, b.actors) * 0.30
+  const partiesJ = jaccard(a.parties, b.parties) * 0.15
+  const institutionsJ = jaccard(a.institutions, b.institutions) * 0.10
+  const companiesJ = jaccard(a.companies, b.companies) * 0.05
+  // Frame + topic
+  const frameMatch = a.frame === b.frame && a.frame !== 'otro' ? 0.10 : 0
+  const topicMatch = a.main_topic === b.main_topic ? 0.10 : 0
+  const sectorJ = jaccard(a.sectors, b.sectors) * 0.05
+  // Headline ngrams (señal léxica)
+  const bigramJ = jaccard(bigrams(tokenizeHeadline(a.headline)), bigrams(tokenizeHeadline(b.headline))) * 0.10
+  // Decay temporal · misma semana
+  const hours = ageHoursBetween(a.pub_date, b.pub_date)
+  const timeDecay = Math.max(0, 1 - hours / 48) * 0.05
+  return actorsJ + partiesJ + institutionsJ + companiesJ + frameMatch + topicMatch + sectorJ + bigramJ + timeDecay
+}
+
+function modeOf<T>(arr: T[]): T | null {
+  if (arr.length === 0) return null
+  const counts = new Map<T, number>()
+  for (const x of arr) counts.set(x, (counts.get(x) || 0) + 1)
+  let best: T | null = null
+  let bestC = 0
+  Array.from(counts.entries()).forEach(([k, v]) => {
+    if (v > bestC) { best = k; bestC = v }
+  })
+  return best
+}
+
+function topNByCount<T extends string>(arr: T[], n: number): T[] {
+  const counts = new Map<T, number>()
+  for (const x of arr) counts.set(x, (counts.get(x) || 0) + 1)
+  return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, n).map(([k]) => k)
+}
+
+export interface BuildNarrativeClustersOptions {
+  threshold?: number
+  maxClusters?: number
+  windowHours?: number
+}
+
+/**
+ * Construye NarrativeCluster[] a partir de readings.
+ * Determinista, sin LLM. Output sirve para UI auditable y para
+ * alimentar la lectura IA con material estructurado.
+ */
+export function buildNarrativeClusters(
+  readings: ArticleReading[],
+  opts: BuildNarrativeClustersOptions = {},
+): NarrativeCluster[] {
+  const threshold = opts.threshold ?? SIMILARITY_THRESHOLD
+  const maxClusters = opts.maxClusters ?? 15
+  if (readings.length === 0) return []
+
+  // Ordenamos seeds por "prominencia" = entity_coverage * spain_relevance * confidence
+  const scoredSeeds = [...readings]
+    .map((r) => ({
+      r,
+      seedScore:
+        (r.actors.length + r.parties.length + r.institutions.length + r.companies.length) *
+        (r.spain_relevance / 100) *
+        r.confidence.overall,
+    }))
+    .sort((a, b) => b.seedScore - a.seedScore)
+    .map((x) => x.r)
+
+  const used = new Set<string>()
+  const rawClusters: ArticleReading[][] = []
+
+  for (const seed of scoredSeeds) {
+    if (used.has(seed.id)) continue
+    if (rawClusters.length >= maxClusters) break
+    const cluster: ArticleReading[] = [seed]
+    used.add(seed.id)
+    for (const other of readings) {
+      if (used.has(other.id)) continue
+      if (cluster.length >= MAX_NARRATIVE_SIZE) break
+      const sim = similarity(seed, other)
+      if (sim >= threshold) {
+        cluster.push(other)
+        used.add(other.id)
+      }
+    }
+    if (cluster.length >= 2) rawClusters.push(cluster)
+  }
+
+  // Construir NarrativeCluster a partir de cada raw cluster
+  return rawClusters.map((arts, idx) => narrativeFromArticles(arts, idx, readings))
+}
+
+function narrativeFromArticles(
+  arts: ArticleReading[],
+  idx: number,
+  allReadings: ArticleReading[],
+): NarrativeCluster {
+  const allActors = arts.flatMap((a) => a.actors)
+  const allParties = arts.flatMap((a) => a.parties)
+  const allSectors = arts.flatMap((a) => a.sectors)
+  const allInstitutions = arts.flatMap((a) => a.institutions)
+  const allFrames = arts.map((a) => a.frame)
+  const allTopics = arts.map((a) => a.main_topic)
+  const secondaryTopics = arts.flatMap((a) => a.secondary_topics)
+  const beneficiaries = arts.flatMap((a) => a.beneficiaries)
+  const affected = arts.flatMap((a) => a.affected)
+
+  const dominantFrame = (modeOf(allFrames) || 'otro') as FrameType
+  const mainTopic = modeOf(allTopics) || 'general'
+  const dominantActors = topNByCount(allActors, 6)
+  const benefited = topNByCount(beneficiaries, 5)
+  const harmed = topNByCount(affected, 5)
+  const institutions = topNByCount(allInstitutions, 4)
+
+  // Temporal
+  const sortedByDate = [...arts].sort((a, b) => (a.pub_date || '').localeCompare(b.pub_date || ''))
+  const first_seen = sortedByDate[0].pub_date || new Date(0).toISOString()
+  const last_seen = sortedByDate[sortedByDate.length - 1].pub_date || new Date().toISOString()
+  // Velocity = arts en últimas 24h / 24
+  const now = Date.now()
+  const last24h = arts.filter((a) => a.pub_date && now - new Date(a.pub_date).getTime() <= 24 * 3_600_000).length
+  const prev24h = arts.filter((a) => {
+    if (!a.pub_date) return false
+    const t = new Date(a.pub_date).getTime()
+    return now - t > 24 * 3_600_000 && now - t <= 48 * 3_600_000
+  }).length
+  const velocity_score = last24h / 24
+  const acceleration_score = prev24h > 0 ? (last24h - prev24h) / prev24h : (last24h > 0 ? 1 : 0)
+
+  // Source diversity · construye profiles desde readings
+  const uniqueMediums = new Map<string, { id: string; ideology_bucket: IdeologyBucket; ambito: AmbitoBucket; type: MediaTypeBucket; ccaa: string | null; group: string; name: string; audience_M: number; credibility: number; web: string; rss_url: string | null; has_rss: boolean; ideology_raw: number }>()
+  for (const a of arts) {
+    if (!uniqueMediums.has(a.medium_id)) {
+      uniqueMediums.set(a.medium_id, {
+        id: a.medium_id,
+        ideology_bucket: a.medium_ideology_bucket,
+        ambito: a.medium_ambito,
+        type: a.medium_type,
+        ccaa: a.medium_ccaa,
+        group: 'unknown',          // info no propagada al reading
+        name: a.medium,
+        audience_M: 0,
+        credibility: 0,
+        web: '', rss_url: null, has_rss: false, ideology_raw: 0,
+      })
+    }
+  }
+  const source_diversity = buildDiversityBreakdown(Array.from(uniqueMediums.values()) as MediaSourceProfile[])
+
+  // Ideological spread normalizado a 3 buckets
+  const ideoBuckets = arts.map((a) => a.medium_ideology_bucket)
+  const left = ideoBuckets.filter((b) => b === 'left' || b === 'center-left').length / arts.length
+  const center = ideoBuckets.filter((b) => b === 'center').length / arts.length
+  const right = ideoBuckets.filter((b) => b === 'center-right' || b === 'right').length / arts.length
+  const balanced = left > 0.15 && center > 0.15 && right > 0.15
+
+  // Territorial spread
+  const territoriesArr: string[] = []
+  for (const a of arts) for (const t of a.territory_mentioned) territoriesArr.push(t)
+  const allTerritories = Array.from(new Set(territoriesArr))
+
+  // Reach estimate · suma de audience NO propagada al reading · usamos heurística
+  // (n_medios distintos * 1.2 como proxy de millones de impactos diarios)
+  const reach_estimate = Math.round(uniqueMediums.size * 1.2)
+
+  // Emotional register · moda
+  const emotionalRegisters = arts.map((a) => a.sentiment.emotional_register)
+  const emotional_register = (modeOf(emotionalRegisters) || 'tecnocrático') as EmotionalRegister
+
+  // Controversy avg
+  const controversy_score = Math.round(
+    arts.reduce((s, a) => s + a.sentiment.controversy_score, 0) / arts.length,
+  )
+
+  // Confidence
+  const avgConf = arts.reduce((s, a) => s + a.confidence.overall, 0) / arts.length
+  const confidenceReasons: string[] = []
+  if (arts.length < 4) confidenceReasons.push(`narrativa pequeña (${arts.length} artículos)`)
+  if (!balanced) confidenceReasons.push('cobertura ideológica desequilibrada · sesgo posible')
+  if (source_diversity.warnings.length > 0) confidenceReasons.push(source_diversity.warnings[0])
+  const confidence: MethodologyConfidence = {
+    overall: Math.min(1, avgConf * (arts.length >= 3 ? 1 : 0.7)),
+    reasons: confidenceReasons,
+    components: {
+      source_quality: avgConf,
+      text_signal: Math.min(1, arts.length / 8),
+      entity_coverage: Math.min(1, (dominantActors.length + institutions.length) / 6),
+      deterministic_only: true,
+    },
+  }
+
+  // Título emergente
+  const title = generateNarrativeTitle(mainTopic, dominantFrame, dominantActors, harmed)
+  const short_summary = generateNarrativeSummary(arts, mainTopic, dominantFrame, dominantActors, harmed, benefited)
+
+  // Evidence · 1 representativo por bucket ideológico (hasta 6)
+  const evidence = buildEvidence(arts).slice(0, 8)
+  const representative_titles = arts.slice(0, 5).map((a) => a.headline)
+
+  const id = `nc${idx}_${dominantFrame}_${mainTopic}`.slice(0, 40)
+
+  return {
+    id,
+    title,
+    short_summary,
+    frame_type: dominantFrame,
+    main_topic: mainTopic,
+    secondary_topics: topNByCount(secondaryTopics, 4),
+    articles: arts.map((a) => a.id),
+    representative_titles,
+    first_seen,
+    last_seen,
+    velocity_score,
+    acceleration_score,
+    reach_estimate,
+    source_diversity,
+    ideological_spread: { left, center, right, balanced },
+    territorial_spread: allTerritories,
+    dominant_actors: dominantActors,
+    benefited_actors: benefited,
+    harmed_actors: harmed,
+    emotional_register,
+    controversy_score,
+    confidence,
+    why_this_is_a_narrative: `${arts.length} artículos comparten frame "${dominantFrame}" y topic "${mainTopic}". Mencionan en común: ${dominantActors.slice(0, 3).join(', ') || institutions.slice(0, 2).join(', ') || 'actores múltiples'}. Difusión en ${uniqueMediums.size} medios distintos (balance ideológico: ${balanced ? 'sí' : 'no'}).`,
+    evidence,
+  }
+}
+
+function generateNarrativeTitle(
+  topic: string,
+  frame: FrameType,
+  dominantActors: string[],
+  harmed: string[],
+): string {
+  const topicNice = topic.charAt(0).toUpperCase() + topic.slice(1)
+  const actor = dominantActors[0] || harmed[0] || ''
+  if (frame === 'corrupción' && actor) return `${topicNice} y ${frame}: presión sobre ${actor}`
+  if (frame === 'crisis') return `${topicNice} como crisis ${harmed[0] ? `que afecta a ${harmed[0]}` : 'abierta'}`
+  if (frame === 'electoral' && actor) return `${topicNice} en clave electoral: ${actor} en el centro`
+  if (frame === 'judicial' && actor) return `Judicialización de ${topicNice} · ${actor} implicado`
+  if (frame === 'internacional') return `${topicNice} con repercusión internacional`
+  if (frame === 'institucional') return `${topicNice} y tensión institucional`
+  if (actor) return `${topicNice}: ${actor} marca la agenda (${frame})`
+  return `${topicNice} · ${frame}`
+}
+
+function generateNarrativeSummary(
+  arts: ArticleReading[],
+  topic: string,
+  frame: FrameType,
+  dominantActors: string[],
+  harmed: string[],
+  benefited: string[],
+): string {
+  const n = arts.length
+  const mainActor = dominantActors[0]
+  const harmActor = harmed[0]
+  const benefActor = benefited[0]
+  let s = `${n} artículos sobre ${topic} en clave ${frame}.`
+  if (mainActor) s += ` Actor central: ${mainActor}.`
+  if (harmActor && harmActor !== mainActor) s += ` Sale perjudicado: ${harmActor}.`
+  if (benefActor && benefActor !== mainActor && benefActor !== harmActor) s += ` Sale beneficiado: ${benefActor}.`
+  return s
+}
+
+function buildEvidence(arts: ArticleReading[]): Array<{ title: string; medium: string; url: string; ideology: IdeologyBucket }> {
+  // Tomar 1 por bucket ideológico para evidence balanceada
+  const seen: Partial<Record<IdeologyBucket, boolean>> = {}
+  const out: Array<{ title: string; medium: string; url: string; ideology: IdeologyBucket }> = []
+  for (const a of arts) {
+    if (!seen[a.medium_ideology_bucket]) {
+      seen[a.medium_ideology_bucket] = true
+      out.push({ title: a.headline, medium: a.medium, url: a.url, ideology: a.medium_ideology_bucket })
+    }
+  }
+  // Si quedan huecos · rellenar con más artículos
+  for (const a of arts) {
+    if (out.length >= 8) break
+    if (!out.find((x) => x.url === a.url)) {
+      out.push({ title: a.headline, medium: a.medium, url: a.url, ideology: a.medium_ideology_bucket })
+    }
+  }
+  return out
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// 9 · Aggregates derivados de ArticleReading[] para alimentar UI/IA
+// ════════════════════════════════════════════════════════════════════════
+
+export interface FigureFromReadings {
+  name: string
+  mentions: number
+  avg_sentiment: number          // -1 a +1
+  avg_confidence: number         // 0 a 1
+  beneficial_count: number
+  harmful_count: number
+  neutral_count: number
+  uncertain_count: number
+  top_frames: Array<{ frame: FrameType; count: number }>
+  top_mediums: Array<{ medium: string; count: number }>
+}
+
+/**
+ * Construye agregados por figura usando assessSentiment · separa
+ * sentiment HACIA el actor de mention plana.
+ */
+export function figuresFromReadings(readings: ArticleReading[], n = 20): FigureFromReadings[] {
+  const byActor = new Map<string, {
+    mentions: number
+    sentSum: number
+    confSum: number
+    impacts: Record<ActorImpactKind, number>
+    frames: string[]
+    mediums: string[]
+  }>()
+
+  for (const r of readings) {
+    for (const ai of r.sentiment.actor_impact) {
+      const cur = byActor.get(ai.actor) || {
+        mentions: 0, sentSum: 0, confSum: 0,
+        impacts: { beneficial: 0, harmful: 0, neutral: 0, uncertain: 0 },
+        frames: [], mediums: [],
+      }
+      cur.mentions++
+      const sa = r.sentiment.actor_sentiment.find((x) => x.actor === ai.actor)
+      cur.sentSum += sa ? sa.sentiment : 0
+      cur.confSum += ai.confidence
+      cur.impacts[ai.impact]++
+      cur.frames.push(r.frame)
+      cur.mediums.push(r.medium)
+      byActor.set(ai.actor, cur)
+    }
+  }
+
+  const out: FigureFromReadings[] = []
+  for (const [actor, agg] of Array.from(byActor.entries())) {
+    const frameCounts: Record<string, number> = {}
+    for (const f of agg.frames) frameCounts[f] = (frameCounts[f] || 0) + 1
+    const top_frames = Object.entries(frameCounts).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([frame, count]) => ({ frame: frame as FrameType, count }))
+    const medCounts: Record<string, number> = {}
+    for (const m of agg.mediums) medCounts[m] = (medCounts[m] || 0) + 1
+    const top_mediums = Object.entries(medCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([medium, count]) => ({ medium, count }))
+
+    out.push({
+      name: actor,
+      mentions: agg.mentions,
+      avg_sentiment: agg.mentions > 0 ? agg.sentSum / agg.mentions : 0,
+      avg_confidence: agg.mentions > 0 ? agg.confSum / agg.mentions : 0,
+      beneficial_count: agg.impacts.beneficial,
+      harmful_count: agg.impacts.harmful,
+      neutral_count: agg.impacts.neutral,
+      uncertain_count: agg.impacts.uncertain,
+      top_frames,
+      top_mediums,
+    })
+  }
+  return out.sort((a, b) => b.mentions - a.mentions).slice(0, n)
+}
+
+export interface ReadingsSummary {
+  n_readings: number
+  dominant_frames: Array<{ frame: string; count: number }>
+  avg_controversy: number
+  avg_political_risk: number
+  avg_confidence: number
+  top_beneficiaries: Array<{ actor: string; count: number }>
+  top_affected: Array<{ actor: string; count: number }>
+  action_verbs: Array<{ verb: string; count: number }>
+}
+
+/**
+ * Resumen ejecutivo de un set de readings · listo para enviar a lectura IA
+ * como `readings_summary` en /api/medios/lectura.
+ */
+export function summarizeReadings(readings: ArticleReading[]): ReadingsSummary {
+  const n = readings.length
+  if (n === 0) {
+    return { n_readings: 0, dominant_frames: [], avg_controversy: 0, avg_political_risk: 0, avg_confidence: 0, top_beneficiaries: [], top_affected: [], action_verbs: [] }
+  }
+  const frameCounts = new Map<string, number>()
+  const verbCounts = new Map<string, number>()
+  const benefCounts = new Map<string, number>()
+  const affectCounts = new Map<string, number>()
+  let contSum = 0, riskSum = 0, confSum = 0
+  for (const r of readings) {
+    frameCounts.set(r.frame, (frameCounts.get(r.frame) || 0) + 1)
+    verbCounts.set(r.action_verb, (verbCounts.get(r.action_verb) || 0) + 1)
+    for (const b of r.beneficiaries) benefCounts.set(b, (benefCounts.get(b) || 0) + 1)
+    for (const a of r.affected) affectCounts.set(a, (affectCounts.get(a) || 0) + 1)
+    contSum += r.sentiment.controversy_score
+    riskSum += r.political_risk
+    confSum += r.confidence.overall
+  }
+  const sortByCount = <T>(m: Map<T, number>): Array<{ frame: string; count: number }> =>
+    Array.from(m.entries()).sort((a, b) => b[1] - a[1]).map(([k, count]) => ({ frame: String(k), count }))
+  const dominant_frames = sortByCount(frameCounts).slice(0, 6)
+  const action_verbs = Array.from(verbCounts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([verb, count]) => ({ verb, count }))
+  const top_beneficiaries = Array.from(benefCounts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([actor, count]) => ({ actor, count }))
+  const top_affected = Array.from(affectCounts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([actor, count]) => ({ actor, count }))
+  return {
+    n_readings: n,
+    dominant_frames,
+    avg_controversy: contSum / n,
+    avg_political_risk: riskSum / n,
+    avg_confidence: confSum / n,
+    top_beneficiaries,
+    top_affected,
+    action_verbs,
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// 10 · Meta builder unificado para endpoints
 // ════════════════════════════════════════════════════════════════════════
 
 export interface ApiMeta {
