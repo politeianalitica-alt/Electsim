@@ -24,6 +24,7 @@ OUT = REPO_ROOT / "apps" / "visual-oscar" / "data" / "dosieres-fixture.ts"
 INPUTS = [
     Path("/tmp/dosieres.json"),         # Gobierno + Feijóo (24)
     Path("/tmp/dosieres_regio.json"),   # Regionalistas + Grupo Mixto (33)
+    Path("/tmp/dosieres_sumar.json"),   # Diputados Sumar no ministros (20)
 ]
 
 PARTIDO_OVERRIDES = {
