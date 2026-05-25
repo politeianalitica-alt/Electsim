@@ -20,6 +20,11 @@ import { GeoStakeholderGraph } from '@/components/geopolitica/GeoStakeholderGrap
 import { GeoAnalogFinder } from '@/components/geopolitica/GeoAnalogFinder'
 import { GeoScenarioSlider } from '@/components/geopolitica/GeoScenarioSlider'
 import { GeoRiskHeatmap } from '@/components/geopolitica/GeoRiskHeatmap'
+import { GeoUcdpPanel } from '@/components/geopolitica/GeoUcdpPanel'
+import { GeoReliefWebPanel } from '@/components/geopolitica/GeoReliefWebPanel'
+import { GeoTravelAdvisories } from '@/components/geopolitica/GeoTravelAdvisories'
+import { GeoNatoFeed } from '@/components/geopolitica/GeoNatoFeed'
+import { GeoUnscFeed } from '@/components/geopolitica/GeoUnscFeed'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -326,15 +331,18 @@ interface PresenciaItem {
 }
 
 // ── main component ────────────────────────────────────────────────────────────
-// Slugs persistibles en URL para los 6 tabs (0..5)
-const GEO_TABS = ['teatro', 'alertas', 'osint', 'impacto', 'presencia', 'ia'] as const
+// Sprint G6 · 7 subtabs centradas en RIESGO GEOPOLÍTICO DURO
+// Drop fuentes macro/comercio/opinión pública (UN Comtrade, OEC, WTO, IEA,
+// Eurobarómetro, CIS opinión). Focus: guerra, escalada, violencia política,
+// sanciones, terrorismo, diplomacia crisis, consular, inestabilidad estatal.
+const GEO_TABS = ['radar', 'conflictos', 'pais', 'militar', 'diplomacia', 'espana', 'analisis'] as const
 type GeoTabSlug = typeof GEO_TABS[number]
 
 export default function GeopoliticaPage() {
   // P5 · Pilar 5 · estado en URL para bookmarkear tabs
-  const [tabSlug, setTabSlug] = useUrlState<GeoTabSlug>('tab', 'teatro')
+  const [tabSlug, setTabSlug] = useUrlState<GeoTabSlug>('tab', 'radar')
   const tab = Math.max(0, GEO_TABS.indexOf(tabSlug))
-  const setTab = (i: number) => setTabSlug((GEO_TABS[i] ?? 'teatro') as GeoTabSlug)
+  const setTab = (i: number) => setTabSlug((GEO_TABS[i] ?? 'radar') as GeoTabSlug)
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
   // Filtro de dimensión/sector para TAB 3 Impacto España
@@ -488,13 +496,60 @@ export default function GeopoliticaPage() {
         </div>
 
         <TabBar
-          items={['Teatro Global', 'OSINT', 'Alertas', 'Impacto España', 'Presencia Española', 'Análisis Politeia']}
+          items={[
+            'Radar global de crisis',
+            'Conflictos & violencia política',
+            'Riesgo país & estabilidad',
+            'Militar & alianzas',
+            'Diplomacia & sanciones',
+            'Presencia España',
+            'OSINT, alertas & escenarios',
+          ]}
           active={tab}
           onChange={setTab}
         />
 
-        {/* TAB 0 — Teatro Global */}
-        {tab === 0 && (() => {
+        {/* TAB 0 — Radar global de crisis · señal rápida multi-fuente */}
+        {tab === 0 && (
+          <div>
+            <div style={{ marginBottom: 16 }}>
+              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
+                <strong style={{ color: '#0f172a' }}>Capa 1 · señal rápida.</strong>{' '}
+                Radar global combinando ACLED Spain Context, GDELT cascading events y
+                señales OSINT estructuradas. Detecta cambios bruscos de atención y
+                crisis emergentes antes de que escalen.
+              </p>
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <GeoKpiGrid />
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <GeoEventStream limit={60} />
+            </div>
+          </div>
+        )}
+
+        {/* TAB 1 — Conflictos, violencia política & protestas · ACLED + UCDP */}
+        {tab === 1 && (
+          <div>
+            <div style={{ marginBottom: 16 }}>
+              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
+                <strong style={{ color: '#0f172a' }}>Capa 2 · evento duro verificable.</strong>{' '}
+                ACLED como señal táctica reciente (batallas, protestas, violencia contra civiles)
+                + UCDP/PRIO como validación estructural académica desde 1946.
+              </p>
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <AcledSpainContext days={30} />
+            </div>
+            <div style={{ marginBottom: 18 }}>
+              <GeoUcdpPanel country="Ukraine" />
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2 — Riesgo país & estabilidad estatal (heatmap + scatter + país cards + Travel Advisories + ReliefWeb) */}
+        {tab === 2 && (() => {
           // 3 modos de orden:
           //  - importancia: por interes_espana DESC (default, ya en riesgoSorted)
           //  - riesgo:      por score DESC (urgencia geopolítica pura)
@@ -793,12 +848,33 @@ export default function GeopoliticaPage() {
                 })}
               </div>
             )}
+
+            {/* Sprint G6 · Capa 5 · Travel Advisories oficiales + ReliefWeb humanitario */}
+            <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+              <GeoTravelAdvisories />
+              <GeoReliefWebPanel defaultCountry="UKR" />
+            </div>
           </div>
           )
         })()}
 
-        {/* TAB 1 — OSINT (visual estilo Alertas Prioritarias + enlace a noticia) */}
-        {tab === 1 && (
+        {/* TAB 3 — Riesgo militar, defensa & alianzas (NATO + Capa 3) */}
+        {tab === 3 && (
+          <div>
+            <div style={{ marginBottom: 16 }}>
+              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
+                <strong style={{ color: '#0f172a' }}>Capa 3 · militar y diplomático.</strong>{' '}
+                Feed oficial NATO HQ. Cumbres, ejercicios militares, flanco este, defensa
+                aérea, presencia avanzada, relación Rusia-OTAN, artículo 5, misiones aliadas
+                con presencia española.
+              </p>
+            </div>
+            <GeoNatoFeed limit={25} />
+          </div>
+        )}
+
+        {/* TAB 6a — OSINT signals (parte de Análisis Politeia) */}
+        {tab === 6 && (
           <div>
             {/* Sprint G1 · Indicadores OSINT estructurados con methodology tooltips */}
             <div style={{ marginBottom: 20 }}>
@@ -935,8 +1011,8 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 2 — Alertas (visual igual a Alertas Prioritarias) */}
-        {tab === 2 && (
+        {/* TAB 4 — Diplomacia & sanciones (UN SC + sanciones EU/OFAC/UN + Top Risks + alertas) */}
+        {tab === 4 && (
           <div>
             {/* Sprint G2 · Top 10 Risks (estilo Eurasia Group) + Sanciones + Calendar */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
@@ -944,6 +1020,10 @@ export default function GeopoliticaPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16 }}>
                 <GeoSanctionsFeed />
                 <GeoCalendarPanel />
+              </div>
+              {/* Sprint G6 · UN Security Council news (Capa 3 · diplomacia de crisis) */}
+              <div style={{ marginTop: 16 }}>
+                <GeoUnscFeed limit={20} />
               </div>
             </div>
             {/* Resumen contadores por nivel */}
@@ -1023,8 +1103,8 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 3 — Impacto España (visual Alertas con colores por sector) */}
-        {tab === 3 && (() => {
+        {/* TAB 5a — Impacto España (riesgos importados por dimensión) */}
+        {tab === 5 && (() => {
           const dimsList = ['seguridad', 'economica', 'energetica', 'diplomatica', 'social'] as const
           const impactosFiltered = impactoDim === 'all'
             ? impactosSorted
@@ -1142,8 +1222,8 @@ export default function GeopoliticaPage() {
           </div>
         )})()}
 
-        {/* TAB 4 — Presencia Española (cards estilo Teatro Global + DAFO breve) */}
-        {tab === 4 && (() => {
+        {/* TAB 5b — Presencia Española (intereses + DAFO) */}
+        {tab === 5 && (() => {
           // Tres modos de orden:
           //  - importancia: por interes_espana (dataset riesgo) — el por defecto
           //  - presencia:   por intensidad (huella diplomática/empresarial)
@@ -1284,8 +1364,8 @@ export default function GeopoliticaPage() {
           )
         })()}
 
-        {/* TAB 5 — Análisis IA */}
-        {tab === 5 && (
+        {/* TAB 6b — Análisis IA (escenarios + clock + graph + analog + briefing IA) */}
+        {tab === 6 && (
           <div>
             {/* Sprint G4 · WAR-GAMING interactivo + Historical Analog Finder */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>

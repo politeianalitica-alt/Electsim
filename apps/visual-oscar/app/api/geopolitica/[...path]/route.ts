@@ -1054,6 +1054,267 @@ async function buildMomentumScore(req: Request, country: string, days: number) {
   }
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// Sprint G6 · Reorientación a riesgo geopolítico duro
+// ════════════════════════════════════════════════════════════════════════
+// El usuario pide centrar la pestaña en:
+//   guerra, escalada militar, violencia política, golpes, sanciones,
+//   terrorismo, crisis diplomáticas, misiones, amenazas, fronteras,
+//   inestabilidad estatal, alertas de seguridad consular.
+//
+// Se DESCARTAN como sources principales: UN Comtrade, OEC, WTO, ENTSO-E,
+// IEA, EIA, Eurobarómetro, Pew, CIS como opinión, IMF/OECD/Eurostat macro.
+//
+// Nuevas capas implementadas en este sprint:
+//   Capa 2 · evento duro verificable     · UCDP, ReliefWeb
+//   Capa 3 · militar y diplomático       · NATO press, UN Security Council
+//   Capa 5 · consular y amenaza país     · US State Dept Travel Advisories
+
+// ─── UCDP · Uppsala Conflict Data Program ─────────────────────────────
+// Fuente: https://ucdpapi.pcr.uu.se/api/
+// Recursos: gedevents / ucdpprioconflict / battledeaths / dyadic / nonstate
+// Rate limit: 5.000 req/día. Sirve para conflict structural validation
+// que complementa ACLED (que es señal táctica reciente).
+async function buildUcdpConflicts(country: string) {
+  // ucdpprioconflict devuelve conflictos armados activos por país
+  // Versión actual: 24.1 (UCDP/PRIO Armed Conflict Dataset, mayo 2025)
+  const url = `https://ucdpapi.pcr.uu.se/api/ucdpprioconflict/24.1?Country=${encodeURIComponent(country)}&pagesize=100`
+  const data = await jsonFetch(url)
+  const results = Array.isArray(data?.Result) ? data.Result : []
+  // Normalizamos a shape compacto + score de intensidad estructural
+  const conflicts = results.map((r: any) => ({
+    conflict_id: r.conflict_id ?? r.ConflictID,
+    name: r.location ?? r.Location ?? `${r.side_a ?? '?'} vs ${r.side_b ?? '?'}`,
+    side_a: r.side_a ?? r.SideA,
+    side_b: r.side_b ?? r.SideB,
+    incompatibility: r.incompatibility ?? r.Incompatibility, // 1=territorio, 2=gobierno, 3=ambos
+    intensity_level: r.intensity_level ?? r.IntensityLevel, // 1=minor (25-999 deaths), 2=war (1000+)
+    type_of_conflict: r.type_of_conflict ?? r.TypeOfConflict, // 1=extrasystemic, 2=interstate, 3=internal, 4=internationalized
+    start_date: r.start_date ?? r.StartDate,
+    year: r.year ?? r.Year,
+    region: r.region ?? r.Region,
+  })).filter((c: any) => c.conflict_id)
+  // Resumen estructural
+  const years_active = Array.from(new Set(conflicts.map((c: any) => c.year))).sort()
+  const max_intensity = conflicts.length > 0 ? Math.max(...conflicts.map((c: any) => Number(c.intensity_level) || 0)) : 0
+  return {
+    ok: !data?.error,
+    country,
+    n_conflicts: conflicts.length,
+    years_covered: years_active.length > 0 ? `${years_active[0]}-${years_active[years_active.length - 1]}` : '—',
+    max_intensity_level: max_intensity,
+    interpretation: max_intensity >= 2 ? 'GUERRA (1000+ battle deaths/año)' : max_intensity >= 1 ? 'CONFLICTO MENOR (25-999 deaths/año)' : 'sin conflicto armado registrado',
+    conflicts: conflicts.slice(0, 30),
+    source: 'UCDP/PRIO Armed Conflict Dataset v24.1 · Uppsala University',
+    note: 'Validación estructural académica. Complemento ACLED (que es señal táctica reciente).',
+    error: data?.error,
+  }
+}
+
+// ─── ReliefWeb · OCHA humanitarian crisis reports ─────────────────────
+// Fuente: https://api.reliefweb.int/v1/
+// Cuota: 1.000 entradas/llamada · 1.000 llamadas/día.
+// Sirve para conflict→humanitarian impact, refugiados, hambruna, colapso.
+async function buildReliefWebReports(country: string, limit: number) {
+  // ReliefWeb usa códigos ISO-3 (mismo que UCDP). Si recibimos nombre,
+  // intentamos query libre. Si recibimos iso3, usamos filtro country.iso3.
+  const isIso3 = /^[A-Z]{3}$/.test(country)
+  const query = isIso3
+    ? `https://api.reliefweb.int/v1/reports?appname=politeia-analitica&profile=list&limit=${limit}&filter[field]=country.iso3&filter[value]=${country}&sort[]=date.created:desc`
+    : `https://api.reliefweb.int/v1/reports?appname=politeia-analitica&profile=list&limit=${limit}&query[value]=${encodeURIComponent(country)}&query[fields][]=country.name&query[fields][]=title&sort[]=date.created:desc`
+  const data = await jsonFetch(query)
+  const items = Array.isArray(data?.data) ? data.data : []
+  const reports = items.map((it: any) => ({
+    id: it.id,
+    title: it.fields?.title ?? '(sin título)',
+    source: Array.isArray(it.fields?.source) ? (it.fields.source[0]?.shortname || it.fields.source[0]?.name || 'ReliefWeb') : 'ReliefWeb',
+    date: it.fields?.date?.created ?? it.fields?.date?.original ?? '',
+    countries: Array.isArray(it.fields?.country) ? it.fields.country.map((c: any) => c.shortname || c.name).filter(Boolean) : [],
+    primary_country: it.fields?.primary_country?.shortname ?? it.fields?.primary_country?.name ?? '',
+    url: it.fields?.url ?? it.href ?? '',
+  }))
+  return {
+    ok: !data?.error,
+    country,
+    n_reports: reports.length,
+    total_available: data?.totalCount ?? reports.length,
+    reports,
+    source: 'ReliefWeb · OCHA (UN Office for Coordination of Humanitarian Affairs)',
+    note: 'Crisis humanitarias = manifestación de crisis geopolíticas. Guerras civiles, desplazamientos, colapso estatal, hambrunas inducidas por conflicto.',
+    error: data?.error,
+  }
+}
+
+// ─── US State Department Travel Advisories ────────────────────────────
+// Fuente: https://travel.state.gov/content/travel/en/traveladvisories/
+// No hay API oficial pública. Usamos travel-advisory.info (espejo no oficial
+// que parsea las advisories de EE.UU.+UK+otros).
+// Niveles: 1 (Exercise Normal Precautions) → 4 (Do Not Travel).
+async function buildTravelAdvisories(country: string) {
+  // travel-advisory.info devuelve dataset completo en una sola llamada
+  const data = await jsonFetch('https://www.travel-advisory.info/api')
+  if (data?.error) {
+    return { ok: false, error: data.error, source: 'travel-advisory.info' }
+  }
+  const allCountries = data?.data ? Object.entries(data.data) : []
+  // Si pidieron país específico
+  if (country && country !== 'all') {
+    const iso2 = country.length === 2 ? country.toUpperCase() : ''
+    if (iso2) {
+      const entry: any = (data?.data as any)?.[iso2]
+      if (entry) {
+        return {
+          ok: true,
+          country: entry.name,
+          iso2,
+          continent: entry.continent,
+          advisory: {
+            score: entry.advisory?.score,
+            sources_active: entry.advisory?.sources_active,
+            message: entry.advisory?.message,
+            updated: entry.advisory?.updated,
+            source: entry.advisory?.source,
+            source_url: entry.advisory?.source_url,
+          },
+          band: scoreToBand(entry.advisory?.score),
+          source: 'travel-advisory.info (US State Dept + UK FCDO mirror)',
+        }
+      }
+    }
+    return { ok: false, error: 'country_not_found', country, hint: 'usa código ISO-2 (ej. ES, US, RU)' }
+  }
+  // Sino, devolvemos top 30 más peligrosos (advisory score >= 4) ordenado por score
+  const list = allCountries.map(([iso2, c]: [string, any]) => ({
+    iso2,
+    country: c.name,
+    continent: c.continent,
+    score: c.advisory?.score ?? 0,
+    band: scoreToBand(c.advisory?.score ?? 0),
+    sources: c.advisory?.sources_active ?? 0,
+    updated: c.advisory?.updated ?? '',
+    message: (c.advisory?.message ?? '').slice(0, 240),
+  }))
+    .sort((a: any, b: any) => b.score - a.score)
+  return {
+    ok: true,
+    n_countries: list.length,
+    high_risk_count: list.filter((c: any) => c.score >= 3.5).length,
+    extreme_risk_count: list.filter((c: any) => c.score >= 4.5).length,
+    list: list.slice(0, 60),
+    source: 'travel-advisory.info (US State Dept + UK FCDO consolidado)',
+    note: 'Escala 0-5: 0-2.5 normal, 2.5-3.5 reconsiderar, 3.5-4.5 evitar, 4.5+ no viajar.',
+  }
+}
+
+function scoreToBand(score: number | undefined): string {
+  const s = Number(score) || 0
+  if (s >= 4.5) return 'NO VIAJAR'
+  if (s >= 3.5) return 'EVITAR VIAJES NO ESENCIALES'
+  if (s >= 2.5) return 'AUMENTAR PRECAUCIONES'
+  if (s >= 1.5) return 'NORMAL CON CUIDADOS'
+  return 'NORMAL'
+}
+
+// ─── NATO · feed prensa oficial OTAN ──────────────────────────────────
+// Fuente: https://www.nato.int/cps/en/natohq/news.xml (RSS oficial OTAN HQ)
+// Sirve para riesgo militar europeo, flanco este, ejercicios, defensa
+// colectiva, comunicados cumbres, presencia española en OTAN.
+async function buildNatoPress(limit: number) {
+  const url = 'https://www.nato.int/cps/en/natohq/news.xml'
+  try {
+    const r = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/rss+xml, application/xml, text/xml' },
+      next: { revalidate: 21600 },
+    })
+    if (!r.ok) {
+      return { ok: false, error: `HTTP ${r.status}`, source: 'NATO HQ' }
+    }
+    const xml = await r.text()
+    const items = parseRssItems(xml).slice(0, limit)
+    return {
+      ok: true,
+      n_items: items.length,
+      items,
+      source: 'NATO HQ News (RSS oficial nato.int)',
+      note: 'Comunicados OTAN, cumbres, ejercicios militares, flanco este, defensa aérea, presencia avanzada, artículo 5, relación Rusia-OTAN.',
+    }
+  } catch (e: any) {
+    return { ok: false, error: String(e?.message ?? e).slice(0, 160), source: 'NATO HQ' }
+  }
+}
+
+// ─── UN Security Council news ────────────────────────────────────────
+// Fuente: https://news.un.org/feed/subscribe/en/news/topic/security-council/feed/rss.xml
+// Sirve para diplomacia de crisis: resoluciones, vetos, reuniones de
+// emergencia, mandatos, misiones de paz, sanciones, alto el fuego.
+async function buildUnscNews(limit: number) {
+  const url = 'https://news.un.org/feed/subscribe/en/news/topic/security-council/feed/rss.xml'
+  try {
+    const r = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/rss+xml, application/xml, text/xml' },
+      next: { revalidate: 21600 },
+    })
+    if (!r.ok) {
+      return { ok: false, error: `HTTP ${r.status}`, source: 'UN News · Security Council' }
+    }
+    const xml = await r.text()
+    const items = parseRssItems(xml).slice(0, limit)
+    return {
+      ok: true,
+      n_items: items.length,
+      items,
+      source: 'UN News · Security Council feed (news.un.org)',
+      note: 'Resoluciones, vetos, reuniones emergencia, mandatos, peacekeeping, alto el fuego, posiciones P5.',
+    }
+  } catch (e: any) {
+    return { ok: false, error: String(e?.message ?? e).slice(0, 160), source: 'UN News · SC' }
+  }
+}
+
+// ─── Parser RSS minimalista (regex tolerante, sin libs externas) ──────
+function parseRssItems(xml: string): Array<{ title: string; link: string; pubDate: string; description: string }> {
+  const items: Array<{ title: string; link: string; pubDate: string; description: string }> = []
+  const itemRegex = /<item[\s>][\s\S]*?<\/item>/gi
+  const matches = xml.match(itemRegex) || []
+  for (const block of matches) {
+    const title = extractTag(block, 'title')
+    const link = extractTag(block, 'link') || extractTag(block, 'guid')
+    const pubDate = extractTag(block, 'pubDate') || extractTag(block, 'dc:date')
+    const description = extractTag(block, 'description') || extractTag(block, 'content:encoded') || ''
+    if (title) {
+      items.push({
+        title: cleanText(title).slice(0, 220),
+        link: cleanText(link),
+        pubDate: cleanText(pubDate),
+        description: cleanText(description).slice(0, 360),
+      })
+    }
+  }
+  return items
+}
+
+function extractTag(block: string, tag: string): string {
+  // Tolera CDATA y atributos
+  const re = new RegExp(`<${tag}[^>]*>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`, 'i')
+  const m = block.match(re)
+  return m ? m[1] : ''
+}
+
+function cleanText(s: string): string {
+  return (s || '')
+    .replace(/<!\[CDATA\[/g, '')
+    .replace(/\]\]>/g, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 // ─── Handler principal ─────────────────────────────────────────────────
 export async function GET(req: Request, { params }: { params: { path: string[] } }) {
   const url = new URL(req.url)
@@ -1184,6 +1445,43 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G6 · riesgo geopolítico duro (UCDP + ReliefWeb + Travel Advisories + NATO + UN SC)
+  if (action === 'ucdp') {
+    const country = url.searchParams.get('country') || 'Ukraine'
+    return NextResponse.json(await buildUcdpConflicts(country), {
+      headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' },
+    })
+  }
+
+  if (action === 'reliefweb') {
+    const country = url.searchParams.get('country') || 'Spain'
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildReliefWebReports(country, limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'travel-advisories') {
+    const country = url.searchParams.get('country') || 'all'
+    return NextResponse.json(await buildTravelAdvisories(country), {
+      headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'nato-press') {
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildNatoPress(limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'unsc-news') {
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildUnscNews(limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -1205,6 +1503,11 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/pais-profile?iso=ESP · drill país profundo (Sprint G5)',
       'GET /api/geopolitica/tts?text=... · ElevenLabs/OpenAI TTS premium (Sprint G5)',
       'GET /api/geopolitica/gdelt-live?country=Spain&limit=20 · GDELT polling 15m (Sprint G5)',
+      'GET /api/geopolitica/ucdp?country=Ukraine · UCDP structural conflicts (Sprint G6)',
+      'GET /api/geopolitica/reliefweb?country=ESP&limit=20 · ReliefWeb humanitarian reports (Sprint G6)',
+      'GET /api/geopolitica/travel-advisories?country=all · US State Dept + UK FCDO (Sprint G6)',
+      'GET /api/geopolitica/nato-press?limit=20 · NATO HQ RSS oficial (Sprint G6)',
+      'GET /api/geopolitica/unsc-news?limit=20 · UN Security Council news (Sprint G6)',
     ],
   }, { status: 404 })
 }
