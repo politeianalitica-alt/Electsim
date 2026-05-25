@@ -26,7 +26,8 @@ INPUTS = [
     Path("/tmp/dosieres_regio.json"),   # Regionalistas + Grupo Mixto (33)
     Path("/tmp/dosieres_sumar.json"),   # Diputados Sumar no ministros (20)
     Path("/tmp/dosieres_vox.json"),     # Diputados Vox (33)
-    Path("/tmp/dosieres_psoe.json"),    # Diputados PSOE no ministros (112)
+    Path("/tmp/dosieres_psoe.json"),    # Diputados PSOE no ministros (118)
+    Path("/tmp/dosieres_pp.json"),      # Diputados PP (135)
 ]
 
 PARTIDO_OVERRIDES = {
@@ -54,6 +55,12 @@ def ts_string(s):
 
 
 def load_all():
+    """Carga todos los JSONs y combina.
+
+    Si dos personas distintas comparten slug (homónimos como
+    'maria-isabel-prieto-serrano' que existe en PSOE Y PP), añade
+    sufijo de partido al slug del segundo para no perderla.
+    """
     seen_slugs = set()
     combined = []
     for inp in INPUTS:
@@ -62,15 +69,29 @@ def load_all():
             continue
         data = json.loads(inp.read_text(encoding="utf-8"))
         added = 0
+        renamed = 0
         for d in data:
             slug = d["slug"]
             if slug in seen_slugs:
-                print(f"  ↻ slug duplicado, skip: {slug}", file=sys.stderr)
-                continue
+                # Homónimo · añadir sufijo de partido
+                partido = (d.get("partido") or "x").lower().replace(" ", "-")
+                new_slug = f"{slug}-{partido}"
+                # Si aún colisiona (p.ej. dos del mismo partido), añadir num
+                attempt = 1
+                while new_slug in seen_slugs:
+                    attempt += 1
+                    new_slug = f"{slug}-{partido}-{attempt}"
+                print(f"  ◆ homónimo, renombrado: {slug} → {new_slug} ({d['nombre_completo']})", file=sys.stderr)
+                d["slug"] = new_slug
+                slug = new_slug
+                renamed += 1
             seen_slugs.add(slug)
             combined.append(d)
             added += 1
-        print(f"✓ {inp.name}: {added} dosieres añadidos", file=sys.stderr)
+        msg = f"✓ {inp.name}: {added} dosieres añadidos"
+        if renamed:
+            msg += f" ({renamed} homónimos renombrados)"
+        print(msg, file=sys.stderr)
     return combined
 
 
