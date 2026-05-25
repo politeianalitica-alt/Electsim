@@ -7,6 +7,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton from '@/components/Skeleton'
+import { findDossier } from '@/lib/dosieres-link'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -32,15 +33,16 @@ interface DossierCompleto {
   apartados: Apartado[]; created_at: string; updated_at: string
 }
 
-// ── Metadata por apartado · más visual con emojis claros ─────────────────────
-const APARTADO_META: Record<TipoApartado, { label: string; icon: string; color: string; bg: string }> = {
-  identidad:     { label: 'Quién es',         icon: '👤', color: '#1F4E8C', bg: '#EFF4FB' },
-  trayectoria:   { label: 'Trayectoria',      icon: '📜', color: '#7C3AED', bg: '#F4EFFE' },
-  posiciones:    { label: 'Posiciones',       icon: '🎯', color: '#0F766E', bg: '#E7F5F2' },
-  redes:         { label: 'Quién está cerca', icon: '🤝', color: '#0EA5E9', bg: '#E6F4FB' },
-  declaraciones: { label: 'Ha dicho',         icon: '💬', color: '#D97706', bg: '#FBF1E3' },
-  controversias: { label: 'Lo que se le critica', icon: '⚠️', color: '#DC2626', bg: '#FBEAEA' },
-  evidencia:     { label: 'Patrimonio',       icon: '💰', color: '#525258', bg: '#F2F2F4' },
+// ── Metadata por apartado · sin emojis · símbolos Unicode permitidos ──────────
+// Regla 0.5 del CLAUDE.md · prohibido emoji. Usamos badges con letra inicial.
+const APARTADO_META: Record<TipoApartado, { label: string; letter: string; color: string; bg: string }> = {
+  identidad:     { label: 'Quién es',         letter: 'i', color: '#1F4E8C', bg: '#EFF4FB' },
+  trayectoria:   { label: 'Trayectoria',      letter: 'T', color: '#7C3AED', bg: '#F4EFFE' },
+  posiciones:    { label: 'Posiciones',       letter: 'P', color: '#0F766E', bg: '#E7F5F2' },
+  redes:         { label: 'Quién está cerca', letter: 'R', color: '#0EA5E9', bg: '#E6F4FB' },
+  declaraciones: { label: 'Ha dicho',         letter: '"', color: '#D97706', bg: '#FBF1E3' },
+  controversias: { label: 'Lo que se le critica', letter: '!', color: '#DC2626', bg: '#FBEAEA' },
+  evidencia:     { label: 'Patrimonio',       letter: '€', color: '#525258', bg: '#F2F2F4' },
 }
 
 const APARTADO_ORDER: TipoApartado[] = [
@@ -169,8 +171,8 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
                   const n = apartadosByTipo.get(t)?.items.length ?? 0
                   return (
  <a key={t} href={`#${t}`} style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 6,
-                      padding: '6px 11px', borderRadius: 999,
+                      display: 'inline-flex', alignItems: 'center', gap: 7,
+                      padding: '6px 12px', borderRadius: 999,
                       background: 'rgba(255,255,255,0.18)', color: '#fff',
                       fontSize: 11.5, fontWeight: 600, textDecoration: 'none',
                       backdropFilter: 'blur(8px)',
@@ -178,9 +180,8 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
                     }}
                       onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.28)' }}
                       onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.18)' }}>
- <span>{meta.icon}</span>
  <span>{meta.label}</span>
- <span style={{ opacity: 0.7, fontSize: 10.5 }}>{n}</span>
+ <span style={{ opacity: 0.7, fontSize: 10.5, fontWeight: 700 }}>{n}</span>
  </a>
                   )
                 })}
@@ -241,16 +242,21 @@ function ApartadoCard({ tipo, apartado, partidoColor }: { tipo: TipoApartado; ap
       overflow: 'hidden',
       scrollMarginTop: 16,
     }}>
-      {/* Header del apartado · con color de tipo y emoji grande */}
+      {/* Header del apartado · badge con letra inicial en lugar de emoji */}
  <header style={{
         background: meta.bg,
         padding: '18px 24px',
-        display: 'flex', alignItems: 'center', gap: 12,
+        display: 'flex', alignItems: 'center', gap: 14,
         borderBottom: `1px solid ${meta.color}20`,
       }}>
- <span style={{
-          fontSize: 26, lineHeight: 1, flexShrink: 0,
-        }}>{meta.icon}</span>
+ <div style={{
+          width: 38, height: 38, borderRadius: 10,
+          background: meta.color, color: '#fff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 700,
+          fontSize: meta.letter === '"' || meta.letter === '!' || meta.letter === '€' ? 22 : 18,
+          lineHeight: 1, flexShrink: 0,
+        }}>{meta.letter}</div>
  <div style={{ flex: 1 }}>
  <h2 style={{
             fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 700,
@@ -285,7 +291,7 @@ function ApartadoCard({ tipo, apartado, partidoColor }: { tipo: TipoApartado; ap
   )
 }
 
-// ── REDES · grid con avatares y barra de valoración visual ────────────────
+// ── REDES · grid con avatares + barra valoración + click si hay dossier ───
 function RedesGrid({ items }: { items: Item[] }) {
   // Ordenar por nota descendente
   const sorted = [...items].sort((a, b) => {
@@ -301,53 +307,102 @@ function RedesGrid({ items }: { items: Item[] }) {
         const label = notaLabel(nota)
         const expl = item.contenido.split('—').slice(1).join('—').trim() || item.contenido.replace(/\*\*.*?\*\*\s*\([^)]+\)\s*/, '')
         const initial = (item.titulo || '?').split(' ').map(s => s[0]).join('').slice(0, 2).toUpperCase()
+        const otroDossier = item.titulo ? findDossier(item.titulo) : null
         return (
- <div key={item.id} style={{
-            display: 'flex', gap: 10, padding: '12px 14px',
-            background: '#FAFAFB', borderRadius: 12,
-            border: '1px solid #ECECEF',
-            transition: 'transform 150ms, border-color 150ms',
-          }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = color + '60'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#ECECEF'; e.currentTarget.style.transform = 'translateY(0)' }}>
+ <RelacionCard
+            key={item.id}
+            color={color}
+            initial={initial}
+            titulo={item.titulo || '—'}
+            nota={nota}
+            label={label}
+            explicacion={expl}
+            href={otroDossier ? `/dosieres/${otroDossier.slug}` : null}
+          />
+        )
+      })}
+ </div>
+  )
+}
+
+// Tarjeta de relación · Link si la persona tiene dossier, div si no
+function RelacionCard({ color, initial, titulo, nota, label, explicacion, href }: {
+  color: string; initial: string; titulo: string; nota: number; label: string; explicacion: string; href: string | null
+}) {
+  const inner = (
+ <>
  <div style={{
-              width: 38, height: 38, borderRadius: '50%',
-              background: `${color}20`, color, flexShrink: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13,
-            }}>{initial}</div>
+        width: 38, height: 38, borderRadius: '50%',
+        background: `${color}20`, color, flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13,
+      }}>{initial}</div>
  <div style={{ flex: 1, minWidth: 0 }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 6 }}>
  <span style={{ fontWeight: 700, fontSize: 13.5, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {item.titulo}
+            {titulo}
+            {href && (
+ <span style={{ marginLeft: 6, fontSize: 9.5, padding: '1px 5px', borderRadius: 4, background: `${color}18`, color, fontWeight: 800, letterSpacing: '0.04em', verticalAlign: 'middle' }}>FICHA</span>
+            )}
  </span>
  <span style={{
-                  fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color,
-                  flexShrink: 0,
-                }}>{nota >= 0 ? '+' : ''}{nota}</span>
+            fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color,
+            flexShrink: 0,
+          }}>{nota >= 0 ? '+' : ''}{nota}</span>
  </div>
  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
-                {/* Barra de valoración · escala -10 a +10 */}
+          {/* Barra de valoración · escala -10 a +10 */}
  <div style={{ flex: 1, height: 4, background: '#ECECEF', borderRadius: 2, position: 'relative', overflow: 'hidden' }}>
  <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: '#6e6e73', opacity: 0.4 }}/>
  <div style={{
-                    position: 'absolute',
-                    left: nota >= 0 ? '50%' : `${50 + (nota / 10) * 50}%`,
-                    width: `${Math.abs(nota) * 5}%`,
-                    height: '100%', background: color, borderRadius: 2,
-                  }}/>
+              position: 'absolute',
+              left: nota >= 0 ? '50%' : `${50 + (nota / 10) * 50}%`,
+              width: `${Math.abs(nota) * 5}%`,
+              height: '100%', background: color, borderRadius: 2,
+            }}/>
  </div>
  <span style={{ fontSize: 9.5, color, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0 }}>{label}</span>
  </div>
-              {expl && expl.length > 5 && (
+        {explicacion && explicacion.length > 5 && (
  <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '6px 0 0', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>
-                  {expl}
+            {explicacion}
  </p>
-              )}
+        )}
  </div>
- </div>
-        )
-      })}
+ </>
+  )
+
+  const baseStyle: React.CSSProperties = {
+    display: 'flex', gap: 10, padding: '12px 14px',
+    background: '#FAFAFB', borderRadius: 12,
+    border: '1px solid #ECECEF',
+    transition: 'transform 150ms, border-color 150ms, box-shadow 150ms',
+    textDecoration: 'none', color: 'inherit',
+    cursor: href ? 'pointer' : 'default',
+  }
+
+  const onEnter = (el: HTMLElement) => {
+    el.style.borderColor = color + '60'
+    el.style.transform = 'translateY(-1px)'
+    if (href) el.style.boxShadow = `0 4px 12px ${color}30`
+  }
+  const onLeave = (el: HTMLElement) => {
+    el.style.borderColor = '#ECECEF'
+    el.style.transform = 'translateY(0)'
+    el.style.boxShadow = 'none'
+  }
+
+  return href ? (
+ <Link href={href} style={baseStyle}
+      onMouseEnter={e => onEnter(e.currentTarget)}
+      onMouseLeave={e => onLeave(e.currentTarget)}>
+      {inner}
+ </Link>
+  ) : (
+ <div style={baseStyle}
+      onMouseEnter={e => onEnter(e.currentTarget)}
+      onMouseLeave={e => onLeave(e.currentTarget)}>
+      {inner}
  </div>
   )
 }
