@@ -83,7 +83,18 @@ interface SearchResponse {
     distinctive_terms: { term: string; lift: number }[]
     interpretation: string
   }>
-  suggested_followup_queries?: Array<{ query: string; reason: string; expected_focus: string }>
+  suggested_followup_queries?: Array<{
+    query: string
+    reason: string
+    expected_focus: string
+    params?: {
+      sortBy?: 'relevancy' | 'publishedAt' | 'popularity'
+      sourceGroups?: string[]
+      from?: string
+      to?: string
+      language?: string
+    }
+  }>
   _meta?: { source: string; ts: string; latency_ms: number; warnings: string[]; methodology_version: string; confidence?: number }
 }
 
@@ -151,6 +162,8 @@ export function BusquedaPuntual() {
   }
 
   const openArticleDrill = (article: any) => {
+    // Sprint M5 · busca ArticleReading correspondiente · drawer auditable
+    const reading = (result?.article_readings || []).find((r: any) => r.url === article.url)
     openDrill({
       title: article.title,
       subtitle: `${article.source} · ${new Date(article.published).toLocaleString('es-ES')}`,
@@ -166,6 +179,10 @@ export function BusquedaPuntual() {
             />
           )}
           <p style={{ fontSize: 13, color: '#334155', lineHeight: 1.6 }}>{article.description}</p>
+
+          {/* Sprint M5 · Lectura estructurada Politeia si existe reading */}
+          {reading && <ArticleReadingPanel reading={reading} />}
+
           <div style={{ marginTop: 16, padding: 12, background: '#f8fafc', borderRadius: 8 }}>
             <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>METADATA</p>
             <table style={{ width: '100%', fontSize: 11, marginTop: 6 }}>
@@ -173,8 +190,8 @@ export function BusquedaPuntual() {
                 <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Autor</td><td>{article.author || '—'}</td></tr>
                 <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Dominio</td><td><code>{article.domain}</code></td></tr>
                 <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Idioma</td><td>{article.language}</td></tr>
-                <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Sentimiento</td><td>{(article.sentiment_score * 100).toFixed(0)}%</td></tr>
-                <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Ideología</td><td>{article.ideology_bucket || '—'}</td></tr>
+                <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Sentimiento (legacy plano)</td><td>{(article.sentiment_score * 100).toFixed(0)}%</td></tr>
+                <tr><td style={{ color: '#64748b', padding: '3px 0' }}>Ideología medio</td><td>{article.ideology_bucket || '—'}</td></tr>
               </tbody>
             </table>
           </div>
@@ -470,7 +487,16 @@ export function BusquedaPuntual() {
             <GapsYFollowupPanel
               gaps={result.coverage_gaps || []}
               followups={result.suggested_followup_queries || []}
-              onRun={(q) => { setQuery(q); setTimeout(() => runSearch(), 100) }}
+              onRunFollowup={(f) => {
+                // Sprint M5 · ejecuta con params estructurados (no sólo texto)
+                setQuery(f.query)
+                if (f.params?.sortBy) setSortBy(f.params.sortBy)
+                if (f.params?.sourceGroups) setSourceGroups(f.params.sourceGroups as SourceGroup[])
+                if (f.params?.from) setFrom(f.params.from)
+                if (f.params?.to) setTo(f.params.to)
+                if (f.params?.language) setLanguage(f.params.language as 'es' | 'en' | 'fr')
+                setTimeout(() => runSearch(), 100)
+              }}
             />
           )}
 
@@ -941,10 +967,10 @@ function FramingComparisonPanel({ framing }: { framing: NonNullable<SearchRespon
   )
 }
 
-function GapsYFollowupPanel({ gaps, followups, onRun }: {
+function GapsYFollowupPanel({ gaps, followups, onRunFollowup }: {
   gaps: NonNullable<SearchResponse['coverage_gaps']>
   followups: NonNullable<SearchResponse['suggested_followup_queries']>
-  onRun: (q: string) => void
+  onRunFollowup: (f: any) => void
 }) {
   return (
     <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #f59e0b', borderRadius: 10, padding: 14 }}>
@@ -977,13 +1003,122 @@ function GapsYFollowupPanel({ gaps, followups, onRun }: {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {followups.slice(0, 8).map((f, i) => (
-                <button key={i} onClick={() => onRun(f.query)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2, padding: 6, background: '#f0f9ff', borderLeft: '2px solid #0ea5e9', borderRadius: 3, fontSize: 10, cursor: 'pointer', border: 'none', textAlign: 'left' }}>
+                <button key={i} onClick={() => onRunFollowup(f)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2, padding: 6, background: '#f0f9ff', borderLeft: '2px solid #0ea5e9', borderRadius: 3, fontSize: 10, cursor: 'pointer', border: 'none', textAlign: 'left' }}>
                   <span style={{ color: '#0f172a', fontWeight: 600, fontFamily: 'ui-monospace, monospace' }}>{f.query}</span>
                   <span style={{ color: '#475569', fontSize: 9 }}>{f.reason}</span>
                 </button>
               ))}
             </div>
           </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+/**
+ * `<ArticleReadingPanel />` · Sprint M5
+ *
+ * Render auditable de la lectura determinista Politeia sobre un artículo
+ * (extracted from media-analysis.ts > readArticle()).
+ * No usa LLM. Refleja qué entendió el sistema a partir de titular+descripción.
+ */
+function ArticleReadingPanel({ reading }: { reading: any }) {
+  if (!reading) return null
+  const s = reading.sentiment || {}
+  const c = reading.confidence || {}
+  const fmtPct = (n: number | undefined) => (typeof n === 'number' ? `${Math.round(n * 100)}%` : '—')
+  const fmtSigned = (n: number | undefined) => (typeof n === 'number' ? (n > 0 ? `+${n.toFixed(2)}` : n.toFixed(2)) : '—')
+  const list = (arr: any) => (Array.isArray(arr) && arr.length > 0 ? arr.join(' · ') : '—')
+
+  const Row = ({ label, value }: { label: string; value: any }) => (
+    <tr>
+      <td style={{ color: '#64748b', padding: '3px 8px 3px 0', verticalAlign: 'top', whiteSpace: 'nowrap', width: 170 }}>{label}</td>
+      <td style={{ color: '#0f172a', padding: '3px 0' }}>{value ?? '—'}</td>
+    </tr>
+  )
+
+  return (
+    <section style={{ marginTop: 16, padding: 12, background: '#fefce8', border: '1px solid #fde68a', borderLeft: '4px solid #f59e0b', borderRadius: 8 }}>
+      <header style={{ marginBottom: 8 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#92400e', letterSpacing: 0.5, textTransform: 'uppercase' }}>
+          ◆ Lectura estructurada Politeia
+        </p>
+        <p style={{ margin: '2px 0 0', fontSize: 9, color: '#78716c', fontStyle: 'italic' }}>
+          Lectura determinista basada en titular/descripción. No sustituye lectura humana del texto completo.
+        </p>
+      </header>
+
+      <table style={{ width: '100%', fontSize: 11, borderCollapse: 'collapse' }}>
+        <tbody>
+          <Row label="Frame narrativo" value={<strong>{reading.frame || '—'}</strong>} />
+          <Row label="Tema principal" value={reading.main_topic} />
+          <Row label="Temas secundarios" value={list(reading.secondary_topics)} />
+          <Row label="Acción · verbo" value={reading.action_verb} />
+          <Row label="Acción · sujeto" value={reading.action_subject} />
+          <Row label="Acción · objeto" value={reading.action_object} />
+          <Row label="Actores" value={list(reading.actors)} />
+          <Row label="Partidos" value={list(reading.parties)} />
+          <Row label="Instituciones" value={list(reading.institutions)} />
+          <Row label="Empresas" value={list(reading.companies)} />
+          <Row label="Territorio mencionado" value={list(reading.territory_mentioned)} />
+          <Row label="Territorio afectado" value={list(reading.territory_affected)} />
+          <Row label="Beneficiarios" value={list(reading.beneficiaries)} />
+          <Row label="Afectados" value={list(reading.affected)} />
+        </tbody>
+      </table>
+
+      <div style={{ marginTop: 10, padding: 8, background: '#fff', borderRadius: 6, border: '1px solid #fde68a' }}>
+        <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#92400e', letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 4 }}>
+          Sentimiento
+        </p>
+        <table style={{ width: '100%', fontSize: 11, borderCollapse: 'collapse' }}>
+          <tbody>
+            <Row label="Tono del evento" value={s.event_tone} />
+            <Row label="Tono titular (score)" value={fmtSigned(s.headline_tone_score)} />
+            <Row label="Registro emocional" value={s.emotional_register} />
+            <Row label="Score controversia" value={fmtPct(s.controversy_score)} />
+            <Row label="Sentimiento por actor" value={
+              s.actor_sentiment && typeof s.actor_sentiment === 'object'
+                ? Object.entries(s.actor_sentiment).map(([k, v]: any) => `${k}: ${fmtSigned(v)}`).join(' · ')
+                : '—'
+            } />
+            <Row label="Impacto por actor" value={
+              s.actor_impact && typeof s.actor_impact === 'object'
+                ? Object.entries(s.actor_impact).map(([k, v]: any) => `${k}: ${v}`).join(' · ')
+                : '—'
+            } />
+            {s.explanation && (
+              <Row label="Explicación" value={<span style={{ fontStyle: 'italic', color: '#475569' }}>{s.explanation}</span>} />
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div style={{ marginTop: 10, padding: 8, background: '#fff', borderRadius: 6, border: '1px solid #fde68a' }}>
+        <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#92400e', letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 4 }}>
+          Relevancia
+        </p>
+        <table style={{ width: '100%', fontSize: 11, borderCollapse: 'collapse' }}>
+          <tbody>
+            <Row label="Riesgo político" value={fmtPct(reading.political_risk)} />
+            <Row label="Relevancia España" value={fmtPct(reading.spain_relevance)} />
+            <Row label="Relevancia electoral" value={fmtPct(reading.electoral_relevance)} />
+            <Row label="Relevancia institucional" value={fmtPct(reading.institutional_relevance)} />
+          </tbody>
+        </table>
+      </div>
+
+      <div style={{ marginTop: 10, padding: 8, background: '#fff', borderRadius: 6, border: '1px solid #fde68a' }}>
+        <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#92400e', letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 4 }}>
+          Confianza · {fmtPct(c.overall)}
+        </p>
+        {Array.isArray(c.reasons) && c.reasons.length > 0 ? (
+          <ul style={{ margin: '4px 0 0 16px', padding: 0, fontSize: 10, color: '#475569' }}>
+            {c.reasons.map((r: string, i: number) => (<li key={i} style={{ marginBottom: 2 }}>{r}</li>))}
+          </ul>
+        ) : (
+          <p style={{ margin: 0, fontSize: 10, color: '#94a3b8' }}>—</p>
         )}
       </div>
     </section>

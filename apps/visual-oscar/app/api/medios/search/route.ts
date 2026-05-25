@@ -41,6 +41,7 @@ import {
   readArticlesBatch, framingComparison, coverageGapsAnalysis,
   suggestedFollowupQueries, mediaAnalysisWarnings, computeMethodologyConfidence,
   buildNarrativeClusters, buildDiversityBreakdown, profileFromDomain,
+  startCatalogMatchTracking, endCatalogMatchTracking,
   ANALYSIS_VERSION,
 } from '@/lib/medios/media-analysis'
 import { buildMeta } from '@/lib/medios/media-methodology'
@@ -437,6 +438,9 @@ async function runSearch(req: MediaSearchRequest) {
   // Para mode quick limitamos · análisis caro
   const cap = isDeep ? 150 : 60
   const articlesForAnalysis = articles.slice(0, cap)
+  // Sprint M5 · pasar CATALOG + match tracker para mejorar enrichment
+  // de fuentes y métricas catalog_match_rate visibles en _meta
+  const matchToken = startCatalogMatchTracking(CATALOG)
   const readings = readArticlesBatch(
     articlesForAnalysis.map((a) => ({
       title: a.title, description: a.description, url: a.url,
@@ -444,7 +448,10 @@ async function runSearch(req: MediaSearchRequest) {
       publishedAt: a.published, language: a.language ?? 'es',
       ideology_bucket: a.ideology_bucket ?? null,
     } as any)),
+    CATALOG,
+    matchToken,
   )
+  const catalogMatchStats = endCatalogMatchTracking(matchToken)
   // Diversidad sobre profiles derivados de readings
   const profiles = readings.map((r) => profileFromDomain(domainFromUrl(r.url), r.medium, r.medium_ideology_bucket))
   const sourceDiversity = buildDiversityBreakdown(profiles)
@@ -511,13 +518,48 @@ async function runSearch(req: MediaSearchRequest) {
     coverage_gaps: coverageGapsRich,
     framing_comparison: framing,
     suggested_followup_queries: followups,
+    // Sprint M5 · transparencia matching catálogo
+    catalog_match: {
+      catalog_total: CATALOG.length,
+      matched_sources: catalogMatchStats.matched_sources,
+      unmatched_sources: catalogMatchStats.unmatched_sources,
+      catalog_match_rate: catalogMatchStats.catalog_match_rate,
+      match_strategies: catalogMatchStats.match_strategies,
+      unmatched_samples: catalogMatchStats.unmatched_samples,
+    },
+    // Sprint M5 · capas analíticas · UI debe priorizar las "preferred" sobre legacy
+    analysis_layers: {
+      legacy_available: true,
+      preferred: [
+        'article_readings',
+        'narrative_clusters',
+        'actor_impacts',
+        'framing_comparison',
+        'methodology_confidence',
+        'coverage_gaps',
+        'suggested_followup_queries',
+      ],
+      legacy_fallback: [
+        'actors',     // detectActors heurístico
+        'topics',     // ngramas
+        'narratives', // frames simples
+        'sentiment',  // keywords plano
+        'ideologicalComparison', // counts por bucket
+      ],
+      note: 'Campos preferred usan motor media-analysis con sentiment HACIA actor y clustering auditable. Legacy se mantienen por compatibilidad pero la UI prioriza preferred.',
+    },
     _meta: buildMeta({
       source: 'live',
       startedAt,
       sources_used: profiles.length,
       articles_read: readings.length,
       confidence: confidence.overall,
-      warnings: warnings.map((w) => `[${w.level}] ${w.message}`),
+      warnings: [
+        ...warnings.map((w) => `[${w.level}] ${w.message}`),
+        ...(catalogMatchStats.catalog_match_rate < 0.5
+          ? [`[warning] catalog_match_rate bajo (${(catalogMatchStats.catalog_match_rate * 100).toFixed(0)}%) · ${catalogMatchStats.unmatched_sources} fuentes externas sin perfil Politeia`]
+          : []),
+      ],
     }),
     params_applied: {
       domains: domains.length,

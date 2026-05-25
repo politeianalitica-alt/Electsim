@@ -102,7 +102,16 @@ export interface CoverageGap {
 export interface SuggestedFollowupQuery {
   query: string
   reason: string
-  expected_focus: 'actor' | 'topic' | 'territory' | 'frame' | 'contradiction'
+  expected_focus: 'actor' | 'topic' | 'territory' | 'frame' | 'contradiction' | 'time' | 'source'
+  // Sprint M5 · params estructurados ejecutables directamente por /api/medios/search
+  params?: {
+    domains?: string[]
+    sourceGroups?: Array<'left' | 'center-left' | 'center' | 'center-right' | 'right' | 'economic' | 'international' | 'regional' | 'fact-checkers'>
+    sortBy?: 'publishedAt' | 'relevancy' | 'popularity'
+    from?: string
+    to?: string
+    language?: 'es' | 'en' | 'fr'
+  }
 }
 
 export interface MediaAnalysisWarning {
@@ -116,18 +125,133 @@ export interface MediaAnalysisWarning {
 // 2 · normalizeArticle · adapta cualquier fuente a AggregatedArticle
 // ════════════════════════════════════════════════════════════════════════
 
+// Sprint M5 · matching robusto contra catálogo
+// 5 estrategias en cascada para minimizar fuentes "NewsAPI external":
+//   1. dominio exacto del campo `web` del catálogo (sin www)
+//   2. dominio sin subdominio (theguardian.com vs www.theguardian.com)
+//   3. hostname incluido dentro de `web` del catálogo
+//   4. source.id de NewsAPI (los IDs tipo "el-pais" mapean bien)
+//   5. matching aproximado del nombre con normalización (Levenshtein-lite)
+function matchCatalog(
+  catalog: CatalogMedio[] | undefined,
+  domain: string,
+  sourceName: string,
+  sourceId: string | null,
+): { medio: CatalogMedio | null; strategy: string | null } {
+  if (!catalog || catalog.length === 0) return { medio: null, strategy: null }
+  const cleanDomain = domain.toLowerCase().replace(/^www\./, '')
+  // 1 · dominio exacto sin www
+  for (const m of catalog) {
+    if (!m.web) continue
+    try {
+      const w = new URL(m.web.startsWith('http') ? m.web : `https://${m.web}`)
+      const h = w.hostname.toLowerCase().replace(/^www\./, '')
+      if (h === cleanDomain) return { medio: m, strategy: 'domain-exact' }
+    } catch { /* noop */ }
+  }
+  // 2 · root domain match (subdominio inverso · ej. cincodias.elpais.com vs elpais.com)
+  if (cleanDomain.includes('.')) {
+    const root = cleanDomain.split('.').slice(-2).join('.')
+    for (const m of catalog) {
+      if (!m.web) continue
+      try {
+        const w = new URL(m.web.startsWith('http') ? m.web : `https://${m.web}`)
+        const h = w.hostname.toLowerCase().replace(/^www\./, '')
+        const hRoot = h.includes('.') ? h.split('.').slice(-2).join('.') : h
+        if (hRoot === root) return { medio: m, strategy: 'domain-root' }
+      } catch { /* noop */ }
+    }
+  }
+  // 3 · hostname incluido en m.web (caso "elpais.com" en catálogo, "noticias.elpais.com" en artículo)
+  for (const m of catalog) {
+    if (!m.web) continue
+    const w = m.web.toLowerCase()
+    if (cleanDomain && w.includes(cleanDomain)) return { medio: m, strategy: 'domain-included' }
+  }
+  // 4 · source.id de NewsAPI ("el-pais", "abc-es", "marca", etc.)
+  if (sourceId) {
+    const normId = sourceId.toLowerCase().replace(/[-_]/g, '')
+    for (const m of catalog) {
+      const mId = m.id.toLowerCase().replace(/[-_]/g, '')
+      if (mId === normId) return { medio: m, strategy: 'source-id' }
+      const nameNorm = m.nombre.toLowerCase().replace(/[^a-z0-9]/g, '')
+      if (nameNorm === normId) return { medio: m, strategy: 'name-id' }
+    }
+  }
+  // 5 · nombre aproximado · normalizado sin espacios/acentos
+  const normSourceName = sourceName.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '')
+  if (normSourceName.length >= 3) {
+    for (const m of catalog) {
+      const normMedio = m.nombre.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '')
+      if (normMedio === normSourceName) return { medio: m, strategy: 'name-exact' }
+      // Sub-string match · si el nombre normalizado es 80%+ del otro
+      if (normMedio.length >= 5 && normSourceName.length >= 5) {
+        if (normMedio.includes(normSourceName) && normSourceName.length / normMedio.length >= 0.6) {
+          return { medio: m, strategy: 'name-substr' }
+        }
+        if (normSourceName.includes(normMedio) && normMedio.length / normSourceName.length >= 0.6) {
+          return { medio: m, strategy: 'name-substr' }
+        }
+      }
+    }
+  }
+  return { medio: null, strategy: null }
+}
+
+// Tracking de matching para metrics catalog_match_rate
+const __MATCH_STATS = new WeakMap<object, { matched: number; unmatched: number; strategies: Record<string, number>; unmatchedSamples: Array<{ domain: string; name: string }> }>()
+
+export function startCatalogMatchTracking(catalog: CatalogMedio[]): object {
+  const token = { __catalog: catalog }
+  __MATCH_STATS.set(token, { matched: 0, unmatched: 0, strategies: {}, unmatchedSamples: [] })
+  return token
+}
+
+export function endCatalogMatchTracking(token: object): {
+  matched_sources: number
+  unmatched_sources: number
+  catalog_match_rate: number
+  match_strategies: Record<string, number>
+  unmatched_samples: Array<{ domain: string; name: string }>
+} {
+  const s = __MATCH_STATS.get(token)
+  if (!s) return { matched_sources: 0, unmatched_sources: 0, catalog_match_rate: 0, match_strategies: {}, unmatched_samples: [] }
+  const total = s.matched + s.unmatched
+  return {
+    matched_sources: s.matched,
+    unmatched_sources: s.unmatched,
+    catalog_match_rate: total > 0 ? Math.round((s.matched / total) * 100) / 100 : 0,
+    match_strategies: s.strategies,
+    unmatched_samples: s.unmatchedSamples.slice(0, 20),
+  }
+}
+
 export function normalizeArticle(
   article: NewsApiArticle | any,
   fallbackCatalog?: CatalogMedio[],
+  matchToken?: object,
 ): AggregatedArticle {
   const domain = (article.domain || domainOf(article.url || '')) as string
   const sourceName = article.source?.name || article.source || domain
+  const sourceId = article.source?.id || null
   const idHash = sourceName.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 40)
-  // Buscar medio en catálogo si existe · fallback medio sintético
-  const matched = fallbackCatalog?.find((m) =>
-    m.nombre.toLowerCase() === sourceName.toLowerCase() ||
-    (m.web || '').toLowerCase().includes(domain),
-  )
+  // Sprint M5 · matching robusto con 5 estrategias
+  const { medio: matched, strategy } = matchCatalog(fallbackCatalog, domain, sourceName, sourceId)
+  // Track stats si se proveyó token
+  if (matchToken) {
+    const s = __MATCH_STATS.get(matchToken)
+    if (s) {
+      if (matched && strategy) {
+        s.matched++
+        s.strategies[strategy] = (s.strategies[strategy] || 0) + 1
+      } else {
+        s.unmatched++
+        if (s.unmatchedSamples.length < 50 && !s.unmatchedSamples.find((u) => u.domain === domain)) {
+          s.unmatchedSamples.push({ domain, name: sourceName })
+        }
+      }
+    }
+  }
   const medio: CatalogMedio = matched || {
     id: idHash,
     nombre: sourceName,
@@ -175,9 +299,10 @@ function domainOf(url: string): string {
 export function readArticlesBatch(
   articles: Array<NewsApiArticle | AggregatedArticle>,
   catalog?: CatalogMedio[],
+  matchToken?: object,
 ): ArticleReading[] {
   return articles.map((a) => {
-    const norm = ('medio' in a && a.medio) ? (a as AggregatedArticle) : normalizeArticle(a as NewsApiArticle, catalog)
+    const norm = ('medio' in a && a.medio) ? (a as AggregatedArticle) : normalizeArticle(a as NewsApiArticle, catalog, matchToken)
     return readArticle(norm)
   })
 }
@@ -379,6 +504,9 @@ function gapInterpretation(
 // 6 · suggestedFollowupQueries · derivadas de readings
 // ════════════════════════════════════════════════════════════════════════
 
+// Sprint M5 · sugerencias con params estructurados ejecutables directamente por
+// /api/medios/search · sin `site:` (NewsAPI no lo soporta como Google).
+// Cada sugerencia trae query + params para construir un POST directo.
 export function suggestedFollowupQueries(
   readings: ArticleReading[],
   originalQuery: string,
@@ -401,43 +529,78 @@ export function suggestedFollowupQueries(
     for (const t of r.territory_mentioned) territories.set(t, (territories.get(t) || 0) + 1)
   }
 
+  // 1a · actores top como query principal
   topMap(actors, 3).forEach(([actor]) => {
     out.push({
       query: `"${actor}" AND ${originalQuery}`,
-      reason: `Actor más mencionado (${actors.get(actor)} apariciones)`,
+      reason: `Actor más mencionado (${actors.get(actor)} apariciones) · acota la cobertura al actor`,
       expected_focus: 'actor',
+      params: { sortBy: 'relevancy' },
     })
   })
 
+  // 1b · sectores como query con sort por popularidad para detectar viralidad sectorial
   topMap(sectors, 2).forEach(([sector]) => {
     if (originalQuery.toLowerCase().includes(sector)) return
     out.push({
       query: `${sector} ${originalQuery}`,
-      reason: `Topic dominante (${sectors.get(sector)} apariciones)`,
+      reason: `Topic dominante (${sectors.get(sector)} apariciones) · sort por popularidad detecta viralidad`,
       expected_focus: 'topic',
+      params: { sortBy: 'popularity' },
     })
   })
 
+  // 1c · territorios + sourceGroup regional para captar prensa regional
   topMap(territories, 2).forEach(([terr]) => {
     out.push({
       query: `${originalQuery} ${terr}`,
-      reason: `Territorio recurrente (${territories.get(terr)} apariciones)`,
+      reason: `Territorio recurrente (${territories.get(terr)} apariciones) · añade sourceGroup regional para prensa local`,
       expected_focus: 'territory',
+      params: { sourceGroups: ['regional'] },
     })
   })
 
-  // 2 · si hay asimetría ideológica, sugerir explorar el bucket sub-representado
+  // 2 · si hay asimetría ideológica, sugerir consultar el bucket sub-representado
+  // ahora con sourceGroups (NewsAPI lo entiende vía domains internos) · NO `site:`
   if (framing && framing.length >= 2) {
     const sorted = [...framing].sort((a, b) => a.count - b.count)
     const min = sorted[0]
     const max = sorted[sorted.length - 1]
-    if (min.count < max.count * 0.4) {
-      out.push({
-        query: `${originalQuery} site:${(min.top_sources[0]?.source || '').toLowerCase()}`,
-        reason: `Bucket "${min.bucket}" infrarrepresentado vs "${max.bucket}" · explora cobertura asimétrica`,
-        expected_focus: 'contradiction',
-      })
+    if (min.count < max.count * 0.4 && min.bucket !== 'unknown') {
+      const validGroups = ['left', 'center-left', 'center', 'center-right', 'right'] as const
+      const targetGroup = validGroups.includes(min.bucket as any) ? (min.bucket as typeof validGroups[number]) : null
+      if (targetGroup) {
+        out.push({
+          query: originalQuery,
+          reason: `Bucket "${min.bucket}" infrarrepresentado (${min.count} vs ${max.count}) · ejecuta misma query restringida a ese bloque para auditar asimetría`,
+          expected_focus: 'contradiction',
+          params: { sourceGroups: [targetGroup] },
+        })
+      }
     }
+  }
+
+  // 3 · sugerencia temporal · si la cobertura está concentrada en pocos días
+  const dates = new Set(readings.map((r) => (r.pub_date || '').slice(0, 10)).filter(Boolean))
+  if (dates.size <= 2 && readings.length >= 5) {
+    const lastWeek = new Date(Date.now() - 7 * 86400_000).toISOString().slice(0, 10)
+    out.push({
+      query: originalQuery,
+      reason: `Cobertura concentrada en ${dates.size} día(s) · amplía a últimas 2 semanas para contexto temporal`,
+      expected_focus: 'time',
+      params: { from: lastWeek, sortBy: 'publishedAt' },
+    })
+  }
+
+  // 4 · sugerencia fact-checkers · si hay frame "corrupción" o "desinformación" dominante
+  const hasControv = readings.some((r) => r.frame === 'corrupción' || r.frame === 'desinformación' || r.sentiment.controversy_score >= 60)
+  if (hasControv) {
+    out.push({
+      query: originalQuery,
+      reason: 'Tema con controversia alta · verifica con fact-checkers (Maldita, Newtral, EFE Verifica)',
+      expected_focus: 'source',
+      params: { sourceGroups: ['fact-checkers'], sortBy: 'publishedAt' },
+    })
   }
 
   return out.slice(0, 8)
@@ -549,11 +712,34 @@ export function computeMethodologyConfidence(
   }
   const ideoBonus = diversity ? diversity.ideological_balance_score * 0.15 : 0
   const overall = Math.min(1, (avgConf * 0.5 + avgTextSignal * 0.2 + avgSourceQual * 0.15 + Math.min(1, avgEntity / 3) * 0.15) * samplePenalty + ideoBonus * 0.5)
+  // Sprint M5 · razones accionables · cada warning sugiere qué hacer
   const reasons: string[] = []
-  if (avgConf < 0.5) reasons.push('confianza media por artículo baja')
-  if (avgEntity < 1) reasons.push('pocas entidades reconocidas')
-  if (samplePenalty < 1) reasons.push(`muestra parcial (${n}/${totalResults})`)
-  if (diversity && diversity.ideological_balance_score < 0.4) reasons.push('balance ideológico de muestra débil')
+  if (avgConf < 0.5) {
+    reasons.push('Confianza por artículo baja · revisa si los titulares son cortos o ambiguos · prueba ampliar a fuentes con mejor descripción (ej. añadir prensa nacional)')
+  }
+  if (avgEntity < 1) {
+    reasons.push('Pocas entidades políticas reconocidas: prueba una query más específica con actor/partido o revisa si el tema es principalmente sectorial')
+  }
+  if (samplePenalty < 1 && totalResults) {
+    reasons.push(`Sólo analizamos ${n} de ${totalResults.toLocaleString('es-ES')} resultados (cobertura ${((n / totalResults) * 100).toFixed(1)}%) · sube pageSize o acota por dominios/sourceGroups`)
+  }
+  if (diversity && diversity.ideological_balance_score < 0.4) {
+    reasons.push('Balance ideológico débil · activa modo comparative o añade sourceGroups complementarios al bloque dominante')
+  }
+  // Diversidad temporal · concentración en un solo día = pico, no tendencia
+  if (n >= 5) {
+    const dates = new Set(readings.map((r) => (r.pub_date || '').slice(0, 10)).filter(Boolean))
+    if (dates.size === 1) {
+      reasons.push('Toda la cobertura en 1 solo día · es un pico puntual, no una tendencia · amplía ventana con `from=hace 1 semana`')
+    } else if (dates.size === 2 && n >= 10) {
+      reasons.push('Cobertura concentrada en 2 días · señal puede ser un disparo de actualidad · contextualiza con timespan más amplio')
+    }
+  }
+  // Catalog match rate
+  const externalCount = readings.filter((r) => r.medium === '' || (r as any).medium_type === 'otro').length
+  if (externalCount / n > 0.5) {
+    reasons.push(`${externalCount} de ${n} fuentes no están en el catálogo Politeia · análisis con perfil sintético · considera revisar UnmatchedSourcesPanel`)
+  }
   return {
     overall: Math.round(overall * 100) / 100,
     reasons,
