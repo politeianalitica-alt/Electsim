@@ -108,6 +108,21 @@ interface SearchResponse {
       language?: string
     }
   }>
+  // Sprint M5 FASE 1 · transparencia matching catálogo
+  catalog_match?: {
+    catalog_total: number
+    matched_sources: number
+    unmatched_sources: number
+    catalog_match_rate: number
+    match_strategies: Record<string, number>
+    unmatched_samples: Array<{ domain: string; name: string }>
+  }
+  analysis_layers?: {
+    legacy_available: boolean
+    preferred: string[]
+    legacy_fallback: string[]
+    note: string
+  }
   _meta?: { source: string; ts: string; latency_ms: number; warnings: string[]; methodology_version: string; confidence?: number }
 }
 
@@ -555,6 +570,14 @@ export function BusquedaPuntual() {
               }}
             />
           )}
+
+          {/* Sprint M5 FASE 5 · Transparencia matching catálogo · Unmatched sources */}
+          {result.catalog_match && result.catalog_match.unmatched_sources > 0 && (
+            <UnmatchedSourcesPanel match={result.catalog_match} />
+          )}
+
+          {/* Sprint M5 FASE 5 · AnalysisAuditDrawer trigger transversal */}
+          <AnalysisAuditPanel result={result} />
 
           {/* Sumario */}
           <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 16 }}>
@@ -1279,6 +1302,198 @@ function ComparativeRunsPanel({ runs }: { runs: NonNullable<SearchResponse['comp
           )
         })}
       </div>
+    </section>
+  )
+}
+
+/**
+ * `<UnmatchedSourcesPanel />` · Sprint M5 FASE 5
+ *
+ * Lista los dominios que NewsAPI devolvió pero el catálogo Politeia no pudo
+ * mapear a una fuente conocida. Permite al analista detectar:
+ *   - Errores de matching (medio español sin alias en el catálogo)
+ *   - Fuentes nuevas que merecen ser añadidas (write manual al catálogo)
+ *   - Ruido (blogs, agregadores, fuentes irrelevantes)
+ *
+ * NO escribe al catálogo automáticamente. Solo expone la información.
+ */
+function UnmatchedSourcesPanel({ match }: { match: NonNullable<SearchResponse['catalog_match']> }) {
+  const ratePct = Math.round(match.catalog_match_rate * 100)
+  const rateColor = ratePct >= 70 ? '#059669' : ratePct >= 50 ? '#f59e0b' : '#dc2626'
+  const strategies = Object.entries(match.match_strategies || {})
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #f59e0b', borderRadius: 10, padding: 14 }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#f59e0b', textTransform: 'uppercase' }}>
+            ◆ Fuentes sin match en catálogo Politeia
+          </p>
+          <p style={{ margin: '2px 0 0', fontSize: 10, color: '#64748b' }}>
+            {match.matched_sources} fuentes mapeadas · <strong style={{ color: rateColor }}>{ratePct}%</strong> de match · {match.unmatched_sources} sin perfil ideológico
+          </p>
+        </div>
+        {strategies.length > 0 && (
+          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+            {strategies.sort((a, b) => b[1] - a[1]).map(([strat, n]) => (
+              <span key={strat} style={{ fontSize: 9, padding: '2px 6px', background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 999, color: '#475569', fontFamily: 'ui-monospace, monospace' }}>
+                {strat}: <strong style={{ color: '#0f172a' }}>{n}</strong>
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {ratePct < 50 && (
+        <div style={{ padding: 8, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6, marginBottom: 10, fontSize: 11, color: '#991b1b' }}>
+          ⚠ Match rate bajo. El análisis ideológico puede ser poco representativo · considera ampliar el catálogo o ajustar dominios.
+        </div>
+      )}
+
+      {match.unmatched_samples.length > 0 && (
+        <div>
+          <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+            Muestras (hasta {match.unmatched_samples.length})
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 4 }}>
+            {match.unmatched_samples.map((s, i) => (
+              <div key={i} style={{ padding: 6, background: '#f8fafc', borderLeft: '2px solid #f59e0b', borderRadius: 3, fontSize: 11 }}>
+                <code style={{ color: '#0f172a', fontWeight: 600 }}>{s.domain || '—'}</code>
+                {s.name && s.name !== s.domain && <div style={{ color: '#64748b', fontSize: 10, marginTop: 2 }}>{s.name}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
+/**
+ * `<AnalysisAuditPanel />` · Sprint M5 FASE 5
+ *
+ * Panel transversal que explica QUÉ se calculó, CÓMO y con qué limitaciones.
+ * No reemplaza paneles individuales · los agrupa con metadatos auditables:
+ *   - Capas analíticas (preferred vs legacy fallback)
+ *   - Methodology version + latencia
+ *   - Confidence overall + reasons
+ *   - Warnings críticos
+ *
+ * Es el equivalente del "data lineage" para una búsqueda · permite que el
+ * analista justifique cualquier afirmación derivada del resultado.
+ */
+function AnalysisAuditPanel({ result }: { result: SearchResponse }) {
+  const [expanded, setExpanded] = useState(false)
+  const meta = result._meta
+  const conf = result.methodology_confidence
+  const layers = result.analysis_layers
+  const criticalWarn = (result.analysis_warnings || []).filter((w) => w.level === 'critical')
+  const otherWarn = (result.analysis_warnings || []).filter((w) => w.level !== 'critical')
+
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #6b7280', borderRadius: 10, padding: 12 }}>
+      <button
+        onClick={() => setExpanded((v) => !v)}
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit' }}
+      >
+        <div style={{ textAlign: 'left' }}>
+          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#6b7280', textTransform: 'uppercase' }}>
+            ◆ Auditoría del análisis · cómo se construyó este resultado
+          </p>
+          <p style={{ margin: '2px 0 0', fontSize: 10, color: '#94a3b8' }}>
+            {meta?.methodology_version && <>v{meta.methodology_version} · </>}
+            {meta?.latency_ms && <>{meta.latency_ms}ms · </>}
+            {conf && <>confianza {Math.round(conf.overall * 100)}% · </>}
+            {criticalWarn.length > 0 && <strong style={{ color: '#dc2626' }}>{criticalWarn.length} críticas</strong>}
+            {criticalWarn.length === 0 && otherWarn.length > 0 && <strong style={{ color: '#f59e0b' }}>{otherWarn.length} advertencias</strong>}
+            {criticalWarn.length === 0 && otherWarn.length === 0 && <span style={{ color: '#059669' }}>sin advertencias</span>}
+          </p>
+        </div>
+        <span style={{ fontSize: 16, color: '#94a3b8' }}>{expanded ? '▾' : '▸'}</span>
+      </button>
+
+      {expanded && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px dashed #e5e7eb', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Capas analíticas */}
+          {layers && (
+            <div>
+              <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Capas analíticas (UI prioriza preferred)
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 11 }}>
+                <div style={{ padding: 6, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 4 }}>
+                  <strong style={{ color: '#059669', fontSize: 10, letterSpacing: 0.4, textTransform: 'uppercase' }}>Preferred</strong>
+                  <ul style={{ margin: '4px 0 0 14px', padding: 0, color: '#0f172a', fontFamily: 'ui-monospace, monospace', fontSize: 10 }}>
+                    {layers.preferred.map((k) => <li key={k}>{k}</li>)}
+                  </ul>
+                </div>
+                <div style={{ padding: 6, background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 4 }}>
+                  <strong style={{ color: '#94a3b8', fontSize: 10, letterSpacing: 0.4, textTransform: 'uppercase' }}>Legacy fallback</strong>
+                  <ul style={{ margin: '4px 0 0 14px', padding: 0, color: '#64748b', fontFamily: 'ui-monospace, monospace', fontSize: 10 }}>
+                    {layers.legacy_fallback.map((k) => <li key={k}>{k}</li>)}
+                  </ul>
+                </div>
+              </div>
+              <p style={{ margin: '6px 0 0', fontSize: 10, color: '#64748b', fontStyle: 'italic' }}>{layers.note}</p>
+            </div>
+          )}
+
+          {/* Confidence reasons */}
+          {conf && conf.reasons && conf.reasons.length > 0 && (
+            <div>
+              <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Limitaciones detectadas (qué baja la confianza)
+              </p>
+              <ul style={{ margin: '4px 0 0 16px', padding: 0, fontSize: 11, color: '#475569' }}>
+                {conf.reasons.map((r, i) => <li key={i} style={{ marginBottom: 2 }}>{r}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {/* Warnings */}
+          {(criticalWarn.length > 0 || otherWarn.length > 0) && (
+            <div>
+              <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Advertencias analíticas
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {[...criticalWarn, ...otherWarn].map((w, i) => (
+                  <div key={i} style={{ padding: 6, background: w.level === 'critical' ? '#fef2f2' : w.level === 'warning' ? '#fefce8' : '#eff6ff', border: `1px solid ${w.level === 'critical' ? '#fecaca' : w.level === 'warning' ? '#fde68a' : '#bfdbfe'}`, borderRadius: 4, fontSize: 11 }}>
+                    <strong style={{ color: w.level === 'critical' ? '#991b1b' : w.level === 'warning' ? '#92400e' : '#1e40af', textTransform: 'uppercase', fontSize: 9, letterSpacing: 0.4 }}>
+                      [{w.level}] {w.category}
+                    </strong>{' · '}
+                    <span style={{ color: '#0f172a' }}>{w.message}</span>
+                    {w.evidence && <div style={{ color: '#64748b', fontSize: 10, marginTop: 2, fontStyle: 'italic' }}>{w.evidence}</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Meta */}
+          {meta && (
+            <div>
+              <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Metadatos técnicos
+              </p>
+              <table style={{ width: '100%', fontSize: 10, fontFamily: 'ui-monospace, monospace' }}>
+                <tbody>
+                  <tr><td style={{ color: '#64748b', padding: '2px 8px 2px 0', width: 140 }}>methodology_version</td><td style={{ color: '#0f172a' }}>{meta.methodology_version}</td></tr>
+                  <tr><td style={{ color: '#64748b', padding: '2px 8px 2px 0' }}>source</td><td style={{ color: '#0f172a' }}>{meta.source}</td></tr>
+                  <tr><td style={{ color: '#64748b', padding: '2px 8px 2px 0' }}>latency_ms</td><td style={{ color: '#0f172a' }}>{meta.latency_ms}</td></tr>
+                  <tr><td style={{ color: '#64748b', padding: '2px 8px 2px 0' }}>ts</td><td style={{ color: '#0f172a' }}>{meta.ts}</td></tr>
+                  {result.params_applied && (
+                    <tr><td style={{ color: '#64748b', padding: '2px 8px 2px 0', verticalAlign: 'top' }}>params_applied</td><td style={{ color: '#0f172a' }}><code>{JSON.stringify(result.params_applied)}</code></td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <p style={{ margin: 0, padding: 8, background: '#f8fafc', borderRadius: 4, fontSize: 10, color: '#64748b', fontStyle: 'italic' }}>
+            Esta auditoría refleja qué calculó el motor determinista. La lectura humana del texto completo puede matizar o contradecir cualquier conclusión derivada.
+          </p>
+        </div>
+      )}
     </section>
   )
 }
