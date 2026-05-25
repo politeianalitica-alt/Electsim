@@ -1,8 +1,10 @@
 'use client'
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
+import Link from 'next/link'
 import { RELACIONES_EXPLICITAS, TIPO_META, TIPO_LABEL, type TipoRelacion } from '@/lib/relaciones-explicitas'
 import EmptyState from './EmptyState'
 import { InsightPill } from './InsightClassification'
+import { findDossier } from '@/lib/dosieres-link'
 
 // Grafo de relaciones de actores políticos · v3
 // Mejoras sobre v2:
@@ -970,6 +972,7 @@ function FocusPanel({ stats, actors, metrics }: {
   const topAliados = stats.links.filter(l => l.val > 0).slice(0, 3)
   const topAdvers  = stats.links.filter(l => l.val < 0).slice(0, 3).reverse()
   const curados = stats.links.filter(l => l.curado).length
+  const dossierMatch = findDossier(nameOf(a))
 
   // Roles automáticos · etiquetas que el sistema deduce del análisis de red
   const roles: Array<{ label: string; color: string }> = []
@@ -1005,6 +1008,22 @@ function FocusPanel({ stats, actors, metrics }: {
         {partido}{partido && a.cat ? ' · ' : ''}{CAT_LABEL[a.cat || ''] || ''}
         {a.fechaInicio ? ` · desde ${a.fechaInicio}` : ''}
  </p>
+
+      {/* Link al dossier completo de los 363 si hay match */}
+      {dossierMatch && (
+ <Link href={`/dosieres/${dossierMatch.slug}`} style={{
+          display:'flex', alignItems:'center', justifyContent:'space-between',
+          gap:8, padding:'8px 11px', borderRadius:9,
+          background:`linear-gradient(135deg, ${color}18, ${color}06)`,
+          border:`1px solid ${color}40`,
+          textDecoration:'none', color:'inherit', marginBottom:10,
+        }}>
+ <span style={{ fontSize:11, color, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase' }}>
+            Ficha completa · {dossierMatch.n_apartados} apartado{dossierMatch.n_apartados !== 1 ? 's' : ''}
+ </span>
+ <span style={{ fontSize:14, color, fontWeight:700 }}>→</span>
+ </Link>
+      )}
 
       {/* Biografía verificada (si existe) */}
       {a.bio && (
