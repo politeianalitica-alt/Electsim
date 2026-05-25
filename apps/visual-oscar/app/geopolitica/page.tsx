@@ -29,6 +29,8 @@ import { GeoCrisisGroupFeed } from '@/components/geopolitica/GeoCrisisGroupFeed'
 import { GeoIswBriefings } from '@/components/geopolitica/GeoIswBriefings'
 import { GeoEeasFeed } from '@/components/geopolitica/GeoEeasFeed'
 import { GeoSpainOfficial } from '@/components/geopolitica/GeoSpainOfficial'
+import { GeoConvergenceAlerts } from '@/components/geopolitica/GeoConvergenceAlerts'
+import { GeoDataHealth } from '@/components/geopolitica/GeoDataHealth'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -518,11 +520,15 @@ export default function GeopoliticaPage() {
           <div>
             <div style={{ marginBottom: 16 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
-                <strong style={{ color: '#0f172a' }}>Capa 1 · señal rápida.</strong>{' '}
-                Radar global combinando ACLED Spain Context, GDELT cascading events y
-                señales OSINT estructuradas. Detecta cambios bruscos de atención y
-                crisis emergentes antes de que escalen.
+                <strong style={{ color: '#0f172a' }}>Capa 1 · señal rápida + analítica de convergencia.</strong>{' '}
+                Radar global combinando ACLED + GDELT + OSINT, más detección automática de
+                países donde 2+ capas (táctica · estructural · humanitaria · consular)
+                convergen en señal de riesgo elevado al mismo tiempo.
               </p>
+            </div>
+            {/* Sprint G8 · Convergence alerts (hero analítico) */}
+            <div style={{ marginBottom: 18 }}>
+              <GeoConvergenceAlerts />
             </div>
             <div style={{ marginBottom: 18 }}>
               <GeoKpiGrid />
@@ -893,6 +899,10 @@ export default function GeopoliticaPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16, marginBottom: 20 }}>
               <GeoCrisisGroupFeed limit={20} />
               <GeoIswBriefings limit={20} />
+            </div>
+            {/* Sprint G8 · Data health · transparencia de fuentes */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoDataHealth />
             </div>
             {/* Sprint G1 · Indicadores OSINT estructurados con methodology tooltips */}
             <div style={{ marginBottom: 20 }}>

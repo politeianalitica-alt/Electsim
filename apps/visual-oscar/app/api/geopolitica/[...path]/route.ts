@@ -1449,6 +1449,263 @@ async function buildSpainOfficial(limit: number) {
   }
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// Sprint G8 · Convergencia analítica + transparencia de fuentes
+// ════════════════════════════════════════════════════════════════════════
+// El usuario tiene ahora ~19 endpoints de fuentes geo distintas. La pieza
+// que falta es la analítica que conecta los puntos: ¿qué países muestran
+// señales de riesgo elevado SIMULTÁNEAMENTE en múltiples capas? Esto es
+// el equivalente al "convergence detection" que hace un analista senior
+// cruzando ACLED + UCDP + ReliefWeb + Travel + sanciones manualmente.
+
+// Listas curadas para evitar 50+ API calls por convergence detection.
+// Países UCDP con conflict intensity_level 2 (guerra · 1000+ deaths/año
+// en alguno de los últimos 5 años). Estática, refresh anual al pasar
+// nueva versión UCDP/PRIO. v24.1 mayo 2025.
+const UCDP_WAR_COUNTRIES: Record<string, { intensity: number; conflict: string }> = {
+  UKR: { intensity: 2, conflict: 'Ucrania-Rusia · invasión 2022→' },
+  RUS: { intensity: 2, conflict: 'Ucrania-Rusia · invasión 2022→' },
+  PSE: { intensity: 2, conflict: 'Israel-Hamas · oct 2023→' },
+  ISR: { intensity: 2, conflict: 'Israel-Hamas · oct 2023→' },
+  SDN: { intensity: 2, conflict: 'Sudán · guerra civil RSF vs FAS 2023→' },
+  YEM: { intensity: 2, conflict: 'Yemen · guerra civil 2014→ (intensidad var)' },
+  SYR: { intensity: 1, conflict: 'Siria · post-Assad 2024 (intensidad baja desde caída régimen)' },
+  MMR: { intensity: 2, conflict: 'Myanmar · guerra civil post-golpe 2021→' },
+  ETH: { intensity: 1, conflict: 'Etiopía · Amhara, Oromia tensiones residuales' },
+  MLI: { intensity: 1, conflict: 'Mali · JNIM + Wagner' },
+  AFG: { intensity: 1, conflict: 'Afganistán · ISIS-K vs Talibán' },
+  COD: { intensity: 2, conflict: 'RDC · M23 + ADF Kivu' },
+  SOM: { intensity: 1, conflict: 'Somalia · Al-Shabaab' },
+  NGA: { intensity: 1, conflict: 'Nigeria · Boko Haram + bandidaje' },
+  HTI: { intensity: 1, conflict: 'Haití · pandillas (Pkfini · violencia urbana)' },
+  MEX: { intensity: 1, conflict: 'México · narcotráfico (cártel violence)' },
+  COL: { intensity: 1, conflict: 'Colombia · ELN + disidencias FARC' },
+  BFA: { intensity: 1, conflict: 'Burkina Faso · JNIM' },
+  NER: { intensity: 1, conflict: 'Níger · JNIM post-golpe 2023' },
+}
+
+// Países con crisis humanitaria ReliefWeb activa (>1000 reports históricos
+// O escalada en últimos 6m). Mantenido vía monitoreo manual periódico.
+const ACTIVE_HUMANITARIAN: string[] = [
+  'UKR', 'PSE', 'SDN', 'YEM', 'SYR', 'AFG', 'COD', 'MMR', 'HTI',
+  'LBY', 'SOM', 'ETH', 'MLI', 'BFA', 'NER', 'VEN', 'NGA', 'COL',
+]
+
+async function buildConvergenceAlerts(req: Request) {
+  const base = baseUrl(req)
+  // 2 calls paralelos · world-risk (ACLED uplift por país) + travel-advisories
+  const [world, travel] = await Promise.all([
+    jsonFetch(`${base}/api/geopolitica/world-risk`),
+    jsonFetch(`${base}/api/geopolitica/travel-advisories?country=all`),
+  ])
+
+  // Index travel por ISO2 → score
+  const travelByIso2: Record<string, { score: number; band: string }> = {}
+  if (Array.isArray(travel?.list)) {
+    for (const c of travel.list) {
+      travelByIso2[c.iso2] = { score: c.score, band: c.band }
+    }
+  }
+
+  const countries: any[] = Array.isArray(world?.countries) ? world.countries : []
+  const alerts = countries.map((c) => {
+    const iso3 = c.iso3
+    const iso2 = ISO3_TO_ISO2[iso3] || ''
+    const signals: Array<{ source: string; level: 'HIGH' | 'CRITICAL'; detail: string }> = []
+    let score = 0
+    // ACLED · uplift ≥10 = HIGH, ≥20 = CRITICAL
+    const acled_events = c.acled_events_30d ?? 0
+    const acled_fatalities = c.acled_fatalities_30d ?? 0
+    const acled_uplift = acled_events + (acled_fatalities * 0.5)
+    if (acled_uplift >= 20) {
+      signals.push({ source: 'ACLED', level: 'CRITICAL', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
+      score += 3
+    } else if (acled_uplift >= 10) {
+      signals.push({ source: 'ACLED', level: 'HIGH', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
+      score += 2
+    }
+    // UCDP estructural · intensity 2 = CRITICAL, 1 = HIGH
+    const ucdp = UCDP_WAR_COUNTRIES[iso3]
+    if (ucdp) {
+      if (ucdp.intensity >= 2) {
+        signals.push({ source: 'UCDP', level: 'CRITICAL', detail: ucdp.conflict })
+        score += 3
+      } else {
+        signals.push({ source: 'UCDP', level: 'HIGH', detail: ucdp.conflict })
+        score += 2
+      }
+    }
+    // Humanitarian (ReliefWeb activo)
+    if (ACTIVE_HUMANITARIAN.includes(iso3)) {
+      signals.push({ source: 'ReliefWeb', level: 'HIGH', detail: 'crisis humanitaria activa OCHA' })
+      score += 2
+    }
+    // Travel Advisory · ≥4.0 = HIGH, ≥4.5 = CRITICAL
+    const t = travelByIso2[iso2]
+    if (t) {
+      if (t.score >= 4.5) {
+        signals.push({ source: 'Travel', level: 'CRITICAL', detail: `${t.band} (${t.score.toFixed(1)}/5)` })
+        score += 3
+      } else if (t.score >= 4.0) {
+        signals.push({ source: 'Travel', level: 'HIGH', detail: `${t.band} (${t.score.toFixed(1)}/5)` })
+        score += 2
+      }
+    }
+    // Baseline risk · ≥75 = HIGH, ≥85 = CRITICAL
+    const baseline = c.baseline_risk ?? 0
+    if (baseline >= 85) {
+      signals.push({ source: 'Baseline', level: 'CRITICAL', detail: `riesgo país baseline ${baseline}/100` })
+      score += 2
+    } else if (baseline >= 75) {
+      signals.push({ source: 'Baseline', level: 'HIGH', detail: `riesgo país baseline ${baseline}/100` })
+      score += 1
+    }
+
+    return {
+      iso3,
+      iso2,
+      name: c.name,
+      region: c.region,
+      convergence_score: score,
+      signal_count: signals.length,
+      critical_count: signals.filter((s) => s.level === 'CRITICAL').length,
+      band: score >= 9 ? 'TRIPLE CONVERGENCIA' : score >= 6 ? 'DOBLE CONVERGENCIA' : score >= 3 ? 'SEÑAL ÚNICA' : 'NORMAL',
+      signals,
+    }
+  })
+
+  // Filtramos solo los que tienen ≥1 signal y ordenamos por convergence_score desc
+  const flagged = alerts.filter((a) => a.signal_count > 0).sort((a, b) => b.convergence_score - a.convergence_score)
+  const triple = flagged.filter((a) => a.convergence_score >= 9)
+  const doble = flagged.filter((a) => a.convergence_score >= 6 && a.convergence_score < 9)
+  const single = flagged.filter((a) => a.convergence_score >= 3 && a.convergence_score < 6)
+
+  return {
+    ok: true,
+    n_countries_analyzed: countries.length,
+    n_flagged: flagged.length,
+    summary: {
+      triple_convergencia: triple.length,
+      doble_convergencia: doble.length,
+      senal_unica: single.length,
+    },
+    alerts: flagged.slice(0, 25),
+    methodology: 'Convergence detection · cruza ACLED 30d + UCDP estructural + ReliefWeb activa + Travel Advisory + baseline risk. Score = suma pesos por capa (CRITICAL +3, HIGH +2, baseline +1). ≥9 = triple convergencia (3+ capas críticas).',
+    inspiration: 'Replica el análisis manual que un senior intel analyst hace cruzando 5 sources distintos para identificar países en deterioro multi-dimensional.',
+  }
+}
+
+// ─── Data health · transparencia de fuentes (Sprint G8) ──────────────
+// Pings cada endpoint propio + RSS externo, reporta latencia + status.
+// Útil para transparencia ("¿por qué no veo el feed XX?") + debugging.
+async function buildDataHealth(req: Request) {
+  const base = baseUrl(req)
+  const endpoints: Array<{ name: string; path: string; layer: string }> = [
+    // Capa 1 · señal rápida
+    { name: 'ACLED Spain Context', path: '/api/acled/spain-context',           layer: 'Capa 1' },
+    { name: 'GDELT live',          path: '/api/geopolitica/gdelt-live?country=Spain', layer: 'Capa 1' },
+    { name: 'OSINT signals',       path: '/api/geopolitica/osint',             layer: 'Capa 1' },
+    // Capa 2 · evento duro
+    { name: 'ACLED granular',      path: '/api/geopolitica/acled-granular',    layer: 'Capa 2' },
+    { name: 'UCDP estructural',    path: '/api/geopolitica/ucdp?country=Ukraine', layer: 'Capa 2' },
+    { name: 'ReliefWeb crisis',    path: '/api/geopolitica/reliefweb?country=UKR&limit=5', layer: 'Capa 2' },
+    // Capa 3 · militar/diplomático
+    { name: 'NATO press',          path: '/api/geopolitica/nato-press?limit=5', layer: 'Capa 3' },
+    { name: 'UN Security Council', path: '/api/geopolitica/unsc-news?limit=5',  layer: 'Capa 3' },
+    { name: 'EEAS / Council EU',   path: '/api/geopolitica/eeas-news?limit=5',  layer: 'Capa 3' },
+    { name: 'Spain official',      path: '/api/geopolitica/spain-official?limit=5', layer: 'Capa 3' },
+    // Capa 4 · sanciones
+    { name: 'Sanciones EU/OFAC/UN', path: '/api/geopolitica/sanciones?source=all', layer: 'Capa 4' },
+    { name: 'Sanciones live',       path: '/api/geopolitica/sanciones-live',       layer: 'Capa 4' },
+    // Capa 5 · consular
+    { name: 'Travel Advisories', path: '/api/geopolitica/travel-advisories?country=ES', layer: 'Capa 5' },
+    // Capa 6 · OSINT cualitativo
+    { name: 'ICG CrisisWatch',   path: '/api/geopolitica/crisis-group?limit=5',  layer: 'Capa 6' },
+    { name: 'ISW briefings',     path: '/api/geopolitica/isw-briefings?limit=5', layer: 'Capa 6' },
+    // Analítico
+    { name: 'Spain Risk Index',     path: '/api/geopolitica/risk-index',        layer: 'Analítico' },
+    { name: 'Top Risks 2026',       path: '/api/geopolitica/top-risks',         layer: 'Analítico' },
+    { name: 'World Risk Heatmap',   path: '/api/geopolitica/world-risk',        layer: 'Analítico' },
+    { name: 'Stakeholder Network',  path: '/api/geopolitica/stakeholder-network', layer: 'Analítico' },
+    { name: 'IA Brief',             path: '/api/geopolitica/ia-brief',          layer: 'Analítico' },
+  ]
+
+  const results = await Promise.all(endpoints.map(async (ep) => {
+    const t0 = Date.now()
+    try {
+      const ctrl = new AbortController()
+      const timer = setTimeout(() => ctrl.abort(), 8000)
+      const r = await fetch(`${base}${ep.path}`, {
+        signal: ctrl.signal,
+        headers: { 'User-Agent': 'Politeia-HealthCheck/1.0' },
+      })
+      clearTimeout(timer)
+      const ms = Date.now() - t0
+      // Parse minimal para saber si hay datos reales o solo ok:false
+      let has_data = false
+      let n_items = 0
+      let error_msg: string | undefined
+      try {
+        const j = await r.clone().json()
+        if (j?.ok === false) {
+          error_msg = String(j?.error ?? 'unknown').slice(0, 80)
+        } else {
+          has_data = true
+          n_items = j?.n_items || j?.n_reports || j?.n_conflicts || j?.n_countries || j?.countries?.length || j?.items?.length || j?.data?.length || j?.list?.length || (j?.brief ? 1 : 0) || 0
+        }
+      } catch {
+        // No es JSON, tal vez es audio/text
+      }
+      return {
+        name: ep.name,
+        layer: ep.layer,
+        path: ep.path,
+        status: r.status,
+        ms,
+        ok: r.ok && !error_msg,
+        has_data,
+        n_items,
+        error: error_msg,
+      }
+    } catch (e: any) {
+      return {
+        name: ep.name,
+        layer: ep.layer,
+        path: ep.path,
+        status: 0,
+        ms: Date.now() - t0,
+        ok: false,
+        has_data: false,
+        n_items: 0,
+        error: String(e?.message ?? e).slice(0, 80),
+      }
+    }
+  }))
+
+  const byLayer: Record<string, { total: number; ok: number; with_data: number }> = {}
+  for (const r of results) {
+    const k = r.layer
+    if (!byLayer[k]) byLayer[k] = { total: 0, ok: 0, with_data: 0 }
+    byLayer[k].total += 1
+    if (r.ok) byLayer[k].ok += 1
+    if (r.has_data) byLayer[k].with_data += 1
+  }
+
+  return {
+    ok: true,
+    n_endpoints: results.length,
+    summary: {
+      ok_count: results.filter((r) => r.ok).length,
+      with_data_count: results.filter((r) => r.has_data).length,
+      failed_count: results.filter((r) => !r.ok).length,
+      avg_latency_ms: Math.round(results.reduce((s, r) => s + r.ms, 0) / Math.max(1, results.length)),
+    },
+    by_layer: byLayer,
+    endpoints: results,
+    note: 'Diagnóstico de fuentes geo · ping cada endpoint con timeout 8s, mide latency y verifica si devuelve datos reales.',
+  }
+}
+
 // ─── UN Security Council news ────────────────────────────────────────
 // Fuente: https://news.un.org/feed/subscribe/en/news/topic/security-council/feed/rss.xml
 // Sirve para diplomacia de crisis: resoluciones, vetos, reuniones de
@@ -1717,6 +1974,19 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G8 · Convergencia analítica + transparencia
+  if (action === 'convergence') {
+    return NextResponse.json(await buildConvergenceAlerts(req), {
+      headers: { 'Cache-Control': 'public, s-maxage=10800, stale-while-revalidate=21600' }, // 3h
+    })
+  }
+
+  if (action === 'data-health') {
+    return NextResponse.json(await buildDataHealth(req), {
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }, // 5 min
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -1747,6 +2017,8 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/isw-briefings?limit=20 · ISW/Critical Threats operational (Sprint G7)',
       'GET /api/geopolitica/eeas-news?limit=20 · EEAS/Council EU diplomacy (Sprint G7)',
       'GET /api/geopolitica/spain-official?limit=20 · MAEC+Moncloa+Defensa.gob combinados (Sprint G7)',
+      'GET /api/geopolitica/convergence · alertas multi-source (ACLED+UCDP+ReliefWeb+Travel+Baseline) (Sprint G8)',
+      'GET /api/geopolitica/data-health · transparencia · 20 endpoints status + latency (Sprint G8)',
     ],
   }, { status: 404 })
 }
