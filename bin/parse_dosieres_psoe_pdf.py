@@ -107,11 +107,21 @@ def main():
     perfil_lines = [i for i, l in enumerate(lines) if l.strip() == "1. Perfil general ampliado"]
     print(f"Encontradas {len(perfil_lines)} secciones de perfil", file=sys.stderr)
 
+    def is_junk_line(s: str) -> bool:
+        """Saltar headers de página/informe que aparecen intercalados."""
+        if not s:
+            return True
+        if s.startswith("Informe diputados") or s.startswith("Informe PSOE"):
+            return True
+        if re.match(r"^Pagina\s+\d+", s):
+            return True
+        return False
+
     dossier_starts = []
     for perfil_idx in perfil_lines:
-        # Caminar atrás: linea con "Circunscripcion / ambito: ..." + linea nombre
+        # Caminar atrás saltando vacías + líneas-basura (cabecera de página)
         i = perfil_idx - 1
-        while i > 0 and not lines[i].strip():
+        while i > 0 and (not lines[i].strip() or is_junk_line(lines[i].strip())):
             i -= 1
         if i <= 0:
             continue
@@ -122,7 +132,7 @@ def main():
         if m:
             provincia = m.group(1).strip()
         i -= 1
-        while i > 0 and not lines[i].strip():
+        while i > 0 and (not lines[i].strip() or is_junk_line(lines[i].strip())):
             i -= 1
         if i <= 0:
             continue
