@@ -1,43 +1,48 @@
 /**
- * `geo-methodology.ts` · Sprint G1 FASE 1 · capa metodológica común para
- * el módulo Geopolítica / OSINT.
+ * `geo-methodology.ts` · Sprint G13 · Geo Intelligence Methodology & Audit Layer.
  *
- * Objetivo: convertir el módulo en auditable. Cada señal (artículo, evento
- * ACLED, alerta ReliefWeb, item OSINT) pasa por aquí y sale con:
- *   - clasificación de fuente (live API vs RSS vs curado vs derivado)
- *   - capa analítica (signal_fast / hard_event / structural_conflict / …)
- *   - país actor / país afectado / países mencionados (no toda mención
- *     implica impacto)
- *   - severidad numérica con bandas semánticas
- *   - relevancia para España con motivos explicados
- *   - confianza multi-componente (source_quality, freshness, triangulación,
- *     specificity, evidence_strength) con razones
- *   - audit trail (qué entró, qué reglas se aplicaron, fallback/IA, warnings)
+ * Objetivo (spec ampliado): convertir el módulo Geopolítica/OSINT en una
+ * herramienta auditable con ontología propia de inteligencia. Cada señal sale
+ * con:
+ *   - qué ha pasado (event_type, dimension)
+ *   - dónde (countries con role · actor/affected/origin/destination/theatre/…)
+ *   - quién dice qué (source_mode + source_name)
+ *   - qué tipo de fuente y qué grado de actualidad (temporal_scope)
+ *   - 5 SCORES SEPARADOS: material_risk, media_attention, narrative_pressure,
+ *     spain_exposure, urgency · nunca un único "riesgo" sin apellido
+ *   - confidence multi-componente con razones y warnings
+ *   - audit trail con `what_this_means` / `what_this_does_not_mean`
  *
- * Sin LLM. Sin dependencias nuevas. Compatible con tipos existentes
- * (GeoOsintItem, GeoAlertaItem, GeoRiesgoItem en `news-aggregator.ts`).
+ * Decisión fundacional: NO sumar señales heterogéneas bajo la palabra "riesgo".
+ * Un score material no es lo mismo que cobertura mediática ni que recomendación
+ * consular. Esta capa los mantiene separados y explica las limitaciones.
  *
- * Esto NO sustituye a los endpoints existentes — los enriquece. Cada
- * endpoint puede llamar a `readGeoSignal()` para devolver una señal con
- * estructura común y `_meta` con `source_mode`/confidence/warnings.
+ * Sin LLM. Sin dependencias nuevas. Compatible con tipos legacy via aliases.
  */
 
 // ════════════════════════════════════════════════════════════════════════
 // 1 · Tipos públicos
 // ════════════════════════════════════════════════════════════════════════
 
-export type GeoSourceType =
+export type GeoSourceMode =
   | 'live_api'              // ACLED, UCDP, ReliefWeb, NewsAPI, GDELT
   | 'rss_official'          // Moncloa, Defensa, Exteriores, NATO, UN SC, EEAS
   | 'rss_media'             // El País, El Mundo, Le Monde, Reuters…
-  | 'curated_baseline'      // Catálogo Politeia · Spain Interests, RiskCountries
   | 'derived_from_news'     // calculado por agregación sobre RSS (no del backend)
+  | 'curated_baseline'      // Catálogo Politeia · Spain Interests, RiskCountries
+  | 'analytical_model'      // Risk Index, Convergence, Spain Watchlist · derivado
   | 'llm_cluster'           // theme clusters generados por LLM
   | 'fallback'              // backend caído · respuesta vacía o última conocida
   | 'mock'                  // datos sintéticos de desarrollo · NO producción
 
+// Endpoint-level mode (puede mezclar varios source_mode)
+export type GeoEndpointMode = GeoSourceMode | 'hybrid'
+
+// Back-compat · algunos endpoints legacy usaban estos nombres genéricos
+export type GeoSourceType = GeoSourceMode
+
 export type GeoLayer =
-  | 'signal_fast'           // noticias últimas horas · alta señal pero ruido
+  | 'fast_signal'           // noticias últimas horas · alta señal pero ruido
   | 'hard_event'            // ACLED, UCDP, GTD · violencia confirmada
   | 'structural_conflict'   // UCDP histórico, ICG · contexto multi-año
   | 'humanitarian'          // ReliefWeb, OCHA · presión humanitaria actual
@@ -46,43 +51,65 @@ export type GeoLayer =
   | 'sanctions'             // OFAC, EU, UN · medidas restrictivas
   | 'qualitative_osint'     // ICG analysis, ISW briefings · análisis cualitativo
   | 'spain_official'        // Moncloa, Exteriores, BOE · postura España
+  | 'media_attention'       // GDELT, volúmenes de cobertura · NO realidad material
   | 'analytical_model'      // Risk Index, Convergence, Spain Watchlist · derivado
 
-export type GeoCountryRoleKind =
+export type GeoCountryRole =
   | 'actor'                 // realiza la acción (España envía ayuda)
   | 'affected'              // sufre la acción (Ucrania recibe ataque)
   | 'mentioned'             // aparece pero no es actor ni objeto principal
-  | 'source'                // emisor (NATO publica, ONU informa)
-  | 'spain_interest'        // país sobre el que España tiene exposición declarada
+  | 'origin'                // origen de un flujo (Sahel como origen migratorio)
+  | 'destination'           // destino de un flujo (Canarias destino migratorio)
+  | 'theatre'               // teatro de operaciones / escenario (flanco este OTAN)
+  | 'source_country'        // emisor de la fuente oficial (Moncloa → España)
+  | 'spain_interest'        // país con exposición declarada de España
 
-export interface GeoCountryRole {
+// Back-compat · antiguos tests usaban GeoCountryRoleKind como tipo
+export type GeoCountryRoleKind = GeoCountryRole
+
+export interface GeoCountryMention {
   country: string                       // nombre canónico ES (España, Ucrania, …)
-  iso3?: string                         // ISO 3166-1 alpha-3 si disponible
-  role: GeoCountryRoleKind
-  confidence: number                    // 0..1 · qué tan seguros estamos del rol
+  iso3?: string                         // ISO 3166-1 alpha-3
+  role: GeoCountryRole
+  confidence: number                    // 0..1
   evidence: string                      // frase o verbo que justificó la asignación
 }
+
+export type GeoTemporalScope =
+  | 'realtime'              // ahora · API en vivo o RSS de hoy
+  | 'last_24h'
+  | 'last_7d'
+  | 'last_30d'
+  | 'annual'                // anual · UCDP típico
+  | 'historical'            // histórico estructural · no señal de hoy
+  | 'curated'               // catálogo Politeia · revisión manual
+  | 'unknown'
 
 export type GeoEventType =
   | 'armed_conflict'        // combate, ataque, bombardeo
   | 'protest_unrest'        // protestas, huelgas, disturbios
-  | 'diplomatic_action'     // pacta, condena, reconoce, expulsa
+  | 'diplomatic_warning'    // adverte, pacta, condena, expulsa
+  | 'sanction'              // sanciones, embargos
   | 'humanitarian_crisis'   // hambruna, desplazamiento, epidemia
+  | 'military_deployment'   // refuerzo OTAN, ejercicio militar
+  | 'consular_warning'      // travel advisory MAEC/FCDO
   | 'migration_pressure'    // flujos migratorios, fronterizos
-  | 'sanctions_action'      // sanciones, embargos
-  | 'cyber_incident'        // ciberataques atribuidos
-  | 'energy_event'          // gas, petróleo, gasoductos
-  | 'institutional_action'  // UE, OTAN, ONU resuelven/advierten
+  | 'energy_disruption'     // gas, petróleo, gasoducto
+  | 'cyber'                 // ciberataques atribuidos
   | 'spain_action'          // España actúa internacionalmente
-  | 'narrative_only'        // sólo cobertura mediática · no hecho material
+  | 'media_narrative'       // sólo cobertura mediática · no hecho material
   | 'other'
 
 export type GeoDimension =
   | 'security'              // militar, terrorista, criminal
+  | 'military'              // específicamente fuerzas armadas / despliegue
   | 'humanitarian'          // crisis humanitaria
-  | 'economic'              // sanciones, comercio, energía
-  | 'political_diplomatic'  // diplomacia, instituciones
-  | 'migratory'             // movimientos poblacionales
+  | 'economic'              // sanciones, comercio
+  | 'energy'                // específicamente energético
+  | 'diplomatic'            // diplomacia
+  | 'institutional'         // UE, OTAN, ONU
+  | 'migration'             // movimientos poblacionales
+  | 'consular'              // recomendaciones a nacionales
   | 'cyber'                 // ciber, desinformación digital
   | 'narrative'             // sólo cobertura · no acción material
 
@@ -101,64 +128,88 @@ export interface GeoSignalReading {
   observed_at: string                   // ISO · cuándo ocurrió o se reportó
 
   // Procedencia
-  source_name: string                   // "ACLED", "El País", "Moncloa", …
-  source_type: GeoSourceType
+  source_name: string
+  source_mode: GeoSourceMode
   geo_layer: GeoLayer
+  temporal_scope: GeoTemporalScope
 
-  // Geografía multi-rol (FASE 2)
-  country_roles: GeoCountryRole[]       // mapa completo · una entidad puede aparecer en varios roles
-  country_actor?: string                // back-compat · primer actor detectado
-  country_affected?: string             // back-compat · primer afectado detectado
-  countries_mentioned: string[]         // back-compat · todos los nombres canónicos detectados
-  region?: string                       // 'Europe' | 'MENA' | 'Sahel' | 'LATAM' | …
+  // Geografía multi-rol
+  countries: GeoCountryMention[]        // forma canónica del spec G13
+  // Atajos derivados (back-compat / conveniencia UI)
+  country_actor?: string
+  country_affected?: string
+  countries_mentioned: string[]
+  region?: string
 
   // Clasificación de evento
   event_type: GeoEventType
   dimension: GeoDimension
-  actors: string[]                      // organizaciones / personas no-país (Hamas, OTAN, Wagner)
+  actors: string[]                      // organizaciones / personas no-país
   institutions: string[]                // UE, OTAN, ONU, OSCE, BCE, FMI…
 
-  // Métricas auditables
-  severity: number                      // 0..100 · 0 noticia trivial, 100 conflicto activo grave
-  spain_relevance: number               // 0..100 · 0 sin impacto España, 100 directo
+  // ── 5 SCORES SEPARADOS ───────────────────────────────────────────────
+  // No mezclar bajo la palabra "riesgo" sin apellido.
+  material_risk_score: number           // 0..100 · evento duro (combate, sanción, crisis)
+  media_attention_score: number         // 0..100 · volumen de cobertura
+  narrative_pressure_score: number      // 0..100 · intensidad mediática/discursiva
+  spain_exposure_score: number          // 0..100 · exposición de España (canal/territorio)
+  urgency_score: number                 // 0..100 · prioridad de seguimiento combinada
+
   confidence: GeoConfidence
 
   // Evidencia y trazabilidad
-  evidence: string[]                    // citas/frases que justifican las inferencias
-  limitations: string[]                 // qué NO podemos afirmar con esta señal
-  derived_from?: string[]               // ids de otras señales que entraron en esta (convergence)
+  evidence: string[]
+  limitations: string[]
+  derived_from?: string[]               // ids de otras señales (convergence)
+
+  // ── Alias legacy para callers existentes ─────────────────────────────
+  /** @deprecated usa source_mode */
+  source_type?: GeoSourceMode
+  /** @deprecated usa countries */
+  country_roles?: GeoCountryMention[]
+  /** @deprecated usa material_risk_score */
+  severity?: number
+  /** @deprecated usa spain_exposure_score */
+  spain_relevance?: number
 }
 
 export interface GeoConfidence {
   overall: number                       // 0..1 · combinación ponderada
-  source_quality: number                // 0..1 · live_api > rss_official > rss_media > derived > mock
-  freshness: number                     // 0..1 · 1 hoy, decae con antigüedad
-  triangulation: number                 // 0..1 · cuántas fuentes independientes lo respaldan
-  specificity: number                   // 0..1 · qué tan concretos son países/actores
-  evidence_strength: number             // 0..1 · cuánta evidencia textual fuerte
-  reasons: string[]                     // razones legibles ("freshness baja: 12d", "sin triangulación", …)
+  source_quality: number                // 0..1
+  freshness: number                     // 0..1
+  triangulation: number                 // 0..1
+  specificity: number                   // 0..1
+  evidence_strength: number             // 0..1
+  reasons: string[]                     // razones legibles
+  warnings: string[]                    // advertencias específicas de confianza
 }
 
 export interface GeoAuditTrail {
-  input_sources: Array<{ source_name: string; source_type: GeoSourceType; count: number }>
-  transformations: string[]             // pasos aplicados ("normalizar países", "clasificar verbo", "calcular convergencia")
-  rules_triggered: string[]             // reglas concretas ("frontera ES-Marruecos", "energía Europa", …)
-  fallback_used: boolean                // alguna fuente vino del cache/fallback
-  llm_used: boolean                     // intervino LLM en algún paso
+  input_sources: Array<{
+    name: string
+    endpoint?: string
+    source_mode: GeoSourceMode
+    layer: GeoLayer
+    freshness?: string
+  }>
+  transformations: string[]
+  rules_triggered: string[]
+  fallback_used: boolean
+  llm_used: boolean
   confidence: GeoConfidence
-  warnings: Array<{ level: 'info' | 'warning' | 'critical'; message: string }>
+  warnings: string[]
+  what_this_means: string
+  what_this_does_not_mean: string
 }
 
-// Forma estándar del bloque _meta que todo endpoint geopolítica debe devolver
-// (FASE 3). Compatible con buildMeta() de media-methodology, pero específico.
 export interface GeoEndpointMeta {
-  source_mode: 'live' | 'derived' | 'curated' | 'hybrid' | 'fallback' | 'mock'
-  sources_used: Array<{ source_name: string; source_type: GeoSourceType; count?: number }>
+  source_mode: GeoEndpointMode
+  sources_used: string[]
+  methodology_version: string
   generated_at: string
   latency_ms: number
-  confidence: number                    // 0..1
+  confidence: number
   warnings: string[]
-  methodology_version: string
   layer?: GeoLayer
   notes?: string
 }
@@ -167,21 +218,24 @@ export interface GeoEndpointMeta {
 // 2 · Diccionarios estables
 // ════════════════════════════════════════════════════════════════════════
 
-export const GEO_METHODOLOGY_VERSION = '1.0.0-G1F1'
+export const GEO_METHODOLOGY_VERSION = 'geo-methodology-v1'
 
-export const SOURCE_TYPE_LABEL: Record<GeoSourceType, string> = {
+export const SOURCE_MODE_LABEL: Record<GeoSourceMode, string> = {
   live_api: 'LIVE API',
   rss_official: 'RSS oficial',
   rss_media: 'RSS medios',
-  curated_baseline: 'Curado Politeia',
   derived_from_news: 'Derivado',
+  curated_baseline: 'Curado Politeia',
+  analytical_model: 'Modelo analítico',
   llm_cluster: 'IA',
   fallback: 'Fallback',
   mock: 'Mock',
 }
+// Back-compat
+export const SOURCE_TYPE_LABEL = SOURCE_MODE_LABEL
 
 export const LAYER_LABEL: Record<GeoLayer, string> = {
-  signal_fast: 'Señal rápida',
+  fast_signal: 'Señal rápida',
   hard_event: 'Evento confirmado',
   structural_conflict: 'Conflicto estructural',
   humanitarian: 'Crisis humanitaria',
@@ -190,7 +244,19 @@ export const LAYER_LABEL: Record<GeoLayer, string> = {
   sanctions: 'Sanciones',
   qualitative_osint: 'OSINT cualitativo',
   spain_official: 'Postura oficial España',
+  media_attention: 'Atención mediática',
   analytical_model: 'Modelo derivado',
+}
+
+export const TEMPORAL_SCOPE_LABEL: Record<GeoTemporalScope, string> = {
+  realtime: 'Tiempo real',
+  last_24h: 'Últimas 24h',
+  last_7d: 'Últimos 7 días',
+  last_30d: 'Últimos 30 días',
+  annual: 'Anual',
+  historical: 'Histórico estructural',
+  curated: 'Curado · revisión manual',
+  unknown: 'Desconocido',
 }
 
 // País canónico → aliases reconocibles en texto ES. ISO3 para join con
@@ -198,7 +264,7 @@ export const LAYER_LABEL: Record<GeoLayer, string> = {
 interface CountryEntry {
   canonical: string
   iso3?: string
-  aliases: string[]                    // formas en texto castellano
+  aliases: string[]
   region?: string
 }
 
@@ -214,6 +280,9 @@ const COUNTRIES: CountryEntry[] = [
   { canonical: 'Países Bajos', iso3: 'NLD', aliases: ['países bajos', 'paises bajos', 'holanda', 'netherlands'], region: 'Europe' },
   { canonical: 'Bélgica', iso3: 'BEL', aliases: ['bélgica', 'belgica', 'belgium'], region: 'Europe' },
   { canonical: 'Polonia', iso3: 'POL', aliases: ['polonia', 'poland', 'polaco', 'polaca'], region: 'Europe' },
+  { canonical: 'Letonia', iso3: 'LVA', aliases: ['letonia', 'latvia'], region: 'Europe' },
+  { canonical: 'Estonia', iso3: 'EST', aliases: ['estonia'], region: 'Europe' },
+  { canonical: 'Lituania', iso3: 'LTU', aliases: ['lituania', 'lithuania'], region: 'Europe' },
   { canonical: 'Reino Unido', iso3: 'GBR', aliases: ['reino unido', 'uk', 'gran bretaña', 'británico', 'britanica', 'inglaterra', 'london'], region: 'Europe' },
   { canonical: 'Irlanda', iso3: 'IRL', aliases: ['irlanda', 'ireland'], region: 'Europe' },
   // Norte de África y MENA
@@ -222,6 +291,8 @@ const COUNTRIES: CountryEntry[] = [
   { canonical: 'Túnez', iso3: 'TUN', aliases: ['túnez', 'tunez', 'tunisia'], region: 'MENA' },
   { canonical: 'Libia', iso3: 'LBY', aliases: ['libia', 'libya'], region: 'MENA' },
   { canonical: 'Egipto', iso3: 'EGY', aliases: ['egipto', 'egypt', 'egipcio', 'egipcia'], region: 'MENA' },
+  { canonical: 'Mauritania', iso3: 'MRT', aliases: ['mauritania', 'nuakchot'], region: 'MENA' },
+  { canonical: 'Senegal', iso3: 'SEN', aliases: ['senegal', 'dakar'], region: 'África' },
   { canonical: 'Sahara Occidental', aliases: ['sahara occidental', 'sáhara', 'sahara', 'polisario'], region: 'MENA' },
   // Oriente Medio
   { canonical: 'Israel', iso3: 'ISR', aliases: ['israel', 'israelí', 'israeli'], region: 'MENA' },
@@ -272,12 +343,8 @@ const COUNTRIES: CountryEntry[] = [
   { canonical: 'Unión Europea', aliases: ['unión europea', 'union europea', 'ue ', 'european union', 'bruselas', 'comisión europea', 'comision europea', 'parlamento europeo'], region: 'Europe' },
   { canonical: 'OTAN', aliases: ['otan', 'nato', 'alianza atlántica'], region: 'Europe' },
   { canonical: 'ONU', aliases: ['onu', 'naciones unidas', 'consejo de seguridad', 'security council', 'un sc'], region: 'Global' },
+  { canonical: 'Sahel', aliases: ['sahel'], region: 'Sahel' },
 ]
-
-const COUNTRY_INDEX = new Map<string, CountryEntry>()
-for (const c of COUNTRIES) {
-  for (const a of c.aliases) COUNTRY_INDEX.set(a.toLowerCase(), c)
-}
 
 // Verbos que marcan rol del país que LOS PRECEDE como actor activo
 const ACTOR_VERBS = [
@@ -288,9 +355,8 @@ const ACTOR_VERBS = [
   'presionan', 'apoya', 'respalda', 'rompe relaciones',
   'retira embajador', 'expulsó',
   'lanza ofensiva', 'lanza una ofensiva',
-  // Sprint G1 FASE 10 · verbos faltantes detectados por fixtures
   'refuerza', 'refuerzan', 'negocia', 'negocian', 'acuerda', 'acuerdan',
-  'pacta', 'pactan', 'firma con', 'media',
+  'pacta', 'pactan', 'firma con', 'media', 'recomienda',
 ]
 
 // Verbos bilaterales · "X y Y verbo" implica ambos son actores (no objeto)
@@ -299,102 +365,108 @@ const BILATERAL_VERBS = new Set([
   'firma con', 'media',
 ])
 
-// Territorios españoles · si aparecen en el texto, eleva spain_relevance
-// porque España está topológicamente involucrada aunque no se nombre
-const SPAIN_TERRITORIES = [
-  'ceuta', 'melilla', 'canarias', 'baleares', 'mallorca', 'tenerife',
-  'gran canaria', 'lanzarote', 'fuerteventura', 'gibraltar', // estrecho · soberanía disputada
-  'campo de gibraltar',
-]
-
-// Frases que indican rol de objeto/afectado en sintagma "X verbo a/contra Y"
+// Frases que indican rol de objeto/afectado
 const AFFECTED_MARKERS = [
   ' a ', ' contra ', ' hacia ', ' sobre ', ' en ',
 ]
+
+// Verbos que sugieren rol "destination" (flujo hacia un destino)
+const FLOW_TO_VERBS = ['hacia', 'rumbo a', 'destino', 'aumenta presión']
 
 // Términos de presión migratoria (España)
 const MIGRATION_KW = [
   'frontera', 'migrante', 'inmigración', 'inmigracion', 'pateras',
   'cayucos', 'cetí', 'ceti', 'rescate marítimo', 'ceuta', 'melilla',
-  'canarias', 'frontex',
+  'canarias', 'frontex', 'presión migratoria', 'presion migratoria',
 ]
 
-// Términos de energía (España depende de gas argelino, GNL EEUU, oleoductos…)
+// Términos de energía
 const ENERGY_KW = [
   'gas', 'gasoducto', 'gnl', 'oleoducto', 'petróleo', 'petroleo',
   'energético', 'energetico', 'energética', 'energeticas', 'energéticas',
   'eléctrica', 'electrica', 'red eléctrica', 'medgaz', 'magreb-europa',
 ]
 
+// Territorios españoles · si aparecen en el texto, eleva spain_exposure
+const SPAIN_TERRITORIES = [
+  'ceuta', 'melilla', 'canarias', 'baleares', 'mallorca', 'tenerife',
+  'gran canaria', 'lanzarote', 'fuerteventura', 'gibraltar',
+  'campo de gibraltar',
+]
+
+const ORG_ACTORS = [
+  'Hamas', 'Hezbolá', 'Hezbollah', 'Wagner', 'ISIS', 'Daesh', 'Al Qaeda',
+  'Boko Haram', 'M23', 'Houthis', 'Houthi', 'Hutíes', 'PKK', 'PYD',
+  'Frontex', 'Europol', 'Interpol',
+]
+const INSTITUTIONS_GEO = [
+  'OTAN', 'NATO', 'ONU', 'Naciones Unidas', 'Consejo de Seguridad',
+  'Unión Europea', 'Comisión Europea', 'Parlamento Europeo', 'Consejo Europeo',
+  'EEAS', 'OSCE', 'Liga Árabe', 'Unión Africana',
+  'BCE', 'FMI', 'OMC', 'OMS', 'OIEA',
+  'Tribunal Penal Internacional', 'CPI', 'MAEC',
+]
+
 // ════════════════════════════════════════════════════════════════════════
 // 3 · classifyGeoSource · clasifica fuente por nombre/URL
 // ════════════════════════════════════════════════════════════════════════
 
+interface SourceClassification {
+  source_mode: GeoSourceMode
+  geo_layer: GeoLayer
+  temporal_scope: GeoTemporalScope
+}
+
 /**
- * Mapea source_name/url al par (source_type, geo_layer). Heurística estable:
- *   - acled.* → live_api + hard_event
- *   - ucdp.* → live_api + structural_conflict
- *   - reliefweb.* → live_api + humanitarian
- *   - moncloa/lamoncloa/defensa.gob/exteriores.gob → rss_official + spain_official
- *   - nato.int / ucm / un.org / coe / eeas → rss_official + military_diplomatic
- *   - icg / isw → rss_official + qualitative_osint
- *   - gdelt → live_api + signal_fast (cobertura mediática)
- *   - los demás RSS → rss_media + signal_fast
+ * Mapea source_name/url al triplete (source_mode, geo_layer, temporal_scope).
  *
- * Si no reconoce, devuelve {rss_media, signal_fast} con confidence baja.
+ * Decisión: cada fuente tiene una temporalidad inherente. UCDP es estructural/
+ * histórico — NO indica deterioro de hoy. ReliefWeb es presión humanitaria
+ * de las últimas semanas. Travel Advisory es consular. Estas distinciones se
+ * propagan al `_meta` de cada endpoint para que el analista no mezcle señales
+ * heterogéneas bajo la misma palabra "live".
  */
-export function classifyGeoSource(sourceName?: string, url?: string): { source_type: GeoSourceType; geo_layer: GeoLayer } {
+export function classifyGeoSource(sourceName?: string, url?: string): SourceClassification {
   const s = (sourceName || '').toLowerCase()
   const u = (url || '').toLowerCase()
   const probe = `${s} ${u}`
 
-  if (probe.includes('acled')) return { source_type: 'live_api', geo_layer: 'hard_event' }
-  if (probe.includes('ucdp')) return { source_type: 'live_api', geo_layer: 'structural_conflict' }
-  if (probe.includes('reliefweb')) return { source_type: 'live_api', geo_layer: 'humanitarian' }
-  if (probe.includes('travel-advisory') || probe.includes('travel.state.gov') || probe.includes('gov.uk/foreign-travel-advice') || probe.includes('exteriores.gob.es/recomenda')) return { source_type: 'rss_official', geo_layer: 'consular' }
-  if (probe.includes('gdelt')) return { source_type: 'live_api', geo_layer: 'signal_fast' }
-  if (probe.includes('nato.int') || probe.includes('nato.')) return { source_type: 'rss_official', geo_layer: 'military_diplomatic' }
-  if (probe.includes('un.org') || probe.includes('sc/press') || probe.includes('security-council')) return { source_type: 'rss_official', geo_layer: 'military_diplomatic' }
-  if (probe.includes('eeas.europa.eu') || probe.includes('eu external action')) return { source_type: 'rss_official', geo_layer: 'military_diplomatic' }
-  if (probe.includes('defensa.gob.es')) return { source_type: 'rss_official', geo_layer: 'spain_official' }
-  if (probe.includes('exteriores.gob.es')) return { source_type: 'rss_official', geo_layer: 'spain_official' }
-  if (probe.includes('lamoncloa.gob.es') || probe.includes('moncloa.gob.es')) return { source_type: 'rss_official', geo_layer: 'spain_official' }
-  if (probe.includes('boe.es')) return { source_type: 'rss_official', geo_layer: 'spain_official' }
-  if (probe.includes('crisisgroup') || probe.includes('icg ')) return { source_type: 'rss_official', geo_layer: 'qualitative_osint' }
-  if (probe.includes('understandingwar') || probe.includes('isw ') || probe.includes('institute for the study of war')) return { source_type: 'rss_official', geo_layer: 'qualitative_osint' }
-  if (probe.includes('ofac') || probe.includes('eu sanctions') || probe.includes('un sanctions')) return { source_type: 'rss_official', geo_layer: 'sanctions' }
+  if (probe.includes('acled')) return { source_mode: 'live_api', geo_layer: 'hard_event', temporal_scope: 'last_30d' }
+  if (probe.includes('ucdp')) return { source_mode: 'live_api', geo_layer: 'structural_conflict', temporal_scope: 'annual' }
+  if (probe.includes('reliefweb')) return { source_mode: 'live_api', geo_layer: 'humanitarian', temporal_scope: 'last_30d' }
+  if (probe.includes('travel-advisory') || probe.includes('travel.state.gov') || probe.includes('gov.uk/foreign-travel-advice') || probe.includes('exteriores.gob.es/recomenda')) {
+    return { source_mode: 'rss_official', geo_layer: 'consular', temporal_scope: 'realtime' }
+  }
+  if (probe.includes('gdelt')) return { source_mode: 'live_api', geo_layer: 'media_attention', temporal_scope: 'last_24h' }
+  if (probe.includes('nato.int') || probe.includes('nato.')) return { source_mode: 'rss_official', geo_layer: 'military_diplomatic', temporal_scope: 'last_7d' }
+  if (probe.includes('un.org') || probe.includes('sc/press') || probe.includes('security-council')) return { source_mode: 'rss_official', geo_layer: 'military_diplomatic', temporal_scope: 'last_7d' }
+  if (probe.includes('eeas.europa.eu') || probe.includes('eu external action')) return { source_mode: 'rss_official', geo_layer: 'military_diplomatic', temporal_scope: 'last_7d' }
+  if (probe.includes('defensa.gob.es')) return { source_mode: 'rss_official', geo_layer: 'spain_official', temporal_scope: 'last_7d' }
+  if (probe.includes('exteriores.gob.es')) return { source_mode: 'rss_official', geo_layer: 'spain_official', temporal_scope: 'last_7d' }
+  if (probe.includes('lamoncloa.gob.es') || probe.includes('moncloa.gob.es')) return { source_mode: 'rss_official', geo_layer: 'spain_official', temporal_scope: 'last_7d' }
+  if (probe.includes('maec')) return { source_mode: 'rss_official', geo_layer: 'spain_official', temporal_scope: 'realtime' }
+  if (probe.includes('boe.es')) return { source_mode: 'rss_official', geo_layer: 'spain_official', temporal_scope: 'realtime' }
+  if (probe.includes('crisisgroup') || probe.includes('icg ')) return { source_mode: 'rss_official', geo_layer: 'qualitative_osint', temporal_scope: 'last_30d' }
+  if (probe.includes('understandingwar') || probe.includes('isw ') || probe.includes('institute for the study of war')) return { source_mode: 'rss_official', geo_layer: 'qualitative_osint', temporal_scope: 'last_7d' }
+  if (probe.includes('ofac') || probe.includes('eu sanctions') || probe.includes('un sanctions')) return { source_mode: 'rss_official', geo_layer: 'sanctions', temporal_scope: 'realtime' }
 
   // Politeia catálogos curados
-  if (probe.includes('politeia') || probe.includes('catalog')) return { source_type: 'curated_baseline', geo_layer: 'analytical_model' }
+  if (probe.includes('politeia') || probe.includes('catalog')) return { source_mode: 'curated_baseline', geo_layer: 'analytical_model', temporal_scope: 'curated' }
   // LLM cluster
-  if (probe.includes('theme_clusters') || probe.includes('llm_summary')) return { source_type: 'llm_cluster', geo_layer: 'qualitative_osint' }
+  if (probe.includes('theme_clusters') || probe.includes('llm_summary')) return { source_mode: 'llm_cluster', geo_layer: 'qualitative_osint', temporal_scope: 'last_24h' }
 
   // Default · RSS de medios convencionales
-  return { source_type: 'rss_media', geo_layer: 'signal_fast' }
+  return { source_mode: 'rss_media', geo_layer: 'fast_signal', temporal_scope: 'last_24h' }
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 4 · detectCountryRoles · separa actor / afectado / mencionado / source
+// 4 · detectCountryRoles · separa actor/affected/origin/destination/theatre/source/mentioned
 // ════════════════════════════════════════════════════════════════════════
 
-/**
- * Busca países en `text` y les asigna rol heurístico:
- *   - actor: aparece antes de un verbo activo (ACTOR_VERBS)
- *   - affected: aparece después del verbo + marcador "a/contra/hacia"
- *   - mentioned: aparece pero sin patrón
- *
- * `sourceCountry` (opcional) marca el rol 'source' cuando un país emite la
- * señal vía fuente oficial (Moncloa → España como source).
- *
- * Devuelve roles deduplicados pero un mismo país puede aparecer con varios
- * roles (ej. España actor + spain_interest). El primer rol "fuerte" gana
- * en country_actor / country_affected back-compat.
- */
-export function detectCountryRoles(text: string, sourceCountry?: string): GeoCountryRole[] {
+export function detectCountryRoles(text: string, sourceCountry?: string): GeoCountryMention[] {
   const t = (text || '').toLowerCase()
-  if (!t) return []
+  if (!t && !sourceCountry) return []
 
-  // 1 · localiza todas las menciones con posición
   interface Hit { entry: CountryEntry; pos: number; matchedAlias: string }
   const hits: Hit[] = []
   for (const c of COUNTRIES) {
@@ -410,51 +482,44 @@ export function detectCountryRoles(text: string, sourceCountry?: string): GeoCou
     if (bestPos >= 0) hits.push({ entry: c, pos: bestPos, matchedAlias: bestAlias })
   }
   hits.sort((a, b) => a.pos - b.pos)
-  if (hits.length === 0) return sourceCountry ? syntheticSourceRoles(sourceCountry) : []
+  if (hits.length === 0 && !sourceCountry) return []
 
-  // 2 · clasifica cada hit según patrón sintáctico simple
-  const roles: GeoCountryRole[] = []
-  const seen = new Map<string, GeoCountryRole>()
-
-  function addOrUpgrade(country: string, role: GeoCountryRoleKind, confidence: number, evidence: string, iso3?: string) {
+  const seen = new Map<string, GeoCountryMention>()
+  function addOrUpgrade(country: string, role: GeoCountryRole, confidence: number, evidence: string, iso3?: string) {
     const k = `${country}::${role}`
     const prev = seen.get(k)
     if (!prev || prev.confidence < confidence) {
-      const r: GeoCountryRole = { country, role, confidence, evidence, iso3 }
-      seen.set(k, r)
+      seen.set(k, { country, role, confidence, evidence, iso3 })
     }
   }
 
   for (let i = 0; i < hits.length; i++) {
     const h = hits[i]
     const after = t.slice(h.pos + h.matchedAlias.length, h.pos + h.matchedAlias.length + 80)
+    const before = t.slice(Math.max(0, h.pos - 30), h.pos)
 
-    // Pre-detección: "X y Y verbo" → ambos son actores (no objeto)
-    // Si el hit anterior está conectado a éste por " y " e inmediatamente
-    // después del actual hay un verbo activo, ambos comparten rol actor.
+    // Pre-detección: "X y Y verbo" → ambos son actores
     let isCompoundActor = false
     if (i > 0) {
       const prev = hits[i - 1]
       const gap = t.slice(prev.pos + prev.matchedAlias.length, h.pos)
       if (/^\s*(y|and|,)\s*$/.test(gap)) {
-        // Mirar si después del actual hay verbo activo
         const verbHit = ACTOR_VERBS.find((v) => after.includes(v) && after.indexOf(v) < 40)
         if (verbHit) {
-          // Marca al previo también como actor si no lo estaba ya
           isCompoundActor = true
           addOrUpgrade(prev.entry.canonical, 'actor', 0.7, `sujeto compuesto "${prev.matchedAlias} y ${h.matchedAlias}" + verbo "${verbHit}"`, prev.entry.iso3)
         }
       }
     }
 
-    // ¿Hay verbo activo en los siguientes 40 chars?
+    // ¿verbo activo en los siguientes 40 chars? → actor
     let isActor = false
     let actorVerb = ''
     for (const v of ACTOR_VERBS) {
       if (after.includes(v) && after.indexOf(v) < 40) { isActor = true; actorVerb = v; break }
     }
 
-    // ¿Hay verbo activo entre el hit anterior y éste (otro país lo precede)?
+    // ¿verbo entre el hit anterior y éste? → affected (salvo bilateral)
     let isAffected = false
     let affectedReason = ''
     if (i > 0 && !isCompoundActor) {
@@ -464,33 +529,48 @@ export function detectCountryRoles(text: string, sourceCountry?: string): GeoCou
       const hasMarker = AFFECTED_MARKERS.some((m) => between.includes(m))
       const isBilateral = verbInBetween && BILATERAL_VERBS.has(verbInBetween)
       if (verbInBetween && !isBilateral) {
-        // Permitimos affected sin marker explícito si el gap es corto y el
-        // verbo es transitivo · "Rusia bombardea infraestructuras ucranianas"
-        // tiene Ucrania como objeto del bombardeo aunque no haya " a /contra".
         if (hasMarker || between.length < 80) {
           isAffected = true
           affectedReason = (hasMarker ? `verbo "${verbInBetween}" + marker` : `verbo transitivo "${verbInBetween}" gap ${between.length}c`)
         }
       }
     }
-    // Pasivas explícitas tipo "X es atacado/sancionado/criticado"
+    // Pasivas explícitas
     if (!isAffected && /\b(es|son|fue|fueron|ha sido|han sido)\s+(atacad|sancionad|criticad|condenad|denunciad|presionad|amenazad|invadid|bombardead)/.test(after)) {
       isAffected = true
       affectedReason = 'pasiva explícita'
     }
 
-    if (isActor) {
-      addOrUpgrade(h.entry.canonical, 'actor', 0.75, `verbo "${actorVerb}" tras "${h.matchedAlias}"`, h.entry.iso3)
+    // Flujo a destino · "hacia X" / "rumbo a X" / "destino X"
+    let isDestination = false
+    for (const f of FLOW_TO_VERBS) {
+      if (before.endsWith(f + ' ') || before.endsWith(f)) { isDestination = true; break }
     }
-    if (isAffected) {
-      addOrUpgrade(h.entry.canonical, 'affected', 0.7, `objeto de acción · ${affectedReason}`, h.entry.iso3)
+    // Origen de flujo · "crisis en X aumenta presión"
+    let isOrigin = false
+    if (/^crisis en /.test(before) || /^conflicto en /.test(before) || (before.includes('aumenta presión') || after.includes('aumenta presión'))) {
+      // mejor heurística: si la frase tiene "presión migratoria" o "aumenta presión" + país está EN la zona de inicio
+      if (/(presión migratoria|presion migratoria|crisis en|conflicto en|flujos? desde)/.test(t) && t.indexOf(h.matchedAlias) < t.indexOf('hacia')) {
+        isOrigin = true
+      }
     }
-    if (!isActor && !isAffected && !isCompoundActor) {
+    // Teatro · "flanco este" / "frente" / "teatro de operaciones"
+    let isTheatre = false
+    if (/flanco este|frente sur|teatro de operaciones/.test(t) && (h.entry.region === 'Europe' || /letonia|estonia|lituania|polonia|ucrania/.test(h.matchedAlias))) {
+      isTheatre = true
+    }
+
+    if (isActor) addOrUpgrade(h.entry.canonical, 'actor', 0.75, `verbo "${actorVerb}" tras "${h.matchedAlias}"`, h.entry.iso3)
+    if (isAffected) addOrUpgrade(h.entry.canonical, 'affected', 0.7, `objeto de acción · ${affectedReason}`, h.entry.iso3)
+    if (isDestination) addOrUpgrade(h.entry.canonical, 'destination', 0.65, 'flujo "hacia ..."', h.entry.iso3)
+    if (isOrigin) addOrUpgrade(h.entry.canonical, 'origin', 0.6, 'origen de flujo / crisis en zona', h.entry.iso3)
+    if (isTheatre) addOrUpgrade(h.entry.canonical, 'theatre', 0.6, 'teatro de operaciones', h.entry.iso3)
+    if (!isActor && !isAffected && !isDestination && !isOrigin && !isTheatre && !isCompoundActor) {
       addOrUpgrade(h.entry.canonical, 'mentioned', 0.45, `mención en posición ${h.pos}`, h.entry.iso3)
     }
   }
 
-  // 3 · si España aparece y hay migración/energía → marca spain_interest extra
+  // spain_interest si hay términos migratorios/energéticos y España no está como rol fuerte
   const hasSpain = Array.from(seen.values()).some((r) => r.country === 'España')
   const migrationHit = MIGRATION_KW.some((k) => t.includes(k))
   const energyHit = ENERGY_KW.some((k) => t.includes(k))
@@ -498,23 +578,67 @@ export function detectCountryRoles(text: string, sourceCountry?: string): GeoCou
     addOrUpgrade('España', 'spain_interest', 0.55, migrationHit ? 'términos migratorios detectados' : 'términos energéticos detectados', 'ESP')
   }
 
-  // 4 · source country (si la fuente es oficial de un país, ese país es source)
+  // source_country
   if (sourceCountry) {
     const entry = COUNTRIES.find((c) => c.canonical === sourceCountry)
-    addOrUpgrade(sourceCountry, 'source', 0.9, 'fuente oficial', entry?.iso3)
+    addOrUpgrade(sourceCountry, 'source_country', 0.9, 'fuente oficial', entry?.iso3)
   }
 
-  for (const r of Array.from(seen.values())) roles.push(r)
-  return roles
-}
-
-function syntheticSourceRoles(country: string): GeoCountryRole[] {
-  const entry = COUNTRIES.find((c) => c.canonical === country || c.aliases.includes(country.toLowerCase()))
-  return [{ country: entry?.canonical || country, role: 'source', confidence: 0.9, evidence: 'fuente oficial', iso3: entry?.iso3 }]
+  return Array.from(seen.values())
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 5 · assessGeoSeverity · 0..100 con razones
+// 5 · classifyGeoEventType
+// ════════════════════════════════════════════════════════════════════════
+
+export function classifyGeoEventType(text: string, layer: GeoLayer): GeoEventType {
+  const t = text.toLowerCase()
+
+  // Verbos/keywords prioritarios (antes que layer fallback)
+  if (/\b(combate|combat|ataque|bombardea|bombardean|bombardeo|misil|misiles|invade|invaden|invasión|invasion|ofensiva|bombing)\b/.test(t)) return 'armed_conflict'
+  if (/\b(crisis humanitaria|hambruna|desplazad|refugiad|epidemia|brote)\b/.test(t)) return 'humanitarian_crisis'
+  if (/\b(sanción|sanciones|sanciona|embargo|congela activos)\b/.test(t)) return 'sanction'
+  if (/\b(migrante|migrantes|inmigración|inmigracion|frontera|frontex|patera|cayuco|presión migratoria|presion migratoria)\b/.test(t)) return 'migration_pressure'
+  if (/\b(ciberataque|ransomware|hackers?|hackeo|ciberseguridad)\b/.test(t)) return 'cyber'
+  if (/\b(travel advisory|recomienda no viajar|recomendación de viaje|consular|alerta para viajeros)\b/.test(t)) return 'consular_warning'
+  if (/\b(refuerza|refuerzan|despliega|brigadas|tropas|flanco este|misión)\b/.test(t)) return 'military_deployment'
+  if (/\b(negocia|negocian|pacta|pactan|firma|condena|condenan|expulsa|expulsan|reconoce|reconocen|rompe relaciones|advierte|advertencia|presiona|presionan)\b/.test(t)) return 'diplomatic_warning'
+  if (/\b(gasoducto|gnl|oleoducto|petróleo|petroleo|red eléctrica)\b/.test(t)) return 'energy_disruption'
+  if (/\b(cobertura televisiva|aumenta cobertura|tono mediático|saliencia mediática)\b/.test(t)) return 'media_narrative'
+
+  // Fallback por layer
+  if (layer === 'hard_event') return 'armed_conflict'
+  if (layer === 'humanitarian') return 'humanitarian_crisis'
+  if (layer === 'sanctions') return 'sanction'
+  if (layer === 'consular') return 'consular_warning'
+  if (layer === 'spain_official') return 'spain_action'
+  if (layer === 'military_diplomatic') return 'military_deployment'
+  if (layer === 'media_attention') return 'media_narrative'
+  if (layer === 'qualitative_osint') return 'other'
+  if (layer === 'fast_signal') return 'media_narrative'
+  return 'other'
+}
+
+function inferDimension(event_type: GeoEventType, layer: GeoLayer): GeoDimension {
+  switch (event_type) {
+    case 'armed_conflict': return 'security'
+    case 'humanitarian_crisis': return 'humanitarian'
+    case 'sanction': return 'economic'
+    case 'cyber': return 'cyber'
+    case 'migration_pressure': return 'migration'
+    case 'diplomatic_warning': return 'diplomatic'
+    case 'consular_warning': return 'consular'
+    case 'military_deployment': return 'military'
+    case 'energy_disruption': return 'energy'
+    case 'spain_action': return 'diplomatic'
+    case 'media_narrative': return 'narrative'
+    case 'protest_unrest': return 'security'
+    default: return layer === 'humanitarian' ? 'humanitarian' : layer === 'media_attention' ? 'narrative' : 'institutional'
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// 6 · assessGeoSeverity → material_risk_score
 // ════════════════════════════════════════════════════════════════════════
 
 const SEVERITY_KW: Array<{ rx: RegExp; delta: number; label: string }> = [
@@ -537,17 +661,18 @@ export function assessGeoSeverity(text: string, event_type: GeoEventType): { sco
   let base = 0
   const reasons: string[] = []
   switch (event_type) {
-    case 'armed_conflict': base = 50; break
+    case 'armed_conflict': base = 55; break
     case 'humanitarian_crisis': base = 45; break
-    case 'sanctions_action': base = 25; break
-    case 'cyber_incident': base = 30; break
+    case 'sanction': base = 25; break
+    case 'cyber': base = 30; break
     case 'protest_unrest': base = 25; break
     case 'migration_pressure': base = 30; break
-    case 'diplomatic_action': base = 15; break
-    case 'institutional_action': base = 15; break
-    case 'energy_event': base = 25; break
+    case 'military_deployment': base = 35; break
+    case 'consular_warning': base = 35; break
+    case 'diplomatic_warning': base = 15; break
+    case 'energy_disruption': base = 30; break
     case 'spain_action': base = 20; break
-    case 'narrative_only': base = 10; break
+    case 'media_narrative': base = 10; break
     default: base = 15
   }
   reasons.push(`base por event_type=${event_type}: ${base}`)
@@ -560,70 +685,59 @@ export function assessGeoSeverity(text: string, event_type: GeoEventType): { sco
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 6 · assessSpainRelevance · 0..100 con motivos auditables
+// 7 · assessSpainExposure → spain_exposure_score
 // ════════════════════════════════════════════════════════════════════════
 
-export function assessSpainRelevance(
-  roles: GeoCountryRole[],
+export function assessSpainExposure(
+  countries: GeoCountryMention[],
   text: string,
   event_type: GeoEventType,
   layer?: GeoLayer,
 ): { score: number; reasons: string[] } {
   const reasons: string[] = []
   let score = 0
-  const spainRoles = roles.filter((r) => r.country === 'España')
+  const spainRoles = countries.filter((r) => r.country === 'España')
 
-  // Sprint G1 FASE 10 · iterar TODOS los roles España, no sólo el primero.
-  // Caso real: Moncloa publica que España envía ayuda → España es source +
-  // actor a la vez. Antes sólo contábamos el primero.
   for (const r of spainRoles) {
     if (r.role === 'affected') { score += 60; reasons.push('España es objeto/afectado directo (+60)') }
     else if (r.role === 'actor') { score += 45; reasons.push('España es actor activo (+45)') }
-    else if (r.role === 'source') { score += 25; reasons.push('Fuente oficial española (+25)') }
-    else if (r.role === 'spain_interest') { score += 20; reasons.push('Exposición española detectada por términos migratorios/energéticos (+20)') }
+    else if (r.role === 'destination') { score += 50; reasons.push('España es destino de flujo (+50)') }
+    else if (r.role === 'source_country') { score += 25; reasons.push('Fuente oficial española (+25)') }
+    else if (r.role === 'spain_interest') { score += 20; reasons.push('Exposición española detectada (+20)') }
   }
   if (spainRoles.length > 0 && spainRoles.every((r) => r.role === 'mentioned')) {
     score += 15; reasons.push('España mencionada pero rol no claro (+15)')
   }
 
-  // Sprint G1 FASE 10 · territorios españoles citados elevan relevancia
-  // significativamente · "Canarias" / "Ceuta" / "Melilla" implican España
-  // topológicamente involucrada aunque "España" no aparezca como palabra.
+  // Territorios españoles citados
   const lowerText = (text || '').toLowerCase()
   const territoryHit = SPAIN_TERRITORIES.find((tr) => lowerText.includes(tr))
   if (territoryHit) {
     score += 30
     reasons.push(`Territorio español citado ("${territoryHit}") · España topológicamente involucrada (+30)`)
   }
-
-  // Vecindad geográfica
+  // Vecindad
   const neighbors = ['Marruecos', 'Portugal', 'Francia', 'Argelia', 'Sahara Occidental']
-  if (roles.some((r) => neighbors.includes(r.country))) {
-    score += 12; reasons.push('Vecindario inmediato (Marruecos/Portugal/Francia/Argelia) +12')
+  if (countries.some((r) => neighbors.includes(r.country))) {
+    score += 12; reasons.push('Vecindario inmediato (+12)')
   }
-  // UE / OTAN involucradas · si son ACTOR, bonus extra porque España es miembro
+  // Bloques actor (UE/OTAN)
   const blocs = ['Unión Europea', 'OTAN']
-  const blocActor = roles.find((r) => blocs.includes(r.country) && r.role === 'actor')
-  const blocAny = roles.find((r) => blocs.includes(r.country))
-  if (blocActor) {
-    score += 30; reasons.push(`${blocActor.country} actúa como bloque → España como miembro (+30)`)
-  } else if (blocAny) {
-    score += 10; reasons.push('UE/OTAN involucrada (+10)')
-  }
-  // Migración explícita
-  if (MIGRATION_KW.some((k) => lowerText.includes(k))) {
-    score += 10; reasons.push('Canal migratorio relevante para España (+10)')
-  }
-  // Energía · si además hay UE o un país europeo afectado, España vía mercado europeo
+  const blocActor = countries.find((r) => blocs.includes(r.country) && r.role === 'actor')
+  const blocAny = countries.find((r) => blocs.includes(r.country))
+  if (blocActor) { score += 30; reasons.push(`${blocActor.country} actúa como bloque → España como miembro (+30)`) }
+  else if (blocAny) { score += 10; reasons.push('UE/OTAN involucrada (+10)') }
+  // Migración
+  if (MIGRATION_KW.some((k) => lowerText.includes(k))) { score += 10; reasons.push('Canal migratorio (+10)') }
+  // Energía + país europeo afectado
   if (ENERGY_KW.some((k) => lowerText.includes(k))) {
-    score += 10; reasons.push('Canal energético relevante para España (+10)')
-    const europeanAffected = roles.find((r) => r.role === 'affected' && ['Ucrania', 'Alemania', 'Italia', 'Francia', 'Polonia'].includes(r.country))
+    score += 10; reasons.push('Canal energético (+10)')
+    const europeanAffected = countries.find((r) => r.role === 'affected' && ['Ucrania', 'Alemania', 'Italia', 'Francia', 'Polonia'].includes(r.country))
     if (europeanAffected) { score += 8; reasons.push(`Mercado energético europeo afectado vía ${europeanAffected.country} (+8)`) }
   }
-  // Conflicto armado en Europa eleva relevancia para España aunque no esté
-  // citada (mercado UE, defensa colectiva, refugiados)
+  // Conflicto armado en Europa
   if (event_type === 'armed_conflict') {
-    const europeanCountry = roles.find((r) => {
+    const europeanCountry = countries.find((r) => {
       const e = COUNTRIES.find((c) => c.canonical === r.country)
       return e?.region === 'Europe' && r.country !== 'España'
     })
@@ -632,19 +746,18 @@ export function assessSpainRelevance(
       reasons.push(`Conflicto armado en Europa (${europeanCountry.country}) afecta a España vía UE/defensa colectiva (+15)`)
     }
   }
-  // Confluencia: spain_interest + territorio español es señal fuerte
+  // Confluencia spain_interest + territorio
   if (spainRoles.some((r) => r.role === 'spain_interest') && territoryHit) {
     score += 10
     reasons.push('Confluencia spain_interest + territorio español (+10)')
   }
-  // Layer consular · una travel advisory española sobre país X es por
-  // definición consularmente relevante para nacionales españoles
-  if (layer === 'consular') {
-    score += 10
-    reasons.push('Capa consular · señal por definición relevante para nacionales españoles (+10)')
+  // Consular
+  if (layer === 'consular' || event_type === 'consular_warning') {
+    score += 15
+    reasons.push('Capa consular · señal para nacionales españoles (+15)')
   }
-  // Tipo de evento sin actor España: degrada
-  if (spainRoles.length === 0 && event_type === 'narrative_only') {
+
+  if (spainRoles.length === 0 && event_type === 'media_narrative') {
     score = Math.max(0, score - 10); reasons.push('Sólo cobertura mediática y España no es actor/afectado (-10)')
   }
 
@@ -652,53 +765,59 @@ export function assessSpainRelevance(
   return { score, reasons }
 }
 
+// Back-compat alias
+export const assessSpainRelevance = assessSpainExposure
+
 // ════════════════════════════════════════════════════════════════════════
-// 7 · computeGeoConfidence
+// 8 · computeGeoConfidence
 // ════════════════════════════════════════════════════════════════════════
 
-const SOURCE_QUALITY_TABLE: Record<GeoSourceType, number> = {
+const SOURCE_QUALITY_TABLE: Record<GeoSourceMode, number> = {
   live_api: 0.90,
   rss_official: 0.85,
   rss_media: 0.65,
-  curated_baseline: 0.70,
   derived_from_news: 0.55,
+  curated_baseline: 0.70,
+  analytical_model: 0.60,
   llm_cluster: 0.45,
   fallback: 0.25,
   mock: 0.10,
 }
 
 export function computeGeoConfidence(
-  source_type: GeoSourceType,
+  source_mode: GeoSourceMode,
   observed_at: string,
-  roles: GeoCountryRole[],
+  countries: GeoCountryMention[],
   evidence: string[],
   triangulation_count = 1,
 ): GeoConfidence {
   const reasons: string[] = []
-  const source_quality = SOURCE_QUALITY_TABLE[source_type] ?? 0.4
-  reasons.push(`source_quality=${source_quality.toFixed(2)} (${SOURCE_TYPE_LABEL[source_type]})`)
+  const warnings: string[] = []
+  const source_quality = SOURCE_QUALITY_TABLE[source_mode] ?? 0.4
+  reasons.push(`source_quality=${source_quality.toFixed(2)} (${SOURCE_MODE_LABEL[source_mode]})`)
+  if (source_mode === 'mock') warnings.push('DATOS SINTÉTICOS · NO usar en producción')
+  if (source_mode === 'fallback') warnings.push('Fuente cayó · puede estar desactualizado')
+  if (source_mode === 'llm_cluster') warnings.push('Generado por IA · validar con fuente primaria')
 
-  // Freshness · decae lineal hasta 30 días, suelo 0.1
   let freshness = 0.5
   const t = Date.parse(observed_at)
   if (!Number.isNaN(t)) {
     const days = Math.max(0, (Date.now() - t) / 86400000)
     freshness = Math.max(0.1, 1 - days / 30)
     reasons.push(`freshness=${freshness.toFixed(2)} (${days.toFixed(1)}d antigüedad)`)
+    if (days > 30) warnings.push(`Señal con ${days.toFixed(0)}d · puede no reflejar situación actual`)
   } else {
     reasons.push('freshness=0.5 (observed_at no parseable)')
   }
 
-  // Triangulación · 1 fuente=0.4 · 2=0.7 · 3+=0.9
   const triangulation = triangulation_count >= 3 ? 0.9 : triangulation_count === 2 ? 0.7 : 0.4
   reasons.push(`triangulation=${triangulation.toFixed(2)} (${triangulation_count} fuente(s))`)
+  if (triangulation_count === 1) warnings.push('Sin triangulación · validar con segunda fuente')
 
-  // Specificity · cuántos países con rol no-mentioned tenemos
-  const strongRoles = roles.filter((r) => r.role !== 'mentioned')
+  const strongRoles = countries.filter((r) => r.role !== 'mentioned')
   const specificity = Math.min(1, strongRoles.length / 3)
   reasons.push(`specificity=${specificity.toFixed(2)} (${strongRoles.length} roles fuertes)`)
 
-  // Evidence strength · longitud agregada de evidencia textual
   const evLen = evidence.reduce((s, e) => s + e.length, 0)
   const evidence_strength = Math.min(1, evLen / 400)
   reasons.push(`evidence_strength=${evidence_strength.toFixed(2)} (${evLen} chars evidencia)`)
@@ -711,44 +830,69 @@ export function computeGeoConfidence(
     evidence_strength * 0.10
   ).toFixed(3)
 
-  if (overall < 0.5) reasons.push('Overall <0.5 · señal débil · validar con segunda fuente')
-  if (freshness < 0.3) reasons.push('Atención: señal antigua · puede haber evolucionado')
+  if (overall < 0.5) warnings.push('Confianza global <0.5 · interpretar con cautela')
 
-  return { overall, source_quality, freshness, triangulation, specificity, evidence_strength, reasons }
+  return { overall, source_quality, freshness, triangulation, specificity, evidence_strength, reasons, warnings }
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 8 · buildGeoAuditTrail
+// 9 · buildGeoAuditTrail · con what_this_means / what_this_does_not_mean
 // ════════════════════════════════════════════════════════════════════════
 
+const WHAT_IT_MEANS_BY_LAYER: Record<GeoLayer, string> = {
+  fast_signal: 'Señal de cobertura informativa reciente · indica que el tema está en la agenda.',
+  hard_event: 'Evento de violencia material registrado por base de datos (ACLED/UCDP).',
+  structural_conflict: 'Conflicto armado registrado estructuralmente · contexto multi-año.',
+  humanitarian: 'Reportes humanitarios actuales · presión sobre población civil.',
+  consular: 'Recomendación consular para viajeros nacionales.',
+  military_diplomatic: 'Comunicación institucional militar/diplomática.',
+  sanctions: 'Medida restrictiva oficial.',
+  qualitative_osint: 'Análisis cualitativo de fuente experta (think tank, instituto).',
+  spain_official: 'Postura oficial de la administración española.',
+  media_attention: 'Volumen de cobertura mediática.',
+  analytical_model: 'Score derivado por modelo Politeia sobre fuentes externas.',
+}
+
+const WHAT_IT_DOES_NOT_MEAN_BY_LAYER: Record<GeoLayer, string> = {
+  fast_signal: 'NO implica gravedad material · sólo que la prensa lo ha cubierto.',
+  hard_event: 'NO mide percepción pública ni recomendación política.',
+  structural_conflict: 'NO indica deterioro de HOY · el dato es histórico/anual.',
+  humanitarian: 'NO mide intensidad militar ni atribución de responsables.',
+  consular: 'NO mide violencia material · depende de política consular del emisor.',
+  military_diplomatic: 'NO mide voluntad de uso de la fuerza · sólo declaración.',
+  sanctions: 'NO garantiza cumplimiento ni impacto económico real.',
+  qualitative_osint: 'NO es dato cuantitativo · es opinión experta.',
+  spain_official: 'NO necesariamente refleja consenso parlamentario ni opinión pública.',
+  media_attention: 'NO mide realidad material · sólo intensidad de cobertura.',
+  analytical_model: 'NO es observación primaria · puede heredar errores de fuentes.',
+}
+
 export function buildGeoAuditTrail(args: {
-  inputs: Array<{ source_name: string; source_type: GeoSourceType; count?: number }>
+  inputs: Array<{ name: string; endpoint?: string; source_mode: GeoSourceMode; layer: GeoLayer; freshness?: string }>
   transformations: string[]
   rules_triggered?: string[]
   fallback_used?: boolean
   llm_used?: boolean
   confidence: GeoConfidence
-  warnings?: Array<{ level: 'info' | 'warning' | 'critical'; message: string }>
+  warnings?: string[]
+  primary_layer?: GeoLayer
 }): GeoAuditTrail {
-  const counts = new Map<string, { source_type: GeoSourceType; count: number }>()
-  for (const i of args.inputs) {
-    const key = i.source_name
-    const prev = counts.get(key)
-    counts.set(key, { source_type: i.source_type, count: (prev?.count || 0) + (i.count || 1) })
-  }
+  const primary = args.primary_layer || args.inputs[0]?.layer || 'fast_signal'
   return {
-    input_sources: Array.from(counts.entries()).map(([source_name, v]) => ({ source_name, source_type: v.source_type, count: v.count })),
+    input_sources: args.inputs,
     transformations: args.transformations,
     rules_triggered: args.rules_triggered || [],
     fallback_used: !!args.fallback_used,
     llm_used: !!args.llm_used,
     confidence: args.confidence,
     warnings: args.warnings || [],
+    what_this_means: WHAT_IT_MEANS_BY_LAYER[primary],
+    what_this_does_not_mean: WHAT_IT_DOES_NOT_MEAN_BY_LAYER[primary],
   }
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 9 · readGeoSignal · entrada universal
+// 10 · readGeoSignal · pipeline universal
 // ════════════════════════════════════════════════════════════════════════
 
 export interface ReadGeoSignalInput {
@@ -758,47 +902,72 @@ export interface ReadGeoSignalInput {
   url?: string
   observed_at: string
   source_name: string
-  source_country?: string                          // si la fuente es oficial de un país
-  raw_event_type?: GeoEventType                    // si el endpoint ya conoce el tipo
+  source_country?: string
+  raw_event_type?: GeoEventType
   derived_from?: string[]
+  // opcional · volumen para media_attention_score
+  coverage_volume?: number          // 0..N artículos relacionados
+  // opcional · tono para narrative_pressure_score
+  tone_intensity?: number           // 0..1 (intensidad emocional)
 }
 
-/**
- * Lectura universal de una señal. Cualquier endpoint puede llamar a esto
- * sobre un input bruto (artículo RSS, evento ACLED, alerta convergence)
- * y obtener un GeoSignalReading uniforme.
- *
- * Sin LLM. Sin red. Puro determinista.
- */
 export function readGeoSignal(input: ReadGeoSignalInput): GeoSignalReading {
-  const { source_type, geo_layer } = classifyGeoSource(input.source_name, input.url)
+  const { source_mode, geo_layer, temporal_scope } = classifyGeoSource(input.source_name, input.url)
   const fullText = `${input.title} ${input.summary || ''}`
-  const country_roles = detectCountryRoles(fullText, input.source_country)
-  const countries_mentioned = Array.from(new Set(country_roles.map((r) => r.country)))
-  const country_actor = country_roles.find((r) => r.role === 'actor')?.country
-  const country_affected = country_roles.find((r) => r.role === 'affected')?.country
-  const region = inferRegion(country_roles)
+  const countries = detectCountryRoles(fullText, input.source_country)
+  const countries_mentioned = Array.from(new Set(countries.map((r) => r.country)))
+  const country_actor = countries.find((r) => r.role === 'actor')?.country
+  const country_affected = countries.find((r) => r.role === 'affected')?.country
+  const region = inferRegion(countries)
 
-  const event_type = input.raw_event_type || inferEventType(fullText, geo_layer)
+  const event_type = input.raw_event_type || classifyGeoEventType(fullText, geo_layer)
   const dimension = inferDimension(event_type, geo_layer)
-  const sev = assessGeoSeverity(fullText, event_type)
-  const spain = assessSpainRelevance(country_roles, fullText, event_type, geo_layer)
+  const material = assessGeoSeverity(fullText, event_type)
+  const exposure = assessSpainExposure(countries, fullText, event_type, geo_layer)
 
-  // Evidencia mínima: títulos/frases que dispararon la asignación
+  // media_attention_score · si tenemos coverage_volume, escalamos log; si no,
+  // mapeamos por source_mode (media → algo, oficial → poco, mock → 0)
+  const media_attention_score = (() => {
+    if (typeof input.coverage_volume === 'number' && input.coverage_volume > 0) {
+      return Math.min(100, Math.round(20 * Math.log10(1 + input.coverage_volume)))
+    }
+    // GDELT u otras live_api en capa media_attention → indicador fuerte de saliencia
+    if (geo_layer === 'media_attention') return source_mode === 'live_api' ? 50 : 35
+    if (source_mode === 'rss_media') return 35
+    return 5
+  })()
+
+  // narrative_pressure_score · tono explícito > heurística por keywords
+  const narrative_pressure_score = (() => {
+    if (typeof input.tone_intensity === 'number') return Math.round(input.tone_intensity * 100)
+    // heurística por keywords cargadas
+    const charged = /\b(amenaza|crisis|colapso|escalada|derrumbe|alarma|tensión|tension|polariz)\b/i.test(fullText)
+    if (charged) return source_mode === 'rss_media' ? 55 : 35
+    return 15
+  })()
+
   const evidence: string[] = []
-  for (const r of country_roles.slice(0, 5)) evidence.push(`${r.country} (${r.role}): ${r.evidence}`)
+  for (const r of countries.slice(0, 5)) evidence.push(`${r.country} (${r.role}): ${r.evidence}`)
   if (input.title) evidence.push(`titular: ${input.title.slice(0, 200)}`)
 
   const limitations: string[] = []
-  if (source_type === 'rss_media') limitations.push('Cobertura mediática · no necesariamente refleja realidad material')
-  if (source_type === 'derived_from_news') limitations.push('Derivado de agregación · no es dato primario')
-  if (source_type === 'llm_cluster') limitations.push('Resumen IA · validar con fuente primaria antes de citar')
-  if (source_type === 'fallback') limitations.push('Fallback · la fuente original falló · puede estar desactualizado')
-  if (source_type === 'mock') limitations.push('DATOS SINTÉTICOS · NO USAR EN PRODUCCIÓN')
-  if (country_roles.length === 0) limitations.push('Sin países detectados · no se puede atribuir geográficamente')
-  if (event_type === 'narrative_only') limitations.push('Sólo cobertura · sin hecho material verificable')
+  if (source_mode === 'rss_media') limitations.push('Cobertura mediática · no necesariamente refleja realidad material')
+  if (source_mode === 'derived_from_news') limitations.push('Derivado de agregación · no es dato primario')
+  if (source_mode === 'llm_cluster') limitations.push('Resumen IA · validar con fuente primaria antes de citar')
+  if (source_mode === 'fallback') limitations.push('Fallback · la fuente original falló · puede estar desactualizado')
+  if (source_mode === 'mock') limitations.push('DATOS SINTÉTICOS · NO USAR EN PRODUCCIÓN')
+  if (source_mode === 'analytical_model') limitations.push('Score derivado · no es observación primaria')
+  if (geo_layer === 'media_attention') limitations.push('Mide cobertura, no realidad material · validar con ACLED/UCDP si es conflicto')
+  if (geo_layer === 'structural_conflict') limitations.push('Estructural/histórico · NO indica deterioro de hoy')
+  if (countries.length === 0) limitations.push('Sin países detectados · no se puede atribuir geográficamente')
+  if (event_type === 'media_narrative') limitations.push('Sólo cobertura · sin hecho material verificable')
 
-  const confidence = computeGeoConfidence(source_type, input.observed_at, country_roles, evidence)
+  const confidence = computeGeoConfidence(source_mode, input.observed_at, countries, evidence)
+
+  // urgency_score · combina material_risk + spain_exposure + confianza
+  const urgency_score = Math.max(0, Math.min(100, Math.round(
+    material.score * 0.35 + exposure.score * 0.45 + confidence.overall * 100 * 0.20
+  )))
 
   return {
     id: input.id,
@@ -807,9 +976,10 @@ export function readGeoSignal(input: ReadGeoSignalInput): GeoSignalReading {
     url: input.url,
     observed_at: input.observed_at,
     source_name: input.source_name,
-    source_type,
+    source_mode,
     geo_layer,
-    country_roles,
+    temporal_scope,
+    countries,
     country_actor,
     country_affected,
     countries_mentioned,
@@ -818,119 +988,59 @@ export function readGeoSignal(input: ReadGeoSignalInput): GeoSignalReading {
     dimension,
     actors: extractActors(fullText),
     institutions: extractInstitutions(fullText),
-    severity: sev.score,
-    spain_relevance: spain.score,
+    material_risk_score: material.score,
+    media_attention_score,
+    narrative_pressure_score,
+    spain_exposure_score: exposure.score,
+    urgency_score,
     confidence,
     evidence,
     limitations,
     derived_from: input.derived_from,
+    // Alias legacy
+    source_type: source_mode,
+    country_roles: countries,
+    severity: material.score,
+    spain_relevance: exposure.score,
   }
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 10 · explainGeoSignal · narrativa humana auditable
+// 11 · explainGeoSignal
 // ════════════════════════════════════════════════════════════════════════
 
 export function explainGeoSignal(reading: GeoSignalReading): string {
   const bits: string[] = []
-  bits.push(`[${SOURCE_TYPE_LABEL[reading.source_type]} · ${LAYER_LABEL[reading.geo_layer]}]`)
+  bits.push(`[${SOURCE_MODE_LABEL[reading.source_mode]} · ${LAYER_LABEL[reading.geo_layer]} · ${TEMPORAL_SCOPE_LABEL[reading.temporal_scope]}]`)
   if (reading.country_actor) bits.push(`actor: ${reading.country_actor}`)
   if (reading.country_affected) bits.push(`afectado: ${reading.country_affected}`)
   bits.push(`tipo: ${reading.event_type}`)
-  bits.push(`severidad ${reading.severity}/100`)
-  bits.push(`España ${reading.spain_relevance}/100`)
+  bits.push(`material ${reading.material_risk_score}/100`)
+  bits.push(`atención ${reading.media_attention_score}/100`)
+  bits.push(`narrativa ${reading.narrative_pressure_score}/100`)
+  bits.push(`exposición ES ${reading.spain_exposure_score}/100`)
+  bits.push(`urgencia ${reading.urgency_score}/100`)
   bits.push(`conf ${Math.round(reading.confidence.overall * 100)}%`)
   return bits.join(' · ')
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 11 · Helpers internos
+// 12 · Helpers internos
 // ════════════════════════════════════════════════════════════════════════
 
-function inferRegion(roles: GeoCountryRole[]): string | undefined {
-  for (const r of roles) {
-    if (r.role === 'actor' || r.role === 'affected') {
+function inferRegion(countries: GeoCountryMention[]): string | undefined {
+  for (const r of countries) {
+    if (r.role === 'actor' || r.role === 'affected' || r.role === 'destination' || r.role === 'origin' || r.role === 'theatre') {
       const e = COUNTRIES.find((c) => c.canonical === r.country)
       if (e?.region) return e.region
     }
   }
-  // fallback al primer match
-  for (const r of roles) {
+  for (const r of countries) {
     const e = COUNTRIES.find((c) => c.canonical === r.country)
     if (e?.region) return e.region
   }
   return undefined
 }
-
-function inferEventType(text: string, layer: GeoLayer): GeoEventType {
-  const t = text.toLowerCase()
-  // Sprint G1 FASE 10 · prioridad de verbos/keywords ANTES que layer.
-  // El orden importa: "Rusia bombardea" debe ser armed_conflict aunque la
-  // fuente sea un RSS de medios (layer=signal_fast). El layer es un
-  // fallback, no una verdad superior.
-
-  // 1 · acción militar explícita
-  if (/\b(combate|combat|ataque|bombardea|bombardean|bombardeo|misil|misiles|invade|invaden|invasión|invasion|ofensiva|bombing)\b/.test(t)) return 'armed_conflict'
-  // 2 · crisis humanitaria
-  if (/\b(crisis humanitaria|hambruna|desplazad|refugiad|epidemia|brote)\b/.test(t)) return 'humanitarian_crisis'
-  // 3 · sanciones explícitas
-  if (/\b(sanción|sanciones|sanciona|embargo|congela activos)\b/.test(t)) return 'sanctions_action'
-  // 4 · migración
-  if (/\b(migrante|migrantes|inmigración|inmigracion|frontera|frontex|patera|cayuco|presión migratoria|presion migratoria)\b/.test(t)) return 'migration_pressure'
-  // 5 · cyber
-  if (/\b(ciberataque|ransomware|hackers?|hackeo|ciberseguridad)\b/.test(t)) return 'cyber_incident'
-  // 6 · acción diplomática (negociar, pactar, condenar, expulsar, reconocer, advertir)
-  if (/\b(negocia|negocian|pacta|pactan|firma|condena|condenan|expulsa|expulsan|reconoce|reconocen|rompe relaciones|advierte|advertencia|presiona|presionan)\b/.test(t)) return 'diplomatic_action'
-  // 7 · acción institucional UE/OTAN/ONU
-  if (/\b(otan|nato|unión europea|comisión europea|onu|consejo de seguridad|eeas)\b/.test(t) && /\b(refuerza|refuerzan|resolución|aprueba|advierte|sanciona|despliega|misión)\b/.test(t)) return 'institutional_action'
-  // 8 · energía
-  if (/\b(gasoducto|gnl|oleoducto|petróleo|petroleo|red eléctrica|electricidad)\b/.test(t)) return 'energy_event'
-  // 9 · protestas
-  if (/\b(protesta|manifestación|huelga|disturbios|revuelta)\b/.test(t)) return 'protest_unrest'
-  // 10 · consular
-  if (/\b(travel advisory|recomendación de viaje|consular|alerta para viajeros)\b/.test(t)) return 'humanitarian_crisis'
-
-  // 11 · fallback por layer
-  if (layer === 'hard_event') return 'armed_conflict'
-  if (layer === 'humanitarian') return 'humanitarian_crisis'
-  if (layer === 'sanctions') return 'sanctions_action'
-  if (layer === 'consular') return 'humanitarian_crisis'
-  if (layer === 'spain_official') return 'spain_action'
-  if (layer === 'military_diplomatic') return 'institutional_action'
-  if (layer === 'qualitative_osint') return 'other'
-  if (layer === 'signal_fast') return 'narrative_only'
-  return 'other'
-}
-
-function inferDimension(event_type: GeoEventType, layer: GeoLayer): GeoDimension {
-  switch (event_type) {
-    case 'armed_conflict': return 'security'
-    case 'humanitarian_crisis': return 'humanitarian'
-    case 'sanctions_action': return 'economic'
-    case 'cyber_incident': return 'cyber'
-    case 'migration_pressure': return 'migratory'
-    case 'diplomatic_action': return 'political_diplomatic'
-    case 'institutional_action': return 'political_diplomatic'
-    case 'energy_event': return 'economic'
-    case 'spain_action': return 'political_diplomatic'
-    case 'narrative_only': return 'narrative'
-    case 'protest_unrest': return 'security'
-    default: return layer === 'humanitarian' ? 'humanitarian' : 'narrative'
-  }
-}
-
-const ORG_ACTORS = [
-  'Hamas', 'Hezbolá', 'Hezbollah', 'Wagner', 'ISIS', 'Daesh', 'Al Qaeda', 'Boko Haram',
-  'M23', 'Houthis', 'Houthi', 'Hutíes', 'PKK', 'PYD',
-  'Frontex', 'Europol', 'Interpol',
-]
-const INSTITUTIONS_GEO = [
-  'OTAN', 'NATO', 'ONU', 'Naciones Unidas', 'Consejo de Seguridad',
-  'Unión Europea', 'Comisión Europea', 'Parlamento Europeo', 'Consejo Europeo',
-  'EEAS', 'OSCE', 'Liga Árabe', 'Unión Africana',
-  'BCE', 'FMI', 'OMC', 'OMS', 'OIEA',
-  'Tribunal Penal Internacional', 'CPI',
-]
 
 function extractActors(text: string): string[] {
   const found = new Set<string>()
@@ -945,12 +1055,12 @@ function extractInstitutions(text: string): string[] {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// 12 · buildGeoMeta · ayuda a endpoints a generar el _meta estándar
+// 13 · buildGeoMeta
 // ════════════════════════════════════════════════════════════════════════
 
 export function buildGeoMeta(args: {
-  source_mode: GeoEndpointMeta['source_mode']
-  sources_used: GeoEndpointMeta['sources_used']
+  source_mode: GeoEndpointMode
+  sources_used: string[]
   startedAt: number
   confidence: number
   warnings?: string[]
@@ -960,11 +1070,11 @@ export function buildGeoMeta(args: {
   return {
     source_mode: args.source_mode,
     sources_used: args.sources_used,
+    methodology_version: GEO_METHODOLOGY_VERSION,
     generated_at: new Date().toISOString(),
     latency_ms: Date.now() - args.startedAt,
     confidence: +args.confidence.toFixed(3),
     warnings: args.warnings || [],
-    methodology_version: GEO_METHODOLOGY_VERSION,
     layer: args.layer,
     notes: args.notes,
   }
