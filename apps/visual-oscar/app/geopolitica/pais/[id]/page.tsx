@@ -12,6 +12,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import AppHeader from '../../../_components/AppHeader'
+import { GeoCountryTimeline } from '../../../../components/geopolitica/GeoCountryTimeline'
 
 interface PaisProfile {
   ok: boolean
@@ -267,6 +268,11 @@ export default function PaisPage() {
                   )}
                 </section>
               )}
+
+              {/* Sprint G9 · Country Timeline (multi-source cronológico) */}
+              <div style={{ gridColumn: '1 / -1' }}>
+                <GeoCountryTimeline iso={data.country.iso3} />
+              </div>
 
               {/* Sprint G7 · Travel Advisory consular */}
               {data.travel_advisory && (

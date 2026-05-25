@@ -1458,45 +1458,121 @@ async function buildSpainOfficial(limit: number) {
 // el equivalente al "convergence detection" que hace un analista senior
 // cruzando ACLED + UCDP + ReliefWeb + Travel + sanciones manualmente.
 
-// Listas curadas para evitar 50+ API calls por convergence detection.
-// Países UCDP con conflict intensity_level 2 (guerra · 1000+ deaths/año
-// en alguno de los últimos 5 años). Estática, refresh anual al pasar
-// nueva versión UCDP/PRIO. v24.1 mayo 2025.
-const UCDP_WAR_COUNTRIES: Record<string, { intensity: number; conflict: string }> = {
-  UKR: { intensity: 2, conflict: 'Ucrania-Rusia · invasión 2022→' },
-  RUS: { intensity: 2, conflict: 'Ucrania-Rusia · invasión 2022→' },
-  PSE: { intensity: 2, conflict: 'Israel-Hamas · oct 2023→' },
-  ISR: { intensity: 2, conflict: 'Israel-Hamas · oct 2023→' },
-  SDN: { intensity: 2, conflict: 'Sudán · guerra civil RSF vs FAS 2023→' },
-  YEM: { intensity: 2, conflict: 'Yemen · guerra civil 2014→ (intensidad var)' },
-  SYR: { intensity: 1, conflict: 'Siria · post-Assad 2024 (intensidad baja desde caída régimen)' },
-  MMR: { intensity: 2, conflict: 'Myanmar · guerra civil post-golpe 2021→' },
-  ETH: { intensity: 1, conflict: 'Etiopía · Amhara, Oromia tensiones residuales' },
-  MLI: { intensity: 1, conflict: 'Mali · JNIM + Wagner' },
-  AFG: { intensity: 1, conflict: 'Afganistán · ISIS-K vs Talibán' },
-  COD: { intensity: 2, conflict: 'RDC · M23 + ADF Kivu' },
-  SOM: { intensity: 1, conflict: 'Somalia · Al-Shabaab' },
-  NGA: { intensity: 1, conflict: 'Nigeria · Boko Haram + bandidaje' },
-  HTI: { intensity: 1, conflict: 'Haití · pandillas (Pkfini · violencia urbana)' },
-  MEX: { intensity: 1, conflict: 'México · narcotráfico (cártel violence)' },
-  COL: { intensity: 1, conflict: 'Colombia · ELN + disidencias FARC' },
-  BFA: { intensity: 1, conflict: 'Burkina Faso · JNIM' },
-  NER: { intensity: 1, conflict: 'Níger · JNIM post-golpe 2023' },
+// ─── Helpers data-driven · sin hardcode (Sprint G9) ─────────────────
+// Normalización country name → ISO3. Construido en runtime desde
+// WORLD_COUNTRY_BASELINE + alias dict para divergencias UCDP/ReliefWeb.
+// Esto es plumbing de normalización (UCDP no devuelve ISO), NO intelligence.
+const UCDP_NAME_ALIASES: Record<string, string> = {
+  'russia soviet union': 'RUS',
+  'russia ussr': 'RUS',
+  'dr congo zaire': 'COD',
+  'dr congo': 'COD',
+  'democratic republic of the congo': 'COD',
+  'democratic republic of congo': 'COD',
+  'congo': 'COG',
+  'republic of congo': 'COG',
+  'united states of america': 'USA',
+  'united kingdom': 'GBR',
+  'south korea': 'KOR',
+  'korea south': 'KOR',
+  'republic of korea': 'KOR',
+  'korea north': 'PRK',
+  'north korea': 'PRK',
+  'democratic peoples republic of korea': 'PRK',
+  'palestine': 'PSE',
+  'palestinian territories': 'PSE',
+  'state of palestine': 'PSE',
+  'myanmar burma': 'MMR',
+  'iran islamic republic': 'IRN',
+  'cote divoire': 'CIV',
+  'cape verde': 'CPV',
+  'czech republic': 'CZE',
+  'east timor': 'TLS',
+  'timor leste': 'TLS',
+  'kingdom of saudi arabia': 'SAU',
+  'syrian arab republic': 'SYR',
+  'lao peoples democratic republic': 'LAO',
+  'macedonia': 'MKD',
+  'fyr macedonia': 'MKD',
+  'turkiye': 'TUR',
+  'turkey': 'TUR',
 }
 
-// Países con crisis humanitaria ReliefWeb activa (>1000 reports históricos
-// O escalada en últimos 6m). Mantenido vía monitoreo manual periódico.
-const ACTIVE_HUMANITARIAN: string[] = [
-  'UKR', 'PSE', 'SDN', 'YEM', 'SYR', 'AFG', 'COD', 'MMR', 'HTI',
-  'LBY', 'SOM', 'ETH', 'MLI', 'BFA', 'NER', 'VEN', 'NGA', 'COL',
-]
+function normalizeCountryName(name: string): string {
+  return (name || '')
+    .toLowerCase()
+    .replace(/\(.*?\)/g, ' ')
+    .replace(/[^a-z\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+// Mapa name→ISO3 construido al primer uso desde WORLD_COUNTRY_BASELINE + aliases.
+// Cubre ~55 países base + aliases comunes. Si no encuentra el país, devuelve ''.
+let _nameToIsoCache: Record<string, string> | null = null
+function nameToIso3(name: string): string {
+  if (!_nameToIsoCache) {
+    const m: Record<string, string> = { ...UCDP_NAME_ALIASES }
+    for (const [iso3, meta] of Object.entries(WORLD_COUNTRY_BASELINE)) {
+      m[normalizeCountryName(meta.name)] = iso3
+    }
+    _nameToIsoCache = m
+  }
+  return _nameToIsoCache[normalizeCountryName(name)] || ''
+}
+
+// ─── Fetch UCDP conflicts activos · LIVE (Sprint G9) ────────────────
+// Reemplaza la lista estática UCDP_WAR_COUNTRIES por fetch real al API
+// de Uppsala. Año más reciente cubierto en v24.1 = 2023. Aggregate por
+// país tomando el max intensity_level + descripción del conflicto.
+async function fetchUcdpActiveByIso3(): Promise<Record<string, { intensity: number; conflict: string }>> {
+  const url = 'https://ucdpapi.pcr.uu.se/api/ucdpprioconflict/24.1?pagesize=1000&Year=2023'
+  const data = await jsonFetch(url)
+  const results: any[] = Array.isArray(data?.Result) ? data.Result : []
+  const map: Record<string, { intensity: number; conflict: string }> = {}
+  for (const r of results) {
+    const country = r.location || r.Location || ''
+    const iso3 = nameToIso3(country)
+    if (!iso3) continue // país no en nuestro baseline, skip
+    const intensity = Number(r.intensity_level ?? r.IntensityLevel ?? 0)
+    const sideA = r.side_a ?? r.SideA ?? '?'
+    const sideB = r.side_b ?? r.SideB ?? '?'
+    const conflict = `${sideA} vs ${sideB} (${r.year ?? r.Year ?? '?'})`
+    const cur = map[iso3]
+    if (!cur || intensity > cur.intensity) {
+      map[iso3] = { intensity, conflict }
+    }
+  }
+  return map
+}
+
+// ─── Fetch ReliefWeb crisis humanitarias activas · LIVE (Sprint G9) ──
+// Reemplaza la lista estática ACTIVE_HUMANITARIAN. Cuenta reports
+// publicados últimos 30d por país (primary_country.iso3 viene en la API).
+// Threshold: ≥10 reports/mes = crisis activa.
+async function fetchReliefWebActiveByIso3(): Promise<Record<string, number>> {
+  const date30dAgo = new Date(Date.now() - 30 * 86400_000).toISOString().slice(0, 10)
+  const url = `https://api.reliefweb.int/v1/reports?appname=politeia-analitica&profile=list&limit=500&filter[field]=date.created&filter[value][from]=${date30dAgo}&sort[]=date.created:desc`
+  const data = await jsonFetch(url)
+  const items: any[] = Array.isArray(data?.data) ? data.data : []
+  const counts: Record<string, number> = {}
+  for (const it of items) {
+    const iso3 = (it?.fields?.primary_country?.iso3 || '').toUpperCase()
+    if (!iso3) continue
+    counts[iso3] = (counts[iso3] || 0) + 1
+  }
+  return counts
+}
 
 async function buildConvergenceAlerts(req: Request) {
   const base = baseUrl(req)
-  // 2 calls paralelos · world-risk (ACLED uplift por país) + travel-advisories
-  const [world, travel] = await Promise.all([
+  // 4 calls paralelos · 2 internos cacheados (world-risk + travel) + 2 externos LIVE (UCDP + ReliefWeb).
+  // Datos siempre frescos, sin listas estáticas mantenidas a mano.
+  const [world, travel, ucdpMap, reliefMap] = await Promise.all([
     jsonFetch(`${base}/api/geopolitica/world-risk`),
     jsonFetch(`${base}/api/geopolitica/travel-advisories?country=all`),
+    fetchUcdpActiveByIso3().catch((): Record<string, { intensity: number; conflict: string }> => ({})),
+    fetchReliefWebActiveByIso3().catch((): Record<string, number> => ({})),
   ])
 
   // Index travel por ISO2 → score
@@ -1506,6 +1582,9 @@ async function buildConvergenceAlerts(req: Request) {
       travelByIso2[c.iso2] = { score: c.score, band: c.band }
     }
   }
+
+  const RELIEF_THRESHOLD_HIGH = 10
+  const RELIEF_THRESHOLD_CRITICAL = 30
 
   const countries: any[] = Array.isArray(world?.countries) ? world.countries : []
   const alerts = countries.map((c) => {
@@ -1524,20 +1603,24 @@ async function buildConvergenceAlerts(req: Request) {
       signals.push({ source: 'ACLED', level: 'HIGH', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
       score += 2
     }
-    // UCDP estructural · intensity 2 = CRITICAL, 1 = HIGH
-    const ucdp = UCDP_WAR_COUNTRIES[iso3]
+    // UCDP · live · intensity 2 = CRITICAL, 1 = HIGH
+    const ucdp = ucdpMap[iso3]
     if (ucdp) {
       if (ucdp.intensity >= 2) {
         signals.push({ source: 'UCDP', level: 'CRITICAL', detail: ucdp.conflict })
         score += 3
-      } else {
+      } else if (ucdp.intensity >= 1) {
         signals.push({ source: 'UCDP', level: 'HIGH', detail: ucdp.conflict })
         score += 2
       }
     }
-    // Humanitarian (ReliefWeb activo)
-    if (ACTIVE_HUMANITARIAN.includes(iso3)) {
-      signals.push({ source: 'ReliefWeb', level: 'HIGH', detail: 'crisis humanitaria activa OCHA' })
+    // ReliefWeb · live · count reports 30d
+    const reliefCount = reliefMap[iso3] || 0
+    if (reliefCount >= RELIEF_THRESHOLD_CRITICAL) {
+      signals.push({ source: 'ReliefWeb', level: 'CRITICAL', detail: `${reliefCount} reports OCHA 30d` })
+      score += 3
+    } else if (reliefCount >= RELIEF_THRESHOLD_HIGH) {
+      signals.push({ source: 'ReliefWeb', level: 'HIGH', detail: `${reliefCount} reports OCHA 30d` })
       score += 2
     }
     // Travel Advisory · ≥4.0 = HIGH, ≥4.5 = CRITICAL
@@ -1590,8 +1673,200 @@ async function buildConvergenceAlerts(req: Request) {
       senal_unica: single.length,
     },
     alerts: flagged.slice(0, 25),
-    methodology: 'Convergence detection · cruza ACLED 30d + UCDP estructural + ReliefWeb activa + Travel Advisory + baseline risk. Score = suma pesos por capa (CRITICAL +3, HIGH +2, baseline +1). ≥9 = triple convergencia (3+ capas críticas).',
+    data_sources: {
+      ucdp_countries_loaded: Object.keys(ucdpMap).length,
+      reliefweb_countries_loaded: Object.keys(reliefMap).length,
+      travel_countries_loaded: Object.keys(travelByIso2).length,
+      countries_analyzed: countries.length,
+    },
+    methodology: 'Convergence detection LIVE · cruza ACLED 30d + UCDP estructural (live API Uppsala v24.1 año 2023) + ReliefWeb reports 30d (live OCHA · threshold ≥10 HIGH, ≥30 CRITICAL) + Travel Advisory + baseline risk. Cero listas hardcodeadas · todo derivado de fuentes en tiempo real. Score = suma pesos (CRITICAL +3, HIGH +2, baseline +1). ≥9 = triple convergencia.',
     inspiration: 'Replica el análisis manual que un senior intel analyst hace cruzando 5 sources distintos para identificar países en deterioro multi-dimensional.',
+  }
+}
+
+// ─── Spain Watchlist (Sprint G9) ──────────────────────────────────────
+// Cruza convergence alerts con catálogo Presencia España. Output: países
+// donde España tiene exposición Y la convergencia está elevada → debe
+// vigilar particularmente (riesgo importado real para intereses ES).
+async function buildSpainWatchlist(req: Request) {
+  const base = baseUrl(req)
+  const [convergence, presencia] = await Promise.all([
+    jsonFetch(`${base}/api/geopolitica/convergence`),
+    jsonFetch(`${base}/api/geopolitica/presencia`),
+  ])
+  const alerts: any[] = Array.isArray(convergence?.alerts) ? convergence.alerts : []
+  const presenciaRaw: any[] = Array.isArray(presencia?.data) ? presencia.data : []
+  // Index presencia por ISO3. presencia raw puede no traer ISO directamente, mapeamos por nombre.
+  const presenciaByIso: Record<string, { intensidad: number; categoria: string; pais: string }> = {}
+  for (const p of presenciaRaw) {
+    const iso3 = p.iso || nameToIso3(p.pais || '')
+    if (!iso3) continue
+    const cur = presenciaByIso[iso3]
+    // Si un país tiene varias entradas (multi-categoría), nos quedamos con la de mayor intensidad
+    if (!cur || (p.intensidad || 0) > cur.intensidad) {
+      presenciaByIso[iso3] = { intensidad: p.intensidad || 0, categoria: p.categoria || '', pais: p.pais }
+    }
+  }
+  // Join: convergencia + presencia. Urgency score = (presencia_intensidad / 100) * convergence_score
+  const watchlist = alerts.map((a) => {
+    const pres = presenciaByIso[a.iso3]
+    if (!pres) return null
+    const urgency = Math.round(((pres.intensidad / 100) * a.convergence_score) * 10) / 10
+    return {
+      iso3: a.iso3,
+      iso2: a.iso2,
+      country: a.name,
+      region: a.region,
+      convergence_score: a.convergence_score,
+      band: a.band,
+      signal_count: a.signal_count,
+      critical_count: a.critical_count,
+      spain_presence: {
+        intensity: pres.intensidad,
+        category: pres.categoria,
+        country_label_es: pres.pais,
+      },
+      urgency_score: urgency,
+      top_signals: a.signals.slice(0, 3),
+    }
+  }).filter((x: any) => x !== null) as any[]
+
+  watchlist.sort((a, b) => b.urgency_score - a.urgency_score)
+
+  return {
+    ok: true,
+    n_watchlist: watchlist.length,
+    n_convergence_alerts: alerts.length,
+    n_presencia_countries: Object.keys(presenciaByIso).length,
+    summary: {
+      critical_for_spain: watchlist.filter((w: any) => w.urgency_score >= 6).length,
+      high_for_spain: watchlist.filter((w: any) => w.urgency_score >= 3 && w.urgency_score < 6).length,
+      moderate_for_spain: watchlist.filter((w: any) => w.urgency_score < 3).length,
+    },
+    watchlist,
+    methodology: 'Spain Watchlist · join entre /api/geopolitica/convergence (live) y /api/geopolitica/presencia (catálogo intereses ES). Urgency = (presencia/100) × convergence_score. Países donde España debe vigilar especialmente porque tiene exposición Y la convergencia multi-source apunta a deterioro.',
+  }
+}
+
+// ─── Country Timeline (Sprint G9) ─────────────────────────────────────
+// Timeline cronológico multi-source para un país: UCDP años + ACLED meses
+// + sanciones + Travel Advisory updates. Todo data-driven, sin hardcode.
+async function buildCountryTimeline(req: Request, iso3: string) {
+  const base = baseUrl(req)
+  const meta = WORLD_COUNTRY_BASELINE[iso3.toUpperCase()]
+  if (!meta) {
+    return { ok: false, error: 'country_not_found', iso: iso3 }
+  }
+  const ucdpName = ISO3_TO_UCDP_NAME[iso3.toUpperCase()] || meta.name
+
+  const [ucdp, acled, sanctions, travel] = await Promise.all([
+    jsonFetch(`https://ucdpapi.pcr.uu.se/api/ucdpprioconflict/24.1?Country=${encodeURIComponent(ucdpName)}&pagesize=500`),
+    jsonFetch(`${base}/api/acled/spain-context`),
+    jsonFetch(`${base}/api/geopolitica/sanciones?source=all`),
+    jsonFetch(`${base}/api/geopolitica/travel-advisories?country=${ISO3_TO_ISO2[iso3.toUpperCase()] || ''}`),
+  ])
+
+  type TimelineEvent = { date: string; year: number; source: string; type: string; severity: 'LOW' | 'MED' | 'HIGH' | 'CRITICAL'; title: string; detail?: string }
+  const events: TimelineEvent[] = []
+
+  // UCDP · conflictos por año del país (desde 1946→2023)
+  const ucdpResults: any[] = Array.isArray(ucdp?.Result) ? ucdp.Result : []
+  for (const c of ucdpResults) {
+    const year = Number(c.year ?? c.Year ?? 0)
+    if (!year) continue
+    const intensity = Number(c.intensity_level ?? c.IntensityLevel ?? 0)
+    const sideA = c.side_a ?? c.SideA ?? '?'
+    const sideB = c.side_b ?? c.SideB ?? '?'
+    events.push({
+      date: `${year}-01-01`,
+      year,
+      source: 'UCDP',
+      type: intensity >= 2 ? 'GUERRA' : 'CONFLICTO MENOR',
+      severity: intensity >= 2 ? 'CRITICAL' : 'HIGH',
+      title: `${sideA} vs ${sideB}`,
+      detail: `intensity ${intensity} · ${c.type_of_conflict === 3 ? 'guerra civil' : c.type_of_conflict === 4 ? 'civil internacionalizado' : c.type_of_conflict === 2 ? 'interestatal' : 'otro'}`,
+    })
+  }
+
+  // ACLED · eventos recientes del país
+  const acledRaw: any[] = Array.isArray(acled?.data) ? acled.data : []
+  const countryEventsAcled = acledRaw.filter((e: any) =>
+    String(e.country || '').toLowerCase().includes(meta.name.toLowerCase()) ||
+    String(e.iso || '') === iso3,
+  )
+  for (const e of countryEventsAcled.slice(0, 30)) {
+    const date = String(e.event_date || '').slice(0, 10)
+    if (!date) continue
+    const fatalities = Number(e.fatalities || 0)
+    events.push({
+      date,
+      year: Number(date.slice(0, 4)),
+      source: 'ACLED',
+      type: String(e.event_type || 'evento'),
+      severity: fatalities >= 20 ? 'CRITICAL' : fatalities >= 5 ? 'HIGH' : fatalities >= 1 ? 'MED' : 'LOW',
+      title: String(e.event_type || 'evento ACLED'),
+      detail: `${e.location || ''} · ${fatalities} fatalities`,
+    })
+  }
+
+  // Sanciones que mencionan el país
+  const sanctionsRaw: any[] = Array.isArray(sanctions?.sanctions) ? sanctions.sanctions : []
+  const countrySanctions = sanctionsRaw.filter((s: any) =>
+    String(s.entity || '').toLowerCase().includes(meta.name.toLowerCase()) ||
+    String(s.reason || '').toLowerCase().includes(meta.name.toLowerCase()),
+  )
+  for (const s of countrySanctions.slice(0, 20)) {
+    const date = String(s.date || '').slice(0, 10)
+    if (!date) continue
+    events.push({
+      date,
+      year: Number(date.slice(0, 4)) || 0,
+      source: 'Sanctions',
+      type: String(s.source || 'sanción'),
+      severity: 'HIGH',
+      title: `Sanción ${s.source || ''}: ${s.entity || '(entidad)'}`,
+      detail: s.reason || '',
+    })
+  }
+
+  // Travel Advisory · evento "current" (no histórico disponible públicamente)
+  if (travel?.ok && travel.advisory?.updated) {
+    events.push({
+      date: String(travel.advisory.updated).slice(0, 10),
+      year: Number(String(travel.advisory.updated).slice(0, 4)) || new Date().getFullYear(),
+      source: 'Travel',
+      type: 'Advisory update',
+      severity: (travel.advisory.score >= 4.5) ? 'CRITICAL' : (travel.advisory.score >= 3.5) ? 'HIGH' : (travel.advisory.score >= 2.5) ? 'MED' : 'LOW',
+      title: `${travel.band} (score ${travel.advisory.score?.toFixed?.(1) ?? '?'}/5)`,
+      detail: String(travel.advisory.message || '').slice(0, 200),
+    })
+  }
+
+  // Ordenar desc por fecha
+  events.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+
+  // Agrupar por año para visualización
+  const byYear: Record<number, TimelineEvent[]> = {}
+  for (const e of events) {
+    if (!byYear[e.year]) byYear[e.year] = []
+    byYear[e.year].push(e)
+  }
+  const years = Object.keys(byYear).map(Number).sort((a, b) => b - a)
+
+  return {
+    ok: true,
+    country: { iso3: meta.iso3, name: meta.name, region: meta.region },
+    n_events: events.length,
+    sources_used: {
+      ucdp: ucdpResults.length,
+      acled: countryEventsAcled.length,
+      sanctions: countrySanctions.length,
+      travel: travel?.ok ? 1 : 0,
+    },
+    years_covered: years.length > 0 ? `${years[years.length - 1]}-${years[0]}` : '—',
+    events: events.slice(0, 80),
+    by_year: byYear,
+    methodology: 'Country timeline multi-source · UCDP conflictos (1946→2023 según v24.1) + ACLED eventos recientes + sanciones que mencionan país + Travel Advisory actual. Todo live · ningún dato hardcodeado.',
   }
 }
 
@@ -1987,6 +2262,20 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G9 · Spain Watchlist + Country Timeline (data-driven, sin hardcode)
+  if (action === 'spain-watchlist') {
+    return NextResponse.json(await buildSpainWatchlist(req), {
+      headers: { 'Cache-Control': 'public, s-maxage=10800, stale-while-revalidate=21600' }, // 3h
+    })
+  }
+
+  if (action === 'country-timeline') {
+    const iso = url.searchParams.get('iso') || 'ESP'
+    return NextResponse.json(await buildCountryTimeline(req, iso), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' }, // 6h
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -2019,6 +2308,8 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/spain-official?limit=20 · MAEC+Moncloa+Defensa.gob combinados (Sprint G7)',
       'GET /api/geopolitica/convergence · alertas multi-source (ACLED+UCDP+ReliefWeb+Travel+Baseline) (Sprint G8)',
       'GET /api/geopolitica/data-health · transparencia · 20 endpoints status + latency (Sprint G8)',
+      'GET /api/geopolitica/spain-watchlist · join convergence × presencia ES (Sprint G9 · data-driven)',
+      'GET /api/geopolitica/country-timeline?iso=UKR · cronología multi-source país (Sprint G9)',
     ],
   }, { status: 404 })
 }

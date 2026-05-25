@@ -31,6 +31,7 @@ import { GeoEeasFeed } from '@/components/geopolitica/GeoEeasFeed'
 import { GeoSpainOfficial } from '@/components/geopolitica/GeoSpainOfficial'
 import { GeoConvergenceAlerts } from '@/components/geopolitica/GeoConvergenceAlerts'
 import { GeoDataHealth } from '@/components/geopolitica/GeoDataHealth'
+import { GeoSpainWatchlist } from '@/components/geopolitica/GeoSpainWatchlist'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1135,16 +1136,19 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* Sprint G7 · Voz oficial española (MAEC + Moncloa + Defensa) sobre Tab 5 */}
+        {/* Sprint G9 · Spain Watchlist (convergence × presencia ES) sobre Tab 5 */}
         {tab === 5 && (
           <div style={{ marginBottom: 16 }}>
             <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5, marginBottom: 14 }}>
-              <strong style={{ color: '#0f172a' }}>Capa 3 española.</strong>{' '}
-              Voz oficial del Estado en exterior: posición, viajes, reuniones bilaterales,
-              misiones militares, declaraciones diplomáticas, evacuaciones, crisis consulares
-              (MAEC + Moncloa + Defensa.gob combinados).
+              <strong style={{ color: '#0f172a' }}>Capa 3 española + watchlist analítica.</strong>{' '}
+              Voz oficial del Estado (MAEC + Moncloa + Defensa.gob) + watchlist priorizada de
+              países donde España tiene exposición Y la convergencia multi-source apunta a
+              deterioro (intersección de los 19 endpoints geo con el catálogo Presencia).
             </p>
-            <GeoSpainOfficial limit={30} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+              <GeoSpainWatchlist />
+              <GeoSpainOfficial limit={30} />
+            </div>
           </div>
         )}
 
