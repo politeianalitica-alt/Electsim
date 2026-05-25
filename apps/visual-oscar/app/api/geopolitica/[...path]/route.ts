@@ -705,6 +705,29 @@ async function buildWorldRiskHeatmap(req: Request) {
 }
 
 // ─── Country Profile (Sprint G5 · drill país) ──────────────────────────
+// Mapeo ISO3 → ISO2 para travel-advisory.info (algunos países comunes)
+const ISO3_TO_ISO2: Record<string, string> = {
+  ESP: 'ES', USA: 'US', GBR: 'GB', FRA: 'FR', DEU: 'DE', ITA: 'IT', PRT: 'PT',
+  RUS: 'RU', UKR: 'UA', CHN: 'CN', JPN: 'JP', KOR: 'KR', IND: 'IN',
+  ISR: 'IL', IRN: 'IR', TUR: 'TR', SAU: 'SA', PSE: 'PS', SYR: 'SY', YEM: 'YE',
+  MAR: 'MA', DZA: 'DZ', TUN: 'TN', LBY: 'LY', EGY: 'EG', SDN: 'SD', SOM: 'SO',
+  ETH: 'ET', NGA: 'NG', ZAF: 'ZA', MLI: 'ML', COD: 'CD', MEX: 'MX', BRA: 'BR',
+  ARG: 'AR', COL: 'CO', VEN: 'VE', CUB: 'CU', HTI: 'HT', MMR: 'MM', AFG: 'AF',
+  PAK: 'PK', IDN: 'ID', AUS: 'AU', CAN: 'CA', POL: 'PL', NLD: 'NL', BEL: 'BE',
+  SWE: 'SE', CHE: 'CH', GRC: 'GR', PER: 'PE', CHL: 'CL', ECU: 'EC',
+}
+
+// Mapeo ISO3 → nombre UCDP (en inglés, como usa la API)
+const ISO3_TO_UCDP_NAME: Record<string, string> = {
+  UKR: 'Ukraine', RUS: 'Russia (Soviet Union)', SYR: 'Syria', YEM: 'Yemen',
+  ISR: 'Israel', PSE: 'Israel', SDN: 'Sudan', SOM: 'Somalia', MLI: 'Mali',
+  AFG: 'Afghanistan', MMR: 'Myanmar', ETH: 'Ethiopia', NGA: 'Nigeria',
+  COD: 'DR Congo (Zaire)', MEX: 'Mexico', COL: 'Colombia', VEN: 'Venezuela',
+  TUR: 'Turkey', IRQ: 'Iraq', IRN: 'Iran', PAK: 'Pakistan', IND: 'India',
+  EGY: 'Egypt', LBY: 'Libya', BFA: 'Burkina Faso', NER: 'Niger', CMR: 'Cameroon',
+  HTI: 'Haiti',
+}
+
 async function buildCountryProfile(req: Request, iso: string) {
   const base = baseUrl(req)
   const isoUpper = iso.toUpperCase()
@@ -712,11 +735,16 @@ async function buildCountryProfile(req: Request, iso: string) {
   if (!meta) {
     return { ok: false, error: 'country_not_found', iso }
   }
-  // Fetch contexto: ACLED events del país, sanciones contra el país, top risks que afectan
-  const [acled, sanctions, topRisks] = await Promise.all([
+  const iso2 = ISO3_TO_ISO2[isoUpper] || ''
+  const ucdpName = ISO3_TO_UCDP_NAME[isoUpper] || meta.name
+  // Fetch contexto · sprint G5 base + sprint G7 enriquecimiento (UCDP + ReliefWeb + Travel)
+  const [acled, sanctions, topRisks, ucdp, reliefweb, travel] = await Promise.all([
     jsonFetch(`${base}/api/acled/spain-context`),
     jsonFetch(`${base}/api/geopolitica/sanciones?source=all`),
     jsonFetch(`${base}/api/geopolitica/top-risks`),
+    jsonFetch(`${base}/api/geopolitica/ucdp?country=${encodeURIComponent(ucdpName)}`),
+    jsonFetch(`${base}/api/geopolitica/reliefweb?country=${isoUpper}&limit=10`),
+    iso2 ? jsonFetch(`${base}/api/geopolitica/travel-advisories?country=${iso2}`) : Promise.resolve(null),
   ])
   // ACLED events filtered
   const countryEvents = Array.isArray(acled?.data)
@@ -761,7 +789,28 @@ async function buildCountryProfile(req: Request, iso: string) {
       list: countrySanctions.slice(0, 10),
     },
     related_top_risks: relatedRisks,
-    methodology: 'Drill país con baseline_risk + uplift ACLED 30d + sanciones contra entidades del país + top risks que mencionan el país/región.',
+    // Sprint G7 · enriquecimiento UCDP + ReliefWeb + Travel Advisory
+    ucdp: ucdp?.ok ? {
+      n_conflicts: ucdp.n_conflicts ?? 0,
+      max_intensity_level: ucdp.max_intensity_level ?? 0,
+      years_covered: ucdp.years_covered ?? '—',
+      interpretation: ucdp.interpretation ?? '',
+      recent: Array.isArray(ucdp.conflicts) ? ucdp.conflicts.slice(0, 5) : [],
+    } : null,
+    humanitarian: reliefweb?.ok ? {
+      n_reports: reliefweb.n_reports ?? 0,
+      total_available: reliefweb.total_available ?? 0,
+      recent: Array.isArray(reliefweb.reports) ? reliefweb.reports.slice(0, 5) : [],
+    } : null,
+    travel_advisory: travel?.ok ? {
+      score: travel.advisory?.score,
+      band: travel.band,
+      message: (travel.advisory?.message ?? '').slice(0, 360),
+      source: travel.advisory?.source ?? '',
+      source_url: travel.advisory?.source_url ?? '',
+      updated: travel.advisory?.updated ?? '',
+    } : null,
+    methodology: 'Drill país (G7): baseline_risk + uplift ACLED 30d + UCDP estructural + ReliefWeb humanitario + Travel Advisory consular + sanciones contra entidades + top risks relacionados.',
   }
 }
 
@@ -1243,6 +1292,163 @@ async function buildNatoPress(limit: number) {
   }
 }
 
+// ════════════════════════════════════════════════════════════════════════
+// Sprint G7 · OSINT cualitativo + voz oficial española + EU diplomacy
+// ════════════════════════════════════════════════════════════════════════
+// Añade Capa 6 (OSINT cualitativo: ICG + ISW) + sources Capa 3 europea/
+// española (EEAS + MAEC + Moncloa + Defensa.gob best-effort). Cierra la
+// arquitectura de fuentes pedida por el usuario.
+
+// ─── ICG · International Crisis Group · CrisisWatch ──────────────────
+// Fuente: https://www.crisisgroup.org/crisiswatch/rss.xml
+// Análogo a "lo que un analista de Crisis Group leería cada mañana".
+// Early warning + análisis regional cualitativo.
+async function buildCrisisGroup(limit: number) {
+  // ICG ofrece varios feeds. CrisisWatch es el más útil para early warning.
+  const candidates = [
+    'https://www.crisisgroup.org/crisiswatch/rss.xml',
+    'https://www.crisisgroup.org/feed',
+  ]
+  for (const url of candidates) {
+    try {
+      const r = await fetch(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/rss+xml, application/xml, text/xml' },
+        next: { revalidate: 21600 },
+      })
+      if (!r.ok) continue
+      const xml = await r.text()
+      const items = parseRssItems(xml).slice(0, limit)
+      if (items.length > 0) {
+        return {
+          ok: true,
+          n_items: items.length,
+          items,
+          source: `International Crisis Group · CrisisWatch (${url})`,
+          note: 'Early warning analyst-grade · conflictos activos, deterioro, mejora, análisis regional cualitativo.',
+        }
+      }
+    } catch { /* try next */ }
+  }
+  return { ok: false, error: 'all_endpoints_failed', source: 'ICG CrisisWatch' }
+}
+
+// ─── ISW · Institute for the Study of War · briefings operativos ─────
+// Fuente: https://www.understandingwar.org/feed (briefings teatro)
+// Útil para Ucrania, Rusia, Irán, Oriente Medio, redes proxy, mapas
+// de avance. OSINT cualitativo de high quality, no como hecho duro.
+async function buildIswBriefings(limit: number) {
+  const candidates = [
+    'https://www.understandingwar.org/rss.xml',
+    'https://www.understandingwar.org/feed',
+    'https://www.criticalthreats.org/feed/', // Critical Threats AEI hermano
+  ]
+  for (const url of candidates) {
+    try {
+      const r = await fetch(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/rss+xml, application/xml, text/xml' },
+        next: { revalidate: 21600 },
+      })
+      if (!r.ok) continue
+      const xml = await r.text()
+      const items = parseRssItems(xml).slice(0, limit)
+      if (items.length > 0) {
+        return {
+          ok: true,
+          n_items: items.length,
+          items,
+          source: `ISW / Critical Threats · operational briefings (${url})`,
+          note: 'Análisis OSINT cualitativo. Útil para teatro, no como dato duro · validar con ACLED + UCDP.',
+        }
+      }
+    } catch { /* try next */ }
+  }
+  return { ok: false, error: 'all_endpoints_failed', source: 'ISW' }
+}
+
+// ─── EEAS / Council EU · diplomacia europea ──────────────────────────
+// Fuente: feeds RSS Council of EU + EEAS (varios endpoints, best-effort).
+// Sirve para posición UE, sanciones, misiones CSDP, declaraciones del
+// Alto Representante, respuesta europea a crisis.
+async function buildEeasNews(limit: number) {
+  const candidates = [
+    'https://www.consilium.europa.eu/en/press/press-releases/?rss=1', // Council press releases
+    'https://www.eeas.europa.eu/eeas/rss_en', // EEAS general
+    'https://www.eeas.europa.eu/_en/rss_en',
+    'https://europa.eu/rapid/rss-feed.htm?id=PRESS_RELEASES', // Comisión EU press
+  ]
+  for (const url of candidates) {
+    try {
+      const r = await fetch(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/rss+xml, application/xml, text/xml' },
+        next: { revalidate: 21600 },
+      })
+      if (!r.ok) continue
+      const xml = await r.text()
+      const items = parseRssItems(xml).slice(0, limit)
+      if (items.length > 0) {
+        return {
+          ok: true,
+          n_items: items.length,
+          items,
+          source: `EEAS / Council EU (${url})`,
+          note: 'Posición oficial UE · sanciones, declaraciones Alto Representante, misiones CSDP, respuesta a crisis.',
+        }
+      }
+    } catch { /* try next */ }
+  }
+  return { ok: false, error: 'all_endpoints_failed', source: 'EEAS/Council EU' }
+}
+
+// ─── Spain Official · MAEC + Moncloa + Defensa combinados ────────────
+// Triple feed combinado: voz oficial del Estado español en exterior.
+// Sirve para posición oficial, viajes exteriores, misiones militares,
+// alertas consulares, declaraciones diplomáticas, evacuaciones.
+async function buildSpainOfficial(limit: number) {
+  const sources: Array<{ name: string; url: string; tag: string }> = [
+    { name: 'MAEC',    url: 'https://www.exteriores.gob.es/_layouts/15/listfeed.aspx?List={A93AB9E3-AA0C-4ED2-948D-12F86F1B1F89}', tag: 'MAEC' },
+    { name: 'Moncloa', url: 'https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/exteriores/Documents/RSS.aspx',                  tag: 'MONCLOA' },
+    { name: 'Defensa', url: 'https://www.defensa.gob.es/Galerias/gabinete/notas-prensa/rss/notas-prensa.rss',                            tag: 'DEFENSA' },
+  ]
+  const all: Array<{ title: string; link: string; pubDate: string; description: string; tag: string }> = []
+  const results: Record<string, { ok: boolean; n?: number; error?: string }> = {}
+
+  await Promise.all(sources.map(async (s) => {
+    try {
+      const r = await fetch(s.url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Politeia/1.0)', Accept: 'application/rss+xml, application/xml, text/xml' },
+        next: { revalidate: 21600 },
+      })
+      if (!r.ok) {
+        results[s.name] = { ok: false, error: `HTTP ${r.status}` }
+        return
+      }
+      const xml = await r.text()
+      const items = parseRssItems(xml).slice(0, limit)
+      results[s.name] = { ok: true, n: items.length }
+      for (const it of items) all.push({ ...it, tag: s.tag })
+    } catch (e: any) {
+      results[s.name] = { ok: false, error: String(e?.message ?? e).slice(0, 80) }
+    }
+  }))
+
+  // Ordenar por fecha (más reciente primero)
+  all.sort((a, b) => {
+    const da = new Date(a.pubDate).getTime() || 0
+    const db = new Date(b.pubDate).getTime() || 0
+    return db - da
+  })
+
+  return {
+    ok: all.length > 0,
+    n_items: all.length,
+    items: all.slice(0, limit),
+    sources_status: results,
+    source: 'MAEC + Moncloa + Defensa.gob (RSS oficiales combinados)',
+    note: 'Voz oficial del Estado español: posición, viajes exteriores, misiones militares, alertas consulares, evacuaciones.',
+    error: all.length === 0 ? 'no_items_from_any_source' : undefined,
+  }
+}
+
 // ─── UN Security Council news ────────────────────────────────────────
 // Fuente: https://news.un.org/feed/subscribe/en/news/topic/security-council/feed/rss.xml
 // Sirve para diplomacia de crisis: resoluciones, vetos, reuniones de
@@ -1482,6 +1688,35 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     })
   }
 
+  // Sprint G7 · OSINT cualitativo + EU diplomacy + Spain official
+  if (action === 'crisis-group') {
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildCrisisGroup(limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'isw-briefings') {
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildIswBriefings(limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'eeas-news') {
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildEeasNews(limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
+  if (action === 'spain-official') {
+    const limit = Math.min(50, Math.max(5, Number(url.searchParams.get('limit') || 20)))
+    return NextResponse.json(await buildSpainOfficial(limit), {
+      headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+    })
+  }
+
   return NextResponse.json({
     ok: false,
     available: [
@@ -1508,6 +1743,10 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       'GET /api/geopolitica/travel-advisories?country=all · US State Dept + UK FCDO (Sprint G6)',
       'GET /api/geopolitica/nato-press?limit=20 · NATO HQ RSS oficial (Sprint G6)',
       'GET /api/geopolitica/unsc-news?limit=20 · UN Security Council news (Sprint G6)',
+      'GET /api/geopolitica/crisis-group?limit=20 · ICG CrisisWatch early warning (Sprint G7)',
+      'GET /api/geopolitica/isw-briefings?limit=20 · ISW/Critical Threats operational (Sprint G7)',
+      'GET /api/geopolitica/eeas-news?limit=20 · EEAS/Council EU diplomacy (Sprint G7)',
+      'GET /api/geopolitica/spain-official?limit=20 · MAEC+Moncloa+Defensa.gob combinados (Sprint G7)',
     ],
   }, { status: 404 })
 }

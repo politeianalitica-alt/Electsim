@@ -25,6 +25,10 @@ import { GeoReliefWebPanel } from '@/components/geopolitica/GeoReliefWebPanel'
 import { GeoTravelAdvisories } from '@/components/geopolitica/GeoTravelAdvisories'
 import { GeoNatoFeed } from '@/components/geopolitica/GeoNatoFeed'
 import { GeoUnscFeed } from '@/components/geopolitica/GeoUnscFeed'
+import { GeoCrisisGroupFeed } from '@/components/geopolitica/GeoCrisisGroupFeed'
+import { GeoIswBriefings } from '@/components/geopolitica/GeoIswBriefings'
+import { GeoEeasFeed } from '@/components/geopolitica/GeoEeasFeed'
+import { GeoSpainOfficial } from '@/components/geopolitica/GeoSpainOfficial'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -858,24 +862,38 @@ export default function GeopoliticaPage() {
           )
         })()}
 
-        {/* TAB 3 — Riesgo militar, defensa & alianzas (NATO + Capa 3) */}
+        {/* TAB 3 — Riesgo militar, defensa & alianzas (NATO + España Defensa · Capa 3) */}
         {tab === 3 && (
           <div>
             <div style={{ marginBottom: 16 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
                 <strong style={{ color: '#0f172a' }}>Capa 3 · militar y diplomático.</strong>{' '}
-                Feed oficial NATO HQ. Cumbres, ejercicios militares, flanco este, defensa
-                aérea, presencia avanzada, relación Rusia-OTAN, artículo 5, misiones aliadas
-                con presencia española.
+                Feed oficial NATO HQ + voz española (Defensa.gob filtrado dentro del feed
+                Spain Official). Cumbres, ejercicios militares, flanco este, defensa
+                aérea, presencia avanzada, artículo 5, relación Rusia-OTAN.
               </p>
             </div>
             <GeoNatoFeed limit={25} />
           </div>
         )}
 
-        {/* TAB 6a — OSINT signals (parte de Análisis Politeia) */}
+        {/* TAB 6a — OSINT signals + análisis cualitativo (Capa 6) */}
         {tab === 6 && (
           <div>
+            <div style={{ marginBottom: 16 }}>
+              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
+                <strong style={{ color: '#0f172a' }}>Capa 6 · OSINT cualitativo.</strong>{' '}
+                International Crisis Group (early warning analyst-grade) + ISW/Critical
+                Threats (briefings operativos teatro) + indicadores OSINT estructurados +
+                cascading events GDELT. Análisis cualitativo, no dato duro · validar siempre
+                con ACLED + UCDP.
+              </p>
+            </div>
+            {/* Sprint G7 · ICG CrisisWatch + ISW briefings (OSINT cualitativo) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16, marginBottom: 20 }}>
+              <GeoCrisisGroupFeed limit={20} />
+              <GeoIswBriefings limit={20} />
+            </div>
             {/* Sprint G1 · Indicadores OSINT estructurados con methodology tooltips */}
             <div style={{ marginBottom: 20 }}>
               <GeoKpiGrid />
@@ -1025,6 +1043,10 @@ export default function GeopoliticaPage() {
               <div style={{ marginTop: 16 }}>
                 <GeoUnscFeed limit={20} />
               </div>
+              {/* Sprint G7 · EEAS / Council EU (Capa 3 · posición europea) */}
+              <div style={{ marginTop: 16 }}>
+                <GeoEeasFeed limit={20} />
+              </div>
             </div>
             {/* Resumen contadores por nivel */}
             <div className="geo-nivel-grid">
@@ -1100,6 +1122,19 @@ export default function GeopoliticaPage() {
                 })
               )}
             </div>
+          </div>
+        )}
+
+        {/* Sprint G7 · Voz oficial española (MAEC + Moncloa + Defensa) sobre Tab 5 */}
+        {tab === 5 && (
+          <div style={{ marginBottom: 16 }}>
+            <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5, marginBottom: 14 }}>
+              <strong style={{ color: '#0f172a' }}>Capa 3 española.</strong>{' '}
+              Voz oficial del Estado en exterior: posición, viajes, reuniones bilaterales,
+              misiones militares, declaraciones diplomáticas, evacuaciones, crisis consulares
+              (MAEC + Moncloa + Defensa.gob combinados).
+            </p>
+            <GeoSpainOfficial limit={30} />
           </div>
         )}
 
