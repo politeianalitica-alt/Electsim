@@ -33,6 +33,7 @@ import { GeoConvergenceAlerts } from '@/components/geopolitica/GeoConvergenceAle
 import { GeoDataHealth } from '@/components/geopolitica/GeoDataHealth'
 import { GeoSpainWatchlist } from '@/components/geopolitica/GeoSpainWatchlist'
 import { GeoThemeClusters } from '@/components/geopolitica/GeoThemeClusters'
+import { GeoGdeltSummary } from '@/components/geopolitica/GeoGdeltSummary'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -537,6 +538,10 @@ export default function GeopoliticaPage() {
             </div>
             <div style={{ marginBottom: 18 }}>
               <GeoEventStream limit={60} />
+            </div>
+            {/* Sprint G11 · GDELT Summary API · exploración global por tema con GKG */}
+            <div style={{ marginBottom: 18 }}>
+              <GeoGdeltSummary defaultQuery="Ukraine" defaultTimespan="7d" />
             </div>
           </div>
         )}
