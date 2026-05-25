@@ -935,10 +935,13 @@ export function assessSentiment(reading: Pick<ArticleReading, 'headline' | 'summ
     let impact: ActorImpactKind = 'uncertain'
 
     if (subj && e === subj) {
-      // sujeto de la acción
-      if (negativeVerbs.includes(verb)) { sentiment = 0.1; impact = 'neutral'; reason = `sujeto que ${verb} · postura activa pero no objeto del daño`; confidence = 0.65 }
-      else if (positiveVerbs.includes(verb)) { sentiment = 0.4; impact = 'beneficial'; reason = `sujeto en acción positiva (${verb})`; confidence = 0.7 }
-      else { sentiment = 0.1; impact = 'neutral'; reason = `sujeto de la acción (${verb})`; confidence = 0.5 }
+      // sujeto de la acción · NO recibe el "beneficio" del verbo positivo:
+      // en "X apoya a Y" el beneficiario narrativo es Y, no X. El sujeto en
+      // verbos positivos queda neutral-leve (lidera la acción pero no es el
+      // receptor del bien). Sprint M5 FASE 4b · fix expectativa direccional.
+      if (negativeVerbs.includes(verb)) { sentiment = 0.05; impact = 'neutral'; reason = `sujeto que ${verb} · postura activa, no es el objeto del daño`; confidence = 0.65 }
+      else if (positiveVerbs.includes(verb)) { sentiment = 0.05; impact = 'neutral'; reason = `sujeto de acción positiva (${verb}) · el beneficio narrativo recae en el objeto`; confidence = 0.6 }
+      else { sentiment = 0.05; impact = 'neutral'; reason = `sujeto de la acción (${verb})`; confidence = 0.5 }
     } else if (obj && e === obj) {
       // objeto de la acción
       if (negativeVerbs.includes(verb)) { sentiment = -0.5; impact = 'harmful'; reason = `objeto de ${verb} · suele perjudicarle`; confidence = 0.7 }
@@ -1006,24 +1009,84 @@ export function readArticle(article: AggregatedArticle, mediumProfile?: MediaSou
   const action_verb = detectActionVerb(text)
   const main_topic = detectMainTopic(text, sectors, frame)
 
-  // Heurística sujeto/objeto: primer actor (o partido) que precede al verbo es sujeto, el siguiente es objeto
+  // Sprint M5 FASE 4b · Sujeto/objeto basado en posición REAL en titular.
+  //
+  // El bug previo: si una entidad canónica era "Alberto Núñez Feijóo" pero en
+  // el titular aparecía sólo como "Feijóo", `headline.includes("Alberto Núñez Feijóo")`
+  // devolvía false y caíamos al fallback `entityOrder[0]/[1]`, que reflejaba el
+  // orden de inserción del catálogo (no la posición en el titular). En
+  // "Feijóo acusa a Sánchez" eso atribuía Sánchez como sujeto y Feijóo como
+  // objeto · justo al revés.
+  //
+  // Fix: para cada entidad canónica, buscar TODAS sus surface forms (full,
+  // lastname, primer apellido si compuesto, alias de partido) y registrar la
+  // primera posición encontrada en el titular. Ordenar por posición. La que
+  // precede al verbo es sujeto, la primera que le sigue es objeto.
   const entityOrder: string[] = [...actors, ...parties, ...institutions]
   const lowerHeadline = headline.toLowerCase()
   let action_subject: string | null = null
   let action_object: string | null = null
-  // Buscamos verbo en headline y separamos pre/post
+
+  // Mapa canonical → primera posición en el titular
+  const entityPositions: Array<{ canonical: string; pos: number }> = []
+  for (const ent of entityOrder) {
+    const surfaces: string[] = [ent]
+    // Heurística: si tiene espacios, añadir el último token como surface adicional
+    // (apellido) y el primero (nombre)
+    if (ent.includes(' ')) {
+      const tokens = ent.split(' ').filter(Boolean)
+      surfaces.push(tokens[tokens.length - 1])         // apellido suelto
+      if (tokens.length >= 3) surfaces.push(tokens.slice(-2).join(' ')) // doble apellido
+    }
+    // Buscar alias de partido si la entidad es un partido canónico
+    const partyEntry = PARTIDOS_DICT.find((p) => p.canonical === ent)
+    if (partyEntry) for (const a of partyEntry.aliases) if (!a.startsWith('\\b')) surfaces.push(a)
+    // Buscar marcador "ambiguo" → la posición es la del apellido suelto
+    const ambMatch = ent.match(/^([A-Za-zÁÉÍÓÚÑáéíóúñ]+)\s+\(ambiguo/)
+    if (ambMatch) surfaces.push(ambMatch[1])
+
+    let firstPos = -1
+    for (const s of surfaces) {
+      const idx = lowerHeadline.indexOf(s.toLowerCase())
+      if (idx >= 0 && (firstPos < 0 || idx < firstPos)) firstPos = idx
+    }
+    if (firstPos >= 0) entityPositions.push({ canonical: ent, pos: firstPos })
+  }
+  entityPositions.sort((a, b) => a.pos - b.pos)
+
+  // Posición del verbo principal en el titular
   const verbMatch = ACTION_VERB_RX.find((v) => v.rx.test(lowerHeadline))
+  let verbPos = -1
   if (verbMatch) {
     const m = lowerHeadline.match(verbMatch.rx)
-    if (m && m.index !== undefined) {
-      const pre = headline.slice(0, m.index)
-      const post = headline.slice(m.index + m[0].length)
-      action_subject = entityOrder.find((e) => pre.includes(e) || pre.toLowerCase().includes(e.toLowerCase())) || null
-      action_object = entityOrder.find((e) => post.includes(e) || post.toLowerCase().includes(e.toLowerCase())) || null
+    if (m && m.index !== undefined) verbPos = m.index
+  }
+
+  if (verbPos >= 0 && entityPositions.length > 0) {
+    // Sujeto = última entidad ANTES del verbo · Objeto = primera entidad DESPUÉS
+    const before = entityPositions.filter((e) => e.pos < verbPos)
+    const after = entityPositions.filter((e) => e.pos > verbPos)
+    if (before.length > 0) action_subject = before[before.length - 1].canonical
+    if (after.length > 0) action_object = after[0].canonical
+    // Patrón "verbo + a + ENTIDAD" (acusativo personal) refuerza el objeto:
+    // si no hay entidad antes del verbo pero hay justo después tras "a ",
+    // confirma que la entidad ES el objeto (no el sujeto omitido)
+    if (!action_subject && after.length > 0) {
+      const afterText = lowerHeadline.slice(verbPos)
+      if (/\s+a\s+/.test(afterText.slice(0, 30))) action_object = after[0].canonical
     }
   }
-  if (!action_subject && entityOrder.length > 0) action_subject = entityOrder[0]
-  if (!action_object && entityOrder.length > 1 && entityOrder[1] !== action_subject) action_object = entityOrder[1]
+  // Fallback posicional (no por orden de catálogo).
+  // IMPORTANTE: si ya hemos asignado action_object (caso "imputan a X" sin
+  // sujeto expreso) NO promovemos esa misma entidad a sujeto · sería atribución
+  // doble que sobrescribiría el sentiment correcto de objeto.
+  if (!action_subject && entityPositions.length > 0) {
+    const candidate = entityPositions[0].canonical
+    if (candidate !== action_object) action_subject = candidate
+  }
+  if (!action_object && entityPositions.length > 1 && entityPositions[1].canonical !== action_subject) {
+    action_object = entityPositions[1].canonical
+  }
 
   // Pre-build reading (sin sentiment final · necesario para assessSentiment)
   const preReading = {

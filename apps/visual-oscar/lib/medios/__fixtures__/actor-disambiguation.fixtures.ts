@@ -134,7 +134,7 @@ export const SENTIMENT_FIXTURES: SentimentFixture[] = [
     id: 'feijoo-acusa-sanchez',
     title: 'Feijóo acusa a Sánchez de pactar con los condenados',
     expect_actor_signs: { 'Pedro Sánchez': 'negative', 'Alberto Núñez Feijóo': 'neutral' },
-    notes: '[KNOWN FAIL · subject/object polarity bug] Verbo "acusa" debería dar sentiment negativo HACIA Sánchez (objeto) y neutral hacia Feijóo (sujeto). El assessSentiment actual atribuye el tono negativo al sujeto. Fix futuro: parser sujeto/objeto sintáctico mínimo o NER posicional.',
+    notes: 'Verbo "acusa" → sentiment negativo HACIA Sánchez (objeto) y neutral hacia Feijóo (sujeto). Fix Sprint M5 FASE 4b: subject/object basados en posición real en titular.',
   },
   {
     id: 'sanchez-apoya-yolanda',
@@ -146,7 +146,7 @@ export const SENTIMENT_FIXTURES: SentimentFixture[] = [
     id: 'imputado-mazon',
     title: 'Imputan a Carlos Mazón por la gestión de la DANA',
     expect_actor_signs: { 'Carlos Mazón': 'negative' },
-    notes: '[KNOWN FAIL · object-of-passive-verb] "Imputan a X" debería marcar X (objeto del verbo) como negativo. assessSentiment lo deja en neutral porque el actor no es sujeto del verbo judicial. Fix futuro: detectar patrón "verbo + a + actor".',
+    notes: 'Verbo judicial "imputan a X" → X es objeto (acusativo personal con "a"), no sujeto. Fix Sprint M5 FASE 4b: fallback de subject no promueve si ya hay object asignado.',
   },
   {
     id: 'absuelven-actor',
