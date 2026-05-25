@@ -37,6 +37,14 @@ import mediosData from '@/data/medios.json'
 import mediosEuropeosData from '@/data/medios-europeos.json'
 import { IDEOLOGY_RANGES, type SourceGroup } from '@/lib/medios/sources-matrix'
 
+import {
+  readArticlesBatch, framingComparison, coverageGapsAnalysis,
+  suggestedFollowupQueries, mediaAnalysisWarnings, computeMethodologyConfidence,
+  buildNarrativeClusters, buildDiversityBreakdown, profileFromDomain,
+  ANALYSIS_VERSION,
+} from '@/lib/medios/media-analysis'
+import { buildMeta } from '@/lib/medios/media-methodology'
+
 export const dynamic = 'force-dynamic'
 
 // ── Tipos contrato ──────────────────────────────────────────────────────
@@ -286,6 +294,7 @@ function domainsFromSourceGroups(groups: SourceGroup[]): string[] {
 
 // ── Núcleo: ejecuta la búsqueda enriquecida ──────────────────────────────
 async function runSearch(req: MediaSearchRequest) {
+  const startedAt = Date.now()
   const apiKey = process.env.NEWSAPI_KEY
   if (!apiKey) {
     return NextResponse.json(
@@ -421,6 +430,61 @@ async function runSearch(req: MediaSearchRequest) {
       .map(([frame]) => frame),
   }))
 
+  // ════════════════════════════════════════════════════════════════════
+  // Sprint M4 · FASE A · análisis enriquecido sobre media-analysis.ts
+  // ════════════════════════════════════════════════════════════════════
+  const isDeep = req.mode === 'deep' || req.mode === 'dossier' || req.mode === 'comparative'
+  // Para mode quick limitamos · análisis caro
+  const cap = isDeep ? 150 : 60
+  const articlesForAnalysis = articles.slice(0, cap)
+  const readings = readArticlesBatch(
+    articlesForAnalysis.map((a) => ({
+      title: a.title, description: a.description, url: a.url,
+      source: { name: a.source, id: a.source_id ?? null }, domain: a.domain,
+      publishedAt: a.published, language: a.language ?? 'es',
+      ideology_bucket: a.ideology_bucket ?? null,
+    } as any)),
+  )
+  // Diversidad sobre profiles derivados de readings
+  const profiles = readings.map((r) => profileFromDomain(domainFromUrl(r.url), r.medium, r.medium_ideology_bucket))
+  const sourceDiversity = buildDiversityBreakdown(profiles)
+  const framing = framingComparison(readings)
+  const coverageGapsRich = coverageGapsAnalysis(readings)
+  const narrativeClusters = isDeep ? buildNarrativeClusters(readings, { maxClusters: 10 }) : []
+  const followups = suggestedFollowupQueries(readings, req.query, framing)
+  const confidence = computeMethodologyConfidence(readings, sourceDiversity, data.totalResults)
+  const warnings = mediaAnalysisWarnings(readings, sourceDiversity, framing)
+  // Actor impacts agregados · cuenta beneficial/harmful por actor
+  const actorImpactMap = new Map<string, { beneficial: number; harmful: number; neutral: number; uncertain: number; mentions: number; reasons: string[] }>()
+  for (const r of readings) {
+    for (const ai of r.sentiment.actor_impact) {
+      if (!actorImpactMap.has(ai.actor)) actorImpactMap.set(ai.actor, { beneficial: 0, harmful: 0, neutral: 0, uncertain: 0, mentions: 0, reasons: [] })
+      const cur = actorImpactMap.get(ai.actor)!
+      cur[ai.impact]++
+      cur.mentions++
+      if (cur.reasons.length < 3 && ai.reason) cur.reasons.push(ai.reason)
+    }
+  }
+  const actorImpacts = Array.from(actorImpactMap.entries())
+    .map(([actor, agg]) => {
+      const dominant = (['beneficial', 'harmful', 'neutral', 'uncertain'] as const).reduce((best, k) =>
+        (agg[k] as number) > best.count ? { kind: k, count: agg[k] as number } : best,
+        { kind: 'uncertain' as 'beneficial' | 'harmful' | 'neutral' | 'uncertain', count: 0 },
+      )
+      return {
+        actor,
+        mentions: agg.mentions,
+        dominant_impact: dominant.kind,
+        beneficial: agg.beneficial,
+        harmful: agg.harmful,
+        neutral: agg.neutral,
+        uncertain: agg.uncertain,
+        sample_reasons: agg.reasons,
+      }
+    })
+    .sort((a, b) => b.mentions - a.mentions)
+    .slice(0, 20)
+
   return NextResponse.json({
     ok: true,
     query: req.query,
@@ -437,6 +501,24 @@ async function runSearch(req: MediaSearchRequest) {
     narratives: extractNarratives(articles),
     sentiment,
     ideologicalComparison: ideologicalComparison.length ? ideologicalComparison : null,
+    // Sprint M4 · campos nuevos analítica enriquecida
+    article_readings: isDeep ? readings.slice(0, 80) : undefined,  // sólo en deep · evita payload pesado
+    narrative_clusters: narrativeClusters,
+    actor_impacts: actorImpacts,
+    source_diversity: sourceDiversity,
+    methodology_confidence: confidence,
+    analysis_warnings: warnings,
+    coverage_gaps: coverageGapsRich,
+    framing_comparison: framing,
+    suggested_followup_queries: followups,
+    _meta: buildMeta({
+      source: 'live',
+      startedAt,
+      sources_used: profiles.length,
+      articles_read: readings.length,
+      confidence: confidence.overall,
+      warnings: warnings.map((w) => `[${w.level}] ${w.message}`),
+    }),
     params_applied: {
       domains: domains.length,
       excludeDomains: excludeDomains.length,

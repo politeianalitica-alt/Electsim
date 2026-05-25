@@ -32,6 +32,59 @@ interface SearchResponse {
   error?: string
   hint?: string
   params_applied?: any
+  // Sprint M4 · análisis enriquecido (opcional · presente si mode=deep|dossier|comparative)
+  article_readings?: Array<any>
+  narrative_clusters?: Array<{
+    id: string
+    title: string
+    short_summary: string
+    frame_type: string
+    main_topic: string
+    dominant_actors: string[]
+    benefited_actors: string[]
+    harmed_actors: string[]
+    representative_titles: string[]
+    velocity_score: number
+    acceleration_score: number
+    ideological_spread: { left: number; center: number; right: number; balanced: boolean }
+    controversy_score: number
+    confidence: { overall: number; reasons: string[] }
+    why_this_is_a_narrative: string
+    evidence: Array<{ title: string; medium: string; url: string; ideology: string }>
+  }>
+  actor_impacts?: Array<{
+    actor: string
+    mentions: number
+    dominant_impact: 'beneficial' | 'harmful' | 'neutral' | 'uncertain'
+    beneficial: number
+    harmful: number
+    neutral: number
+    uncertain: number
+    sample_reasons: string[]
+  }>
+  source_diversity?: {
+    ideological_balance_score: number
+    territorial_balance_score: number
+    warnings: string[]
+  }
+  methodology_confidence?: { overall: number; reasons: string[] }
+  analysis_warnings?: Array<{ level: 'info' | 'warning' | 'critical'; category: string; message: string; evidence?: string }>
+  coverage_gaps?: Array<{ topic: string; total_mentions: number; interpretation: string }>
+  framing_comparison?: Array<{
+    bucket: string
+    count: number
+    dominant_topics: { topic: string; count: number }[]
+    dominant_frames: { frame: string; count: number }[]
+    actors_emphasized: { actor: string; mentions: number }[]
+    actors_omitted: string[]
+    average_tone: number
+    controversy_score: number
+    representative_titles: string[]
+    distinctive_terms: { term: string; lift: number }[]
+    interpretation: string
+  }>
+  suggested_followup_queries?: Array<{ query: string; reason: string; expected_focus: string }>
+  _meta?: { source: string; ts: string; latency_ms: number; warnings: string[]; methodology_version: string; confidence?: number }
 }
 
 const ACCENT = '#DC2626'
@@ -77,6 +130,7 @@ export function BusquedaPuntual() {
           from: from || undefined,
           to: to || undefined,
           pageSize,
+          mode: 'deep',   // Sprint M4 · activa article_readings + narrative_clusters + framing_comparison
         }),
       })
       const data: SearchResponse = await r.json()
@@ -363,7 +417,7 @@ export function BusquedaPuntual() {
             </button>
           </section>
 
-          {/* Lectura Politeia IA */}
+          {/* Lectura Politeia IA · ahora con contexto estructurado completo */}
           <LecturaPoliteia
             tabId="busqueda"
             query={result.query}
@@ -384,8 +438,41 @@ export function BusquedaPuntual() {
                 peak_date: result.timeline.reduce((m: any, p: any) => (p.count > (m?.count ?? 0) ? p : m), null)?.date,
                 peak_value: result.timeline.reduce((m: any, p: any) => (p.count > (m?.count ?? 0) ? p : m), null)?.count,
               } : undefined,
-            }}
+              // Sprint M4 · contexto estructurado
+              narrative_clusters: result.narrative_clusters,
+              framing_comparison: result.framing_comparison,
+              actor_impacts: result.actor_impacts,
+              analysis_warnings: result.analysis_warnings,
+              coverage_gaps: result.coverage_gaps,
+            } as any}
           />
+
+          {/* Sprint M4 · Panel 1 · Resumen metodológico */}
+          <MetodologiaPanel result={result} />
+
+          {/* Sprint M4 · Panel 2 · Narrativas detectadas (NewsAPI · deep) */}
+          {result.narrative_clusters && result.narrative_clusters.length > 0 && (
+            <NarrativasPanel clusters={result.narrative_clusters} />
+          )}
+
+          {/* Sprint M4 · Panel 3 · Actores e impacto */}
+          {result.actor_impacts && result.actor_impacts.length > 0 && (
+            <ActoresImpactoPanel impacts={result.actor_impacts} />
+          )}
+
+          {/* Sprint M4 · Panel 4 · Comparación ideológica enriquecida */}
+          {result.framing_comparison && result.framing_comparison.length > 0 && (
+            <FramingComparisonPanel framing={result.framing_comparison} />
+          )}
+
+          {/* Sprint M4 · Panel 5 · Coverage gaps + followup queries */}
+          {((result.coverage_gaps && result.coverage_gaps.length > 0) || (result.suggested_followup_queries && result.suggested_followup_queries.length > 0)) && (
+            <GapsYFollowupPanel
+              gaps={result.coverage_gaps || []}
+              followups={result.suggested_followup_queries || []}
+              onRun={(q) => { setQuery(q); setTimeout(() => runSearch(), 100) }}
+            />
+          )}
 
           {/* Sumario */}
           <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 16 }}>
@@ -643,5 +730,262 @@ function TimelineChart({ points, accent }: { points: { date: string; count: numb
         <span>{points[points.length - 1].date}</span>
       </div>
     </div>
+  )
+}
+
+// ════════════════════════════════════════════════════════════════════
+// Sprint M4 · Paneles de análisis enriquecido NewsAPI deep
+// ════════════════════════════════════════════════════════════════════
+
+function MetodologiaPanel({ result }: { result: SearchResponse }) {
+  const conf = result.methodology_confidence?.overall ?? result._meta?.confidence ?? 0
+  const confPct = Math.round(conf * 100)
+  const confColor = confPct >= 70 ? '#16a34a' : confPct >= 50 ? '#f59e0b' : '#dc2626'
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #475569', borderRadius: 10, padding: 14 }}>
+      <header style={{ marginBottom: 10 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#475569', textTransform: 'uppercase' }}>
+          ◆ Resumen metodológico · NewsAPI deep
+        </p>
+        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b' }}>
+          Análisis enriquecido sobre {result.n_articles} artículos · proveedor {result._meta?.source === 'live' ? 'NewsAPI · live' : result._meta?.source ?? 'NewsAPI'}.
+        </p>
+      </header>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8, marginBottom: 10 }}>
+        <Kpi label="Total resultados" value={result.totalResults?.toLocaleString('es-ES') ?? '—'} color="#0f172a" />
+        <Kpi label="Analizados" value={String(result.n_articles ?? 0)} color="#0f172a" />
+        <Kpi label="Confianza" value={`${confPct}%`} color={confColor} />
+        <Kpi label="Balance ideo" value={result.source_diversity?.ideological_balance_score != null ? `${(result.source_diversity.ideological_balance_score * 100).toFixed(0)}%` : '—'} color="#1e40af" />
+        <Kpi label="Balance terr" value={result.source_diversity?.territorial_balance_score != null ? `${(result.source_diversity.territorial_balance_score * 100).toFixed(0)}%` : '—'} color="#16a34a" />
+        <Kpi label="Latencia" value={result._meta?.latency_ms ? `${result._meta.latency_ms}ms` : '—'} color="#94a3b8" />
+      </div>
+      {result.methodology_confidence?.reasons && result.methodology_confidence.reasons.length > 0 && (
+        <div style={{ fontSize: 10, color: '#92400e', background: '#fef3c7', padding: 8, borderRadius: 4, marginBottom: 8 }}>
+          <strong style={{ letterSpacing: 0.4, textTransform: 'uppercase', fontSize: 9 }}>! Limitaciones de confianza:</strong>{' '}
+          {result.methodology_confidence.reasons.join(' · ')}
+        </div>
+      )}
+      {result.analysis_warnings && result.analysis_warnings.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {result.analysis_warnings.map((w, i) => {
+            const color = w.level === 'critical' ? '#dc2626' : w.level === 'warning' ? '#f59e0b' : '#0891b2'
+            const bg = w.level === 'critical' ? '#fee2e2' : w.level === 'warning' ? '#fef3c7' : '#e0f2fe'
+            return (
+              <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', padding: 6, background: bg, borderLeft: `3px solid ${color}`, borderRadius: 3, fontSize: 10 }}>
+                <span style={{ fontSize: 8, fontWeight: 700, padding: '2px 5px', borderRadius: 2, background: color, color: '#fff', letterSpacing: 0.4 }}>{w.level.toUpperCase()}</span>
+                <span style={{ color: '#0f172a' }}>{w.message}{w.evidence ? <span style={{ color: '#64748b' }}> · {w.evidence}</span> : null}</span>
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </section>
+  )
+}
+
+function Kpi({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div style={{ padding: 8, background: '#f8fafc', borderRadius: 4 }}>
+      <p style={{ margin: 0, fontSize: 9, color: '#64748b', letterSpacing: 0.5, textTransform: 'uppercase' }}>{label}</p>
+      <p style={{ margin: '2px 0 0', fontSize: 18, fontWeight: 700, color, fontFamily: 'ui-monospace, monospace' }}>{value}</p>
+    </div>
+  )
+}
+
+function NarrativasPanel({ clusters }: { clusters: NonNullable<SearchResponse['narrative_clusters']> }) {
+  const [openId, setOpenId] = useState<string | null>(null)
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #7c3aed', borderRadius: 10, padding: 14 }}>
+      <header style={{ marginBottom: 10 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#7c3aed', textTransform: 'uppercase' }}>
+          ◆ Narrativas detectadas · clustering metodológico
+        </p>
+        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b' }}>
+          {clusters.length} narrativas auditables · frame · actores · velocity · evidencia balanceada por bloque ideológico.
+        </p>
+      </header>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {clusters.map((c) => {
+          const isOpen = openId === c.id
+          return (
+            <article key={c.id} style={{ background: isOpen ? '#faf5ff' : '#fff', border: '1px solid #e9d5ff', borderLeft: '3px solid #7c3aed', borderRadius: 4, padding: 10 }}>
+              <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#0f172a' }}>{c.title}</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#475569' }}>{c.short_summary}</p>
+                </div>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: 8, fontWeight: 700, padding: '2px 6px', borderRadius: 3, background: '#7c3aed', color: '#fff', letterSpacing: 0.4 }}>{c.frame_type}</span>
+                  <span style={{ fontSize: 9, color: '#64748b', fontFamily: 'ui-monospace, monospace' }}>v {c.velocity_score.toFixed(2)} a/h</span>
+                  <span style={{ fontSize: 9, fontWeight: 700, color: c.confidence.overall >= 0.6 ? '#16a34a' : '#f59e0b' }}>conf {(c.confidence.overall * 100).toFixed(0)}%</span>
+                </div>
+              </header>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 6, fontSize: 9, color: '#64748b', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', height: 4, borderRadius: 2, overflow: 'hidden', width: 100 }}>
+                  <div style={{ width: `${c.ideological_spread.left * 100}%`, background: '#dc2626' }} />
+                  <div style={{ width: `${c.ideological_spread.center * 100}%`, background: '#94a3b8' }} />
+                  <div style={{ width: `${c.ideological_spread.right * 100}%`, background: '#1e40af' }} />
+                </div>
+                <span>{c.ideological_spread.balanced ? '✓ balanceada' : '! sesgada'}</span>
+                {c.harmed_actors.length > 0 && <span>⊖ {c.harmed_actors.slice(0, 2).join(', ')}</span>}
+                {c.benefited_actors.length > 0 && <span style={{ color: '#16a34a' }}>⊕ {c.benefited_actors.slice(0, 2).join(', ')}</span>}
+                <button onClick={() => setOpenId(isOpen ? null : c.id)} style={{ marginLeft: 'auto', background: isOpen ? '#7c3aed' : '#f1f5f9', color: isOpen ? '#fff' : '#475569', border: 'none', borderRadius: 3, fontSize: 9, fontWeight: 700, padding: '3px 8px', cursor: 'pointer', letterSpacing: 0.4 }}>
+                  {isOpen ? '× cerrar' : 'evidencia'}
+                </button>
+              </div>
+              {isOpen && (
+                <div style={{ marginTop: 10, paddingTop: 8, borderTop: '1px dashed #e5e7eb' }}>
+                  <p style={{ margin: 0, fontSize: 10, color: '#475569', fontStyle: 'italic' }}>{c.why_this_is_a_narrative}</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 6 }}>
+                    {c.evidence.slice(0, 5).map((e, i) => (
+                      <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" style={{ padding: '3px 6px', background: '#fff', borderLeft: '2px solid #cbd5e1', borderRadius: 3, textDecoration: 'none', color: 'inherit', fontSize: 10 }}>
+                        <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', marginRight: 6, letterSpacing: 0.3 }}>{e.ideology.toUpperCase()}</span>
+                        <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
+                        <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function ActoresImpactoPanel({ impacts }: { impacts: NonNullable<SearchResponse['actor_impacts']> }) {
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #0891b2', borderRadius: 10, padding: 14 }}>
+      <header style={{ marginBottom: 10 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#0891b2', textTransform: 'uppercase' }}>
+          ◆ Actores e impacto político
+        </p>
+        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b' }}>
+          Cada actor con menciones · barra horizontal beneficial/harmful/neutral/uncertain · razón de muestra.
+        </p>
+      </header>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {impacts.slice(0, 12).map((a) => {
+          const total = a.beneficial + a.harmful + a.neutral + a.uncertain || 1
+          const impactColor = a.dominant_impact === 'beneficial' ? '#16a34a' : a.dominant_impact === 'harmful' ? '#dc2626' : '#94a3b8'
+          return (
+            <div key={a.actor} style={{ display: 'grid', gridTemplateColumns: '180px 50px 1fr 100px', gap: 8, alignItems: 'center', padding: '6px 8px', background: '#f8fafc', borderRadius: 4, fontSize: 11 }}>
+              <span style={{ color: '#0f172a', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={a.sample_reasons[0] || ''}>{a.actor}</span>
+              <span style={{ color: '#475569', fontFamily: 'ui-monospace, monospace', textAlign: 'right' }}>{a.mentions}</span>
+              <div style={{ display: 'flex', height: 10, borderRadius: 2, overflow: 'hidden' }}>
+                {a.beneficial > 0 && <div style={{ width: `${(a.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficial ${a.beneficial}`} />}
+                {a.harmful > 0 && <div style={{ width: `${(a.harmful / total) * 100}%`, background: '#dc2626' }} title={`harmful ${a.harmful}`} />}
+                {a.neutral > 0 && <div style={{ width: `${(a.neutral / total) * 100}%`, background: '#94a3b8' }} title={`neutral ${a.neutral}`} />}
+                {a.uncertain > 0 && <div style={{ width: `${(a.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`uncertain ${a.uncertain}`} />}
+              </div>
+              <span style={{ fontSize: 8, color: impactColor, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>● {a.dominant_impact}</span>
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+function FramingComparisonPanel({ framing }: { framing: NonNullable<SearchResponse['framing_comparison']> }) {
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #8b5cf6', borderRadius: 10, padding: 14 }}>
+      <header style={{ marginBottom: 10 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#8b5cf6', textTransform: 'uppercase' }}>
+          ◆ Comparación ideológica · framing por bloque
+        </p>
+        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b' }}>
+          Qué bloque enfatiza qué actor · qué temas omite · vocabulario distintivo (lift = sobre-indexación vs media).
+        </p>
+      </header>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {framing.map((b) => (
+          <div key={b.bucket} style={{ background: '#faf5ff', borderRadius: 4, padding: 10, borderLeft: '3px solid #8b5cf6' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#0f172a', letterSpacing: 0.3, textTransform: 'uppercase' }}>{b.bucket}</span>
+              <span style={{ fontSize: 9, color: '#64748b', fontFamily: 'ui-monospace, monospace' }}>
+                {b.count} arts · tono {(b.average_tone * 100).toFixed(0)}% · controv {b.controversy_score}
+              </span>
+            </div>
+            <p style={{ margin: 0, fontSize: 10, color: '#475569', fontStyle: 'italic', marginBottom: 6 }}>{b.interpretation}</p>
+            {b.dominant_frames.length > 0 && (
+              <p style={{ margin: '4px 0 0', fontSize: 10 }}>
+                <strong style={{ color: '#7c3aed' }}>Frames:</strong>{' '}
+                {b.dominant_frames.map((f) => `${f.frame}(${f.count})`).join(' · ')}
+              </p>
+            )}
+            {b.actors_emphasized.length > 0 && (
+              <p style={{ margin: '4px 0 0', fontSize: 10 }}>
+                <strong style={{ color: '#0891b2' }}>Enfatiza:</strong>{' '}
+                {b.actors_emphasized.map((a) => `${a.actor} (${a.mentions})`).join(' · ')}
+              </p>
+            )}
+            {b.actors_omitted.length > 0 && (
+              <p style={{ margin: '4px 0 0', fontSize: 10 }}>
+                <strong style={{ color: '#dc2626' }}>OMITE:</strong>{' '}
+                <span style={{ color: '#475569' }}>{b.actors_omitted.join(', ')}</span>
+              </p>
+            )}
+            {b.distinctive_terms.length > 0 && (
+              <p style={{ margin: '4px 0 0', fontSize: 10 }}>
+                <strong style={{ color: '#84cc16' }}>Vocab distintivo:</strong>{' '}
+                {b.distinctive_terms.slice(0, 5).map((t) => `${t.term} (×${t.lift.toFixed(1)})`).join(' · ')}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function GapsYFollowupPanel({ gaps, followups, onRun }: {
+  gaps: NonNullable<SearchResponse['coverage_gaps']>
+  followups: NonNullable<SearchResponse['suggested_followup_queries']>
+  onRun: (q: string) => void
+}) {
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #f59e0b', borderRadius: 10, padding: 14 }}>
+      <header style={{ marginBottom: 10 }}>
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#f59e0b', textTransform: 'uppercase' }}>
+          ◆ Gaps de cobertura · queries sugeridas
+        </p>
+      </header>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        {gaps.length > 0 && (
+          <div>
+            <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.5, marginBottom: 4, textTransform: 'uppercase' }}>
+              Coverage gaps
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {gaps.map((g) => (
+                <div key={g.topic} style={{ padding: 6, background: '#fef3c7', borderLeft: '2px solid #f59e0b', borderRadius: 3, fontSize: 10 }}>
+                  <strong style={{ color: '#92400e' }}>{g.topic}</strong>{' '}
+                  <span style={{ color: '#0f172a' }}>· {g.total_mentions} menciones</span>
+                  <p style={{ margin: '2px 0 0', color: '#475569' }}>{g.interpretation}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {followups.length > 0 && (
+          <div>
+            <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#475569', letterSpacing: 0.5, marginBottom: 4, textTransform: 'uppercase' }}>
+              Queries sugeridas
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {followups.slice(0, 8).map((f, i) => (
+                <button key={i} onClick={() => onRun(f.query)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2, padding: 6, background: '#f0f9ff', borderLeft: '2px solid #0ea5e9', borderRadius: 3, fontSize: 10, cursor: 'pointer', border: 'none', textAlign: 'left' }}>
+                  <span style={{ color: '#0f172a', fontWeight: 600, fontFamily: 'ui-monospace, monospace' }}>{f.query}</span>
+                  <span style={{ color: '#475569', fontSize: 9 }}>{f.reason}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
   )
 }
