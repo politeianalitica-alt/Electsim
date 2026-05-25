@@ -151,6 +151,8 @@ export function BusquedaPuntual() {
   const [pageSize, setPageSize] = useState(50)
   // Sprint M5 FASE 3 · modo análisis · 'deep' = una query con todos · 'comparative' = N queries por bucket
   const [mode, setMode] = useState<'deep' | 'comparative'>('deep')
+  // Sprint M5 FASE 2 · view mode UI · 'executive' (solo conclusiones) o 'analyst' (todo + auditoría)
+  const [viewMode, setViewMode] = useState<'executive' | 'analyst'>('executive')
 
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<SearchResponse | null>(null)
@@ -498,7 +500,43 @@ export function BusquedaPuntual() {
             >
               ☆ Guardar como monitor
             </button>
+
+            {/* Sprint M5 FASE 2 · Toggle ejecutivo/analista */}
+            <div style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 10, color: '#64748b', fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>Vista</span>
+              <div style={{ display: 'inline-flex', border: '1px solid #e5e7eb', borderRadius: 999, overflow: 'hidden' }}>
+                <button
+                  onClick={() => setViewMode('executive')}
+                  title="Sólo conclusiones de alta señal (narrativas, actores, comparativa)"
+                  style={{ background: viewMode === 'executive' ? '#0f172a' : '#fff', color: viewMode === 'executive' ? '#fff' : '#475569', border: 'none', padding: '6px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+                >
+                  ◉ Ejecutiva
+                </button>
+                <button
+                  onClick={() => setViewMode('analyst')}
+                  title="Vista completa con paneles de auditoría, framing, gaps, unmatched sources, metadatos"
+                  style={{ background: viewMode === 'analyst' ? '#0f172a' : '#fff', color: viewMode === 'analyst' ? '#fff' : '#475569', border: 'none', padding: '6px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+                >
+                  ⊞ Analista
+                </button>
+              </div>
+            </div>
           </section>
+
+          {/* Sprint M5 FASE 2 · Empty state inteligente · n_articles === 0 */}
+          {result.n_articles === 0 && (
+            <EmptyResultsHint
+              query={result.query}
+              params={result.params_applied}
+              onSuggest={(s) => {
+                if (s.removeSourceGroups) setSourceGroups([])
+                if (s.widenDates) { setFrom(''); setTo('') }
+                if (s.switchSort) setSortBy('publishedAt')
+                if (s.switchLanguage) setLanguage('es')
+                setTimeout(() => runSearch(), 100)
+              }}
+            />
+          )}
 
           {/* Lectura Politeia IA · ahora con contexto estructurado completo */}
           <LecturaPoliteia
@@ -530,9 +568,10 @@ export function BusquedaPuntual() {
             } as any}
           />
 
-          {/* Sprint M4 · Panel 1 · Resumen metodológico */}
-          <MetodologiaPanel result={result} />
+          {/* Sprint M5 FASE 2 · MetodologiaPanel sólo en vista analista */}
+          {viewMode === 'analyst' && <MetodologiaPanel result={result} />}
 
+          {/* ── Paneles de alta señal (ambas vistas) ─────────────────────── */}
           {/* Sprint M4 · Panel 2 · Narrativas detectadas (NewsAPI · deep) */}
           {result.narrative_clusters && result.narrative_clusters.length > 0 && (
             <NarrativasPanel clusters={result.narrative_clusters} />
@@ -543,41 +582,46 @@ export function BusquedaPuntual() {
             <ActoresImpactoPanel impacts={result.actor_impacts} />
           )}
 
-          {/* Sprint M5 FASE 3 · Comparative runs (N queries por bucket) */}
+          {/* Sprint M5 FASE 3 · Comparative runs (N queries por bucket) · siempre que exista */}
           {result.comparative_runs && result.comparative_runs.length > 0 && (
             <ComparativeRunsPanel runs={result.comparative_runs} />
           )}
 
-          {/* Sprint M4 · Panel 4 · Comparación ideológica enriquecida */}
-          {result.framing_comparison && result.framing_comparison.length > 0 && (
-            <FramingComparisonPanel framing={result.framing_comparison} />
-          )}
+          {/* ── Paneles de auditoría · sólo vista analista ────────────────── */}
+          {viewMode === 'analyst' && (
+            <>
+              {/* Sprint M4 · Panel 4 · Comparación ideológica enriquecida */}
+              {result.framing_comparison && result.framing_comparison.length > 0 && (
+                <FramingComparisonPanel framing={result.framing_comparison} />
+              )}
 
-          {/* Sprint M4 · Panel 5 · Coverage gaps + followup queries */}
-          {((result.coverage_gaps && result.coverage_gaps.length > 0) || (result.suggested_followup_queries && result.suggested_followup_queries.length > 0)) && (
-            <GapsYFollowupPanel
-              gaps={result.coverage_gaps || []}
-              followups={result.suggested_followup_queries || []}
-              onRunFollowup={(f) => {
-                // Sprint M5 · ejecuta con params estructurados (no sólo texto)
-                setQuery(f.query)
-                if (f.params?.sortBy) setSortBy(f.params.sortBy)
-                if (f.params?.sourceGroups) setSourceGroups(f.params.sourceGroups as SourceGroup[])
-                if (f.params?.from) setFrom(f.params.from)
-                if (f.params?.to) setTo(f.params.to)
-                if (f.params?.language) setLanguage(f.params.language as 'es' | 'en' | 'fr')
-                setTimeout(() => runSearch(), 100)
-              }}
-            />
-          )}
+              {/* Sprint M4 · Panel 5 · Coverage gaps + followup queries */}
+              {((result.coverage_gaps && result.coverage_gaps.length > 0) || (result.suggested_followup_queries && result.suggested_followup_queries.length > 0)) && (
+                <GapsYFollowupPanel
+                  gaps={result.coverage_gaps || []}
+                  followups={result.suggested_followup_queries || []}
+                  onRunFollowup={(f) => {
+                    // Sprint M5 · ejecuta con params estructurados (no sólo texto)
+                    setQuery(f.query)
+                    if (f.params?.sortBy) setSortBy(f.params.sortBy)
+                    if (f.params?.sourceGroups) setSourceGroups(f.params.sourceGroups as SourceGroup[])
+                    if (f.params?.from) setFrom(f.params.from)
+                    if (f.params?.to) setTo(f.params.to)
+                    if (f.params?.language) setLanguage(f.params.language as 'es' | 'en' | 'fr')
+                    setTimeout(() => runSearch(), 100)
+                  }}
+                />
+              )}
 
-          {/* Sprint M5 FASE 5 · Transparencia matching catálogo · Unmatched sources */}
-          {result.catalog_match && result.catalog_match.unmatched_sources > 0 && (
-            <UnmatchedSourcesPanel match={result.catalog_match} />
-          )}
+              {/* Sprint M5 FASE 5 · Transparencia matching catálogo · Unmatched sources */}
+              {result.catalog_match && result.catalog_match.unmatched_sources > 0 && (
+                <UnmatchedSourcesPanel match={result.catalog_match} />
+              )}
 
-          {/* Sprint M5 FASE 5 · AnalysisAuditDrawer trigger transversal */}
-          <AnalysisAuditPanel result={result} />
+              {/* Sprint M5 FASE 5 · AnalysisAuditDrawer trigger transversal */}
+              <AnalysisAuditPanel result={result} />
+            </>
+          )}
 
           {/* Sumario */}
           <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 16 }}>
@@ -1493,6 +1537,91 @@ function AnalysisAuditPanel({ result }: { result: SearchResponse }) {
             Esta auditoría refleja qué calculó el motor determinista. La lectura humana del texto completo puede matizar o contradecir cualquier conclusión derivada.
           </p>
         </div>
+      )}
+    </section>
+  )
+}
+
+/**
+ * `<EmptyResultsHint />` · Sprint M5 FASE 2
+ *
+ * Cuando NewsAPI devuelve 0 artículos, en lugar de un mensaje genérico el
+ * analista recibe sugerencias accionables derivadas de los params que aplicó:
+ *   - Si filtró por sourceGroups → sugiere quitar el filtro
+ *   - Si limitó la ventana temporal → sugiere ampliar fechas
+ *   - Si pidió "popularity" sort → sugiere "publishedAt" (más artículos)
+ *   - Si usó idioma minoritario → sugiere "es"
+ * Cada sugerencia tiene un botón "Aplicar" que ejecuta el cambio + nueva búsqueda.
+ */
+function EmptyResultsHint({
+  query, params, onSuggest,
+}: {
+  query: string
+  params: any
+  onSuggest: (s: { removeSourceGroups?: boolean; widenDates?: boolean; switchSort?: boolean; switchLanguage?: boolean }) => void
+}) {
+  const hasSourceGroups = Array.isArray(params?.sourceGroups) && params.sourceGroups.length > 0
+  const hasDates = !!(params?.from || params?.to)
+  const isPopularitySort = params?.sortBy === 'popularity'
+  const isNonES = params?.language && params.language !== 'es'
+
+  const suggestions: Array<{ label: string; reason: string; action: () => void }> = []
+  if (hasSourceGroups) suggestions.push({
+    label: 'Quitar filtro ideológico',
+    reason: `Buscaste sólo en ${params.sourceGroups.length} bucket(s) · NewsAPI puede no tener cobertura en todos los dominios filtrados`,
+    action: () => onSuggest({ removeSourceGroups: true }),
+  })
+  if (hasDates) suggestions.push({
+    label: 'Ampliar ventana temporal',
+    reason: 'NewsAPI free tier limita a últimos 30 días · ventanas cortas o antiguas devuelven vacío',
+    action: () => onSuggest({ widenDates: true }),
+  })
+  if (isPopularitySort) suggestions.push({
+    label: 'Cambiar a sort por fecha',
+    reason: '"popularity" requiere artículos con tráfico medido · "publishedAt" devuelve más volumen',
+    action: () => onSuggest({ switchSort: true }),
+  })
+  if (isNonES) suggestions.push({
+    label: 'Cambiar a idioma español',
+    reason: `Buscaste en "${params.language}" · la cobertura es mucho mayor en español para temas de política española`,
+    action: () => onSuggest({ switchLanguage: true }),
+  })
+
+  return (
+    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #94a3b8', borderRadius: 10, padding: 16 }}>
+      <header style={{ marginBottom: 8 }}>
+        <p style={{ margin: 0, fontSize: 12, color: '#0f172a', fontWeight: 700 }}>
+          0 artículos para "{query}"
+        </p>
+        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b' }}>
+          NewsAPI no encontró resultados con los filtros aplicados. Esto es información: el tema puede no haber tenido cobertura en la ventana / bloques pedidos, o los filtros son demasiado estrechos.
+        </p>
+      </header>
+
+      {suggestions.length > 0 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <p style={{ margin: '6px 0 0', fontSize: 10, fontWeight: 700, color: '#475569', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+            Sugerencias para ampliar la búsqueda
+          </p>
+          {suggestions.map((s, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, padding: 8, background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 6 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: '#0f172a' }}>{s.label}</div>
+                <div style={{ fontSize: 10, color: '#64748b', marginTop: 2 }}>{s.reason}</div>
+              </div>
+              <button
+                onClick={s.action}
+                style={{ background: '#0f172a', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}
+              >
+                Aplicar y reintentar →
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p style={{ margin: '6px 0 0', fontSize: 11, color: '#64748b', fontStyle: 'italic' }}>
+          Los filtros ya están al mínimo. Prueba reformular la query (sinónimos, actores específicos, otro encuadre) o consulta directamente a RSS interno (/api/medios/intel).
+        </p>
       )}
     </section>
   )
