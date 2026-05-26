@@ -17,6 +17,8 @@
 import { useState, useEffect } from 'react'
 import EntityBacklinks from './EntityBacklinks'
 import { slugify } from '@/lib/ontology/slugify'
+// Sprint G14 cierre · panel OSINT externo · audit obligatorio
+import { DossierOSINTPanel } from './dossier/DossierOSINTPanel'
 
 interface DossierData {
   figure: {
@@ -324,6 +326,19 @@ export default function FigureDossierModal({ figureId, byName, onClose, onSelect
                 kind="actor_person"
                 slug={slugify(data.figure.nombre)}
                 fallbackName={data.figure.nombre}
+              />
+
+              {/* Sprint G14 cierre · panel OSINT externo · audit log obligatorio */}
+              <DossierOSINTPanel
+                subject={{
+                  full_name: data.figure.nombre,
+                  cargo: data.figure.cargo,
+                  partido: data.figure.afiliacion,
+                  organizacion: data.figure.organizacion,
+                  afiliacion: data.figure.afiliacion,
+                  tipo: data.figure.category,
+                  dossier_slug: data.figure.id,
+                }}
               />
 
               <p style={{ margin: 0, fontSize: 10, color: '#9ca3af', textAlign: 'center', paddingTop: 8 }}>

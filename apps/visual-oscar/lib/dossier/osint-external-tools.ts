@@ -319,12 +319,25 @@ export function isEligiblePEP(subject: {
   cargo?: string | null
   partido?: string | null
   tipo?: string | null
+  organizacion?: string | null
+  afiliacion?: string | null
 }): boolean {
-  // Tiene cargo + partido (político)
+  // Tiene cargo + partido (político ES)
   if (subject.cargo && subject.partido) return true
-  // O type explícitamente PEP-like
+  // O cargo + afiliación política
+  if (subject.cargo && subject.afiliacion) return true
+  // O type explícitamente PEP-like (mapeo a categorías Politeia + estándar internacional)
   const t = (subject.tipo || '').toLowerCase()
-  if (['politician', 'pep', 'judge', 'executive', 'journalist'].some((x) => t.includes(x))) return true
+  const PEP_TYPES = [
+    'politician', 'politico', 'pep',
+    'judge', 'judicial',
+    'executive', 'empresario',
+    'journalist', 'periodista', 'mediatico',
+    'lobbista', 'consultor',
+    'institucional', 'sindical', 'patronal',
+    'fondo',  // fondo de inversión
+  ]
+  if (PEP_TYPES.some((x) => t.includes(x))) return true
   return false
 }
 
