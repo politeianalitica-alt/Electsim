@@ -34,6 +34,8 @@ import { GeoConvergenceAlerts } from '@/components/geopolitica/GeoConvergenceAle
 import { GeoDataHealth } from '@/components/geopolitica/GeoDataHealth'
 import { GeoSpainWatchlist } from '@/components/geopolitica/GeoSpainWatchlist'
 import { GeoThemeClusters } from '@/components/geopolitica/GeoThemeClusters'
+// Sprint G14 FASE 4 · cobertura medios estatales (Sputnik/Xinhua/RT/TASS/CGTN/AlJazeera/PressTV/...)
+import { GeoStateMediaFeeds } from '@/components/geopolitica/GeoStateMediaFeeds'
 import { GeoGdeltSummary } from '@/components/geopolitica/GeoGdeltSummary'
 import { GeoTvBroadcast } from '@/components/geopolitica/GeoTvBroadcast'
 
@@ -925,6 +927,10 @@ export default function GeopoliticaPage() {
             {/* Sprint G10 · Theme clustering emergente sobre 6 RSS feeds (Gemini) */}
             <div style={{ marginBottom: 20 }}>
               <GeoThemeClusters />
+            </div>
+            {/* Sprint G14 FASE 4 · medios estatales · framing oficial régimen autoritario */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoStateMediaFeeds />
             </div>
             {/* Sprint G12 · TV broadcast narrative tracking (GDELT TV API) */}
             <div style={{ marginBottom: 20 }}>
