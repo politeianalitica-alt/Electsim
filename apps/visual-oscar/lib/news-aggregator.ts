@@ -10,6 +10,9 @@
 
 import mediosData from '@/data/medios.json'
 import mediosEuropeosData from '@/data/medios-europeos.json'
+// Sprint G15 FASE A5 · overlay curado con provincia/municipio/scope_level
+// para los medios provinciales+locales más obviables por nombre.
+import mediosLocalesOverlay from '@/data/medios-locales.json'
 import { fetchRSS, type RSSItem } from './rss'
 
 export interface CatalogMedio {
@@ -25,11 +28,50 @@ export interface CatalogMedio {
   rss: string | null
   web: string
   color?: string
+  // Sprint G15 FASE A5 · campos opcionales del overlay local
+  provincia?: string | null
+  municipio?: string | null
+  /**
+   * Granularidad geográfica del medio · derivado automáticamente del ambito
+   * si no viene en el overlay. Valores: nacional · autonomico · provincial · local · europeo.
+   */
+  scope_level?: 'nacional' | 'autonomico' | 'provincial' | 'local' | 'europeo'
+  /**
+   * Estado del feed RSS · default 'unknown' hasta que un health-check lo etiquete.
+   */
+  rss_status?: 'ok' | 'missing' | 'failing' | 'unknown'
+}
+
+// Sprint G15 FASE A5 · deriva scope_level automáticamente de ambito si el
+// overlay no lo especifica · regla simple y conservadora.
+function deriveScopeLevel(amb: string | null | undefined, ccaa: string | null | undefined): CatalogMedio['scope_level'] {
+  const a = (amb || '').toLowerCase()
+  if (a.includes('european') || a.includes('europeo')) return 'europeo'
+  if (a.includes('local')) return 'local'
+  if (a.includes('provincial')) return 'provincial'
+  if (a.includes('autonomic') || a.includes('regional') || ccaa) return 'autonomico'
+  return 'nacional'
+}
+
+// Sprint G15 FASE A5 · aplica overlay + derivaciones a cada medio del raw catalog.
+type LocalesOverlayEntry = { provincia?: string; municipio?: string; scope_level?: CatalogMedio['scope_level'] }
+const OVERLAYS: Record<string, LocalesOverlayEntry> =
+  (mediosLocalesOverlay as { overlays?: Record<string, LocalesOverlayEntry> }).overlays || {}
+
+function enrichMedio(m: CatalogMedio): CatalogMedio {
+  const ov = OVERLAYS[m.id]
+  return {
+    ...m,
+    provincia: m.provincia ?? ov?.provincia ?? null,
+    municipio: m.municipio ?? ov?.municipio ?? null,
+    scope_level: m.scope_level ?? ov?.scope_level ?? deriveScopeLevel(m.ambito, m.ccaa),
+    rss_status: m.rss_status ?? (m.rss ? 'unknown' : 'missing'),
+  }
 }
 
 const CATALOG: CatalogMedio[] = [
-  ...(mediosData as { medios: CatalogMedio[] }).medios,
-  ...(mediosEuropeosData as { medios: CatalogMedio[] }).medios,
+  ...(mediosData as { medios: CatalogMedio[] }).medios.map(enrichMedio),
+  ...(mediosEuropeosData as { medios: CatalogMedio[] }).medios.map(enrichMedio),
 ]
 
 export interface AggregatedArticle {

@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "schema": "medios-locales-v1",
+    "purpose": "Overlay opcional que enriquece medios.json con provincia/municipio/scope_level. Sin tocar el catálogo principal del socio. Curado manual de los obviables por nombre.",
+    "updated_at": "2026-05-26",
+    "sources": "Inferido del nombre del medio + conocimiento editorial común. NO es ground truth; medios con varias ediciones provinciales (ABC, La Razón) no se desambiguan aquí."
+  },
+  "overlays": {
+    "diario-sevilla":   { "provincia": "Sevilla", "municipio": "Sevilla", "scope_level": "provincial" },
+    "abc-sevilla":      { "provincia": "Sevilla", "municipio": "Sevilla", "scope_level": "provincial" },
+    "ideal-granada":    { "provincia": "Granada", "municipio": "Granada", "scope_level": "provincial" },
+    "diario-cordoba":   { "provincia": "Córdoba", "municipio": "Córdoba", "scope_level": "provincial" },
+    "diario-cadiz":     { "provincia": "Cádiz", "municipio": "Cádiz", "scope_level": "provincial" },
+    "sur":              { "provincia": "Málaga", "municipio": "Málaga", "scope_level": "provincial" },
+    "huelva-info":      { "provincia": "Huelva", "municipio": "Huelva", "scope_level": "provincial" },
+    "voz-almeria":      { "provincia": "Almería", "municipio": "Almería", "scope_level": "provincial" },
+    "europa-sur":       { "provincia": "Cádiz", "municipio": "Algeciras", "scope_level": "local" },
+    "el-9-nou":         { "provincia": "Barcelona", "municipio": "Vic", "scope_level": "local" },
+    "betevé":           { "provincia": "Barcelona", "municipio": "Barcelona", "scope_level": "local" },
+
+    "el-correo":        { "provincia": "Bizkaia", "municipio": "Bilbao", "scope_level": "provincial" },
+    "el-diario-vasco":  { "provincia": "Gipuzkoa", "municipio": "San Sebastián", "scope_level": "provincial" },
+    "diario-vasco":     { "provincia": "Gipuzkoa", "municipio": "San Sebastián", "scope_level": "provincial" },
+    "noticias-alava":   { "provincia": "Álava", "municipio": "Vitoria-Gasteiz", "scope_level": "provincial" },
+    "deia":             { "provincia": "Bizkaia", "municipio": "Bilbao", "scope_level": "provincial" },
+    "noticias-gipuzkoa":{ "provincia": "Gipuzkoa", "municipio": "San Sebastián", "scope_level": "provincial" },
+
+    "la-voz-de-galicia":{ "provincia": "A Coruña", "municipio": "A Coruña", "scope_level": "autonomico" },
+    "el-correo-gallego":{ "provincia": "A Coruña", "municipio": "Santiago de Compostela", "scope_level": "provincial" },
+    "faro-de-vigo":     { "provincia": "Pontevedra", "municipio": "Vigo", "scope_level": "provincial" },
+    "atlantico-diario": { "provincia": "Pontevedra", "municipio": "Vigo", "scope_level": "provincial" },
+    "diario-pontevedra":{ "provincia": "Pontevedra", "municipio": "Pontevedra", "scope_level": "provincial" },
+    "el-progreso":      { "provincia": "Lugo", "municipio": "Lugo", "scope_level": "provincial" },
+    "la-region":        { "provincia": "Ourense", "municipio": "Ourense", "scope_level": "provincial" },
+
+    "diario-leon":      { "provincia": "León", "municipio": "León", "scope_level": "provincial" },
+    "el-norte-castilla":{ "provincia": "Valladolid", "municipio": "Valladolid", "scope_level": "autonomico" },
+    "diario-burgos":    { "provincia": "Burgos", "municipio": "Burgos", "scope_level": "provincial" },
+    "diario-palentino": { "provincia": "Palencia", "municipio": "Palencia", "scope_level": "provincial" },
+    "norte-de-castilla":{ "provincia": "Valladolid", "municipio": "Valladolid", "scope_level": "autonomico" },
+    "la-tribuna-toledo":{ "provincia": "Toledo", "municipio": "Toledo", "scope_level": "provincial" },
+    "la-tribuna-albacete":{"provincia": "Albacete", "municipio": "Albacete", "scope_level": "provincial" },
+    "lanza-digital":    { "provincia": "Ciudad Real", "municipio": "Ciudad Real", "scope_level": "provincial" },
+
+    "diario-mallorca":  { "provincia": "Illes Balears", "municipio": "Palma", "scope_level": "autonomico" },
+    "ultima-hora":      { "provincia": "Illes Balears", "municipio": "Palma", "scope_level": "autonomico" },
+    "menorca":          { "provincia": "Illes Balears", "municipio": "Maó", "scope_level": "provincial" },
+
+    "el-dia":           { "provincia": "Santa Cruz de Tenerife", "municipio": "Santa Cruz de Tenerife", "scope_level": "provincial" },
+    "la-provincia":     { "provincia": "Las Palmas", "municipio": "Las Palmas de Gran Canaria", "scope_level": "provincial" },
+    "canarias7":        { "provincia": "Las Palmas", "municipio": "Las Palmas de Gran Canaria", "scope_level": "autonomico" },
+
+    "diario-noticias-navarra":{ "provincia": "Navarra", "municipio": "Pamplona", "scope_level": "autonomico" },
+    "diario-de-navarra":{ "provincia": "Navarra", "municipio": "Pamplona", "scope_level": "autonomico" },
+
+    "la-nueva-espana":  { "provincia": "Asturias", "municipio": "Oviedo", "scope_level": "autonomico" },
+    "el-comercio":      { "provincia": "Asturias", "municipio": "Gijón", "scope_level": "autonomico" },
+
+    "la-verdad":        { "provincia": "Murcia", "municipio": "Murcia", "scope_level": "autonomico" },
+    "la-opinion-murcia":{ "provincia": "Murcia", "municipio": "Murcia", "scope_level": "autonomico" },
+
+    "hoy":              { "provincia": "Badajoz", "municipio": "Badajoz", "scope_level": "autonomico" },
+    "el-periodico-extremadura":{ "provincia": "Cáceres", "municipio": "Cáceres", "scope_level": "autonomico" },
+
+    "diario-rioja":     { "provincia": "La Rioja", "municipio": "Logroño", "scope_level": "autonomico" },
+    "la-rioja":         { "provincia": "La Rioja", "municipio": "Logroño", "scope_level": "autonomico" },
+
+    "el-diario-montanes":{"provincia": "Cantabria", "municipio": "Santander", "scope_level": "autonomico" },
+
+    "ceuta-tv":         { "provincia": "Ceuta", "municipio": "Ceuta", "scope_level": "autonomico" },
+    "el-faro-melilla":  { "provincia": "Melilla", "municipio": "Melilla", "scope_level": "autonomico" }
+  }
+}
