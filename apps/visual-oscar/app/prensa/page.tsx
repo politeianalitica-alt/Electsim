@@ -48,7 +48,8 @@ import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
 import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
 import { BusquedaPuntual } from './_components/BusquedaPuntual'
 import { ViralidadDifusion } from './_components/ViralidadDifusion'
-import { InformesAlertas } from './_components/InformesAlertas'
+// InformesAlertas ya no se importa aquí · vive embebido dentro de MapaMediosView.
+import { MapaMediosView } from './_components/MapaMediosView'
 // DesinformacionLive ya no se importa aquí · ahora vive embebido en ObservatorioInformacionView.
 import { ObservatorioInformacionView } from './_components/ObservatorioInformacionView'
 import { GdeltGlobalPanel } from './_components/GdeltGlobalPanel'
@@ -610,14 +611,20 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 7 · Mapa de medios · Sprint G15 FASE B · renombrado de 'informes'.
-                  Render actual sigue siendo InformesAlertas hasta que Fase H entregue MapaMedios.tsx
-                  con mapa España + catálogo filtrable + concentración + ficha de medio. */}
+              {/* Tab 7 · Mapa de medios · Sprint G15 FASE H · MapaMediosView reemplaza
+                  el render legacy (sólo InformesAlertas). Ahora la tab muestra:
+                    - Sumario panorama mediático (6 KPIs)
+                    - Concentración por grupo (top 12 grupos empresariales)
+                    - Distribución ideológica (5 buckets)
+                    - Distribución territorial (scope_level)
+                    - Catálogo filtrable con ficha lateral por medio
+                    - Monitores guardados (InformesAlertas conservado embebido al final)
+                  Alertas por aceleración + followups se conservan arriba como contexto. */}
               {safeActiveTab === 'mapa-medios' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
-                    question="¿Cómo exportar o monitorizar esta inteligencia?"
-                    answer="Búsquedas guardadas · monitores · dossiers MD/HTML con metodología y advertencias · plantillas alertas · alertas por aceleración de narrativas (viralidad transversal)."
+                    question="¿Cómo es el panorama mediático y cómo monitorizar esta inteligencia?"
+                    answer="Catálogo de medios curado + concentración por grupo empresarial + distribución ideológica/territorial + ficha por medio. Más monitores guardados, alertas por aceleración de narrativas (viralidad transversal) y followups sugeridos."
                   />
                   <LecturaPoliteiaPanel
                     tabId="informes"
@@ -636,7 +643,7 @@ export default function PrensaPage() {
                       onRun={(q) => router.push(`/prensa?tab=busqueda&q=${encodeURIComponent(q)}`)}
                     />
                   )}
-                  <InformesAlertas />
+                  <MapaMediosView />
                 </div>
               )}
             </>
