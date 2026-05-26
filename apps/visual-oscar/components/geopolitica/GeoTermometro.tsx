@@ -17,6 +17,7 @@
  */
 import { useEffect, useState } from 'react'
 import { GeoSourceBadgeFromMeta } from './GeoSourceBadge'
+import { GeoAuditDrawer, buildAuditFromRiskIndex } from './GeoAuditDrawer'
 import type { GeoEndpointMode, GeoLayer } from '@/lib/geopolitica/geo-methodology'
 
 interface RiskIndexResponse {
@@ -66,6 +67,7 @@ export function GeoTermometro() {
   const [data, setData] = useState<RiskIndexResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState<string | null>(null)
+  const [auditOpen, setAuditOpen] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -113,6 +115,17 @@ export function GeoTermometro() {
             </p>
             {/* Sprint G13 FASE 9 · badge del modo de fuente del endpoint */}
             {data._geo_meta && <GeoSourceBadgeFromMeta meta={data._geo_meta} compact />}
+            {/* Sprint G13 FASE 8 · botón auditar */}
+            <button
+              onClick={() => setAuditOpen(true)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px',
+                background: 'transparent', color: '#94a3b8', border: '1px solid #475569',
+                borderRadius: 999, fontSize: 9, fontWeight: 700, letterSpacing: 0.4,
+                textTransform: 'uppercase', cursor: 'pointer', fontFamily: 'inherit',
+              }}
+              title="Abrir auditoría de cómo se calculó este score"
+            >◇ Auditar</button>
           </div>
           <h2 style={{ margin: '4px 0 0', fontSize: 17, fontWeight: 700, color: '#f1f5f9' }}>
             Score 0-100 · señales agregadas auditables
@@ -223,6 +236,12 @@ export function GeoTermometro() {
           {data.methodology}
         </p>
       </div>
+      {/* Sprint G13 FASE 8 · audit drawer transversal */}
+      <GeoAuditDrawer
+        open={auditOpen}
+        onClose={() => setAuditOpen(false)}
+        payload={data ? buildAuditFromRiskIndex(data) : null}
+      />
     </section>
   )
 }

@@ -10,6 +10,7 @@
  */
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { GeoAuditDrawer, buildAuditFromWatchlist, type GeoAuditPayload } from './GeoAuditDrawer'
 
 interface Signal { source: string; level: 'HIGH' | 'CRITICAL'; detail: string }
 interface WatchEntry {
@@ -71,6 +72,7 @@ export function GeoSpainWatchlist() {
   const router = useRouter()
   const [data, setData] = useState<Resp | null>(null)
   const [loading, setLoading] = useState(true)
+  const [auditPayload, setAuditPayload] = useState<GeoAuditPayload | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -227,6 +229,23 @@ export function GeoSpainWatchlist() {
                         ↗ Validar con: <strong style={{ color: '#475569' }}>{w.recommended_sources_to_check.join(' · ')}</strong>
                       </p>
                     )}
+                    {/* Sprint G13 FASE 8 · botón auditar (no navega · abre drawer) */}
+                    <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setAuditPayload(buildAuditFromWatchlist(w))
+                        }}
+                        role="button"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', padding: '2px 8px',
+                          background: 'transparent', color: '#9a3412', border: '1px solid #fed7aa',
+                          borderRadius: 999, fontSize: 9, fontWeight: 700, letterSpacing: 0.4,
+                          textTransform: 'uppercase', cursor: 'pointer',
+                        }}
+                        title="Auditar este país · ver fuentes, confianza, limitaciones"
+                      >◇ Auditar</span>
+                    </div>
                   </button>
                 )
               })}
@@ -260,6 +279,13 @@ export function GeoSpainWatchlist() {
       {data && !data.ok && (
         <p style={{ fontSize: 11, color: '#dc2626' }}>Watchlist no disponible · {data.error}</p>
       )}
+
+      {/* Sprint G13 FASE 8 · audit drawer compartido */}
+      <GeoAuditDrawer
+        open={!!auditPayload}
+        onClose={() => setAuditPayload(null)}
+        payload={auditPayload}
+      />
     </section>
   )
 }
