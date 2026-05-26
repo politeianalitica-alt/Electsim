@@ -51,7 +51,7 @@ export default function DosieresPage() {
   }, [router])
 
   const { data, loading, refresh, source, updatedAt } = useApi<DossierResumen[] | { error?: string }>(
-    '/api/dosieres?limit=1000',
+    '/api/dosieres?limit=10000',
     { refreshInterval: 60_000 },
   )
 
