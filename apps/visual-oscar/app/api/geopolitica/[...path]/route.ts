@@ -26,6 +26,7 @@ import { NextResponse } from 'next/server'
 import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import { findAnalogs, HISTORICAL_CRISES, type CrisisType } from '@/lib/geopolitica/historical-crises'
 import { lookupMediaBias, regimeTagFromPressFreedom } from '@/lib/geopolitica/media-bias-registry'
+import { cleanText as cleanEventText } from '@/lib/geopolitica/event-classifier'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -439,7 +440,30 @@ async function buildCascadingEvents(limit: number, req: Request) {
     jsonFetch(`${base}/api/geopolitica/alertas`),
     jsonFetch(`${base}/api/acled/spain-context`),
   ])
-  const events: Array<{ id: string; type: string; severity: string; title: string; ts: string; source: string; url?: string; tags?: string[] }> = []
+  // Sprint G14 FASE 1+2 cont · enriquecedor server-side · cleanText titulares
+  // + lookupMediaBias por URL → entrega de eventos con metadata régimen ya
+  // calculada, sin async fetch desde el cliente.
+  interface EnrichedEvent {
+    id: string; type: string; severity: string; title: string; ts: string;
+    source: string; url?: string; tags?: string[]
+    media_bias?: {
+      country: string; bias: string; press_freedom: string;
+      regime: 'free' | 'hybrid' | 'authoritarian' | 'unknown'; factual: string
+    } | null
+  }
+  function enrichEventBias(url: string | undefined): EnrichedEvent['media_bias'] {
+    if (!url) return null
+    const b = lookupMediaBias(url)
+    if (!b) return null
+    return {
+      country: b.country,
+      bias: b.bias,
+      press_freedom: b.press_freedom,
+      regime: regimeTagFromPressFreedom(b.press_freedom),
+      factual: b.factual_reporting,
+    }
+  }
+  const events: EnrichedEvent[] = []
   // OSINT items
   if (Array.isArray(osint?.data)) {
     for (const it of osint.data.slice(0, 30)) {
@@ -447,11 +471,12 @@ async function buildCascadingEvents(limit: number, req: Request) {
         id: `osint-${it.id}`,
         type: 'osint',
         severity: it.urgencia >= 4 ? 'critical' : it.urgencia >= 3 ? 'high' : it.urgencia >= 2 ? 'medium' : 'low',
-        title: it.titulo,
+        title: cleanEventText(it.titulo),
         ts: it.fecha || new Date().toISOString(),
         source: it.fuente,
         url: it.url,
         tags: it.categoria ? [it.categoria] : [],
+        media_bias: enrichEventBias(it.url),
       })
     }
   }
@@ -462,25 +487,27 @@ async function buildCascadingEvents(limit: number, req: Request) {
         id: `alert-${a.id}`,
         type: 'alert',
         severity: a.nivel?.toLowerCase() || 'medium',
-        title: a.titulo,
+        title: cleanEventText(a.titulo),
         ts: a.fecha || new Date().toISOString(),
         source: a.fuente,
         url: a.url,
         tags: a.paises || [],
+        media_bias: enrichEventBias(a.url),
       })
     }
   }
-  // ACLED events
+  // ACLED events (no tienen URL, pero los pasamos por cleanText por consistencia)
   if (Array.isArray(acled?.data)) {
     for (const e of acled.data.slice(0, 20)) {
       events.push({
         id: `acled-${e.event_id_cnty || e.event_id || Math.random().toString(36).slice(2)}`,
         type: 'acled',
         severity: (e.fatalities || 0) > 10 ? 'critical' : (e.fatalities || 0) > 0 ? 'high' : 'medium',
-        title: `${e.event_type || 'Event'} · ${e.country}`,
+        title: cleanEventText(`${e.event_type || 'Event'} · ${e.country}`),
         ts: e.event_date || new Date().toISOString(),
         source: 'ACLED',
         tags: [e.country, e.event_type].filter(Boolean),
+        media_bias: null,  // ACLED es dataset directo, no proviene de medio
       })
     }
   }

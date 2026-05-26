@@ -17,7 +17,17 @@
  * OSINT tracker + Crisis Group CrisisWatch monthly digest.
  */
 import { useEffect, useState } from 'react'
-import { MediaBiasBadgeAsync } from './MediaBiasBadge'
+import { MediaBiasBadge } from './MediaBiasBadge'
+import { type BiasBand, type PressFreedomBand, type FactualBand, type MediaBiasEntry } from '@/lib/geopolitica/media-bias-registry'
+
+// Sprint G14 FASE 1+2 cont · server-side enrichment de media_bias
+interface EventMediaBias {
+  country: string
+  bias: BiasBand
+  press_freedom: PressFreedomBand
+  regime: 'free' | 'hybrid' | 'authoritarian' | 'unknown'
+  factual: FactualBand
+}
 
 interface EventItem {
   id: string
@@ -28,6 +38,26 @@ interface EventItem {
   source: string
   url?: string
   tags?: string[]
+  // Sprint G14 · server-side enrichment via MBFC. null si dominio no en registry.
+  media_bias?: EventMediaBias | null
+}
+
+/** Construye MediaBiasEntry mínimo desde el payload server-side · evita fetch async */
+function entryFromServer(url: string | undefined, mb: EventMediaBias | null | undefined): MediaBiasEntry | null {
+  if (!mb || !url) return null
+  let domain = ''
+  try { domain = new URL(url).hostname.replace(/^www\./, '') } catch { domain = url }
+  return {
+    domain,
+    country: mb.country,
+    bias: mb.bias,
+    factual_reporting: mb.factual,
+    press_freedom: mb.press_freedom,
+    media_type: 'unknown',
+    credibility: 'unknown',
+    source: 'mbfc',
+    methodology_note: 'MBFC · heurística periodística agregada. Útil como pista, no como veredicto.',
+  }
 }
 
 const SEVERITY_COLOR: Record<string, { bg: string; fg: string; track: string }> = {
@@ -172,13 +202,19 @@ export function GeoEventStream({ limit = 30 }: { limit?: number }) {
                       {e.title}
                     </p>
                   )}
-                  {/* Sprint G14 FASE 2 · MBFC bias badge si el dominio está en MBFC.
-                      Silencio informativo si miss (no inventa). */}
-                  {e.url && (
-                    <div style={{ marginTop: 4 }}>
-                      <MediaBiasBadgeAsync domain={e.url} size="sm" showCountry />
-                    </div>
-                  )}
+                  {/* Sprint G14 FASE 1+2 cont · MBFC server-side preferente · async fallback */}
+                  {(() => {
+                    const entry = entryFromServer(e.url, e.media_bias)
+                    if (entry) {
+                      // Render síncrono · no fetch extra
+                      return (
+                        <div style={{ marginTop: 4 }}>
+                          <MediaBiasBadge entry={entry} size="sm" showCountry />
+                        </div>
+                      )
+                    }
+                    return null
+                  })()}
                   {e.tags && e.tags.length > 0 && (
                     <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                       {e.tags.slice(0, 4).map((t) => (
