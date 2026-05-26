@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
@@ -8,6 +9,7 @@ import { useApi } from '@/lib/useApi'
 import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
 import EmptyState from '@/components/EmptyState'
+import { findDossier } from '@/lib/dosieres-link'
 
 type ActorView = 'mapa' | 'grafo' | 'dossier'
 
@@ -57,6 +59,7 @@ export default function MapaActoresPage() {
   }, [personas])
   const focused = pinned ?? hovered
   const focusedActor = focused ? ACTORES.find(a => a.id === focused) : null
+  const focusedDossier = useMemo(() => focusedActor ? findDossier(focusedActor.nombre) : null, [focusedActor])
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -97,6 +100,17 @@ export default function MapaActoresPage() {
  <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
               Cuadrante ideológico · busca por nombre, partido o cargo · pulsa cualquier burbuja para ver el detalle
  </p>
+ <Link href="/dosieres" style={{
+              display:'inline-flex', alignItems:'center', gap:8,
+              marginTop:14, padding:'9px 18px', borderRadius:999,
+              background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.25)',
+              color:'#fff', textDecoration:'none', fontSize:12, fontWeight:600, letterSpacing:'0.02em',
+              transition:'background 150ms',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.20)' }}
+              onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.12)' }}>
+              ◐ Ver dosieres de personas (1.641 fichas · Congreso + Senado + 14 autonómicos) →
+ </Link>
  </div>
  <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6 }}>
  <MiniK label="Gob." n={counts['gobierno']||0}/>
@@ -320,6 +334,33 @@ export default function MapaActoresPage() {
  <Coord label="Eje V" value={focusedActor.ejeY} pos={focusedActor.ejeY < 0 ? 'DESCENT.' : focusedActor.ejeY > 0 ? 'CENT.' : '—'} color={focusedActor.color}/>
  </div>
 
+                {/* Link al dossier completo · si existe en los 363 del informe */}
+                {focusedDossier && (
+ <Link
+                    href={`/dosieres/${focusedDossier.slug}`}
+                    style={{
+                      display:'flex', alignItems:'center', justifyContent:'space-between',
+                      gap:8, padding:'10px 13px', borderRadius:10,
+                      background:`linear-gradient(135deg, ${focusedActor.color}18, ${focusedActor.color}08)`,
+                      border:`1px solid ${focusedActor.color}40`,
+                      textDecoration:'none', color:'inherit', marginBottom:14,
+                      transition:'transform 150ms, box-shadow 150ms',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform='translateY(-1px)'; e.currentTarget.style.boxShadow=`0 4px 12px ${focusedActor.color}30` }}
+                    onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
+                  >
+ <div>
+ <div style={{ fontSize:9.5, color:focusedActor.color, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                        Ficha completa
+ </div>
+ <div style={{ fontSize:11.5, color:'#3a3a3d', marginTop:2 }}>
+                        Perfil · {focusedDossier.n_apartados} apartado{focusedDossier.n_apartados !== 1 ? 's' : ''} · relaciones · patrimonio
+ </div>
+ </div>
+ <span style={{ fontSize:18, color:focusedActor.color, fontWeight:700 }}>→</span>
+ </Link>
+                )}
+
                 {/* Fortalezas */}
  <div style={{ marginBottom:10 }}>
  <div style={{ fontSize:10, color:'#16A34A', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Fortalezas</div>
@@ -526,6 +567,7 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
   const sentimiento = live?.sentimiento_actual ?? (a?.seg.tono ?? 0) / 50
   const sentimientoTier = sentimiento > 0.1 ? 'mejorando' : sentimiento < -0.1 ? 'empeorando' : 'estable'
   const sentimientoColor = sentimiento > 0.1 ? '#2d8a39' : sentimiento < -0.1 ? '#c42c2c' : '#6e6e73'
+  const aDossier = a ? findDossier(a.nombre) : null
 
   return (
  <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16 }}>
@@ -535,14 +577,25 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
  <div style={{ maxHeight: 600, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
           {filtered.slice(0, 80).map(x => {
             const active = x.id === selectedId
+            const hasFicha = !!findDossier(x.nombre)
             return (
  <button key={x.id} onClick={() => onSelect(x.id)} style={{
                 textAlign: 'left', padding: '8px 12px', borderRadius: 10,
                 border: '1px solid ' + (active ? x.color : '#f0f0f3'),
                 background: active ? `${x.color}10` : '#fff',
                 cursor: 'pointer', fontFamily: 'inherit',
+                position:'relative',
               }}>
- <div style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f' }}>{x.nombre}</div>
+ <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+ <div style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', flex:1 }}>{x.nombre}</div>
+                  {hasFicha && (
+ <span title="Ficha completa disponible" style={{
+                      fontSize:9, padding:'1px 6px', borderRadius:999,
+                      background:`${x.color}18`, color:x.color, fontWeight:800,
+                      letterSpacing:'0.04em',
+                    }}>FICHA</span>
+                  )}
+ </div>
  <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{x.partido} · {x.cargo}</div>
  </button>
             )
@@ -566,10 +619,20 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
  <span style={{ fontSize: 12, color: '#6e6e73' }}>{a.cargo}</span>
  </div>
  </div>
+ <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+            {aDossier && (
+ <Link href={`/dosieres/${aDossier.slug}`} style={{
+                padding: '8px 14px', borderRadius: 999,
+                background: a.color, color: '#fff', textDecoration:'none',
+                fontSize: 11.5, fontWeight: 700, fontFamily: 'inherit',
+                letterSpacing:'0.02em',
+              }}>◐ Ficha completa con relaciones y patrimonio →</Link>
+            )}
  <button onClick={onOpenGraph} style={{
-            padding: '8px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
-            fontSize: 11.5, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
-          }}>Ver grafo completo →</button>
+              padding: '8px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
+              fontSize: 11.5, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
+            }}>Ver grafo completo →</button>
+ </div>
  </div>
 
         {/* Scores row */}

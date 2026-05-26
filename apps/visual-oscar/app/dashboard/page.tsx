@@ -139,6 +139,7 @@ const TRENDING_FIGURES = [
 // ── Module grid (single unified section) ──────────────────────────────────────
 
 const MODULES = [
+  { href: '/dosieres',            label: 'Dosieres de personas',  sub: '1.641 fichas · Congreso + Senado + 14 parlamentos autonómicos · relaciones · patrimonio', accent: '#7C2D12', tag: 'NUEVO' },
   { href: '/coaliciones',         label: 'Hub electoral',         sub: '8 tabs · Adversario · Voto blando',    accent: '#5B21B6', tag: 'NUEVO' },
   { href: '/mapa-actores',        label: 'Mapa de actores',       sub: 'Grafo · Dossier · Cuadrante ideológico', accent: '#1F4E8C', tag: 'EXPANDIDO' },
   { href: '/riesgo',              label: 'Índice de Riesgo Político',             sub: 'Señales · simulador · escenarios',     accent: '#c42c2c', tag: 'EXPANDIDO' },
@@ -223,6 +224,49 @@ export default function DashboardPage() {
            (formato nota o informe completo) o escucharlo en audio (TTS).
         */}
  <BriefingExports/>
+
+        {/* ═══════════════ BANNER · Dosieres de personas ═══════════════ */}
+ <section style={{
+          background: 'linear-gradient(135deg, #1F4E8C 0%, #0F2A4F 100%)',
+          borderRadius: 16, padding: '20px 24px', marginBottom: 16,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: 16, flexWrap: 'wrap',
+          color: '#fff',
+        }}>
+ <div style={{ flex: 1, minWidth: 0 }}>
+ <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+ <span style={{
+                fontSize: 9.5, fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase',
+                padding: '3px 9px', borderRadius: 999,
+                background: 'rgba(255,255,255,0.18)', color: '#fff',
+              }}>NUEVO</span>
+ <span style={{ fontSize: 10, opacity: 0.7, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+                Inteligencia política · personas
+ </span>
+ </div>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.018em', margin: '0 0 4px' }}>
+              1.641 dosieres · Congreso + Senado + 14 parlamentos autonómicos
+ </h2>
+ <p style={{ fontSize: 13, margin: 0, opacity: 0.85, lineHeight: 1.5 }}>
+              Gobierno, oposición, regionalistas y todos los grupos parlamentarios. Cada ficha trae perfil ampliado, relaciones políticas valoradas (+10 / −10) y patrimonio declarado.
+ </p>
+ </div>
+ <a
+            href="/dosieres"
+            style={{
+              padding: '12px 22px', borderRadius: 999,
+              background: '#fff', color: '#1F4E8C',
+              fontSize: 13, fontWeight: 700, letterSpacing: '0.02em',
+              textDecoration: 'none', flexShrink: 0,
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              transition: 'transform 150ms, box-shadow 150ms',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.2)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
+          >
+            Abrir dosieres →
+ </a>
+ </section>
 
         {/* ═══════════════ 3 · PANEL EJECUTIVO · KPIs ═══════════════
            Bloque destacado · KPIs principales + risk + macro.

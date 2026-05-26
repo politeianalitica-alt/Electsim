@@ -51,7 +51,7 @@ export default function DosieresPage() {
   }, [router])
 
   const { data, loading, refresh, source, updatedAt } = useApi<DossierResumen[] | { error?: string }>(
-    '/api/dosieres',
+    '/api/dosieres?limit=1000',
     { refreshInterval: 60_000 },
   )
 
@@ -74,19 +74,23 @@ export default function DosieresPage() {
  <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
  <AppHeader />
  <main style={{ maxWidth: 1400, margin: '0 auto', padding: '24px 28px 64px' }}>
-        {/* Header */}
+        {/* Header simple · número grande prominente */}
  <header style={{ marginBottom: 22 }}>
  <span style={{ fontSize: 10, color: '#86868b', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
-            Inteligencia · Dosieres de personas
+            Inteligencia política · personas
  </span>
- <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', margin: '4px 0 6px', color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 10 }}>
- <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
-            Dosieres
+ <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginTop: 4 }}>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 38, fontWeight: 700, letterSpacing: '-0.028em', margin: 0, color: '#1d1d1f' }}>
+              Dosieres
  </h1>
- <p style={{ fontSize: 13, color: '#6e6e73', margin: 0, maxWidth: 780, lineHeight: 1.5 }}>
-            Fichas estructuradas de personas políticas con apartados verificables:
-            identidad, trayectoria, posiciones, redes de contactos, declaraciones,
-            controversias y evidencia documental.
+ <span style={{
+              fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700,
+              color: '#1F4E8C', letterSpacing: '-0.02em',
+            }}>{dosieres.length}</span>
+ <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
+ </div>
+ <p style={{ fontSize: 14, color: '#6e6e73', margin: '8px 0 0', maxWidth: 720, lineHeight: 1.55 }}>
+            Fichas de personas políticas con perfil, relaciones valoradas (+10 / −10) y patrimonio declarado.
  </p>
  </header>
 
@@ -157,7 +161,7 @@ export default function DosieresPage() {
             secondaryAction={{ label: 'Ver actores en el mapa', href: '/mapa-actores' }}
           />
         ) : (
- <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
+ <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
             {filtered.map(d => {
               const partidoColor = d.partido ? (PARTIDO_COLOR[d.partido] ?? '#6e6e73') : '#6e6e73'
               const initial = (d.alias || d.nombre_completo).split(' ').map(s => s[0]).join('').slice(0,2).toUpperCase()
@@ -166,64 +170,76 @@ export default function DosieresPage() {
                   key={d.id}
                   href={`/dosieres/${d.slug}`}
                   style={{
-                    background: '#fff', borderRadius: 12,
-                    padding: '16px 18px', textDecoration: 'none', color: 'inherit',
-                    border: '1px solid #ECECEF', borderLeft: `3px solid ${partidoColor}`,
-                    display: 'flex', flexDirection: 'column', gap: 8,
+                    background: '#fff', borderRadius: 14,
+                    textDecoration: 'none', color: 'inherit',
+                    border: '1px solid #ECECEF',
+                    display: 'flex', flexDirection: 'column',
+                    overflow: 'hidden',
                     transition: 'box-shadow 150ms, transform 150ms',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = `0 8px 22px ${partidoColor}30`; e.currentTarget.style.transform = 'translateY(-2px)' }}
                   onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
                 >
- <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  {/* Cabecera con gradient de color de partido */}
+ <div style={{
+                    background: `linear-gradient(135deg, ${partidoColor} 0%, ${partidoColor}c0 100%)`,
+                    padding: '16px 16px 14px',
+                    display: 'flex', alignItems: 'center', gap: 12,
+                  }}>
                     {d.foto_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
  <img src={d.foto_url} alt={d.nombre_completo}
-                        style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                        style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '2px solid rgba(255,255,255,0.3)' }} />
                     ) : (
  <div style={{
-                        width: 56, height: 56, borderRadius: '50%',
-                        background: `${partidoColor}18`, color: partidoColor,
+                        width: 48, height: 48, borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.25)', color: '#fff',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18,
-                        flexShrink: 0,
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 17,
+                        flexShrink: 0, border: '2px solid rgba(255,255,255,0.3)',
                       }}>{initial}</div>
                     )}
  <div style={{ flex: 1, minWidth: 0 }}>
- <h3 style={{ fontSize: 15, fontWeight: 700, color: '#1d1d1f', margin: 0, letterSpacing: '-0.01em', lineHeight: 1.25 }}>
-                        {d.nombre_completo}
- </h3>
-                      {d.cargo_actual && (
- <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '2px 0 0', lineHeight: 1.3 }}>
-                          {d.cargo_actual}
- </p>
-                      )}
                       {d.partido && (
  <span style={{
-                          display: 'inline-block', marginTop: 6,
-                          fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 999,
-                          background: `${partidoColor}18`, color: partidoColor,
-                          letterSpacing: '0.06em', textTransform: 'uppercase',
+                          display: 'inline-block', fontSize: 9, fontWeight: 800,
+                          letterSpacing: '0.1em', textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.85)',
                         }}>{d.partido}</span>
                       )}
+ <h3 style={{
+                        fontSize: 15, fontWeight: 700, color: '#fff', margin: '1px 0 0',
+                        letterSpacing: '-0.012em', lineHeight: 1.2,
+                        overflow: 'hidden', display: '-webkit-box',
+                        WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                      } as React.CSSProperties}>
+                        {d.nombre_completo}
+ </h3>
  </div>
  </div>
 
-                  {d.bio_corta && (
+                  {/* Cuerpo */}
+ <div style={{ padding: '12px 16px 14px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {d.cargo_actual && (
  <p style={{
-                      fontSize: 12, color: '#444', lineHeight: 1.5, margin: 0,
-                      display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                    } as React.CSSProperties}>
-                      {d.bio_corta}
+                        fontSize: 11.5, color: '#525258', margin: 0, lineHeight: 1.45,
+                        display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      } as React.CSSProperties}>
+                        {d.cargo_actual}
  </p>
-                  )}
-
- <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 6, borderTop: '1px solid #F5F5F7' }}>
- <span style={{ fontSize: 10.5, color: '#86868b', fontWeight: 500 }}>
-                      {d.n_apartados} {d.n_apartados === 1 ? 'apartado' : 'apartados'}
+                    )}
+ <div style={{
+                      marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      paddingTop: 8, borderTop: '1px solid #F5F5F7',
+                    }}>
+ <span style={{ fontSize: 10, color: '#86868b', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        {d.n_apartados} {d.n_apartados === 1 ? 'apartado' : 'apartados'}
  </span>
- <span style={{ fontSize: 12, color: '#0071e3', fontWeight: 600 }}>Abrir →</span>
+ <span style={{
+                        fontSize: 11, color: partidoColor, fontWeight: 700, letterSpacing: '0.04em',
+                      }}>VER FICHA →</span>
+ </div>
  </div>
  </Link>
               )

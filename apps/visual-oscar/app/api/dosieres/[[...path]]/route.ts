@@ -28,7 +28,9 @@ function applyFilters(items: typeof DOSIERES_RESUMEN, search: URLSearchParams) {
   let result = items
   const partido = search.get('partido')
   const q = search.get('q')
-  const limit = parseInt(search.get('limit') ?? '100', 10)
+  // Default ALTO · queremos ver todos los 400 dosieres por defecto en la
+  // página de lista. El cliente puede pedir un límite menor con ?limit=N.
+  const limit = parseInt(search.get('limit') ?? '1000', 10)
   if (partido) {
     result = result.filter(d => (d.partido ?? '').toLowerCase() === partido.toLowerCase())
   }
@@ -40,26 +42,34 @@ function applyFilters(items: typeof DOSIERES_RESUMEN, search: URLSearchParams) {
       (d.cargo_actual ?? '').toLowerCase().includes(ql)
     )
   }
-  return result.slice(0, isNaN(limit) ? 100 : limit)
+  return result.slice(0, isNaN(limit) ? 1000 : limit)
 }
 
 export async function GET(req: NextRequest, { params }: { params: { path?: string[] } }) {
   const path = buildBackendPath(params, req.nextUrl.search.replace(/^\?/, ''))
   const data = await fromBackend<unknown>(path)
-  if (data !== null && data !== undefined) {
-    return NextResponse.json(withMeta(data, 'backend'))
+  const subpath = params.path?.join('/') ?? ''
+
+  // Decidir si los datos del backend son "vacíos" y conviene caer al fixture.
+  const isEmptyList = !subpath && Array.isArray(data) && data.length === 0
+  const isMissing = data === null || data === undefined
+
+  if (!isMissing && !isEmptyList) {
+    // Si es un array, devolver tal cual (withMeta convertiría el array en
+    // un objeto raro con índices numéricos y rompería la página).
+    if (Array.isArray(data)) {
+      return NextResponse.json(data)
+    }
+    return NextResponse.json(withMeta(data as object, 'backend'))
   }
 
-  // Fallback al fixture estático · misma forma que el backend
-  const subpath = params.path?.join('/') ?? ''
+  // Fallback al fixture estático · 400 dosieres parseados de 7 PDFs
   if (!subpath) {
-    // Lista resumida con filtros
     const filtered = applyFilters(DOSIERES_RESUMEN, req.nextUrl.searchParams)
-    return NextResponse.json(withMeta(filtered, 'mock', {
-      warnings: ['backend_offline · usando fixture estático con 24 dosieres del Gobierno'],
-    }))
+    // Devolver array DIRECTO · no envolver con withMeta (rompe arrays)
+    return NextResponse.json(filtered)
   }
-  // Detalle por slug · `params.path[0]` es el slug
+  // Detalle por slug
   const dossier = getDossierBySlug(subpath)
   if (!dossier) {
     return NextResponse.json(
@@ -70,7 +80,7 @@ export async function GET(req: NextRequest, { params }: { params: { path?: strin
     )
   }
   return NextResponse.json(withMeta(dossier, 'mock', {
-    warnings: ['backend_offline · usando fixture estático'],
+    warnings: ['backend_offline · usando fixture estatico'],
   }))
 }
 
