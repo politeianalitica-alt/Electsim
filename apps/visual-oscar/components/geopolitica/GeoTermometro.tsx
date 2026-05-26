@@ -23,6 +23,7 @@ interface RiskIndexResponse {
   ok: boolean
   score: number
   band: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
+  confidence?: number
   components: Array<{
     key: string
     label: string
@@ -30,11 +31,22 @@ interface RiskIndexResponse {
     norm: number | null
     weight: number
     source: string
+    // Sprint G13 FASE 5 · campos enriquecidos
+    source_mode?: 'live_api' | 'derived_from_news' | 'hybrid' | 'curated_baseline' | 'mock'
+    layer?: 'fast_signal' | 'hard_event' | 'media_attention' | 'analytical_model'
+    confidence?: number
+    caveat?: string
+    possible_double_counting?: string[]
+    interpretation?: string
   }>
   methodology: string
-  cite: string
+  cite?: string
   generated_at: string
-  // Sprint G13 FASE 9 · _geo_meta opcional · cuando el endpoint lo añada (FASE 2 [...path])
+  // Sprint G13 FASE 5
+  what_it_means?: string
+  what_it_does_not_mean?: string
+  interpretation?: string
+  double_counting_warning?: string | null
   _geo_meta?: {
     source_mode: GeoEndpointMode
     layer?: GeoLayer
@@ -106,14 +118,12 @@ export function GeoTermometro() {
             Score 0-100 · señales agregadas auditables
           </h2>
           <p style={{ margin: '6px 0 0', fontSize: 11, color: '#cbd5e1', lineHeight: 1.5 }}>
-            <strong style={{ color: '#fbbf24' }}>Qué mide:</strong> presión agregada en fuentes abiertas y
-            señales de seguridad relevantes para España (alertas, ACLED en zonas de interés,
-            volumen OSINT, sanciones, tono mediático).
+            <strong style={{ color: '#fbbf24' }}>Qué mide:</strong>{' '}
+            {data.what_it_means || 'presión agregada en fuentes abiertas y señales de seguridad relevantes para España (alertas, ACLED en zonas de interés, volumen OSINT, sanciones, tono mediático).'}
           </p>
           <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5, fontStyle: 'italic' }}>
-            <strong style={{ color: '#94a3b8' }}>Qué NO mide:</strong> probabilidad de guerra en España,
-            riesgo país soberano, opinión pública ni intención electoral. Es un proxy de presión
-            informativa/estratégica, no de realidad material.
+            <strong style={{ color: '#94a3b8' }}>Qué NO mide:</strong>{' '}
+            {data.what_it_does_not_mean || 'probabilidad de guerra en España, riesgo país soberano, opinión pública ni intención electoral. Es un proxy de presión informativa/estratégica, no de realidad material.'}
           </p>
         </div>
         <div style={{ textAlign: 'right' }}>
@@ -135,6 +145,21 @@ export function GeoTermometro() {
           </span>
         </div>
       </header>
+
+      {/* Sprint G13 FASE 5 · interpretación por banda */}
+      {data.interpretation && (
+        <p style={{ margin: '0 0 12px', padding: '8px 12px', background: '#1e293b', borderLeft: `3px solid ${band.track}`, borderRadius: 4, fontSize: 12, color: '#e2e8f0', lineHeight: 1.5 }}>
+          <strong style={{ color: band.fg === '#166534' ? '#86efac' : band.fg === '#92400e' ? '#fcd34d' : band.fg === '#9a3412' ? '#fb923c' : '#fca5a5' }}>{data.band}:</strong>{' '}
+          {data.interpretation}
+        </p>
+      )}
+
+      {/* Sprint G13 FASE 5 · warning double counting */}
+      {data.double_counting_warning && (
+        <p style={{ margin: '0 0 12px', padding: '8px 12px', background: '#451a03', border: '1px solid #92400e', borderRadius: 4, fontSize: 11, color: '#fcd34d', lineHeight: 1.5 }}>
+          <strong>⚠ Posible double counting:</strong> {data.double_counting_warning}
+        </p>
+      )}
 
       {/* Barra horizontal score */}
       <div style={{ position: 'relative', height: 8, background: '#1e293b', borderRadius: 4, overflow: 'hidden', marginBottom: 18 }}>
@@ -159,8 +184,17 @@ export function GeoTermometro() {
           {data.components.map((c) => {
             const pct = c.norm ?? 0
             const barColor = pct < 30 ? '#16a34a' : pct < 55 ? '#f59e0b' : pct < 75 ? '#f97316' : '#dc2626'
+            const tipParts: string[] = []
+            if (c.source) tipParts.push(`Fuente: ${c.source}`)
+            if (c.source_mode) tipParts.push(`Modo: ${c.source_mode}`)
+            if (c.layer) tipParts.push(`Capa: ${c.layer}`)
+            if (typeof c.confidence === 'number') tipParts.push(`Conf: ${Math.round(c.confidence * 100)}%`)
+            if (c.caveat) tipParts.push(`⚠ ${c.caveat}`)
+            if (c.possible_double_counting && c.possible_double_counting.length > 0) tipParts.push(`Solapa con: ${c.possible_double_counting.join(', ')}`)
+            if (c.interpretation) tipParts.push(`Interpretación: ${c.interpretation}`)
+            const tooltip = tipParts.join(' · ')
             return (
-              <div key={c.key} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 70px 50px', gap: 10, alignItems: 'center', fontSize: 11 }}>
+              <div key={c.key} title={tooltip} style={{ display: 'grid', gridTemplateColumns: '180px 1fr 70px 50px 60px', gap: 10, alignItems: 'center', fontSize: 11, cursor: 'help' }}>
                 <span style={{ color: '#cbd5e1' }}>{c.label}</span>
                 <div style={{ position: 'relative', height: 6, background: '#1e293b', borderRadius: 3, overflow: 'hidden' }}>
                   {c.norm != null && (
@@ -177,6 +211,9 @@ export function GeoTermometro() {
                 </span>
                 <span style={{ textAlign: 'right', fontSize: 9, color: '#64748b' }}>
                   {Math.round(c.weight * 100)}%
+                </span>
+                <span style={{ textAlign: 'right', fontSize: 8, fontWeight: 700, color: c.source_mode === 'live_api' ? '#86efac' : c.source_mode === 'derived_from_news' ? '#fcd34d' : c.source_mode === 'hybrid' ? '#fde68a' : '#94a3b8', letterSpacing: 0.3, textTransform: 'uppercase' }}>
+                  {c.source_mode === 'live_api' ? 'LIVE' : c.source_mode === 'derived_from_news' ? 'RSS' : c.source_mode === 'hybrid' ? 'MIX' : c.source_mode === 'curated_baseline' ? 'CUR' : ''}
                 </span>
               </div>
             )

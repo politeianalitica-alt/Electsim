@@ -23,6 +23,7 @@
  * Cache 6h (geopolítica change-frequency moderada).
  */
 import { NextResponse } from 'next/server'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import { findAnalogs, HISTORICAL_CRISES, type CrisisType } from '@/lib/geopolitica/historical-crises'
 
 export const runtime = 'nodejs'
@@ -53,46 +54,83 @@ function baseUrl(req: Request): string {
 // Inspiración: Verisk Maplecroft Country Risk Rating + BlackRock GRI Z-score.
 // Diferenciador: Spain-optimized, transparent (every component visible).
 async function buildSpainRiskIndex(req: Request) {
+  const startedAt = Date.now()
   const base = baseUrl(req)
-  // Componentes: alertas críticas + ACLED eventos + GDELT tone + osint volume
   const [stats, acled, gdelt] = await Promise.all([
     jsonFetch(`${base}/api/geopolitica/stats`),
     jsonFetch(`${base}/api/acled/spain-context`),
     jsonFetch(`${base}/api/gdelt/tone?query=Spain&days=7`),
   ])
-  // Normalizar cada componente a 0-100 (donde 100 = peor)
-  const comps: Array<{ key: string; label: string; raw: number | null; norm: number | null; weight: number; source: string }> = []
-  // Alertas críticas (0-5+ = peor)
+
+  // Sprint G13 FASE 5 · Cada componente declara source_mode, layer, confianza
+  // y caveat. NO se mezclan capas heterogéneas bajo la palabra "riesgo".
+  interface RiskComponent {
+    key: string
+    label: string
+    raw: number | null
+    norm: number | null
+    weight: number
+    source: string
+    source_mode: 'live_api' | 'derived_from_news' | 'hybrid' | 'curated_baseline' | 'mock'
+    layer: 'fast_signal' | 'hard_event' | 'media_attention' | 'analytical_model'
+    confidence: number
+    caveat: string
+    possible_double_counting?: string[]   // keys de otros componentes que pueden duplicar señal
+    interpretation: string
+  }
+
+  const comps: RiskComponent[] = []
+
+  // Alertas críticas Politeia · derivadas de RSS
   const critRaw = stats?.alertas_count?.CRITICO ?? 0
   comps.push({
     key: 'alertas_criticas',
-    label: 'Alertas CRITICO',
+    label: 'Alertas Politeia · nivel CRITICO',
     raw: critRaw,
-    norm: Math.min(100, critRaw * 25), // 4+ alertas críticas = 100
-    weight: 0.30,
-    source: 'Politeia geo-signals',
+    norm: Math.min(100, critRaw * 25),
+    weight: 0.25,
+    source: 'Politeia geo-signals (RSS derivado)',
+    source_mode: 'derived_from_news',
+    layer: 'fast_signal',
+    confidence: 0.55,
+    caveat: 'Severidad heurística sobre titulares RSS · no de fuente OSINT oficial · puede ampliar señal con cobertura mediática',
+    possible_double_counting: ['alertas_total', 'osint_volume'],
+    interpretation: 'Pico de alertas críticas suele indicar tema dominante en agenda · NO necesariamente deterioro material',
   })
-  // Total alertas (8-15 = amber, >15 = red)
+
   const totalAlerts = stats?.alertas_activas ?? 0
   comps.push({
     key: 'alertas_total',
     label: 'Alertas activas (todos niveles)',
     raw: totalAlerts,
     norm: Math.min(100, (totalAlerts / 20) * 100),
-    weight: 0.15,
+    weight: 0.10,
     source: 'Politeia geo-signals',
+    source_mode: 'derived_from_news',
+    layer: 'fast_signal',
+    confidence: 0.50,
+    caveat: 'Mismas fuentes que alertas_criticas · señal solapada',
+    possible_double_counting: ['alertas_criticas', 'osint_volume'],
+    interpretation: 'Volumen agregado de presión informativa',
   })
-  // ACLED events 30d (200 amber, 400 red)
+
+  // ACLED · evento material · hard_event live_api
   const acledRaw = acled?.n_events_total ?? (Array.isArray(acled?.data) ? acled.data.length : 0)
   comps.push({
     key: 'acled_events',
-    label: 'Eventos ACLED relevantes 30d',
+    label: 'Eventos ACLED relevantes 30d (zonas interés ES)',
     raw: acledRaw,
     norm: Math.min(100, (acledRaw / 400) * 100),
-    weight: 0.20,
-    source: 'ACLED · spain-context',
+    weight: 0.25,
+    source: 'ACLED v2 · spain-context filter',
+    source_mode: 'live_api',
+    layer: 'hard_event',
+    confidence: 0.85,
+    caveat: 'Mide violencia política en zonas geo-cercanas a intereses ES (Sahel, Magreb, MENA) · NO mide riesgo INTERNO España',
+    interpretation: 'Subida indica deterioro material en periferia estratégica · señal más sólida del índice',
   })
-  // GDELT tone: -3 = peor, +3 = mejor (invertido)
+
+  // GDELT tone · cobertura mediática · media_attention layer
   const toneRaw = gdelt?.tone_mean ?? gdelt?.mean_tone ?? gdelt?.tone
   let toneNorm: number | null = null
   if (typeof toneRaw === 'number' && Number.isFinite(toneRaw)) {
@@ -105,30 +143,91 @@ async function buildSpainRiskIndex(req: Request) {
     norm: toneNorm,
     weight: 0.20,
     source: 'GDELT v2 · doc tone',
+    source_mode: 'live_api',
+    layer: 'media_attention',
+    confidence: 0.55,
+    caveat: 'MIDE COBERTURA MEDIÁTICA · NO realidad material · tono negativo ≠ deterioro real · útil para detectar saliencia, no gravedad',
+    possible_double_counting: ['alertas_criticas', 'osint_volume'],
+    interpretation: 'Tono negativo sostenido = tema dominante en agenda mediática · presión narrativa, no necesariamente material',
   })
-  // OSINT volume 24h (>40 amber, >70 red)
+
+  // OSINT volume · agregado RSS · derivado
   const osintRaw = stats?.osint_24h ?? 0
   comps.push({
     key: 'osint_volume',
     label: 'Volumen OSINT 24h',
     raw: osintRaw,
     norm: Math.min(100, (osintRaw / 70) * 100),
-    weight: 0.15,
+    weight: 0.20,
     source: 'Politeia news-aggregator',
+    source_mode: 'derived_from_news',
+    layer: 'fast_signal',
+    confidence: 0.50,
+    caveat: 'Mide volumen de titulares OSINT detectados · proxy de saliencia mediática · MISMA BASE RSS que alertas',
+    possible_double_counting: ['alertas_criticas', 'alertas_total', 'gdelt_tone'],
+    interpretation: 'Volumen alto suele acompañar saliencia · señal correlacionada con cobertura',
   })
-  // Score compuesto ponderado (skip null normales)
+
+  // Score compuesto
   const valid = comps.filter((c) => c.norm != null)
   const score = valid.length
     ? Math.round(valid.reduce((s, c) => s + (c.norm! * c.weight), 0) / valid.reduce((s, c) => s + c.weight, 0))
     : 50
+
+  // Detectar double counting · si ≥3 componentes con misma base RSS aportan
+  // mucho al score, advertir explícitamente
+  const rssBased = comps.filter((c) => c.source_mode === 'derived_from_news' || c.layer === 'media_attention')
+  const rssWeight = rssBased.reduce((s, c) => s + c.weight, 0)
+  const double_counting_warning = rssWeight > 0.55
+    ? `${(rssWeight * 100).toFixed(0)}% del peso viene de fuentes correlacionadas (RSS derivado + GDELT cobertura). Una misma noticia puede ampliar múltiples componentes simultáneamente.`
+    : null
+
+  // Confianza global ponderada por confianza de cada componente
+  const confidenceOverall = valid.length
+    ? +(valid.reduce((s, c) => s + c.confidence * c.weight, 0) / valid.reduce((s, c) => s + c.weight, 0)).toFixed(2)
+    : 0.4
+
+  const band = score < 30 ? 'BAJO' : score < 55 ? 'MEDIO' : score < 75 ? 'ALTO' : 'CRITICO'
+
   return {
     ok: true,
-    score, // 0=todo verde, 100=todo crítico
-    band: score < 30 ? 'BAJO' : score < 55 ? 'MEDIO' : score < 75 ? 'ALTO' : 'CRITICO',
+    score,
+    band,
+    confidence: confidenceOverall,
     components: comps,
+    double_counting_warning,
+    // Sprint G13 FASE 5 · interpretación explícita
+    what_it_means:
+      'Mide presión geopolítica agregada sobre el entorno estratégico español, combinando señales de seguridad (ACLED en periferia), agenda institucional (alertas Politeia) y cobertura mediática (GDELT tone).',
+    what_it_does_not_mean:
+      'NO mide probabilidad de guerra en España. NO mide riesgo país soberano. NO mide opinión pública ni intención electoral. NO es un score actuarial: es un proxy de presión informativa/estratégica relevante para el análisis español.',
+    interpretation:
+      band === 'BAJO'
+        ? 'Entorno estable · señales rutinarias · sin alarmas convergentes.'
+        : band === 'MEDIO'
+        ? 'Presión moderada · varios temas activos · monitorear convergencias.'
+        : band === 'ALTO'
+        ? 'Presión elevada · múltiples vectores activos · validar con fuentes primarias antes de decidir.'
+        : 'Convergencia crítica · ACLED + alertas + cobertura mediática elevadas a la vez · requiere análisis humano experto.',
     generated_at: new Date().toISOString(),
-    methodology: 'Score 0-100 (0=mínimo riesgo, 100=máximo). Combina alertas críticas Politeia (30%) + alertas total (15%) + eventos ACLED relevantes 30d (20%) + GDELT tone invertido (20%) + volumen OSINT 24h (15%). Inspirado en Verisk Maplecroft Country Risk + BlackRock GRI, pero transparente.',
-    cite: 'Política inspirada en BlackRock Geopolitical Risk Indicator (Z-score) + Verisk Maplecroft Country Risk Rating',
+    methodology:
+      'Score 0-100 (0=mínimo, 100=máximo presión). Combinación ponderada: ACLED 25% (single source live), alertas Politeia 25% + 10% (RSS derivado), GDELT tone 20% (media_attention), volumen OSINT 20% (RSS derivado). Pesos revisados Sprint G13 FASE 5 para reducir double-counting RSS.',
+    _geo_meta: buildGeoMeta({
+      source_mode: 'analytical_model',
+      sources_used: [
+        'ACLED · /api/acled/spain-context (live_api · hard_event)',
+        'Politeia stats · /api/geopolitica/stats (derived_from_news · fast_signal)',
+        'GDELT tone · /api/gdelt/tone (live_api · media_attention)',
+      ],
+      startedAt,
+      confidence: confidenceOverall,
+      layer: 'analytical_model',
+      warnings: [
+        'Score derivado · NO observación primaria',
+        ...(double_counting_warning ? [double_counting_warning] : []),
+      ],
+      notes: 'Spain Composite Risk Index · 5 componentes con source_mode y caveats explícitos',
+    }),
   }
 }
 
