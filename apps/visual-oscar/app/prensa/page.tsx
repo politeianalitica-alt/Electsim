@@ -37,6 +37,8 @@ import { LiveDot } from '@/components/Skeleton'
 import FeedTiered from './_components/FeedTiered'
 // Sprint G15 FASE C · gráfico de importancia temática arriba del feed en Pulso
 import TopicImportanceChart, { type TopicImportanceItem } from './_components/TopicImportanceChart'
+// Sprint G15 FASE D4 · workbench unificado de narrativas (reemplaza apilamiento)
+import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_components/NarrativesFramingWorkbench'
 import NarrativesDeepView from './_components/NarrativesDeepView'
 import NarrativesV3View from './_components/NarrativesV3View'
 import SentimentDualView from './_components/SentimentDualView'
@@ -498,9 +500,15 @@ export default function PrensaPage() {
               {/* Tab 3 · Narrativas & framing · qué narrativas existen y cómo, por quién */}
               {safeActiveTab === 'narrativas' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  {/* Sprint G15 FASE D4 · workbench unificado · reemplaza apilamiento de
+                      7 componentes (FramingComparisonPanel + CoverageGapsPanel +
+                      NarrativeClustersView + ViralidadStrip + NarrativesV3View +
+                      StoryClustersView + NarrativesDeepView). Toda la info clave
+                      en una sola vista con KPIs, filtros, cards expandibles y
+                      separación narrative_clusters vs emerging_signals. */}
                   <TabExplainerBlock
-                    question="¿Qué narrativas existen, qué frame usan, qué bloque las amplifica?"
-                    answer="NarrativeClusters auditables con barra ideológica izq/centro/der por narrativa · velocity + acceleration + first_seen · StoryClusters comparados · gaps de cobertura · diferencias de framing entre bloques mediáticos."
+                    question="¿Qué narrativas se están formando y cómo se encuadran?"
+                    answer="Workbench único · cada narrativa es topic + frame + mensaje repetido + actores + medios/canales + ventana temporal + evidencia suficiente. NO un tema, NO un frame suelto. Mínimo 3 artículos en ≥2 medios distintos y al menos una señal fuerte."
                   />
                   <LecturaPoliteiaPanel
                     tabId="narrativas"
@@ -508,28 +516,13 @@ export default function PrensaPage() {
                     title="Lectura Politeia de Narrativas"
                     collapsedByDefault
                   />
-                  {/* Sprint M4 FASE B · framing + coverage gaps + followups · mismo motor que NewsAPI search */}
-                  {data?.framing_comparison && data.framing_comparison.length > 0 && (
-                    <FramingComparisonPanel framing={data.framing_comparison} />
-                  )}
-                  {data?.coverage_gaps && data.coverage_gaps.length > 0 && (
-                    <CoverageGapsPanel gaps={data.coverage_gaps} />
-                  )}
-                  {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
-                    <NarrativeClustersView clusters={data.narrative_clusters} />
-                  )}
-                  {/* Viralidad full embebida en narrativas (ex-Tab 6) */}
-                  {data?.narrative_clusters && data.narrative_clusters.length > 0 ? (
-                    <ViralidadStrip clusters={data.narrative_clusters} mode="full" />
-                  ) : (
-                    <ViralidadDifusion />
-                  )}
-                  {/* Cobertura ideológica embebida (ex-Tab 5) */}
-                  <NarrativesV3View />
-                  <StoryClustersView clusters={data?.clusters ?? []} />
-                  {(data?.narratives ?? []).length > 0 && (
-                    <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />
-                  )}
+                  <NarrativesFramingWorkbench
+                    narratives={data?.narrative_clusters as unknown as WorkbenchNarrative[] | undefined}
+                    emergingSignals={
+                      (data as IntelResponse & { emerging_signals?: WorkbenchNarrative[] })?.emerging_signals
+                    }
+                    loading={loading && !data}
+                  />
                 </div>
               )}
 
