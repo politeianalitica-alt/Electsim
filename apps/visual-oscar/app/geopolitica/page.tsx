@@ -21,6 +21,7 @@ import { GeoAnalogFinder } from '@/components/geopolitica/GeoAnalogFinder'
 import { GeoScenarioSlider } from '@/components/geopolitica/GeoScenarioSlider'
 import { GeoRiskHeatmap } from '@/components/geopolitica/GeoRiskHeatmap'
 import { GeoUcdpPanel } from '@/components/geopolitica/GeoUcdpPanel'
+import { GeoCountryTimeline } from '@/components/geopolitica/GeoCountryTimeline'
 import { GeoReliefWebPanel } from '@/components/geopolitica/GeoReliefWebPanel'
 import { GeoTravelAdvisories } from '@/components/geopolitica/GeoTravelAdvisories'
 import { GeoNatoFeed } from '@/components/geopolitica/GeoNatoFeed'
@@ -547,21 +548,28 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 1 — Conflictos, violencia política & protestas · ACLED + UCDP */}
+        {/* TAB 1 — Conflictos, violencia política & protestas · ACLED + UCDP + Timeline */}
         {tab === 1 && (
           <div>
             <div style={{ marginBottom: 16 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
                 <strong style={{ color: '#0f172a' }}>Capa 2 · evento duro verificable.</strong>{' '}
-                ACLED como señal táctica reciente (batallas, protestas, violencia contra civiles)
-                + UCDP/PRIO como validación estructural académica desde 1946.
+                Sprint G13 FASE 13 · orden spec: ACLED táctico (30d) + UCDP estructural
+                (anual histórico · NO indica deterioro de hoy) + Country Timeline (vista
+                cronológica multi-source para un país).
               </p>
             </div>
+            {/* 1 · ACLED · señal táctica 30d */}
             <div style={{ marginBottom: 18 }}>
               <AcledSpainContext days={30} />
             </div>
+            {/* 2 · UCDP · estructural histórico · contexto multi-año */}
             <div style={{ marginBottom: 18 }}>
               <GeoUcdpPanel country="Ukraine" />
+            </div>
+            {/* 3 · Country Timeline · cronología multi-source · default Ucrania */}
+            <div style={{ marginBottom: 18 }}>
+              <GeoCountryTimeline iso="UKR" />
             </div>
           </div>
         )}
@@ -882,12 +890,23 @@ export default function GeopoliticaPage() {
             <div style={{ marginBottom: 16 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
                 <strong style={{ color: '#0f172a' }}>Capa 3 · militar y diplomático.</strong>{' '}
-                Feed oficial NATO HQ + voz española (Defensa.gob filtrado dentro del feed
-                Spain Official). Cumbres, ejercicios militares, flanco este, defensa
-                aérea, presencia avanzada, artículo 5, relación Rusia-OTAN.
+                Sprint G13 FASE 13 · orden spec: NATO (cumbres, ejercicios, flanco este) +
+                Defensa España oficial + ISW (briefings operativos teatro). Cero adición de
+                nuevos widgets · re-orden de los existentes para clarificar flujo.
               </p>
             </div>
-            <GeoNatoFeed limit={25} />
+            {/* 1 · NATO HQ press releases */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoNatoFeed limit={25} />
+            </div>
+            {/* 2 · Spain Official Defensa filtered · cap militar/diplomática ES */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoSpainOfficial limit={20} />
+            </div>
+            {/* 3 · ISW briefings · teatro operativo · análisis cualitativo */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoIswBriefings limit={15} />
+            </div>
           </div>
         )}
 
