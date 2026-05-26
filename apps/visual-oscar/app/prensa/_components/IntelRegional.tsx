@@ -16,21 +16,28 @@ export function IntelRegional() {
 
   useEffect(() => {
     let alive = true
-    fetch('/api/medios/intel?hours=72&sources=50', { cache: 'force-cache' })
+    // Sprint G15 FASE A · sources=100 + balance_mode=regional para que el
+    // agregador no tape la realidad local con grandes nacionales.
+    fetch('/api/medios/intel?hours=72&sources=100&balance_mode=regional', { cache: 'force-cache' })
       .then((r) => r.json())
       .then((d) => { if (alive) { setCcaa(d?.ccaa || null); setLoading(false) } })
       .catch(() => { if (alive) setLoading(false) })
     return () => { alive = false }
   }, [])
 
+  // Sprint G15 FASE A · BUG FIX crítico
+  // `byCCAA()` en lib/news-aggregator.ts devuelve {n, pos, neg, neu, sent_score, top_topics}.
+  // El código previo buscaba {n_articles, sentiment_score, top_medio, count, sentiment, top_source}
+  // y la tabla estaba SIEMPRE vacía (todos los campos undefined → n=0 → filter eliminaba todo).
+  // La key del Record ya es el LABEL legible ("Madrid", "Cataluña"), no un código.
   const rows = ccaa
     ? Object.entries(ccaa)
-        .map(([code, s]: [string, any]) => ({
-          code,
-          name: s.name || code,
-          n: s.n_articles || s.count || 0,
-          sentiment: s.sentiment_score || s.sentiment || 0,
-          topMedio: s.top_medio || s.top_source || '—',
+        .map(([name, s]: [string, any]) => ({
+          code: name,
+          name,
+          n: typeof s?.n === 'number' ? s.n : 0,
+          sentiment: typeof s?.sent_score === 'number' ? s.sent_score : 0,
+          topMedio: Array.isArray(s?.top_topics) && s.top_topics.length > 0 ? s.top_topics[0] : '—',
         }))
         .filter((r) => r.n > 0)
         .sort((a, b) => b.n - a.n)

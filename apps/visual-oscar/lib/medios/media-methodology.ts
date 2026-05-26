@@ -282,6 +282,22 @@ export function ambitoBucket(ambito: string, ccaa?: string | null): AmbitoBucket
   return 'nacional'
 }
 
+/**
+ * Sprint G15 FASE A · Normaliza credibility a escala 0-100 sin importar si el
+ * catálogo lo da en 0-1 (medios.json schema: credibilidad 0..1) o 0-100.
+ *
+ * BUG histórico: `media-methodology.ts` dividía `p.credibility / 100` en L367
+ * y L1107, pero el catálogo entrega 0.85 (0-1). Resultado: credibility=0.0085,
+ * el component aportaba ~0 al ranking. Solucionado normalizando a la entrada.
+ */
+export function normalizeCredibility(raw: number | null | undefined): number {
+  if (typeof raw !== 'number' || isNaN(raw)) return 0
+  if (raw <= 0) return 0
+  // Si viene en 0-1, escalar a 0-100. Si ya viene en 0-100, dejar.
+  if (raw <= 1) return raw * 100
+  return Math.min(100, raw)
+}
+
 export function profileFromCatalog(m: CatalogMedio): MediaSourceProfile {
   return {
     id: m.id,
@@ -293,7 +309,7 @@ export function profileFromCatalog(m: CatalogMedio): MediaSourceProfile {
     ideology_raw: m.ideologia,
     ideology_bucket: ideologyBucket(m.ideologia),
     audience_M: m.audiencia_M,
-    credibility: m.credibilidad,
+    credibility: normalizeCredibility(m.credibilidad),  // siempre 0-100 desde aquí
     rss_url: m.rss,
     web: m.web,
     has_rss: !!m.rss,
@@ -364,6 +380,9 @@ export function selectPrioritySources(
   const groupCount: Record<string, number> = {}
   const scoreOne = (p: MediaSourceProfile): SourcePriorityScore => {
     const audience = Math.min(1, p.audience_M / 25)        // 25M = top tier
+    // Sprint G15 FASE A · `p.credibility` ya viene normalizada a 0-100 desde
+    // `profileFromCatalog` (G15 normalizeCredibility helper). Antes este `/100`
+    // sobre 0.85 daba 0.0085 → credibility component aportaba ~0 al ranking.
     const credibility = Math.min(1, p.credibility / 100)
     const rss_health = p.has_rss ? 1 : 0
     const spain_relevance = p.ambito === 'nacional' ? 1 : p.ambito === 'regional' ? 0.85 : p.ambito === 'europeo' ? 0.7 : p.ambito === 'sectorial' ? 0.75 : 0.5
