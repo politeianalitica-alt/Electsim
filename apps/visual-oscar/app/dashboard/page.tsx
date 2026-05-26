@@ -139,7 +139,7 @@ const TRENDING_FIGURES = [
 // ── Module grid (single unified section) ──────────────────────────────────────
 
 const MODULES = [
-  { href: '/dosieres',            label: 'Dosieres de personas',  sub: '400 fichas · perfil · relaciones · patrimonio', accent: '#7C2D12', tag: 'NUEVO' },
+  { href: '/dosieres',            label: 'Dosieres de personas',  sub: '720 fichas · Congreso + Senado · relaciones · patrimonio', accent: '#7C2D12', tag: 'NUEVO' },
   { href: '/coaliciones',         label: 'Hub electoral',         sub: '8 tabs · Adversario · Voto blando',    accent: '#5B21B6', tag: 'NUEVO' },
   { href: '/mapa-actores',        label: 'Mapa de actores',       sub: 'Grafo · Dossier · Cuadrante ideológico', accent: '#1F4E8C', tag: 'EXPANDIDO' },
   { href: '/riesgo',              label: 'Índice de Riesgo Político',             sub: 'Señales · simulador · escenarios',     accent: '#c42c2c', tag: 'EXPANDIDO' },
@@ -245,7 +245,7 @@ export default function DashboardPage() {
  </span>
  </div>
  <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.018em', margin: '0 0 4px' }}>
-              400 dosieres del Congreso · perfil, relaciones y patrimonio
+              720 dosieres · 428 del Congreso + 292 senadores
  </h2>
  <p style={{ fontSize: 13, margin: 0, opacity: 0.85, lineHeight: 1.5 }}>
               Gobierno, oposición, regionalistas y todos los grupos parlamentarios. Cada ficha trae perfil ampliado, relaciones políticas valoradas (+10 / −10) y patrimonio declarado.

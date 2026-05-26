@@ -38,6 +38,10 @@ INPUTS = [
     # El PDF "influencia" es un consolidado y REPITE actores ya cargados.
     # No tratar como homónimos · solo guardar los NUEVOS (no presentes antes).
     (Path("/tmp/dosieres_influencia.json"), False),
+    # Senadores XV (292 de la lista oficial del Senado · datos básicos).
+    # Si comparte slug con un diputado/ministro del mismo nombre el parser
+    # ya añade '-senado' al slug. allow_homonyms True por seguridad.
+    (Path("/tmp/dosieres_senado.json"), True),
 ]
 
 PARTIDO_OVERRIDES = {
