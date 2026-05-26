@@ -42,6 +42,14 @@ INPUTS = [
     # Si comparte slug con un diputado/ministro del mismo nombre el parser
     # ya añade '-senado' al slug. allow_homonyms True por seguridad.
     (Path("/tmp/dosieres_senado.json"), True),
+    # Asamblea de Madrid XIII Legislatura (187 personas que han sido diputado/a
+    # incluyendo sustituciones · CSV oficial open-data de la Asamblea).
+    # El parser añade '-madrid' al slug en caso de colisión.
+    (Path("/tmp/dosieres_madrid.json"), True),
+    # Parlament de Catalunya XV Legislatura (135 diputats · scraping de las
+    # 8 páginas oficiales de grup parlamentari). El parser añade '-parlament'
+    # al slug en caso de colisión.
+    (Path("/tmp/dosieres_catalunya.json"), True),
 ]
 
 PARTIDO_OVERRIDES = {
