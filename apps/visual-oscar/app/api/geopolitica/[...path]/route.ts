@@ -25,6 +25,7 @@
 import { NextResponse } from 'next/server'
 import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import { findAnalogs, HISTORICAL_CRISES, type CrisisType } from '@/lib/geopolitica/historical-crises'
+import { lookupMediaBias, regimeTagFromPressFreedom } from '@/lib/geopolitica/media-bias-registry'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -2044,22 +2045,44 @@ Output JSON estricto: { "themes": [...] }`
     })
 
     // Sprint G13 FASE 11 · confianza por tema · alta si n_sources >= 3
-    const themesEnriched = themes.map((t: any) => ({
-      ...t,
-      // Cada miembro lleva el origen RSS · trazabilidad
-      member_evidence: (t.members as any[]).map((m: any) => ({
-        source: m.source,
-        title: m.title,
-        link: m.link,
-        date: m.date,
-      })),
-      confidence: t.n_sources >= 3 ? 0.7 : t.n_sources >= 2 ? 0.55 : 0.4,
-      limitations: [
-        'Generado por IA · puede asignar mal miembros',
-        'Resumen agregado por LLM · no extracto verbatim',
-        ...(t.n_sources === 1 ? ['Sólo una fuente · sin triangulación · validar antes de citar'] : []),
-      ],
-    }))
+    // Sprint G14 FASE 2 cont · enrich member_evidence with MBFC bias when link is known
+    const themesEnriched = themes.map((t: any) => {
+      const memberEvidence = (t.members as any[]).map((m: any) => {
+        const bias = lookupMediaBias(m.link)
+        return {
+          source: m.source,
+          title: m.title,
+          link: m.link,
+          date: m.date,
+          // Server-side MBFC lookup · null si dominio desconocido (no inventar)
+          media_bias: bias ? {
+            country: bias.country,
+            bias: bias.bias,
+            press_freedom: bias.press_freedom,
+            regime: regimeTagFromPressFreedom(bias.press_freedom),
+            factual: bias.factual_reporting,
+          } : null,
+        }
+      })
+      // Sprint G14 · contar evidencia de fuentes régimen autoritario para flag a nivel tema
+      const authoritarianCount = memberEvidence.filter((m) => m.media_bias?.regime === 'authoritarian').length
+      return {
+        ...t,
+        member_evidence: memberEvidence,
+        // Si >=33% de los miembros vienen de régimen autoritario, marca el tema
+        authoritarian_source_share: memberEvidence.length > 0
+          ? Math.round((authoritarianCount / memberEvidence.length) * 100) / 100
+          : 0,
+        authoritarian_flag: authoritarianCount >= 2,
+        confidence: t.n_sources >= 3 ? 0.7 : t.n_sources >= 2 ? 0.55 : 0.4,
+        limitations: [
+          'Generado por IA · puede asignar mal miembros',
+          'Resumen agregado por LLM · no extracto verbatim',
+          ...(t.n_sources === 1 ? ['Sólo una fuente · sin triangulación · validar antes de citar'] : []),
+          ...(authoritarianCount >= 2 ? [`${authoritarianCount}/${memberEvidence.length} miembros desde fuentes régimen autoritario · revisar framing`] : []),
+        ],
+      }
+    })
 
     return {
       ok: true,

@@ -13,12 +13,22 @@
 import { useEffect, useState } from 'react'
 import { GeoAuditDrawer, buildAuditFromTheme, type GeoAuditPayload } from './GeoAuditDrawer'
 
+// Sprint G14 FASE 2 cont · MBFC metadata server-side por member
+interface MemberMediaBias {
+  country: string
+  bias: string
+  press_freedom: string
+  regime: 'free' | 'hybrid' | 'authoritarian' | 'unknown'
+  factual: string
+}
+
 interface Member {
   idx: number
   source: string
   title: string
   date: string
   link: string
+  media_bias?: MemberMediaBias | null
 }
 
 interface Theme {
@@ -32,6 +42,9 @@ interface Theme {
   // Sprint G13 FASE 11
   confidence?: number
   limitations?: string[]
+  // Sprint G14 FASE 2 cont · proporción de evidencia de fuentes régimen autoritario
+  authoritarian_source_share?: number
+  authoritarian_flag?: boolean
 }
 
 interface Resp {
@@ -198,6 +211,14 @@ export function GeoThemeClusters() {
                           flexShrink: 0,
                         }}>{t.relevance}</span>
                         <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#fbbf24' }}>{t.name}</h3>
+                        {/* Sprint G14 FASE 2 cont · flag de evidencia régimen autoritario */}
+                        {t.authoritarian_flag && (
+                          <span title={`${Math.round((t.authoritarian_source_share || 0) * 100)}% de las evidencias provienen de fuentes de régimen autoritario · revisar framing`} style={{
+                            fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 3,
+                            background: '#1f2937', color: '#fee2e2', border: '1px solid #991b1b', letterSpacing: 0.4,
+                            textTransform: 'uppercase', whiteSpace: 'nowrap',
+                          }}>⚠ FUENTES RÉGIMEN AUTORITARIO {Math.round((t.authoritarian_source_share || 0) * 100)}%</span>
+                        )}
                       </div>
                       <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
                         <span style={{ fontSize: 10, color: '#cbd5e1' }}>
@@ -261,25 +282,47 @@ export function GeoThemeClusters() {
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8, paddingTop: 8, borderTop: '1px solid #334155' }}>
                         {t.members.map((m) => {
                           const sc = SOURCE_COLOR[m.source] || '#94a3b8'
+                          // Sprint G14 FASE 2 cont · regime chip inline si hay MBFC match
+                          const mb = m.media_bias
+                          const regimeChip = mb && mb.regime !== 'unknown' ? (
+                            <span
+                              title={`${mb.country.toUpperCase()} · ${mb.press_freedom} · bias ${mb.bias}`}
+                              style={{
+                                fontSize: 8, fontWeight: 700, padding: '1px 4px', borderRadius: 2,
+                                background:
+                                  mb.regime === 'authoritarian' ? '#1f2937' :
+                                  mb.regime === 'hybrid' ? '#78350f' : '#064e3b',
+                                color:
+                                  mb.regime === 'authoritarian' ? '#fee2e2' :
+                                  mb.regime === 'hybrid' ? '#fde68a' : '#a7f3d0',
+                                letterSpacing: 0.4, textTransform: 'uppercase',
+                                border: mb.regime === 'authoritarian' ? '1px solid #991b1b' : 'none',
+                              }}
+                            >
+                              {mb.regime === 'authoritarian' ? '⚠ ' : ''}{mb.country.slice(0, 8)}
+                            </span>
+                          ) : null
                           return (
                             <a key={m.idx} href={m.link} target="_blank" rel="noopener noreferrer" style={{
                               display: 'grid',
-                              gridTemplateColumns: '50px 1fr 70px',
+                              gridTemplateColumns: '50px 1fr auto 70px',
                               gap: 8,
                               padding: '4px 6px',
-                              background: '#0f172a',
+                              background: mb?.regime === 'authoritarian' ? '#1c1917' : '#0f172a',
                               borderRadius: 3,
                               textDecoration: 'none',
                               color: '#cbd5e1',
                               fontSize: 10,
                               alignItems: 'center',
                               transition: 'background 0.15s',
+                              borderLeft: mb?.regime === 'authoritarian' ? '2px solid #991b1b' : 'none',
                             }}
-                              onMouseEnter={(e) => { e.currentTarget.style.background = '#1e293b' }}
-                              onMouseLeave={(e) => { e.currentTarget.style.background = '#0f172a' }}
+                              onMouseEnter={(e) => { e.currentTarget.style.background = mb?.regime === 'authoritarian' ? '#292524' : '#1e293b' }}
+                              onMouseLeave={(e) => { e.currentTarget.style.background = mb?.regime === 'authoritarian' ? '#1c1917' : '#0f172a' }}
                             >
                               <span style={{ fontSize: 8, fontWeight: 700, color: sc, letterSpacing: 0.4 }}>{m.source}</span>
                               <span>{m.title}</span>
+                              {regimeChip || <span />}
                               <span style={{ fontSize: 9, color: '#64748b', fontFamily: 'ui-monospace, monospace', textAlign: 'right' }}>{fmtDate(m.date)}</span>
                             </a>
                           )
