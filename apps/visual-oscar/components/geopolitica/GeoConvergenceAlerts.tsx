@@ -67,6 +67,8 @@ const SOURCE_COLOR: Record<string, string> = {
   ReliefWeb:  '#0ea5e9',
   Travel:     '#f97316',
   Baseline:   '#64748b',
+  // Sprint G14 FASE 4 cont · cobertura régimen autoritario
+  State:      '#fca5a5',
 }
 
 export function GeoConvergenceAlerts() {

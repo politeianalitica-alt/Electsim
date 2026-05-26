@@ -1694,12 +1694,20 @@ async function fetchReliefWebActiveByIso3(): Promise<Record<string, number>> {
 async function buildConvergenceAlerts(req: Request) {
   const startedAt = Date.now()
   const base = baseUrl(req)
-  const [world, travel, ucdpMap, reliefMap] = await Promise.all([
+  // Sprint G14 FASE 4 cont · también pull state-media para añadir signal media_attention
+  const [world, travel, ucdpMap, reliefMap, stateMedia] = await Promise.all([
     jsonFetch(`${base}/api/geopolitica/world-risk`),
     jsonFetch(`${base}/api/geopolitica/travel-advisories?country=all`),
     fetchUcdpActiveByIso3().catch((): Record<string, { intensity: number; conflict: string }> => ({})),
     fetchReliefWebActiveByIso3().catch((): Record<string, number> => ({})),
+    jsonFetch(`${base}/api/geopolitica/state-media?limit_per_feed=15`).catch(() => null),
   ])
+  // Aplanar state-media items para passes per-country (con metadata feed propagada)
+  const stateMediaAllItems: any[] = Array.isArray(stateMedia?.feeds)
+    ? stateMedia.feeds.flatMap((f: any) => (Array.isArray(f.items) ? f.items.map((it: any) => ({
+        ...it, regime: f.regime, country_iso3: f.country_iso3, feed_name: f.feed_name,
+      })) : []))
+    : []
 
   // Index travel por ISO2 → score
   const travelByIso2: Record<string, { score: number; band: string }> = {}
@@ -1719,8 +1727,8 @@ async function buildConvergenceAlerts(req: Request) {
     source: string
     level: 'HIGH' | 'CRITICAL'
     detail: string
-    source_type: 'live_api' | 'curated_baseline'
-    layer: 'hard_event' | 'structural_conflict' | 'humanitarian' | 'consular' | 'analytical_model'
+    source_type: 'live_api' | 'curated_baseline' | 'rss_media'
+    layer: 'hard_event' | 'structural_conflict' | 'humanitarian' | 'consular' | 'analytical_model' | 'media_attention'
     temporal_scope: 'last_30d' | 'annual' | 'historical' | 'realtime' | 'curated'
     freshness: string                   // descripción legible "últimos 30 días"
     confidence: number                  // 0..1
@@ -1833,6 +1841,32 @@ async function buildConvergenceAlerts(req: Request) {
     } else if (baseline >= 75) {
       signals.push({ ...baselineBase, level: 'HIGH', detail: `riesgo país baseline ${baseline}/100` })
       score += 1
+    }
+
+    // Sprint G14 FASE 4 cont · State-media attention (cobertura régimen autoritario)
+    // Filtramos items de fuentes de OTROS países para evitar self-coverage
+    // (Xinhua covering China no cuenta como "atención externa" sobre China).
+    if (stateMediaAllItems.length > 0) {
+      const externalItems = stateMediaAllItems.filter((it: any) => it.country_iso3 !== iso3)
+      const coverage = countStateMediaMentions(externalItems, iso3, c.name)
+      if (coverage.authoritarian_count > 0) {
+        const stateMediaBase = {
+          source: 'State Media' as const,
+          source_type: 'rss_media' as const,
+          layer: 'media_attention' as const,
+          temporal_scope: 'last_30d' as const,
+          freshness: 'feeds RSS últimos 6h',
+          confidence: 0.50,
+          caveat: 'COBERTURA MEDIÁTICA OFICIAL régimen autoritario · NO mide hechos materiales · sólo atención narrativa · posible operación de framing',
+        }
+        if (coverage.authoritarian_count >= 5) {
+          signals.push({ ...stateMediaBase, level: 'CRITICAL', detail: `${coverage.authoritarian_count} items autoritarios + ${coverage.count - coverage.authoritarian_count} otros` })
+          score += 2
+        } else if (coverage.authoritarian_count >= 3) {
+          signals.push({ ...stateMediaBase, level: 'HIGH', detail: `${coverage.authoritarian_count} items autoritarios + ${coverage.count - coverage.authoritarian_count} otros` })
+          score += 1
+        }
+      }
     }
 
     // Explicación auditable de POR QUÉ converge este país
