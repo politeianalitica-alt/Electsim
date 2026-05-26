@@ -8,6 +8,8 @@ import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton from '@/components/Skeleton'
 import { findDossier } from '@/lib/dosieres-link'
+// Sprint G14 cierre · panel OSINT externo · solo PEPs · audit obligatorio
+import { DossierOSINTPanel } from '@/components/dossier/DossierOSINTPanel'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -214,6 +216,16 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
             return <ApartadoCard key={tipo} tipo={tipo} apartado={apartado} partidoColor={partidoColor}/>
           })}
  </div>
+
+        {/* Sprint G14 cierre · panel "Investigar más" · solo PEPs · audit log obligatorio */}
+        <DossierOSINTPanel
+          subject={{
+            full_name: dossier.nombre_completo,
+            cargo: dossier.cargo_actual,
+            partido: dossier.partido,
+            dossier_slug: dossier.slug,
+          }}
+        />
 
         {/* Fuente */}
         {dossier.fuente_principal && (
