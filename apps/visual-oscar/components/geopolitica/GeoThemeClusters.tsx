@@ -11,6 +11,7 @@
  * básica) con clustering data-driven que detecta cross-source narratives.
  */
 import { useEffect, useState } from 'react'
+import { GeoAuditDrawer, buildAuditFromTheme, type GeoAuditPayload } from './GeoAuditDrawer'
 
 interface Member {
   idx: number
@@ -78,6 +79,7 @@ export function GeoThemeClusters() {
   const [data, setData] = useState<Resp | null>(null)
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const [auditPayload, setAuditPayload] = useState<GeoAuditPayload | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -284,6 +286,18 @@ export function GeoThemeClusters() {
                         })}
                       </div>
                     )}
+                    {/* Sprint G13 FASE 8 · botón auditar · marca explícita IA */}
+                    <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
+                      <button
+                        onClick={() => setAuditPayload(buildAuditFromTheme(t, data))}
+                        style={{
+                          background: 'transparent', color: '#f0abfc', border: '1px solid #86198f',
+                          borderRadius: 999, fontSize: 9, padding: '2px 8px', fontWeight: 700,
+                          letterSpacing: 0.4, textTransform: 'uppercase', cursor: 'pointer', fontFamily: 'inherit',
+                        }}
+                        title="Auditar este tema · ver members, fuentes, limitaciones IA"
+                      >◇ Auditar IA</button>
+                    </div>
                   </article>
                 )
               })}
@@ -306,6 +320,13 @@ export function GeoThemeClusters() {
           {data.note && <span style={{ display: 'block', marginTop: 4, color: '#94a3b8' }}>{data.note}</span>}
         </p>
       )}
+
+      {/* Sprint G13 FASE 8 · audit drawer · marca explícita IA */}
+      <GeoAuditDrawer
+        open={!!auditPayload}
+        onClose={() => setAuditPayload(null)}
+        payload={auditPayload}
+      />
     </section>
   )
 }

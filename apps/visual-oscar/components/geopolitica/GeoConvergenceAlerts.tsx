@@ -12,6 +12,7 @@
  */
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { GeoAuditDrawer, buildAuditFromConvergence, type GeoAuditPayload } from './GeoAuditDrawer'
 
 interface Signal {
   source: string
@@ -72,6 +73,7 @@ export function GeoConvergenceAlerts() {
   const router = useRouter()
   const [data, setData] = useState<Resp | null>(null)
   const [loading, setLoading] = useState(true)
+  const [auditPayload, setAuditPayload] = useState<GeoAuditPayload | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -226,6 +228,23 @@ export function GeoConvergenceAlerts() {
                         </ul>
                       </details>
                     )}
+                    {/* Sprint G13 FASE 8 · botón auditar (stop propagation para no navegar) */}
+                    <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setAuditPayload(buildAuditFromConvergence(a, data.sources_temporal_scope, { source_mode: 'analytical_model', sources_used: [], methodology_version: 'geo-methodology-v1' }))
+                        }}
+                        role="button"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', padding: '2px 8px',
+                          background: 'transparent', color: '#fbbf24', border: '1px solid #475569',
+                          borderRadius: 999, fontSize: 9, fontWeight: 700, letterSpacing: 0.4,
+                          textTransform: 'uppercase', cursor: 'pointer',
+                        }}
+                        title="Auditar este país · fuentes, temporalidad, caveats"
+                      >◇ Auditar</span>
+                    </div>
                   </button>
                 )
               })}
@@ -259,6 +278,13 @@ export function GeoConvergenceAlerts() {
           Convergencia no disponible · {data.error}
         </p>
       )}
+
+      {/* Sprint G13 FASE 8 · audit drawer · cualquier país abre el panel */}
+      <GeoAuditDrawer
+        open={!!auditPayload}
+        onClose={() => setAuditPayload(null)}
+        payload={auditPayload}
+      />
     </section>
   )
 }
