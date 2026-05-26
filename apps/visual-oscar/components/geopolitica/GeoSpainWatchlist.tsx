@@ -24,6 +24,17 @@ interface WatchEntry {
   spain_presence: { intensity: number; category: string; country_label_es: string }
   urgency_score: number
   top_signals: Signal[]
+  // Sprint G13 FASE 7 · campos orientados a decisión
+  impact_channels?: string[]
+  primary_impact_channel?: string
+  exposure_type?: string
+  exposure_confidence?: number
+  likely_time_horizon?: '24-72h' | '7d' | '30d' | 'structural'
+  monitoring_question?: string
+  recommended_sources_to_check?: string[]
+  confidence?: number
+  explanation?: string
+  caveats?: string[]
 }
 interface Resp {
   ok: boolean
@@ -33,7 +44,18 @@ interface Resp {
   summary?: { critical_for_spain: number; high_for_spain: number; moderate_for_spain: number }
   watchlist?: WatchEntry[]
   methodology?: string
+  what_it_means?: string
+  what_it_does_not_mean?: string
   error?: string
+}
+
+const CHANNEL_COLOR: Record<string, string> = {
+  migration: '#0ea5e9', energy: '#f59e0b', military: '#dc2626',
+  diplomatic: '#7c3aed', business: '#10b981', consular: '#f97316',
+  humanitarian: '#ec4899', narrative: '#94a3b8',
+}
+const HORIZON_LABEL: Record<string, string> = {
+  '24-72h': '24-72 horas', '7d': '7 días', '30d': '30 días', 'structural': 'Estructural',
 }
 
 const URGENCY_COLOR = (u: number): { bg: string; track: string; label: string } => {
@@ -127,9 +149,9 @@ export function GeoSpainWatchlist() {
                       <span style={{ color: '#64748b' }}>Categoría: <strong style={{ color: '#0f172a' }}>{w.spain_presence.category}</strong></span>
                     </div>
                     {/* Top signals */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
                       {w.top_signals.map((s, i) => {
-                        const sc = SOURCE_COLOR[s.source] || '#94a3b8'
+                        const sc = SOURCE_COLOR[s.source.split(' ')[0]] || SOURCE_COLOR[s.source] || '#94a3b8'
                         return (
                           <span key={i} style={{
                             fontSize: 9,
@@ -144,12 +166,89 @@ export function GeoSpainWatchlist() {
                         )
                       })}
                     </div>
+
+                    {/* Sprint G13 FASE 7 · impact channels + horizonte */}
+                    {(w.impact_channels && w.impact_channels.length > 0) && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center', marginBottom: 6 }}>
+                        <span style={{ fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Canal impacto:</span>
+                        {w.impact_channels.map((ch) => (
+                          <span key={ch} style={{
+                            fontSize: 9,
+                            padding: '2px 7px',
+                            borderRadius: 999,
+                            background: `${CHANNEL_COLOR[ch] || '#94a3b8'}20`,
+                            color: CHANNEL_COLOR[ch] || '#475569',
+                            border: `1px solid ${CHANNEL_COLOR[ch] || '#94a3b8'}50`,
+                            fontWeight: 600,
+                            letterSpacing: 0.3,
+                            textTransform: 'uppercase',
+                          }}>{ch}</span>
+                        ))}
+                        {w.likely_time_horizon && (
+                          <>
+                            <span style={{ fontSize: 9, color: '#94a3b8' }}>·</span>
+                            <span style={{ fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Horizonte:</span>
+                            <span style={{
+                              fontSize: 9,
+                              padding: '2px 7px',
+                              borderRadius: 999,
+                              background: '#fef3c7',
+                              color: '#92400e',
+                              border: '1px solid #fcd34d',
+                              fontWeight: 600,
+                            }}>{HORIZON_LABEL[w.likely_time_horizon] || w.likely_time_horizon}</span>
+                          </>
+                        )}
+                        {typeof w.confidence === 'number' && (
+                          <>
+                            <span style={{ fontSize: 9, color: '#94a3b8' }}>·</span>
+                            <span style={{ fontSize: 9, color: '#64748b', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' }}>Conf:</span>
+                            <span style={{ fontSize: 9, color: '#0f172a', fontWeight: 700 }}>{Math.round(w.confidence * 100)}%</span>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Sprint G13 FASE 7 · pregunta de monitoreo (lo más importante) */}
+                    {w.monitoring_question && (
+                      <div style={{ padding: 8, background: '#fffbeb', borderLeft: '3px solid #f59e0b', borderRadius: 3, marginBottom: 6 }}>
+                        <p style={{ margin: 0, fontSize: 10, color: '#92400e', fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 3 }}>
+                          ◐ Pregunta de monitoreo
+                        </p>
+                        <p style={{ margin: 0, fontSize: 11, color: '#0f172a', lineHeight: 1.5, fontStyle: 'italic' }}>
+                          {w.monitoring_question}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Fuentes recomendadas para validar */}
+                    {w.recommended_sources_to_check && w.recommended_sources_to_check.length > 0 && (
+                      <p style={{ margin: '4px 0 0', fontSize: 9, color: '#64748b' }}>
+                        ↗ Validar con: <strong style={{ color: '#475569' }}>{w.recommended_sources_to_check.join(' · ')}</strong>
+                      </p>
+                    )}
                   </button>
                 )
               })}
             </div>
           ) : (
             <p style={{ fontSize: 11, color: '#94a3b8' }}>Sin países en watchlist · ningún solapamiento entre convergence alerts y presencia ES.</p>
+          )}
+
+          {/* Sprint G13 FASE 7 · what_it_means / does_not_mean */}
+          {(data.what_it_means || data.what_it_does_not_mean) && (
+            <div style={{ marginTop: 14, padding: 10, background: '#fff', border: '1px dashed #fed7aa', borderRadius: 4 }}>
+              {data.what_it_means && (
+                <p style={{ margin: 0, fontSize: 10, color: '#0f172a', lineHeight: 1.5 }}>
+                  <strong style={{ color: '#16a34a' }}>Qué mide:</strong> {data.what_it_means}
+                </p>
+              )}
+              {data.what_it_does_not_mean && (
+                <p style={{ margin: '6px 0 0', fontSize: 10, color: '#475569', lineHeight: 1.5, fontStyle: 'italic' }}>
+                  <strong style={{ color: '#dc2626' }}>Qué NO mide:</strong> {data.what_it_does_not_mean}
+                </p>
+              )}
+            </div>
           )}
 
           <p style={{ margin: '12px 0 0', fontSize: 9, color: '#64748b', borderTop: '1px solid #fed7aa', paddingTop: 8 }}>

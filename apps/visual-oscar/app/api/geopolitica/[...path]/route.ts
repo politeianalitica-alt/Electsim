@@ -2060,11 +2060,115 @@ Output JSON estricto: { "themes": [...] }`
   }
 }
 
-// ─── Spain Watchlist (Sprint G9) ──────────────────────────────────────
-// Cruza convergence alerts con catálogo Presencia España. Output: países
-// donde España tiene exposición Y la convergencia está elevada → debe
-// vigilar particularmente (riesgo importado real para intereses ES).
+// ─── Spain Watchlist (Sprint G9 · refactor G13 FASE 7) ────────────────
+// Antes: urgency = presencia × convergence. Ahora: análisis orientado a
+// decisión. Cada país de la watchlist incluye canal de impacto sobre España,
+// horizonte temporal probable, pregunta concreta de monitoreo y fuentes
+// sugeridas para validar. El analista pasa de "Marruecos urgencia 7.5" a
+// "Marruecos · canal migratorio/fronterizo · 24-72h · pregunta concreta".
+
+type ImpactChannel = 'migration' | 'energy' | 'military' | 'diplomatic' | 'business' | 'consular' | 'humanitarian' | 'narrative'
+type TimeHorizon = '24-72h' | '7d' | '30d' | 'structural'
+
+// Mapeo categoría presencia → canal impacto principal
+function categoryToImpactChannel(categoria: string): ImpactChannel {
+  const c = (categoria || '').toLowerCase()
+  if (c.includes('migra')) return 'migration'
+  if (c.includes('energ')) return 'energy'
+  if (c.includes('milit') || c.includes('defen')) return 'military'
+  if (c.includes('diplo') || c.includes('union_europea')) return 'diplomatic'
+  if (c.includes('comer') || c.includes('econom')) return 'business'
+  return 'diplomatic'
+}
+
+// Derivar canales adicionales según signals presentes (no sólo la categoría)
+function deriveExtraChannels(signals: any[], country: string): ImpactChannel[] {
+  const channels = new Set<ImpactChannel>()
+  for (const s of signals) {
+    if (s.layer === 'humanitarian') channels.add('humanitarian')
+    if (s.layer === 'consular') channels.add('consular')
+    if (s.layer === 'hard_event' || s.layer === 'structural_conflict') channels.add('military')
+  }
+  // Vecindad geográfica + nombres clave
+  const c = country.toLowerCase()
+  if (/marruecos|argelia|libia|mali|senegal|mauritania/.test(c)) channels.add('migration')
+  if (/argelia|libia|nigeria|rusia/.test(c)) channels.add('energy')
+  if (/ucrania|rusia|polonia|letonia|estonia/.test(c)) channels.add('military')
+  return Array.from(channels)
+}
+
+function timeHorizonForLayers(layersPresent: string[]): TimeHorizon {
+  // Hard event reciente → corto plazo
+  if (layersPresent.includes('hard_event')) return '24-72h'
+  if (layersPresent.includes('consular')) return '7d'
+  if (layersPresent.includes('humanitarian')) return '30d'
+  if (layersPresent.includes('structural_conflict')) return 'structural'
+  return '7d'
+}
+
+// Plantilla de pregunta de monitoreo según país + canales
+function monitoringQuestion(country: string, channels: ImpactChannel[]): string {
+  const main = channels[0] || 'diplomatic'
+  const country_lower = country.toLowerCase()
+  // Casos canónicos del spec
+  if (country_lower.includes('marruecos')) {
+    return '¿La señal apunta a presión fronteriza/migratoria real o sólo a cobertura diplomática puntual? Validar con datos de llegadas FRONTEX/MAEC.'
+  }
+  if (country_lower.includes('ucrania') || country_lower.includes('rusia')) {
+    return '¿Hay escalada militar que afecte a compromisos OTAN/UE o suministros energéticos a Europa? Validar con NATO press + EEAS + precios GNL.'
+  }
+  if (country_lower.includes('mali') || country_lower.includes('niger') || country_lower.includes('burkina') || country_lower.includes('chad') || country_lower.includes('sahel')) {
+    return '¿La presión humanitaria/security puede trasladarse a ruta atlántica/Canarias? Validar con ReliefWeb + Salvamento Marítimo + Frontex.'
+  }
+  if (country_lower.includes('israel') || country_lower.includes('palest') || country_lower.includes('iran') || country_lower.includes('líbano') || country_lower.includes('libano')) {
+    return '¿Hay riesgo para nacionales españoles en zona o para rutas energéticas (Estrecho de Ormuz)? Validar con MAEC + Travel Advisory + GNL routes.'
+  }
+  if (country_lower.includes('venezuela') || country_lower.includes('cuba')) {
+    return '¿Hay deterioro humanitario que afecte flujos hacia España o intereses empresariales españoles? Validar con CIDOB + MAEC + empresas IBEX con exposición.'
+  }
+  if (country_lower.includes('china') || country_lower.includes('ee.uu') || country_lower.includes('estados unidos')) {
+    return '¿La fricción bilateral genera exposición indirecta a España vía UE (comercio, aranceles, tecnología)? Validar con Comisión Europea + CNMC.'
+  }
+  // Genérico por canal principal
+  switch (main) {
+    case 'migration': return `¿Las señales en ${country} indican un cambio en flujos migratorios hacia España o sólo cobertura?`
+    case 'energy': return `¿La situación en ${country} impacta suministro/precios energéticos a España?`
+    case 'military': return `¿Hay implicaciones para compromisos OTAN/UE o presencia militar española en ${country}?`
+    case 'humanitarian': return `¿La crisis humanitaria en ${country} genera presión migratoria o demanda de cooperación al desarrollo española?`
+    case 'consular': return `¿Hay nacionales españoles en riesgo en ${country} o restricciones consulares?`
+    case 'business': return `¿Empresas españolas con exposición en ${country} están afectadas? (IBEX exposición declarada)`
+    default: return `¿La situación en ${country} apunta a deterioro real con canal de impacto a España o sólo a cobertura mediática?`
+  }
+}
+
+// Fuentes recomendadas para validar el diagnóstico
+function recommendedSourcesToCheck(channels: ImpactChannel[]): string[] {
+  const set = new Set<string>()
+  for (const ch of channels) {
+    if (ch === 'migration') { set.add('Frontex'); set.add('Salvamento Marítimo'); set.add('Ministerio del Interior') }
+    if (ch === 'energy') { set.add('CORES'); set.add('Enagás'); set.add('precios GNL Europa') }
+    if (ch === 'military') { set.add('NATO press'); set.add('Defensa.gob.es'); set.add('EDA') }
+    if (ch === 'diplomatic') { set.add('EEAS'); set.add('UE Council'); set.add('MAEC') }
+    if (ch === 'business') { set.add('CNMV exposición IBEX'); set.add('ICEX'); set.add('Cámara Comercio España') }
+    if (ch === 'consular') { set.add('MAEC Travel Advisory'); set.add('Embajada en zona') }
+    if (ch === 'humanitarian') { set.add('ReliefWeb'); set.add('AECID'); set.add('OCHA') }
+    if (ch === 'narrative') { set.add('GDELT'); set.add('cobertura medios ES'); set.add('declaraciones políticas') }
+  }
+  return Array.from(set)
+}
+
+// Confianza de la exposición · alta si presencia es alta y categoría es clara,
+// media si una de las dos es débil
+function exposureConfidence(intensity: number, categoria: string): number {
+  let conf = 0.5
+  if (intensity >= 80) conf += 0.25
+  else if (intensity >= 50) conf += 0.10
+  if (categoria && categoria.length > 3) conf += 0.10
+  return Math.min(1, conf)
+}
+
 async function buildSpainWatchlist(req: Request) {
+  const startedAt = Date.now()
   const base = baseUrl(req)
   const [convergence, presencia] = await Promise.all([
     jsonFetch(`${base}/api/geopolitica/convergence`),
@@ -2072,22 +2176,33 @@ async function buildSpainWatchlist(req: Request) {
   ])
   const alerts: any[] = Array.isArray(convergence?.alerts) ? convergence.alerts : []
   const presenciaRaw: any[] = Array.isArray(presencia?.data) ? presencia.data : []
-  // Index presencia por ISO3. presencia raw puede no traer ISO directamente, mapeamos por nombre.
   const presenciaByIso: Record<string, { intensidad: number; categoria: string; pais: string }> = {}
   for (const p of presenciaRaw) {
     const iso3 = p.iso || nameToIso3(p.pais || '')
     if (!iso3) continue
     const cur = presenciaByIso[iso3]
-    // Si un país tiene varias entradas (multi-categoría), nos quedamos con la de mayor intensidad
     if (!cur || (p.intensidad || 0) > cur.intensidad) {
       presenciaByIso[iso3] = { intensidad: p.intensidad || 0, categoria: p.categoria || '', pais: p.pais }
     }
   }
-  // Join: convergencia + presencia. Urgency score = (presencia_intensidad / 100) * convergence_score
+
   const watchlist = alerts.map((a) => {
     const pres = presenciaByIso[a.iso3]
     if (!pres) return null
     const urgency = Math.round(((pres.intensidad / 100) * a.convergence_score) * 10) / 10
+    // Sprint G13 FASE 7 · dimensiones de decisión
+    const layersPresent: string[] = Array.isArray(a.layers_present) ? a.layers_present : []
+    const primaryChannel = categoryToImpactChannel(pres.categoria)
+    const extraChannels = deriveExtraChannels(a.signals || [], a.name)
+    const impact_channels = Array.from(new Set([primaryChannel, ...extraChannels]))
+    const likely_time_horizon = timeHorizonForLayers(layersPresent)
+    const monitoring_question = monitoringQuestion(a.name, impact_channels)
+    const recommended_sources_to_check = recommendedSourcesToCheck(impact_channels)
+    const exposure_confidence = exposureConfidence(pres.intensidad, pres.categoria)
+    // Confianza global del diagnóstico Watchlist · combina exposición + convergencia + n_capas
+    const diag_confidence = Math.min(1, exposure_confidence * 0.5 + Math.min(1, a.convergence_score / 9) * 0.3 + Math.min(1, layersPresent.length / 4) * 0.2)
+    const explanation = `${a.name}: exposición ${pres.categoria || 'institucional'} (intensidad ${pres.intensidad}/100) + convergencia ${a.band} con ${a.signal_count} señal(es) en ${layersPresent.length} capa(s). Canal de impacto principal: ${primaryChannel}${impact_channels.length > 1 ? ` (+${impact_channels.length - 1} adicionales)` : ''}. Horizonte probable: ${likely_time_horizon}.`
+
     return {
       iso3: a.iso3,
       iso2: a.iso2,
@@ -2104,6 +2219,21 @@ async function buildSpainWatchlist(req: Request) {
       },
       urgency_score: urgency,
       top_signals: a.signals.slice(0, 3),
+      // Sprint G13 FASE 7 · campos orientados a decisión
+      impact_channels,
+      primary_impact_channel: primaryChannel,
+      exposure_type: pres.categoria,
+      exposure_confidence,
+      likely_time_horizon,
+      monitoring_question,
+      recommended_sources_to_check,
+      confidence: +diag_confidence.toFixed(2),
+      explanation,
+      caveats: [
+        'Urgency = (presencia/100) × convergence_score · es heurística, no probabilidad',
+        'Impact channel inferido de categoría presencia + signals · validar con fuente primaria',
+        'Time horizon basado en capa de la convergencia · puede no coincidir con velocidad real del evento',
+      ],
     }
   }).filter((x: any) => x !== null) as any[]
 
@@ -2120,7 +2250,25 @@ async function buildSpainWatchlist(req: Request) {
       moderate_for_spain: watchlist.filter((w: any) => w.urgency_score < 3).length,
     },
     watchlist,
-    methodology: 'Spain Watchlist · join entre /api/geopolitica/convergence (live) y /api/geopolitica/presencia (catálogo intereses ES). Urgency = (presencia/100) × convergence_score. Países donde España debe vigilar especialmente porque tiene exposición Y la convergencia multi-source apunta a deterioro.',
+    what_it_means: 'Países donde España tiene exposición declarada (presencia diplomática/migratoria/energética/empresarial/militar) Y simultáneamente hay convergencia multi-source apuntando a deterioro · prioridad de seguimiento, no de acción.',
+    what_it_does_not_mean: 'NO es una lista de "amenazas a España". NO mide intención hostil de terceros. NO recomienda decisiones políticas. NO incluye análisis de coste-beneficio ni de impacto cuantitativo. Es un cribado de qué países merecen análisis humano detallado en función de exposición ES.',
+    methodology: 'Spain Watchlist Sprint G13 FASE 7 · join entre /api/geopolitica/convergence (live multi-capa con temporal_scope) y /api/geopolitica/presencia (catálogo curado intereses ES). Urgency = (presencia/100) × convergence_score. Cada país añade: canal de impacto (migration/energy/military/diplomatic/business/consular/humanitarian), horizonte temporal (24-72h/7d/30d/structural), pregunta concreta de monitoreo y fuentes sugeridas para validar.',
+    _geo_meta: buildGeoMeta({
+      source_mode: 'analytical_model',
+      sources_used: [
+        'Convergence Alerts · /api/geopolitica/convergence (analytical_model con 5 capas)',
+        'Presencia España · /api/geopolitica/presencia (hybrid · baseline curado + ajuste RSS)',
+      ],
+      startedAt,
+      confidence: watchlist.length > 0 ? +(watchlist.reduce((s, w) => s + (w.confidence || 0.5), 0) / watchlist.length).toFixed(2) : 0.5,
+      layer: 'analytical_model',
+      warnings: [
+        'Watchlist es PRIORIDAD DE SEGUIMIENTO · no recomendación política',
+        'Cada país lleva monitoring_question · usar como guía analítica, no como conclusión',
+        'Impact channels inferidos · validar con fuentes recomendadas antes de citar',
+      ],
+      notes: 'Cruza Convergence × Presencia · output orientado a decisión',
+    }),
   }
 }
 
