@@ -38,6 +38,8 @@ import { GeoThemeClusters } from '@/components/geopolitica/GeoThemeClusters'
 import { GeoStateMediaFeeds } from '@/components/geopolitica/GeoStateMediaFeeds'
 // Sprint G14 FASE 4 cierre · "Mismo tema × N voces" comparativa cross-país
 import { GeoSameEventFraming } from '@/components/geopolitica/GeoSameEventFraming'
+// Sprint G14 extra · heatmap calendario · pulso 90 días
+import { GeoEventCalendarHeatmap } from '@/components/geopolitica/GeoEventCalendarHeatmap'
 import { GeoGdeltSummary } from '@/components/geopolitica/GeoGdeltSummary'
 import { GeoTvBroadcast } from '@/components/geopolitica/GeoTvBroadcast'
 
@@ -937,6 +939,10 @@ export default function GeopoliticaPage() {
             {/* Sprint G14 FASE 4 cierre · "Mismo tema × N voces" comparativa cross-país */}
             <div style={{ marginBottom: 20 }}>
               <GeoSameEventFraming />
+            </div>
+            {/* Sprint G14 extra · heatmap calendario · 90 días de pulso */}
+            <div style={{ marginBottom: 20 }}>
+              <GeoEventCalendarHeatmap days={90} />
             </div>
             {/* Sprint G12 · TV broadcast narrative tracking (GDELT TV API) */}
             <div style={{ marginBottom: 20 }}>
