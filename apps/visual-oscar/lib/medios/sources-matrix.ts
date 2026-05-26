@@ -1,63 +1,69 @@
 /**
  * Matriz de fuentes utilizadas por cada tab de /prensa (Medios).
  *
- * Sprint M3 · refactor 10→7 tabs · estructura como flujo analítico
- * coherente en lugar de colección de módulos sueltos:
+ * Sprint G15 · refactor: dashboard de inteligencia mediática real,
+ * no colección de módulos apilados. 7 tabs como flujo analítico:
  *
- *   1. Pulso                  · qué pasa AHORA
- *   2. Búsqueda               · qué se publicó sobre X
- *   3. Narrativas & framing   · qué narrativas se forman + cómo, por quién
- *   4. Actores e impacto      · a quién afecta y cómo (no solo sentimiento)
- *   5. Mapas de impacto       · dónde impacta (España/CCAA + Global)
- *   6. Desinformación         · qué es falso o dudoso
- *   7. Informes & monitores   · qué guardo/exporto/monitorizo
+ *   1. Pulso de prensa             · qué está dominando AHORA la agenda
+ *   2. Búsqueda                    · qué se ha publicado sobre X
+ *   3. Narrativas & framing        · qué narrativas se forman y cómo se encuadran
+ *   4. Tendencias e impacto        · qué figuras/partidos/empresas/sectores/países salen más impactados (NO sólo sentimiento)
+ *   5. Mapas de impacto            · dónde impacta la agenda · España+provincias+mundo
+ *   6. Observatorio de Información · verificaciones, bulos, claims, operaciones
+ *   7. Mapa de medios              · catálogo + territorio + grupo + ideología + RSS
  *
- * Viralidad y Análisis IA · Groq pasan a ser CAPAS TRANSVERSALES:
- *   - <ViralidadStrip />        · slice "historias que aceleran" en Pulso/Narrativas/Búsqueda/Informes
- *   - <LecturaPoliteiaPanel />  · panel IA reusable en cualquier tab con contexto estructurado
+ * Cambios vs Sprint M3:
+ *   - Actores → Tendencias (con beneficial/harmful/neutral/uncertain por actor, no solo sentimiento)
+ *   - Desinformación → Observatorio de Información (verificaciones + operaciones + conexión narrativas)
+ *   - Informes & monitores → Mapa de medios (catálogo filtrable + concentración + ficha medio)
+ *   - Narrativas se rehace como workbench único · no más apilamiento de 7 módulos
  *
- * Cobertura ideológica se funde dentro de Narrativas (la barra
- * left/center/right por narrativa + StoryClusters).
+ * Capas transversales (sin tab propia):
+ *   - <ViralidadStrip />        · slice "historias que aceleran" donde tenga sentido
+ *   - <LecturaPoliteiaPanel />  · panel IA reusable
  *
- * Compatibilidad URLs antiguas: `migrateLegacyTab()` mapea ?tab=viralidad
- * a ?tab=narrativas, ?tab=analisis-ia a ?tab=pulso, etc.
+ * Compatibilidad URLs antiguas: `migrateLegacyTab()` mantiene los aliases
+ * para que enlaces guardados sigan funcionando (actores→tendencias, etc.).
  */
 
 export type MediosTabId =
   | 'pulso'
   | 'busqueda'
   | 'narrativas'
-  | 'actores'
+  | 'tendencias'                // Sprint G15 · reemplaza 'actores'
   | 'mapas'
-  | 'desinformacion'
-  | 'informes'
+  | 'observatorio-informacion'  // Sprint G15 · reemplaza 'desinformacion'
+  | 'mapa-medios'               // Sprint G15 · reemplaza 'informes'
 
-// IDs históricos (10 tabs) · mantenemos para mapeo de URLs antiguas
+// IDs históricos · mantenemos para mapeo de URLs antiguas
 export type LegacyMediosTabId =
   | 'pulso'
   | 'busqueda'
   | 'mapa-global'
-  | 'actores-sentimiento'
+  | 'actores'                   // Sprint M3
+  | 'actores-sentimiento'       // pre-M3
   | 'cobertura-ideologica'
   | 'viralidad'
   | 'analisis-ia'
-  | 'desinformacion'
+  | 'desinformacion'            // Sprint M3
   | 'regional'
-  | 'informes'
+  | 'informes'                  // Sprint M3
 
 const LEGACY_TO_NEW: Record<LegacyMediosTabId, MediosTabId> = {
-  // mantienen ID parecido
+  // mantienen ID
   pulso: 'pulso',
   busqueda: 'busqueda',
-  desinformacion: 'desinformacion',
-  informes: 'informes',
-  // fusiones según spec usuario
+  // Sprint G15 · renames
+  actores: 'tendencias',
+  'actores-sentimiento': 'tendencias',
+  desinformacion: 'observatorio-informacion',
+  informes: 'mapa-medios',
+  // fusiones Sprint M3 mantenidas
   viralidad: 'narrativas',              // capa transversal · home en narrativas
   'analisis-ia': 'pulso',               // capa transversal · home en pulso
   'cobertura-ideologica': 'narrativas', // dentro de narrativas
   'mapa-global': 'mapas',
   regional: 'mapas',
-  'actores-sentimiento': 'actores',
 }
 
 export function migrateLegacyTab(id: string | null | undefined): MediosTabId {
@@ -83,10 +89,10 @@ export const MEDIOS_TABS: MediosTab[] = [
   {
     id: 'pulso',
     number: 1,
-    label: 'Pulso',
+    label: 'Pulso de prensa',
     shortLabel: 'Pulso',
     question: '¿Qué está dominando ahora mismo la agenda?',
-    description: 'Narrativas emergentes, feed por tiers, agenda topic × partido, historias que aceleran y Lectura IA del estado actual.',
+    description: 'Primera lectura · gráfico de importancia temática (tags reales + heurística), feed por tiers, KPIs y señales emergentes. Lectura IA opcional.',
     themeAccent: '#1F4E8C',
     sources: [
       { key: 'rss',     name: 'RSS · 219 medios ES+UE',  status: 'live', endpoint: '/api/medios/intel' },
@@ -116,8 +122,8 @@ export const MEDIOS_TABS: MediosTab[] = [
     number: 3,
     label: 'Narrativas & framing',
     shortLabel: 'Narrativas',
-    question: '¿Qué narrativas existen, qué frame usan, qué bloque las amplifica?',
-    description: 'NarrativeClusters auditables · barra ideológica izq/centro/der por narrativa · StoryClusters comparados · gaps de cobertura · velocity + acceleration · Lectura IA por narrativa.',
+    question: '¿Qué narrativas se están formando y cómo se encuadran?',
+    description: 'Workbench único · cada narrativa es topic + frame + mensaje repetido + actores + medios/canales + ventana temporal + evidencia suficiente. NO un tema, NO un frame suelto. Mínimo 3 artículos en ≥2 medios y al menos una señal fuerte (actor / institución / partido / empresa / territorio).',
     themeAccent: '#7C3AED',
     sources: [
       { key: 'narratives', name: 'NarrativeClusters (M2)',           status: 'live', endpoint: '/api/medios/intel' },
@@ -127,19 +133,21 @@ export const MEDIOS_TABS: MediosTab[] = [
     ],
   },
   {
-    id: 'actores',
+    id: 'tendencias',
     number: 4,
-    label: 'Actores e impacto',
-    shortLabel: 'Actores',
-    question: '¿A quién afecta y cómo? menciones, sentimiento hacia actor, impacto político, rol narrativo, medios que amplifican.',
-    description: 'No es sólo sentimiento · separa menciones · sentimiento HACIA actor · impacto político (beneficial/harmful/neutral/uncertain) con confianza y razón · rol narrativo · medios que amplifican · temas asociados.',
+    label: 'Tendencias e impacto',
+    shortLabel: 'Tendencias',
+    question: '¿Qué figuras, partidos, empresas, sectores o países salen más impactados y cómo?',
+    description: 'NO sólo sentimiento · impacto político/comunicativo con beneficial/harmful/neutral/uncertain por figura, partido, empresa, sector y país. Frames asociados, temas que arrastran y medios que más los mencionan. Cada actor con botón "Crear dossier".',
     themeAccent: '#0891B2',
     sources: [
-      { key: 'figures_v2', name: 'figuresFromReadings (M2) · sentiment HACIA actor', status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'rss',        name: 'RSS · taxonomía actores',                          status: 'live' },
-      { key: 'wikidata',   name: 'Wikidata · alias + cargos',                        status: 'live', endpoint: '/api/wikidata/search' },
-      { key: 'gdelt',      name: 'GDELT · cobertura internacional',                  status: 'live' },
-      { key: 'brain',      name: 'Lectura Politeia · IA',                            status: 'live', endpoint: '/api/medios/lectura' },
+      { key: 'figures_v2',   name: 'figuresFromReadings (M2) · impact HACIA actor', status: 'live', endpoint: '/api/medios/intel' },
+      { key: 'actor_impacts',name: 'actor_impacts · benef/harm/neutral/uncertain',  status: 'live' },
+      { key: 'companies',    name: 'companies · empresas tracked',                  status: 'live' },
+      { key: 'sectors',      name: 'sectors · sectores en tensión',                 status: 'live' },
+      { key: 'wikidata',     name: 'Wikidata · alias + cargos',                     status: 'live', endpoint: '/api/wikidata/search' },
+      { key: 'gdelt',        name: 'GDELT · cobertura internacional países',        status: 'live' },
+      { key: 'dossier',      name: 'Dossier export por actor',                      status: 'live', endpoint: '/api/medios/dossier' },
     ],
   },
   {
@@ -147,8 +155,8 @@ export const MEDIOS_TABS: MediosTab[] = [
     number: 5,
     label: 'Mapas de impacto',
     shortLabel: 'Mapas',
-    question: '¿Dónde impacta? España/CCAA + Global con narrative attribution.',
-    description: 'Dos modos · ESPAÑA/CCAA separa CCAA del medio vs mencionada vs afectada con regional_signal_score · GLOBAL muestra país/evento con severidad + narrativa + relevancia ES + fuente + confianza.',
+    question: '¿Dónde impacta la agenda mediática?',
+    description: 'España por CCAA + provincias + mundo. Tres lentes separadas: territorio del medio · territorio mencionado · territorio afectado. Cuota local en el agregador para que los grandes nacionales no tapen la realidad provincial.',
     themeAccent: '#10B981',
     sources: [
       { key: 'acled',  name: 'ACLED · eventos conflicto 30d',     status: 'live', endpoint: '/api/acled/by-country' },
@@ -159,31 +167,32 @@ export const MEDIOS_TABS: MediosTab[] = [
     ],
   },
   {
-    id: 'desinformacion',
+    id: 'observatorio-informacion',
     number: 6,
-    label: 'Desinformación',
-    shortLabel: 'Verificación',
-    question: '¿Qué claims están verificados o son sospechosos?',
-    description: 'Maldita + Newtral + EFE Verifica + Google Fact Check · cada claim con narrativa afectada + actores beneficiados/perjudicados + Lectura IA.',
+    label: 'Observatorio de Información',
+    shortLabel: 'Observatorio',
+    question: '¿Qué claims, bulos, operaciones informativas o patrones de desinformación están activos?',
+    description: 'No solo "desinformación" · verificaciones recientes + claims + bulos + engañosos + sin contexto + tendencia temporal + actores afectados + conexión con narrativas activas. Google Fact Check integrado como buscador interno.',
     themeAccent: '#B91C1C',
     sources: [
-      { key: 'rss-fc', name: 'RSS · Maldita, Newtral, EFE Verifica', status: 'live', endpoint: '/api/news/desinformacion' },
-      { key: 'gfact',  name: 'Google Fact Check Tools API',          status: 'live', endpoint: '/api/factcheck/search' },
-      { key: 'brain',  name: 'Lectura Politeia · IA',                status: 'live', endpoint: '/api/medios/lectura' },
+      { key: 'rss-fc',     name: 'RSS · Maldita, Newtral, EFE Verifica', status: 'live', endpoint: '/api/news/desinformacion' },
+      { key: 'gfact',      name: 'Google Fact Check Tools API',          status: 'live', endpoint: '/api/factcheck/search' },
+      { key: 'narratives', name: 'NarrativeClusters · cruce con verificaciones', status: 'live', endpoint: '/api/medios/intel' },
+      { key: 'brain',      name: 'Lectura Politeia · IA',                status: 'live', endpoint: '/api/medios/lectura' },
     ],
   },
   {
-    id: 'informes',
+    id: 'mapa-medios',
     number: 7,
-    label: 'Informes & monitores',
-    shortLabel: 'Informes',
-    question: '¿Cómo exportar y monitorizar esta inteligencia?',
-    description: 'Búsquedas guardadas · monitores · dossiers MD/HTML con metodología y advertencias · plantillas alertas · alertas por aceleración (viralidad transversal).',
+    label: 'Mapa de medios',
+    shortLabel: 'Mapa medios',
+    question: '¿Qué medios componen el ecosistema informativo y dónde están?',
+    description: 'Catálogo filtrable por tipo, ámbito, CCAA, provincia, grupo, ideología, RSS, credibilidad y audiencia. Mapa España + concentración por grupo editorial + gaps de cobertura provincial + ficha de cada medio.',
     themeAccent: '#475569',
     sources: [
-      { key: 'internal-saves', name: 'Monitores guardados (localStorage)',         status: 'live' },
-      { key: 'dossier',        name: 'Dossier export · Markdown + HTML print',     status: 'live', endpoint: '/api/medios/dossier' },
-      { key: 'brain',          name: 'Lectura Politeia · IA ejecutiva',            status: 'live', endpoint: '/api/medios/lectura' },
+      { key: 'catalog',   name: 'Catálogo medios.json (219 ES) + medios-europeos.json (16)', status: 'live', endpoint: '/api/medios' },
+      { key: 'overlay',   name: 'medios-locales.json overlay · provincia + scope_level',     status: 'live' },
+      { key: 'rss-health',name: 'RSS health-check por medio',                                status: 'planned' },
     ],
   },
 ]

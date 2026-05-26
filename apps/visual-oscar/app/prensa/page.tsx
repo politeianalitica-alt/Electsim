@@ -269,8 +269,12 @@ export default function PrensaPage() {
   const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
   const [balanceMode, setBalanceMode] = useUrlState<BalanceMode>('balance', 'pluralism')
   const [showMethodology, setShowMethodology] = useState(false)
-  // Tabs que necesitan el endpoint /intel (resto autónomas)
-  const tabsThatNeedIntel: MediosTabId[] = ['pulso', 'narrativas', 'actores', 'informes']
+  // Sprint G15 FASE B · IDs renombrados: actores→tendencias · desinformacion→
+  // observatorio-informacion · informes→mapa-medios.
+  // Tabs que necesitan el endpoint /intel (resto autónomas):
+  // - mapa-medios va a /api/medios (catálogo), no a /intel
+  // - observatorio-informacion va a sus propios endpoints (factcheck + desinformacion)
+  const tabsThatNeedIntel: MediosTabId[] = ['pulso', 'narrativas', 'tendencias']
   const needsIntel = tabsThatNeedIntel.includes(safeActiveTab)
   const { data, source, loading, refresh, updatedAt } = useApi<IntelResponse>(
     `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 100 : 0}&balance_mode=${balanceMode}`,
@@ -519,8 +523,10 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 4 · Actores e impacto · a quién afecta y cómo */}
-              {safeActiveTab === 'actores' && (
+              {/* Tab 4 · Tendencias e impacto · Sprint G15 FASE B · renombrado de 'actores'.
+                  Render actual sigue siendo el legacy (ActoresImpactoPanel + FiguresV2View + SentimentDualView)
+                  hasta que Fase E entregue TendenciasImpactoView con beneficial/harmful por figura/empresa/sector/país. */}
+              {safeActiveTab === 'tendencias' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
                     question="¿Quién aparece, cómo aparece y si le beneficia o perjudica?"
@@ -567,25 +573,29 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 6 · Desinformación · qué es falso o dudoso */}
-              {safeActiveTab === 'desinformacion' && (
+              {/* Tab 6 · Observatorio de Información · Sprint G15 FASE B · renombrado de 'desinformacion'.
+                  Render actual sigue siendo DesinformacionLive hasta que Fase G entregue ObservatorioInformacion.tsx
+                  con tendencias temporales + alcance + conexión con narrativas + Google FactCheck integrado. */}
+              {safeActiveTab === 'observatorio-informacion' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
-                    question="¿Qué claims están verificados o son sospechosos?"
-                    answer="Maldita + Newtral + EFE Verifica + Google Fact Check · cada claim con narrativa afectada + actores beneficiados/perjudicados + estado de verificación + Lectura IA."
+                    question="¿Qué claims, bulos, operaciones informativas o patrones de desinformación están activos?"
+                    answer="Verificaciones recientes + claims + bulos + sin contexto + tendencia temporal + actores afectados + conexión con narrativas activas. Google Fact Check integrado como buscador interno."
                   />
                   <LecturaPoliteiaPanel
                     tabId="desinformacion"
                     context={lecturaCtx}
-                    title="Lectura Politeia de Desinformación"
+                    title="Lectura Politeia · Observatorio de Información"
                     collapsedByDefault
                   />
                   <DesinformacionLive />
                 </div>
               )}
 
-              {/* Tab 7 · Informes & monitores · exportar y monitorizar */}
-              {safeActiveTab === 'informes' && (
+              {/* Tab 7 · Mapa de medios · Sprint G15 FASE B · renombrado de 'informes'.
+                  Render actual sigue siendo InformesAlertas hasta que Fase H entregue MapaMedios.tsx
+                  con mapa España + catálogo filtrable + concentración + ficha de medio. */}
+              {safeActiveTab === 'mapa-medios' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
                     question="¿Cómo exportar o monitorizar esta inteligencia?"
