@@ -41,6 +41,13 @@ export interface AggregatedArticle {
   medio: CatalogMedio
   sentiment: 'positive' | 'negative' | 'neutral'
   sentiment_score: number  // -1..+1
+  /**
+   * Sprint G15 FASE A · categorías/tags declaradas por el medio en su RSS.
+   * Vienen de RSSItem.categories (parseRSS extrae <category>, <dc:subject>,
+   * Atom <category term>, <media:keywords>). undefined si el medio no las publica.
+   * Útil para topicImportance() · contar share por tema sin tener que inferir.
+   */
+  source_tags?: string[]
 }
 
 // Promise pool para limitar concurrency en los fetches RSS
@@ -136,6 +143,8 @@ export async function getAggregatedNews(opts: AggregateOptions = {}): Promise<Ag
         medio: r.medio,
         sentiment,
         sentiment_score: score,
+        // Sprint G15 FASE A · propagar tags del feed RSS si el medio los publica
+        source_tags: it.categories,
       })
     }
   }

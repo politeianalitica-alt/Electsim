@@ -8,6 +8,12 @@ export interface RSSItem {
   pubDate: Date | null
   description: string
   guid?: string
+  /**
+   * Sprint G15 FASE A · categorías/tags declaradas por el medio en el feed.
+   * Extraídas de <category>, <dc:subject>, <media:keywords>, Atom <category term="">.
+   * Útil para `topicImportance()` en news-intel.ts sin tener que adivinar topic.
+   */
+  categories?: string[]
 }
 
 export interface RSSResult {
@@ -53,6 +59,51 @@ function parseDate(s: string): Date | null {
   return isNaN(d.getTime()) ? null : d
 }
 
+/**
+ * Sprint G15 FASE A · extrae TODAS las categorías/tags declaradas por el medio.
+ * Soporta:
+ *  - RSS 2.0: <category>X</category> (puede haber múltiples)
+ *  - Dublin Core: <dc:subject>X</dc:subject>
+ *  - Atom: <category term="X" label="X"/>
+ *  - Yahoo Media: <media:keywords>a,b,c</media:keywords>
+ * Devuelve array deduplicado limpio (sin HTML residual, trimmed, max 8).
+ */
+function extractCategories(block: string): string[] {
+  const out = new Set<string>()
+  // <category>text</category> · puede aparecer N veces
+  const catRx = /<category(?:\s[^>]*)?>([\s\S]*?)<\/category>/gi
+  let m: RegExpExecArray | null
+  while ((m = catRx.exec(block)) !== null) {
+    const t = decode(m[1]).trim()
+    if (t) out.add(t)
+  }
+  // Atom <category term="X"/> · self-closing, attr-based
+  const atomCatRx = /<category\b[^>]*\bterm=["']([^"']+)["']/gi
+  while ((m = atomCatRx.exec(block)) !== null) {
+    const t = decode(m[1]).trim()
+    if (t) out.add(t)
+  }
+  // <dc:subject>text</dc:subject>
+  const dcRx = /<dc:subject(?:\s[^>]*)?>([\s\S]*?)<\/dc:subject>/gi
+  while ((m = dcRx.exec(block)) !== null) {
+    const t = decode(m[1]).trim()
+    if (t) out.add(t)
+  }
+  // <media:keywords>a,b,c</media:keywords>
+  const mediaRx = /<media:keywords(?:\s[^>]*)?>([\s\S]*?)<\/media:keywords>/gi
+  while ((m = mediaRx.exec(block)) !== null) {
+    for (const k of decode(m[1]).split(',')) {
+      const t = k.trim()
+      if (t) out.add(t)
+    }
+  }
+  // Cap razonable + sin tags vacíos ni demasiado largos
+  return Array.from(out)
+    .map((t) => t.slice(0, 60))
+    .filter((t) => t.length >= 2)
+    .slice(0, 8)
+}
+
 export function parseRSS(xml: string): RSSResult {
   if (!xml || xml.length < 50) return { ok: false, items: [], error: 'feed vacío' }
 
@@ -80,6 +131,8 @@ export function parseRSS(xml: string): RSSResult {
       || extractTag(block, 'content')
       || extractTag(block, 'content:encoded')
     const guid = extractTag(block, 'guid') || extractTag(block, 'id')
+    // Sprint G15 FASE A · categorías/tags del feed
+    const categories = extractCategories(block)
 
     if (!title || !link) continue
     items.push({
@@ -88,6 +141,7 @@ export function parseRSS(xml: string): RSSResult {
       pubDate: parseDate(pubRaw),
       description: description.slice(0, 500),
       guid: guid || undefined,
+      categories: categories.length > 0 ? categories : undefined,
     })
   }
 
