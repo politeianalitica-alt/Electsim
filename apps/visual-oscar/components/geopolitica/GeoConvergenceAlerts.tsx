@@ -13,7 +13,18 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface Signal { source: string; level: 'HIGH' | 'CRITICAL'; detail: string }
+interface Signal {
+  source: string
+  level: 'HIGH' | 'CRITICAL'
+  detail: string
+  // Sprint G13 FASE 6 · campos enriquecidos por capa
+  source_type?: 'live_api' | 'curated_baseline'
+  layer?: 'hard_event' | 'structural_conflict' | 'humanitarian' | 'consular' | 'analytical_model'
+  temporal_scope?: 'last_30d' | 'annual' | 'historical' | 'realtime' | 'curated'
+  freshness?: string
+  confidence?: number
+  caveat?: string
+}
 interface Alert {
   iso3: string
   iso2: string
@@ -24,6 +35,10 @@ interface Alert {
   critical_count: number
   band: string
   signals: Signal[]
+  // Sprint G13 FASE 6
+  layers_present?: string[]
+  explanation?: string
+  caveats?: string[]
 }
 
 interface Resp {
@@ -35,6 +50,7 @@ interface Resp {
   methodology?: string
   inspiration?: string
   error?: string
+  sources_temporal_scope?: Record<string, { source_type: string; temporal_scope: string; note: string }>
 }
 
 const BAND_COLOR: Record<string, { bg: string; track: string; fg: string }> = {
@@ -144,19 +160,27 @@ export function GeoConvergenceAlerts() {
                         </span>
                       </div>
                     </div>
-                    {/* Signals por capa */}
+                    {/* Sprint G13 FASE 6 · Signals por capa con temporal_scope y caveat */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                       {a.signals.map((s, i) => {
-                        const sc = SOURCE_COLOR[s.source] || '#94a3b8'
+                        const sc = SOURCE_COLOR[s.source.split(' ')[0]] || SOURCE_COLOR[s.source] || '#94a3b8'
+                        // Tooltip con caveat + freshness + temporal_scope
+                        const tipParts: string[] = []
+                        if (s.layer) tipParts.push(`Capa: ${s.layer}`)
+                        if (s.temporal_scope) tipParts.push(`Temporalidad: ${s.temporal_scope}`)
+                        if (s.freshness) tipParts.push(`Frescura: ${s.freshness}`)
+                        if (typeof s.confidence === 'number') tipParts.push(`Conf: ${Math.round(s.confidence * 100)}%`)
+                        if (s.caveat) tipParts.push(`⚠ ${s.caveat}`)
                         return (
-                          <div key={i} style={{
+                          <div key={i} title={tipParts.join(' · ')} style={{
                             display: 'grid',
-                            gridTemplateColumns: '80px 60px 1fr',
+                            gridTemplateColumns: '110px 60px 90px 1fr',
                             gap: 8,
                             fontSize: 10,
                             padding: '3px 6px',
                             borderRadius: 3,
                             background: '#0f172a',
+                            cursor: 'help',
                           }}>
                             <span style={{ color: sc, fontWeight: 700, letterSpacing: 0.4 }}>{s.source}</span>
                             <span style={{
@@ -168,17 +192,60 @@ export function GeoConvergenceAlerts() {
                               fontWeight: 700,
                               textAlign: 'center',
                             }}>{s.level}</span>
+                            {/* Badge temporalidad · ESTRUCTURAL es el más importante a mostrar */}
+                            <span style={{
+                              fontSize: 8,
+                              padding: '1px 4px',
+                              borderRadius: 2,
+                              background: s.temporal_scope === 'annual' || s.temporal_scope === 'historical' ? '#581c87' : s.temporal_scope === 'last_30d' ? '#1e40af' : s.temporal_scope === 'realtime' ? '#166534' : '#475569',
+                              color: '#fff',
+                              fontWeight: 700,
+                              textAlign: 'center',
+                              letterSpacing: 0.3,
+                            }}>
+                              {s.temporal_scope === 'annual' ? 'ESTRUCT.' : s.temporal_scope === 'last_30d' ? '30D' : s.temporal_scope === 'realtime' ? 'AHORA' : s.temporal_scope === 'curated' ? 'CURADO' : '—'}
+                            </span>
                             <span style={{ color: '#cbd5e1' }}>{s.detail}</span>
                           </div>
                         )
                       })}
                     </div>
+                    {/* Sprint G13 FASE 6 · explanation + caveats */}
+                    {a.explanation && (
+                      <p style={{ margin: '8px 0 0', fontSize: 10, color: '#94a3b8', fontStyle: 'italic', lineHeight: 1.4 }}>
+                        {a.explanation}
+                      </p>
+                    )}
+                    {a.caveats && a.caveats.length > 0 && (
+                      <details style={{ marginTop: 6 }}>
+                        <summary style={{ fontSize: 9, color: '#fbbf24', cursor: 'pointer', letterSpacing: 0.4, textTransform: 'uppercase', fontWeight: 700 }}>
+                          ⚠ {a.caveats.length} caveats
+                        </summary>
+                        <ul style={{ margin: '4px 0 0 14px', padding: 0, fontSize: 9, color: '#cbd5e1', lineHeight: 1.4 }}>
+                          {a.caveats.map((c, i) => <li key={i}>{c}</li>)}
+                        </ul>
+                      </details>
+                    )}
                   </button>
                 )
               })}
             </div>
           ) : (
             <p style={{ fontSize: 11, color: '#94a3b8' }}>Sin convergencias detectadas en este momento (todos los países con &lt;3 puntos de score).</p>
+          )}
+
+          {/* Sprint G13 FASE 6 · leyenda temporal_scope */}
+          {data.sources_temporal_scope && (
+            <div style={{ marginTop: 14, padding: 10, background: '#0f172a', borderRadius: 6, border: '1px dashed #475569' }}>
+              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: 0.6, color: '#fbbf24', textTransform: 'uppercase', marginBottom: 6 }}>
+                ◇ Temporalidades por capa (NO sumar como equivalentes)
+              </p>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 3, fontSize: 9, color: '#cbd5e1' }}>
+                {Object.entries(data.sources_temporal_scope).map(([src, info]) => (
+                  <li key={src}><strong style={{ color: '#fbbf24' }}>{src}</strong> · {info.temporal_scope} · {info.note}</li>
+                ))}
+              </ul>
+            </div>
           )}
 
           <p style={{ margin: '14px 0 0', fontSize: 9, color: '#64748b', borderTop: '1px solid #1e293b', paddingTop: 10, lineHeight: 1.5 }}>

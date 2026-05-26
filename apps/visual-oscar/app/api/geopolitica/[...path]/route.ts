@@ -1664,9 +1664,8 @@ async function fetchReliefWebActiveByIso3(): Promise<Record<string, number>> {
 }
 
 async function buildConvergenceAlerts(req: Request) {
+  const startedAt = Date.now()
   const base = baseUrl(req)
-  // 4 calls paralelos · 2 internos cacheados (world-risk + travel) + 2 externos LIVE (UCDP + ReliefWeb).
-  // Datos siempre frescos, sin listas estáticas mantenidas a mano.
   const [world, travel, ucdpMap, reliefMap] = await Promise.all([
     jsonFetch(`${base}/api/geopolitica/world-risk`),
     jsonFetch(`${base}/api/geopolitica/travel-advisories?country=all`),
@@ -1685,63 +1684,134 @@ async function buildConvergenceAlerts(req: Request) {
   const RELIEF_THRESHOLD_HIGH = 10
   const RELIEF_THRESHOLD_CRITICAL = 30
 
+  // Sprint G13 FASE 6 · cada signal declara source_type, layer, freshness,
+  // temporal_scope, confidence y caveat propio. NO se mezclan capas
+  // heterogéneas sin etiqueta. UCDP estructural ≠ ReliefWeb 30d ≠ Travel realtime.
+  interface ConvergenceSignal {
+    source: string
+    level: 'HIGH' | 'CRITICAL'
+    detail: string
+    source_type: 'live_api' | 'curated_baseline'
+    layer: 'hard_event' | 'structural_conflict' | 'humanitarian' | 'consular' | 'analytical_model'
+    temporal_scope: 'last_30d' | 'annual' | 'historical' | 'realtime' | 'curated'
+    freshness: string                   // descripción legible "últimos 30 días"
+    confidence: number                  // 0..1
+    caveat: string                      // qué NO debe interpretarse
+  }
+
   const countries: any[] = Array.isArray(world?.countries) ? world.countries : []
   const alerts = countries.map((c) => {
     const iso3 = c.iso3
     const iso2 = ISO3_TO_ISO2[iso3] || ''
-    const signals: Array<{ source: string; level: 'HIGH' | 'CRITICAL'; detail: string }> = []
+    const signals: ConvergenceSignal[] = []
     let score = 0
-    // ACLED · uplift ≥10 = HIGH, ≥20 = CRITICAL
+
+    // ACLED · evento material reciente
     const acled_events = c.acled_events_30d ?? 0
     const acled_fatalities = c.acled_fatalities_30d ?? 0
     const acled_uplift = acled_events + (acled_fatalities * 0.5)
+    const acledBase = {
+      source: 'ACLED' as const,
+      source_type: 'live_api' as const,
+      layer: 'hard_event' as const,
+      temporal_scope: 'last_30d' as const,
+      freshness: 'últimos 30 días',
+      confidence: 0.85,
+      caveat: 'Evento de violencia política georeferenciado · NO mide percepción ni recomendación política',
+    }
     if (acled_uplift >= 20) {
-      signals.push({ source: 'ACLED', level: 'CRITICAL', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
+      signals.push({ ...acledBase, level: 'CRITICAL', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
       score += 3
     } else if (acled_uplift >= 10) {
-      signals.push({ source: 'ACLED', level: 'HIGH', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
+      signals.push({ ...acledBase, level: 'HIGH', detail: `${acled_events} eventos · ${acled_fatalities} fatalities 30d` })
       score += 2
     }
-    // UCDP · live · intensity 2 = CRITICAL, 1 = HIGH
+
+    // UCDP · ESTRUCTURAL · NO indica deterioro de hoy
     const ucdp = ucdpMap[iso3]
     if (ucdp) {
+      const ucdpBase = {
+        source: 'UCDP' as const,
+        source_type: 'live_api' as const,
+        layer: 'structural_conflict' as const,
+        temporal_scope: 'annual' as const,
+        freshness: 'dataset Uppsala v24.1 · año 2023',
+        confidence: 0.80,
+        caveat: 'CONFLICTO ESTRUCTURAL HISTÓRICO · dato anual peer-reviewed · NO indica deterioro de HOY · contexto multi-año',
+      }
       if (ucdp.intensity >= 2) {
-        signals.push({ source: 'UCDP', level: 'CRITICAL', detail: ucdp.conflict })
+        signals.push({ ...ucdpBase, level: 'CRITICAL', detail: ucdp.conflict })
         score += 3
       } else if (ucdp.intensity >= 1) {
-        signals.push({ source: 'UCDP', level: 'HIGH', detail: ucdp.conflict })
+        signals.push({ ...ucdpBase, level: 'HIGH', detail: ucdp.conflict })
         score += 2
       }
     }
-    // ReliefWeb · live · count reports 30d
+
+    // ReliefWeb · presión humanitaria reciente
     const reliefCount = reliefMap[iso3] || 0
+    const reliefBase = {
+      source: 'ReliefWeb' as const,
+      source_type: 'live_api' as const,
+      layer: 'humanitarian' as const,
+      temporal_scope: 'last_30d' as const,
+      freshness: 'últimos 30 días · reports OCHA/ONGs',
+      confidence: 0.78,
+      caveat: 'Reportes humanitarios sobre población civil · NO mide intensidad militar ni atribución de responsables',
+    }
     if (reliefCount >= RELIEF_THRESHOLD_CRITICAL) {
-      signals.push({ source: 'ReliefWeb', level: 'CRITICAL', detail: `${reliefCount} reports OCHA 30d` })
+      signals.push({ ...reliefBase, level: 'CRITICAL', detail: `${reliefCount} reports OCHA 30d` })
       score += 3
     } else if (reliefCount >= RELIEF_THRESHOLD_HIGH) {
-      signals.push({ source: 'ReliefWeb', level: 'HIGH', detail: `${reliefCount} reports OCHA 30d` })
+      signals.push({ ...reliefBase, level: 'HIGH', detail: `${reliefCount} reports OCHA 30d` })
       score += 2
     }
-    // Travel Advisory · ≥4.0 = HIGH, ≥4.5 = CRITICAL
+
+    // Travel Advisory · recomendación consular vigente
     const t = travelByIso2[iso2]
     if (t) {
+      const travelBase = {
+        source: 'Travel Advisory' as const,
+        source_type: 'live_api' as const,
+        layer: 'consular' as const,
+        temporal_scope: 'realtime' as const,
+        freshness: 'recomendación consular vigente',
+        confidence: 0.75,
+        caveat: 'Recomendación CONSULAR para nacionales · NO mide violencia material · depende de política consular del emisor',
+      }
       if (t.score >= 4.5) {
-        signals.push({ source: 'Travel', level: 'CRITICAL', detail: `${t.band} (${t.score.toFixed(1)}/5)` })
+        signals.push({ ...travelBase, level: 'CRITICAL', detail: `${t.band} (${t.score.toFixed(1)}/5)` })
         score += 3
       } else if (t.score >= 4.0) {
-        signals.push({ source: 'Travel', level: 'HIGH', detail: `${t.band} (${t.score.toFixed(1)}/5)` })
+        signals.push({ ...travelBase, level: 'HIGH', detail: `${t.band} (${t.score.toFixed(1)}/5)` })
         score += 2
       }
     }
-    // Baseline risk · ≥75 = HIGH, ≥85 = CRITICAL
+
+    // Baseline · prior curado Politeia
     const baseline = c.baseline_risk ?? 0
+    const baselineBase = {
+      source: 'Baseline Politeia' as const,
+      source_type: 'curated_baseline' as const,
+      layer: 'analytical_model' as const,
+      temporal_scope: 'curated' as const,
+      freshness: 'revisión manual editorial',
+      confidence: 0.55,
+      caveat: 'PRIOR EDITORIAL Politeia · NO es observación · catálogo curado sin actualización por evento del día sin override explícito',
+    }
     if (baseline >= 85) {
-      signals.push({ source: 'Baseline', level: 'CRITICAL', detail: `riesgo país baseline ${baseline}/100` })
+      signals.push({ ...baselineBase, level: 'CRITICAL', detail: `riesgo país baseline ${baseline}/100` })
       score += 2
     } else if (baseline >= 75) {
-      signals.push({ source: 'Baseline', level: 'HIGH', detail: `riesgo país baseline ${baseline}/100` })
+      signals.push({ ...baselineBase, level: 'HIGH', detail: `riesgo país baseline ${baseline}/100` })
       score += 1
     }
+
+    // Explicación auditable de POR QUÉ converge este país
+    const layers_present = Array.from(new Set(signals.map((s) => s.layer)))
+    const explanation = signals.length === 0
+      ? 'Sin señales activas'
+      : `${c.name} aparece porque convergen ${layers_present.length} capa(s) distinta(s): ${layers_present.join(' + ')}. Las capas mezclan temporalidades distintas (estructural UCDP, presión actual ReliefWeb 30d, consular realtime). NO sumar como señales equivalentes.`
 
     return {
       iso3,
@@ -1753,10 +1823,18 @@ async function buildConvergenceAlerts(req: Request) {
       critical_count: signals.filter((s) => s.level === 'CRITICAL').length,
       band: score >= 9 ? 'TRIPLE CONVERGENCIA' : score >= 6 ? 'DOBLE CONVERGENCIA' : score >= 3 ? 'SEÑAL ÚNICA' : 'NORMAL',
       signals,
+      layers_present,
+      explanation,
+      // Caveats agregados por convergencia · qué NO debe interpretarse globalmente
+      caveats: [
+        'Convergencia de fuentes ≠ deterioro homogéneo · cada capa mide cosa distinta',
+        'Convergence_score combina señales heterogéneas con pesos · NO es suma directa',
+        ...(layers_present.includes('structural_conflict') ? ['UCDP es estructural/histórico · NO indica deterioro de hoy'] : []),
+        ...(layers_present.includes('analytical_model') ? ['Baseline es prior curado · no observación primaria'] : []),
+      ],
     }
   })
 
-  // Filtramos solo los que tienen ≥1 signal y ordenamos por convergence_score desc
   const flagged = alerts.filter((a) => a.signal_count > 0).sort((a, b) => b.convergence_score - a.convergence_score)
   const triple = flagged.filter((a) => a.convergence_score >= 9)
   const doble = flagged.filter((a) => a.convergence_score >= 6 && a.convergence_score < 9)
@@ -1778,8 +1856,37 @@ async function buildConvergenceAlerts(req: Request) {
       travel_countries_loaded: Object.keys(travelByIso2).length,
       countries_analyzed: countries.length,
     },
-    methodology: 'Convergence detection LIVE · cruza ACLED 30d + UCDP estructural (live API Uppsala v24.1 año 2023) + ReliefWeb reports 30d (live OCHA · threshold ≥10 HIGH, ≥30 CRITICAL) + Travel Advisory + baseline risk. Cero listas hardcodeadas · todo derivado de fuentes en tiempo real. Score = suma pesos (CRITICAL +3, HIGH +2, baseline +1). ≥9 = triple convergencia.',
-    inspiration: 'Replica el análisis manual que un senior intel analyst hace cruzando 5 sources distintos para identificar países en deterioro multi-dimensional.',
+    // Sprint G13 FASE 6 · temporal_scope explícito por fuente
+    sources_temporal_scope: {
+      ACLED:           { source_type: 'live_api',         temporal_scope: 'last_30d',  note: 'Eventos de violencia política reciente' },
+      UCDP:            { source_type: 'live_api',         temporal_scope: 'annual',    note: 'Estructural/histórico · año 2023 · NO indica hoy' },
+      ReliefWeb:       { source_type: 'live_api',         temporal_scope: 'last_30d',  note: 'Reportes humanitarios reciente' },
+      'Travel Advisory': { source_type: 'live_api',       temporal_scope: 'realtime',  note: 'Recomendación consular vigente' },
+      'Baseline Politeia': { source_type: 'curated_baseline', temporal_scope: 'curated', note: 'Prior editorial · revisión manual' },
+    },
+    methodology: 'Convergence LIVE · cruza ACLED 30d (hard_event) + UCDP estructural (structural_conflict · histórico, NO indica hoy) + ReliefWeb 30d (humanitarian) + Travel Advisory (consular realtime) + Baseline Politeia (analytical_model · prior curado). Score = suma pesos (CRITICAL +3, HIGH +2, baseline +1). Sprint G13 FASE 6 · cada signal declara source_type/layer/temporal_scope/caveat para que el analista vea las temporalidades heterogéneas y NO interprete UCDP histórico como deterioro de hoy.',
+    inspiration: 'Replica el análisis manual cruzando 5 capas distintas con temporalidades explícitas.',
+    _geo_meta: buildGeoMeta({
+      source_mode: 'analytical_model',
+      sources_used: [
+        'ACLED 30d · /api/acled (live_api · hard_event · last_30d)',
+        'UCDP · /api/ucdp/active (live_api · structural_conflict · annual)',
+        'ReliefWeb 30d · OCHA (live_api · humanitarian · last_30d)',
+        'Travel Advisory · /api/geopolitica/travel-advisories (live_api · consular · realtime)',
+        'Baseline Politeia · /api/geopolitica/world-risk (curated_baseline · analytical_model · curated)',
+      ],
+      startedAt,
+      confidence: 0.65,
+      layer: 'analytical_model',
+      warnings: [
+        'NO sumar señales heterogéneas · cada capa mide cosa distinta',
+        'UCDP es estructural/histórico · no indica deterioro de hoy',
+        'Baseline Politeia es prior editorial · no observación primaria',
+        'ReliefWeb mide reportes humanitarios · no intensidad militar',
+        'Travel Advisory mide recomendación consular · no violencia material',
+      ],
+      notes: 'Convergence Alerts · 5 capas con temporalidades explícitas',
+    }),
   }
 }
 
