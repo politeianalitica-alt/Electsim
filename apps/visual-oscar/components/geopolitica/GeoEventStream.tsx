@@ -17,6 +17,7 @@
  * OSINT tracker + Crisis Group CrisisWatch monthly digest.
  */
 import { useEffect, useState } from 'react'
+import { MediaBiasBadgeAsync } from './MediaBiasBadge'
 
 interface EventItem {
   id: string
@@ -170,6 +171,13 @@ export function GeoEventStream({ limit = 30 }: { limit?: number }) {
                     <p style={{ margin: 0, fontSize: 12, color: '#0f172a', fontWeight: 500, lineHeight: 1.4 }}>
                       {e.title}
                     </p>
+                  )}
+                  {/* Sprint G14 FASE 2 · MBFC bias badge si el dominio está en MBFC.
+                      Silencio informativo si miss (no inventa). */}
+                  {e.url && (
+                    <div style={{ marginTop: 4 }}>
+                      <MediaBiasBadgeAsync domain={e.url} size="sm" showCountry />
+                    </div>
                   )}
                   {e.tags && e.tags.length > 0 && (
                     <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
