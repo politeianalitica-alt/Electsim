@@ -68,6 +68,12 @@ INPUTS = [
     (Path("/tmp/dosieres_ceuta_completo.json"),        True),   # XI · 25
     (Path("/tmp/dosieres_extremadura_completo.json"),  True),   # XII · 65
     (Path("/tmp/dosieres_melilla.json"),               True),   # XI · 25
+    # Ayuntamientos · 50 capitales de provincia · ~1.387 concejales 2023-2027
+    # Listado oficial del Ministerio de Política Territorial y Memoria
+    # Democrática (https://concejales.redsara.es). Excluye Ceuta y Melilla
+    # (ya están como asambleas autonómicas). Slugs llevan sufijo de ciudad
+    # (-madrid, -barcelona, -valencia, etc.) para disambiguar homónimos.
+    (Path("/tmp/dosieres_ayuntamientos.json"),         True),   # 1387
 ]
 
 PARTIDO_OVERRIDES = {
