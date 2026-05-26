@@ -27,6 +27,7 @@ import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import { findAnalogs, HISTORICAL_CRISES, type CrisisType } from '@/lib/geopolitica/historical-crises'
 import { lookupMediaBias, regimeTagFromPressFreedom } from '@/lib/geopolitica/media-bias-registry'
 import { cleanText as cleanEventText } from '@/lib/geopolitica/event-classifier'
+import { detectChinaCoverageAnomaly } from '@/lib/geopolitica/china-coverage-baseline'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -1865,6 +1866,31 @@ async function buildConvergenceAlerts(req: Request) {
         } else if (coverage.authoritarian_count >= 3) {
           signals.push({ ...stateMediaBase, level: 'HIGH', detail: `${coverage.authoritarian_count} items autoritarios + ${coverage.count - coverage.authoritarian_count} otros` })
           score += 1
+        }
+
+        // Sprint G14 extra · cruzar con China-Media baseline para detectar anomalías
+        // Sólo cuando hay items de fuentes chinas específicas (CHN regime authoritarian)
+        const chinaItems = externalItems.filter((it: any) => it.country_iso3 === 'CHN')
+        if (chinaItems.length > 0) {
+          // Re-count solo items chinos mencionando este país
+          const chinaCoverage = countStateMediaMentions(chinaItems, iso3, c.name)
+          if (chinaCoverage.count > 0) {
+            const anomaly = detectChinaCoverageAnomaly(iso3, chinaCoverage.count, 7)
+            if (anomaly && (anomaly.band === 'anomalous' || anomaly.band === 'extreme')) {
+              signals.push({
+                source: 'China-Baseline' as const,
+                source_type: 'curated_baseline' as const,
+                layer: 'media_attention' as const,
+                temporal_scope: 'historical' as const,
+                freshness: `baseline 2013-2022 · current 7d`,
+                confidence: 0.60,
+                level: anomaly.band === 'extreme' ? 'CRITICAL' : 'HIGH',
+                detail: `Cobertura china ${anomaly.z_score > 0 ? '+' : ''}${anomaly.z_score}σ vs baseline 10y`,
+                caveat: 'Detector anomalías cobertura PD-China · dataset CFC v.1 2013-2022 · NO mide tono, sólo cantidad. Es señal débil · interpretar con otras capas.',
+              })
+              score += anomaly.band === 'extreme' ? 2 : 1
+            }
+          }
         }
       }
     }
