@@ -49,7 +49,8 @@ import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
 import { BusquedaPuntual } from './_components/BusquedaPuntual'
 import { ViralidadDifusion } from './_components/ViralidadDifusion'
 import { InformesAlertas } from './_components/InformesAlertas'
-import { DesinformacionLive } from './_components/DesinformacionLive'
+// DesinformacionLive ya no se importa aquí · ahora vive embebido en ObservatorioInformacionView.
+import { ObservatorioInformacionView } from './_components/ObservatorioInformacionView'
 import { GdeltGlobalPanel } from './_components/GdeltGlobalPanel'
 import {
   MEDIOS_TAB_IDS, getMediosTab, MediosTabId, migrateLegacyTab,
@@ -586,9 +587,13 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 6 · Observatorio de Información · Sprint G15 FASE B · renombrado de 'desinformacion'.
-                  Render actual sigue siendo DesinformacionLive hasta que Fase G entregue ObservatorioInformacion.tsx
-                  con tendencias temporales + alcance + conexión con narrativas + Google FactCheck integrado. */}
+              {/* Tab 6 · Observatorio de Información · Sprint G15 FASE G · ObservatorioInformacionView
+                  reemplaza el render mínimo de DesinformacionLive solo. Ahora incluye:
+                    - Sumario agregado EFE+Newtral+Maldita (KPIs + tendencia 7d vs 7d previos)
+                    - Top temas con desinformación
+                    - Actores más perjudicados (con tendencia)
+                    - Buscador puntual Google Fact Check (DesinformacionLive embebido)
+                    - Link al observatorio dedicado /prensa/desinformacion */}
               {safeActiveTab === 'observatorio-informacion' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
@@ -601,7 +606,7 @@ export default function PrensaPage() {
                     title="Lectura Politeia · Observatorio de Información"
                     collapsedByDefault
                   />
-                  <DesinformacionLive />
+                  <ObservatorioInformacionView />
                 </div>
               )}
 
