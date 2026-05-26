@@ -2,6 +2,10 @@
 
 Fecha: 2026-05-26 · Autor: análisis 4-agente sobre 342 repos · Para: Sprint G14+
 
+> **Update 2026-05-26 final · Sprint G14 ejecutado: 12 commits + integraciones cross-componente.**
+> ✅ FASE 1 (event-classifier) · ✅ FASE 2 (MBFC 4435 medios) · ✅ FASE 3 (Plotly→react-simple-maps + layer selector) · ✅ FASE 4 ligera (11 state-media feeds + ES scoring multilenguaje + integración en Convergence + Watchlist).
+> Pendiente: FASE 5 tariff (cron), FASE 6 openecon-data (MCP backend), FASE 7 GEM (XLSX parser).
+
 ## Lectura ejecutiva
 
 El módulo `/geopolitica` ya tiene base sólida (ontología `GeoSignalReading`, 9 dimensiones de riesgo, ACLED/GDELT/OpenSanctions/ReliefWeb/UCDP integrados, badges de fuente y `GeoAuditDrawer`). Lo que falta es **profundidad de fuentes** (terceros países, infraestructura crítica, narrativa internacional) y **profundidad visual** (mapa global real, flujos, heatmaps, comparador multi-país).

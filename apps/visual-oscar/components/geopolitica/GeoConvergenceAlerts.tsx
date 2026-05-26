@@ -19,8 +19,9 @@ interface Signal {
   level: 'HIGH' | 'CRITICAL'
   detail: string
   // Sprint G13 FASE 6 · campos enriquecidos por capa
-  source_type?: 'live_api' | 'curated_baseline'
-  layer?: 'hard_event' | 'structural_conflict' | 'humanitarian' | 'consular' | 'analytical_model'
+  // Sprint G14 FASE 4 cont · añade rss_media + media_attention
+  source_type?: 'live_api' | 'curated_baseline' | 'rss_media'
+  layer?: 'hard_event' | 'structural_conflict' | 'humanitarian' | 'consular' | 'analytical_model' | 'media_attention'
   temporal_scope?: 'last_30d' | 'annual' | 'historical' | 'realtime' | 'curated'
   freshness?: string
   confidence?: number
