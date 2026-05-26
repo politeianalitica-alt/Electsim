@@ -109,7 +109,7 @@ export default function MapaActoresPage() {
             }}
               onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.20)' }}
               onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.12)' }}>
-              ◐ Ver dosieres de personas (363 fichas con perfil, relaciones y patrimonio) →
+              ◐ Ver dosieres de personas (720 fichas · Congreso + Senado) →
  </Link>
  </div>
  <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6 }}>
