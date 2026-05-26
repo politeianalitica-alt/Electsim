@@ -39,10 +39,9 @@ import FeedTiered from './_components/FeedTiered'
 import TopicImportanceChart, { type TopicImportanceItem } from './_components/TopicImportanceChart'
 // Sprint G15 FASE D4 · workbench unificado de narrativas (reemplaza apilamiento)
 import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_components/NarrativesFramingWorkbench'
-import NarrativesDeepView from './_components/NarrativesDeepView'
-import NarrativesV3View from './_components/NarrativesV3View'
-import SentimentDualView from './_components/SentimentDualView'
-import StoryClustersView from './_components/StoryClustersView'
+// NarrativesDeepView, NarrativesV3View, SentimentDualView, StoryClustersView ya no se usan
+// (sustituidos por NarrativesFramingWorkbench en narrativas y TendenciasImpactoView en tendencias).
+// Se conservan en _components/ para evitar romper rutas legacy y por si se reusan en informes.
 import TopicPartyHeatmap from './_components/TopicPartyHeatmap'
 
 import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
@@ -59,12 +58,14 @@ import {
   SourceMethodologyCard, ConfidenceBadge, MethodologyWarnings,
 } from './_components/MethodologyComponents'
 import { NarrativeClustersView } from './_components/NarrativeClustersView'
+import { TendenciasImpactoView } from './_components/TendenciasImpactoView'
 import { LecturaPoliteiaPanel, type LecturaContext } from './_components/LecturaPoliteiaPanel'
 import { MapasImpacto } from './_components/MapasImpacto'
 import {
-  MetodologiaConfianzaPanel, ActoresImpactoPanel, FramingComparisonPanel,
+  MetodologiaConfianzaPanel, FramingComparisonPanel,
   CoverageGapsPanel, FollowupQueriesPanel,
 } from './_components/AnalysisPanels'
+// ActoresImpactoPanel ya no se usa aquí · TendenciasImpactoView lo reemplaza.
 
 import type {
   TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep,
@@ -526,36 +527,45 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 4 · Tendencias e impacto · Sprint G15 FASE B · renombrado de 'actores'.
-                  Render actual sigue siendo el legacy (ActoresImpactoPanel + FiguresV2View + SentimentDualView)
-                  hasta que Fase E entregue TendenciasImpactoView con beneficial/harmful por figura/empresa/sector/país. */}
+              {/* Tab 4 · Tendencias e impacto · Sprint G15 FASE E · unificado en TendenciasImpactoView.
+                  Reemplaza el render legacy (ActoresImpactoPanel + FiguresV2View + SentimentDualView).
+                  Cuatro dimensiones (figuras · empresas · sectores · territorios) con la misma rejilla
+                  beneficial/harmful/neutral/uncertain + sumario ejecutivo + botones Investigar/Dossier. */}
               {safeActiveTab === 'tendencias' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
                     question="¿Quién aparece, cómo aparece y si le beneficia o perjudica?"
-                    answer="No es sólo sentimiento · separa menciones · sentimiento HACIA actor · impacto político (beneficial/harmful/neutral/uncertain) con confianza y razón · rol narrativo · medios que amplifican · temas asociados."
+                    answer="No es sólo sentimiento · separa menciones · sentimiento HACIA actor · impacto político (beneficial/harmful/neutral/uncertain) con confianza y razón · rol narrativo · medios que amplifican · temas asociados. Cuatro dimensiones: figuras y partidos · empresas IBEX35 · sectores · territorios."
                   />
                   <LecturaPoliteiaPanel
                     tabId="actores"
                     context={lecturaCtx}
-                    title="Lectura Politeia de Actores"
+                    title="Lectura Politeia · Tendencias e impacto"
                     collapsedByDefault
                   />
-                  {/* Sprint M4 FASE B · actor_impacts agregado (mismo motor que NewsAPI search) */}
-                  {data?.actor_impacts && data.actor_impacts.length > 0 && (
-                    <ActoresImpactoPanel impacts={data.actor_impacts} max={15} />
-                  )}
-                  {/* Figures v2 · sentiment HACIA actor + impacto político */}
-                  {data?.figures_v2 && data.figures_v2.length > 0 && <FiguresV2View figures={data.figures_v2} />}
-                  <SentimentDualView
-                    cells={data?.topicparty ?? []}
-                    figures={data?.figures ?? []}
+                  <TendenciasImpactoView
+                    actorImpacts={data?.actor_impacts ?? []}
+                    figuresV2={data?.figures_v2 ?? []}
                     companies={data?.companies ?? []}
                     sectors={data?.sectors ?? []}
+                    narrativeClusters={data?.narrative_clusters ?? []}
+                    onInvestigate={(name, kind) => {
+                      // Navega a la tab Búsqueda con la query pre-cargada
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'busqueda')
+                      params.set('q', name)
+                      router.push(`/prensa?${params.toString()}`)
+                    }}
+                    onCreateDossier={(name, kind) => {
+                      // Atajo: lleva a búsqueda con autoexec + abre exportar dossier
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'busqueda')
+                      params.set('q', name)
+                      params.set('autoexec', '1')
+                      params.set('dossier', '1')
+                      router.push(`/prensa?${params.toString()}`)
+                    }}
                   />
-                  {(data?.narratives ?? []).length > 0 && (
-                    <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />
-                  )}
                 </div>
               )}
 
@@ -633,56 +643,8 @@ export default function PrensaPage() {
 }
 
 // ──────────────────────────────────────────────────────────────────────
-// FiguresV2View · render figuras con sentiment HACIA actor + impacto
+// FiguresV2View · eliminado en Sprint G15 FASE E
+// La lógica de sentiment HACIA actor + impacto político (beneficial/harmful/neutral/uncertain)
+// ahora vive en `<TendenciasImpactoView />` (tab tendencias), que la unifica con
+// empresas, sectores y territorios bajo la misma rejilla y sumario ejecutivo.
 // ──────────────────────────────────────────────────────────────────────
-
-function FiguresV2View({ figures }: { figures: NonNullable<IntelResponse['figures_v2']> }) {
-  return (
-    <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #0891b2', borderRadius: 10, padding: 14 }}>
-      <header style={{ marginBottom: 10 }}>
-        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#0891b2', textTransform: 'uppercase' }}>
-          ◆ Figuras · sentiment HACIA actor (no plano)
-        </p>
-        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b' }}>
-          Cada actor con menciones + sentiment hacia él (separado de mention plana) + impacto político
-          (beneficial/harmful/neutral/uncertain) calculado por assessSentiment con confianza.
-        </p>
-      </header>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {figures.slice(0, 15).map((f) => {
-          const senPct = (f.avg_sentiment * 100).toFixed(0)
-          const senColor = f.avg_sentiment > 0.1 ? '#16a34a' : f.avg_sentiment < -0.1 ? '#dc2626' : '#64748b'
-          const dominantImpact = ['beneficial', 'harmful', 'neutral', 'uncertain'].reduce((best, k) => {
-            const v = (f as any)[`${k}_count`] || 0
-            return v > best.count ? { key: k, count: v } : best
-          }, { key: '', count: 0 })
-          const impactColor = dominantImpact.key === 'beneficial' ? '#16a34a' : dominantImpact.key === 'harmful' ? '#dc2626' : '#94a3b8'
-          return (
-            <div key={f.name} style={{
-              display: 'grid', gridTemplateColumns: '180px 60px 1fr 120px 90px', gap: 8, alignItems: 'center',
-              padding: '6px 10px', background: '#f8fafc', borderRadius: 4, fontSize: 11,
-            }}>
-              <span style={{ color: '#0f172a', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</span>
-              <span style={{ color: '#475569', fontFamily: 'ui-monospace, monospace', textAlign: 'right' }}>{f.mentions}</span>
-              <div style={{ display: 'flex', gap: 3 }}>
-                {f.beneficial_count > 0 && <span style={{ flex: f.beneficial_count, height: 8, background: '#16a34a', borderRadius: 1 }} title={`beneficial ${f.beneficial_count}`} />}
-                {f.harmful_count > 0 && <span style={{ flex: f.harmful_count, height: 8, background: '#dc2626', borderRadius: 1 }} title={`harmful ${f.harmful_count}`} />}
-                {f.neutral_count > 0 && <span style={{ flex: f.neutral_count, height: 8, background: '#94a3b8', borderRadius: 1 }} title={`neutral ${f.neutral_count}`} />}
-                {f.uncertain_count > 0 && <span style={{ flex: f.uncertain_count, height: 8, background: '#cbd5e1', borderRadius: 1 }} title={`uncertain ${f.uncertain_count}`} />}
-              </div>
-              <span style={{ fontSize: 9, color: senColor, fontFamily: 'ui-monospace, monospace', fontWeight: 700, textAlign: 'right' }}>
-                sentiment {senPct}%
-              </span>
-              <span style={{ fontSize: 8, color: impactColor, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>
-                ● {dominantImpact.key || 'n/d'}
-              </span>
-            </div>
-          )
-        })}
-      </div>
-      <p style={{ margin: '10px 0 0', fontSize: 9, color: '#64748b' }}>
-        Suppress: figuresFromReadings (M2 · assessSentiment) · top {Math.min(15, figures.length)} de {figures.length}.
-      </p>
-    </section>
-  )
-}
