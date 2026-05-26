@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -70,9 +71,25 @@ const MOCK_EVENTS: GeoEvent[] = [
 ]
 
 export async function GET() {
+  const startedAt = Date.now()
   const real = await fromBackend<GeoEvent[]>('/api/geopolitica/events?limit=12')
   if (Array.isArray(real) && real.length > 0) {
-    return NextResponse.json(withMeta({ data: real }, 'backend'))
+    return NextResponse.json({
+      ...withMeta({ data: real }, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'live_api',
+        sources_used: ['backend · /api/geopolitica/events'],
+        startedAt, confidence: 0.8, layer: 'hard_event',
+      }),
+    })
   }
-  return NextResponse.json(withMeta({ data: MOCK_EVENTS }, 'mock'))
+  return NextResponse.json({
+    ...withMeta({ data: MOCK_EVENTS }, 'mock'),
+    _geo_meta: buildGeoMeta({
+      source_mode: 'mock',
+      sources_used: [`mock interno · ${MOCK_EVENTS.length} eventos hardcoded`],
+      startedAt, confidence: 0.10, layer: 'hard_event',
+      warnings: ['DATOS SINTÉTICOS · sin backend · NO usar en producción'],
+    }),
+  })
 }

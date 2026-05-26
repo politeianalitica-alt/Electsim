@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -57,16 +58,35 @@ function calcularScore(exp: CcaaExposicion): {
 }
 
 export async function GET() {
+  const startedAt = Date.now()
   const real = await fromBackend<{ data: unknown[] }>('/api/geopolitica/ccaa-riesgo')
-  if (real?.data?.length) return NextResponse.json(withMeta(real, 'backend'))
+  if (real?.data?.length) {
+    return NextResponse.json({
+      ...withMeta(real, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'live_api',
+        sources_used: ['backend · /api/geopolitica/ccaa-riesgo'],
+        startedAt, confidence: 0.75, layer: 'analytical_model',
+      }),
+    })
+  }
 
   const data = EXPOSICION.map(exp => ({
-    ccaa: exp.ccaa,
-    ccaa_iso: exp.ccaa_iso,
-    lat: exp.lat,
-    lon: exp.lon,
+    ccaa: exp.ccaa, ccaa_iso: exp.ccaa_iso, lat: exp.lat, lon: exp.lon,
     ...calcularScore(exp),
   }))
 
-  return NextResponse.json(withMeta({ data }, 'mock'))
+  return NextResponse.json({
+    ...withMeta({ data }, 'mock'),
+    _geo_meta: buildGeoMeta({
+      source_mode: 'curated_baseline',
+      sources_used: [`baseline EXPOSICION · ${EXPOSICION.length} CCAA`],
+      startedAt, confidence: 0.55, layer: 'analytical_model',
+      warnings: [
+        'Scores CCAA calculados sobre baseline editorial · revisión manual',
+        'Score sin backend · sin ajuste por noticias recientes',
+      ],
+      notes: 'CCAA-riesgo derivado de exposición curada (energía/migración/seguridad/comercio)',
+    }),
+  })
 }

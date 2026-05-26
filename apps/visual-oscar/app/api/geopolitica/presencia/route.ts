@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import { getAggregatedNews } from '@/lib/news-aggregator'
 
 export const dynamic = 'force-dynamic'
@@ -89,10 +90,19 @@ const COUNTRY_MENTIONS: Record<string, string> = {
 }
 
 export async function GET() {
+  const startedAt = Date.now()
+
   // 1. Backend real
   const real = await fromBackend<{ data?: unknown[] }>('/api/geopolitica/presencia-espanola-geo')
   if (real && Array.isArray(real.data) && real.data.length > 0) {
-    return NextResponse.json(withMeta(real, 'backend'))
+    return NextResponse.json({
+      ...withMeta(real, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'live_api',
+        sources_used: ['backend · /api/geopolitica/presencia-espanola-geo'],
+        startedAt, confidence: 0.8, layer: 'analytical_model',
+      }),
+    })
   }
 
   // 2. Modular intensidad por menciones recientes en feeds
@@ -107,21 +117,39 @@ export async function GET() {
         }
       }
     }
-    // Ajuste +/-: cada mención aporta hasta +10 a la intensidad estructural
     const data = PRESENCIA_BASE.map(p => {
       const ment = mentionCount.get(p.pais) || 0
       const boost = Math.min(15, Math.log10(ment + 1) * 8)
       return { ...p, intensidad: Math.min(100, Math.round(p.intensidad + boost)) }
     })
-    return NextResponse.json(withMeta({
-      data,
-      total: data.length,
-      derived_from_feeds: true,
-    }, 'backend'))
+    return NextResponse.json({
+      ...withMeta({ data, total: data.length, derived_from_feeds: true }, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'hybrid',
+        sources_used: [
+          `baseline curado · ${PRESENCIA_BASE.length} países (presencia institucional España)`,
+          `RSS agregado · ${articles.length} artículos (boost por menciones recientes)`,
+        ],
+        startedAt, confidence: 0.6, layer: 'analytical_model',
+        warnings: [
+          'Presencia base es catálogo curado editorial · revisión manual Politeia',
+          'Boost por menciones RSS es proxy de saliencia · no de cambio real en presencia',
+        ],
+        notes: 'Híbrido baseline + ajuste por saliencia mediática',
+      }),
+    })
   } catch (e) {
     console.error('[presencia] feed derivation failed:', e)
   }
 
   // 3. Fallback estructural
-  return NextResponse.json(withMeta({ data: PRESENCIA_BASE }, 'mock'))
+  return NextResponse.json({
+    ...withMeta({ data: PRESENCIA_BASE }, 'mock'),
+    _geo_meta: buildGeoMeta({
+      source_mode: 'curated_baseline',
+      sources_used: [`baseline curado · ${PRESENCIA_BASE.length} países`],
+      startedAt, confidence: 0.55, layer: 'analytical_model',
+      warnings: ['Sólo baseline · RSS no disponible · sin ajuste por menciones recientes'],
+    }),
+  })
 }

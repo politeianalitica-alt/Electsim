@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import https from 'https'
 import http from 'http'
 
@@ -132,9 +133,19 @@ function parseItems(xml: string, feedId: string, meta: typeof FEED_REGISTRY[stri
 }
 
 export async function GET() {
+  const startedAt = Date.now()
   // Try backend first
   const real = await fromBackend<{ items: ThinkTankItem[] }>('/api/geopolitica/think-tanks')
-  if (real?.items?.length) return NextResponse.json(withMeta({ data: real.items }, 'backend'))
+  if (real?.items?.length) {
+    return NextResponse.json({
+      ...withMeta({ data: real.items }, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'live_api',
+        sources_used: ['backend · /api/geopolitica/think-tanks'],
+        startedAt, confidence: 0.78, layer: 'qualitative_osint',
+      }),
+    })
+  }
 
   // Fetch feeds in parallel with Promise.allSettled
   const results = await Promise.allSettled(
@@ -161,7 +172,20 @@ export async function GET() {
   const deduped = allItems.filter(it => { if (seen.has(it.id)) return false; seen.add(it.id); return true })
 
   if (deduped.length > 0) {
-    return NextResponse.json(withMeta({ data: deduped.slice(0, 60) }, 'mock'))
+    const okFeeds = results.filter((r) => r.status === 'fulfilled').length
+    return NextResponse.json({
+      ...withMeta({ data: deduped.slice(0, 60) }, 'mock'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'rss_official',
+        sources_used: [`RSS think tanks · ${okFeeds}/${results.length} feeds OK · ${deduped.length} items deduped`],
+        startedAt, confidence: 0.70, layer: 'qualitative_osint',
+        warnings: [
+          'Think tanks = análisis cualitativo · NO dato cuantitativo',
+          'Urgencia/relevancia calculadas heurísticamente desde resumen del feed',
+        ],
+        notes: 'Feeds RSS think tanks (Elcano, CIDOB, ECFR, EUISS, RUSI, ICG…)',
+      }),
+    })
   }
 
   // Fallback: rich static mock (25 items from named sources)
@@ -179,5 +203,13 @@ export async function GET() {
     { id: 'm11', titulo: 'Drug trafficking networks and state fragility in the Western Mediterranean', fuente: 'InSight Crime', fuente_tipo: 'latam_geo', fecha: new Date(Date.now()-39600000).toISOString(), url: 'https://insightcrime.org', resumen: 'Cocaine flows through Spain from Latin America are increasing, with criminal organizations exploiting weaknesses in port security at Algeciras and Valencia.', urgencia: 3, relevancia_espana: 0.80, paises_detectados: ['Venezuela', 'Marruecos'], temas_detectados: ['crimen_organizado'] },
     { id: 'm12', titulo: 'Israel-Iran tensions: implications for Mediterranean energy routes', fuente: 'RUSI', fuente_tipo: 'think_tank_uk', fecha: new Date(Date.now()-43200000).toISOString(), url: 'https://rusi.org', resumen: 'Escalation between Israel and Iran threatens to disrupt maritime energy routes through the Strait of Hormuz, with direct impacts on LNG imports to Spain.', urgencia: 4, relevancia_espana: 0.78, paises_detectados: ['Israel'], temas_detectados: ['conflicto_armado', 'energia'] },
   ] }
-  return NextResponse.json(withMeta(mock, 'mock'))
+  return NextResponse.json({
+    ...withMeta(mock, 'mock'),
+    _geo_meta: buildGeoMeta({
+      source_mode: 'mock',
+      sources_used: [`mock interno · ${mock.data.length} items hardcoded de think tanks`],
+      startedAt, confidence: 0.10, layer: 'qualitative_osint',
+      warnings: ['DATOS SINTÉTICOS · todos los feeds fallaron · NO usar en producción'],
+    }),
+  })
 }

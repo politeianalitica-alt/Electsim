@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 import { getAggregatedNews } from '@/lib/news-aggregator'
 
 export const dynamic = 'force-dynamic'
@@ -57,10 +58,19 @@ function detectPaises(text: string): string[] {
 }
 
 export async function GET() {
+  const startedAt = Date.now()
+
   // 1. Backend real
   const real = await fromBackend<{ data?: unknown[] }>('/api/geopolitica/impactos-geo?limite=20')
   if (real && Array.isArray(real.data) && real.data.length > 0) {
-    return NextResponse.json(withMeta(real, 'backend'))
+    return NextResponse.json({
+      ...withMeta(real, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'live_api',
+        sources_used: ['backend · /api/geopolitica/impactos-geo'],
+        startedAt, confidence: 0.75, layer: 'analytical_model',
+      }),
+    })
   }
 
   // 2. Derivar de feeds RSS
@@ -95,11 +105,18 @@ export async function GET() {
       .sort((a, b) => b.severidad - a.severidad)
       .slice(0, 25)
     if (sorted.length > 0) {
-      return NextResponse.json(withMeta({
-        data: sorted,
-        total: sorted.length,
-        derived_from_feeds: true,
-      }, 'backend'))
+      return NextResponse.json({
+        ...withMeta({ data: sorted, total: sorted.length, derived_from_feeds: true }, 'backend'),
+        _geo_meta: buildGeoMeta({
+          source_mode: 'derived_from_news',
+          sources_used: [`RSS agregado · ${articles.length} artículos`],
+          startedAt, confidence: 0.5, layer: 'analytical_model',
+          warnings: [
+            'Impactos derivados por keywords sobre titulares · no clasificación experta',
+            'Severidad calculada por heurística (sentiment + términos críticos) · revisar manualmente',
+          ],
+        }),
+      })
     }
   } catch (e) {
     console.error('[impactos-geo] feed derivation failed:', e)
@@ -113,5 +130,13 @@ export async function GET() {
       { id: '3', titulo: 'Diversificación energética post-Argelia', dimension: 'energetica', severidad: 2, horizonte: 'largo', descripcion: 'España acelera GNL y renovables.', paises_origen: ['Argelia'] },
     ],
   }
-  return NextResponse.json(withMeta(mock, 'mock'))
+  return NextResponse.json({
+    ...withMeta(mock, 'mock'),
+    _geo_meta: buildGeoMeta({
+      source_mode: 'mock',
+      sources_used: ['mock interno · 3 impactos hardcoded'],
+      startedAt, confidence: 0.10, layer: 'analytical_model',
+      warnings: ['DATOS SINTÉTICOS · NO usar en producción'],
+    }),
+  })
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
 import { getAggregatedNews, geoRiesgoFromArticles } from '@/lib/news-aggregator'
+import { buildGeoMeta } from '@/lib/geopolitica/geo-methodology'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -66,10 +67,20 @@ const BASE_RIESGO = [
 ]
 
 export async function GET() {
+  const startedAt = Date.now()
+
   // 1. Backend real
   const real = await fromBackend<{ data?: unknown[] }>('/api/geopolitica/riesgo-pais?limite=30')
   if (real && Array.isArray(real.data) && real.data.length > 0) {
-    return NextResponse.json(withMeta(real, 'backend'))
+    return NextResponse.json({
+      ...withMeta(real, 'backend'),
+      _geo_meta: buildGeoMeta({
+        source_mode: 'live_api',
+        sources_used: ['backend · /api/geopolitica/riesgo-pais'],
+        startedAt, confidence: 0.75, layer: 'analytical_model',
+        notes: 'Score de riesgo país desde backend FastAPI',
+      }),
+    })
   }
 
   // 2. Derivar de feeds — fusionado con la lista base
@@ -77,22 +88,42 @@ export async function GET() {
     const articles = await getAggregatedNews({ maxSources: 40, hoursBack: 96 })
     const derived  = geoRiesgoFromArticles(articles)
 
-    // Merge: si un país base ya viene del feed, mantenemos el score derivado;
-    // si no, dejamos el score base estructural.
     const byPais = new Map<string, typeof BASE_RIESGO[number]>()
     for (const b of BASE_RIESGO) byPais.set(b.pais, b)
     for (const d of derived)     byPais.set(d.pais, d)
 
     const data = Array.from(byPais.values()).sort((a, b) => b.score - a.score)
-    return NextResponse.json(withMeta({
-      data,
-      total: data.length,
-      derived_from_feeds: derived.length > 0,
-    }, 'backend'))
+    return NextResponse.json({
+      ...withMeta({ data, total: data.length, derived_from_feeds: derived.length > 0 }, 'backend'),
+      _geo_meta: buildGeoMeta({
+        // Híbrido: baseline curado (la mayoría) + override de feeds RSS (algunos países)
+        source_mode: derived.length > 0 ? 'hybrid' : 'curated_baseline',
+        sources_used: [
+          `baseline curado · ${BASE_RIESGO.length} países`,
+          ...(derived.length > 0 ? [`RSS agregado · ${articles.length} artículos · ${derived.length} países con override`] : []),
+        ],
+        startedAt,
+        confidence: derived.length > 0 ? 0.6 : 0.55,
+        layer: 'analytical_model',
+        warnings: [
+          'Score "riesgo país" es PRIOR CURADO + override por noticias · NO es probabilidad objetiva de conflicto',
+          'interes_espana es valor editorial Politeia · revisión manual',
+        ],
+        notes: 'Baseline curado de 47 países + override por feeds RSS si hay menciones recientes',
+      }),
+    })
   } catch (e) {
     console.error('[riesgo-pais] feed derivation failed:', e)
   }
 
-  // 3. Fallback puro
-  return NextResponse.json(withMeta({ data: BASE_RIESGO }, 'mock'))
+  // 3. Fallback puro al baseline curado
+  return NextResponse.json({
+    ...withMeta({ data: BASE_RIESGO }, 'mock'),
+    _geo_meta: buildGeoMeta({
+      source_mode: 'curated_baseline',
+      sources_used: [`baseline curado · ${BASE_RIESGO.length} países`],
+      startedAt, confidence: 0.50, layer: 'analytical_model',
+      warnings: ['RSS no disponible · sólo baseline curado · sin override por noticias recientes'],
+    }),
+  })
 }
