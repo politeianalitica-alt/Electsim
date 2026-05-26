@@ -2043,17 +2043,57 @@ Output JSON estricto: { "themes": [...] }`
       return b.n_sources - a.n_sources
     })
 
+    // Sprint G13 FASE 11 · confianza por tema · alta si n_sources >= 3
+    const themesEnriched = themes.map((t: any) => ({
+      ...t,
+      // Cada miembro lleva el origen RSS · trazabilidad
+      member_evidence: (t.members as any[]).map((m: any) => ({
+        source: m.source,
+        title: m.title,
+        link: m.link,
+        date: m.date,
+      })),
+      confidence: t.n_sources >= 3 ? 0.7 : t.n_sources >= 2 ? 0.55 : 0.4,
+      limitations: [
+        'Generado por IA · puede asignar mal miembros',
+        'Resumen agregado por LLM · no extracto verbatim',
+        ...(t.n_sources === 1 ? ['Sólo una fuente · sin triangulación · validar antes de citar'] : []),
+      ],
+    }))
+
     return {
       ok: true,
-      n_themes: themes.length,
+      n_themes: themesEnriched.length,
       n_items_analyzed: allItems.length,
-      n_items_clustered: themes.reduce((s: number, t: any) => s + t.n_members, 0),
+      n_items_clustered: themesEnriched.reduce((s: number, t: any) => s + t.n_members, 0),
       sources_status: sources.map(([s, d]) => ({ source: s, n_items: Array.isArray(d?.items) ? d.items.length : 0 })),
-      themes,
+      themes: themesEnriched,
       model: 'gemini-2.0-flash-lite-001',
+      // Sprint G13 FASE 11 · marca explícita que esto es output IA
+      llm_used: true,
+      generated_by: 'gemini-2.0-flash-lite-001',
       generated_at: new Date().toISOString(),
+      // Sprint G13 FASE 11 · what_it_means / what_it_does_not_mean
+      what_it_means: 'Agrupación temática generada por LLM sobre titulares recientes de 6 RSS feeds expertos (ICG, ISW, NATO, UNSC, EEAS, Spain Official). Detecta temas emergentes sin lista pre-hardcoded.',
+      what_it_does_not_mean: 'NO ES FUENTE FACTUAL. NO sustituye lectura humana de los artículos primarios. Los miembros y resúmenes pueden contener errores de asignación. NO es ground truth · usar como brújula analítica.',
       methodology: 'Clustering temático emergente · Gemini Flash Lite sobre 6 RSS feeds live (ICG + ISW + NATO + UNSC + EEAS + Spain). Sin temas pre-hardcoded · clustering data-driven con structured JSON output · Spain-centric framing.',
       disclaimer: 'Tematización generada por LLM. Los miembros y resúmenes pueden contener errores de asignación · usar como brújula, no como ground truth.',
+      _geo_meta: buildGeoMeta({
+        source_mode: 'llm_cluster',
+        sources_used: [
+          'gemini-2.0-flash-lite-001 (LLM clusterer)',
+          ...sources.map(([s, d]) => `${s} · ${Array.isArray(d?.items) ? d.items.length : 0} items`),
+        ],
+        startedAt: Date.now() - 1, // best-effort · el wrapper lo añade externamente
+        confidence: 0.55,
+        layer: 'qualitative_osint',
+        warnings: [
+          'OUTPUT IA · NO fuente factual · validar con artículos primarios',
+          'Miembros pueden estar mal asignados · usar como brújula',
+          'Resúmenes son síntesis del LLM · no extracto verbatim',
+        ],
+        notes: 'Clustering temático · gemini-2.0-flash-lite · 6 RSS feeds expertos',
+      }),
     }
   } catch (e: any) {
     return { ok: false, error: String(e?.message ?? e).slice(0, 200), n_items_loaded: allItems.length }

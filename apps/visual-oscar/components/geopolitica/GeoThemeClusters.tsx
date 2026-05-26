@@ -28,6 +28,9 @@ interface Theme {
   n_sources: number
   sources: string[]
   members: Member[]
+  // Sprint G13 FASE 11
+  confidence?: number
+  limitations?: string[]
 }
 
 interface Resp {
@@ -38,6 +41,11 @@ interface Resp {
   sources_status?: Array<{ source: string; n_items: number }>
   themes?: Theme[]
   model?: string
+  // Sprint G13 FASE 11
+  llm_used?: boolean
+  generated_by?: string
+  what_it_means?: string
+  what_it_does_not_mean?: string
   generated_at?: string
   methodology?: string
   disclaimer?: string
@@ -91,14 +99,42 @@ export function GeoThemeClusters() {
       color: '#f1f5f9',
     }}>
       <header style={{ marginBottom: 12 }}>
-        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#c4b5fd', textTransform: 'uppercase' }}>
-          ◆ Temas emergentes · clustering data-driven
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+          <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#c4b5fd', textTransform: 'uppercase' }}>
+            ◆ Temas emergentes · clustering data-driven
+          </p>
+          {/* Sprint G13 FASE 11 · badge IA siempre visible */}
+          <span
+            title={data?.generated_by ? `Modelo: ${data.generated_by}` : 'Generado por LLM'}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px',
+              background: '#fae8ff', color: '#86198f', border: '1px solid #f0abfc',
+              borderRadius: 999, fontSize: 9, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase',
+            }}
+          >
+            ◆ Output IA{data?.generated_by ? ` · ${data.generated_by.replace('gemini-2.0-flash-lite-001', 'Gemini Flash Lite')}` : ''}
+          </span>
+        </div>
         <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5 }}>
           Gemini Flash Lite identifica temas cruzando 6 RSS feeds (ICG + ISW + NATO + UN SC +
           EEAS + voz oficial ES). Cero temas pre-hardcodeados · todo emerge del contenido
-          real del día. Tema con sources_count ≥ 2 = convergencia narrativa multi-fuente.
+          real del día.
         </p>
+        {/* Sprint G13 FASE 11 · what_it_means / what_it_does_not_mean obligatorio */}
+        {(data?.what_it_means || data?.what_it_does_not_mean) && (
+          <div style={{ marginTop: 8, padding: 8, background: '#3f1351', borderLeft: '3px solid #f0abfc', borderRadius: 4 }}>
+            {data.what_it_means && (
+              <p style={{ margin: 0, fontSize: 10, color: '#e9d5ff', lineHeight: 1.5 }}>
+                <strong style={{ color: '#f0abfc' }}>Qué mide:</strong> {data.what_it_means}
+              </p>
+            )}
+            {data.what_it_does_not_mean && (
+              <p style={{ margin: '4px 0 0', fontSize: 10, color: '#fbbf24', lineHeight: 1.5, fontStyle: 'italic' }}>
+                <strong style={{ color: '#fcd34d' }}>⚠ NO ES FUENTE FACTUAL:</strong> {data.what_it_does_not_mean}
+              </p>
+            )}
+          </div>
+        )}
       </header>
 
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Clusterizando temas con Gemini…</p>}
@@ -165,6 +201,14 @@ export function GeoThemeClusters() {
                         <span style={{ fontSize: 10, color: '#cbd5e1' }}>
                           {t.n_members} items · {t.n_sources}/6 fuentes
                         </span>
+                        {/* Sprint G13 FASE 11 · confidence por tema */}
+                        {typeof t.confidence === 'number' && (
+                          <span title="Confianza del clustering · alta si ≥3 fuentes coinciden" style={{
+                            fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 3,
+                            background: t.confidence >= 0.65 ? '#166534' : t.confidence >= 0.5 ? '#92400e' : '#7f1d1d',
+                            color: '#fff', letterSpacing: 0.3,
+                          }}>conf {Math.round(t.confidence * 100)}%</span>
+                        )}
                         <button
                           onClick={() => setExpanded({ ...expanded, [key]: !isOpen })}
                           style={{
@@ -185,6 +229,17 @@ export function GeoThemeClusters() {
                     <p style={{ margin: '0 0 8px', fontSize: 12, color: '#cbd5e1', lineHeight: 1.5 }}>
                       {t.summary}
                     </p>
+                    {/* Sprint G13 FASE 11 · limitations por tema */}
+                    {t.limitations && t.limitations.length > 0 && (
+                      <details style={{ marginBottom: 8 }}>
+                        <summary style={{ fontSize: 9, color: '#f0abfc', cursor: 'pointer', letterSpacing: 0.4, textTransform: 'uppercase', fontWeight: 700 }}>
+                          ⚠ {t.limitations.length} limitaciones del cluster IA
+                        </summary>
+                        <ul style={{ margin: '4px 0 0 14px', padding: 0, fontSize: 9, color: '#cbd5e1', lineHeight: 1.4 }}>
+                          {t.limitations.map((l, i) => <li key={i}>{l}</li>)}
+                        </ul>
+                      </details>
+                    )}
                     {/* Source chips */}
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: isOpen ? 10 : 0 }}>
                       {t.sources.map((s) => (
