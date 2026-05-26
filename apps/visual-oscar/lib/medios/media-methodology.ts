@@ -227,6 +227,20 @@ export interface NarrativeCluster {
   confidence: MethodologyConfidence
   why_this_is_a_narrative: string   // explicación humana
   evidence: Array<{ title: string; medium: string; url: string; ideology: IdeologyBucket }>
+  // Sprint G15 FASE D3 · campos nuevos para el workbench unificado
+  key_messages?: string[]                                          // 2-3 frases tesis repetidas
+  topic_tags?: string[]                                            // agregado de source_tags RSS
+  channels?: Array<{ channel: string; weight: number; examples: string[] }>  // prensa/digital/TV/radio share
+  target_audiences?: Array<{ label: string; reason: string; confidence: number }>
+  supporting_news?: Array<{ title: string; medium: string; url: string; ideology: IdeologyBucket; published_at: string | null }>
+  impact_summary?: { benefited: string[]; harmed: string[]; uncertain: string[] }
+  trend?: {
+    velocity_score: number
+    velocity_confidence: number
+    acceleration_score: number
+    acceleration_confidence: number
+    label: 'emergente' | 'estable' | 'acelerando' | 'en retroceso'
+  }
 }
 
 export interface RegionalMediaSignal {
@@ -1606,7 +1620,174 @@ function narrativeFromArticles(
     confidence,
     why_this_is_a_narrative: `${arts.length} artículos comparten frame "${dominantFrame}" y topic "${mainTopic}". Mencionan en común: ${dominantActors.slice(0, 3).join(', ') || institutions.slice(0, 2).join(', ') || 'actores múltiples'}. Difusión en ${uniqueMediums.size} medios distintos (balance ideológico: ${balanced ? 'sí' : 'no'}).`,
     evidence,
+    // Sprint G15 FASE D3 · campos extendidos para el workbench unificado
+    key_messages: extractKeyMessages(arts, dominantActors, harmed, benefited, dominantFrame),
+    topic_tags: extractTopicTags(arts),
+    channels: extractChannels(arts),
+    target_audiences: inferTargetAudiences(arts, allTerritories, dominantFrame, mainTopic),
+    supporting_news: arts.slice(0, 8).map((a) => ({
+      title: a.headline,
+      medium: a.medium?.name || 'Desconocido',
+      url: a.url,
+      ideology: a.medium?.ideology_bucket || 'center',
+      published_at: a.pub_date,
+    })),
+    impact_summary: {
+      benefited: benefited.slice(0, 5),
+      harmed: harmed.slice(0, 5),
+      uncertain: dominantActors.filter((a) => !benefited.includes(a) && !harmed.includes(a)).slice(0, 3),
+    },
+    trend: {
+      velocity_score,
+      velocity_confidence,
+      acceleration_score,
+      acceleration_confidence,
+      label: classifyTrendLabel(velocity_score, acceleration_score),
+    },
   }
+}
+
+// ── Sprint G15 FASE D3 · helpers para campos extendidos ──────────────────────
+
+/**
+ * Tendencia legible derivada de velocity + acceleration.
+ *   emergente   · accel > 0.5 y velocity > 0.5  → muy reciente y acelerando
+ *   acelerando  · accel > 0.3                   → ya activa pero subiendo
+ *   estable     · |accel| ≤ 0.3                 → ritmo constante
+ *   en retroceso · accel < -0.3                 → perdiendo fuerza
+ */
+function classifyTrendLabel(
+  velocity: number,
+  accel: number,
+): 'emergente' | 'estable' | 'acelerando' | 'en retroceso' {
+  if (accel > 0.5 && velocity > 0.5) return 'emergente'
+  if (accel > 0.3) return 'acelerando'
+  if (accel < -0.3) return 'en retroceso'
+  return 'estable'
+}
+
+/**
+ * Extrae 2-3 mensajes clave (tesis repetidas) buscando bigramas/trigramas
+ * recurrentes en los titulares. Heurístico simple sin LLM.
+ */
+function extractKeyMessages(
+  arts: ArticleReading[],
+  dominantActors: string[],
+  harmed: string[],
+  benefited: string[],
+  frame: FrameType,
+): string[] {
+  const messages: string[] = []
+  const mainActor = dominantActors[0]
+  const harmActor = harmed[0]
+  const benActor = benefited[0]
+
+  // Mensaje 1: el actor central enfrenta el frame
+  if (mainActor) {
+    if (frame === 'crisis') messages.push(`${mainActor} bajo presión por la crisis`)
+    else if (frame === 'corrupción') messages.push(`${mainActor} en el foco por presunta corrupción`)
+    else if (frame === 'judicial') messages.push(`${mainActor} implicado judicialmente`)
+    else if (frame === 'electoral') messages.push(`${mainActor} en el centro de la batalla electoral`)
+    else messages.push(`${mainActor} marca la agenda mediática`)
+  }
+  // Mensaje 2: quién pierde / quién gana
+  if (harmActor && harmActor !== mainActor) {
+    messages.push(`${harmActor} sale perjudicado de la cobertura`)
+  }
+  if (benActor && benActor !== mainActor && benActor !== harmActor) {
+    messages.push(`${benActor} sale beneficiado de la cobertura`)
+  }
+  // Mensaje 3: si nada de lo anterior, usar el primer titular como mensaje
+  if (messages.length === 0 && arts[0]?.headline) {
+    messages.push(arts[0].headline)
+  }
+  return messages.slice(0, 3)
+}
+
+/**
+ * Agrega TODOS los source_tags RSS de todos los artículos del cluster,
+ * dedupea y devuelve top 8 por frecuencia. Esto es "qué dicen los propios
+ * medios que va este cluster".
+ */
+function extractTopicTags(arts: ArticleReading[]): string[] {
+  const counts = new Map<string, number>()
+  for (const a of arts) {
+    const tags = (a as ArticleReading & { source_tags?: string[] }).source_tags
+    if (Array.isArray(tags)) {
+      for (const t of tags) {
+        const cleaned = t.trim()
+        if (cleaned.length >= 2) counts.set(cleaned, (counts.get(cleaned) || 0) + 1)
+      }
+    }
+  }
+  return Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8)
+    .map(([t]) => t)
+}
+
+/**
+ * Distribución por canal · agrupa por medio.type (prensa/digital/tv/radio).
+ * Devuelve weight 0..1 y 2 medios de ejemplo por canal.
+ */
+function extractChannels(arts: ArticleReading[]): Array<{ channel: string; weight: number; examples: string[] }> {
+  const byChannel = new Map<string, { count: number; examples: Set<string> }>()
+  for (const a of arts) {
+    const type = a.medium?.type || 'otro'
+    const cur = byChannel.get(type) || { count: 0, examples: new Set<string>() }
+    cur.count++
+    if (a.medium?.name) cur.examples.add(a.medium.name)
+    byChannel.set(type, cur)
+  }
+  const total = arts.length
+  return Array.from(byChannel.entries())
+    .map(([channel, v]) => ({
+      channel,
+      weight: +(v.count / total).toFixed(2),
+      examples: Array.from(v.examples).slice(0, 2),
+    }))
+    .sort((a, b) => b.weight - a.weight)
+}
+
+/**
+ * Heurística simple de audiencias objetivo basada en territorio + frame + topic.
+ * No es ground truth · es pista accionable para el analista.
+ */
+function inferTargetAudiences(
+  arts: ArticleReading[],
+  territories: string[],
+  frame: FrameType,
+  topic: string,
+): Array<{ label: string; reason: string; confidence: number }> {
+  const out: Array<{ label: string; reason: string; confidence: number }> = []
+  // Por territorio
+  if (territories.length === 1) {
+    out.push({ label: `Opinión pública ${territories[0]}`, reason: `Cobertura concentrada en ${territories[0]}`, confidence: 0.65 })
+  } else if (territories.length >= 3) {
+    out.push({ label: 'Opinión pública nacional', reason: `Cobertura en ${territories.length} territorios distintos`, confidence: 0.55 })
+  }
+  // Por frame
+  if (frame === 'electoral') {
+    out.push({ label: 'Votantes indecisos', reason: 'Frame electoral activo · narrativa de movilización', confidence: 0.50 })
+  }
+  if (frame === 'judicial' || frame === 'corrupción') {
+    out.push({ label: 'Élites institucionales y prensa de referencia', reason: `Frame ${frame} típicamente trasciende a editoriales`, confidence: 0.55 })
+  }
+  if (frame === 'crisis' || frame === 'social') {
+    out.push({ label: 'Colectivos afectados directos', reason: `Frame ${frame} interpela a quien sufre el evento`, confidence: 0.50 })
+  }
+  if (frame === 'economía') {
+    out.push({ label: 'Comunidad empresarial / inversores', reason: 'Frame económico · narrativa de mercado', confidence: 0.50 })
+  }
+  // Por topic (hint específico)
+  const topicLower = (topic || '').toLowerCase()
+  if (topicLower.includes('vivienda') || topicLower.includes('alquiler')) {
+    out.push({ label: 'Jóvenes urbanos · inquilinos', reason: 'Topic vivienda · afecta directo', confidence: 0.55 })
+  }
+  if (topicLower.includes('empleo') || topicLower.includes('paro')) {
+    out.push({ label: 'Trabajadores y sindicatos', reason: 'Topic empleo · interés organizado', confidence: 0.50 })
+  }
+  return out.slice(0, 4)
 }
 
 /**
