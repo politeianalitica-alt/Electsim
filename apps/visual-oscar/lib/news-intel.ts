@@ -373,6 +373,117 @@ export function tieredFeed(articles: AggregatedArticle[], perTier = 25): TieredF
   }
 }
 
+// ── Importancia temática · Sprint G15 FASE C ─────────────────────────────────
+
+/**
+ * Gráfico de importancia temática para la tab Pulso.
+ *
+ * Combina TRES señales (en orden de preferencia · primera que aplica gana
+ * como label del tema):
+ *  1. `source_tags`  · tags reales del RSS del medio (Sprint G15 FASE A2/A3)
+ *  2. `detectCategory(text)` · heurística existente sobre titular+descripción
+ *  3. fallback "Otro"
+ *
+ * Para cada tema devuelve: count, share, polarity media, los tags RSS más
+ * frecuentes asociados, los medios que más empujan ese tema, y N sample
+ * titles para que la UI los muestre on hover/click.
+ */
+export interface TopicImportance {
+  id: string
+  label: string
+  count: number
+  share: number                                          // 0..1
+  polarity: number                                       // -1..+1
+  sourceTags: string[]                                   // top 5 tags RSS reales en este tema
+  topMedios: Array<{ nombre: string; n: number }>        // top 5 medios que empujan
+  sampleTitles: string[]                                 // 4 titulares representativos
+}
+
+/**
+ * Normaliza un tag RSS suelto (puede venir capitalizado, con espacios, plural)
+ * a una clave consistente para agrupación. Mantiene el label original como
+ * "label" en el output (primera ocurrencia gana).
+ */
+function normalizeTopicId(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')  // strip accents
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40)
+}
+
+export function topicImportance(articles: AggregatedArticle[], maxTopics = 14): TopicImportance[] {
+  if (articles.length === 0) return []
+  const total = articles.length
+  // bucket = { label, articles[], tagCounts, mediumCounts }
+  const buckets = new Map<string, {
+    label: string
+    articles: AggregatedArticle[]
+    tagCounts: Map<string, number>
+    mediumCounts: Map<string, number>
+  }>()
+  const addToBucket = (key: string, label: string, a: AggregatedArticle) => {
+    const b = buckets.get(key) || { label, articles: [], tagCounts: new Map(), mediumCounts: new Map() }
+    b.articles.push(a)
+    // Tags RSS de este artículo · contribuyen a tagCounts del tema
+    if (Array.isArray(a.source_tags)) {
+      for (const t of a.source_tags) {
+        const cleaned = t.trim()
+        if (cleaned.length >= 2) b.tagCounts.set(cleaned, (b.tagCounts.get(cleaned) || 0) + 1)
+      }
+    }
+    // Medio · contribuyen a topMedios
+    const m = a.medio?.nombre || 'Desconocido'
+    b.mediumCounts.set(m, (b.mediumCounts.get(m) || 0) + 1)
+    buckets.set(key, b)
+  }
+
+  for (const a of articles) {
+    const text = `${a.title} ${a.description}`
+    // Estrategia: usar el PRIMER source_tag como tema base (lo que dice el medio).
+    // Si no hay, caer a detectCategory(text). El mismo artículo puede contribuir
+    // a otros temas vía sus tags adicionales en tagCounts dentro del bucket primario.
+    const primary = (a.source_tags && a.source_tags[0]) || detectCategory(text) || 'Otro'
+    const key = normalizeTopicId(primary)
+    addToBucket(key, primary, a)
+  }
+
+  const out: TopicImportance[] = Array.from(buckets.entries()).map(([id, b]) => {
+    const sumPolarity = b.articles.reduce((s, a) => s + (a.sentiment_score || 0), 0)
+    const polarity = b.articles.length > 0 ? +(sumPolarity / b.articles.length).toFixed(2) : 0
+    const sourceTags = Array.from(b.tagCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([t]) => t)
+    const topMedios = Array.from(b.mediumCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([nombre, n]) => ({ nombre, n }))
+    // Sample titles · 4 más recientes
+    const sampleTitles = b.articles
+      .slice()
+      .sort((x, y) => (y.pubDate?.getTime() || 0) - (x.pubDate?.getTime() || 0))
+      .slice(0, 4)
+      .map((a) => a.title)
+    return {
+      id,
+      label: b.label,
+      count: b.articles.length,
+      share: +(b.articles.length / total).toFixed(3),
+      polarity,
+      sourceTags,
+      topMedios,
+      sampleTitles,
+    }
+  })
+
+  return out
+    .filter((t) => t.count >= 2)              // al menos 2 artículos para no ruido
+    .sort((a, b) => b.count - a.count)
+    .slice(0, maxTopics)
+}
+
 // ── Narrativas profundas (dinámicas) ────────────────────────────────────────
 
 function detectGoals(arts: AggregatedArticle[]): string[] {

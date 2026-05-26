@@ -35,6 +35,8 @@ import { useUrlState } from '@/lib/useUrlState'
 import { LiveDot } from '@/components/Skeleton'
 
 import FeedTiered from './_components/FeedTiered'
+// Sprint G15 FASE C · gráfico de importancia temática arriba del feed en Pulso
+import TopicImportanceChart, { type TopicImportanceItem } from './_components/TopicImportanceChart'
 import NarrativesDeepView from './_components/NarrativesDeepView'
 import NarrativesV3View from './_components/NarrativesV3View'
 import SentimentDualView from './_components/SentimentDualView'
@@ -276,8 +278,10 @@ export default function PrensaPage() {
   // - observatorio-informacion va a sus propios endpoints (factcheck + desinformacion)
   const tabsThatNeedIntel: MediosTabId[] = ['pulso', 'narrativas', 'tendencias']
   const needsIntel = tabsThatNeedIntel.includes(safeActiveTab)
+  // Sprint G15 FASE C · pulso necesita topic_importance · resto no para no inflar.
+  const includeTopicImportance = safeActiveTab === 'pulso'
   const { data, source, loading, refresh, updatedAt } = useApi<IntelResponse>(
-    `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 100 : 0}&balance_mode=${balanceMode}`,
+    `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 100 : 0}&balance_mode=${balanceMode}${includeTopicImportance ? '&include=feed,narratives,companies,sectors,clusters,gaps,ccaa,methodology,narrative_clusters,figures_v2,topic_importance' : ''}`,
     { refreshInterval: needsIntel ? 300_000 : 0 },
   )
 
@@ -458,6 +462,12 @@ export default function PrensaPage() {
                   {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
                     <ViralidadStrip clusters={data.narrative_clusters} mode="compact" />
                   )}
+                  {/* Sprint G15 FASE C · gráfico de importancia temática arriba del feed.
+                      Combina tags reales del RSS (Fase A2/A3) + detectCategory(text). */}
+                  <TopicImportanceChart
+                    topics={(data as IntelResponse & { topic_importance?: TopicImportanceItem[] })?.topic_importance}
+                    loading={loading && !data}
+                  />
                   <FeedTiered feed={data?.feed} />
                   <GdeltGlobalPanel query="Spain" />
                   {data?.topicparty && data.topicparty.length > 0 && (

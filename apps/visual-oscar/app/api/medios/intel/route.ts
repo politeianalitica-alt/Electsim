@@ -28,6 +28,8 @@ import { getAggregatedNews, byCCAA, getCatalog } from '@/lib/news-aggregator'
 import {
   tieredFeed, narrativesDeep, topicPartySentiment, figuresDeep,
   storyCluster, coverageGaps, companiesSentiment, sectorsSentiment,
+  // Sprint G15 FASE C · gráfico de importancia temática para tab Pulso
+  topicImportance,
 } from '@/lib/news-intel'
 import {
   selectPrioritySources, buildDiversityBreakdown, buildMeta, readArticle,
@@ -95,6 +97,9 @@ export async function GET(req: NextRequest) {
     }
 
     if (include.includes('feed'))       out.feed       = tieredFeed(articles, 25)
+    // Sprint G15 FASE C · topicImportance opt-in (no incluido por defecto para no
+    // pagar el coste si el cliente no lo pide; pulso lo incluye explícito).
+    if (include.includes('topic_importance')) out.topic_importance = topicImportance(articles, 14)
     // Sprint M4 FASE C · narrativesDeep/topicPartySentiment/figuresDeep aceptan
     // readings opcionales · usan sentiment HACIA actor (de assessSentiment) en
     // lugar de sentiment plano del titular. Wireado más abajo cuando readings
