@@ -56,6 +56,18 @@ INPUTS = [
     # Ceuta (parcial). Galicia y Navarra pendientes por bloqueo WAF.
     # Castilla-La Mancha, Valencia y Melilla pendientes por contenido dinámico.
     (Path("/tmp/dosieres_ccaa.json"), True),
+    # Bloques de fuente secundaria (Wikipedia + sitio oficial + prensa) que
+    # parse_dosieres_periodicos.py genera con sufijo de región en el slug.
+    # Cantabria/Ceuta/Extremadura: el filtro de ese mismo script elimina las
+    # versiones parciales/mangled del CCAA antes de añadir las completas.
+    (Path("/tmp/dosieres_navarra.json"),               True),   # XI · 50
+    (Path("/tmp/dosieres_cyl.json"),                   True),   # XI · 81
+    (Path("/tmp/dosieres_clm.json"),                   True),   # XI · 33
+    (Path("/tmp/dosieres_galicia.json"),               True),   # XII · 76
+    (Path("/tmp/dosieres_cantabria_completo.json"),    True),   # XI · 35
+    (Path("/tmp/dosieres_ceuta_completo.json"),        True),   # XI · 25
+    (Path("/tmp/dosieres_extremadura_completo.json"),  True),   # XII · 65
+    (Path("/tmp/dosieres_melilla.json"),               True),   # XI · 25
 ]
 
 PARTIDO_OVERRIDES = {

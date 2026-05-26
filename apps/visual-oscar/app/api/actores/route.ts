@@ -52,7 +52,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url)
   const cat = url.searchParams.get('cat')
   const search = url.searchParams.get('search')
-  const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '500', 10), 1000)
+  const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '500', 10), 10000)
 
   // Intento backend real
   const params = new URLSearchParams()
