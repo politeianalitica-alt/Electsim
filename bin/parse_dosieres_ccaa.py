@@ -366,49 +366,86 @@ def parse_la_rioja() -> list[dict]:
 
 
 def parse_cantabria() -> list[dict]:
-    """HTML · 35 diputados XI Leg con pattern /11l-{apellido}-{nombre}."""
+    """HTML · 35 diputados XI Leg con pattern /11l-{apellido}-{nombre}.
+    URLs vienen URL-encoded (Ñ → %C3%91, etc), hay que decodificar.
+    """
+    from urllib.parse import unquote
     txt = Path("/tmp/cantabria.html").read_text(encoding="utf-8", errors="ignore")
+    # Buscar SLUG después de /11l- excluyendo los que sean órganos colectivos
     matches = re.findall(
-        r'href="[^"]*/informacion-general/composicion/11l-([a-zñáéíóú\-]+)"[^>]*>\s*([^<]+?)\s*</a>',
+        r'/informacion-general/composicion/11l-([A-Za-z0-9%\-]+)(?:["\s])',
         txt,
-        re.IGNORECASE,
     )
+    excluir = ("comisi", "diputaci", "grupo-", "junta-de-portavoces", "mesa-",
+               "pleno-")
     out = []
     seen = set()
-    for i, (slug_raw, raw) in enumerate(matches):
-        nombre = re.sub(r"\s+", " ", html.unescape(raw)).strip()
+    i = 0
+    for slug_raw in matches:
+        slug_raw_low = slug_raw.lower()
+        if any(slug_raw_low.startswith(e) for e in excluir):
+            continue
+        if slug_raw in seen:
+            continue
+        seen.add(slug_raw)
+        # Decodificar URL: 'álvarez-fernández-ana-belén' tras unquote
+        decoded = unquote(slug_raw)
+        # Formato típico: APELLIDO1-APELLIDO2-NOMBRE (a veces con guión final -0)
+        decoded = re.sub(r"-\d+$", "", decoded)  # eliminar -0, -1 si lo hay
+        nombre_raw = decoded.replace("-", " ").strip()
+        nombre = titlecase_es(nombre_raw)
         if len(nombre) < 6 or len(nombre.split()) < 2:
             continue
-        nombre = titlecase_es(nombre)
         slug = slugify(nombre)
         if slug in seen:
             continue
-        seen.add(slug)
         cargo = "Diputado/a · Parlamento de Cantabria · XI Legislatura"
         out.append(base_ficha(
             slug, 7000, i, nombre, cargo, None,
             "el Parlamento de Cantabria", "XI",
             "página oficial /informacion-general/composicion del Parlamento de Cantabria",
         ))
+        i += 1
     return out
 
 
 def parse_valencia() -> list[dict]:
-    """HTML Corts Valencianes · 99 diputats XI Leg con hash MD5 al final."""
+    """HTML Corts Valencianes · 99 diputats XI Leg.
+    La página principal /ca-va/composicio/diputats tiene una tabla DataTable con
+    todos los 99 diputats: <td data-order='slug'><a>NOMBRE, Apellidos</a></td>
+    + <td data-order='socialista|popular|vox_cortes_valencianas|compromis'><a gp=X>
+    + <td data-order='Alacant|Castelló|València'>provincia</td>
+    """
     txt = Path("/tmp/valencia.html").read_text(encoding="utf-8", errors="ignore")
-    # Patrón: enlaces a /ca-va/composicion/diputados/xi/{slug}/{hash32}
-    matches = re.findall(
-        r'href="[^"]*/composicio[^/]*/diputats?/xi/([^/"]+)/[a-f0-9]{32}"[^>]*>\s*([^<]+?)\s*</a>',
-        txt,
-        re.IGNORECASE,
-    )
+    # Mapeo data-order del grupo → partido
+    grupo_map = {
+        "socialista": "PSOE",
+        "popular": "PP",
+        "vox_cortes_valencianas": "VOX",
+        "compromis": "Compromís",
+    }
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", txt, re.DOTALL)
     out = []
     seen = set()
-    for i, (slug_raw, raw) in enumerate(matches):
-        nombre = re.sub(r"\s+", " ", html.unescape(raw)).strip()
-        if "," in nombre:
-            ap, nom = nombre.split(",", 1)
+    i = 0
+    for r in rows:
+        nm = re.search(
+            r'<a[^>]*href="[^"]*diputados/xi/[^"]+"[^>]*>([^<]+)</a>', r
+        )
+        gp = re.search(r'data-order="([^"]+)"[^>]*>[^<]*<a[^>]*gp=', r)
+        prov = re.search(
+            r'data-order="(Alacant|Castelló|València)"[^>]*>(?:Alacant|Castelló|València)',
+            r,
+        )
+        if not nm:
+            continue
+        nombre_raw = html.unescape(nm.group(1)).strip()
+        # Format: "Abad Soler, Ramón" → "Ramón Abad Soler"
+        if "," in nombre_raw:
+            ap, nom = nombre_raw.split(",", 1)
             nombre = f"{nom.strip()} {ap.strip()}"
+        else:
+            nombre = nombre_raw
         nombre = titlecase_es(nombre)
         if len(nombre) < 6 or len(nombre.split()) < 2:
             continue
@@ -416,44 +453,63 @@ def parse_valencia() -> list[dict]:
         if slug in seen:
             continue
         seen.add(slug)
-        cargo = "Diputat/da · Corts Valencianes · XI Legislatura"
+        grupo_raw = gp.group(1) if gp else ""
+        partido = grupo_map.get(grupo_raw)
+        provincia = prov.group(1) if prov else ""
+        cargo_parts = [f"Diputat/da · Corts Valencianes · XI Legislatura"]
+        if provincia:
+            cargo_parts.append(provincia)
+        if grupo_raw:
+            cargo_parts.append(titlecase_es(grupo_raw.replace("_", " ")))
+        cargo = " · ".join(cargo_parts)
         out.append(base_ficha(
-            slug, 7500, i, nombre, cargo, None,
+            slug, 7500, i, nombre, cargo, partido,
             "les Corts Valencianes", "XI",
-            "página oficial /ca-va/composicio/diputats",
+            "tabla oficial /ca-va/composicio/diputats con datos de circumscripció",
         ))
+        i += 1
     return out
 
 
 def parse_extremadura() -> list[dict]:
-    """HTML ISO-8859-1 · 65 diputados XII Leg paginado."""
-    # 4 páginas posibles, descargamos solo página principal
-    txt = Path("/tmp/extremadura.html").read_text(encoding="iso-8859-1", errors="ignore")
-    # Patrón: enlaces a fichas individuales
-    matches = re.findall(
-        r'<a[^>]+href="[^"]*diputad[^"]*"[^>]*>\s*([A-ZÁÉÍÓÚÑ][^<]{8,80}?)\s*</a>',
-        txt,
-    )
+    """HTML ISO-8859-1 · 65 diputados XII Leg paginado.
+    Combina /dipslegisdiputados-12 (pág 1) + /dipslegisdiputados-12-ALTA-21 (pág 2).
+    """
+    pages = []
+    for fname in ("/tmp/extremadura.html", "/tmp/ex_alta21.html"):
+        if Path(fname).exists():
+            pages.append(Path(fname).read_text(encoding="iso-8859-1", errors="ignore"))
     out = []
     seen = set()
-    for i, raw in enumerate(matches):
-        nombre = re.sub(r"\s+", " ", html.unescape(raw)).strip()
-        if "," in nombre:
-            ap, nom = nombre.split(",", 1)
-            nombre = f"{nom.strip()} {ap.strip()}"
-        nombre = titlecase_es(nombre)
-        if len(nombre) < 6 or len(nombre.split()) < 2:
-            continue
-        slug = slugify(nombre)
-        if slug in seen:
-            continue
-        seen.add(slug)
-        cargo = "Diputado/a · Asamblea de Extremadura · XII Legislatura"
-        out.append(base_ficha(
-            slug, 8000, i, nombre, cargo, None,
-            "la Asamblea de Extremadura", "XII",
-            "página oficial /dipslegis (primera página · pendiente completar paginación)",
-        ))
+    i = 0
+    for txt in pages:
+        matches = re.findall(
+            r'<a[^>]+href="[^"]*diputad[^"]*"[^>]*>\s*([A-ZÁÉÍÓÚÑ][^<]{8,80}?)\s*</a>',
+            txt,
+        )
+        for raw in matches:
+            nombre = re.sub(r"\s+", " ", html.unescape(raw)).strip()
+            if "," in nombre:
+                ap, nom = nombre.split(",", 1)
+                nombre = f"{nom.strip()} {ap.strip()}"
+            nombre = titlecase_es(nombre)
+            if len(nombre) < 6 or len(nombre.split()) < 2:
+                continue
+            # Filtros: descartar etiquetas
+            low = nombre.lower()
+            if any(k in low for k in ("presidencia", "diputadas", "vice", "secretari")):
+                continue
+            slug = slugify(nombre)
+            if slug in seen:
+                continue
+            seen.add(slug)
+            cargo = "Diputado/a · Asamblea de Extremadura · XII Legislatura"
+            out.append(base_ficha(
+                slug, 8000, i, nombre, cargo, None,
+                "la Asamblea de Extremadura", "XII",
+                "página oficial /dipslegis (paginación combinada)",
+            ))
+            i += 1
     return out
 
 
