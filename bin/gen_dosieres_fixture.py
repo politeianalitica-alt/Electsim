@@ -50,6 +50,12 @@ INPUTS = [
     # 8 páginas oficiales de grup parlamentari). El parser añade '-parlament'
     # al slug en caso de colisión.
     (Path("/tmp/dosieres_catalunya.json"), True),
+    # 13 parlamentos autonómicos restantes en una sola pasada:
+    # Asturias, Canarias, País Vasco, Murcia, La Rioja, Cantabria,
+    # Castilla y León (parcial), Extremadura (parcial), Aragón, Baleares,
+    # Ceuta (parcial). Galicia y Navarra pendientes por bloqueo WAF.
+    # Castilla-La Mancha, Valencia y Melilla pendientes por contenido dinámico.
+    (Path("/tmp/dosieres_ccaa.json"), True),
 ]
 
 PARTIDO_OVERRIDES = {
