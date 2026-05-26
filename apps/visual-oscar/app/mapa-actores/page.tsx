@@ -109,7 +109,7 @@ export default function MapaActoresPage() {
             }}
               onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.20)' }}
               onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.12)' }}>
-              ◐ Ver dosieres de personas (1.510 fichas · Congreso + Senado + 15 autonómicos) →
+              ◐ Ver dosieres de personas (1.641 fichas · Congreso + Senado + 14 autonómicos) →
  </Link>
  </div>
  <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6 }}>
