@@ -1275,19 +1275,82 @@ export interface BuildNarrativeClustersOptions {
 }
 
 /**
+ * Sprint G15 FASE D · resultado enriquecido de buildNarrativeClusters separando
+ * narrativas reales de señales emergentes (clusters demasiado pequeños o débiles
+ * para llamarlos "narrativa" pero útiles como early warning).
+ */
+export interface NarrativeClustersResult {
+  narrative_clusters: NarrativeCluster[]
+  emerging_signals: NarrativeCluster[]   // mismo shape · clusters 2 artículos / 1 medio / topic genérico
+}
+
+/**
+ * Sprint G15 FASE D · checks de "narrativa real" vs "señal emergente".
+ *
+ * Una narrativa es topic + frame + mensaje repetido + actores + medios/canales +
+ * ventana temporal + evidencia suficiente. NO es "un tema". NO es "un frame suelto".
+ *
+ * REGLAS DURAS (todas deben cumplirse para ser narrative_cluster):
+ *  1. mínimo 3 artículos en el cluster
+ *  2. mínimo 2 medios DISTINTOS amplificándola
+ *  3. al menos UNA señal fuerte en el cluster:
+ *      - actor dominante (actor catalogado, no anónimo)
+ *      - institución mencionada
+ *      - partido mencionado
+ *      - empresa mencionada
+ *      - territorio (no solo el del medio)
+ *      - main_topic NO genérico ('general'/'otros' descartado)
+ *
+ * Si falla alguna → cae a emerging_signals (clusters de 2 arts, o 3+ pero sin
+ * señal fuerte). El frontend renderiza emerging_signals diferenciado para que
+ * el analista vea early warnings sin confundirlos con narrativas establecidas.
+ */
+const GENERIC_TOPICS = new Set(['general', 'otros', 'otro', 'general/otros', ''])
+
+function hasStrongSignal(arts: ArticleReading[]): { strong: boolean; reasons: string[] } {
+  const reasons: string[] = []
+  const allActors = arts.flatMap((a) => a.actors).filter((a) => a && a.length > 2)
+  const allParties = arts.flatMap((a) => a.parties)
+  const allInst = arts.flatMap((a) => a.institutions)
+  const allCompanies = arts.flatMap((a) => a.companies)
+  const allTerritories = arts.flatMap((a) => a.territory_mentioned).filter(Boolean)
+  const mainTopics = arts.map((a) => a.main_topic).filter((t) => t && !GENERIC_TOPICS.has(t.toLowerCase()))
+
+  // Cuenta de menciones por entidad · 2+ menciones = entidad recurrente real, no ruido
+  const counts = new Map<string, number>()
+  for (const e of [...allActors, ...allParties, ...allInst, ...allCompanies]) {
+    counts.set(e, (counts.get(e) || 0) + 1)
+  }
+  const dominantEntity = Array.from(counts.entries()).find(([, n]) => n >= 2)
+  if (dominantEntity) reasons.push(`entidad dominante "${dominantEntity[0]}" en ${dominantEntity[1]} arts`)
+  if (allParties.length > 0) reasons.push(`partido(s): ${Array.from(new Set(allParties)).slice(0, 3).join(',')}`)
+  if (allInst.length > 0) reasons.push(`institución(es): ${Array.from(new Set(allInst)).slice(0, 3).join(',')}`)
+  if (allCompanies.length > 0) reasons.push(`empresa(s): ${Array.from(new Set(allCompanies)).slice(0, 3).join(',')}`)
+  if (allTerritories.length >= 2) reasons.push(`territorio mencionado en ≥2 arts`)
+  if (mainTopics.length >= 2) reasons.push(`topic no genérico recurrente`)
+
+  return { strong: reasons.length > 0, reasons }
+}
+
+/**
  * Construye NarrativeCluster[] a partir de readings.
  * Determinista, sin LLM. Output sirve para UI auditable y para
  * alimentar la lectura IA con material estructurado.
+ *
+ * Sprint G15 FASE D · acepta clusters de tamaño 2 para evitar perder
+ * señales débiles, pero los SEPARA en narrative_clusters vs emerging_signals
+ * según las reglas duras de hasStrongSignal().
  */
-export function buildNarrativeClusters(
+export function buildNarrativeClustersDetailed(
   readings: ArticleReading[],
   opts: BuildNarrativeClustersOptions = {},
-): NarrativeCluster[] {
+): NarrativeClustersResult {
   const threshold = opts.threshold ?? SIMILARITY_THRESHOLD
   const maxClusters = opts.maxClusters ?? 15
-  if (readings.length === 0) return []
+  const emerging_signals: NarrativeCluster[] = []
+  const narrative_clusters: NarrativeCluster[] = []
+  if (readings.length === 0) return { narrative_clusters, emerging_signals }
 
-  // Ordenamos seeds por "prominencia" = entity_coverage * spain_relevance * confidence
   const scoredSeeds = [...readings]
     .map((r) => ({
       r,
@@ -1304,7 +1367,7 @@ export function buildNarrativeClusters(
 
   for (const seed of scoredSeeds) {
     if (used.has(seed.id)) continue
-    if (rawClusters.length >= maxClusters) break
+    if (rawClusters.length >= maxClusters * 2) break  // x2 budget · partimos en 2 outputs
     const cluster: ArticleReading[] = [seed]
     used.add(seed.id)
     for (const other of readings) {
@@ -1319,8 +1382,57 @@ export function buildNarrativeClusters(
     if (cluster.length >= 2) rawClusters.push(cluster)
   }
 
-  // Construir NarrativeCluster a partir de cada raw cluster
-  return rawClusters.map((arts, idx) => narrativeFromArticles(arts, idx, readings))
+  // Clasificar cada cluster: narrative real vs emerging signal
+  for (let i = 0; i < rawClusters.length; i++) {
+    const arts = rawClusters[i]
+    const distinctMedia = new Set(arts.map((a) => a.medium?.id || a.medium?.name)).size
+    const { strong, reasons } = hasStrongSignal(arts)
+    const isNarrative =
+      arts.length >= 3 &&
+      distinctMedia >= 2 &&
+      strong
+
+    const cluster = narrativeFromArticles(arts, i, readings)
+    // Inyectamos meta de por qué se considera narrativa (o no) al why_this_is_a_narrative
+    if (isNarrative) {
+      cluster.why_this_is_a_narrative =
+        `${arts.length} artículos en ${distinctMedia} medios distintos · señal fuerte: ${reasons.join(' · ')}.`
+      narrative_clusters.push(cluster)
+    } else {
+      const missing: string[] = []
+      if (arts.length < 3) missing.push(`solo ${arts.length} artículos (mínimo 3)`)
+      if (distinctMedia < 2) missing.push(`solo ${distinctMedia} medio (mínimo 2 distintos)`)
+      if (!strong) missing.push('sin señal fuerte (sin actor/partido/institución/empresa/territorio/topic-no-genérico recurrente)')
+      cluster.why_this_is_a_narrative =
+        `Señal emergente · NO considerada narrativa establecida. Falta: ${missing.join(' · ')}.`
+      emerging_signals.push(cluster)
+    }
+  }
+
+  // Ordenamos narrative_clusters por confidence + n_articles descendente
+  narrative_clusters.sort((a, b) => {
+    const ca = (a.confidence || 0) + a.articles.length / 100
+    const cb = (b.confidence || 0) + b.articles.length / 100
+    return cb - ca
+  })
+
+  return {
+    narrative_clusters: narrative_clusters.slice(0, maxClusters),
+    emerging_signals: emerging_signals.slice(0, maxClusters),
+  }
+}
+
+/**
+ * Wrapper backward-compat · devuelve solo `narrative_clusters` (la API legacy).
+ * Mantiene el contrato anterior para code que aún espera el array directo.
+ * NUEVO código debe usar `buildNarrativeClustersDetailed` que devuelve también
+ * `emerging_signals`.
+ */
+export function buildNarrativeClusters(
+  readings: ArticleReading[],
+  opts: BuildNarrativeClustersOptions = {},
+): NarrativeCluster[] {
+  return buildNarrativeClustersDetailed(readings, opts).narrative_clusters
 }
 
 function narrativeFromArticles(
@@ -1457,8 +1569,8 @@ function narrativeFromArticles(
     },
   }
 
-  // Título emergente
-  const title = generateNarrativeTitle(mainTopic, dominantFrame, dominantActors, harmed)
+  // Título emergente · Sprint G15 FASE D · ahora con institutions+parties para títulos mejorados
+  const title = generateNarrativeTitle(mainTopic, dominantFrame, dominantActors, harmed, benefited, institutions, topNByCount(allParties, 3))
   const short_summary = generateNarrativeSummary(arts, mainTopic, dominantFrame, dominantActors, harmed, benefited)
 
   // Evidence · 1 representativo por bucket ideológico (hasta 6)
@@ -1497,22 +1609,103 @@ function narrativeFromArticles(
   }
 }
 
+/**
+ * Sprint G15 FASE D · títulos legibles que NO caen en "General + otro",
+ * "Internacional con repercusión internacional", "Defensa + otro" etc.
+ *
+ * Reglas:
+ *  - Si topic ∈ GENERIC_TOPICS y no hay actor/inst, usa el frame o actor
+ *    explícito en lugar de "General"
+ *  - Plantillas tipo "La huelga como crisis de servicios públicos",
+ *    "La vivienda como presión sobre el Gobierno", "El empleo en clave de
+ *    reforma laboral"
+ *  - Nunca producir "X · otro" como output final
+ */
 function generateNarrativeTitle(
   topic: string,
   frame: FrameType,
   dominantActors: string[],
   harmed: string[],
+  benefited: string[] = [],
+  institutions: string[] = [],
+  parties: string[] = [],
 ): string {
-  const topicNice = topic.charAt(0).toUpperCase() + topic.slice(1)
-  const actor = dominantActors[0] || harmed[0] || ''
-  if (frame === 'corrupción' && actor) return `${topicNice} y ${frame}: presión sobre ${actor}`
-  if (frame === 'crisis') return `${topicNice} como crisis ${harmed[0] ? `que afecta a ${harmed[0]}` : 'abierta'}`
-  if (frame === 'electoral' && actor) return `${topicNice} en clave electoral: ${actor} en el centro`
-  if (frame === 'judicial' && actor) return `Judicialización de ${topicNice} · ${actor} implicado`
-  if (frame === 'internacional') return `${topicNice} con repercusión internacional`
-  if (frame === 'institucional') return `${topicNice} y tensión institucional`
-  if (actor) return `${topicNice}: ${actor} marca la agenda (${frame})`
-  return `${topicNice} · ${frame}`
+  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+  const isGenericTopic = GENERIC_TOPICS.has((topic || '').toLowerCase())
+  const isGenericFrame = !frame || frame === 'otro'
+  const actor = dominantActors[0] || harmed[0] || benefited[0] || ''
+  const institution = institutions[0] || ''
+  const party = parties[0] || ''
+  const harm = harmed[0] || ''
+  const bene = benefited[0] || ''
+
+  // Si topic es genérico, no titulamos con "General" · usamos el actor/institución
+  // como sujeto principal y el frame como descriptor.
+  if (isGenericTopic) {
+    if (actor && frame === 'crisis')        return `${cap(actor)} en el centro de una crisis abierta`
+    if (actor && frame === 'corrupción')    return `${cap(actor)} bajo presión por presunta corrupción`
+    if (actor && frame === 'judicial')      return `Judicialización del caso ${cap(actor)}`
+    if (actor && frame === 'electoral')     return `${cap(actor)} marca la agenda electoral`
+    if (institution)                        return `${cap(institution)} bajo el foco mediático`
+    if (party)                              return `${cap(party)} en el centro del debate`
+    if (actor)                              return `${cap(actor)} centra la atención mediática`
+    // Sin actor ni institución ni topic claro → degradamos a frame descriptivo
+    if (!isGenericFrame)                    return `Cobertura en clave ${frame}`
+    return 'Cobertura mediática emergente'
+  }
+
+  const topicNice = cap(topic)
+
+  // Topic real + frame conocido + actor: plantillas semánticas
+  if (frame === 'crisis') {
+    if (harm) return `La ${topic} como crisis que afecta a ${harm}`
+    if (institution) return `La ${topic} como crisis abierta · presión sobre ${institution}`
+    return `La ${topic} como crisis abierta`
+  }
+  if (frame === 'corrupción') {
+    if (actor) return `${topicNice}: presunta corrupción · presión sobre ${actor}`
+    return `${topicNice} bajo sospecha de corrupción`
+  }
+  if (frame === 'judicial') {
+    if (actor) return `Judicialización de ${topic} · ${actor} implicado`
+    return `Judicialización de ${topic}`
+  }
+  if (frame === 'electoral') {
+    if (actor) return `${topicNice} en clave electoral · ${actor} en el centro`
+    return `${topicNice} en clave electoral`
+  }
+  if (frame === 'institucional') {
+    if (institution) return `Tensión institucional sobre ${topic} · ${institution} bajo foco`
+    return `${topicNice} y tensión institucional`
+  }
+  if (frame === 'internacional') {
+    if (actor) return `${topicNice} con dimensión internacional · ${actor} implicado`
+    return `${topicNice} con impacto internacional sobre España`
+  }
+  if (frame === 'economía') {
+    if (actor) return `${topicNice} en clave económica · presión sobre ${actor}`
+    return `${topicNice} en clave económica`
+  }
+  if (frame === 'seguridad') {
+    if (institution) return `${topicNice} como cuestión de seguridad · ${institution} en el centro`
+    return `${topicNice} como cuestión de seguridad`
+  }
+  if (frame === 'territorial') {
+    if (actor) return `${topicNice} en clave territorial · ${actor} implicado`
+    return `${topicNice} en clave territorial`
+  }
+  if (frame === 'social') {
+    if (harm) return `${topicNice} en clave social · impacto sobre ${harm}`
+    return `${topicNice} en clave social`
+  }
+
+  // Fallbacks con actor explícito
+  if (actor && bene && bene !== actor) return `${topicNice}: ${actor} y ${bene} en disputa`
+  if (actor) return `${topicNice}: ${actor} marca la agenda`
+  if (institution) return `${topicNice}: ${institution} en el centro`
+  // Último recurso: topic + frame sin "otro"
+  if (isGenericFrame) return `Cobertura sobre ${topic}`
+  return `${topicNice} en clave ${frame}`
 }
 
 function generateNarrativeSummary(

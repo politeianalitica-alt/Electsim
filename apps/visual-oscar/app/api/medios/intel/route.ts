@@ -33,7 +33,8 @@ import {
 } from '@/lib/news-intel'
 import {
   selectPrioritySources, buildDiversityBreakdown, buildMeta, readArticle,
-  profileFromCatalog, buildNarrativeClusters, figuresFromReadings, summarizeReadings,
+  profileFromCatalog, buildNarrativeClustersDetailed,
+  figuresFromReadings, summarizeReadings,
   type BalanceMode, type ArticleReading,
 } from '@/lib/medios/media-methodology'
 // Sprint M4 FASE B · misma capa de análisis que NewsAPI search
@@ -164,8 +165,13 @@ export async function GET(req: NextRequest) {
     }
 
     // Sprint M2 · narrative clusters auditables
+    // Sprint G15 FASE D · ahora con buildNarrativeClustersDetailed para separar
+    // narrative_clusters (≥3 arts + ≥2 medios + señal fuerte) de emerging_signals
+    // (clusters más débiles · early warning sin confundirlos con narrativa real)
     if (include.includes('narrative_clusters') && readings.length > 0) {
-      out.narrative_clusters = buildNarrativeClusters(readings, { maxClusters: 12 })
+      const detailed = buildNarrativeClustersDetailed(readings, { maxClusters: 12 })
+      out.narrative_clusters = detailed.narrative_clusters
+      out.emerging_signals = detailed.emerging_signals
     }
 
     // Sprint M2 · figuras agregadas usando assessSentiment · separa
