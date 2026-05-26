@@ -36,6 +36,19 @@ interface WatchEntry {
   confidence?: number
   explanation?: string
   caveats?: string[]
+  // Sprint G14 FASE 4 cont · cobertura medios estatales mencionando este país
+  authoritarian_media_coverage?: {
+    count: number
+    authoritarian_count: number
+    latest: Array<{
+      title: string
+      link: string
+      feed_name: string
+      country_iso3: string
+      regime: string
+      pubDate: string
+    }>
+  }
 }
 interface Resp {
   ok: boolean
@@ -228,6 +241,31 @@ export function GeoSpainWatchlist() {
                       <p style={{ margin: '4px 0 0', fontSize: 9, color: '#64748b' }}>
                         ↗ Validar con: <strong style={{ color: '#475569' }}>{w.recommended_sources_to_check.join(' · ')}</strong>
                       </p>
+                    )}
+                    {/* Sprint G14 FASE 4 cont · cobertura medios estatales hacia este país */}
+                    {w.authoritarian_media_coverage && w.authoritarian_media_coverage.count > 0 && (
+                      <div style={{
+                        marginTop: 6, padding: 6,
+                        background: w.authoritarian_media_coverage.authoritarian_count >= 3 ? '#7f1d1d' : '#1c1917',
+                        borderRadius: 3,
+                        color: w.authoritarian_media_coverage.authoritarian_count >= 3 ? '#fee2e2' : '#fde68a',
+                        fontSize: 9,
+                      }}>
+                        <div style={{ fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 3 }}>
+                          ⚐ Cobertura medios estatales · {w.authoritarian_media_coverage.count} mención(es) · {w.authoritarian_media_coverage.authoritarian_count} de fuentes régimen autoritario
+                        </div>
+                        {w.authoritarian_media_coverage.latest.slice(0, 2).map((it, i) => (
+                          <a key={i} href={it.link} target="_blank" rel="noopener noreferrer"
+                            style={{
+                              display: 'block', textDecoration: 'none',
+                              color: 'inherit', marginTop: 2, fontSize: 9,
+                              fontStyle: 'italic', opacity: 0.95,
+                            }}
+                          >
+                            · {it.feed_name}: {it.title.slice(0, 100)}{it.title.length > 100 ? '…' : ''}
+                          </a>
+                        ))}
+                      </div>
                     )}
                     {/* Sprint G13 FASE 8 · botón auditar (no navega · abre drawer) */}
                     <div style={{ marginTop: 8, display: 'flex', justifyContent: 'flex-end' }}>

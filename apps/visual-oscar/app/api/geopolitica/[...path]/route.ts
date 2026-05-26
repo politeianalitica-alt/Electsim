@@ -2257,13 +2257,80 @@ function exposureConfidence(intensity: number, categoria: string): number {
   return Math.min(1, conf)
 }
 
+/**
+ * Sprint G14 FASE 4 cont · cuenta items state-media que mencionan un país.
+ * Acepta una lista de items pre-fetched (de /api/geopolitica/state-media) y
+ * un nombre/ISO de país · devuelve count + items detectados.
+ *
+ * Regex case-insensitive sobre title+description. Multilenguaje básico:
+ * acepta variantes EN/ES + algunas transliteraciones (ucrania/ukraine).
+ */
+function countStateMediaMentions(
+  allItems: any[],
+  iso3: string,
+  countryName: string,
+): { count: number; authoritarian_count: number; latest: any[] } {
+  if (!allItems || allItems.length === 0) return { count: 0, authoritarian_count: 0, latest: [] }
+  // Sinónimos comunes ES/EN para los nombres de países más conflictivos
+  const SYNONYMS: Record<string, string[]> = {
+    UKR: ['ukraine', 'ucrania', 'ucraniana?'],
+    RUS: ['russia', 'rusia', 'russian', 'moscow', 'moscú'],
+    CHN: ['china', 'chinese', 'pek[íi]n', 'beijing'],
+    USA: ['united states', 'estados unidos', 'us\\b', 'biden', 'trump', 'washington'],
+    IRN: ['iran', 'ir[áa]n', 'tehran', 'teher[áa]n'],
+    ISR: ['israel', 'israeli', 'israel[íi]'],
+    PSE: ['palestin', 'gaza', 'hamas'],
+    SYR: ['syria', 'siria'],
+    YEM: ['yemen', 'houthi'],
+    MAR: ['morocco', 'marruecos', 'maroc'],
+    DZA: ['algeria', 'argelia', 'alg[ée]rie'],
+    EGY: ['egypt', 'egipto'],
+    LBY: ['libya', 'libia'],
+    SDN: ['sudan', 'sud[áa]n'],
+    SOM: ['somalia'],
+    AFG: ['afghanistan', 'afganist[áa]n', 'taliban'],
+    PRK: ['north korea', 'corea del norte', 'pyongyang'],
+    TWN: ['taiwan', 'taiw[áa]n'],
+    VEN: ['venezuela', 'venezolan', 'maduro'],
+    CUB: ['cuba', 'habana'],
+    TUR: ['turkey', 't[üu]rkiye', 'turqu[íi]a', 'erdogan'],
+  }
+  const patterns = SYNONYMS[iso3] || [countryName.toLowerCase()]
+  const rx = new RegExp(`\\b(${patterns.join('|')})\\b`, 'i')
+  const matches = allItems.filter((it: any) => {
+    const haystack = `${it.title || ''} ${it.description || ''}`
+    return rx.test(haystack)
+  })
+  const authoritarian = matches.filter((it: any) => it.regime === 'authoritarian')
+  return {
+    count: matches.length,
+    authoritarian_count: authoritarian.length,
+    latest: matches.slice(0, 3).map((it: any) => ({
+      title: it.title,
+      link: it.link,
+      feed_name: it.feed_name,
+      country_iso3: it.country_iso3,
+      regime: it.regime,
+      pubDate: it.pubDate,
+    })),
+  }
+}
+
 async function buildSpainWatchlist(req: Request) {
   const startedAt = Date.now()
   const base = baseUrl(req)
-  const [convergence, presencia] = await Promise.all([
+  // Sprint G14 FASE 4 cont · también pull state-media en paralelo para enriquecer
+  const [convergence, presencia, stateMedia] = await Promise.all([
     jsonFetch(`${base}/api/geopolitica/convergence`),
     jsonFetch(`${base}/api/geopolitica/presencia`),
+    jsonFetch(`${base}/api/geopolitica/state-media?limit_per_feed=15`).catch(() => null),
   ])
+  // Aplanar items de todos los feeds state-media en un array único
+  const stateMediaAllItems: any[] = Array.isArray(stateMedia?.feeds)
+    ? stateMedia.feeds.flatMap((f: any) => (Array.isArray(f.items) ? f.items.map((it: any) => ({
+        ...it, regime: f.regime, country_iso3: f.country_iso3, feed_name: f.feed_name,
+      })) : []))
+    : []
   const alerts: any[] = Array.isArray(convergence?.alerts) ? convergence.alerts : []
   const presenciaRaw: any[] = Array.isArray(presencia?.data) ? presencia.data : []
   const presenciaByIso: Record<string, { intensidad: number; categoria: string; pais: string }> = {}
@@ -2293,6 +2360,9 @@ async function buildSpainWatchlist(req: Request) {
     const diag_confidence = Math.min(1, exposure_confidence * 0.5 + Math.min(1, a.convergence_score / 9) * 0.3 + Math.min(1, layersPresent.length / 4) * 0.2)
     const explanation = `${a.name}: exposición ${pres.categoria || 'institucional'} (intensidad ${pres.intensidad}/100) + convergencia ${a.band} con ${a.signal_count} señal(es) en ${layersPresent.length} capa(s). Canal de impacto principal: ${primaryChannel}${impact_channels.length > 1 ? ` (+${impact_channels.length - 1} adicionales)` : ''}. Horizonte probable: ${likely_time_horizon}.`
 
+    // Sprint G14 FASE 4 cont · cuenta cobertura state-media autoritaria sobre este país
+    const stateMediaCoverage = countStateMediaMentions(stateMediaAllItems, a.iso3, a.name)
+
     return {
       iso3: a.iso3,
       iso2: a.iso2,
@@ -2319,10 +2389,15 @@ async function buildSpainWatchlist(req: Request) {
       recommended_sources_to_check,
       confidence: +diag_confidence.toFixed(2),
       explanation,
+      // Sprint G14 FASE 4 cont · cobertura medios estatales hacia este país
+      authoritarian_media_coverage: stateMediaCoverage,
       caveats: [
         'Urgency = (presencia/100) × convergence_score · es heurística, no probabilidad',
         'Impact channel inferido de categoría presencia + signals · validar con fuente primaria',
         'Time horizon basado en capa de la convergencia · puede no coincidir con velocidad real del evento',
+        ...(stateMediaCoverage.authoritarian_count >= 3
+          ? [`${stateMediaCoverage.authoritarian_count} items de medios régimen autoritario mencionan este país recientemente · posible operación de framing`]
+          : []),
       ],
     }
   }).filter((x: any) => x !== null) as any[]
