@@ -36,6 +36,9 @@ export async function GET(req: NextRequest) {
     let neg_count = 0
     let inst_relevance_sum = 0
     let elect_relevance_sum = 0
+    // Sprint G15 FASE F · trazabilidad local vs nacional
+    let n_by_local_medium = 0          // articles cuyo medio es scope_level provincial/local
+    const local_medios = new Set<string>()
     const top_narratives_set: string[] = []
     const regional_actors_set = new Set<string>()
     const accelerating_topics_set = new Set<string>()
@@ -44,6 +47,11 @@ export async function GET(req: NextRequest) {
       const profile = profileFromCatalog(a.medio)
       const reading = readArticle(a, profile)
       if (profile.ccaa === ccaa) n_by_medium_ccaa++
+      const isLocalProfile = profile.scope_level === 'provincial' || profile.scope_level === 'local'
+      if (isLocalProfile && profile.ccaa === ccaa) {
+        n_by_local_medium++
+        local_medios.add(profile.id)
+      }
       if (reading.territory_mentioned.includes(ccaa)) {
         n_by_mention++
         if (reading.sentiment.event_tone === 'negative') neg_count++
@@ -78,6 +86,11 @@ export async function GET(req: NextRequest) {
     const confidence = n_by_mention >= 10 ? 0.8 : n_by_mention >= 5 ? 0.6 : n_by_mention >= 2 ? 0.4 : 0.2
     if (n_by_mention < 3) warnings.push(`Sólo ${n_by_mention} artículos mencionan ${ccaa} · análisis tentativo`)
     if (n_by_medium_ccaa > n_by_mention * 3) warnings.push(`Sobre-representación de medios de ${ccaa}: ${n_by_medium_ccaa} medios locales vs ${n_by_mention} menciones reales`)
+    // Sprint G15 FASE F · advertencia si la cobertura es 100% nacional sin medios locales
+    const local_share = n_by_medium_ccaa > 0 ? n_by_local_medium / n_by_medium_ccaa : 0
+    if (n_by_medium_ccaa >= 5 && local_share === 0) {
+      warnings.push(`Cobertura de ${ccaa} sin medios provinciales/locales · prensa nacional únicamente · perspectiva limitada`)
+    }
 
     const regional_signal = {
       ccaa,
@@ -92,12 +105,16 @@ export async function GET(req: NextRequest) {
       n_articles_by_medium_ccaa: n_by_medium_ccaa,
       n_articles_by_mention: n_by_mention,
       n_articles_by_affected: n_by_affected,
+      // Sprint G15 FASE F · tracking de cobertura provincial/local
+      n_articles_by_local_medium: n_by_local_medium,
+      local_share,                  // 0..1 share de medios scope_level provincial/local
+      n_local_medios: local_medios.size,
       top_narratives,
       regional_actors: Array.from(regional_actors_set).slice(0, 12),
       accelerating_topics: Array.from(accelerating_topics_set).slice(0, 8),
       confidence,
       why: n_by_mention >= 5
-        ? `${n_by_mention} artículos mencionan ${ccaa} · ${neg_count} de tono negativo · frame dominante: ${top_narratives[0] || 'mixto'}`
+        ? `${n_by_mention} artículos mencionan ${ccaa} · ${neg_count} de tono negativo · frame dominante: ${top_narratives[0] || 'mixto'} · ${local_medios.size} medios locales activos`
         : `Cobertura baja en ${ccaa} · ${n_by_mention} menciones · señal débil`,
     }
 

@@ -47,6 +47,11 @@ export interface MediaSourceProfile {
   rss_url: string | null
   web: string
   has_rss: boolean
+  // Sprint G15 FASE F · scope_level propagado desde overlay (data/medios-locales.json)
+  // o derivado de ambito. Permite cuotas locales en selectPrioritySources.
+  scope_level?: 'nacional' | 'autonomico' | 'provincial' | 'local' | 'europeo' | null
+  provincia?: string | null
+  municipio?: string | null
 }
 
 export interface SourcePriorityScore {
@@ -80,6 +85,12 @@ export interface SelectPrioritySourcesOptions {
   includeEuropean?: boolean
   includeRegional?: boolean
   tabContext?: string | null                // ej. 'pulso' | 'cobertura-ideologica' | 'regional'
+  // Sprint G15 FASE F · cuota mínima de medios provinciales/locales (scope_level).
+  // Se aplica como pasada-3 después de cuotas ideológicas: si la selección final
+  // no llega a `minLocalShare` de scope_level provincial/local, rellena con los
+  // mejores candidatos locales pendientes (hasta agotar maxSources).
+  // Default: 0.20 (20%) cuando balanceMode='regional', 0 en otros modos.
+  minLocalShare?: number
 }
 
 export interface SourceDiversityBreakdown {
@@ -327,6 +338,10 @@ export function profileFromCatalog(m: CatalogMedio): MediaSourceProfile {
     rss_url: m.rss,
     web: m.web,
     has_rss: !!m.rss,
+    // Sprint G15 FASE F · scope_level + provincia/municipio del overlay
+    scope_level: (m as any).scope_level ?? null,
+    provincia: (m as any).provincia ?? null,
+    municipio: (m as any).municipio ?? null,
   }
 }
 
@@ -366,6 +381,7 @@ export function selectPrioritySources(
     ideologyTarget = null,
     includeEuropean = true,
     includeRegional = true,
+    minLocalShare = balanceMode === 'regional' ? 0.20 : 0,
   } = options
 
   // Filtrar candidatos
@@ -476,6 +492,33 @@ export function selectPrioritySources(
       ambitoCount[p.ambito] = (ambitoCount[p.ambito] || 0) + 1
       ideoCount[p.ideology_bucket] = (ideoCount[p.ideology_bucket] || 0) + 1
       groupCount[p.group] = (groupCount[p.group] || 0) + 1
+    }
+  }
+
+  // Pasada 3 · Sprint G15 FASE F · cuota mínima de scope_level local/provincial
+  // El propósito: que la tab Mapas y los enrichments por CCAA vean realmente
+  // medios locales, no sólo prensa nacional con CCAA mencionada.
+  if (minLocalShare > 0) {
+    const isLocal = (p: MediaSourceProfile) =>
+      p.scope_level === 'provincial' || p.scope_level === 'local'
+    const localCount = Array.from(pickedById).filter((id) => isLocal(byId[id])).length
+    const minLocal = Math.max(2, Math.round(maxSources * minLocalShare))
+    if (localCount < minLocal) {
+      const needed = minLocal - localCount
+      const localCandidates = scored.filter(
+        (s) => !pickedById.has(s.source_id) && isLocal(byId[s.source_id]),
+      )
+      // Limita por cap de grupo (mantiene la regla anti-concentración)
+      for (let i = 0, added = 0; i < localCandidates.length && added < needed; i++) {
+        if (pickedById.size >= maxSources) break
+        const p = byId[localCandidates[i].source_id]
+        if ((groupCount[p.group] || 0) >= maxPerGroup) continue
+        pickedById.add(localCandidates[i].source_id)
+        ambitoCount[p.ambito] = (ambitoCount[p.ambito] || 0) + 1
+        ideoCount[p.ideology_bucket] = (ideoCount[p.ideology_bucket] || 0) + 1
+        groupCount[p.group] = (groupCount[p.group] || 0) + 1
+        added++
+      }
     }
   }
 

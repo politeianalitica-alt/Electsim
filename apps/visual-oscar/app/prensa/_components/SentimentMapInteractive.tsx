@@ -424,6 +424,10 @@ export default function SentimentMapInteractive({ ccaaData }: { ccaaData?: Recor
 // ── CCAA Dossier ────────────────────────────────────────────────────────
 
 function CCAADossier({ detail, loading, name, onProvince }: {
+  // Sprint G15 FASE F · `detail` ahora viene enriquecido con regional_signal opcional
+  // (n_articles_by_local_medium · local_share · n_local_medios · etc.) que el
+  // endpoint /api/medios/ccaa devuelve. CCAADeepDetail no lo declara, así que
+  // accedemos vía `as any` con guards defensivos.
   detail?: CCAADeepDetail
   loading: boolean
   name: string
@@ -452,6 +456,39 @@ function CCAADossier({ detail, loading, name, onProvince }: {
         <KPI label="Polaridad" value={detail.polarity.toFixed(2)} accent={detail.polarity > 0.10 ? '#16A34A' : detail.polarity < -0.10 ? '#DC2626' : '#6e6e73'} />
         <KPI label="Medios" value={String(detail.topMedios.length)} accent="#7C3AED" />
       </div>
+
+      {/* Sprint G15 FASE F · banner de cobertura local · cuenta cuántos
+          medios scope_level provincial/local están publicando sobre esta CCAA.
+          Si la prensa nacional es la única fuente, el dossier lo advierte. */}
+      {(() => {
+        const rs = (detail as any).regional_signal
+        if (!rs) return null
+        const localShare: number = typeof rs.local_share === 'number' ? rs.local_share : 0
+        const nLocal: number = rs.n_local_medios || 0
+        const pct = Math.round(localShare * 100)
+        const ok = localShare >= 0.20
+        const warn = localShare < 0.10 && (rs.n_articles_by_medium_ccaa || 0) >= 5
+        const color = warn ? '#dc2626' : ok ? '#16a34a' : '#f59e0b'
+        const text = warn
+          ? `Sin prensa local · cobertura sólo desde medios nacionales (${pct}% local)`
+          : ok
+          ? `Cobertura local saludable · ${nLocal} medios provinciales/locales activos (${pct}%)`
+          : `Cobertura local limitada · ${nLocal} medios locales (${pct}%) · sesgada hacia prensa nacional`
+        return (
+          <div style={{
+            background: warn ? '#fef2f2' : ok ? '#f0fdf4' : '#fef3c7',
+            border: `1px solid ${warn ? '#fecaca' : ok ? '#bbf7d0' : '#fde68a'}`,
+            borderLeft: `3px solid ${color}`,
+            borderRadius: 6, padding: '6px 10px', marginBottom: 12,
+            fontSize: 10.5, color: '#1d1d1f', lineHeight: 1.45,
+          }}>
+            <span style={{ fontWeight: 700, color, letterSpacing: 0.4, textTransform: 'uppercase', fontSize: 9, marginRight: 6 }}>
+              {warn ? '! Local' : ok ? '✓ Local' : '◐ Local'}
+            </span>
+            {text}
+          </div>
+        )
+      })()}
 
       {/* Provincias (con drill) */}
       {detail.provinces.length > 0 && (
