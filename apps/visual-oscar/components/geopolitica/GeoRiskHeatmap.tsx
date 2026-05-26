@@ -52,6 +52,76 @@ function bandColor(band: string): string {
   return band === 'CRITICO' ? '#dc2626' : band === 'ALTO' ? '#f97316' : band === 'MEDIO' ? '#f59e0b' : '#16a34a'
 }
 
+/** Sprint G14 FASE 3 cont · capas seleccionables (ya hay datos · solo cambio de mapeo). */
+type LayerKey = 'score' | 'baseline' | 'acled_events' | 'acled_fatalities'
+
+interface LayerDef {
+  key: LayerKey
+  label: string
+  short: string
+  get: (c: Country) => number
+  /** Conversión valor → color 0-100 normalizado. */
+  norm: (v: number) => number
+  legend: { bands: Array<{ label: string; threshold: number; color: string }> }
+}
+
+const LAYERS: Record<LayerKey, LayerDef> = {
+  score: {
+    key: 'score', label: 'Risk Score · baseline + ACLED uplift', short: 'Risk',
+    get: (c) => c.score,
+    norm: (v) => v,
+    legend: { bands: [
+      { label: '< 30 estable', threshold: 30, color: '#84cc16' },
+      { label: '30-54 vigilar', threshold: 55, color: '#f59e0b' },
+      { label: '55-74 crisis', threshold: 75, color: '#f97316' },
+      { label: '≥ 75 severo', threshold: 100, color: '#dc2626' },
+    ]},
+  },
+  baseline: {
+    key: 'baseline', label: 'Baseline Politeia · sin uplift eventos', short: 'Baseline',
+    get: (c) => c.baseline_risk,
+    norm: (v) => v,
+    legend: { bands: [
+      { label: '< 30 estable', threshold: 30, color: '#84cc16' },
+      { label: '30-54 vigilar', threshold: 55, color: '#f59e0b' },
+      { label: '55-74 crisis', threshold: 75, color: '#f97316' },
+      { label: '≥ 75 severo', threshold: 100, color: '#dc2626' },
+    ]},
+  },
+  acled_events: {
+    key: 'acled_events', label: 'ACLED · eventos últimos 30d', short: 'Eventos',
+    get: (c) => c.acled_events_30d,
+    // Escala log para distribución típica ACLED (tail larga)
+    norm: (v) => v <= 0 ? 0 : Math.min(100, Math.log10(v + 1) * 35),
+    legend: { bands: [
+      { label: '0 ningún evento', threshold: 1, color: '#1e293b' },
+      { label: '1-10 baja', threshold: 11, color: '#84cc16' },
+      { label: '11-50 media', threshold: 51, color: '#f59e0b' },
+      { label: '51-200 alta', threshold: 201, color: '#f97316' },
+      { label: '> 200 crítica', threshold: 9999, color: '#dc2626' },
+    ]},
+  },
+  acled_fatalities: {
+    key: 'acled_fatalities', label: 'ACLED · fatalidades últimos 30d', short: 'Fatalities',
+    get: (c) => c.acled_fatalities_30d,
+    norm: (v) => v <= 0 ? 0 : Math.min(100, Math.log10(v + 1) * 30),
+    legend: { bands: [
+      { label: '0 sin víctimas', threshold: 1, color: '#1e293b' },
+      { label: '1-25 baja', threshold: 26, color: '#84cc16' },
+      { label: '26-100 media', threshold: 101, color: '#f59e0b' },
+      { label: '101-500 alta', threshold: 501, color: '#f97316' },
+      { label: '> 500 crítica', threshold: 99999, color: '#dc2626' },
+    ]},
+  },
+}
+
+function layerColor(layer: LayerDef, c: Country | null): string {
+  if (!c) return '#0f172a'
+  const v = layer.get(c)
+  const n = layer.norm(v)
+  return scoreToColor(n)
+}
+
 export function GeoRiskHeatmap() {
   const router = useRouter()
   const [data, setData] = useState<HeatmapResp | null>(null)
@@ -59,6 +129,8 @@ export function GeoRiskHeatmap() {
   const [Lib, setLib] = useState<any | null>(null)
   const [topology, setTopology] = useState<any | null>(null)
   const [hover, setHover] = useState<{ x: number; y: number; iso_num: string; name: string } | null>(null)
+  const [layerKey, setLayerKey] = useState<LayerKey>('score')
+  const layer = LAYERS[layerKey]
 
   useEffect(() => {
     let alive = true
@@ -104,13 +176,32 @@ export function GeoRiskHeatmap() {
       color: '#f1f5f9',
       position: 'relative',
     }}>
-      <header style={{ marginBottom: 12 }}>
-        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#fbbf24', textTransform: 'uppercase' }}>
-          ◆ World Risk Heatmap · {data?.countries?.length || 0} países · choropleth SVG
-        </p>
-        <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8' }}>
-          Hover país → tooltip score + ACLED 30d · click → drill país profundo. Inspirado en Verisk Maplecroft + CFR Global Conflict Tracker.
-        </p>
+      <header style={{ marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#fbbf24', textTransform: 'uppercase' }}>
+            ◆ World Risk Heatmap · {data?.countries?.length || 0} países · choropleth SVG
+          </p>
+          <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8' }}>
+            Hover país → tooltip · click → drill país profundo. Cambia capa para alternar entre risk score, baseline curado, eventos ACLED y fatalities.
+          </p>
+        </div>
+        {/* Sprint G14 FASE 3 cont · selector de capa */}
+        <div style={{ display: 'flex', gap: 4, padding: 3, background: '#0f172a', border: '1px solid #1e293b', borderRadius: 6, flexShrink: 0 }}>
+          {(Object.keys(LAYERS) as LayerKey[]).map((k) => (
+            <button
+              key={k}
+              onClick={() => setLayerKey(k)}
+              title={LAYERS[k].label}
+              style={{
+                background: layerKey === k ? '#fbbf24' : 'transparent',
+                color: layerKey === k ? '#0f172a' : '#94a3b8',
+                border: 'none', borderRadius: 3, padding: '4px 10px',
+                fontSize: 10, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase',
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >{LAYERS[k].short}</button>
+          ))}
+        </div>
       </header>
 
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Cargando datos…</p>}
@@ -131,7 +222,7 @@ export function GeoRiskHeatmap() {
                     geographies.map((geo) => {
                       const num3 = String(geo.id).padStart(3, '0')
                       const c = byNum[num3]
-                      const fill = c ? scoreToColor(c.score) : '#0f172a'
+                      const fill = layerColor(layer, c || null)
                       const stroke = c ? '#020617' : '#1e293b'
                       return (
                         <Geography
@@ -214,19 +305,24 @@ export function GeoRiskHeatmap() {
               </div>
             )}
 
-            {/* Leyenda + bandas */}
+            {/* Leyenda dinámica de la layer activa */}
             <div style={{
               position: 'absolute', bottom: 12, left: 12, background: 'rgba(15,23,42,0.92)',
               border: '1px solid #334155', borderRadius: 4, padding: '6px 10px',
-              display: 'flex', gap: 10, flexWrap: 'wrap', fontSize: 9, color: '#cbd5e1',
+              display: 'flex', flexDirection: 'column', gap: 4, fontSize: 9, color: '#cbd5e1',
+              maxWidth: 320,
             }}>
-              {Object.entries(data.bands).map(([k, label]) => (
-                <span key={k} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <span style={{ width: 10, height: 10, background: bandColor(k), borderRadius: 2, display: 'inline-block' }} />
-                  <strong style={{ color: bandColor(k) }}>{k}</strong>
-                  <span style={{ color: '#94a3b8' }}>· {label}</span>
-                </span>
-              ))}
+              <div style={{ fontSize: 9, fontWeight: 700, color: '#fbbf24', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                Capa: {layer.label}
+              </div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                {layer.legend.bands.map((b, i) => (
+                  <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <span style={{ width: 10, height: 10, background: b.color, borderRadius: 2, display: 'inline-block' }} />
+                    <span style={{ color: '#94a3b8' }}>{b.label}</span>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         )
