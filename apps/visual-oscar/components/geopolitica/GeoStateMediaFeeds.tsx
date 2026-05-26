@@ -14,11 +14,22 @@
  */
 import { useEffect, useState } from 'react'
 
+interface SpainRelevance {
+  score: number       // 0..3
+  matched: string[]   // ['españa','territorio_es','gobierno_es','vecino','latam_hispana']
+}
+
 interface Item {
   title: string
   link: string
   pubDate: string
   description?: string
+  spain_relevance?: SpainRelevance
+  // Top items agregado lleva además:
+  feed_id?: string
+  feed_name?: string
+  country_iso3?: string
+  regime?: string
 }
 
 interface FeedResult {
@@ -45,8 +56,18 @@ interface Resp {
   totals?: {
     n_feeds_ok: number; n_feeds_error: number
     n_items_total: number; n_items_authoritarian: number
+    n_items_es_relevant: number; n_items_es_critical: number
   }
+  es_relevant_items_top?: Item[]
   feeds: FeedResult[]
+}
+
+const SPAIN_TAG_LABEL: Record<string, string> = {
+  españa: 'ESPAÑA',
+  territorio_es: 'TERRITORIO ES',
+  gobierno_es: 'GOB. ESPAÑOL',
+  vecino: 'VECINO',
+  latam_hispana: 'LATAM',
 }
 
 const REGIME_COLOR: Record<string, { bg: string; fg: string; label: string }> = {
@@ -124,6 +145,64 @@ export function GeoStateMediaFeeds() {
         </div>
       )}
 
+      {/* Sprint G14 FASE 4 cont · panel destacado "Mencionan España AHORA" */}
+      {data?.es_relevant_items_top && data.es_relevant_items_top.length > 0 && (
+        <div style={{
+          background: 'linear-gradient(180deg, #7f1d1d 0%, #1c1917 100%)',
+          border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 12px', marginBottom: 14,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#fee2e2', letterSpacing: 0.6, textTransform: 'uppercase' }}>
+              ⚑ Mencionan España AHORA · {data.totals?.n_items_es_relevant || 0} items
+            </span>
+            {data.totals?.n_items_es_critical ? (
+              <span style={{
+                fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 3,
+                background: '#dc2626', color: '#fff', letterSpacing: 0.4,
+              }}>
+                {data.totals.n_items_es_critical} con mención directa
+              </span>
+            ) : null}
+          </div>
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {data.es_relevant_items_top.slice(0, 8).map((it, i) => (
+              <li key={i} style={{ borderTop: i > 0 ? '1px solid #44403c' : 'none', paddingTop: i > 0 ? 6 : 0 }}>
+                <a href={it.link} target="_blank" rel="noopener noreferrer" style={{
+                  color: '#fde68a', fontSize: 10, lineHeight: 1.4, textDecoration: 'none',
+                  display: 'block',
+                }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#fff' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#fde68a' }}
+                >
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 2 }}>
+                    <span style={{
+                      fontSize: 8, fontWeight: 700, padding: '1px 4px', borderRadius: 2,
+                      background: '#1f2937', color: '#fee2e2', letterSpacing: 0.4,
+                      border: '1px solid #991b1b',
+                    }}>
+                      {(it.country_iso3 || '').toUpperCase()} · {it.feed_name}
+                    </span>
+                    {it.spain_relevance?.matched.map((tag) => (
+                      <span key={tag} style={{
+                        fontSize: 8, fontWeight: 700, padding: '1px 4px', borderRadius: 2,
+                        background: '#7f1d1d', color: '#fecaca', letterSpacing: 0.4,
+                      }}>{SPAIN_TAG_LABEL[tag] || tag}</span>
+                    ))}
+                  </div>
+                  <div style={{ fontWeight: 500 }}>{it.title}</div>
+                  {it.pubDate && <div style={{ fontSize: 8, color: '#fca5a5', marginTop: 2 }}>{fmtRel(it.pubDate)}</div>}
+                </a>
+              </li>
+            ))}
+          </ul>
+          {data.es_relevant_items_top.length > 8 && (
+            <p style={{ margin: '6px 0 0', fontSize: 9, color: '#fecaca', fontStyle: 'italic' }}>
+              + {data.es_relevant_items_top.length - 8} items más · expandir cada feed para ver
+            </p>
+          )}
+        </div>
+      )}
+
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Cargando feeds estatales…</p>}
 
       {data && data.feeds.length > 0 && (
@@ -179,20 +258,45 @@ export function GeoStateMediaFeeds() {
                   </p>
                 ) : (
                   <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    {showItems.map((it, i) => (
-                      <li key={i} style={{ borderTop: i > 0 ? '1px solid #1e293b' : 'none', paddingTop: i > 0 ? 4 : 0 }}>
-                        <a href={it.link} target="_blank" rel="noopener noreferrer" style={{
-                          color: '#cbd5e1', fontSize: 10, lineHeight: 1.4, textDecoration: 'none',
-                          display: 'block',
-                        }}
-                          onMouseEnter={(e) => { e.currentTarget.style.color = '#fbbf24' }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = '#cbd5e1' }}
-                        >
-                          {it.title}
-                          {it.pubDate && <span style={{ display: 'block', fontSize: 8, color: '#64748b', marginTop: 2 }}>{fmtRel(it.pubDate)}</span>}
-                        </a>
-                      </li>
-                    ))}
+                    {showItems.map((it, i) => {
+                      const esScore = it.spain_relevance?.score || 0
+                      const esTags = it.spain_relevance?.matched || []
+                      const isEs = esScore >= 1
+                      return (
+                        <li key={i} style={{
+                          borderTop: i > 0 ? '1px solid #1e293b' : 'none',
+                          paddingTop: i > 0 ? 4 : 0,
+                          borderLeft: esScore >= 3 ? '2px solid #dc2626' : isEs ? '2px solid #fbbf24' : 'none',
+                          paddingLeft: isEs ? 6 : 0,
+                          marginLeft: isEs ? -8 : 0,
+                          background: esScore >= 3 ? 'rgba(127, 29, 29, 0.2)' : 'transparent',
+                          borderRadius: isEs ? 3 : 0,
+                        }}>
+                          <a href={it.link} target="_blank" rel="noopener noreferrer" style={{
+                            color: '#cbd5e1', fontSize: 10, lineHeight: 1.4, textDecoration: 'none',
+                            display: 'block',
+                          }}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = '#fbbf24' }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = '#cbd5e1' }}
+                          >
+                            {isEs && (
+                              <div style={{ display: 'flex', gap: 3, marginBottom: 2, flexWrap: 'wrap' }}>
+                                {esTags.map((tag) => (
+                                  <span key={tag} style={{
+                                    fontSize: 7, fontWeight: 700, padding: '1px 3px', borderRadius: 2,
+                                    background: esScore >= 3 ? '#7f1d1d' : '#78350f',
+                                    color: esScore >= 3 ? '#fecaca' : '#fde68a',
+                                    letterSpacing: 0.3,
+                                  }}>{SPAIN_TAG_LABEL[tag] || tag}</span>
+                                ))}
+                              </div>
+                            )}
+                            {it.title}
+                            {it.pubDate && <span style={{ display: 'block', fontSize: 8, color: '#64748b', marginTop: 2 }}>{fmtRel(it.pubDate)}</span>}
+                          </a>
+                        </li>
+                      )
+                    })}
                   </ul>
                 )}
 
