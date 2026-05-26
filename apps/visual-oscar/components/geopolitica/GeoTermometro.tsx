@@ -16,6 +16,8 @@
  *   - Free (vs $50k/yr Verisk)
  */
 import { useEffect, useState } from 'react'
+import { GeoSourceBadgeFromMeta } from './GeoSourceBadge'
+import type { GeoEndpointMode, GeoLayer } from '@/lib/geopolitica/geo-methodology'
 
 interface RiskIndexResponse {
   ok: boolean
@@ -32,6 +34,13 @@ interface RiskIndexResponse {
   methodology: string
   cite: string
   generated_at: string
+  // Sprint G13 FASE 9 · _geo_meta opcional · cuando el endpoint lo añada (FASE 2 [...path])
+  _geo_meta?: {
+    source_mode: GeoEndpointMode
+    layer?: GeoLayer
+    confidence?: number
+    sources_used?: string[]
+  }
 }
 
 const BAND_COLOR: Record<RiskIndexResponse['band'], { bg: string; fg: string; track: string }> = {
@@ -85,15 +94,26 @@ export function GeoTermometro() {
       }}
     >
       <header style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
-        <div>
-          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.8, color: '#fbbf24', textTransform: 'uppercase' }}>
-            ◆ Spain Composite Risk Index · Sprint G2
-          </p>
-          <h2 style={{ margin: '4px 0 0', fontSize: 18, fontWeight: 700, color: '#f1f5f9' }}>
-            Score geopolítico España 0-100 · multi-fuente transparente
+        <div style={{ flex: '1 1 320px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.8, color: '#fbbf24', textTransform: 'uppercase' }}>
+              ◆ Índice de presión geopolítica · entorno estratégico España
+            </p>
+            {/* Sprint G13 FASE 9 · badge del modo de fuente del endpoint */}
+            {data._geo_meta && <GeoSourceBadgeFromMeta meta={data._geo_meta} compact />}
+          </div>
+          <h2 style={{ margin: '4px 0 0', fontSize: 17, fontWeight: 700, color: '#f1f5f9' }}>
+            Score 0-100 · señales agregadas auditables
           </h2>
-          <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8' }}>
-            Inspirado en BlackRock GRI + Verisk Maplecroft · refrescado cada 6h
+          <p style={{ margin: '6px 0 0', fontSize: 11, color: '#cbd5e1', lineHeight: 1.5 }}>
+            <strong style={{ color: '#fbbf24' }}>Qué mide:</strong> presión agregada en fuentes abiertas y
+            señales de seguridad relevantes para España (alertas, ACLED en zonas de interés,
+            volumen OSINT, sanciones, tono mediático).
+          </p>
+          <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5, fontStyle: 'italic' }}>
+            <strong style={{ color: '#94a3b8' }}>Qué NO mide:</strong> probabilidad de guerra en España,
+            riesgo país soberano, opinión pública ni intención electoral. Es un proxy de presión
+            informativa/estratégica, no de realidad material.
           </p>
         </div>
         <div style={{ textAlign: 'right' }}>

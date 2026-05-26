@@ -1,14 +1,13 @@
 'use client'
 /**
- * `<GeoDataHealth />` · Sprint G8.
+ * `<GeoDataHealth />` · Sprint G8 + G13 FASE 9.
  *
  * Diagnóstico de fuentes geo · ping de 20 endpoints con timeout 8s.
  * Reporta latency + status + n_items por endpoint, agrupado por capa.
  *
- * Útil para:
- *   - Transparencia ("¿por qué no veo el feed XX?")
- *   - Debugging RSS feeds que cambian de URL sin avisar
- *   - Auditoría de cobertura ("¿cuántas capas tenemos OK ahora mismo?")
+ * Sprint G13 FASE 9 · añade panel "Data Meaning" antes del status técnico:
+ * no basta saber si una fuente "funciona", hay que decir qué mide cada capa
+ * y qué NO mide. Evita interpretar "GDELT TV ON" como "riesgo subió".
  */
 import { useEffect, useState } from 'react'
 
@@ -110,6 +109,9 @@ export function GeoDataHealth() {
 
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Pinging endpoints…</p>}
 
+      {/* Sprint G13 FASE 9 · Data Meaning · qué mide y qué NO mide cada capa */}
+      <DataMeaningPanel />
+
       {data?.ok && (
         <>
           {/* Resumen */}
@@ -192,3 +194,125 @@ export function GeoDataHealth() {
 }
 
 export default GeoDataHealth
+
+// ════════════════════════════════════════════════════════════════════════
+// Sprint G13 FASE 9 · DataMeaningPanel · qué mide y qué NO mide cada capa
+// ════════════════════════════════════════════════════════════════════════
+
+interface MeaningRow {
+  source: string
+  what_it_means: string
+  what_it_does_not_mean: string
+  confirm_with?: string
+}
+
+const DATA_MEANING: MeaningRow[] = [
+  {
+    source: 'GDELT TV',
+    what_it_means: 'Presencia en emisiones televisivas. Útil para detectar presión narrativa y saliencia mediática.',
+    what_it_does_not_mean: 'No mide gravedad material ni realidad del conflicto.',
+    confirm_with: 'ACLED/UCDP/ReliefWeb si se trata de conflicto material',
+  },
+  {
+    source: 'GDELT DOC',
+    what_it_means: 'Cobertura mediática global agregada por país/tema con tono y volumen.',
+    what_it_does_not_mean: 'Cobertura ≠ realidad. Tono ≠ probabilidad de evento.',
+    confirm_with: 'fuentes primarias',
+  },
+  {
+    source: 'UCDP',
+    what_it_means: 'Conflictos armados registrados estructuralmente (multi-año, peer-reviewed).',
+    what_it_does_not_mean: 'NO indica deterioro de HOY · el dato es histórico/anual.',
+    confirm_with: 'ACLED para señal táctica reciente',
+  },
+  {
+    source: 'ACLED',
+    what_it_means: 'Eventos de violencia política reciente (combate, ataque, protesta) georeferenciados.',
+    what_it_does_not_mean: 'No mide percepción pública ni recomendación política.',
+    confirm_with: 'ReliefWeb para impacto humanitario',
+  },
+  {
+    source: 'ReliefWeb',
+    what_it_means: 'Presión humanitaria actual (desplazados, necesidades) reportada por OCHA y ONGs.',
+    what_it_does_not_mean: 'No mide intensidad militar ni atribución de responsables.',
+    confirm_with: 'ACLED/UCDP para componente militar',
+  },
+  {
+    source: 'Travel Advisory MAEC',
+    what_it_means: 'Recomendación consular oficial española para viajeros nacionales.',
+    what_it_does_not_mean: 'No mide violencia material · depende de política consular del emisor.',
+    confirm_with: 'ACLED para hechos materiales',
+  },
+  {
+    source: 'NATO / EEAS / UN SC',
+    what_it_means: 'Comunicación institucional oficial militar/diplomática.',
+    what_it_does_not_mean: 'No mide voluntad de uso de la fuerza · sólo declaración pública.',
+  },
+  {
+    source: 'OFAC / EU sanctions',
+    what_it_means: 'Medidas restrictivas oficiales actualmente vigentes.',
+    what_it_does_not_mean: 'No garantiza cumplimiento ni impacto económico real.',
+  },
+  {
+    source: 'Crisis Group / ISW',
+    what_it_means: 'Análisis cualitativo experto de think tanks (situational picture).',
+    what_it_does_not_mean: 'No es dato cuantitativo · es opinión experta · puede tener sesgos editoriales.',
+  },
+  {
+    source: 'Moncloa / Defensa / Exteriores (RSS oficial)',
+    what_it_means: 'Postura oficial de la administración española.',
+    what_it_does_not_mean: 'No necesariamente refleja consenso parlamentario ni opinión pública.',
+  },
+  {
+    source: 'Theme Clusters (IA)',
+    what_it_means: 'Agrupación temática generada por LLM sobre titulares recientes.',
+    what_it_does_not_mean: 'No es fuente factual · puede asignar miembros mal · validar con fuente primaria.',
+  },
+  {
+    source: 'Baseline curado Politeia',
+    what_it_means: 'Prior editorial sobre países/intereses de revisión manual.',
+    what_it_does_not_mean: 'No es observación primaria · no se actualiza con noticias del día sin override explícito.',
+  },
+]
+
+function DataMeaningPanel() {
+  const [expanded, setExpanded] = useState(false)
+  return (
+    <section style={{ marginBottom: 14, padding: 10, background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: 6 }}>
+      <button
+        onClick={() => setExpanded((v) => !v)}
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'inherit', textAlign: 'left' }}
+      >
+        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.6, color: '#475569', textTransform: 'uppercase' }}>
+          ◇ Data Meaning · qué mide y qué NO mide cada capa
+        </p>
+        <span style={{ fontSize: 14, color: '#94a3b8' }}>{expanded ? '▾' : '▸'}</span>
+      </button>
+      {!expanded && (
+        <p style={{ margin: '4px 0 0', fontSize: 10, color: '#64748b', fontStyle: 'italic' }}>
+          Cada fuente mide cosas distintas. GDELT ≠ ACLED ≠ UCDP. Expandir para ver qué significa cada una y qué NO debe interpretarse.
+        </p>
+      )}
+      {expanded && (
+        <div style={{ marginTop: 10, display: 'grid', gap: 8 }}>
+          {DATA_MEANING.map((m) => (
+            <div key={m.source} style={{ padding: 8, background: '#fff', borderRadius: 4, border: '1px solid #e5e7eb' }}>
+              <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#0f172a', letterSpacing: 0.3, textTransform: 'uppercase' }}>{m.source}</p>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#0f172a', lineHeight: 1.4 }}>
+                <strong style={{ color: '#16a34a' }}>Mide:</strong> {m.what_it_means}
+              </p>
+              <p style={{ margin: '3px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.4 }}>
+                <strong style={{ color: '#dc2626' }}>NO mide:</strong> {m.what_it_does_not_mean}
+              </p>
+              {m.confirm_with && (
+                <p style={{ margin: '3px 0 0', fontSize: 10, color: '#64748b', fontStyle: 'italic' }}>
+                  ↗ Validar con: <strong>{m.confirm_with}</strong>
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}
