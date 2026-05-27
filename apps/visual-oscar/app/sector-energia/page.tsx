@@ -22,8 +22,7 @@ import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
-import { EsiosLivePanel } from '@/components/energy/EsiosLivePanel'
-import { EsiosHourlyChart } from '@/components/energy/EsiosHourlyChart'
+import { EsiosTabsSection } from '@/components/energy/EsiosTabsSection'
 import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
 
 // ─── Tipos de respuesta ──────────────────────────────────
@@ -165,22 +164,15 @@ export default function SectorEnergiaPage() {
  </div>
  </section>
 
-        {/* ───── ESIOS · Sistema eléctrico en directo · 6 indicadores ─────
-            Sprint ESIOS · datos granulares oficiales del operador del sistema
-            (REE). Mucho más rico que apidatos.ree.es: PVPC horario en directo,
-            spot OMIE, demanda 10-min, % renovable instantáneo, CO2 g/kWh, EUA.
-            Cache 10 min. Si ESIOS_API_KEY no está, empty state honesto. */}
-        <div style={{ marginBottom: 14 }}>
-          <EsiosLivePanel variant="dashboard" />
-        </div>
-
-        {/* ───── ESIOS · Gráfico serie horaria con selector indicador ─────
-            Muestra 48h del indicador seleccionado (PVPC por defecto) con
-            KPIs actual / media / min / max + curva SVG. Cambia entre PVPC,
-            spot OMIE, intradiario MI1, emisiones CO2, % renovable. */}
-        <div style={{ marginBottom: 14 }}>
-          <EsiosHourlyChart defaultSlug="pvpc" hours={48} />
-        </div>
+        {/* ───── ESIOS · Sistema eléctrico español · 9 sub-tabs en directo ─────
+            Sprint ESIOS-DEEP S6 · sección consolidada con 9 vistas (pulso,
+            precios PVPC heatmap, mix 10 tech + emisiones, demanda real vs
+            prevista + 5 sistemas, intercambios mapa Iberia, predicciones D+1,
+            mercado de regulación B2B, sistemas no peninsulares, drill-down
+            explorer con export CSV). Estado tab en URL (?esios=...).
+            Cero deps · todo SVG inline. Si ESIOS_API_KEY no configurada en
+            Vercel env vars → empty state honesto en cada vista. */}
+        <EsiosTabsSection />
 
         {/* ───── Commodities globales · OPEC oil + LBMA gold + US 10Y ─────
             Sprint Nasdaq-Wire · contexto global de precios energéticos y
