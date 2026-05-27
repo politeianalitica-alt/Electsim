@@ -87,6 +87,42 @@ export const ESIOS_CATALOG: Record<string, EsiosCatalogItem> = {
     geo_default: 8741,
     higher_is_worse: true,
   },
+  intradiario_mi2: {
+    id: 613,
+    slug: 'intradiario_mi2',
+    label: 'Mercado intradiario · sesión MI2',
+    short: 'MI2',
+    unit: '€/MWh',
+    frequency: 'horaria',
+    category: 'precios',
+    use_case: 'Segunda sesión intradiario continuo · ajuste fino programación',
+    geo_default: 8741,
+    higher_is_worse: true,
+  },
+  intradiario_mi3: {
+    id: 614,
+    slug: 'intradiario_mi3',
+    label: 'Mercado intradiario · sesión MI3',
+    short: 'MI3',
+    unit: '€/MWh',
+    frequency: 'horaria',
+    category: 'precios',
+    use_case: 'Tercera sesión · ajuste de tarde · refleja errores forecast solar',
+    geo_default: 8741,
+    higher_is_worse: true,
+  },
+  intradiario_mi4: {
+    id: 615,
+    slug: 'intradiario_mi4',
+    label: 'Mercado intradiario · sesión MI4',
+    short: 'MI4',
+    unit: '€/MWh',
+    frequency: 'horaria',
+    category: 'precios',
+    use_case: 'Cuarta sesión · cierre programa día · útimas oportunidades de ajuste',
+    geo_default: 8741,
+    higher_is_worse: true,
+  },
 
   // ───────────────────────────────────────────────────────────────
   // DEMANDA · qué consume el sistema
@@ -217,9 +253,55 @@ export const ESIOS_CATALOG: Record<string, EsiosCatalogItem> = {
     geo_default: 8741,
   },
 
+  gen_residuos: {
+    id: 1163,
+    slug: 'gen_residuos',
+    label: 'Generación residuos no renovables',
+    short: 'Residuos',
+    unit: 'MW',
+    frequency: '10min',
+    category: 'generacion',
+    use_case: 'Incineradora · valorización energética RSU · peso menor',
+    geo_default: 8741,
+  },
+  gen_biomasa: {
+    id: 1160,
+    slug: 'gen_biomasa',
+    label: 'Generación biomasa',
+    short: 'Biomasa',
+    unit: 'MW',
+    frequency: '10min',
+    category: 'generacion',
+    use_case: 'Renovable térmica · capacidad limitada · objetivo PNIEC bajo',
+    geo_default: 8741,
+  },
+
   // ───────────────────────────────────────────────────────────────
   // MIX AGREGADO · % renovable, libre CO2
   // ───────────────────────────────────────────────────────────────
+  gen_renovable_total: {
+    id: 10171,
+    slug: 'gen_renovable_total',
+    label: 'Generación renovable total',
+    short: 'Renov. total',
+    unit: 'MW',
+    frequency: 'horaria',
+    category: 'mix',
+    use_case: 'Suma de eólica + solar + hidro + biomasa + térmica solar · agregado oficial',
+    geo_default: 8741,
+  },
+  gen_no_renovable_total: {
+    id: 10172,
+    slug: 'gen_no_renovable_total',
+    label: 'Generación no renovable total',
+    short: 'No renov. total',
+    unit: 'MW',
+    frequency: 'horaria',
+    category: 'mix',
+    use_case: 'Suma de nuclear + CC + carbón + cogeneración + residuos · contraparte',
+    geo_default: 8741,
+    higher_is_worse: true,
+  },
   porcentaje_renovable: {
     id: 10350,
     slug: 'porcentaje_renovable',
@@ -422,3 +504,50 @@ export const ESIOS_MERCADO_AJUSTE_SLUGS: EsiosSlug[] = [
   'terciaria_subir',
   'desvios',
 ]
+
+/** Precios completo · PVPC + spot + 4 intradiarios · serie 48h */
+export const ESIOS_PRECIOS_FULL_SLUGS: EsiosSlug[] = [
+  'pvpc',
+  'mercado_spot',
+  'intradiario_mi1',
+  'intradiario_mi2',
+  'intradiario_mi3',
+  'intradiario_mi4',
+]
+
+/** Mix completo · 10 tecnologías para stacked area · 24h con frecuencia 10-min */
+export const ESIOS_MIX_FULL_SLUGS: EsiosSlug[] = [
+  'gen_nuclear',
+  'gen_eolica',
+  'gen_solar_fv',
+  'gen_solar_termica',
+  'gen_hidraulica',
+  'gen_ciclo_combinado',
+  'gen_cogeneracion',
+  'gen_carbon',
+  'gen_residuos',
+  'gen_biomasa',
+]
+
+/** Agregados mix · totales renovable / no renovable + % indicadores · resumen */
+export const ESIOS_MIX_AGREGADO_SLUGS: EsiosSlug[] = [
+  'gen_renovable_total',
+  'gen_no_renovable_total',
+  'porcentaje_renovable',
+  'porcentaje_libre_co2',
+  'emisiones_co2',
+]
+
+/** Colores recomendados por tecnología · convención sectorial energía */
+export const ESIOS_TECH_COLORS: Record<string, string> = {
+  gen_nuclear: '#7c3aed',           // morado · base
+  gen_eolica: '#3b82f6',            // azul · viento
+  gen_solar_fv: '#f59e0b',          // ámbar · sol
+  gen_solar_termica: '#f97316',     // naranja · CSP
+  gen_hidraulica: '#06b6d4',        // cian · agua
+  gen_ciclo_combinado: '#94a3b8',   // gris · gas
+  gen_cogeneracion: '#a3a3a3',      // gris claro · industrial
+  gen_carbon: '#171717',            // negro · fósil pesado
+  gen_residuos: '#78716c',          // beige · residual
+  gen_biomasa: '#84cc16',           // verde · biomasa
+}
