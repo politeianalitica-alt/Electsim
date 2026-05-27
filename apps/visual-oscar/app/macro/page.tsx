@@ -8,6 +8,26 @@ import { useUrlState } from '@/lib/useUrlState'
 import { MacroShell } from '@/components/macro/MacroShell'
 import { TAB_IDS, type MacroTabId } from '@/lib/macro/sources-matrix'
 import { SubtabContent } from '@/components/macro/pulso/SubtabContent'
+import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
+
+// Sprint Nasdaq-Wire · subtabs donde añadimos NasdaqMacroSnapshot como
+// benchmark global (vs España). Decisión: solo en pulso-macro y
+// regimen-monetario porque son las dos donde el contexto USA y commodities
+// tiene relevancia analítica directa (Fed dicta el tono del BCE; bolsa USA
+// es referencia · oro/petróleo son inputs macro). El resto de subtabs son
+// dominios sectoriales donde meter esto sería ruido.
+const NASDAQ_WIRED_SUBTABS: ReadonlySet<MacroTabId> = new Set<MacroTabId>([
+  'pulso-macro',
+  'regimen-monetario',
+])
+// Subset cuando aparece (no necesitamos los 5 indicadores · solo los más
+// transversales para macro España): GDP USA + IPC USA + Paro USA + 10Y yield
+const MACRO_USA_SUBSET = [
+  'fred_us_gdp',
+  'fred_us_cpi',
+  'fred_us_unemployment',
+  'fred_us_10y_yield',
+]
 
 // Sprint N5 (2026-05-23): MacroShell ahora fetch el overview del subtab activo
 // y calcula su propio score + KPIs específicos. Ya NO se le pasan thermometerScore
@@ -56,6 +76,14 @@ export default function MacroPage() {
           activeId={safeActiveTab}
           onTabChange={setActiveTab}
         >
+          {/* Sprint Nasdaq-Wire · benchmark macro USA en subtabs relevantes
+              (pulso-macro, regimen-monetario). Se renderiza antes del
+              SubtabContent para dar contexto global → luego diagnóstico España. */}
+          {NASDAQ_WIRED_SUBTABS.has(safeActiveTab) && (
+            <div style={{ marginBottom: 14 }}>
+              <NasdaqMacroSnapshot variant="dashboard" subset={MACRO_USA_SUBSET} />
+            </div>
+          )}
           {/* Sprint N5: key={safeActiveTab} fuerza remontaje completo del subtab
               cuando cambia el slug, evitando que cualquier estado interno (useRef,
               cache local) persista entre tabs y muestre datos del tab anterior. */}

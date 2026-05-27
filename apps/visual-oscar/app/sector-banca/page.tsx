@@ -18,6 +18,7 @@ import {
 } from '@/lib/sources/sectorial-data'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 import { BisBankingPanel } from '@/components/macro/BisBankingPanel'
+import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
 import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SectorHero,
@@ -133,6 +134,21 @@ export default function SectorBancaPage() {
         {/* BIS Effective Exchange Rates · Sprint 1 macro arsenal */}
         <div style={{ marginBottom: 14 }}>
           <BisBankingPanel country="ES" />
+        </div>
+
+        {/* Sprint Nasdaq-Wire · contexto macro USA + indicadores de
+            riesgo sistémico bancario:
+              - BIS credit-to-GDP gap (indicador clásico Basilea III
+                de exceso de crédito · señal de burbuja)
+              - US 10Y yield (benchmark de tipos largos · driver de
+                márgenes bancarios y valoración de carteras)
+              - S&P 500 Shiller PE (valoración bolsa USA · contagio mercados)
+            Si NASDAQ_DATA_LINK_KEY no está, muestra empty state honesto. */}
+        <div style={{ marginBottom: 14 }}>
+          <NasdaqMacroSnapshot
+            variant="dashboard"
+            subset={['bis_credit_gap_es', 'fred_us_10y_yield', 'multpl_sp500_pe']}
+          />
         </div>
 
         {/* ROW 1: Tipos ECB + EURIBOR */}
