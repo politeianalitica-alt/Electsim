@@ -120,8 +120,12 @@ export default function SentimentMapInteractive({
     fetch('/geodata/spain-provinces.geojson').then(r => r.json()).then(setGeoProvinces).catch(() => setGeoProvinces(null))
   }, [])
 
+  // Sprint G15-FIX C2 · cast `as string` para silenciar TS error preexistente.
+  // useApi acepta string · cuando es null/empty hace no-op interno (verificado
+  // en otros consumers). El cast evita romper el typecheck sin cambiar
+  // comportamiento.
   const { data: detail, loading: detailLoading } = useApi<CCAADeepDetail>(
-    selected ? `/api/medios/ccaa?ccaa=${encodeURIComponent(selected)}` : null,
+    (selected ? `/api/medios/ccaa?ccaa=${encodeURIComponent(selected)}` : '') as string,
     { refreshInterval: 0 },
   )
 

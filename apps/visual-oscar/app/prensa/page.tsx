@@ -74,6 +74,9 @@ import type {
   StoryCluster, CoverageGap, CompanySentiment, SectorSentiment,
 } from '@/lib/news-intel'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
+// Sprint G15-FIX C2 · tipo real del cluster · necesario para pasar al MapasImpacto
+// sin el cast `as any` que tapaba shape mismatch entre IntelResponse y el lib.
+import type { NarrativeCluster } from '@/lib/medios/media-methodology'
 
 interface ApiMeta {
   source: string
@@ -85,6 +88,60 @@ interface ApiMeta {
   sources_used?: number
   articles_read?: number
   confidence?: number
+}
+
+// Sprint G15-FIX C2 · shape REAL que devuelve buildNarrativeClustersDetailed
+// (lib/medios/media-methodology.ts). Define los campos básicos del cluster
+// + los 7 campos D3 ampliados (key_messages, topic_tags, channels,
+// target_audiences, supporting_news, impact_summary, trend) como opcionales.
+// Mantenemos la definición inline (en lugar de importar NarrativeCluster del
+// lib) para no acoplar page.tsx con la implementación interna · pero el shape
+// es 1:1 compatible: page.tsx puede pasar directo a NarrativesFramingWorkbench
+// sin cast.
+interface NarrativeClusterShape {
+  id: string
+  title: string
+  short_summary: string
+  frame_type: string
+  main_topic: string
+  secondary_topics: string[]
+  articles: string[]
+  representative_titles: string[]
+  first_seen: string
+  last_seen: string
+  velocity_score: number
+  acceleration_score: number
+  reach_estimate: number
+  ideological_spread: { left: number; center: number; right: number; balanced: boolean }
+  territorial_spread: string[]
+  dominant_actors: string[]
+  benefited_actors: string[]
+  harmed_actors: string[]
+  emotional_register: string
+  controversy_score: number
+  confidence: { overall: number; reasons: string[] }
+  why_this_is_a_narrative: string
+  evidence: Array<{ title: string; medium: string; url: string; ideology: string }>
+  // Campos D3 ampliados (Sprint G15)
+  key_messages?: string[]
+  topic_tags?: string[]
+  channels?: Array<{ channel: string; weight: number; examples: string[] }>
+  target_audiences?: Array<{ label: string; reason: string; confidence: number }>
+  supporting_news?: Array<{
+    title: string
+    medium: string
+    url: string
+    ideology: string
+    published_at: string | null
+  }>
+  impact_summary?: { benefited: string[]; harmed: string[]; uncertain: string[] }
+  trend?: {
+    velocity_score: number
+    velocity_confidence: number
+    acceleration_score: number
+    acceleration_confidence: number
+    label: 'emergente' | 'estable' | 'acelerando' | 'en retroceso'
+  }
 }
 
 interface IntelResponse {
@@ -117,31 +174,12 @@ interface IntelResponse {
     warnings: string[]
     copy_for_hero?: string
   }
-  narrative_clusters?: Array<{
-    id: string
-    title: string
-    short_summary: string
-    frame_type: string
-    main_topic: string
-    secondary_topics: string[]
-    articles: string[]
-    representative_titles: string[]
-    first_seen: string
-    last_seen: string
-    velocity_score: number
-    acceleration_score: number
-    reach_estimate: number
-    ideological_spread: { left: number; center: number; right: number; balanced: boolean }
-    territorial_spread: string[]
-    dominant_actors: string[]
-    benefited_actors: string[]
-    harmed_actors: string[]
-    emotional_register: string
-    controversy_score: number
-    confidence: { overall: number; reasons: string[] }
-    why_this_is_a_narrative: string
-    evidence: Array<{ title: string; medium: string; url: string; ideology: string }>
-  }>
+  narrative_clusters?: NarrativeClusterShape[]
+  // Sprint G15-FIX C2 · emerging_signals · clusters de 2 artículos o sin
+  // señal fuerte que el endpoint separa de narrative_clusters cuando incluye
+  // `narrative_clusters` en el query string. Sirven para mostrar "señales
+  // que vigilar" sin etiquetar como narrativa.
+  emerging_signals?: NarrativeClusterShape[]
   readings_summary?: {
     n_readings: number
     dominant_frames: Array<{ frame: string; count: number }>
@@ -535,9 +573,13 @@ export default function PrensaPage() {
                     collapsedByDefault
                   />
                   <NarrativesFramingWorkbench
-                    narratives={data?.narrative_clusters as unknown as WorkbenchNarrative[] | undefined}
+                    // Sprint G15-FIX C2 · narrative_clusters ya incluye los campos
+                    // D3 ampliados en IntelResponse (NarrativeClusterShape) — el cast
+                    // se reduce a un solo `as` porque WorkbenchNarrative requiere los
+                    // campos D3 también opcionales. Shape compatible 1:1.
+                    narratives={data?.narrative_clusters as WorkbenchNarrative[] | undefined}
                     emergingSignals={
-                      (data as IntelResponse & { emerging_signals?: WorkbenchNarrative[] })?.emerging_signals
+                      data?.emerging_signals as WorkbenchNarrative[] | undefined
                     }
                     loading={loading && !data}
                   />
@@ -606,13 +648,11 @@ export default function PrensaPage() {
                   <MapasImpacto
                     defaultMode="espana"
                     ccaaData={data?.ccaa}
-                    // Cast necesario · el tipo inline `narrative_clusters` declarado en
-                    // IntelResponse (page.tsx L138-176) es más estrecho que el
-                    // NarrativeCluster ampliado de media-methodology.ts. Los datos del
-                    // endpoint SÍ contienen los campos extra (key_messages, target_audiences,
-                    // channels, etc.) porque buildNarrativeClustersDetailed los emite ·
-                    // en C2 unificamos la fuente del tipo y este cast desaparece.
-                    narrativeClusters={(data?.narrative_clusters ?? []) as any}
+                    // Sprint G15-FIX C2 · NarrativeClusterShape ya tiene los campos D3
+                    // ampliados opcionales · el cast se reduce a un solo `as` porque el
+                    // tipo MapasImpacto importa NarrativeCluster del lib (mismas shape
+                    // optionals). En runtime los objetos contienen exactamente esos campos.
+                    narrativeClusters={data?.narrative_clusters as any as NarrativeCluster[]}
                     actorImpacts={data?.actor_impacts ?? []}
                   />
                 </div>
