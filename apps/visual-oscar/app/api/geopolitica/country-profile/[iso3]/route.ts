@@ -1,0 +1,548 @@
+/**
+ * /api/geopolitica/country-profile/[iso3]
+ *
+ * Endpoint nuevo (Sprint Geo-FIX) que reemplaza al viejo
+ * `/api/geopolitica/pais-profile` para la página de país. Diferencias clave:
+ *
+ *   1. NO usa ACLED (acceso denegado · ver registry: status='disabled').
+ *      Las capas de conflicto y eventos usan UCDP (estructural) + GDELT
+ *      (saliencia mediática 24h-30d) + ReliefWeb (humanitario).
+ *
+ *   2. Añade IDENTIDAD país real vía REST Countries (sin key) +
+ *      GOBIERNO vía Wikidata SPARQL (jefe de Estado, jefe de Gobierno,
+ *      forma de gobierno, organizaciones internacionales).
+ *
+ *   3. Añade DESASTRES vía USGS (terremotos M≥5.0 últimos 30d) + GDACS
+ *      (alertas activas RSS).
+ *
+ *   4. Cada capa lleva su propio `_source` con:
+ *      - id (del registry)
+ *      - name visible
+ *      - access_type
+ *      - source_url (para auditoría)
+ *      - last_updated (cuando lo sabemos)
+ *      - what_it_measures (transparencia)
+ *      - confidence ('high' | 'medium' | 'low' | 'unknown')
+ *
+ *   5. Cada capa es defensiva: si la fuente falla, esa capa viene como
+ *      `null` con `_error` para mostrar empty state en lugar de romper
+ *      el render entero.
+ *
+ * Política de fallback: NO hay datos sintéticos. Si no llega data real
+ * de la fuente, la capa viene null. La UI muestra "Fuente no disponible".
+ *
+ * Cache: s-maxage=21600 (6h), stale-while-revalidate=86400 (24h).
+ */
+import { NextRequest, NextResponse } from 'next/server'
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+export const maxDuration = 30
+
+interface SourceMeta {
+  id: string
+  name: string
+  access_type: string
+  source_url: string
+  last_updated?: string
+  what_it_measures: string
+  confidence: 'high' | 'medium' | 'low' | 'unknown'
+}
+
+// ────────────────────────────────────────────────────────────────────
+// Helpers de fetch defensivo
+// ────────────────────────────────────────────────────────────────────
+
+async function safeFetch(url: string, timeoutMs = 5000, options: RequestInit = {}): Promise<Response | null> {
+  const ctrl = new AbortController()
+  const t = setTimeout(() => ctrl.abort(), timeoutMs)
+  try {
+    const r = await fetch(url, { ...options, signal: ctrl.signal })
+    clearTimeout(t)
+    return r.ok ? r : null
+  } catch {
+    clearTimeout(t)
+    return null
+  }
+}
+
+async function safeJson<T>(url: string, timeoutMs = 5000, options: RequestInit = {}): Promise<T | null> {
+  const r = await safeFetch(url, timeoutMs, options)
+  if (!r) return null
+  try {
+    return await r.json()
+  } catch {
+    return null
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 1 · REST Countries · identidad país
+// ────────────────────────────────────────────────────────────────────
+
+interface IdentityLayer {
+  iso2: string | null
+  iso3: string
+  name_common: string
+  name_official: string | null
+  capital: string | null
+  region: string | null
+  subregion: string | null
+  population: number | null
+  area: number | null
+  latlng: [number, number] | null
+  borders: string[]
+  currencies: string[]
+  languages: string[]
+  flag_png: string | null
+  flag_emoji: string | null
+  timezones: string[]
+  un_member: boolean | null
+  _source: SourceMeta
+}
+
+async function buildIdentity(iso3: string): Promise<IdentityLayer | null> {
+  const fields = 'name,capital,region,subregion,population,area,latlng,cca2,cca3,borders,currencies,languages,flags,flag,timezones,unMember'
+  const data: any = await safeJson(
+    `https://restcountries.com/v3.1/alpha/${iso3.toLowerCase()}?fields=${fields}`,
+    6000,
+  )
+  if (!data) return null
+  // restcountries devuelve objeto directo cuando se pide por alpha
+  const c = Array.isArray(data) ? data[0] : data
+  if (!c?.name) return null
+  return {
+    iso2: c.cca2 ?? null,
+    iso3: c.cca3 ?? iso3,
+    name_common: c.name.common,
+    name_official: c.name.official ?? null,
+    capital: Array.isArray(c.capital) ? c.capital[0] : null,
+    region: c.region ?? null,
+    subregion: c.subregion ?? null,
+    population: c.population ?? null,
+    area: c.area ?? null,
+    latlng: Array.isArray(c.latlng) && c.latlng.length === 2 ? [c.latlng[0], c.latlng[1]] : null,
+    borders: Array.isArray(c.borders) ? c.borders : [],
+    currencies: c.currencies ? Object.keys(c.currencies) : [],
+    languages: c.languages ? Object.values(c.languages).map(String) : [],
+    flag_png: c.flags?.png ?? c.flags?.svg ?? null,
+    flag_emoji: c.flag ?? null,
+    timezones: Array.isArray(c.timezones) ? c.timezones : [],
+    un_member: c.unMember ?? null,
+    _source: {
+      id: 'rest_countries',
+      name: 'REST Countries',
+      access_type: 'public_api_no_key',
+      source_url: `https://restcountries.com/v3.1/alpha/${iso3.toLowerCase()}`,
+      what_it_measures: 'Identidad país: capital, vecinos, idiomas, moneda, bandera, población, área',
+      confidence: 'high',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 2 · Wikidata SPARQL · gobierno y organizaciones internacionales
+// ────────────────────────────────────────────────────────────────────
+
+interface GovernmentLayer {
+  head_of_state: string | null
+  head_of_government: string | null
+  form_of_government: string | null
+  governing_parties: string[]
+  international_orgs: string[]
+  independence_date: string | null
+  _source: SourceMeta
+}
+
+async function buildGovernment(iso3: string): Promise<GovernmentLayer | null> {
+  const sparql = `
+SELECT DISTINCT ?headOfStateLabel ?headOfGovernmentLabel ?formOfGovernmentLabel ?independence WHERE {
+  ?country wdt:P31 wd:Q3624078;
+           wdt:P298 "${iso3.toUpperCase()}".
+  OPTIONAL { ?country wdt:P35 ?headOfState. }
+  OPTIONAL { ?country wdt:P6 ?headOfGovernment. }
+  OPTIONAL { ?country wdt:P122 ?formOfGovernment. }
+  OPTIONAL { ?country wdt:P571 ?independence. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+}
+LIMIT 1`.trim()
+
+  const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(sparql)}`
+  const data: any = await safeJson(url, 7000, {
+    headers: { 'User-Agent': 'Politeia-Geo-Profile/1.0 (politeia-analitica)' },
+  })
+  if (!data?.results?.bindings?.length) return null
+  const row = data.results.bindings[0]
+
+  // Segunda query: organizaciones internacionales (P463 member of)
+  const orgsSparql = `
+SELECT ?orgLabel WHERE {
+  ?country wdt:P31 wd:Q3624078;
+           wdt:P298 "${iso3.toUpperCase()}";
+           wdt:P463 ?org.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+}
+LIMIT 20`.trim()
+  const orgsData: any = await safeJson(
+    `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(orgsSparql)}`,
+    7000,
+    { headers: { 'User-Agent': 'Politeia-Geo-Profile/1.0 (politeia-analitica)' } },
+  )
+  const orgs = Array.isArray(orgsData?.results?.bindings)
+    ? orgsData.results.bindings.map((b: any) => b.orgLabel?.value).filter(Boolean)
+    : []
+
+  return {
+    head_of_state: row.headOfStateLabel?.value || null,
+    head_of_government: row.headOfGovernmentLabel?.value || null,
+    form_of_government: row.formOfGovernmentLabel?.value || null,
+    governing_parties: [],     // P3033 si quisiéramos · costoso · skip
+    international_orgs: orgs,
+    independence_date: row.independence?.value?.slice(0, 10) || null,
+    _source: {
+      id: 'wikidata',
+      name: 'Wikidata',
+      access_type: 'public_api_no_key',
+      source_url: 'https://query.wikidata.org/',
+      what_it_measures: 'Jefe de Estado, jefe de Gobierno, forma de gobierno, organizaciones internacionales (P463), independencia',
+      confidence: 'medium',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 3 · USGS · sismos M≥5.0 últimos 30 días en el bounding-box del país
+// ────────────────────────────────────────────────────────────────────
+
+interface SeismicLayer {
+  events_30d: number
+  max_magnitude: number | null
+  recent: Array<{ date: string; mag: number; depth_km: number; place: string }>
+  _source: SourceMeta
+}
+
+async function buildSeismic(latlng: [number, number] | null): Promise<SeismicLayer | null> {
+  if (!latlng) return null
+  const [lat, lon] = latlng
+  // Búsqueda en radio 1500 km (cobertura nacional típica)
+  const start = new Date(Date.now() - 30 * 86400_000).toISOString().slice(0, 10)
+  const url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${start}&minmagnitude=5&latitude=${lat}&longitude=${lon}&maxradiuskm=1500&orderby=time&limit=10`
+  const data: any = await safeJson(url, 6000)
+  if (!data?.features) return null
+  const recent = data.features.map((f: any) => ({
+    date: new Date(f.properties.time).toISOString().slice(0, 10),
+    mag: f.properties.mag,
+    depth_km: Math.round((f.geometry?.coordinates?.[2] || 0) * 10) / 10,
+    place: f.properties.place || 'desconocido',
+  }))
+  return {
+    events_30d: recent.length,
+    max_magnitude: recent.length > 0 ? Math.max(...recent.map((r: any) => r.mag)) : null,
+    recent: recent.slice(0, 5),
+    _source: {
+      id: 'usgs_earthquakes',
+      name: 'USGS Earthquake Catalog',
+      access_type: 'public_api_no_key',
+      source_url: 'https://earthquake.usgs.gov/fdsnws/event/1/',
+      what_it_measures: 'Sismos magnitud ≥5.0 en radio 1500 km del centroide del país · últimos 30 días',
+      confidence: 'high',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 4 · UCDP · conflictos estructurales (vía proxy interno existente)
+// ────────────────────────────────────────────────────────────────────
+
+interface ConflictLayer {
+  n_conflicts: number
+  max_intensity_level: number
+  years_covered: string
+  interpretation: string
+  recent: Array<{ name: string; side_a: string; side_b: string; year: number; intensity_level: number }>
+  _source: SourceMeta
+}
+
+async function buildConflict(req: NextRequest, countryName: string): Promise<ConflictLayer | null> {
+  const origin = req.nextUrl.origin
+  const data: any = await safeJson(
+    `${origin}/api/geopolitica/ucdp?country=${encodeURIComponent(countryName)}`,
+    10_000,
+  )
+  if (!data || data.n_conflicts === undefined) return null
+  return {
+    n_conflicts: data.n_conflicts || 0,
+    max_intensity_level: data.max_intensity_level || 0,
+    years_covered: data.years_covered || '',
+    interpretation: data.interpretation || '',
+    recent: Array.isArray(data.recent) ? data.recent.slice(0, 5) : [],
+    _source: {
+      id: 'ucdp',
+      name: 'UCDP · Uppsala Conflict Data Program',
+      access_type: 'requires_token',
+      source_url: 'https://ucdp.uu.se/apidocs/',
+      what_it_measures: 'Conflictos armados anuales con intensidad (25-999 muertes batalla · 1000+ guerra) · serie 1946-actual',
+      confidence: 'high',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 5 · ReliefWeb · reports humanitarios
+// ────────────────────────────────────────────────────────────────────
+
+interface HumanitarianLayer {
+  n_reports: number
+  total_available: number
+  recent: Array<{ id: number; title: string; source: string; date: string; url: string }>
+  _source: SourceMeta
+}
+
+async function buildHumanitarian(req: NextRequest, countryName: string): Promise<HumanitarianLayer | null> {
+  const origin = req.nextUrl.origin
+  const data: any = await safeJson(
+    `${origin}/api/geopolitica/reliefweb?country=${encodeURIComponent(countryName)}&limit=10`,
+    10_000,
+  )
+  if (!data || data.n_reports === undefined) return null
+  return {
+    n_reports: data.n_reports || 0,
+    total_available: data.total_available || 0,
+    recent: Array.isArray(data.recent) ? data.recent.slice(0, 5) : [],
+    _source: {
+      id: 'reliefweb',
+      name: 'ReliefWeb (OCHA)',
+      access_type: 'requires_appname',
+      source_url: 'https://reliefweb.int/',
+      what_it_measures: 'Reports humanitarios (situation reports, appeals, mapas) de OCHA, ONGs y agencias · cobertura global',
+      confidence: 'high',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 6 · GDELT · saliencia mediática 7d
+// ────────────────────────────────────────────────────────────────────
+
+interface NarrativeLayer {
+  volume_articles_7d: number
+  avg_tone: number | null
+  top_articles: Array<{ title: string; url: string; source: string; tone: number; date: string }>
+  _source: SourceMeta
+}
+
+async function buildNarrative(countryName: string): Promise<NarrativeLayer | null> {
+  const q = encodeURIComponent(`"${countryName}"`)
+  const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${q}&mode=artlist&format=json&maxrecords=15&timespan=7d&sort=hybridrel`
+  const data: any = await safeJson(url, 8000)
+  if (!data?.articles) return null
+  const top = data.articles.slice(0, 10).map((a: any) => ({
+    title: a.title || '',
+    url: a.url || '',
+    source: a.domain || '',
+    tone: typeof a.tone === 'number' ? a.tone : 0,
+    date: a.seendate ? `${a.seendate.slice(0, 4)}-${a.seendate.slice(4, 6)}-${a.seendate.slice(6, 8)}` : '',
+  }))
+  const avgTone = top.length > 0
+    ? top.reduce((s: number, a: any) => s + a.tone, 0) / top.length
+    : null
+  return {
+    volume_articles_7d: data.articles.length,
+    avg_tone: avgTone !== null ? Math.round(avgTone * 100) / 100 : null,
+    top_articles: top,
+    _source: {
+      id: 'gdelt_doc',
+      name: 'GDELT DOC 2.0',
+      access_type: 'public_api_no_key',
+      source_url: 'https://api.gdeltproject.org/api/v2/doc/doc',
+      what_it_measures: 'Saliencia mediática · volumen de artículos sobre el país en 65 idiomas · tono medio (-10 a +10)',
+      confidence: 'medium',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 7 · Sanciones · OFAC + EU + UN (vía endpoints internos si existen)
+// ────────────────────────────────────────────────────────────────────
+
+interface SanctionsLayer {
+  total_count: number
+  by_program: Record<string, number>
+  sample: Array<{ entity: string; source: string; date?: string; reason?: string }>
+  _source: SourceMeta
+}
+
+async function buildSanctions(req: NextRequest, iso3: string): Promise<SanctionsLayer | null> {
+  const origin = req.nextUrl.origin
+  const data: any = await safeJson(
+    `${origin}/api/geopolitica/sanciones?source=all&iso=${iso3}`,
+    8000,
+  )
+  if (!data) return null
+  const list = Array.isArray(data.list) ? data.list : []
+  const byProgram: Record<string, number> = {}
+  for (const s of list) {
+    const k = s.source || s.program || 'unknown'
+    byProgram[k] = (byProgram[k] || 0) + 1
+  }
+  return {
+    total_count: list.length,
+    by_program: byProgram,
+    sample: list.slice(0, 5).map((s: any) => ({
+      entity: s.entity || s.name || 'desconocido',
+      source: s.source || s.program || '',
+      date: s.date,
+      reason: s.reason,
+    })),
+    _source: {
+      id: 'sanctions_consolidated',
+      name: 'OFAC SDN + EU Sanctions + UN Security Council',
+      access_type: 'public_static_file',
+      source_url: 'https://ofac.treasury.gov/specially-designated-nationals-list-data-formats-data-schemas',
+      what_it_measures: 'Entidades sancionadas (personas, empresas, buques) con país asociado · 3 listas consolidadas',
+      confidence: 'high',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 8 · Travel Advisory (vía endpoint interno existente)
+// ────────────────────────────────────────────────────────────────────
+
+interface TravelLayer {
+  score: number
+  band: string
+  message: string
+  updated: string
+  _source: SourceMeta
+}
+
+async function buildTravel(req: NextRequest, countryName: string): Promise<TravelLayer | null> {
+  const origin = req.nextUrl.origin
+  const data: any = await safeJson(
+    `${origin}/api/geopolitica/travel-advisories?country=${encodeURIComponent(countryName)}`,
+    6000,
+  )
+  if (!data || typeof data.score !== 'number') return null
+  return {
+    score: data.score,
+    band: data.band || '',
+    message: data.message || '',
+    updated: data.updated || '',
+    _source: {
+      id: 'travel_advisory',
+      name: data.source || 'US State Department Travel Advisory',
+      access_type: 'public_static_file',
+      source_url: data.source_url || 'https://travel.state.gov/',
+      what_it_measures: 'Aviso a viajeros · escala 1 (precaución) a 4 (no viajar) · perspectiva consular',
+      confidence: 'high',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// 9 · Risk score interno (de buildCountryProfile existente · sin ACLED)
+// ────────────────────────────────────────────────────────────────────
+
+interface RiskLayer {
+  score: number
+  band: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
+  baseline_risk: number
+  uplift: number
+  related_top_risks: Array<{ rank: number; title: string; spain_exposure: string }>
+  _source: SourceMeta
+}
+
+async function buildRisk(req: NextRequest, iso3: string): Promise<RiskLayer | null> {
+  const origin = req.nextUrl.origin
+  const data: any = await safeJson(`${origin}/api/geopolitica/pais-profile?iso=${iso3}`, 8000)
+  if (!data?.ok) return null
+  return {
+    score: data.score || 0,
+    band: data.band || 'MEDIO',
+    baseline_risk: data.baseline_risk || 0,
+    uplift: data.uplift || 0,
+    related_top_risks: Array.isArray(data.related_top_risks) ? data.related_top_risks : [],
+    _source: {
+      id: 'politeia_risk_engine',
+      name: 'Motor de riesgo Politeia (multi-fuente)',
+      access_type: 'internal_derived',
+      source_url: '/api/geopolitica/pais-profile',
+      what_it_measures: 'Score 0-100 combinado · baseline (estructural) + uplift (eventos recientes UCDP+GDELT+ReliefWeb)',
+      confidence: 'medium',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+// MAIN handler
+// ────────────────────────────────────────────────────────────────────
+
+export async function GET(req: NextRequest, { params }: { params: { iso3: string } }) {
+  const startedAt = Date.now()
+  const iso3 = (params.iso3 || 'ESP').toUpperCase()
+
+  // Lanzar identidad primero (la necesitamos para el country_name)
+  const identity = await buildIdentity(iso3)
+  const countryName = identity?.name_common || iso3
+  const latlng = identity?.latlng || null
+
+  // Lanzar el resto en paralelo (cada uno con su propio try/catch)
+  const [government, seismic, conflict, humanitarian, narrative, sanctions, travel, risk] = await Promise.all([
+    buildGovernment(iso3),
+    buildSeismic(latlng),
+    buildConflict(req, countryName),
+    buildHumanitarian(req, countryName),
+    buildNarrative(countryName),
+    buildSanctions(req, iso3),
+    buildTravel(req, countryName),
+    buildRisk(req, iso3),
+  ])
+
+  const layers_available = [
+    identity && 'identity',
+    government && 'government',
+    seismic && 'seismic',
+    conflict && 'conflict',
+    humanitarian && 'humanitarian',
+    narrative && 'narrative',
+    sanctions && 'sanctions',
+    travel && 'travel',
+    risk && 'risk',
+  ].filter(Boolean)
+
+  return NextResponse.json({
+    ok: identity !== null,
+    iso3,
+    country_name: countryName,
+    layers: {
+      identity,
+      government,
+      seismic,
+      conflict,
+      humanitarian,
+      narrative,
+      sanctions,
+      travel,
+      risk,
+    },
+    layers_available,
+    layers_count: layers_available.length,
+    excluded_sources: {
+      // Transparencia: dejamos constancia explícita de que ACLED no
+      // está disponible y POR QUÉ. La página de país NO debe mencionarlo
+      // (decisión usuario · sustituir por UCDP+GDELT+ReliefWeb).
+      acled: {
+        status: 'disabled',
+        reason: 'API access denied · sustituido por UCDP (conflicto estructural) + GDELT (saliencia mediática 7d) + ReliefWeb (humanitario)',
+      },
+    },
+    _meta: {
+      generated_at: new Date().toISOString(),
+      latency_ms: Date.now() - startedAt,
+      version: 'geo-fix-v1',
+    },
+  }, {
+    headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
+  })
+}

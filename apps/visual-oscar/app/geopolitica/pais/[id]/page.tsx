@@ -1,55 +1,160 @@
 'use client'
 /**
- * /geopolitica/pais/[id] · Sprint G5 · drill país profundo.
+ * /geopolitica/pais/[id] · Sprint Geo-FIX
  *
- * Página de perfil completo por país (ISO3): risk score + ACLED events +
- * sanciones contra el país + top risks que lo afectan + AI mini-brief.
+ * Página de perfil completo por país (ISO3) totalmente reescrita.
+ * Cambios respecto a la versión Sprint G5 original:
  *
- * Inspiración: CFR Country Profiles + Crisis Group Country Pages + RAND
- * Country Risk Index. Diferenciador: agregado live multi-fuente + drill
- * desde el world heatmap.
+ *  1. Consume el endpoint nuevo `/api/geopolitica/country-profile/[iso3]`
+ *     en lugar del viejo `/api/geopolitica/pais-profile` (que sigue
+ *     existiendo internamente para el motor de riesgo, pero la página
+ *     ya no depende de él directamente).
+ *
+ *  2. Capas mostradas (10):
+ *     - Identidad país (REST Countries: bandera, capital, vecinos, idiomas, moneda)
+ *     - Riesgo & banda (motor interno, sin ACLED)
+ *     - Gobierno (Wikidata: jefe de Estado, jefe de Gobierno, forma de gobierno, organizaciones)
+ *     - Conflicto estructural (UCDP)
+ *     - Saliencia mediática 7d (GDELT)
+ *     - Humanitario (ReliefWeb)
+ *     - Sanciones (OFAC + EU + UN consolidadas)
+ *     - Travel Advisory (US State Department)
+ *     - Sismos (USGS, radio 1500 km, M≥5.0, 30d)
+ *     - Top Risks Politeia relacionados
+ *     - Timeline multi-fuente (componente existente)
+ *
+ *  3. Cada bloque lleva su <SourceFooter /> con: nombre, tipo de acceso,
+ *     confianza, última actualización, qué mide, link a fuente original.
+ *
+ *  4. ACLED no aparece en ninguna parte de la UI. La página usa
+ *     UCDP+GDELT+ReliefWeb como sustitutos y se cita esas fuentes.
+ *
+ *  5. Cada capa es defensiva: si el endpoint devuelve `null` para esa
+ *     capa, el bloque muestra un placeholder honesto en lugar de romper.
  */
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import AppHeader from '../../../_components/AppHeader'
 import { GeoCountryTimeline } from '../../../../components/geopolitica/GeoCountryTimeline'
+import { SourceFooter } from '../../../../components/geopolitica/SourceFooter'
 
-interface PaisProfile {
+// ────────────────────────────────────────────────────────────────────
+// Tipos (paralelos al endpoint country-profile)
+// ────────────────────────────────────────────────────────────────────
+
+interface SourceMeta {
+  id: string
+  name: string
+  access_type: string
+  source_url: string
+  last_updated?: string
+  what_it_measures: string
+  confidence: 'high' | 'medium' | 'low' | 'unknown'
+}
+
+interface IdentityLayer {
+  iso2: string | null
+  iso3: string
+  name_common: string
+  name_official: string | null
+  capital: string | null
+  region: string | null
+  subregion: string | null
+  population: number | null
+  area: number | null
+  latlng: [number, number] | null
+  borders: string[]
+  currencies: string[]
+  languages: string[]
+  flag_png: string | null
+  flag_emoji: string | null
+  timezones: string[]
+  un_member: boolean | null
+  _source: SourceMeta
+}
+
+interface GovernmentLayer {
+  head_of_state: string | null
+  head_of_government: string | null
+  form_of_government: string | null
+  governing_parties: string[]
+  international_orgs: string[]
+  independence_date: string | null
+  _source: SourceMeta
+}
+
+interface SeismicLayer {
+  events_30d: number
+  max_magnitude: number | null
+  recent: Array<{ date: string; mag: number; depth_km: number; place: string }>
+  _source: SourceMeta
+}
+
+interface ConflictLayer {
+  n_conflicts: number
+  max_intensity_level: number
+  years_covered: string
+  interpretation: string
+  recent: Array<{ name: string; side_a: string; side_b: string; year: number; intensity_level: number }>
+  _source: SourceMeta
+}
+
+interface HumanitarianLayer {
+  n_reports: number
+  total_available: number
+  recent: Array<{ id: number; title: string; source: string; date: string; url: string }>
+  _source: SourceMeta
+}
+
+interface NarrativeLayer {
+  volume_articles_7d: number
+  avg_tone: number | null
+  top_articles: Array<{ title: string; url: string; source: string; tone: number; date: string }>
+  _source: SourceMeta
+}
+
+interface SanctionsLayer {
+  total_count: number
+  by_program: Record<string, number>
+  sample: Array<{ entity: string; source: string; date?: string; reason?: string }>
+  _source: SourceMeta
+}
+
+interface TravelLayer {
+  score: number
+  band: string
+  message: string
+  updated: string
+  _source: SourceMeta
+}
+
+interface RiskLayer {
+  score: number
+  band: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
+  baseline_risk: number
+  uplift: number
+  related_top_risks: Array<{ rank: number; title: string; spain_exposure: string }>
+  _source: SourceMeta
+}
+
+interface CountryProfile {
   ok: boolean
-  country?: { iso3: string; name: string; region: string }
-  score?: number
-  band?: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
-  baseline_risk?: number
-  uplift?: number
-  acled?: {
-    events_30d: number
-    fatalities_30d: number
-    recent: Array<{ date: string; type: string; location: string; fatalities: number }>
+  iso3: string
+  country_name: string
+  layers: {
+    identity: IdentityLayer | null
+    government: GovernmentLayer | null
+    seismic: SeismicLayer | null
+    conflict: ConflictLayer | null
+    humanitarian: HumanitarianLayer | null
+    narrative: NarrativeLayer | null
+    sanctions: SanctionsLayer | null
+    travel: TravelLayer | null
+    risk: RiskLayer | null
   }
-  sanctions?: { count: number; list: any[] }
-  related_top_risks?: Array<{ rank: number; title: string; spain_exposure: string }>
-  // Sprint G7 · enriquecimiento UCDP + ReliefWeb + Travel Advisory
-  ucdp?: {
-    n_conflicts: number
-    max_intensity_level: number
-    years_covered: string
-    interpretation: string
-    recent: Array<{ name: string; side_a: string; side_b: string; year: number; intensity_level: number; type_of_conflict: number }>
-  } | null
-  humanitarian?: {
-    n_reports: number
-    total_available: number
-    recent: Array<{ id: number; title: string; source: string; date: string; url: string }>
-  } | null
-  travel_advisory?: {
-    score: number
-    band: string
-    message: string
-    source: string
-    source_url: string
-    updated: string
-  } | null
-  error?: string
+  layers_available: string[]
+  layers_count: number
+  _meta?: { generated_at: string; latency_ms: number; version: string }
 }
 
 const BAND_COLOR: Record<string, { bg: string; fg: string; track: string }> = {
@@ -59,16 +164,20 @@ const BAND_COLOR: Record<string, { bg: string; fg: string; track: string }> = {
   CRITICO: { bg: '#fee2e2', fg: '#991b1b', track: '#dc2626' },
 }
 
+// ────────────────────────────────────────────────────────────────────
+// Página
+// ────────────────────────────────────────────────────────────────────
+
 export default function PaisPage() {
   const params = useParams()
   const router = useRouter()
   const iso = String(params?.id || 'ESP').toUpperCase()
-  const [data, setData] = useState<PaisProfile | null>(null)
+  const [data, setData] = useState<CountryProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let alive = true
-    fetch(`/api/geopolitica/pais-profile?iso=${iso}`, { cache: 'force-cache' })
+    fetch(`/api/geopolitica/country-profile/${iso}`, { cache: 'force-cache' })
       .then((r) => r.json())
       .then((j) => { if (alive) setData(j) })
       .catch(() => {})
@@ -78,21 +187,15 @@ export default function PaisPage() {
   return (
     <>
       <AppHeader />
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 20px' }}>
+      <main style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 20px' }}>
         <button
           onClick={() => router.push('/geopolitica?tab=ia')}
           style={{
-            background: 'transparent',
-            color: '#64748b',
-            border: '1px solid #e2e8f0',
-            padding: '6px 12px',
-            borderRadius: 6,
-            fontSize: 11,
-            cursor: 'pointer',
-            marginBottom: 16,
+            background: 'transparent', color: '#64748b', border: '1px solid #e2e8f0',
+            padding: '6px 12px', borderRadius: 6, fontSize: 11, cursor: 'pointer', marginBottom: 16,
           }}
         >
-          ← Volver al world heatmap
+          ← Volver al mapa global
         </button>
 
         {loading && <p style={{ color: '#94a3b8' }}>Cargando perfil país…</p>}
@@ -100,207 +203,480 @@ export default function PaisPage() {
         {data && !data.ok && (
           <div style={{ padding: 20, background: '#fee2e2', borderRadius: 8 }}>
             <p style={{ margin: 0, color: '#991b1b', fontWeight: 700 }}>
-              País no encontrado en el catálogo: {iso}
+              Perfil país no disponible para: {iso}
             </p>
             <p style={{ margin: '4px 0 0', color: '#dc2626', fontSize: 11 }}>
-              {data.error}
+              No conseguimos resolver el código ISO3 en las fuentes externas (REST Countries / Wikidata).
+              Comprueba que el código es válido (ej. ESP, FRA, UKR).
             </p>
           </div>
         )}
 
-        {data && data.ok && data.country && data.band && (
+        {data && data.ok && (
           <div>
-            {/* Hero país */}
-            <header style={{
-              background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
-              border: `1px solid ${BAND_COLOR[data.band].track}`,
-              borderLeft: `4px solid ${BAND_COLOR[data.band].track}`,
-              borderRadius: 12,
-              padding: 20,
-              color: '#f1f5f9',
-              marginBottom: 18,
+            {/* Hero país · combina identidad (REST Countries) + risk score (motor Politeia) */}
+            <HeroBlock data={data} />
+
+            {/* Capas en grid */}
+            <div style={{
+              marginTop: 18,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+              gap: 18,
             }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-                <div>
-                  <p style={{ margin: 0, fontSize: 11, color: '#94a3b8', letterSpacing: 0.6, textTransform: 'uppercase' }}>
-                    Country Profile · ISO3 {data.country.iso3}
-                  </p>
-                  <h1 style={{ margin: '4px 0 0', fontSize: 28, fontWeight: 700, color: '#fbbf24' }}>
-                    {data.country.name}
-                  </h1>
-                  <p style={{ margin: '4px 0 0', fontSize: 13, color: '#cbd5e1' }}>
-                    Región · {data.country.region}
-                  </p>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <p style={{ margin: 0, fontSize: 64, fontWeight: 700, color: BAND_COLOR[data.band].track, lineHeight: 1 }}>
-                    {data.score}
-                  </p>
-                  <span style={{
-                    display: 'inline-block', marginTop: 6, fontSize: 10, fontWeight: 700, letterSpacing: 0.8,
-                    padding: '4px 12px', borderRadius: 12,
-                    background: BAND_COLOR[data.band].bg, color: BAND_COLOR[data.band].fg,
-                  }}>
-                    BANDA · {data.band}
-                  </span>
-                </div>
-              </div>
-              <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 8, fontSize: 11 }}>
-                <Stat label="Baseline risk" value={`${data.baseline_risk}/100`} />
-                <Stat label="Uplift ACLED 30d" value={`+${data.uplift}`} />
-                <Stat label="Eventos ACLED 30d" value={String(data.acled?.events_30d || 0)} />
-                <Stat label="Fatalities 30d" value={String(data.acled?.fatalities_30d || 0)} />
-                <Stat label="Sanciones contra país" value={String(data.sanctions?.count || 0)} />
-              </div>
-            </header>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 18 }}>
-              {/* ACLED recent */}
-              <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #dc2626', borderRadius: 10, padding: 16 }}>
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#dc2626', textTransform: 'uppercase' }}>
-                  ACLED · eventos recientes 30d
-                </p>
-                {data.acled?.recent && data.acled.recent.length > 0 ? (
-                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {data.acled.recent.map((e, i) => (
-                      <div key={i} style={{ padding: 8, background: '#f8fafc', borderLeft: `3px solid ${e.fatalities > 0 ? '#dc2626' : '#94a3b8'}`, borderRadius: 4 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#64748b' }}>
-                          <span style={{ fontFamily: 'ui-monospace, monospace' }}>{e.date}</span>
-                          <span>{e.fatalities > 0 && <strong style={{ color: '#dc2626' }}>{e.fatalities} fatalities</strong>}</span>
-                        </div>
-                        <p style={{ margin: '2px 0 0', fontSize: 12, color: '#0f172a' }}>
-                          <strong>{e.type}</strong> · {e.location}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p style={{ marginTop: 8, fontSize: 11, color: '#94a3b8' }}>Sin eventos ACLED recientes registrados.</p>
-                )}
-              </section>
-
-              {/* Sanciones */}
-              <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #f59e0b', borderRadius: 10, padding: 16 }}>
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#f59e0b', textTransform: 'uppercase' }}>
-                  Sanciones contra entidades del país
-                </p>
-                {data.sanctions?.list && data.sanctions.list.length > 0 ? (
-                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {data.sanctions.list.map((s: any, i: number) => (
-                      <div key={i} style={{ padding: 8, background: '#fffbeb', borderLeft: '3px solid #f59e0b', borderRadius: 4, fontSize: 11 }}>
-                        <p style={{ margin: 0, color: '#0f172a', fontWeight: 600 }}>{s.entity}</p>
-                        <p style={{ margin: '2px 0 0', fontSize: 10, color: '#92400e' }}>
-                          {s.source} · {s.date} · {s.reason}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p style={{ marginTop: 8, fontSize: 11, color: '#94a3b8' }}>Sin sanciones directas registradas en el feed.</p>
-                )}
-              </section>
-
-              {/* Top risks relacionados */}
-              <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #7c3aed', borderRadius: 10, padding: 16, gridColumn: '1 / -1' }}>
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#7c3aed', textTransform: 'uppercase' }}>
-                  Top Risks Politeia que mencionan {data.country.name}
-                </p>
-                {data.related_top_risks && data.related_top_risks.length > 0 ? (
-                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    {data.related_top_risks.map((r) => (
-                      <div key={r.rank} style={{ display: 'grid', gridTemplateColumns: '40px 1fr auto', gap: 10, padding: '6px 8px', background: '#faf5ff', borderRadius: 4, fontSize: 11 }}>
-                        <span style={{ color: '#7c3aed', fontWeight: 700, fontVariantNumeric: 'tabular-nums' as const }}>#{r.rank}</span>
-                        <span style={{ color: '#0f172a' }}>{r.title}</span>
-                        <span style={{ fontSize: 9, color: '#7c3aed', textTransform: 'uppercase' }}>ES · {r.spain_exposure}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p style={{ marginTop: 8, fontSize: 11, color: '#94a3b8' }}>Sin top risks específicos para {data.country.name} en el momento actual.</p>
-                )}
-              </section>
-
-              {/* Sprint G7 · UCDP estructural */}
-              {data.ucdp && (
-                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #94a3b8', borderRadius: 10, padding: 16 }}>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#475569', textTransform: 'uppercase' }}>
-                    UCDP · validación estructural (Uppsala)
-                  </p>
-                  <p style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700, color: data.ucdp.max_intensity_level >= 2 ? '#dc2626' : data.ucdp.max_intensity_level >= 1 ? '#f59e0b' : '#94a3b8' }}>
-                    {data.ucdp.max_intensity_level >= 2 ? 'GUERRA · 1000+ deaths/año' : data.ucdp.max_intensity_level >= 1 ? 'CONFLICTO MENOR · 25-999/año' : 'sin conflicto registrado'}
-                  </p>
-                  <p style={{ margin: '0 0 8px', fontSize: 11, color: '#0f172a' }}>
-                    {data.ucdp.n_conflicts} conflictos registrados · cobertura {data.ucdp.years_covered}
-                  </p>
-                  {data.ucdp.recent.length > 0 && (
-                    <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {data.ucdp.recent.slice(0, 5).map((c, i) => (
-                        <div key={i} style={{ padding: 6, background: '#f8fafc', borderLeft: `3px solid ${c.intensity_level >= 2 ? '#dc2626' : '#f59e0b'}`, borderRadius: 4, fontSize: 11 }}>
-                          <p style={{ margin: 0, fontWeight: 600, color: '#0f172a' }}>{c.name} · {c.year}</p>
-                          <p style={{ margin: '2px 0 0', fontSize: 10, color: '#475569' }}>{c.side_a} vs {c.side_b}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              )}
-
-              {/* Sprint G7 · ReliefWeb humanitario */}
-              {data.humanitarian && (
-                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #0ea5e9', borderRadius: 10, padding: 16 }}>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#0ea5e9', textTransform: 'uppercase' }}>
-                    ReliefWeb · crisis humanitaria activa
-                  </p>
-                  <p style={{ margin: '4px 0 8px', fontSize: 11, color: '#0f172a' }}>
-                    {data.humanitarian.n_reports} reports recientes · {data.humanitarian.total_available?.toLocaleString('es-ES')} total disponible
-                  </p>
-                  {data.humanitarian.recent.length > 0 ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                      {data.humanitarian.recent.slice(0, 5).map((r) => (
-                        <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer" style={{ padding: 6, background: '#f0f9ff', borderLeft: '3px solid #0ea5e9', borderRadius: 4, fontSize: 11, textDecoration: 'none', color: '#0f172a' }}>
-                          <p style={{ margin: 0, fontWeight: 600 }}>{r.title}</p>
-                          <p style={{ margin: '2px 0 0', fontSize: 10, color: '#475569' }}>{r.source} · {r.date?.slice(0, 10)}</p>
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    <p style={{ marginTop: 8, fontSize: 11, color: '#94a3b8' }}>Sin reports humanitarios recientes.</p>
-                  )}
-                </section>
-              )}
-
-              {/* Sprint G9 · Country Timeline (multi-source cronológico) */}
-              <div style={{ gridColumn: '1 / -1' }}>
-                <GeoCountryTimeline iso={data.country.iso3} />
-              </div>
-
-              {/* Sprint G7 · Travel Advisory consular */}
-              {data.travel_advisory && (
-                <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderLeft: `4px solid ${data.travel_advisory.score >= 4.5 ? '#7f1d1d' : data.travel_advisory.score >= 3.5 ? '#dc2626' : data.travel_advisory.score >= 2.5 ? '#f97316' : '#16a34a'}`, borderRadius: 10, padding: 16, gridColumn: '1 / -1' }}>
-                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: data.travel_advisory.score >= 4.5 ? '#7f1d1d' : data.travel_advisory.score >= 3.5 ? '#dc2626' : data.travel_advisory.score >= 2.5 ? '#f97316' : '#16a34a', textTransform: 'uppercase' }}>
-                    Travel Advisory · riesgo consular para ciudadanos
-                  </p>
-                  <p style={{ margin: '6px 0 4px', fontSize: 22, fontWeight: 700, color: data.travel_advisory.score >= 4.5 ? '#7f1d1d' : data.travel_advisory.score >= 3.5 ? '#dc2626' : data.travel_advisory.score >= 2.5 ? '#f97316' : '#16a34a' }}>
-                    {data.travel_advisory.score?.toFixed(1) ?? '—'} <span style={{ fontSize: 12, fontWeight: 400, color: '#64748b' }}>/ 5</span> · {data.travel_advisory.band}
-                  </p>
-                  {data.travel_advisory.message && (
-                    <p style={{ margin: '4px 0', fontSize: 11, color: '#475569', lineHeight: 1.4 }}>
-                      {data.travel_advisory.message}
-                    </p>
-                  )}
-                  <p style={{ margin: '6px 0 0', fontSize: 10, color: '#64748b' }}>
-                    Fuente: {data.travel_advisory.source || 'US State Dept'} · actualizado {data.travel_advisory.updated?.slice(0, 10) || '—'}
-                    {data.travel_advisory.source_url && (
-                      <> · <a href={data.travel_advisory.source_url} target="_blank" rel="noopener noreferrer" style={{ color: '#1e40af' }}>fuente original ↗</a></>
-                    )}
-                  </p>
-                </section>
-              )}
+              <IdentityBlock layer={data.layers.identity} />
+              <GovernmentBlock layer={data.layers.government} />
+              <ConflictBlock layer={data.layers.conflict} />
+              <NarrativeBlock layer={data.layers.narrative} />
+              <HumanitarianBlock layer={data.layers.humanitarian} />
+              <SanctionsBlock layer={data.layers.sanctions} />
+              <TravelBlock layer={data.layers.travel} />
+              <SeismicBlock layer={data.layers.seismic} />
+              <TopRisksBlock risk={data.layers.risk} countryName={data.country_name} />
             </div>
+
+            {/* Timeline ancho completo · ya existía */}
+            <div style={{ marginTop: 18 }}>
+              <GeoCountryTimeline iso={data.iso3} />
+            </div>
+
+            {/* Footer de transparencia · qué fuentes usamos vs cuáles no */}
+            <CoverageFooter data={data} />
           </div>
         )}
       </main>
     </>
+  )
+}
+
+// ────────────────────────────────────────────────────────────────────
+// Bloques
+// ────────────────────────────────────────────────────────────────────
+
+function HeroBlock({ data }: { data: CountryProfile }) {
+  const id = data.layers.identity
+  const risk = data.layers.risk
+  const band = risk?.band || 'MEDIO'
+  const colors = BAND_COLOR[band]
+  return (
+    <header style={{
+      background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+      border: `1px solid ${colors.track}`,
+      borderLeft: `4px solid ${colors.track}`,
+      borderRadius: 12, padding: 20, color: '#f1f5f9',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          {id?.flag_emoji && (
+            <span style={{ fontSize: 48, lineHeight: 1 }}>{id.flag_emoji}</span>
+          )}
+          <div>
+            <p style={{ margin: 0, fontSize: 11, color: '#94a3b8', letterSpacing: 0.6, textTransform: 'uppercase' }}>
+              Country Profile · ISO3 {data.iso3}
+            </p>
+            <h1 style={{ margin: '4px 0 0', fontSize: 30, fontWeight: 700, color: '#fbbf24' }}>
+              {data.country_name}
+            </h1>
+            {id?.name_official && id.name_official !== id.name_common && (
+              <p style={{ margin: '2px 0 0', fontSize: 12, color: '#94a3b8', fontStyle: 'italic' }}>
+                {id.name_official}
+              </p>
+            )}
+            <p style={{ margin: '6px 0 0', fontSize: 13, color: '#cbd5e1' }}>
+              {[id?.region, id?.subregion].filter(Boolean).join(' · ')}
+              {id?.capital && ` · capital ${id.capital}`}
+            </p>
+          </div>
+        </div>
+        {risk && (
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ margin: 0, fontSize: 64, fontWeight: 700, color: colors.track, lineHeight: 1 }}>
+              {risk.score}
+            </p>
+            <span style={{
+              display: 'inline-block', marginTop: 6, fontSize: 10, fontWeight: 700, letterSpacing: 0.8,
+              padding: '4px 12px', borderRadius: 12,
+              background: colors.bg, color: colors.fg,
+            }}>
+              RIESGO · {risk.band}
+            </span>
+          </div>
+        )}
+      </div>
+      {risk && (
+        <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 8, fontSize: 11 }}>
+          <Stat label="Riesgo estructural" value={`${risk.baseline_risk}/100`} />
+          <Stat label="Uplift eventos 30d" value={`+${risk.uplift}`} />
+          <Stat label="Conflictos UCDP" value={String(data.layers.conflict?.n_conflicts ?? '—')} />
+          <Stat label="Reports humanitarios" value={String(data.layers.humanitarian?.n_reports ?? '—')} />
+          <Stat label="Sanciones consolidadas" value={String(data.layers.sanctions?.total_count ?? '—')} />
+        </div>
+      )}
+    </header>
+  )
+}
+
+function IdentityBlock({ layer }: { layer: IdentityLayer | null }) {
+  return (
+    <BlockShell title="Identidad país" accent="#0891b2" emoji="◉" emptyMessage={layer ? null : 'REST Countries no disponible'}>
+      {layer && (
+        <>
+          {layer.flag_png && (
+            <img src={layer.flag_png} alt={`Bandera ${layer.name_common}`} style={{ width: 80, height: 'auto', borderRadius: 4, border: '1px solid #e5e7eb', marginBottom: 10 }} />
+          )}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, fontSize: 11 }}>
+            <Field label="Capital" value={layer.capital || '—'} />
+            <Field label="Población" value={layer.population ? layer.population.toLocaleString('es-ES') : '—'} />
+            <Field label="Área km²" value={layer.area ? layer.area.toLocaleString('es-ES') : '—'} />
+            <Field label="Miembro ONU" value={layer.un_member === true ? 'Sí' : layer.un_member === false ? 'No' : '—'} />
+            <Field label="Idiomas" value={layer.languages.slice(0, 3).join(', ') || '—'} />
+            <Field label="Monedas" value={layer.currencies.join(', ') || '—'} />
+          </div>
+          {layer.borders.length > 0 && (
+            <p style={{ margin: '10px 0 0', fontSize: 11, color: '#475569' }}>
+              <strong style={{ color: '#64748b', fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.4 }}>Vecinos:</strong>{' '}
+              {layer.borders.join(' · ')}
+            </p>
+          )}
+          <SourceFooter source={layer._source} />
+        </>
+      )}
+    </BlockShell>
+  )
+}
+
+function GovernmentBlock({ layer }: { layer: GovernmentLayer | null }) {
+  return (
+    <BlockShell title="Gobierno y régimen" accent="#7c3aed" emoji="⚖" emptyMessage={layer ? null : 'Wikidata no disponible o sin datos para este país'}>
+      {layer && (
+        <>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12 }}>
+            <Field label="Jefe de Estado" value={layer.head_of_state || '—'} />
+            <Field label="Jefe de Gobierno" value={layer.head_of_government || '—'} />
+            <Field label="Forma de gobierno" value={layer.form_of_government || '—'} />
+            {layer.independence_date && (
+              <Field label="Independencia" value={layer.independence_date} />
+            )}
+          </div>
+          {layer.international_orgs.length > 0 && (
+            <div style={{ marginTop: 10 }}>
+              <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, color: '#64748b', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                Organizaciones internacionales · {layer.international_orgs.length}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {layer.international_orgs.slice(0, 12).map((o) => (
+                  <span key={o} style={{
+                    background: '#faf5ff', color: '#7c3aed',
+                    padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600,
+                    border: '1px solid #e9d5ff',
+                  }}>{o}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          <SourceFooter source={layer._source} />
+        </>
+      )}
+    </BlockShell>
+  )
+}
+
+function ConflictBlock({ layer }: { layer: ConflictLayer | null }) {
+  if (!layer) {
+    return (
+      <BlockShell title="Conflicto estructural" accent="#94a3b8" emoji="⊞" emptyMessage="UCDP no disponible">
+        {null}
+      </BlockShell>
+    )
+  }
+  const intensityLabel = layer.max_intensity_level >= 2
+    ? 'GUERRA · 1000+ muertes/año'
+    : layer.max_intensity_level >= 1
+    ? 'CONFLICTO MENOR · 25-999/año'
+    : 'Sin conflicto registrado'
+  const intensityColor = layer.max_intensity_level >= 2 ? '#dc2626' : layer.max_intensity_level >= 1 ? '#f59e0b' : '#16a34a'
+  return (
+    <BlockShell title="Conflicto estructural" accent="#94a3b8" emoji="⊞" emptyMessage={null}>
+      <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: intensityColor, lineHeight: 1.3 }}>
+        {intensityLabel}
+      </p>
+      <p style={{ margin: '4px 0 8px', fontSize: 11, color: '#475569' }}>
+        {layer.n_conflicts} conflictos registrados · cobertura {layer.years_covered || 'serie histórica'}
+      </p>
+      {layer.interpretation && (
+        <p style={{ margin: '0 0 8px', fontSize: 11, color: '#334155', fontStyle: 'italic', lineHeight: 1.4 }}>
+          {layer.interpretation}
+        </p>
+      )}
+      {layer.recent.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {layer.recent.slice(0, 5).map((c, i) => (
+            <div key={i} style={{
+              padding: 6, background: '#f8fafc',
+              borderLeft: `3px solid ${c.intensity_level >= 2 ? '#dc2626' : '#f59e0b'}`,
+              borderRadius: 4, fontSize: 11,
+            }}>
+              <p style={{ margin: 0, fontWeight: 600, color: '#0f172a' }}>{c.name} · {c.year}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#475569' }}>{c.side_a} vs {c.side_b}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      <SourceFooter source={layer._source} />
+    </BlockShell>
+  )
+}
+
+function NarrativeBlock({ layer }: { layer: NarrativeLayer | null }) {
+  if (!layer) {
+    return (
+      <BlockShell title="Saliencia mediática 7d" accent="#1F4E8C" emoji="◐" emptyMessage="GDELT no disponible">{null}</BlockShell>
+    )
+  }
+  const toneColor = layer.avg_tone !== null
+    ? layer.avg_tone > 1 ? '#16a34a' : layer.avg_tone < -1 ? '#dc2626' : '#64748b'
+    : '#94a3b8'
+  return (
+    <BlockShell title="Saliencia mediática 7d" accent="#1F4E8C" emoji="◐" emptyMessage={null}>
+      <div style={{ display: 'flex', gap: 18, alignItems: 'baseline', marginBottom: 8 }}>
+        <span style={{ fontSize: 22, fontWeight: 700, color: '#1F4E8C', fontFamily: 'ui-monospace, monospace' }}>
+          {layer.volume_articles_7d}
+        </span>
+        <span style={{ fontSize: 11, color: '#64748b' }}>artículos · GDELT 7d</span>
+        {layer.avg_tone !== null && (
+          <span style={{ marginLeft: 'auto', fontSize: 11, color: toneColor, fontWeight: 600 }}>
+            Tono medio: {layer.avg_tone > 0 ? '+' : ''}{layer.avg_tone}
+          </span>
+        )}
+      </div>
+      {layer.top_articles.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {layer.top_articles.slice(0, 5).map((a, i) => (
+            <a key={i} href={a.url} target="_blank" rel="noopener noreferrer" style={{
+              padding: 6, background: '#f0f9ff', borderLeft: '3px solid #0ea5e9',
+              borderRadius: 4, fontSize: 11, textDecoration: 'none', color: '#0f172a',
+            }}>
+              <p style={{ margin: 0, fontWeight: 600, lineHeight: 1.3 }}>{a.title}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#475569' }}>
+                {a.source} · {a.date}
+                {a.tone !== 0 && (
+                  <span style={{ marginLeft: 6, color: a.tone > 0 ? '#16a34a' : '#dc2626' }}>
+                    tono {a.tone > 0 ? '+' : ''}{a.tone.toFixed(1)}
+                  </span>
+                )}
+              </p>
+            </a>
+          ))}
+        </div>
+      )}
+      <SourceFooter source={layer._source} />
+    </BlockShell>
+  )
+}
+
+function HumanitarianBlock({ layer }: { layer: HumanitarianLayer | null }) {
+  if (!layer) return <BlockShell title="Crisis humanitaria" accent="#0ea5e9" emoji="◓" emptyMessage="ReliefWeb no disponible">{null}</BlockShell>
+  return (
+    <BlockShell title="Crisis humanitaria" accent="#0ea5e9" emoji="◓" emptyMessage={null}>
+      <p style={{ margin: '0 0 8px', fontSize: 11, color: '#0f172a' }}>
+        <strong>{layer.n_reports}</strong> reports recientes · {layer.total_available?.toLocaleString('es-ES') || '—'} disponibles
+      </p>
+      {layer.recent.length > 0 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {layer.recent.slice(0, 5).map((r) => (
+            <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer" style={{
+              padding: 6, background: '#f0f9ff', borderLeft: '3px solid #0ea5e9',
+              borderRadius: 4, fontSize: 11, textDecoration: 'none', color: '#0f172a',
+            }}>
+              <p style={{ margin: 0, fontWeight: 600 }}>{r.title}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#475569' }}>{r.source} · {r.date?.slice(0, 10)}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p style={{ fontSize: 11, color: '#94a3b8' }}>Sin reports recientes.</p>
+      )}
+      <SourceFooter source={layer._source} />
+    </BlockShell>
+  )
+}
+
+function SanctionsBlock({ layer }: { layer: SanctionsLayer | null }) {
+  if (!layer) return <BlockShell title="Sanciones internacionales" accent="#f59e0b" emoji="!" emptyMessage="Listas consolidadas no disponibles">{null}</BlockShell>
+  return (
+    <BlockShell title="Sanciones internacionales" accent="#f59e0b" emoji="!" emptyMessage={null}>
+      <p style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 700, color: layer.total_count > 0 ? '#92400e' : '#16a34a' }}>
+        {layer.total_count} entidades sancionadas
+      </p>
+      {Object.keys(layer.by_program).length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
+          {Object.entries(layer.by_program).map(([k, n]) => (
+            <span key={k} style={{
+              background: '#fffbeb', color: '#92400e', padding: '2px 8px', borderRadius: 999,
+              fontSize: 10, fontWeight: 600, border: '1px solid #fde68a',
+            }}>{k}: {n}</span>
+          ))}
+        </div>
+      )}
+      {layer.sample.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {layer.sample.map((s, i) => (
+            <div key={i} style={{
+              padding: 6, background: '#fffbeb', borderLeft: '3px solid #f59e0b',
+              borderRadius: 4, fontSize: 11,
+            }}>
+              <p style={{ margin: 0, fontWeight: 600, color: '#0f172a' }}>{s.entity}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#92400e' }}>
+                {s.source}{s.date ? ` · ${s.date}` : ''}{s.reason ? ` · ${s.reason}` : ''}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+      <SourceFooter source={layer._source} />
+    </BlockShell>
+  )
+}
+
+function TravelBlock({ layer }: { layer: TravelLayer | null }) {
+  if (!layer) return <BlockShell title="Riesgo para ciudadanos" accent="#dc2626" emoji="✦" emptyMessage="Travel Advisory no disponible">{null}</BlockShell>
+  const c = layer.score >= 4.5 ? '#7f1d1d' : layer.score >= 3.5 ? '#dc2626' : layer.score >= 2.5 ? '#f97316' : '#16a34a'
+  return (
+    <BlockShell title="Riesgo para ciudadanos" accent={c} emoji="✦" emptyMessage={null}>
+      <p style={{ margin: 0, fontSize: 28, fontWeight: 700, color: c, lineHeight: 1 }}>
+        {layer.score?.toFixed(1) ?? '—'} <span style={{ fontSize: 13, fontWeight: 400, color: '#64748b' }}>/ 5</span>
+      </p>
+      <p style={{ margin: '4px 0 8px', fontSize: 12, color: c, fontWeight: 600 }}>
+        {layer.band}
+      </p>
+      {layer.message && (
+        <p style={{ margin: 0, fontSize: 11, color: '#475569', lineHeight: 1.45 }}>
+          {layer.message}
+        </p>
+      )}
+      <SourceFooter source={layer._source} customLastUpdated={layer.updated} />
+    </BlockShell>
+  )
+}
+
+function SeismicBlock({ layer }: { layer: SeismicLayer | null }) {
+  if (!layer) return <BlockShell title="Sismos M≥5.0 · 30d" accent="#475569" emoji="◈" emptyMessage="USGS sin datos o país sin coordenadas">{null}</BlockShell>
+  return (
+    <BlockShell title="Sismos M≥5.0 · 30d" accent="#475569" emoji="◈" emptyMessage={null}>
+      <div style={{ display: 'flex', gap: 18, alignItems: 'baseline', marginBottom: 8 }}>
+        <span style={{ fontSize: 22, fontWeight: 700, color: layer.events_30d > 10 ? '#dc2626' : layer.events_30d > 0 ? '#f59e0b' : '#16a34a' }}>
+          {layer.events_30d}
+        </span>
+        <span style={{ fontSize: 11, color: '#64748b' }}>sismos · radio 1500 km</span>
+        {layer.max_magnitude !== null && (
+          <span style={{ marginLeft: 'auto', fontSize: 11, color: '#475569' }}>
+            Mag máx: <strong>{layer.max_magnitude}</strong>
+          </span>
+        )}
+      </div>
+      {layer.recent.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {layer.recent.map((e, i) => (
+            <div key={i} style={{
+              padding: 5, background: '#f8fafc', borderLeft: `3px solid ${e.mag >= 6 ? '#dc2626' : '#f59e0b'}`,
+              borderRadius: 4, fontSize: 11,
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 6 }}>
+                <span style={{ color: '#0f172a' }}>{e.place}</span>
+                <span style={{ fontFamily: 'ui-monospace, monospace', color: e.mag >= 6 ? '#dc2626' : '#f59e0b', fontWeight: 700 }}>
+                  M{e.mag}
+                </span>
+              </div>
+              <p style={{ margin: 0, fontSize: 10, color: '#475569' }}>{e.date} · {e.depth_km} km</p>
+            </div>
+          ))}
+        </div>
+      )}
+      <SourceFooter source={layer._source} />
+    </BlockShell>
+  )
+}
+
+function TopRisksBlock({ risk, countryName }: { risk: RiskLayer | null; countryName: string }) {
+  if (!risk || risk.related_top_risks.length === 0) {
+    return (
+      <BlockShell title={`Top Risks Politeia · ${countryName}`} accent="#7c3aed" emoji="◆" emptyMessage="Sin top risks específicos en este momento">{null}</BlockShell>
+    )
+  }
+  return (
+    <BlockShell title={`Top Risks Politeia · ${countryName}`} accent="#7c3aed" emoji="◆" emptyMessage={null}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {risk.related_top_risks.map((r) => (
+          <div key={r.rank} style={{
+            display: 'grid', gridTemplateColumns: '40px 1fr auto',
+            gap: 10, padding: '6px 8px', background: '#faf5ff',
+            borderRadius: 4, fontSize: 11,
+          }}>
+            <span style={{ color: '#7c3aed', fontWeight: 700, fontVariantNumeric: 'tabular-nums' as const }}>#{r.rank}</span>
+            <span style={{ color: '#0f172a' }}>{r.title}</span>
+            <span style={{ fontSize: 9, color: '#7c3aed', textTransform: 'uppercase' }}>ES · {r.spain_exposure}</span>
+          </div>
+        ))}
+      </div>
+      <SourceFooter source={risk._source} />
+    </BlockShell>
+  )
+}
+
+function CoverageFooter({ data }: { data: CountryProfile }) {
+  return (
+    <section style={{
+      marginTop: 18, padding: 14, background: '#f8fafc',
+      border: '1px solid #e5e7eb', borderRadius: 10,
+    }}>
+      <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#475569', letterSpacing: 0.5, textTransform: 'uppercase' }}>
+        ◇ Cobertura del perfil · {data.layers_count} de 9 capas con datos
+      </p>
+      <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748b', lineHeight: 1.5 }}>
+        Capas resueltas: <strong>{data.layers_available.join(' · ')}</strong>.
+        Cada bloque cita su fuente con tipo de acceso, confianza, última actualización y URL original
+        en su footer respectivo. Las capas que aparezcan vacías indican que la fuente no respondió o
+        no tiene datos para este país.
+      </p>
+      {data._meta && (
+        <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>
+          Generado en {data._meta.latency_ms} ms · {data._meta.generated_at} · version {data._meta.version}
+        </p>
+      )}
+    </section>
+  )
+}
+
+// ────────────────────────────────────────────────────────────────────
+// Helpers UI
+// ────────────────────────────────────────────────────────────────────
+
+function BlockShell({
+  title, accent, emoji, emptyMessage, children,
+}: {
+  title: string
+  accent: string
+  emoji: string
+  emptyMessage: string | null
+  children: React.ReactNode
+}) {
+  return (
+    <section style={{
+      background: '#fff', border: '1px solid #e5e7eb',
+      borderLeft: `4px solid ${accent}`, borderRadius: 10, padding: 16,
+    }}>
+      <p style={{
+        margin: '0 0 10px', fontSize: 11, fontWeight: 700, letterSpacing: 0.8,
+        color: accent, textTransform: 'uppercase',
+      }}>
+        {emoji} {title}
+      </p>
+      {emptyMessage ? (
+        <p style={{ margin: 0, fontSize: 11, color: '#94a3b8', fontStyle: 'italic' }}>
+          {emptyMessage}
+        </p>
+      ) : children}
+    </section>
   )
 }
 
@@ -309,6 +685,19 @@ function Stat({ label, value }: { label: string; value: string }) {
     <div style={{ padding: '8px 10px', background: '#1e293b', borderRadius: 6 }}>
       <p style={{ margin: 0, fontSize: 9, color: '#94a3b8', letterSpacing: 0.5, textTransform: 'uppercase' }}>{label}</p>
       <p style={{ margin: '2px 0 0', fontSize: 16, fontWeight: 700, color: '#f1f5f9', fontVariantNumeric: 'tabular-nums' as const }}>{value}</p>
+    </div>
+  )
+}
+
+function Field({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p style={{ margin: 0, fontSize: 9, color: '#64748b', letterSpacing: 0.4, textTransform: 'uppercase', fontWeight: 600 }}>
+        {label}
+      </p>
+      <p style={{ margin: '2px 0 0', fontSize: 12, color: '#0f172a' }}>
+        {value}
+      </p>
     </div>
   )
 }
