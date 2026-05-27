@@ -541,14 +541,23 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 2 · Búsqueda · qué se publicó sobre X */}
+              {/* Tab 2 · Búsqueda · qué se publicó sobre X
+                  Sprint G15-FIX C3 · ahora muestra arriba LecturaPoliteiaPanel con
+                  contexto general del pulso actual (colapsado por defecto, no consume
+                  tokens si el usuario no lo abre). La Lectura IA per-query
+                  específica vive dentro de BusquedaPuntual y se mantiene intacta. */}
               {safeActiveTab === 'busqueda' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                   <TabExplainerBlock
                     question="¿Qué se ha publicado sobre X tema o actor?"
                     answer="Investigación libre NewsAPI everything con filtros booleanos + dominios + fechas · timeline + picos de cobertura · actores · narrativas · comparación ideológica · dossier export · Lectura IA por búsqueda."
                   />
-                  {/* La Lectura IA dentro de BusquedaPuntual ya existe (LecturaPoliteia legacy). */}
+                  <LecturaPoliteiaPanel
+                    tabId="busqueda"
+                    context={lecturaCtx}
+                    title="Lectura Politeia · contexto general del pulso"
+                    collapsedByDefault
+                  />
                   <BusquedaPuntual />
                 </div>
               )}

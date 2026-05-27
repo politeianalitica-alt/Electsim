@@ -436,12 +436,16 @@ export default function SentimentMapInteractive({
               onClose={() => setSelectedProvince(null)}
             />
           ) : (
-            // ── Dossier completo de CCAA
+            // ── Dossier completo de CCAA · Sprint G15-FIX C3: recibe
+            // narrativeClusters + actorImpacts para mostrar narrativas que
+            // tocan este territorio y actores locales en tendencia.
             <CCAADossier
               detail={detail}
               loading={detailLoading}
               name={selected}
               onProvince={setSelectedProvince}
+              narrativeClusters={narrativeClusters}
+              actorImpacts={actorImpacts}
             />
           )}
         </aside>
@@ -452,7 +456,10 @@ export default function SentimentMapInteractive({
 
 // ── CCAA Dossier ────────────────────────────────────────────────────────
 
-function CCAADossier({ detail, loading, name, onProvince }: {
+function CCAADossier({
+  detail, loading, name, onProvince,
+  narrativeClusters, actorImpacts,
+}: {
   // Sprint G15 FASE F · `detail` ahora viene enriquecido con regional_signal opcional
   // (n_articles_by_local_medium · local_share · n_local_medios · etc.) que el
   // endpoint /api/medios/ccaa devuelve. CCAADeepDetail no lo declara, así que
@@ -461,6 +468,9 @@ function CCAADossier({ detail, loading, name, onProvince }: {
   loading: boolean
   name: string
   onProvince: (p: string) => void
+  // Sprint G15-FIX C3 · narrativas + actores filtradas por territorio
+  narrativeClusters?: NarrativeCluster[]
+  actorImpacts?: ActorImpactRow[]
 }) {
   if (loading || !detail) {
     return (
@@ -536,6 +546,84 @@ function CCAADossier({ detail, loading, name, onProvince }: {
           </div>
         </Section>
       )}
+
+      {/* Sprint G15-FIX C3 · Narrativas que mencionan este territorio.
+          Filtra narrativeClusters cuyo territorial_spread incluye el nombre
+          de la CCAA (matching case-insensitive con normalización mínima). */}
+      {(() => {
+        if (!narrativeClusters || narrativeClusters.length === 0) return null
+        const territory = name.toLowerCase()
+        const localNarratives = narrativeClusters.filter((n) => {
+          const spread = n.territorial_spread || []
+          return spread.some((t) => t && t.toLowerCase().includes(territory))
+        }).slice(0, 5)
+        if (localNarratives.length === 0) return null
+        return (
+          <Section label={`Narrativas en ${name} · ${localNarratives.length}`}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {localNarratives.map((n) => (
+                <div key={n.id} style={{
+                  background: '#f0fdf4', borderLeft: '3px solid #16a34a',
+                  padding: '6px 8px', borderRadius: 4, fontSize: 11.5,
+                }}>
+                  <p style={{ margin: 0, color: '#0f172a', fontWeight: 600, lineHeight: 1.3 }}>
+                    {n.title}
+                  </p>
+                  <p style={{ margin: '3px 0 0', fontSize: 10, color: '#475569' }}>
+                    {n.frame_type} · {n.articles?.length || 0} artículos ·
+                    confianza {Math.round((n.confidence?.overall || 0) * 100)}%
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Section>
+        )
+      })()}
+
+      {/* Sprint G15-FIX C3 · Actores locales en tendencia.
+          Filtra actorImpacts cuyo sample_reasons o actor menciona el
+          nombre de la CCAA, o que también está en regional_actors del
+          regional_signal (más fiable). Top 8 por menciones. */}
+      {(() => {
+        if (!actorImpacts || actorImpacts.length === 0) return null
+        const territory = name.toLowerCase()
+        const rs = (detail as any).regional_signal
+        const regionalSet = new Set<string>(
+          (rs?.regional_actors as string[] | undefined ?? []).map((s) => s.toLowerCase()),
+        )
+        const local = actorImpacts.filter((a) => {
+          const txt = `${a.actor} ${(a.sample_reasons || []).join(' ')}`.toLowerCase()
+          return txt.includes(territory) || regionalSet.has(a.actor.toLowerCase())
+        }).slice(0, 8)
+        if (local.length === 0) return null
+        return (
+          <Section label={`Actores en tendencia · ${local.length}`}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {local.map((a) => {
+                const color = a.dominant_impact === 'beneficial' ? '#16a34a'
+                  : a.dominant_impact === 'harmful' ? '#dc2626' : '#64748b'
+                return (
+                  <div key={a.actor} style={{
+                    display: 'grid', gridTemplateColumns: '1fr 50px 80px',
+                    gap: 6, alignItems: 'center', fontSize: 11,
+                    padding: '3px 6px', background: '#f8fafc', borderRadius: 3,
+                  }}>
+                    <span style={{ color: '#0f172a', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {a.actor}
+                    </span>
+                    <span style={{ color: '#475569', fontFamily: 'ui-monospace, monospace', textAlign: 'right', fontSize: 10 }}>
+                      {a.mentions} men.
+                    </span>
+                    <span style={{ color, fontWeight: 700, fontSize: 9, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>
+                      ● {a.dominant_impact}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          </Section>
+        )
+      })()}
 
       {/* Categorías temáticas */}
       {detail.categories.length > 0 && (
