@@ -97,11 +97,28 @@ export async function fetchINEIPC(): Promise<{ value: number; date: string } | n
 }
 
 // ─── GDELT · tone España últimos 7 días (opcional) ─────────────────────
+// GDELT-FIX · refactor a través del helper build-query.ts.
+// Mejoras frente a la versión previa:
+//   - Query encapsulado: "Spain" en lugar de spain suelto (evita matching
+//     accidental en URLs y textos que contienen la palabra)
+//   - Añade sourcelang:spanish para reflejar cobertura ES (antes el tone
+//     era el de prensa global sobre España · ahora es el de prensa ES)
+//   - timespan estandarizado a '7d' (en el helper) en vez de '1week'
+//   - tonechart bin oficial es -10..+10 · garantizamos rango con clampGdeltTone
+import { buildGdeltDocUrl, fetchGdeltJson, clampGdeltTone } from '@/lib/gdelt/build-query'
 export async function fetchGDELTSpainTone(): Promise<{ tone: number; volume: number; period: string } | null> {
-  const url = 'https://api.gdeltproject.org/api/v2/doc/doc?query=spain&mode=tonechart&format=json&timespan=1week'
-  const r = await safeJSON<{ tonechart?: Array<{ bin: number; count: number }> }>(url, { timeoutMs: TIMEOUT_MS })
-  if (!r.ok || !r.data?.tonechart || r.data.tonechart.length === 0) return null
-  const chart = r.data.tonechart.filter(b =>
+  const url = buildGdeltDocUrl({
+    query: 'Spain',
+    sourcelang: 'spanish',
+    mode: 'tonechart',
+    timespan: '7d',
+    maxrecords: 250,            // tonechart agrega · 250 da resolución decente
+  })
+  const data = await fetchGdeltJson<{ tonechart?: Array<{ bin: number; count: number }> }>(
+    url, { timeoutMs: TIMEOUT_MS, maxRetries: 1 },
+  )
+  if (!data?.tonechart || data.tonechart.length === 0) return null
+  const chart = data.tonechart.filter(b =>
     Number.isFinite(b.bin) && Number.isFinite(b.count) && b.count >= 0
   )
   const total = chart.reduce((s, b) => s + b.count, 0)
@@ -110,7 +127,7 @@ export async function fetchGDELTSpainTone(): Promise<{ tone: number; volume: num
   const tone = weightedSum / total
   if (!Number.isFinite(tone)) return null
   return {
-    tone: Math.round(tone * 100) / 100,
+    tone: Math.round(clampGdeltTone(tone) * 100) / 100,
     volume: total,
     period: '7d',
   }

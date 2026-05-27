@@ -34,6 +34,12 @@
  * Cache: s-maxage=21600 (6h), stale-while-revalidate=86400 (24h).
  */
 import { NextRequest, NextResponse } from 'next/server'
+import {
+  buildGdeltDocUrl,
+  fetchGdeltJson,
+  normalizeGdeltDate,
+  clampGdeltTone,
+} from '@/lib/gdelt/build-query'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -332,19 +338,29 @@ interface NarrativeLayer {
 }
 
 async function buildNarrative(countryName: string): Promise<NarrativeLayer | null> {
-  const q = encodeURIComponent(`"${countryName}"`)
-  const url = `https://api.gdeltproject.org/api/v2/doc/doc?query=${q}&mode=artlist&format=json&maxrecords=15&timespan=7d&sort=hybridrel`
-  const data: any = await safeJson(url, 8000)
+  // GDELT-FIX · helper buildGdeltDocUrl encapsula query con comillas y
+  // aplica defaults sensatos. fetchGdeltJson hace retry con backoff
+  // ante rate-limit GDELT (que es bastante agresivo).
+  const url = buildGdeltDocUrl({
+    query: countryName,        // helper encapsula con comillas si tiene espacios
+    mode: 'artlist',
+    timespan: '7d',
+    maxrecords: 15,
+    sort: 'hybridrel',
+  })
+  const data = await fetchGdeltJson<{
+    articles?: Array<{ title: string; url: string; domain: string; tone: number; seendate: string }>
+  }>(url, { timeoutMs: 8000, maxRetries: 1 })
   if (!data?.articles) return null
-  const top = data.articles.slice(0, 10).map((a: any) => ({
+  const top = data.articles.slice(0, 10).map((a) => ({
     title: a.title || '',
     url: a.url || '',
     source: a.domain || '',
-    tone: typeof a.tone === 'number' ? a.tone : 0,
-    date: a.seendate ? `${a.seendate.slice(0, 4)}-${a.seendate.slice(4, 6)}-${a.seendate.slice(6, 8)}` : '',
+    tone: clampGdeltTone(a.tone),   // garantiza rango -10..+10
+    date: normalizeGdeltDate(a.seendate).slice(0, 10),
   }))
   const avgTone = top.length > 0
-    ? top.reduce((s: number, a: any) => s + a.tone, 0) / top.length
+    ? top.reduce((s, a) => s + a.tone, 0) / top.length
     : null
   return {
     volume_articles_7d: data.articles.length,

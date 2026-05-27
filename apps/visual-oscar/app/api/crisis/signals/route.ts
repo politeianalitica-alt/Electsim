@@ -1,4 +1,10 @@
 import { NextResponse } from 'next/server'
+import {
+  buildGdeltDocUrl,
+  fetchGdeltJson,
+  normalizeGdeltDate,
+  clampGdeltTone,
+} from '@/lib/gdelt/build-query'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -47,8 +53,11 @@ async function safeFetch(url: string, timeoutMs = 7000): Promise<string | null> 
 }
 
 function scoreFromGdeltTone(tone: number): number {
-  // tone is negative = bad. Range roughly -20..+20
-  const normalized = Math.min(100, Math.max(0, 50 - tone * 2))
+  // GDELT-FIX · tone real de artlist es -10..+10 (no -20..+20 como decía
+  // el comentario anterior). Clamp y multiplicar por 5 para mapear a
+  // ±50 alrededor de 50 → range 0..100.
+  const clamped = clampGdeltTone(tone)
+  const normalized = Math.min(100, Math.max(0, 50 - clamped * 5))
   return Math.round(normalized)
 }
 
@@ -61,38 +70,45 @@ function severityFromScore(score: number): SignalSeverity {
 
 // ─── GDELT 2.0 ────────────────────────────────────────────────────────────────
 async function fetchGdelt(): Promise<CrisisSignal[]> {
-  // GDELT Doc 2.0 — artículos sobre España últimas 24h
-  const url = 'https://api.gdeltproject.org/api/v2/doc/doc?query=spain%20crisis%20OR%20spain%20conflict%20OR%20spain%20attack%20OR%20espa%C3%B1a%20crisis&mode=artlist&maxrecords=15&format=json&timespan=1440'
-  const raw = await safeFetch(url, 9000)
-  if (!raw) return []
-  try {
-    const json = JSON.parse(raw) as {
-      articles?: Array<{ title: string; url: string; seendate: string; sourcecountry: string; language: string; tone: number }>
+  // GDELT-FIX · buildGdeltDocUrl resuelve 3 bugs anteriores:
+  //   1. Query encapsulado (antes "spain crisis OR spain conflict" se
+  //      expandía a OR implícitos por cada palabra → 80% ruido)
+  //   2. timespan='24h' explícito (antes hardcoded '1440' minutos)
+  //   3. sort='hybridrel' default para artlist (recencia + relevancia)
+  // Conservamos la búsqueda multi-keyword via OR explícito.
+  const url = buildGdeltDocUrl({
+    query: '("Spain crisis" OR "Spain conflict" OR "Spain attack" OR "España crisis")',
+    mode: 'artlist',
+    timespan: '24h',
+    maxrecords: 15,
+    sort: 'hybridrel',
+  })
+  // fetchGdeltJson incluye retry 2x con backoff (5s, 12s) ante rate-limit GDELT
+  const json = await fetchGdeltJson<{
+    articles?: Array<{ title: string; url: string; seendate: string; sourcecountry: string; language: string; tone: number }>
+  }>(url, { timeoutMs: 9000, maxRetries: 2 })
+  if (!json) return []
+  const articles = json.articles ?? []
+  return articles.slice(0, 10).map((a, i) => {
+    const tone = clampGdeltTone(a.tone)
+    const score = scoreFromGdeltTone(tone)
+    const isSpanish = a.language === 'Spanish'
+    const title = a.title?.slice(0, 120) ?? 'Sin título'
+    const iso = normalizeGdeltDate(a.seendate)
+    return {
+      id: `gdelt_${i}_${Date.now()}`,
+      tipo: 'diplomatico' as SignalType,
+      titulo: title,
+      descripcion: `Fuente: ${a.sourcecountry ?? 'global'} · Tono: ${tone.toFixed(1)} · ${isSpanish ? 'ES' : a.language}`,
+      fuente: 'GDELT 2.0',
+      severidad: severityFromScore(score),
+      score,
+      pais: a.sourcecountry ?? 'global',
+      timestamp: iso || new Date().toISOString(),
+      url: a.url,
+      tags: ['gdelt', 'internacional', score >= 60 ? 'urgente' : 'monitor'],
     }
-    const articles = json.articles ?? []
-    return articles.slice(0, 10).map((a, i) => {
-      const score = scoreFromGdeltTone(a.tone ?? 0)
-      const isSpanish = a.language === 'Spanish'
-      const title = a.title?.slice(0, 120) ?? 'Sin título'
-      return {
-        id: `gdelt_${i}_${Date.now()}`,
-        tipo: 'diplomatico' as SignalType,
-        titulo: title,
-        descripcion: `Fuente: ${a.sourcecountry ?? 'global'} · Tono: ${(a.tone ?? 0).toFixed(1)} · ${isSpanish ? 'ES' : a.language}`,
-        fuente: 'GDELT 2.0',
-        severidad: severityFromScore(score),
-        score,
-        pais: a.sourcecountry ?? 'global',
-        timestamp: a.seendate ? new Date(
-          a.seendate.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/, '$1-$2-$3T$4:$5:$6')
-        ).toISOString() : new Date().toISOString(),
-        url: a.url,
-        tags: ['gdelt', 'internacional', score >= 60 ? 'urgente' : 'monitor'],
-      }
-    })
-  } catch {
-    return []
-  }
+  })
 }
 
 // ─── GDELT GEO ────────────────────────────────────────────────────────────────
