@@ -19,10 +19,45 @@
 import { useState } from 'react'
 import { MapaNarrativasGlobal } from './MapaNarrativasGlobal'
 import { IntelRegional } from './IntelRegional'
+import type { CCAARegionStat } from '@/lib/news-aggregator'
+import type { NarrativeCluster } from '@/lib/medios/media-methodology'
 
 type MapaMode = 'espana' | 'global'
 
-export function MapasImpacto({ defaultMode = 'espana' }: { defaultMode?: MapaMode }) {
+/**
+ * Sprint G15-FIX C1+C3 · MapasImpacto ahora acepta datos del intel para
+ * enriquecer el panel lateral de cada CCAA. Las props son opcionales para
+ * mantener backward-compat con consumers que solo pasan defaultMode.
+ *
+ * - ccaaData          · stat por CCAA (volumen + sentimiento + topics)
+ * - narrativeClusters · clusters detectados · filtrar por territorial_spread
+ * - actorImpacts      · figuras/empresas con beneficial/harmful · filtrar
+ *                       por menciones en artículos de medios locales
+ *
+ * En C3 estos props se pasan a IntelRegional vía contexto/props.
+ */
+interface Props {
+  defaultMode?: MapaMode
+  ccaaData?: Record<string, CCAARegionStat>
+  narrativeClusters?: NarrativeCluster[]
+  actorImpacts?: Array<{
+    actor: string
+    mentions: number
+    dominant_impact: 'beneficial' | 'harmful' | 'neutral' | 'uncertain'
+    beneficial: number
+    harmful: number
+    neutral: number
+    uncertain: number
+    sample_reasons: string[]
+  }>
+}
+
+export function MapasImpacto({
+  defaultMode = 'espana',
+  ccaaData,
+  narrativeClusters,
+  actorImpacts,
+}: Props) {
   const [mode, setMode] = useState<MapaMode>(defaultMode)
 
   return (
@@ -81,8 +116,20 @@ export function MapasImpacto({ defaultMode = 'espana' }: { defaultMode?: MapaMod
         )}
       </section>
 
-      {/* Contenido según modo */}
-      {mode === 'espana' ? <IntelRegional /> : <MapaNarrativasGlobal />}
+      {/* Contenido según modo · Sprint G15-FIX C3: IntelRegional recibe los
+          datos del intel para mostrar narrativas y actores por territorio
+          en su panel lateral. Si los props vienen undefined, IntelRegional
+          hace fallback a su propio fetch interno (backward-compat). */}
+      {mode === 'espana'
+        ? (
+          <IntelRegional
+            ccaaData={ccaaData}
+            narrativeClusters={narrativeClusters}
+            actorImpacts={actorImpacts}
+          />
+        )
+        : <MapaNarrativasGlobal />
+      }
     </div>
   )
 }

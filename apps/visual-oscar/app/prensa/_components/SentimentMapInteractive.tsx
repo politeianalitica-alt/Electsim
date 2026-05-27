@@ -26,6 +26,20 @@ import { useApi } from '@/lib/useApi'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
 import type { CCAADeepDetail, ProvinceStat } from '@/lib/news-intel'
 import { CCAA_PROVINCES } from '@/lib/news-taxonomy'
+import type { NarrativeCluster } from '@/lib/medios/media-methodology'
+
+// Sprint G15-FIX C3 · ActorImpactRow tipo local (los nombres siguen el shape
+// que devuelve /api/medios/intel?include=actor_impacts)
+interface ActorImpactRow {
+  actor: string
+  mentions: number
+  dominant_impact: 'beneficial' | 'harmful' | 'neutral' | 'uncertain'
+  beneficial: number
+  harmful: number
+  neutral: number
+  uncertain: number
+  sample_reasons: string[]
+}
 
 interface GeoFeature { type: 'Feature'; properties: Record<string, unknown> | null; geometry: unknown }
 interface GeoFC { type: 'FeatureCollection'; features: GeoFeature[] }
@@ -83,7 +97,18 @@ function polarityColor(pol: number, volume: number, maxVol: number): string {
   return `rgba(100, 116, 139, ${(intensity * 0.6).toFixed(2)})`
 }
 
-export default function SentimentMapInteractive({ ccaaData }: { ccaaData?: Record<string, CCAARegionStat> }) {
+// Sprint G15-FIX C3 · narrativeClusters + actorImpacts opcionales
+// El componente filtra los que pertenecen al CCAA seleccionado y los muestra
+// en el panel lateral debajo del dossier de la CCAA.
+export default function SentimentMapInteractive({
+  ccaaData,
+  narrativeClusters,
+  actorImpacts,
+}: {
+  ccaaData?: Record<string, CCAARegionStat>
+  narrativeClusters?: NarrativeCluster[]
+  actorImpacts?: ActorImpactRow[]
+}) {
   const [geoCCAA, setGeoCCAA] = useState<GeoFC | null>(null)
   const [geoProvinces, setGeoProvinces] = useState<GeoFC | null>(null)
   const [selected, setSelected] = useState<string | null>(null)

@@ -2,28 +2,52 @@
 /**
  * `<IntelRegional />` · Tab 9 · Inteligencia regional CCAA.
  * Sentimiento + volumen por CCAA + medios regionales activos.
- * Usa /api/medios/intel ccaa breakdown.
+ *
+ * Sprint G15-FIX C1+C3 · ahora puede recibir los datos del intel (ccaaData +
+ * narrativeClusters + actorImpacts) como props para evitar un fetch duplicado.
+ * Si las props vienen undefined, hace fallback a su fetch propio (preserva
+ * backward-compat con consumers que lo usaban suelto).
  */
 import { useEffect, useState } from 'react'
 import SentimentMapInteractive from './SentimentMapInteractive'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
+import type { NarrativeCluster } from '@/lib/medios/media-methodology'
 
 const ACCENT = '#16A34A'
 
-export function IntelRegional() {
-  const [ccaa, setCcaa] = useState<Record<string, CCAARegionStat> | null>(null)
-  const [loading, setLoading] = useState(true)
+interface Props {
+  ccaaData?: Record<string, CCAARegionStat>
+  narrativeClusters?: NarrativeCluster[]
+  actorImpacts?: Array<{
+    actor: string
+    mentions: number
+    dominant_impact: 'beneficial' | 'harmful' | 'neutral' | 'uncertain'
+    beneficial: number
+    harmful: number
+    neutral: number
+    uncertain: number
+    sample_reasons: string[]
+  }>
+}
+
+export function IntelRegional({ ccaaData, narrativeClusters, actorImpacts }: Props = {}) {
+  // Si el parent (MapasImpacto) pasa ccaaData, lo usamos directo y evitamos
+  // el fetch. Si no llega, hacemos fallback al fetch propio.
+  const [fetchedCcaa, setFetchedCcaa] = useState<Record<string, CCAARegionStat> | null>(null)
+  const [loading, setLoading] = useState(!ccaaData)
+  const ccaa = ccaaData ?? fetchedCcaa
 
   useEffect(() => {
+    if (ccaaData) { setLoading(false); return }
     let alive = true
     // Sprint G15 FASE A · sources=100 + balance_mode=regional para que el
     // agregador no tape la realidad local con grandes nacionales.
     fetch('/api/medios/intel?hours=72&sources=100&balance_mode=regional', { cache: 'force-cache' })
       .then((r) => r.json())
-      .then((d) => { if (alive) { setCcaa(d?.ccaa || null); setLoading(false) } })
+      .then((d) => { if (alive) { setFetchedCcaa(d?.ccaa || null); setLoading(false) } })
       .catch(() => { if (alive) setLoading(false) })
     return () => { alive = false }
-  }, [])
+  }, [ccaaData])
 
   // Sprint G15 FASE A · BUG FIX crítico
   // `byCCAA()` en lib/news-aggregator.ts devuelve {n, pos, neg, neu, sent_score, top_topics}.
@@ -62,7 +86,11 @@ export function IntelRegional() {
           Mapa de sentimiento regional · click CCAA para drill
         </p>
         <div style={{ marginTop: 8 }}>
-          <SentimentMapInteractive ccaaData={ccaa || undefined} />
+          <SentimentMapInteractive
+            ccaaData={ccaa || undefined}
+            narrativeClusters={narrativeClusters}
+            actorImpacts={actorImpacts}
+          />
         </div>
       </section>
 

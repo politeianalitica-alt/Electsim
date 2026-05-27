@@ -281,12 +281,27 @@ export default function PrensaPage() {
   // Tabs que necesitan el endpoint /intel (resto autónomas):
   // - mapa-medios va a /api/medios (catálogo), no a /intel
   // - observatorio-informacion va a sus propios endpoints (factcheck + desinformacion)
-  const tabsThatNeedIntel: MediosTabId[] = ['pulso', 'narrativas', 'tendencias']
+  // - busqueda usa NewsAPI por demanda dentro de BusquedaPuntual
+  //
+  // Sprint G15-FIX C1 · mapas SÍ necesita el intel para alimentar MapasImpacto
+  // con narrative_clusters + actor_impacts por territorio. Antes con sources=0
+  // el endpoint devolvía vacío y MapasImpacto quedaba sin contexto.
+  const tabsThatNeedIntel: MediosTabId[] = ['pulso', 'narrativas', 'tendencias', 'mapas']
   const needsIntel = tabsThatNeedIntel.includes(safeActiveTab)
   // Sprint G15 FASE C · pulso necesita topic_importance · resto no para no inflar.
   const includeTopicImportance = safeActiveTab === 'pulso'
+  // Sprint G15-FIX C1 · cuando needsIntel pedimos SIEMPRE el set completo de
+  // campos (era acotado solo a pulso antes y tendencias/narrativas/mapas
+  // recibían un subset que dejaba TendenciasImpactoView, MapasImpacto y
+  // NarrativesFramingWorkbench sin actor_impacts, framing_comparison,
+  // readings_summary, coverage_gaps, analysis_warnings, methodology_confidence,
+  // followup_queries, topicparty, figures, clusters).
+  const INCLUDE_FULL = 'feed,narratives,topicparty,figures,companies,sectors,clusters,gaps,ccaa,methodology,narrative_clusters,figures_v2,readings_summary,framing_comparison,actor_impacts,coverage_gaps,analysis_warnings,methodology_confidence,followup_queries'
+  const includeQuery = needsIntel
+    ? `&include=${INCLUDE_FULL}${includeTopicImportance ? ',topic_importance' : ''}`
+    : ''
   const { data, source, loading, refresh, updatedAt } = useApi<IntelResponse>(
-    `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 100 : 0}&balance_mode=${balanceMode}${includeTopicImportance ? '&include=feed,narratives,companies,sectors,clusters,gaps,ccaa,methodology,narrative_clusters,figures_v2,topic_importance' : ''}`,
+    `/api/medios/intel?hours=${hours}&sources=${needsIntel ? 100 : 0}&balance_mode=${balanceMode}${includeQuery}`,
     { refreshInterval: needsIntel ? 300_000 : 0 },
   )
 
@@ -584,7 +599,22 @@ export default function PrensaPage() {
                     title="Lectura Politeia de Mapas"
                     collapsedByDefault
                   />
-                  <MapasImpacto defaultMode="espana" />
+                  {/* Sprint G15-FIX C1+C3 · MapasImpacto ahora recibe los datos
+                      del intel (narrative_clusters + actor_impacts) para enriquecer
+                      el panel lateral de cada CCAA con narrativas en ese territorio y
+                      actores locales en tendencia. Props son opcionales por backward-compat. */}
+                  <MapasImpacto
+                    defaultMode="espana"
+                    ccaaData={data?.ccaa}
+                    // Cast necesario · el tipo inline `narrative_clusters` declarado en
+                    // IntelResponse (page.tsx L138-176) es más estrecho que el
+                    // NarrativeCluster ampliado de media-methodology.ts. Los datos del
+                    // endpoint SÍ contienen los campos extra (key_messages, target_audiences,
+                    // channels, etc.) porque buildNarrativeClustersDetailed los emite ·
+                    // en C2 unificamos la fuente del tipo y este cast desaparece.
+                    narrativeClusters={(data?.narrative_clusters ?? []) as any}
+                    actorImpacts={data?.actor_impacts ?? []}
+                  />
                 </div>
               )}
 
