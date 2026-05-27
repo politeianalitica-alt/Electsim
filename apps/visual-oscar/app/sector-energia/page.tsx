@@ -22,6 +22,7 @@ import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
+import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
 
 // ─── Tipos de respuesta ──────────────────────────────────
 interface ResumenResp {
@@ -161,6 +162,18 @@ export default function SectorEnergiaPage() {
  <HeroKPI label="Emisiones" value={resumen?.kpis.emisiones_co2_g} unit="g/kWh" accent="#FCA5A5"/>
  </div>
  </section>
+
+        {/* ───── Commodities globales · OPEC oil + LBMA gold + US 10Y ─────
+            Sprint Nasdaq-Wire · contexto global de precios energéticos y
+            tipos largos que afectan al sector. Datos oficiales LBMA/OPEC/FRED
+            via /api/nasdaq/snapshot. Si NASDAQ_DATA_LINK_KEY no está
+            configurada, muestra empty state honesto. */}
+        <div style={{ marginBottom: 14 }}>
+          <NasdaqMacroSnapshot
+            variant="dashboard"
+            subset={['opec_oil', 'gold_lbma_am', 'fred_us_10y_yield']}
+          />
+        </div>
 
         {/* ───── Ember Energy · contexto histórico y comparado ───── */}
         <div style={{ marginBottom: 14 }}>

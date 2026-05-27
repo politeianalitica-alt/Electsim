@@ -15,6 +15,7 @@ import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
+import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
 import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { ComtradeSpainOverview } from '@/components/trade/ComtradeSpainOverview'
@@ -1014,6 +1015,10 @@ export default function DashboardPage() {
           }}
         >
           <MarketSnapshot variant="dashboard" compact={false} />
+          {/* Sprint Nasdaq-Wire · macro USA + commodities oficiales (LBMA/OPEC/FRED).
+              Si NASDAQ_DATA_LINK_KEY no está en env vars, muestra empty state honesto
+              en lugar de fingir datos. Cache 6h en el endpoint. */}
+          <NasdaqMacroSnapshot variant="dashboard" />
           <AcledSpainContext days={30} compact />
           <EmberSpainElectricity compact />
           <ComtradeSpainOverview compact />
