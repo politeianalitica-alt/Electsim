@@ -20,6 +20,7 @@ export type EsiosCategory =
   | 'intercambios'
   | 'almacenamiento'
   | 'mercado'
+  | 'prediccion'
 
 export interface EsiosCatalogItem {
   id: number
@@ -506,6 +507,65 @@ export const ESIOS_CATALOG: Record<string, EsiosCatalogItem> = {
     use_case: 'Coste de balancear el sistema · sube si renovable no se predice bien',
     geo_default: 8741,
   },
+  terciaria_bajar: {
+    id: 1783,
+    slug: 'terciaria_bajar',
+    label: 'Precio terciaria · bajar',
+    short: 'Terc. bajar',
+    unit: '€/MWh',
+    frequency: 'horaria',
+    category: 'mercado',
+    use_case: 'Energía de bajada · activación 15 min · exceso de generación',
+    geo_default: 8741,
+  },
+  restricciones_tecnicas: {
+    id: 10095,
+    slug: 'restricciones_tecnicas',
+    label: 'Coste restricciones técnicas',
+    short: 'Restricciones',
+    unit: '€/MWh',
+    frequency: 'horaria',
+    category: 'mercado',
+    use_case: 'Coste de redespacho por congestiones de red · indicador estrés transporte',
+    geo_default: 8741,
+  },
+
+  // ───────────────────────────────────────────────────────────────
+  // PREDICCIONES REE D+1 · forecasts oficiales del operador
+  // ───────────────────────────────────────────────────────────────
+  prediccion_eolica: {
+    id: 541,
+    slug: 'prediccion_eolica',
+    label: 'Previsión generación eólica',
+    short: 'Prev. eólica',
+    unit: 'MW',
+    frequency: 'horaria',
+    category: 'prediccion',
+    use_case: 'Forecast oficial REE D+1 · base programación del mercado',
+    geo_default: 8741,
+  },
+  prediccion_solar: {
+    id: 542,
+    slug: 'prediccion_solar',
+    label: 'Previsión generación solar fotovoltaica',
+    short: 'Prev. solar PV',
+    unit: 'MW',
+    frequency: 'horaria',
+    category: 'prediccion',
+    use_case: 'Forecast solar PV D+1 · clave para curva pato y precios mediodía',
+    geo_default: 8741,
+  },
+  prediccion_renovable: {
+    id: 10034,
+    slug: 'prediccion_renovable',
+    label: 'Previsión generación renovable total',
+    short: 'Prev. renovable',
+    unit: 'MW',
+    frequency: 'horaria',
+    category: 'prediccion',
+    use_case: 'Suma forecast renovable D+1 · driver % renovable previsto sistema',
+    geo_default: 8741,
+  },
 } as const
 
 export type EsiosSlug = keyof typeof ESIOS_CATALOG
@@ -546,7 +606,25 @@ export const ESIOS_MERCADO_AJUSTE_SLUGS: EsiosSlug[] = [
   'banda_secundaria_subir',
   'banda_secundaria_bajar',
   'terciaria_subir',
+  'terciaria_bajar',
   'desvios',
+  'restricciones_tecnicas',
+]
+
+/** Predicciones REE D+1 con sus pares reales · 3 forecasts + 3 reales */
+export const ESIOS_PREDICCION_SLUGS: EsiosSlug[] = [
+  'prediccion_eolica',
+  'prediccion_solar',
+  'prediccion_renovable',
+  'demanda_prevista',
+]
+
+/** Reales correspondientes para comparativa real-vs-prevista */
+export const ESIOS_PREDICCION_REALES_SLUGS: EsiosSlug[] = [
+  'gen_eolica',
+  'gen_solar_fv',
+  'gen_renovable_total',
+  'demanda_real',
 ]
 
 /** Precios completo · PVPC + spot + 4 intradiarios · serie 48h */
