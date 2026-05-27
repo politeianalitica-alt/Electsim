@@ -7,7 +7,7 @@ API docs: https://apidocs.acleddata.com/
 Requiere ACLED_API_KEY y ACLED_EMAIL.
 Si no están, devuelve vacío con warning — nunca rompe.
 
-Reutiliza lógica de etl/sources/geo/scraper_acled.py cuando es posible.
+Producción: NO devuelve datos demo salvo que GEOPOLITICS_ALLOW_DEMO_DATA=1.
 """
 from __future__ import annotations
 
@@ -46,6 +46,11 @@ EVENT_SEVERITY: dict[str, str] = {
 }
 
 
+def _demo_allowed() -> bool:
+    """Dev/demo switch. Production default is false."""
+    return os.getenv("GEOPOLITICS_ALLOW_DEMO_DATA", "").strip().lower() in {"1", "true", "yes", "on"}
+
+
 def fetch_acled_events(
     countries: list[str] | None = None,
     start_date: date | None = None,
@@ -56,18 +61,8 @@ def fetch_acled_events(
     """
     Obtiene eventos ACLED recientes.
 
-    Si no hay credenciales, intenta usar el scraper legado.
-    Si tampoco, devuelve demo data.
-
-    Args:
-        countries: Lista de ISO3 de países. None = países relevantes para España.
-        start_date: Fecha inicio. None = últimos 30 días.
-        end_date: Fecha fin. None = hoy.
-        limit: Máximo de eventos.
-        event_types: Filtrar por tipos de evento.
-
-    Returns:
-        Lista de GeoEvent normalizados.
+    Si no hay credenciales o ACLED falla, devuelve [] por defecto.
+    Solo devuelve demo data si GEOPOLITICS_ALLOW_DEMO_DATA=1.
     """
     api_key = os.getenv("ACLED_API_KEY", "")
     email = os.getenv("ACLED_EMAIL", "")
@@ -90,16 +85,19 @@ def fetch_acled_events(
         if events:
             return events
 
-    # Fallback: scraper legado
+    # Fallback: scraper legado. Este también debe respetar no-demo en producción.
     events = _fetch_from_legacy_scraper(
         countries=countries, start_date=start_date, end_date=end_date, limit=limit
     )
     if events:
         return events
 
-    # Fallback: demo data
-    logger.debug("ACLED: usando datos demo (sin credenciales ni scraper)")
-    return _generate_demo_events(limit=min(limit, 20))
+    if _demo_allowed():
+        logger.warning("ACLED: usando datos demo porque GEOPOLITICS_ALLOW_DEMO_DATA=1")
+        return _generate_demo_events(limit=min(limit, 20))
+
+    logger.warning("ACLED no disponible: sin credenciales/aprobación o sin respuesta. Devolviendo [] (sin demo).")
+    return []
 
 
 def normalize_acled_event(raw: dict[str, Any]) -> GeoEvent | None:
@@ -117,7 +115,7 @@ def normalize_acled_event(raw: dict[str, Any]) -> GeoEvent | None:
         event_date_raw = raw.get("event_date", str(date.today()))
         event_type = raw.get("event_type", "Unknown").lower()
 
-        country_iso3 = _acled_country_to_iso3(country)
+        country_iso3 = raw.get("iso3") or _acled_country_to_iso3(country)
         severity = _compute_acled_severity(raw)
 
         return GeoEvent(
@@ -160,7 +158,7 @@ def acled_health_check() -> GeoSourceHealth:
             available=False,
             api_key_required=True,
             api_key_present=False,
-            error="ACLED_API_KEY o ACLED_EMAIL no configurados",
+            error="ACLED_API_KEY o ACLED_EMAIL no configurados / acceso ACLED no aprobado",
         )
 
     try:
@@ -224,7 +222,7 @@ def _fetch_from_api(
             "event_date_where": "BETWEEN",
             "fields": (
                 "data_id|event_date|event_type|sub_event_type|"
-                "country|region|location|latitude|longitude|"
+                "country|region|location|latitude|longitude|iso3|"
                 "actor1|actor2|fatalities|source|source_url|"
                 "notes"
             ),
@@ -233,7 +231,6 @@ def _fetch_from_api(
         if countries:
             params["iso3"] = "|".join(countries)
         else:
-            # Países relevantes para España
             relevant = list(SPAIN_RELEVANCE.keys())[:30]
             params["iso3"] = "|".join(relevant)
 
@@ -290,7 +287,7 @@ def _fetch_from_legacy_scraper(
 
 
 def _generate_demo_events(limit: int = 10) -> list[GeoEvent]:
-    """Datos demo cuando no hay ACLED disponible."""
+    """Datos demo solo para desarrollo explícito."""
     from datetime import date
     demo = [
         {"country": "Ukraine", "iso3": "UKR", "type": "battles", "fat": 45, "actor1": "Russian Forces", "actor2": "AFU"},
