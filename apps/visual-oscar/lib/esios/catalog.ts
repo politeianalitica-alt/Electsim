@@ -160,6 +160,50 @@ export const ESIOS_CATALOG: Record<string, EsiosCatalogItem> = {
     use_case: 'Cuánto ha contratado el mercado para producir',
     geo_default: 8741,
   },
+  demanda_canarias: {
+    id: 1738,
+    slug: 'demanda_canarias',
+    label: 'Demanda real Canarias',
+    short: 'Demanda Canarias',
+    unit: 'MW',
+    frequency: '10min',
+    category: 'demanda',
+    use_case: 'Sistema aislado · perfil distinto a Península · alta dependencia diesel/fuel',
+    geo_default: 8742,
+  },
+  demanda_baleares: {
+    id: 1739,
+    slug: 'demanda_baleares',
+    label: 'Demanda real Baleares',
+    short: 'Demanda Baleares',
+    unit: 'MW',
+    frequency: '10min',
+    category: 'demanda',
+    use_case: 'Sistema con enlace submarino HVDC a Península · pico estival turismo',
+    geo_default: 8743,
+  },
+  demanda_ceuta: {
+    id: 1740,
+    slug: 'demanda_ceuta',
+    label: 'Demanda real Ceuta',
+    short: 'Demanda Ceuta',
+    unit: 'MW',
+    frequency: '10min',
+    category: 'demanda',
+    use_case: 'Sistema pequeño aislado · diesel · proyectos cable interconexión',
+    geo_default: 8744,
+  },
+  demanda_melilla: {
+    id: 1741,
+    slug: 'demanda_melilla',
+    label: 'Demanda real Melilla',
+    short: 'Demanda Melilla',
+    unit: 'MW',
+    frequency: '10min',
+    category: 'demanda',
+    use_case: 'Sistema pequeño aislado · diesel · proyecto interconexión Marruecos',
+    geo_default: 8745,
+  },
 
   // ───────────────────────────────────────────────────────────────
   // GENERACIÓN POR TECNOLOGÍA · mix detallado
@@ -537,6 +581,40 @@ export const ESIOS_MIX_AGREGADO_SLUGS: EsiosSlug[] = [
   'porcentaje_libre_co2',
   'emisiones_co2',
 ]
+
+/** Demanda 5 sistemas eléctricos · peninsular + 4 no peninsulares */
+export const ESIOS_DEMANDA_SISTEMAS_SLUGS: EsiosSlug[] = [
+  'demanda_real',
+  'demanda_canarias',
+  'demanda_baleares',
+  'demanda_ceuta',
+  'demanda_melilla',
+]
+
+/** Demanda peninsular · real + prevista + programada · para chart MAPE */
+export const ESIOS_DEMANDA_FORECAST_SLUGS: EsiosSlug[] = [
+  'demanda_real',
+  'demanda_prevista',
+  'demanda_programada',
+]
+
+/** Geo IDs sistemas eléctricos · para llamadas con geo_default distinto */
+export const ESIOS_GEO_SYSTEMS = {
+  peninsula: 8741,
+  canarias: 8742,
+  baleares: 8743,
+  ceuta: 8744,
+  melilla: 8745,
+} as const
+
+/** Coordenadas centroides de los 5 sistemas (lat, lon) · para mapa SVG */
+export const ESIOS_GEO_COORDS: Record<string, { lat: number; lon: number; name: string }> = {
+  peninsula: { lat: 40.4, lon: -3.7, name: 'Península' },
+  canarias: { lat: 28.3, lon: -16.5, name: 'Canarias' },
+  baleares: { lat: 39.7, lon: 3.0, name: 'Baleares' },
+  ceuta: { lat: 35.9, lon: -5.3, name: 'Ceuta' },
+  melilla: { lat: 35.3, lon: -2.9, name: 'Melilla' },
+}
 
 /** Colores recomendados por tecnología · convención sectorial energía */
 export const ESIOS_TECH_COLORS: Record<string, string> = {
