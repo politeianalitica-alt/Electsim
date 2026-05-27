@@ -94,7 +94,7 @@ const DIM_DESC: Record<string, string> = {
 const DIM_SOURCES: Record<string, string> = {
   institutional: 'Banco Mundial WGI · V-Dem · CIS confianza',
   electoral: 'Wikipedia agregador encuestas · CIS · 40dB',
-  geopolitical: 'Banco Mundial gasto militar · GPR Caldara · ACLED',
+  geopolitical: 'Banco Mundial gasto militar · GPR Caldara · UCDP · GDELT',
   economic: 'ECB SDW (DFR) · INE TempUS (IPC) · Banco Mundial',
   media: 'GDELT 2.0 · RSS 30 medios · sentiment NLP',
   social: 'Banco Mundial paro 16-24 · INE EPA · Politeia Lab',
@@ -126,10 +126,10 @@ const SOURCE_URL: Record<string, string> = {
   // GDELT
  'GDELT': 'https://www.gdeltproject.org/',
  'GDELT 2.0': 'https://www.gdeltproject.org/',
-  // GPR / ACLED / V-Dem
+  // Conflicto / V-Dem · UCDP es el sustituto de ACLED
  'GPR': 'https://www.matteoiacoviello.com/gpr.htm',
  'GPR Caldara': 'https://www.matteoiacoviello.com/gpr.htm',
- 'ACLED': 'https://acleddata.com/',
+ 'UCDP': 'https://ucdp.uu.se/',
  'V-Dem': 'https://v-dem.net/',
   // Encuestas
  'CIS': 'https://www.cis.es/',

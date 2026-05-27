@@ -497,7 +497,13 @@ export default function GeopoliticaPage() {
           ))}
         </div>
 
-        {/* ───── ACLED · Conflictos en entorno geopolítico ES ───── */}
+        {/* ───── Conflictos en entorno geopolítico ES ─────
+            Sprint Geo-FIX · este bloque usaba ACLED como fuente. Como la
+            API de ACLED nos fue denegada, el componente AcledSpainContext
+            se mantiene técnicamente vivo (vive en components/geopolitics/)
+            pero su render principal viene del fallback RSS/GDELT/UCDP.
+            En la UI nos referimos genéricamente a "eventos hard" o "señal
+            táctica" sin citar ACLED. */}
         <div style={{ margin: '18px 0' }}>
           <AcledSpainContext days={30} />
         </div>
@@ -532,9 +538,10 @@ export default function GeopoliticaPage() {
             <div style={{ marginBottom: 16 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
                 <strong style={{ color: '#0f172a' }}>Capa 1 · señal rápida + analítica de convergencia.</strong>{' '}
-                Radar global combinando ACLED + GDELT + OSINT, más detección automática de
-                países donde 2+ capas (táctica · estructural · humanitaria · consular)
-                convergen en señal de riesgo elevado al mismo tiempo.
+                Radar global combinando GDELT (saliencia mediática 7d) + UCDP (conflicto
+                estructural anual) + ReliefWeb (humanitario) + OSINT abierto, más detección
+                automática de países donde 2+ capas (táctica · estructural · humanitaria ·
+                consular) convergen en señal de riesgo elevado al mismo tiempo.
               </p>
             </div>
             {/* Sprint G8 · Convergence alerts (hero analítico) */}
@@ -554,18 +561,18 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 1 — Conflictos, violencia política & protestas · ACLED + UCDP + Timeline */}
+        {/* TAB 1 — Conflictos, violencia política & protestas · UCDP + GDELT + ReliefWeb */}
         {tab === 1 && (
           <div>
             <div style={{ marginBottom: 16 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
                 <strong style={{ color: '#0f172a' }}>Capa 2 · evento duro verificable.</strong>{' '}
-                Sprint G13 FASE 13 · orden spec: ACLED táctico (30d) + UCDP estructural
-                (anual histórico · NO indica deterioro de hoy) + Country Timeline (vista
-                cronológica multi-source para un país).
+                Combinación de UCDP (Uppsala · conflicto armado anual, serie larga 1946-actual,
+                con intensidad estructural) + GDELT (saliencia mediática 24h-30d) + ReliefWeb
+                (humanitario) + Country Timeline cronológico multi-source por país.
               </p>
             </div>
-            {/* 1 · ACLED · señal táctica 30d */}
+            {/* 1 · Contexto España · señal táctica 30d (UCDP+GDELT+RSS) */}
             <div style={{ marginBottom: 18 }}>
               <AcledSpainContext days={30} />
             </div>
@@ -925,7 +932,7 @@ export default function GeopoliticaPage() {
                 International Crisis Group (early warning analyst-grade) + ISW/Critical
                 Threats (briefings operativos teatro) + indicadores OSINT estructurados +
                 cascading events GDELT. Análisis cualitativo, no dato duro · validar siempre
-                con ACLED + UCDP.
+                con UCDP (estructural) y ReliefWeb (humanitario).
               </p>
             </div>
             {/* Sprint G10 · Theme clustering emergente sobre 6 RSS feeds (Gemini) */}

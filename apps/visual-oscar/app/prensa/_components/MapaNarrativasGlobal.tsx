@@ -195,7 +195,7 @@ export function MapaNarrativasGlobal() {
         </Field>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
           <p style={{ fontSize: 10, color: '#94a3b8', margin: 0 }}>
-            Ventana: <strong>24h-30d</strong> · ACLED+GDELT
+            Ventana: <strong>24h-30d</strong> · GDELT + crisis humanitaria
           </p>
         </div>
       </div>
@@ -231,7 +231,7 @@ export function MapaNarrativasGlobal() {
 
         {loading ? (
           <div style={{ height: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>
-            Cargando eventos globales (ACLED + GDELT)…
+            Cargando eventos globales (GDELT + crisis humanitaria)…
           </div>
         ) : error ? (
           <div style={{ padding: 24, color: '#fca5a5' }}>⚠ {error}</div>
@@ -325,7 +325,7 @@ export function MapaNarrativasGlobal() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10, marginTop: 12 }}>
               <Kpi label="Relevancia" value={`${selectedEvent.relevance.toFixed(0)} / 100`} accent="#0891B2" />
               <Kpi label="Volumen total" value={String(selectedEvent.n_total)} accent="#7c3aed" />
-              <Kpi label="ACLED events" value={String(selectedEvent.n_acled)} accent="#dc2626" />
+              <Kpi label="Eventos hard" value={String(selectedEvent.n_acled)} accent="#dc2626" />
               <Kpi label="GDELT artículos" value={String(selectedEvent.n_gdelt)} accent="#1F4E8C" />
               <Kpi label="Sentimiento" value={`${(selectedEvent.sentiment * 100).toFixed(0)}%`} accent={selectedEvent.sentiment >= 0 ? '#10b981' : '#dc2626'} />
             </div>

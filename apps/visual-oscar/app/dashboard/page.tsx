@@ -1003,7 +1003,7 @@ export default function DashboardPage() {
            no contenido en vivo (los KPIs y tendencias se ven antes).
         */}
 
-        {/* ─── Mercados live (Finnhub) + Conflictos contexto España (ACLED) ─── */}
+        {/* ─── Mercados live (Finnhub) + Conflictos contexto España (UCDP + GDELT) ─── */}
         <section
           style={{
             marginTop: 24,

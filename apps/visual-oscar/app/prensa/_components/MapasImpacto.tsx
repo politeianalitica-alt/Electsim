@@ -75,7 +75,7 @@ export function MapasImpacto({
             <p style={{ margin: '4px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.5 }}>
               {mode === 'espana'
                 ? 'Modo ESPAÑA/CCAA · separa explícitamente CCAA del medio · CCAA mencionada en el contenido · CCAA políticamente afectada. No atribuye automáticamente una noticia a Andalucía sólo porque el medio sea andaluz si el contenido habla de Madrid.'
-                : 'Modo GLOBAL · cada país/evento con volumen mediático + severidad + relevancia para España + relación con actores ES/UE + frame dominante + fuente principal + confianza + explicación breve. ACLED 30d + GDELT 24h.'}
+                : 'Modo GLOBAL · cada país/evento con volumen mediático + severidad + relevancia para España + relación con actores ES/UE + frame dominante + fuente principal + confianza + explicación breve. GDELT 24h + crisis humanitaria 30d.'}
             </p>
           </div>
           <div style={{ display: 'inline-flex', background: '#f1f5f9', borderRadius: 999, padding: 3 }}>
@@ -108,8 +108,8 @@ export function MapasImpacto({
         )}
         {mode === 'global' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 8, marginTop: 8 }}>
-            <LayerExplainer label="Volumen mediático" desc="Cuánto se habla del país/evento (ACLED + GDELT)" color="#0891b2" />
-            <LayerExplainer label="Severidad" desc="Fatalities + intensidad ACLED + tono GDELT" color="#dc2626" />
+            <LayerExplainer label="Volumen mediático" desc="Cuánto se habla del país/evento (GDELT + crisis humanitaria)" color="#0891b2" />
+            <LayerExplainer label="Severidad" desc="Fatalities + intensidad UCDP + tono GDELT" color="#dc2626" />
             <LayerExplainer label="Relevancia España" desc="Exposición intereses ES (presencia, vínculos UE)" color="#1e40af" />
             <LayerExplainer label="Frame dominante" desc="Crisis · militar · diplomacia · humanitaria · ..." color="#7c3aed" />
           </div>
