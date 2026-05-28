@@ -1,11 +1,16 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import EntityBacklinks from '@/components/EntityBacklinks'
+import { CONGRESO_RESUMEN } from '@/data/congreso-fixture'
+import { SENADO_RESUMEN } from '@/data/senado-fixture'
+import { MEDIOS_FIXTURE } from '@/data/medios-fixture'
+import type { DossierResumen } from '@/data/dosieres-fixture'
 import './partidos.css'
 
 // Tipos del proxy /api/market/parties
@@ -664,7 +669,60 @@ export default function PartidosPage() {
 // ─────────────────────────────────────────────────────────────────────────
 // PartidoCard
 // ─────────────────────────────────────────────────────────────────────────
+// ── Conexión partido → personas de los dossiers (diputados, senadores, medios) ──
+const PK_ALIAS: Record<string, string> = { EHBILDU: 'BILDU', EAJPNV: 'PNV', CCA: 'CC', PSCPSOE: 'PSOE', PSC: 'PSOE', MASPAIS: 'SUMAR' }
+function partyKey(s: string): string {
+  const k = (s || '').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Z]/g, '')
+  return PK_ALIAS[k] || k
+}
+const REPS_BY_PARTY: Record<string, { diputados: DossierResumen[]; senadores: DossierResumen[] }> = (() => {
+  const m: Record<string, { diputados: DossierResumen[]; senadores: DossierResumen[] }> = {}
+  const slot = (k: string) => (m[k] ||= { diputados: [], senadores: [] })
+  for (const d of CONGRESO_RESUMEN) { const k = partyKey(d.partido || ''); if (k) slot(k).diputados.push(d) }
+  for (const d of SENADO_RESUMEN) { const k = partyKey(d.partido || ''); if (k) slot(k).senadores.push(d) }
+  return m
+})()
+
+const BLOC_GOB = new Set(['PSOE', 'SUMAR', 'ERC', 'JUNTS', 'BILDU', 'PNV', 'BNG', 'COMPROMIS'])
+type MedioRef = { slug: string; nombre: string }
+const MEDIOS_PRO_GOB: MedioRef[] = []
+const MEDIOS_ANTI_GOB: MedioRef[] = []
+for (const d of MEDIOS_FIXTURE) {
+  const redes = d.apartados.find((a) => a.tipo === 'redes')
+  const item = redes?.items.find((i) => /s[áa]nchez/i.test(i.titulo || ''))
+  const m = item?.contenido?.match(/nota\s*([+\-]?\d+)/i)
+  if (!m) continue
+  const n = parseInt(m[1], 10)
+  const ref = { slug: d.slug, nombre: d.nombre_completo }
+  if (n > 0) MEDIOS_PRO_GOB.push(ref)
+  else if (n < 0) MEDIOS_ANTI_GOB.push(ref)
+}
+
+function RepChips({ items, color, max = 12 }: { items: Array<{ slug: string; nombre_completo?: string; nombre?: string }>; color: string; max?: number }) {
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 6 }}>
+      {items.slice(0, max).map((d) => (
+        <Link key={d.slug} href={`/dosieres/${d.slug}`}
+          style={{ fontSize: 11, padding: '2px 9px', borderRadius: 999, background: `${color}12`, color: '#3a3a3d', textDecoration: 'none', border: `1px solid ${color}33` }}>
+          {d.nombre_completo || d.nombre || d.slug}
+        </Link>
+      ))}
+      {items.length > max && (
+        <Link href="/dosieres" style={{ fontSize: 11, padding: '2px 9px', borderRadius: 999, color, textDecoration: 'none', fontWeight: 700 }}>
+          +{items.length - max} más →
+        </Link>
+      )}
+    </div>
+  )
+}
+
 function PartidoCard({ p }: { p: Partido }) {
+  const pk = partyKey(p.siglas)
+  const reps = REPS_BY_PARTY[pk] || { diputados: [], senadores: [] }
+  const totalReps = reps.diputados.length + reps.senadores.length
+  const medios = BLOC_GOB.has(pk) ? MEDIOS_PRO_GOB : MEDIOS_ANTI_GOB
+  const [openReps, setOpenReps] = useState(false)
+  const repLbl = { fontSize: 10, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase' as const, color: '#86868b', marginTop: 10 }
   return (
     <article className="pt-card">
       <header className="pt-card-header" style={{
@@ -764,6 +822,26 @@ function PartidoCard({ p }: { p: Partido }) {
             fallbackName={p.nombre}
           />
         </div>
+
+        {/* Representantes y medios · conexión con los dossiers */}
+        {(totalReps > 0 || medios.length > 0) && (
+          <div style={{ marginTop: 14, borderTop: '1px solid #ececec', paddingTop: 10 }}>
+            <button onClick={() => setOpenReps(o => !o)}
+              style={{ width: '100%', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, color: p.color, padding: 0 }}>
+              {openReps ? '▾' : '▸'} Representantes y medios en fichas
+              <span style={{ color: '#86868b', fontWeight: 500 }}>
+                {totalReps > 0 ? ` · ${reps.diputados.length} dip. · ${reps.senadores.length} sen.` : ''}
+              </span>
+            </button>
+            {openReps && (
+              <div style={{ marginTop: 4 }}>
+                {reps.diputados.length > 0 && (<><div style={repLbl}>Diputados · Congreso ({reps.diputados.length})</div><RepChips items={reps.diputados} color={p.color} /></>)}
+                {reps.senadores.length > 0 && (<><div style={repLbl}>Senadores ({reps.senadores.length})</div><RepChips items={reps.senadores} color={p.color} /></>)}
+                {medios.length > 0 && (<><div style={repLbl}>Medios afines a su bloque ({medios.length})</div><RepChips items={medios} color={p.color} max={8} /></>)}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <footer className="pt-card-footer">
