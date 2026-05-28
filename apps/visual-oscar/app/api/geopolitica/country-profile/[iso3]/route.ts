@@ -390,33 +390,49 @@ interface SanctionsLayer {
 
 async function buildSanctions(req: NextRequest, iso3: string): Promise<SanctionsLayer | null> {
   const origin = req.nextUrl.origin
+  // FIX-A2 · /sanciones?iso=XXX ahora devuelve OpenSanctions live cuando matchea
   const data: any = await safeJson(
     `${origin}/api/geopolitica/sanciones?source=all&iso=${iso3}`,
-    8000,
+    10_000,
   )
   if (!data) return null
-  const list = Array.isArray(data.list) ? data.list : []
-  const byProgram: Record<string, number> = {}
-  for (const s of list) {
-    const k = s.source || s.program || 'unknown'
-    byProgram[k] = (byProgram[k] || 0) + 1
-  }
+  // El nuevo endpoint devuelve `sanctions` y `by_program` cuando es OpenSanctions live.
+  // Mantenemos retrocompat con shape antiguo `list`.
+  const list: any[] = Array.isArray(data.sanctions)
+    ? data.sanctions
+    : Array.isArray(data.list) ? data.list : []
+  const byProgram: Record<string, number> = data.by_program && typeof data.by_program === 'object'
+    ? data.by_program
+    : (() => {
+        const acc: Record<string, number> = {}
+        for (const s of list) {
+          const k = s.source || s.program || 'unknown'
+          acc[k] = (acc[k] || 0) + 1
+        }
+        return acc
+      })()
+  const totalCount = typeof data.n_sanctions === 'number' ? data.n_sanctions : list.length
+  const isLive = data.source === 'opensanctions'
   return {
-    total_count: list.length,
+    total_count: totalCount,
     by_program: byProgram,
-    sample: list.slice(0, 5).map((s: any) => ({
+    sample: list.slice(0, 8).map((s: any) => ({
       entity: s.entity || s.name || 'desconocido',
       source: s.source || s.program || '',
-      date: s.date,
-      reason: s.reason,
+      date: s.date || null,
+      reason: s.reason || '',
     })),
     _source: {
-      id: 'sanctions_consolidated',
-      name: 'OFAC SDN + EU Sanctions + UN Security Council',
-      access_type: 'public_static_file',
-      source_url: 'https://ofac.treasury.gov/specially-designated-nationals-list-data-formats-data-schemas',
-      what_it_measures: 'Entidades sancionadas (personas, empresas, buques) con país asociado · 3 listas consolidadas',
-      confidence: 'high',
+      id: isLive ? 'opensanctions' : 'sanctions_consolidated',
+      name: isLive
+        ? 'OpenSanctions API (333+ fuentes consolidadas)'
+        : 'OFAC SDN + EU Sanctions + UN Security Council (curado)',
+      access_type: isLive ? 'public_api_no_key' : 'public_static_file',
+      source_url: isLive
+        ? 'https://api.opensanctions.org/'
+        : 'https://ofac.treasury.gov/specially-designated-nationals-list-data-formats-data-schemas',
+      what_it_measures: 'Entidades sancionadas (personas, empresas, buques, aeronaves) asociadas al país · consulta live',
+      confidence: isLive ? 'high' : 'medium',
     },
   }
 }

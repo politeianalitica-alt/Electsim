@@ -30,6 +30,9 @@ import { cleanText as cleanEventText } from '@/lib/geopolitica/event-classifier'
 import { detectChinaCoverageAnomaly } from '@/lib/geopolitica/china-coverage-baseline'
 // FIX-A1 · cadena LLM Gemini → Groq → heurístico (en vez de Gemini hardcoded)
 import { withCascade, AiUnavailableError } from '@/lib/ai'
+// FIX-A2 · OpenSanctions API real para drawer país por ISO
+import { fetchEntitiesByCountry } from '@/lib/opensanctions/client'
+import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -399,7 +402,71 @@ async function fetchUnSanctionsCount(): Promise<number | null> {
   }
 }
 
-async function buildSanctionsFeed(source: string) {
+async function buildSanctionsFeed(source: string, iso?: string | null) {
+  // FIX-A2 · si se pasa `iso`, devolvemos entidades sancionadas REALES de ese país
+  // consultando OpenSanctions live (333+ fuentes consolidadas). Antes este endpoint
+  // solo devolvía 10 sanciones globales curadas sin filtrar por país, lo que hacía
+  // que el drawer país mostrara "Listas consolidadas no disponibles" para TODOS los
+  // países pequeños porque ningún item curado matcheaba.
+  if (iso && iso.length === 3) {
+    const coord = COUNTRY_COORDS[iso.toUpperCase()]
+    if (coord) {
+      const iso2 = coord.iso2.toLowerCase()
+      try {
+        const r = await fetchEntitiesByCountry(iso2, 25)
+        if (r.ok && r.data.total > 0) {
+          // Agrupar por dataset (programa de sanciones)
+          const byProgram: Record<string, number> = {}
+          for (const e of r.data.entities) {
+            for (const d of e.datasets) {
+              byProgram[d] = (byProgram[d] || 0) + 1
+            }
+          }
+          return {
+            ok: true,
+            source: 'opensanctions',
+            iso3: iso.toUpperCase(),
+            country: coord.name_es,
+            n_sanctions: r.data.total,
+            entities_loaded: r.data.entities.length,
+            by_program: byProgram,
+            sanctions: r.data.entities.map((e) => ({
+              entity: e.caption,
+              schema: e.schema,
+              source: e.datasets.join(' + '),
+              date: e.first_seen?.slice(0, 10) || null,
+              reason: e.sanctions_programs.join(', ') || e.notes || '',
+              countries: e.countries,
+              aliases: e.aliases.slice(0, 5),
+            })),
+            sources_covered: ['OpenSanctions API · 333+ fuentes (OFAC SDN + EU FSF + UNSC + UK OFSI + otros)'],
+            methodology: 'Búsqueda LIVE en OpenSanctions consolidado por ISO2 país. Datos en tiempo real, no curados a mano.',
+            cite_apis: { OpenSanctions: 'https://api.opensanctions.org/' },
+          }
+        }
+        // OpenSanctions OK pero país sin entidades sancionadas registradas
+        if (r.ok) {
+          return {
+            ok: true,
+            source: 'opensanctions',
+            iso3: iso.toUpperCase(),
+            country: coord.name_es,
+            n_sanctions: 0,
+            entities_loaded: 0,
+            by_program: {},
+            sanctions: [],
+            sources_covered: ['OpenSanctions API · 333+ fuentes'],
+            methodology: `Sin entidades sancionadas registradas para ${coord.name_es} en OpenSanctions (consulta live).`,
+            cite_apis: { OpenSanctions: 'https://api.opensanctions.org/' },
+          }
+        }
+        // Falló OpenSanctions · seguimos al fallback curado abajo
+      } catch {
+        // Falló · seguimos al fallback curado abajo
+      }
+    }
+  }
+  // ── Fallback CURADO (modo legacy · solo si no se pasó iso o falló OpenSanctions)
   // Lista curada de sanciones recientes UE+OFAC+UN (top 15 últimos 90d)
   // Esta lista se enriquece manualmente; auto-scrape pendiente N+1
   const CURATED: Array<{ date: string; source: 'EU' | 'OFAC' | 'UN'; entity: string; reason: string; sector: string; spain_exposure?: string }> = [
@@ -2871,7 +2938,9 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
 
   if (action === 'sanciones') {
     const source = url.searchParams.get('source') || 'all'
-    return NextResponse.json(await buildSanctionsFeed(source), {
+    // FIX-A2 · pasa iso para que el drawer país pueda pedir sanciones específicas
+    const iso = url.searchParams.get('iso')
+    return NextResponse.json(await buildSanctionsFeed(source, iso), {
       headers: { 'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=86400' },
     })
   }
