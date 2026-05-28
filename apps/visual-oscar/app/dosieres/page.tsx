@@ -207,7 +207,7 @@ export default function DosieresPage() {
     for (const d of IBEX35_RESUMEN) bySlug.set(d.slug, d)
     for (const d of DIPUTACIONES_RESUMEN) bySlug.set(d.slug, d)
     for (const d of PODER_RESUMEN) bySlug.set(d.slug, d)
-    return [...bySlug.values()]
+    return Array.from(bySlug.values())
   }, [apiDosieres])
 
   // Enriquecer cada dossier con tipo + subcat inferidos (memoizado).

@@ -334,8 +334,7 @@ export default function FigureDossierModal({ figureId, byName, onClose, onSelect
                   full_name: data.figure.nombre,
                   cargo: data.figure.cargo,
                   partido: data.figure.afiliacion,
-                  organizacion: data.figure.organizacion,
-                  afiliacion: data.figure.afiliacion,
+                  organization: data.figure.organizacion,
                   tipo: data.figure.category,
                   dossier_slug: data.figure.id,
                 }}

@@ -312,6 +312,7 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
             cargo: dossier.cargo_actual,
             partido: dossier.partido,
             dossier_slug: dossier.slug,
+            tipo: (dossier.tags || []).join(' ') || null,
           }}
         />
 
