@@ -15,7 +15,7 @@
       "faes"
     ],
     "confidence": 0.88,
-    "completeness": 0.78,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -24,7 +24,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1953. Inspector de Hacienda. Presidente del Gobierno entre 1996 y 2004 (dos legislaturas, la segunda con mayoría absoluta)."
+            "contenido": "José María Aznar López (Madrid, 25 de febrero de 1953) fue presidente del Gobierno entre 1996 y 2004 por el Partido Popular. Inspector de Hacienda de formación, lideró la consolidación del centro-derecha español, el saneamiento económico y la entrada en el euro, y hoy mantiene una influencia notable desde la Fundación FAES."
           }
         ]
       },
@@ -34,14 +34,38 @@
         "items": [
           {
             "tipo": "evento",
+            "titulo": "De inspector de Hacienda a Castilla y León",
+            "contenido": "Inspector de Hacienda del Estado, dio el salto a la política en Alianza Popular. Fue presidente de la Junta de Castilla y León (1987-1989) antes de asumir el liderazgo nacional del partido refundado como Partido Popular.",
+            "fecha": "1987-07-26"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Líder de la oposición y atentado de ETA",
+            "contenido": "Designado sucesor de Manuel Fraga al frente del PP en 1990, modernizó y centró el partido. En 1995 sobrevivió a un atentado de ETA con coche bomba en Madrid, episodio que marcó su trayectoria y su firmeza antiterrorista.",
+            "fecha": "1990-09-04"
+          },
+          {
+            "tipo": "evento",
             "titulo": "Presidente del Gobierno",
-            "contenido": "Gobierna 1996-2004. Entrada en el euro, crecimiento económico, apoyo a la guerra de Irak (Foto de las Azores, 2003).",
+            "contenido": "Ganó las elecciones de 1996 y gobernó primero en minoría con apoyo de los nacionalistas catalanes y vascos. El saneamiento de las cuentas y el crecimiento permitieron a España entrar en el euro. En 2000 revalidó con mayoría absoluta y endureció su perfil.",
             "fecha": "1996-05-05"
           },
           {
             "tipo": "evento",
-            "titulo": "FAES",
-            "contenido": "Tras dejar la política activa, preside FAES, think tank de referencia del liberal-conservadurismo español.",
+            "titulo": "Giro atlantista y la foto de las Azores",
+            "contenido": "En su segundo mandato dio un marcado giro atlantista. Su apoyo a la invasión de Irak en 2003, simbolizado en la cumbre de las Azores junto a Bush y Blair, fue contestado por amplias movilizaciones y dividió al país.",
+            "fecha": "2003-03-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El 11-M y la salida del poder",
+            "contenido": "Los atentados yihadistas del 11 de marzo de 2004, tres días antes de las elecciones, y la gestión informativa de la autoría marcaron el final de su etapa. El PP, que no se presentaba con Aznar como candidato (cumplió su palabra de no agotar un tercer mandato), perdió frente a Zapatero.",
+            "fecha": "2004-03-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "FAES y la influencia en la derecha",
+            "contenido": "Desde la Fundación FAES se ha convertido en el referente ideológico del ala más conservadora y atlantista del PP. Mantiene una influencia notable y ejerce de voz crítica tanto con el Gobierno de Sánchez como, en ocasiones, con la estrategia de moderación de Feijóo.",
             "fecha": "2004-04-01"
           }
         ]
@@ -54,6 +78,15 @@
             "tipo": "dato",
             "titulo": "Línea ideológica",
             "contenido": "Atlantista, liberal en lo económico, firme contra el nacionalismo y el sanchismo. Crítico tanto con Sánchez como, en ocasiones, con la moderación de Feijóo.",
+            "tags": [
+              "atlantismo",
+              "liberalismo"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Liberal-conservadurismo atlantista",
+            "contenido": "Defiende el liberalismo económico, la firmeza frente al nacionalismo y el terrorismo, y una política exterior alineada con Estados Unidos. Es una de las voces más beligerantes contra el 'sanchismo' y los pactos con el independentismo.",
             "tags": [
               "atlantismo",
               "liberalismo"
@@ -144,7 +177,7 @@
       "psoe"
     ],
     "confidence": 0.85,
-    "completeness": 0.72,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -153,7 +186,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Valladolid, 1960, criado en León. Presidente del Gobierno 2004-2011. Referente del ala social del PSOE."
+            "contenido": "José Luis Rodríguez Zapatero (Valladolid, 4 de agosto de 1960), 'ZP', fue presidente del Gobierno entre 2004 y 2011. Impulsó una de las agendas de derechos civiles más ambiciosas de la democracia y gobernó en la transición del boom económico a la Gran Recesión, que marcó el final de su etapa."
           }
         ]
       },
@@ -163,18 +196,33 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Gobierno",
-            "contenido": "2004-2011: matrimonio igualitario, ley de dependencia, retirada de Irak, y gestión de la crisis financiera (recortes de 2010).",
+            "titulo": "Ascenso por 'Nueva Vía'",
+            "contenido": "Diputado por León desde joven, ganó por sorpresa la secretaría general del PSOE en el año 2000 al frente de la corriente 'Nueva Vía', renovando el partido tras las derrotas frente a Aznar con un discurso de talante dialogante.",
+            "fecha": "2000-07-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Llegada al poder tras el 11-M",
+            "contenido": "Ganó las elecciones de marzo de 2004, celebradas tres días después de los atentados del 11-M. Una de sus primeras decisiones fue la retirada de las tropas españolas de Irak, cumpliendo su promesa electoral.",
             "fecha": "2004-04-17"
           },
           {
             "tipo": "evento",
-            "titulo": "Mediación en Venezuela",
-            "contenido": "Mediador internacional en Venezuela, papel controvertido por su cercanía al chavismo.",
-            "fecha": "2015-01-01",
-            "tags": [
-              "venezuela"
-            ]
+            "titulo": "La agenda de derechos",
+            "contenido": "Su primera legislatura desplegó una intensa agenda social y de derechos: matrimonio igualitario (2005), ley de dependencia, ley de igualdad y paridad, ley de memoria histórica, ampliación del aborto y negociación —fallida— con ETA. Polarizó el debate público con la Iglesia y la derecha.",
+            "fecha": "2005-07-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "De la negación de la crisis al ajuste",
+            "contenido": "Reelegido en 2008, su gestión quedó marcada por la crisis financiera global. Tras meses negando su gravedad, la presión de los mercados y de Bruselas le forzó en mayo de 2010 a un giro de ajuste sin precedentes: recorte de salarios públicos, congelación de pensiones y reforma laboral, que rompió con su electorado.",
+            "fecha": "2010-05-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida y mediación internacional",
+            "contenido": "No se presentó a la reelección. El PSOE perdió las elecciones de 2011 con Rubalcaba. Desde entonces se ha dedicado a la mediación internacional, especialmente en Venezuela, una labor que le ha valido fuertes críticas por su cercanía al chavismo.",
+            "fecha": "2011-11-20"
           }
         ]
       },
@@ -224,6 +272,21 @@
             "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Progresismo de derechos y diálogo",
+            "contenido": "Su sello es el progresismo en derechos civiles y un talante dialogante, también con los nacionalismos. Sigue siendo una voz influyente en el ala izquierda del PSOE y defensor de la política de distensión territorial del actual Gobierno.",
+            "tags": [
+              "derechos-civiles",
+              "dialogo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -242,7 +305,7 @@
       "historico"
     ],
     "confidence": 0.88,
-    "completeness": 0.72,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -251,7 +314,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sevilla, 1942. Abogado laboralista. Secretario general del PSOE (1974-1997) y presidente del Gobierno durante 14 años (1982-1996)."
+            "contenido": "Felipe González Márquez (Sevilla, 5 de marzo de 1942) es el presidente del Gobierno que más tiempo ha ocupado el cargo en democracia (1982-1996). Abogado laboralista y líder histórico del PSOE, simboliza la modernización de España y su plena integración en Europa, así como las luces y sombras de catorce años de poder socialista."
           }
         ]
       },
@@ -261,9 +324,39 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Gobierno",
-            "contenido": "1982-1996: entrada en la CEE (1986), referéndum OTAN, modernización de infraestructuras (AVE, autovías). Etapa final marcada por los casos GAL y Filesa.",
-            "fecha": "1982-12-02"
+            "titulo": "Abogado laboralista y 'Isidoro'",
+            "contenido": "Formado en Derecho en Sevilla, ejerció como abogado laboralista defendiendo a trabajadores en los últimos años del franquismo. Militó en la clandestinidad bajo el apodo de 'Isidoro' y ascendió rápidamente en un PSOE entonces dividido entre el interior y el exilio.",
+            "fecha": "1965-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La refundación del PSOE",
+            "contenido": "En el Congreso de Suresnes (Francia, 1974) fue elegido secretario general con el apoyo de la socialdemocracia europea. Lideró la transformación del partido: en 1979 forzó el abandono del marxismo como seña de identidad, modernizando el PSOE y haciéndolo electoralmente competitivo para gobernar.",
+            "fecha": "1974-10-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La victoria de 1982 y las grandes reformas",
+            "contenido": "El 28 de octubre de 1982 el PSOE arrasó con más de diez millones de votos, abriendo una etapa de mayorías absolutas. Su Gobierno acometió la reconversión industrial, la expansión del Estado del bienestar (sanidad y educación universales, pensiones), la modernización de las infraestructuras y la profesionalización de las Fuerzas Armadas.",
+            "fecha": "1982-10-28"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Europa y la OTAN",
+            "contenido": "Su gran obra exterior fue el anclaje de España en Occidente: la firma de la adhesión a la Comunidad Económica Europea (1986) y el giro en el referéndum de la OTAN de marzo de 1986, en el que defendió la permanencia que antes había combatido. 1992 —Olimpiadas de Barcelona y Expo de Sevilla— fue el escaparate de la nueva España.",
+            "fecha": "1986-03-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "GAL, corrupción y desgaste",
+            "contenido": "Sus últimos años estuvieron marcados por la guerra sucia contra ETA (los GAL), los casos de corrupción (Roldán, Filesa) y el desgaste del poder, el llamado 'felipismo'. Perdió las elecciones de 1996 frente a Aznar tras catorce años de gobierno.",
+            "fecha": "1996-03-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Estadista y voz crítica",
+            "contenido": "Tras dejar la política activa se convirtió en un estadista de referencia internacional, asesor y consejero de empresas (Gas Natural). En los últimos años ha sido una de las voces más críticas con la deriva del PSOE de Pedro Sánchez, especialmente con los pactos con el independentismo y la ley de amnistía.",
+            "fecha": "2023-01-01"
           }
         ]
       },
@@ -277,6 +370,15 @@
             "contenido": "Voz pública crítica con la amnistía y los pactos con Junts y EH Bildu. Encarna el 'sector crítico' histórico del PSOE.",
             "tags": [
               "critico-sanchez"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Socialdemocracia y razón de Estado",
+            "contenido": "Representa una socialdemocracia pragmática y europeísta, con fuerte sentido de la 'razón de Estado'. Defiende la moderación, el pacto y la centralidad frente a lo que considera excesos ideológicos, y se ha distanciado abiertamente del actual rumbo de su partido.",
+            "tags": [
+              "socialdemocracia",
+              "europeismo"
             ]
           }
         ]
@@ -344,7 +446,7 @@
       "pp"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -353,7 +455,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santiago de Compostela, 1955. Registrador de la propiedad. Presidente del Gobierno 2011-2018."
+            "contenido": "Mariano Rajoy Brey (Santiago de Compostela, 27 de marzo de 1955) fue presidente del Gobierno entre 2011 y 2018. Registrador de la propiedad y político de largo recorrido en el PP, gobernó en plena crisis económica y afrontó el mayor desafío territorial de la democracia, antes de ser desalojado por la primera moción de censura exitosa de la historia."
           }
         ]
       },
@@ -363,18 +465,33 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Gobierno",
-            "contenido": "2011-2018: ajuste fiscal, rescate bancario, recuperación económica, aplicación del 155 en Cataluña (2017).",
+            "titulo": "Registrador y ministro con Aznar",
+            "contenido": "Registrador de la propiedad, hizo carrera en el PP de Galicia y desembarcó en Madrid. Fue ministro en varias carteras con Aznar (Administraciones Públicas, Educación, Interior, Presidencia) y vicepresidente, ganándose fama de gestor discreto y resistente.",
+            "fecha": "1996-05-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sucesor de Aznar y dos derrotas",
+            "contenido": "Designado sucesor por Aznar en 2004, perdió las elecciones de 2004 y 2008 frente a Zapatero. Su resistencia interna y la crisis económica le dieron una tercera oportunidad.",
+            "fecha": "2004-09-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente en plena crisis",
+            "contenido": "Ganó por mayoría absoluta en 2011. Gobernó aplicando una dura política de austeridad y reformas para evitar el rescate total del país; sí hubo rescate del sistema financiero. La recuperación llegó al final de su mandato, a costa de un fuerte desgaste social.",
             "fecha": "2011-12-21"
           },
           {
             "tipo": "evento",
-            "titulo": "Moción de censura",
-            "contenido": "Desalojado del poder por la moción de censura de Pedro Sánchez en junio 2018, tras la sentencia de Gürtel.",
-            "fecha": "2018-06-01",
-            "tags": [
-              "mocion-censura"
-            ]
+            "titulo": "El desafío catalán y el 155",
+            "contenido": "Afrontó el 'procés' independentista catalán, que culminó en el referéndum ilegal del 1 de octubre de 2017 y la declaración de independencia. Su Gobierno aplicó por primera vez el artículo 155 de la Constitución, interviniendo la autonomía de Cataluña y convocando elecciones.",
+            "fecha": "2017-10-27"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gürtel y la moción de censura",
+            "contenido": "La sentencia del caso Gürtel, que acreditó la existencia de una caja b y una trama de corrupción ligada al PP, precipitó su caída: el 1 de junio de 2018 Pedro Sánchez ganó la primera moción de censura constructiva exitosa de la democracia. Rajoy abandonó la política y volvió a su plaza de registrador.",
+            "fecha": "2018-06-01"
           }
         ]
       },
@@ -422,6 +539,21 @@
             "tipo": "documento",
             "titulo": "Wikipedia",
             "fuente_url": "https://es.wikipedia.org/wiki/Mariano_Rajoy"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Conservadurismo gestor y resistente",
+            "contenido": "Representa un conservadurismo pragmático, gestor y poco ideológico, con una proverbial capacidad de resistencia y de no decisión táctica. Su gestión de la crisis y del desafío territorial sigue siendo objeto de debate dentro y fuera del PP.",
+            "tags": [
+              "gestion",
+              "estabilidad"
+            ]
           }
         ]
       }

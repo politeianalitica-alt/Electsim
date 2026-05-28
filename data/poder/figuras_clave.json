@@ -892,7 +892,7 @@
       "progresista"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -901,7 +901,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santiago de Compostela, 1949. Magistrado de larga carrera. Referente del sector progresista judicial."
+            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional desde 2023. Magistrado de larga carrera y exfiscal general del Estado, es una de las figuras más influyentes —y discutidas— del poder judicial español."
           }
         ]
       },
@@ -911,14 +911,20 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Fiscal General",
-            "contenido": "Fiscal General del Estado entre 2004 y 2011 (Gobierno de Zapatero).",
-            "fecha": "2004-04-01"
+            "titulo": "Carrera judicial y fiscal",
+            "contenido": "Magistrado de profesión, desarrolló una extensa carrera en la judicatura y la Fiscalía, con paso por el Tribunal Supremo. Se le identifica con el sector progresista de la judicatura.",
+            "fecha": "1975-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Presidente del TC",
-            "contenido": "Elegido presidente del Tribunal Constitucional en enero 2023 con la mayoría progresista del tribunal.",
+            "titulo": "Fiscal General con Zapatero",
+            "contenido": "Fue fiscal general del Estado durante los gobiernos de Rodríguez Zapatero (2004-2011), una etapa marcada por causas de gran calado político y por las tensiones habituales entre Fiscalía, Gobierno y oposición.",
+            "fecha": "2004-04-24"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Magistrado y presidente del TC",
+            "contenido": "Llegó al Tribunal Constitucional en 2017 y, tras la renovación que dio mayoría al bloque progresista, fue elegido presidente del tribunal en enero de 2023. Desde la presidencia ha pilotado sentencias de gran trascendencia política.",
             "fecha": "2023-01-10"
           }
         ]
@@ -933,6 +939,15 @@
             "contenido": "Avaló sentencias clave en la legislatura: ley del aborto, eutanasia y aspectos de la ley de amnistía. Criticado por la derecha por el giro progresista del TC.",
             "tags": [
               "doctrina"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Garantismo y defensa de la independencia",
+            "contenido": "Reivindica la independencia del Constitucional y un enfoque garantista. Defiende la legitimidad del tribunal para revisar leyes y resolver conflictos entre poderes, en un contexto de fuerte tensión institucional.",
+            "tags": [
+              "constitucional",
+              "independencia"
             ]
           }
         ]
@@ -973,6 +988,21 @@
             "fuente_url": "https://www.tribunalconstitucional.es"
           }
         ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "controversia",
+            "titulo": "Acusaciones de parcialidad",
+            "contenido": "El PP y la derecha mediática le acusan de parcialidad y de favorecer al Gobierno en asuntos como los avales a leyes polémicas o la tramitación de la amnistía. Él y el sector progresista lo niegan y reivindican la independencia del tribunal. El debate forma parte de la batalla más amplia por el control de los órganos del Estado.",
+            "tags": [
+              "polarizacion",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -990,7 +1020,7 @@
       "investigado"
     ],
     "confidence": 0.82,
-    "completeness": 0.75,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -999,7 +1029,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Fiscal de carrera. Especializado en medio ambiente. Designado FGE en 2022, sustituyendo a Dolores Delgado."
+            "contenido": "Álvaro García Ortiz (Valdediós, Asturias, 1967) es fiscal general del Estado desde 2022. Fiscal de carrera especializado en medio ambiente, su mandato ha estado marcado por una tensión inédita con parte de la carrera fiscal, el poder judicial y la oposición."
           }
         ]
       },
@@ -1009,9 +1039,21 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Fiscal General",
-            "contenido": "Nombrado FGE en septiembre 2022 a propuesta del Gobierno.",
-            "fecha": "2022-09-01"
+            "titulo": "Fiscal especialista en medio ambiente",
+            "contenido": "Fiscal de carrera, se especializó en delitos contra el medio ambiente y la ordenación del territorio, llegando a ser fiscal de Sala de Medio Ambiente, antes de ascender en la cúpula del ministerio público.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fiscal General del Estado",
+            "contenido": "Fue nombrado fiscal general en 2022 a propuesta del Gobierno y renovado en 2024. Su designación, como la de sus predecesores, reavivó el debate sobre la autonomía de la Fiscalía respecto del Ejecutivo que la propone.",
+            "fecha": "2022-07-27"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Una causa sin precedentes",
+            "contenido": "García Ortiz está siendo investigado por el Tribunal Supremo por una presunta revelación de secretos en relación con la difusión de información sobre un caso fiscal. Es la primera vez que un fiscal general en activo se ve en esa situación. La causa sigue su curso y rige la presunción de inocencia mientras no haya sentencia firme.",
+            "fecha": "2024-10-30"
           }
         ]
       },
@@ -1075,6 +1117,21 @@
             "tipo": "documento",
             "titulo": "Fiscalía",
             "fuente_url": "https://www.fiscal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Defensa de la legalidad y autonomía",
+            "contenido": "Reivindica la actuación de la Fiscalía conforme a la legalidad y su autonomía funcional. La oposición y parte de la carrera le reprochan sintonía con el Gobierno; él lo niega. El episodio ha tensionado como pocos la relación entre Fiscalía, jueces y poder político.",
+            "tags": [
+              "fiscalia",
+              "presuncion-inocencia"
+            ]
           }
         ]
       }
@@ -1177,7 +1234,7 @@
       "ex-ministro"
     ],
     "confidence": 0.85,
-    "completeness": 0.75,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1186,7 +1243,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Albacete, 1960. Economista. Carrera técnica en BBVA, BCE y AIReF antes de su etapa política y como Gobernador."
+            "contenido": "José Luis Escrivá Belmonte (Albacete, 1960) es gobernador del Banco de España desde 2024. Economista y técnico comercial del Estado, ha transitado por la banca privada, los organismos internacionales y el Gobierno, donde fue ministro, hasta llegar a la cúpula del supervisor bancario y al Consejo de Gobierno del BCE."
           }
         ]
       },
@@ -1196,21 +1253,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "AIReF",
-            "contenido": "Presidente fundador de la Autoridad Independiente de Responsabilidad Fiscal (2014-2020).",
-            "fecha": "2014-02-01"
+            "titulo": "Economista de prestigio",
+            "contenido": "Técnico comercial y economista del Estado, trabajó en el Banco de España, en el BCE y dirigió el servicio de estudios del BBVA, ganándose una sólida reputación técnica en análisis macroeconómico y fiscal.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Ministro",
-            "contenido": "Ministro de Inclusión y Seguridad Social (reforma de pensiones) 2020-2023 y de Transformación Digital 2023-2024.",
+            "titulo": "Primer presidente de la AIReF",
+            "contenido": "En 2014 fue nombrado primer presidente de la Autoridad Independiente de Responsabilidad Fiscal (AIReF), el organismo que fiscaliza las cuentas públicas. Desde ahí construyó un perfil de tecnócrata riguroso y a veces incómodo para los gobiernos.",
+            "fecha": "2014-02-25"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ministro de Sánchez",
+            "contenido": "En 2020 entró en el Gobierno de coalición como ministro de Inclusión, Seguridad Social y Migraciones. Pilotó la reforma de las pensiones —pactada con Bruselas y los agentes sociales— y el Ingreso Mínimo Vital. En 2023 pasó a la cartera de Transformación Digital.",
             "fecha": "2020-01-13"
           },
           {
             "tipo": "evento",
             "titulo": "Gobernador del Banco de España",
-            "contenido": "Nombrado Gobernador del Banco de España en 2024; polémico por su pasado político inmediato.",
-            "fecha": "2024-09-01"
+            "contenido": "En septiembre de 2024 fue nombrado gobernador del Banco de España, no sin polémica por su pasado político reciente. Desde el cargo supervisa la solvencia de la banca, asesora sobre estabilidad financiera y vivienda, y vota en el Consejo de Gobierno del BCE la política monetaria del euro.",
+            "fecha": "2024-09-09"
           }
         ]
       },
@@ -1273,6 +1336,21 @@
             "tipo": "documento",
             "titulo": "Banco de España",
             "fuente_url": "https://www.bde.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Tecnócrata de la sostenibilidad fiscal",
+            "contenido": "Defiende la sostenibilidad de las pensiones y de las cuentas públicas con un enfoque técnico y de big data. Su nombramiento como gobernador reavivó el debate sobre la independencia del supervisor frente al poder político.",
+            "tags": [
+              "pensiones",
+              "supervision"
+            ]
           }
         ]
       }
@@ -1998,7 +2076,7 @@
       "jefe-estado"
     ],
     "confidence": 0.9,
-    "completeness": 0.75,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2007,7 +2085,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1968. Rey de España desde el 19 de junio de 2014. Casado con la reina Letizia. Sus hijas: Leonor (Princesa de Asturias) y Sofía."
+            "contenido": "Felipe VI (Felipe Juan Pablo Alfonso de Todos los Santos de Borbón y Grecia), nacido en Madrid el 30 de enero de 1968, es el Rey de España y Jefe del Estado desde el 19 de junio de 2014. Encarna la Corona como institución arbitral y moderadora dentro de la monarquía parlamentaria que diseña la Constitución de 1978."
           }
         ]
       },
@@ -2017,15 +2095,38 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Proclamación",
-            "contenido": "Proclamado rey el 19 junio 2014 tras la abdicación de Juan Carlos I.",
+            "titulo": "Formación e infancia como heredero",
+            "contenido": "Hijo de Juan Carlos I y Sofía de Grecia, fue educado desde niño para reinar. Estudió en el Colegio Santa María de los Rosales, cursó un año de bachillerato en Canadá (Lakefield College) y completó la triple formación militar en las academias de tierra (Zaragoza), mar (Marín) y aire (San Javier). Se licenció en Derecho por la Universidad Autónoma de Madrid y obtuvo un máster en Relaciones Internacionales en la Universidad de Georgetown (EE. UU.).",
+            "fecha": "1968-01-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Príncipe de Asturias",
+            "contenido": "Durante casi cuatro décadas ejerció como Príncipe de Asturias, asumiendo una intensa agenda de representación institucional, presidencia de fundaciones y misiones diplomáticas, especialmente en Iberoamérica. En 2004 contrajo matrimonio con la periodista Letizia Ortiz, con quien tiene dos hijas: la Princesa Leonor (2005), heredera de la Corona, y la Infanta Sofía (2007).",
+            "fecha": "2004-05-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Proclamación y 'monarquía renovada'",
+            "contenido": "Tras la abdicación de su padre, fue proclamado rey ante las Cortes el 19 de junio de 2014, en un momento de fuerte desprestigio de la institución por los escándalos de los últimos años del reinado anterior. Desde el primer día planteó una Corona más austera y transparente: redujo el presupuesto y su asignación, publicó las cuentas de la Casa del Rey, aprobó un código de conducta y limitó los regalos y los viajes.",
             "fecha": "2014-06-19"
           },
           {
             "tipo": "evento",
-            "titulo": "Discurso del 3 de octubre de 2017",
-            "contenido": "Intervención sobre la crisis del procés catalán, momento clave de su reinado.",
+            "titulo": "El discurso del 3 de octubre y la crisis catalana",
+            "contenido": "El momento más delicado de su reinado llegó con el desafío independentista. El 3 de octubre de 2017, dos días después del referéndum ilegal del 1-O, pronunció un durísimo mensaje televisado en defensa del orden constitucional. La intervención le granjeó el respaldo del constitucionalismo y la animadversión del independentismo y de parte de la izquierda, que le reprocharon no apelar al diálogo.",
             "fecha": "2017-10-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ruptura con su padre",
+            "contenido": "En 2020, ante la acumulación de informaciones sobre los negocios de Juan Carlos I, Felipe VI renunció a la herencia que pudiera corresponderle de su padre y le retiró la asignación pública. El rey emérito se trasladó a Abu Dabi. La maniobra buscó blindar a la Corona reinante frente a los escándalos del anterior titular, en una operación de distanciamiento sin precedentes en la historia reciente.",
+            "fecha": "2020-03-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Papel arbitral",
+            "contenido": "Como Jefe del Estado ejerce funciones tasadas: sanciona las leyes, convoca elecciones, propone candidato a la investidura tras consultar a los partidos y ejerce la representación exterior del Estado. En un Parlamento cada vez más fragmentado, sus rondas de consultas y la propuesta de candidato han ganado peso político y visibilidad."
           }
         ]
       },
@@ -2039,6 +2140,15 @@
             "contenido": "Arbitra y modera el funcionamiento de las instituciones (art. 56 CE). Neutralidad política; firma y promulga leyes, propone candidato a la investidura, manda simbólicamente las FF.AA.",
             "tags": [
               "constitucional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Neutralidad y Constitución",
+            "contenido": "Su línea es la defensa estricta de la Constitución y la neutralidad partidista. Evita el comentario político y concentra su mensaje en la unidad, la convivencia y la proyección internacional de España. Su legitimidad depende de mantenerse por encima de la refriega partidista en un país profundamente polarizado.",
+            "tags": [
+              "constitucion",
+              "neutralidad"
             ]
           }
         ]
@@ -2087,6 +2197,21 @@
             "tipo": "documento",
             "titulo": "Casa Real",
             "fuente_url": "https://www.casareal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "controversia",
+            "titulo": "La sombra de Juan Carlos I",
+            "contenido": "El principal riesgo reputacional de su reinado son los escándalos de su padre, que arrastran a la institución pese a la separación formal. La izquierda y el independentismo cuestionan abiertamente la monarquía; Felipe VI responde con ejemplaridad y transparencia. La República figura en la agenda de socios del Gobierno, lo que mantiene el debate abierto.",
+            "tags": [
+              "monarquia",
+              "republica"
+            ]
           }
         ]
       }
@@ -2187,7 +2312,7 @@
       "emerito"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2196,7 +2321,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Roma, 1938. Rey de España 1975-2014. Designado sucesor por Franco, pilotó la Transición a la democracia y el fracaso del golpe del 23-F (1981)."
+            "contenido": "Juan Carlos I de Borbón (Roma, 5 de enero de 1938) fue Rey de España entre 1975 y 2014. Figura central de la Transición a la democracia, su reinado pasó del máximo prestigio —por su papel en el 23-F— al desprestigio de sus últimos años por escándalos económicos y personales que acabaron en su abdicación y posterior traslado al extranjero."
           }
         ]
       },
@@ -2206,20 +2331,38 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Transición y 23-F",
-            "contenido": "Impulsó la democratización tras 1975 y frenó el golpe de Estado del 23 de febrero de 1981.",
+            "titulo": "Exilio, designación y formación",
+            "contenido": "Nieto de Alfonso XIII, nació en el exilio en Roma. Llegó a España en 1948 por un acuerdo entre su padre, Don Juan, y Franco, que se reservó su educación. Se formó en las tres academias militares y en la Universidad de Madrid. En 1969 Franco lo designó sucesor a título de Rey, saltándose la línea dinástica de su padre, lo que generó tensiones en la propia familia.",
+            "fecha": "1969-07-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Rey y motor de la Transición",
+            "contenido": "Proclamado rey el 22 de noviembre de 1975, dos días después de la muerte de Franco, sorprendió al desmontar el aparato franquista desde dentro: nombró presidente a Adolfo Suárez, impulsó la Ley para la Reforma Política y respaldó la legalización de los partidos y la Constitución de 1978. Se convirtió en pieza clave del paso pacífico de la dictadura a la democracia.",
+            "fecha": "1975-11-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El 23-F: la cumbre de su prestigio",
+            "contenido": "La noche del 23 de febrero de 1981, durante el intento de golpe de Estado, su mensaje televisado en defensa del orden constitucional fue decisivo para abortar la asonada. Aquel episodio consolidó su imagen de garante de la democracia y le dio un capital político y popular que mantuvo durante décadas, dentro y fuera de España.",
             "fecha": "1981-02-23"
           },
           {
             "tipo": "evento",
-            "titulo": "Abdicación",
-            "contenido": "Abdica en favor de Felipe VI en junio 2014.",
-            "fecha": "2014-06-02"
+            "titulo": "Reinado y diplomacia económica",
+            "contenido": "Durante los años de expansión ejerció una intensa diplomacia al servicio de la internacionalización de la empresa española, especialmente en el mundo árabe y en Latinoamérica. Gozó de enorme popularidad y prestigio internacional, simbolizado en episodios como su célebre '¿Por qué no te callas?' a Hugo Chávez en 2007.",
+            "fecha": "2007-11-10"
           },
           {
             "tipo": "evento",
-            "titulo": "Salida a Abu Dabi",
-            "contenido": "Se traslada a Emiratos Árabes en agosto 2020 en medio de investigaciones patrimoniales.",
+            "titulo": "Declive: Botsuana y los escándalos",
+            "contenido": "Su imagen se quebró en abril de 2012 con una cacería de elefantes en Botsuana, conocida mientras España sufría la crisis. A partir de ahí se sucedieron las informaciones sobre comisiones, fundaciones opacas (Zagatka), tarjetas opacas y su relación con Corinna Larsen, además del caso Nóos que afectó a su yerno. El desprestigio precipitó su abdicación el 18 de junio de 2014.",
+            "fecha": "2012-04-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Abdicación, exilio y causas",
+            "contenido": "Tras abdicar en su hijo, los escándalos no cesaron. En agosto de 2020 se trasladó a Abu Dabi en medio de investigaciones en España y Suiza. Regularizó varias cantidades ante Hacienda. La Fiscalía archivó las causas por prescripción, la inviolabilidad como jefe del Estado y las regularizaciones, sin que llegara a haber juicio. Rige, por tanto, la presunción de inocencia respecto de los hechos no enjuiciados, aunque el daño reputacional fue profundo.",
             "fecha": "2020-08-03"
           }
         ]
@@ -2263,6 +2406,21 @@
             "tipo": "documento",
             "titulo": "Wikipedia",
             "fuente_url": "https://es.wikipedia.org/wiki/Juan_Carlos_I"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De símbolo de consenso a figura divisiva",
+            "contenido": "Pasó de ser un símbolo de unidad y consenso democrático a una figura que divide a la opinión pública. Para sus defensores, su papel en la Transición y el 23-F es indiscutible; para sus críticos, los escándalos finales empañan ese legado y alimentan el debate sobre la monarquía.",
+            "tags": [
+              "transicion",
+              "legado"
+            ]
           }
         ]
       }

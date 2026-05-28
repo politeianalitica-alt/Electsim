@@ -232,8 +232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0002",
@@ -431,8 +431,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0003",
@@ -607,8 +607,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0004",
@@ -760,8 +760,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0005",
@@ -899,8 +899,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0006",
@@ -1043,8 +1043,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0007",
@@ -1176,8 +1176,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0008",
@@ -1300,8 +1300,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0009",
@@ -1448,8 +1448,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0010",
@@ -1479,7 +1479,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0010-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santiago de Compostela, 1949. Magistrado de larga carrera. Referente del sector progresista judicial.",
+            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional desde 2023. Magistrado de larga carrera y exfiscal general del Estado, es una de las figuras más influyentes —y discutidas— del poder judicial español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1499,9 +1499,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0010-ap-01-it-00",
             "apartado_id": "pod-0010-ap-01",
             "tipo": "evento",
-            "titulo": "Fiscal General",
-            "contenido": "Fiscal General del Estado entre 2004 y 2011 (Gobierno de Zapatero).",
-            "fecha": "2004-04-01",
+            "titulo": "Carrera judicial y fiscal",
+            "contenido": "Magistrado de profesión, desarrolló una extensa carrera en la judicatura y la Fiscalía, con paso por el Tribunal Supremo. Se le identifica con el sector progresista de la judicatura.",
+            "fecha": "1975-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1511,13 +1511,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0010-ap-01-it-01",
             "apartado_id": "pod-0010-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente del TC",
-            "contenido": "Elegido presidente del Tribunal Constitucional en enero 2023 con la mayoría progresista del tribunal.",
-            "fecha": "2023-01-10",
+            "titulo": "Fiscal General con Zapatero",
+            "contenido": "Fue fiscal general del Estado durante los gobiernos de Rodríguez Zapatero (2004-2011), una etapa marcada por causas de gran calado político y por las tensiones habituales entre Fiscalía, Gobierno y oposición.",
+            "fecha": "2004-04-24",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0010-ap-01-it-02",
+            "apartado_id": "pod-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "Magistrado y presidente del TC",
+            "contenido": "Llegó al Tribunal Constitucional en 2017 y, tras la renovación que dio mayoría al bloque progresista, fue elegido presidente del tribunal en enero de 2023. Desde la presidencia ha pilotado sentencias de gran trascendencia política.",
+            "fecha": "2023-01-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -1541,6 +1553,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "doctrina"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0010-ap-02-it-01",
+            "apartado_id": "pod-0010-ap-02",
+            "tipo": "dato",
+            "titulo": "Garantismo y defensa de la independencia",
+            "contenido": "Reivindica la independencia del Constitucional y un enfoque garantista. Defiende la legitimidad del tribunal para revisar leyes y resolver conflictos entre poderes, en un contexto de fuerte tensión institucional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "constitucional",
+              "independencia"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -1605,10 +1632,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0010-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "pod-0010-ap-05-it-00",
+            "apartado_id": "pod-0010-ap-05",
+            "tipo": "controversia",
+            "titulo": "Acusaciones de parcialidad",
+            "contenido": "El PP y la derecha mediática le acusan de parcialidad y de favorecer al Gobierno en asuntos como los avales a leyes polémicas o la tramitación de la amnistía. Él y el sector progresista lo niegan y reivindican la independencia del tribunal. El debate forma parte de la batalla más amplia por el control de los órganos del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "polarizacion",
+              "presuncion-inocencia"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0011",
@@ -1638,7 +1689,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0011-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Fiscal de carrera. Especializado en medio ambiente. Designado FGE en 2022, sustituyendo a Dolores Delgado.",
+            "contenido": "Álvaro García Ortiz (Valdediós, Asturias, 1967) es fiscal general del Estado desde 2022. Fiscal de carrera especializado en medio ambiente, su mandato ha estado marcado por una tensión inédita con parte de la carrera fiscal, el poder judicial y la oposición.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1658,13 +1709,37 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0011-ap-01-it-00",
             "apartado_id": "pod-0011-ap-01",
             "tipo": "evento",
-            "titulo": "Fiscal General",
-            "contenido": "Nombrado FGE en septiembre 2022 a propuesta del Gobierno.",
-            "fecha": "2022-09-01",
+            "titulo": "Fiscal especialista en medio ambiente",
+            "contenido": "Fiscal de carrera, se especializó en delitos contra el medio ambiente y la ordenación del territorio, llegando a ser fiscal de Sala de Medio Ambiente, antes de ascender en la cúpula del ministerio público.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0011-ap-01-it-01",
+            "apartado_id": "pod-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Fiscal General del Estado",
+            "contenido": "Fue nombrado fiscal general en 2022 a propuesta del Gobierno y renovado en 2024. Su designación, como la de sus predecesores, reavivó el debate sobre la autonomía de la Fiscalía respecto del Ejecutivo que la propone.",
+            "fecha": "2022-07-27",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0011-ap-01-it-02",
+            "apartado_id": "pod-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Una causa sin precedentes",
+            "contenido": "García Ortiz está siendo investigado por el Tribunal Supremo por una presunta revelación de secretos en relación con la difusión de información sobre un caso fiscal. Es la primera vez que un fiscal general en activo se ve en esa situación. La causa sigue su curso y rige la presunción de inocencia mientras no haya sentencia firme.",
+            "fecha": "2024-10-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -1769,10 +1844,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0011-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0011-ap-05-it-00",
+            "apartado_id": "pod-0011-ap-05",
+            "tipo": "dato",
+            "titulo": "Defensa de la legalidad y autonomía",
+            "contenido": "Reivindica la actuación de la Fiscalía conforme a la legalidad y su autonomía funcional. La oposición y parte de la carrera le reprochan sintonía con el Gobierno; él lo niega. El episodio ha tensionado como pocos la relación entre Fiscalía, jueces y poder político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalia",
+              "presuncion-inocencia"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0012",
@@ -1898,8 +1997,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0013",
@@ -1930,7 +2029,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0013-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Albacete, 1960. Economista. Carrera técnica en BBVA, BCE y AIReF antes de su etapa política y como Gobernador.",
+            "contenido": "José Luis Escrivá Belmonte (Albacete, 1960) es gobernador del Banco de España desde 2024. Economista y técnico comercial del Estado, ha transitado por la banca privada, los organismos internacionales y el Gobierno, donde fue ministro, hasta llegar a la cúpula del supervisor bancario y al Consejo de Gobierno del BCE.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1950,9 +2049,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0013-ap-01-it-00",
             "apartado_id": "pod-0013-ap-01",
             "tipo": "evento",
-            "titulo": "AIReF",
-            "contenido": "Presidente fundador de la Autoridad Independiente de Responsabilidad Fiscal (2014-2020).",
-            "fecha": "2014-02-01",
+            "titulo": "Economista de prestigio",
+            "contenido": "Técnico comercial y economista del Estado, trabajó en el Banco de España, en el BCE y dirigió el servicio de estudios del BBVA, ganándose una sólida reputación técnica en análisis macroeconómico y fiscal.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1962,9 +2061,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0013-ap-01-it-01",
             "apartado_id": "pod-0013-ap-01",
             "tipo": "evento",
-            "titulo": "Ministro",
-            "contenido": "Ministro de Inclusión y Seguridad Social (reforma de pensiones) 2020-2023 y de Transformación Digital 2023-2024.",
-            "fecha": "2020-01-13",
+            "titulo": "Primer presidente de la AIReF",
+            "contenido": "En 2014 fue nombrado primer presidente de la Autoridad Independiente de Responsabilidad Fiscal (AIReF), el organismo que fiscaliza las cuentas públicas. Desde ahí construyó un perfil de tecnócrata riguroso y a veces incómodo para los gobiernos.",
+            "fecha": "2014-02-25",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1974,13 +2073,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0013-ap-01-it-02",
             "apartado_id": "pod-0013-ap-01",
             "tipo": "evento",
-            "titulo": "Gobernador del Banco de España",
-            "contenido": "Nombrado Gobernador del Banco de España en 2024; polémico por su pasado político inmediato.",
-            "fecha": "2024-09-01",
+            "titulo": "Ministro de Sánchez",
+            "contenido": "En 2020 entró en el Gobierno de coalición como ministro de Inclusión, Seguridad Social y Migraciones. Pilotó la reforma de las pensiones —pactada con Bruselas y los agentes sociales— y el Ingreso Mínimo Vital. En 2023 pasó a la cartera de Transformación Digital.",
+            "fecha": "2020-01-13",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0013-ap-01-it-03",
+            "apartado_id": "pod-0013-ap-01",
+            "tipo": "evento",
+            "titulo": "Gobernador del Banco de España",
+            "contenido": "En septiembre de 2024 fue nombrado gobernador del Banco de España, no sin polémica por su pasado político reciente. Desde el cargo supervisa la solvencia de la banca, asesora sobre estabilidad financiera y vivienda, y vota en el Consejo de Gobierno del BCE la política monetaria del euro.",
+            "fecha": "2024-09-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -2084,10 +2195,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0013-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0013-ap-05-it-00",
+            "apartado_id": "pod-0013-ap-05",
+            "tipo": "dato",
+            "titulo": "Tecnócrata de la sostenibilidad fiscal",
+            "contenido": "Defiende la sostenibilidad de las pensiones y de las cuentas públicas con un enfoque técnico y de big data. Su nombramiento como gobernador reavivó el debate sobre la independencia del supervisor frente al poder político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pensiones",
+              "supervision"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0014",
@@ -2244,8 +2379,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0015",
@@ -2421,8 +2556,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0016",
@@ -2542,8 +2677,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0017",
@@ -2679,8 +2814,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0018",
@@ -2821,8 +2956,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0019",
@@ -2961,8 +3096,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0020",
@@ -3097,8 +3232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0021",
@@ -3222,8 +3357,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0022",
@@ -3253,7 +3388,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0022-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1968. Rey de España desde el 19 de junio de 2014. Casado con la reina Letizia. Sus hijas: Leonor (Princesa de Asturias) y Sofía.",
+            "contenido": "Felipe VI (Felipe Juan Pablo Alfonso de Todos los Santos de Borbón y Grecia), nacido en Madrid el 30 de enero de 1968, es el Rey de España y Jefe del Estado desde el 19 de junio de 2014. Encarna la Corona como institución arbitral y moderadora dentro de la monarquía parlamentaria que diseña la Constitución de 1978.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3273,9 +3408,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0022-ap-01-it-00",
             "apartado_id": "pod-0022-ap-01",
             "tipo": "evento",
-            "titulo": "Proclamación",
-            "contenido": "Proclamado rey el 19 junio 2014 tras la abdicación de Juan Carlos I.",
-            "fecha": "2014-06-19",
+            "titulo": "Formación e infancia como heredero",
+            "contenido": "Hijo de Juan Carlos I y Sofía de Grecia, fue educado desde niño para reinar. Estudió en el Colegio Santa María de los Rosales, cursó un año de bachillerato en Canadá (Lakefield College) y completó la triple formación militar en las academias de tierra (Zaragoza), mar (Marín) y aire (San Javier). Se licenció en Derecho por la Universidad Autónoma de Madrid y obtuvo un máster en Relaciones Internacionales en la Universidad de Georgetown (EE. UU.).",
+            "fecha": "1968-01-30",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3285,13 +3420,61 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0022-ap-01-it-01",
             "apartado_id": "pod-0022-ap-01",
             "tipo": "evento",
-            "titulo": "Discurso del 3 de octubre de 2017",
-            "contenido": "Intervención sobre la crisis del procés catalán, momento clave de su reinado.",
-            "fecha": "2017-10-03",
+            "titulo": "Príncipe de Asturias",
+            "contenido": "Durante casi cuatro décadas ejerció como Príncipe de Asturias, asumiendo una intensa agenda de representación institucional, presidencia de fundaciones y misiones diplomáticas, especialmente en Iberoamérica. En 2004 contrajo matrimonio con la periodista Letizia Ortiz, con quien tiene dos hijas: la Princesa Leonor (2005), heredera de la Corona, y la Infanta Sofía (2007).",
+            "fecha": "2004-05-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0022-ap-01-it-02",
+            "apartado_id": "pod-0022-ap-01",
+            "tipo": "evento",
+            "titulo": "Proclamación y 'monarquía renovada'",
+            "contenido": "Tras la abdicación de su padre, fue proclamado rey ante las Cortes el 19 de junio de 2014, en un momento de fuerte desprestigio de la institución por los escándalos de los últimos años del reinado anterior. Desde el primer día planteó una Corona más austera y transparente: redujo el presupuesto y su asignación, publicó las cuentas de la Casa del Rey, aprobó un código de conducta y limitó los regalos y los viajes.",
+            "fecha": "2014-06-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0022-ap-01-it-03",
+            "apartado_id": "pod-0022-ap-01",
+            "tipo": "evento",
+            "titulo": "El discurso del 3 de octubre y la crisis catalana",
+            "contenido": "El momento más delicado de su reinado llegó con el desafío independentista. El 3 de octubre de 2017, dos días después del referéndum ilegal del 1-O, pronunció un durísimo mensaje televisado en defensa del orden constitucional. La intervención le granjeó el respaldo del constitucionalismo y la animadversión del independentismo y de parte de la izquierda, que le reprocharon no apelar al diálogo.",
+            "fecha": "2017-10-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "pod-0022-ap-01-it-04",
+            "apartado_id": "pod-0022-ap-01",
+            "tipo": "evento",
+            "titulo": "Ruptura con su padre",
+            "contenido": "En 2020, ante la acumulación de informaciones sobre los negocios de Juan Carlos I, Felipe VI renunció a la herencia que pudiera corresponderle de su padre y le retiró la asignación pública. El rey emérito se trasladó a Abu Dabi. La maniobra buscó blindar a la Corona reinante frente a los escándalos del anterior titular, en una operación de distanciamiento sin precedentes en la historia reciente.",
+            "fecha": "2020-03-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          },
+          {
+            "id": "pod-0022-ap-01-it-05",
+            "apartado_id": "pod-0022-ap-01",
+            "tipo": "evento",
+            "titulo": "Papel arbitral",
+            "contenido": "Como Jefe del Estado ejerce funciones tasadas: sanciona las leyes, convoca elecciones, propone candidato a la investidura tras consultar a los partidos y ejerce la representación exterior del Estado. En un Parlamento cada vez más fragmentado, sus rondas de consultas y la propuesta de candidato han ganado peso político y visibilidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 5
           }
         ]
       },
@@ -3315,6 +3498,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "constitucional"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0022-ap-02-it-01",
+            "apartado_id": "pod-0022-ap-02",
+            "tipo": "dato",
+            "titulo": "Neutralidad y Constitución",
+            "contenido": "Su línea es la defensa estricta de la Constitución y la neutralidad partidista. Evita el comentario político y concentra su mensaje en la unidad, la convivencia y la proyección internacional de España. Su legitimidad depende de mantenerse por encima de la refriega partidista en un país profundamente polarizado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "constitucion",
+              "neutralidad"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -3395,10 +3593,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0022-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "pod-0022-ap-05-it-00",
+            "apartado_id": "pod-0022-ap-05",
+            "tipo": "controversia",
+            "titulo": "La sombra de Juan Carlos I",
+            "contenido": "El principal riesgo reputacional de su reinado son los escándalos de su padre, que arrastran a la institución pese a la separación formal. La izquierda y el independentismo cuestionan abiertamente la monarquía; Felipe VI responde con ejemplaridad y transparencia. La República figura en la agenda de socios del Gobierno, lo que mantiene el debate abierto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "monarquia",
+              "republica"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0023",
@@ -3532,8 +3754,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0024",
@@ -3563,7 +3785,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0024-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Roma, 1938. Rey de España 1975-2014. Designado sucesor por Franco, pilotó la Transición a la democracia y el fracaso del golpe del 23-F (1981).",
+            "contenido": "Juan Carlos I de Borbón (Roma, 5 de enero de 1938) fue Rey de España entre 1975 y 2014. Figura central de la Transición a la democracia, su reinado pasó del máximo prestigio —por su papel en el 23-F— al desprestigio de sus últimos años por escándalos económicos y personales que acabaron en su abdicación y posterior traslado al extranjero.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3583,9 +3805,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0024-ap-01-it-00",
             "apartado_id": "pod-0024-ap-01",
             "tipo": "evento",
-            "titulo": "Transición y 23-F",
-            "contenido": "Impulsó la democratización tras 1975 y frenó el golpe de Estado del 23 de febrero de 1981.",
-            "fecha": "1981-02-23",
+            "titulo": "Exilio, designación y formación",
+            "contenido": "Nieto de Alfonso XIII, nació en el exilio en Roma. Llegó a España en 1948 por un acuerdo entre su padre, Don Juan, y Franco, que se reservó su educación. Se formó en las tres academias militares y en la Universidad de Madrid. En 1969 Franco lo designó sucesor a título de Rey, saltándose la línea dinástica de su padre, lo que generó tensiones en la propia familia.",
+            "fecha": "1969-07-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3595,9 +3817,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0024-ap-01-it-01",
             "apartado_id": "pod-0024-ap-01",
             "tipo": "evento",
-            "titulo": "Abdicación",
-            "contenido": "Abdica en favor de Felipe VI en junio 2014.",
-            "fecha": "2014-06-02",
+            "titulo": "Rey y motor de la Transición",
+            "contenido": "Proclamado rey el 22 de noviembre de 1975, dos días después de la muerte de Franco, sorprendió al desmontar el aparato franquista desde dentro: nombró presidente a Adolfo Suárez, impulsó la Ley para la Reforma Política y respaldó la legalización de los partidos y la Constitución de 1978. Se convirtió en pieza clave del paso pacífico de la dictadura a la democracia.",
+            "fecha": "1975-11-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3607,13 +3829,49 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0024-ap-01-it-02",
             "apartado_id": "pod-0024-ap-01",
             "tipo": "evento",
-            "titulo": "Salida a Abu Dabi",
-            "contenido": "Se traslada a Emiratos Árabes en agosto 2020 en medio de investigaciones patrimoniales.",
-            "fecha": "2020-08-03",
+            "titulo": "El 23-F: la cumbre de su prestigio",
+            "contenido": "La noche del 23 de febrero de 1981, durante el intento de golpe de Estado, su mensaje televisado en defensa del orden constitucional fue decisivo para abortar la asonada. Aquel episodio consolidó su imagen de garante de la democracia y le dio un capital político y popular que mantuvo durante décadas, dentro y fuera de España.",
+            "fecha": "1981-02-23",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0024-ap-01-it-03",
+            "apartado_id": "pod-0024-ap-01",
+            "tipo": "evento",
+            "titulo": "Reinado y diplomacia económica",
+            "contenido": "Durante los años de expansión ejerció una intensa diplomacia al servicio de la internacionalización de la empresa española, especialmente en el mundo árabe y en Latinoamérica. Gozó de enorme popularidad y prestigio internacional, simbolizado en episodios como su célebre '¿Por qué no te callas?' a Hugo Chávez en 2007.",
+            "fecha": "2007-11-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "pod-0024-ap-01-it-04",
+            "apartado_id": "pod-0024-ap-01",
+            "tipo": "evento",
+            "titulo": "Declive: Botsuana y los escándalos",
+            "contenido": "Su imagen se quebró en abril de 2012 con una cacería de elefantes en Botsuana, conocida mientras España sufría la crisis. A partir de ahí se sucedieron las informaciones sobre comisiones, fundaciones opacas (Zagatka), tarjetas opacas y su relación con Corinna Larsen, además del caso Nóos que afectó a su yerno. El desprestigio precipitó su abdicación el 18 de junio de 2014.",
+            "fecha": "2012-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          },
+          {
+            "id": "pod-0024-ap-01-it-05",
+            "apartado_id": "pod-0024-ap-01",
+            "tipo": "evento",
+            "titulo": "Abdicación, exilio y causas",
+            "contenido": "Tras abdicar en su hijo, los escándalos no cesaron. En agosto de 2020 se trasladó a Abu Dabi en medio de investigaciones en España y Suiza. Regularizó varias cantidades ante Hacienda. La Fiscalía archivó las causas por prescripción, la inviolabilidad como jefe del Estado y las regularizaciones, sin que llegara a haber juicio. Rige, por tanto, la presunción de inocencia respecto de los hechos no enjuiciados, aunque el daño reputacional fue profundo.",
+            "fecha": "2020-08-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 5
           }
         ]
       },
@@ -3685,10 +3943,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0024-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0024-ap-05-it-00",
+            "apartado_id": "pod-0024-ap-05",
+            "tipo": "dato",
+            "titulo": "De símbolo de consenso a figura divisiva",
+            "contenido": "Pasó de ser un símbolo de unidad y consenso democrático a una figura que divide a la opinión pública. Para sus defensores, su papel en la Transición y el 23-F es indiscutible; para sus críticos, los escándalos finales empañan ese legado y alimentan el debate sobre la monarquía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion",
+              "legado"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0025",
@@ -3814,8 +4096,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0026",
@@ -3934,8 +4216,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0027",
@@ -3967,7 +4249,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0027-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1953. Inspector de Hacienda. Presidente del Gobierno entre 1996 y 2004 (dos legislaturas, la segunda con mayoría absoluta).",
+            "contenido": "José María Aznar López (Madrid, 25 de febrero de 1953) fue presidente del Gobierno entre 1996 y 2004 por el Partido Popular. Inspector de Hacienda de formación, lideró la consolidación del centro-derecha español, el saneamiento económico y la entrada en el euro, y hoy mantiene una influencia notable desde la Fundación FAES.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3987,9 +4269,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0027-ap-01-it-00",
             "apartado_id": "pod-0027-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente del Gobierno",
-            "contenido": "Gobierna 1996-2004. Entrada en el euro, crecimiento económico, apoyo a la guerra de Irak (Foto de las Azores, 2003).",
-            "fecha": "1996-05-05",
+            "titulo": "De inspector de Hacienda a Castilla y León",
+            "contenido": "Inspector de Hacienda del Estado, dio el salto a la política en Alianza Popular. Fue presidente de la Junta de Castilla y León (1987-1989) antes de asumir el liderazgo nacional del partido refundado como Partido Popular.",
+            "fecha": "1987-07-26",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3999,13 +4281,61 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0027-ap-01-it-01",
             "apartado_id": "pod-0027-ap-01",
             "tipo": "evento",
-            "titulo": "FAES",
-            "contenido": "Tras dejar la política activa, preside FAES, think tank de referencia del liberal-conservadurismo español.",
-            "fecha": "2004-04-01",
+            "titulo": "Líder de la oposición y atentado de ETA",
+            "contenido": "Designado sucesor de Manuel Fraga al frente del PP en 1990, modernizó y centró el partido. En 1995 sobrevivió a un atentado de ETA con coche bomba en Madrid, episodio que marcó su trayectoria y su firmeza antiterrorista.",
+            "fecha": "1990-09-04",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0027-ap-01-it-02",
+            "apartado_id": "pod-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente del Gobierno",
+            "contenido": "Ganó las elecciones de 1996 y gobernó primero en minoría con apoyo de los nacionalistas catalanes y vascos. El saneamiento de las cuentas y el crecimiento permitieron a España entrar en el euro. En 2000 revalidó con mayoría absoluta y endureció su perfil.",
+            "fecha": "1996-05-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0027-ap-01-it-03",
+            "apartado_id": "pod-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Giro atlantista y la foto de las Azores",
+            "contenido": "En su segundo mandato dio un marcado giro atlantista. Su apoyo a la invasión de Irak en 2003, simbolizado en la cumbre de las Azores junto a Bush y Blair, fue contestado por amplias movilizaciones y dividió al país.",
+            "fecha": "2003-03-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "pod-0027-ap-01-it-04",
+            "apartado_id": "pod-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "El 11-M y la salida del poder",
+            "contenido": "Los atentados yihadistas del 11 de marzo de 2004, tres días antes de las elecciones, y la gestión informativa de la autoría marcaron el final de su etapa. El PP, que no se presentaba con Aznar como candidato (cumplió su palabra de no agotar un tercer mandato), perdió frente a Zapatero.",
+            "fecha": "2004-03-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          },
+          {
+            "id": "pod-0027-ap-01-it-05",
+            "apartado_id": "pod-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "FAES y la influencia en la derecha",
+            "contenido": "Desde la Fundación FAES se ha convertido en el referente ideológico del ala más conservadora y atlantista del PP. Mantiene una influencia notable y ejerce de voz crítica tanto con el Gobierno de Sánchez como, en ocasiones, con la estrategia de moderación de Feijóo.",
+            "fecha": "2004-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 5
           }
         ]
       },
@@ -4030,6 +4360,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "liberalismo"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0027-ap-02-it-01",
+            "apartado_id": "pod-0027-ap-02",
+            "tipo": "dato",
+            "titulo": "Liberal-conservadurismo atlantista",
+            "contenido": "Defiende el liberalismo económico, la firmeza frente al nacionalismo y el terrorismo, y una política exterior alineada con Estados Unidos. Es una de las voces más beligerantes contra el 'sanchismo' y los pactos con el independentismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "atlantismo",
+              "liberalismo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4144,8 +4489,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0028",
@@ -4175,7 +4520,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0028-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Valladolid, 1960, criado en León. Presidente del Gobierno 2004-2011. Referente del ala social del PSOE.",
+            "contenido": "José Luis Rodríguez Zapatero (Valladolid, 4 de agosto de 1960), 'ZP', fue presidente del Gobierno entre 2004 y 2011. Impulsó una de las agendas de derechos civiles más ambiciosas de la democracia y gobernó en la transición del boom económico a la Gran Recesión, que marcó el final de su etapa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4195,9 +4540,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0028-ap-01-it-00",
             "apartado_id": "pod-0028-ap-01",
             "tipo": "evento",
-            "titulo": "Gobierno",
-            "contenido": "2004-2011: matrimonio igualitario, ley de dependencia, retirada de Irak, y gestión de la crisis financiera (recortes de 2010).",
-            "fecha": "2004-04-17",
+            "titulo": "Ascenso por 'Nueva Vía'",
+            "contenido": "Diputado por León desde joven, ganó por sorpresa la secretaría general del PSOE en el año 2000 al frente de la corriente 'Nueva Vía', renovando el partido tras las derrotas frente a Aznar con un discurso de talante dialogante.",
+            "fecha": "2000-07-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -4207,15 +4552,49 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0028-ap-01-it-01",
             "apartado_id": "pod-0028-ap-01",
             "tipo": "evento",
-            "titulo": "Mediación en Venezuela",
-            "contenido": "Mediador internacional en Venezuela, papel controvertido por su cercanía al chavismo.",
-            "fecha": "2015-01-01",
+            "titulo": "Llegada al poder tras el 11-M",
+            "contenido": "Ganó las elecciones de marzo de 2004, celebradas tres días después de los atentados del 11-M. Una de sus primeras decisiones fue la retirada de las tropas españolas de Irak, cumpliendo su promesa electoral.",
+            "fecha": "2004-04-17",
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [
-              "venezuela"
-            ],
+            "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0028-ap-01-it-02",
+            "apartado_id": "pod-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "La agenda de derechos",
+            "contenido": "Su primera legislatura desplegó una intensa agenda social y de derechos: matrimonio igualitario (2005), ley de dependencia, ley de igualdad y paridad, ley de memoria histórica, ampliación del aborto y negociación —fallida— con ETA. Polarizó el debate público con la Iglesia y la derecha.",
+            "fecha": "2005-07-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0028-ap-01-it-03",
+            "apartado_id": "pod-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "De la negación de la crisis al ajuste",
+            "contenido": "Reelegido en 2008, su gestión quedó marcada por la crisis financiera global. Tras meses negando su gravedad, la presión de los mercados y de Bruselas le forzó en mayo de 2010 a un giro de ajuste sin precedentes: recorte de salarios públicos, congelación de pensiones y reforma laboral, que rompió con su electorado.",
+            "fecha": "2010-05-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "pod-0028-ap-01-it-04",
+            "apartado_id": "pod-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida y mediación internacional",
+            "contenido": "No se presentó a la reelección. El PSOE perdió las elecciones de 2011 con Rubalcaba. Desde entonces se ha dedicado a la mediación internacional, especialmente en Venezuela, una labor que le ha valido fuertes críticas por su cercanía al chavismo.",
+            "fecha": "2011-11-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
           }
         ]
       },
@@ -4296,10 +4675,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0028-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0028-ap-04-it-00",
+            "apartado_id": "pod-0028-ap-04",
+            "tipo": "dato",
+            "titulo": "Progresismo de derechos y diálogo",
+            "contenido": "Su sello es el progresismo en derechos civiles y un talante dialogante, también con los nacionalismos. Sigue siendo una voz influyente en el ala izquierda del PSOE y defensor de la política de distensión territorial del actual Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derechos-civiles",
+              "dialogo"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0029",
@@ -4330,7 +4733,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0029-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sevilla, 1942. Abogado laboralista. Secretario general del PSOE (1974-1997) y presidente del Gobierno durante 14 años (1982-1996).",
+            "contenido": "Felipe González Márquez (Sevilla, 5 de marzo de 1942) es el presidente del Gobierno que más tiempo ha ocupado el cargo en democracia (1982-1996). Abogado laboralista y líder histórico del PSOE, simboliza la modernización de España y su plena integración en Europa, así como las luces y sombras de catorce años de poder socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4350,13 +4753,73 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0029-ap-01-it-00",
             "apartado_id": "pod-0029-ap-01",
             "tipo": "evento",
-            "titulo": "Gobierno",
-            "contenido": "1982-1996: entrada en la CEE (1986), referéndum OTAN, modernización de infraestructuras (AVE, autovías). Etapa final marcada por los casos GAL y Filesa.",
-            "fecha": "1982-12-02",
+            "titulo": "Abogado laboralista y 'Isidoro'",
+            "contenido": "Formado en Derecho en Sevilla, ejerció como abogado laboralista defendiendo a trabajadores en los últimos años del franquismo. Militó en la clandestinidad bajo el apodo de 'Isidoro' y ascendió rápidamente en un PSOE entonces dividido entre el interior y el exilio.",
+            "fecha": "1965-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0029-ap-01-it-01",
+            "apartado_id": "pod-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "La refundación del PSOE",
+            "contenido": "En el Congreso de Suresnes (Francia, 1974) fue elegido secretario general con el apoyo de la socialdemocracia europea. Lideró la transformación del partido: en 1979 forzó el abandono del marxismo como seña de identidad, modernizando el PSOE y haciéndolo electoralmente competitivo para gobernar.",
+            "fecha": "1974-10-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0029-ap-01-it-02",
+            "apartado_id": "pod-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "La victoria de 1982 y las grandes reformas",
+            "contenido": "El 28 de octubre de 1982 el PSOE arrasó con más de diez millones de votos, abriendo una etapa de mayorías absolutas. Su Gobierno acometió la reconversión industrial, la expansión del Estado del bienestar (sanidad y educación universales, pensiones), la modernización de las infraestructuras y la profesionalización de las Fuerzas Armadas.",
+            "fecha": "1982-10-28",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0029-ap-01-it-03",
+            "apartado_id": "pod-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Europa y la OTAN",
+            "contenido": "Su gran obra exterior fue el anclaje de España en Occidente: la firma de la adhesión a la Comunidad Económica Europea (1986) y el giro en el referéndum de la OTAN de marzo de 1986, en el que defendió la permanencia que antes había combatido. 1992 —Olimpiadas de Barcelona y Expo de Sevilla— fue el escaparate de la nueva España.",
+            "fecha": "1986-03-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "pod-0029-ap-01-it-04",
+            "apartado_id": "pod-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "GAL, corrupción y desgaste",
+            "contenido": "Sus últimos años estuvieron marcados por la guerra sucia contra ETA (los GAL), los casos de corrupción (Roldán, Filesa) y el desgaste del poder, el llamado 'felipismo'. Perdió las elecciones de 1996 frente a Aznar tras catorce años de gobierno.",
+            "fecha": "1996-03-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          },
+          {
+            "id": "pod-0029-ap-01-it-05",
+            "apartado_id": "pod-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Estadista y voz crítica",
+            "contenido": "Tras dejar la política activa se convirtió en un estadista de referencia internacional, asesor y consejero de empresas (Gas Natural). En los últimos años ha sido una de las voces más críticas con la deriva del PSOE de Pedro Sánchez, especialmente con los pactos con el independentismo y la ley de amnistía.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 5
           }
         ]
       },
@@ -4380,6 +4843,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "critico-sanchez"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0029-ap-02-it-01",
+            "apartado_id": "pod-0029-ap-02",
+            "tipo": "dato",
+            "titulo": "Socialdemocracia y razón de Estado",
+            "contenido": "Representa una socialdemocracia pragmática y europeísta, con fuerte sentido de la 'razón de Estado'. Defiende la moderación, el pacto y la centralidad frente a lo que considera excesos ideológicos, y se ha distanciado abiertamente del actual rumbo de su partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "socialdemocracia",
+              "europeismo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4462,8 +4940,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0030",
@@ -4493,7 +4971,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0030-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santiago de Compostela, 1955. Registrador de la propiedad. Presidente del Gobierno 2011-2018.",
+            "contenido": "Mariano Rajoy Brey (Santiago de Compostela, 27 de marzo de 1955) fue presidente del Gobierno entre 2011 y 2018. Registrador de la propiedad y político de largo recorrido en el PP, gobernó en plena crisis económica y afrontó el mayor desafío territorial de la democracia, antes de ser desalojado por la primera moción de censura exitosa de la historia.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4513,9 +4991,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0030-ap-01-it-00",
             "apartado_id": "pod-0030-ap-01",
             "tipo": "evento",
-            "titulo": "Gobierno",
-            "contenido": "2011-2018: ajuste fiscal, rescate bancario, recuperación económica, aplicación del 155 en Cataluña (2017).",
-            "fecha": "2011-12-21",
+            "titulo": "Registrador y ministro con Aznar",
+            "contenido": "Registrador de la propiedad, hizo carrera en el PP de Galicia y desembarcó en Madrid. Fue ministro en varias carteras con Aznar (Administraciones Públicas, Educación, Interior, Presidencia) y vicepresidente, ganándose fama de gestor discreto y resistente.",
+            "fecha": "1996-05-05",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -4525,15 +5003,49 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0030-ap-01-it-01",
             "apartado_id": "pod-0030-ap-01",
             "tipo": "evento",
-            "titulo": "Moción de censura",
-            "contenido": "Desalojado del poder por la moción de censura de Pedro Sánchez en junio 2018, tras la sentencia de Gürtel.",
+            "titulo": "Sucesor de Aznar y dos derrotas",
+            "contenido": "Designado sucesor por Aznar en 2004, perdió las elecciones de 2004 y 2008 frente a Zapatero. Su resistencia interna y la crisis económica le dieron una tercera oportunidad.",
+            "fecha": "2004-09-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0030-ap-01-it-02",
+            "apartado_id": "pod-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente en plena crisis",
+            "contenido": "Ganó por mayoría absoluta en 2011. Gobernó aplicando una dura política de austeridad y reformas para evitar el rescate total del país; sí hubo rescate del sistema financiero. La recuperación llegó al final de su mandato, a costa de un fuerte desgaste social.",
+            "fecha": "2011-12-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0030-ap-01-it-03",
+            "apartado_id": "pod-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "El desafío catalán y el 155",
+            "contenido": "Afrontó el 'procés' independentista catalán, que culminó en el referéndum ilegal del 1 de octubre de 2017 y la declaración de independencia. Su Gobierno aplicó por primera vez el artículo 155 de la Constitución, interviniendo la autonomía de Cataluña y convocando elecciones.",
+            "fecha": "2017-10-27",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "pod-0030-ap-01-it-04",
+            "apartado_id": "pod-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Gürtel y la moción de censura",
+            "contenido": "La sentencia del caso Gürtel, que acreditó la existencia de una caja b y una trama de corrupción ligada al PP, precipitó su caída: el 1 de junio de 2018 Pedro Sánchez ganó la primera moción de censura constructiva exitosa de la democracia. Rajoy abandonó la política y volvió a su plaza de registrador.",
             "fecha": "2018-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [
-              "mocion-censura"
-            ],
-            "orden": 1
+            "tags": [],
+            "orden": 4
           }
         ]
       },
@@ -4614,10 +5126,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0030-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0030-ap-04-it-00",
+            "apartado_id": "pod-0030-ap-04",
+            "tipo": "dato",
+            "titulo": "Conservadurismo gestor y resistente",
+            "contenido": "Representa un conservadurismo pragmático, gestor y poco ideológico, con una proverbial capacidad de resistencia y de no decisión táctica. Su gestión de la crisis y del desafío territorial sigue siendo objeto de debate dentro y fuera del PP.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gestion",
+              "estabilidad"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0031",
@@ -4785,8 +5321,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0032",
@@ -4922,8 +5458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0033",
@@ -5075,8 +5611,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0034",
@@ -5195,8 +5731,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0035",
@@ -5322,8 +5858,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0036",
@@ -5459,8 +5995,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0037",
@@ -5612,8 +6148,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0038",
@@ -5763,8 +6299,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0039",
@@ -5900,8 +6436,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0040",
@@ -6021,8 +6557,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0041",
@@ -6156,8 +6692,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0042",
@@ -6277,8 +6813,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0043",
@@ -6417,8 +6953,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0044",
@@ -6552,8 +7088,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0045",
@@ -6667,8 +7203,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0046",
@@ -6816,8 +7352,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0047",
@@ -6949,8 +7485,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0048",
@@ -7049,8 +7585,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0049",
@@ -7182,8 +7718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0050",
@@ -7269,8 +7805,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0051",
@@ -7356,8 +7892,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0052",
@@ -7488,8 +8024,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0053",
@@ -7596,8 +8132,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0054",
@@ -7705,8 +8241,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0055",
@@ -7814,8 +8350,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0056",
@@ -7910,8 +8446,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0057",
@@ -8034,8 +8570,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0058",
@@ -8147,8 +8683,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0059",
@@ -8260,8 +8796,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0060",
@@ -8384,8 +8920,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0061",
@@ -8541,8 +9077,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0062",
@@ -8654,8 +9190,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0063",
@@ -8788,8 +9324,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0064",
@@ -8922,8 +9458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0065",
@@ -9022,8 +9558,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0066",
@@ -9122,8 +9658,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0067",
@@ -9219,8 +9755,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0068",
@@ -9307,8 +9843,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0069",
@@ -9466,8 +10002,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0070",
@@ -9580,8 +10116,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0071",
@@ -9701,8 +10237,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0072",
@@ -9834,8 +10370,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0073",
@@ -9967,8 +10503,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0074",
@@ -10089,8 +10625,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0075",
@@ -10224,8 +10760,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0076",
@@ -10344,8 +10880,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0077",
@@ -10456,8 +10992,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0078",
@@ -10566,8 +11102,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0079",
@@ -10692,8 +11228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0080",
@@ -10725,7 +11261,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0080-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Abogada y política francesa, exministra de Economía de Francia y exdirectora gerente del FMI. Preside el BCE desde 2019, primera mujer al frente del banco emisor del euro.",
+            "contenido": "Christine Lagarde (París, 1 de enero de 1956) es presidenta del Banco Central Europeo desde 2019. Abogada de formación, ha sido ministra de Economía de Francia y directora gerente del FMI. Aunque no es española, sus decisiones sobre los tipos de interés del euro condicionan directamente las hipotecas, la banca y la deuda de España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10745,13 +11281,49 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0080-ap-01-it-00",
             "apartado_id": "pod-0080-ap-01",
             "tipo": "evento",
-            "titulo": "La subida de tipos",
-            "contenido": "Lideró el ciclo de subidas de tipos más agresivo de la historia del euro para combatir la inflación, encareciendo hipotecas y crédito pero disparando los beneficios de la banca española.",
-            "fecha": "2022-07-21",
+            "titulo": "De la abogacía a la política francesa",
+            "contenido": "Abogada especializada en derecho mercantil y laboral, presidió el bufete internacional Baker McKenzie en Chicago antes de regresar a Francia para la política. Fue ministra de Comercio y, desde 2007, ministra de Economía, la primera mujer en ese cargo en un país del G7.",
+            "fecha": "2007-06-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0080-ap-01-it-01",
+            "apartado_id": "pod-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "Directora gerente del FMI",
+            "contenido": "En 2011 asumió la dirección del Fondo Monetario Internacional, donde gestionó las réplicas de la crisis de deuda europea —Grecia incluida— y consolidó su perfil de gran gestora de la economía global.",
+            "fecha": "2011-07-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0080-ap-01-it-02",
+            "apartado_id": "pod-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta del BCE",
+            "contenido": "En noviembre de 2019 se convirtió en la primera mujer al frente del Banco Central Europeo. Afrontó la pandemia con un programa masivo de compra de deuda (PEPP) que protegió a países como España, y después el repunte de inflación tras la guerra de Ucrania.",
+            "fecha": "2019-11-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0080-ap-01-it-03",
+            "apartado_id": "pod-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "La era de las subidas de tipos",
+            "contenido": "Entre 2022 y 2023 lideró el ciclo de subidas de tipos más rápido de la historia del euro para domar la inflación. La medida encareció las hipotecas y el crédito de millones de españoles, pero disparó los beneficios de la banca; en paralelo, su 'escudo antifragmentación' protegió la deuda del sur frente a la especulación.",
+            "fecha": "2022-07-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -10777,6 +11349,22 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "estabilidad"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0080-ap-02-it-01",
+            "apartado_id": "pod-0080-ap-02",
+            "tipo": "dato",
+            "titulo": "Estabilidad de precios y del euro",
+            "contenido": "Su mandato es la estabilidad de precios, pero equilibra el control de la inflación con la cohesión del euro y la estabilidad financiera. Sus decisiones tienen un impacto directo y cotidiano sobre la economía de las familias y las empresas españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "inflacion",
+              "tipos",
+              "euro"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10826,8 +11414,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0081",
@@ -10926,8 +11514,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0082",
@@ -11026,8 +11614,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0083",
@@ -11123,8 +11711,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0084",
@@ -11222,8 +11810,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0085",
@@ -11298,8 +11886,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0086",
@@ -11373,8 +11961,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0087",
@@ -11460,8 +12048,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0088",
@@ -11524,8 +12112,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0089",
@@ -11599,8 +12187,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   },
   {
     "id": "pod-0090",
@@ -11712,8 +12300,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:21:32.462543Z",
-    "updated_at": "2026-05-28T21:21:32.462543Z"
+    "created_at": "2026-05-28T21:34:43.262467Z",
+    "updated_at": "2026-05-28T21:34:43.262467Z"
   }
 ]
 
