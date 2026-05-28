@@ -1,0 +1,27 @@
+{
+  "_nota": "Cifras de patrimonio TRANSCRITAS A MANO de fuentes periodísticas fiables, con su fecha. La clave es el nombre exacto del Congreso (Apellidos, Nombre). Ampliable. Los importes oficiales completos están en el BOCG.",
+  "Sánchez Pérez-Castejón, Pedro": {
+    "texto": "Declaración de bienes y rentas (XV Legislatura, publicada en julio de 2023): bienes inmuebles valorados en torno a 180.000 €, algo menos de 80.000 € en cuenta bancaria, 81.499,20 € en un fondo de inversión y unos 42.000 € en derechos de autor por su libro. No declara vehículos ni deudas relevantes.",
+    "fecha": "2023-07-13",
+    "fuente": "https://www.infobae.com/espana/2023/07/13/quien-tiene-mas-patrimonio-asi-son-las-cuentas-declaradas-de-pedro-sanchez-yolanda-diaz-alberto-nunez-feijoo-y-santiago-abascal/",
+    "fuente_titulo": "Infobae · declaraciones XV Leg. (13/07/2023)"
+  },
+  "Núñez Feijóo, Alberto": {
+    "texto": "Declaración de bienes y rentas (XV Legislatura, 2023): 37.627 € en cuenta corriente, 403.425 € en un fondo de inversión en Abanca, 195.163,16 € en un plan de pensiones, acciones de Inditex por 133.200 € y de Telefónica por 363,40 €. Entre sus ingresos declaró salario de la Xunta, del Parlamento gallego, del PP (gastos de representación) y como presidente del grupo popular en el Senado.",
+    "fecha": "2023-07-13",
+    "fuente": "https://www.infobae.com/espana/2023/07/13/quien-tiene-mas-patrimonio-asi-son-las-cuentas-declaradas-de-pedro-sanchez-yolanda-diaz-alberto-nunez-feijoo-y-santiago-abascal/",
+    "fuente_titulo": "Infobae · declaraciones XV Leg. (13/07/2023)"
+  },
+  "Abascal Conde, Santiago": {
+    "texto": "Declaración de bienes y rentas (XV Legislatura, 2023): ingresos de unos 37.357 € como presidente de Vox, una vivienda en Madrid y una cuenta bancaria con 29.017 €. Posee el 40% de un ático en el barrio madrileño de Pinar del Rey, con una hipoteca de 736.000 € a 30 años (su parte proporcional, unos 368.000 €).",
+    "fecha": "2023-07-13",
+    "fuente": "https://www.infobae.com/espana/2023/07/13/quien-tiene-mas-patrimonio-asi-son-las-cuentas-declaradas-de-pedro-sanchez-yolanda-diaz-alberto-nunez-feijoo-y-santiago-abascal/",
+    "fuente_titulo": "Infobae · declaraciones XV Leg. (13/07/2023)"
+  },
+  "Díaz Pérez, Yolanda": {
+    "texto": "Declaración de bienes y rentas (XV Legislatura, 2023): un despacho y una vivienda en A Coruña, dos automóviles, una cuenta bancaria con 33.200 € y una hipoteca pendiente de 168.284 €.",
+    "fecha": "2023-07-13",
+    "fuente": "https://www.infobae.com/espana/2023/07/13/quien-tiene-mas-patrimonio-asi-son-las-cuentas-declaradas-de-pedro-sanchez-yolanda-diaz-alberto-nunez-feijoo-y-santiago-abascal/",
+    "fuente_titulo": "Infobae · declaraciones XV Leg. (13/07/2023)"
+  }
+}
