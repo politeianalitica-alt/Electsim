@@ -10,6 +10,8 @@ import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
 import EmptyState from '@/components/EmptyState'
 import { findDossier } from '@/lib/dosieres-link'
+import { GRAFO_DOSIERES_ACTORS, getDossierAny } from '@/lib/grafo-dosieres'
+import type { DossierCompleto } from '@/data/dosieres-fixture'
 
 type ActorView = 'mapa' | 'grafo' | 'dossier'
 
@@ -44,6 +46,7 @@ export default function MapaActoresPage() {
   const [pinned, setPinned] = useState<string | null>(null)
   const [view, setView] = useState<ActorView>('mapa')
   const [dossierId, setDossierId] = useState<string | null>(null)
+  const [grafoSel, setGrafoSel] = useState<string | null>(null)
 
   // Live API: fetch personas from Politeia Intelligence
   const { data: apiPersonas } = useApi<ApiPersona[]>('/api/intelligence/personas?limit=100&order_by=score_influencia', { refreshInterval: 0 })
@@ -60,6 +63,32 @@ export default function MapaActoresPage() {
   const focused = pinned ?? hovered
   const focusedActor = focused ? ACTORES.find(a => a.id === focused) : null
   const focusedDossier = useMemo(() => focusedActor ? findDossier(focusedActor.nombre) : null, [focusedActor])
+
+  // Grafo: nodos = catálogo ACTORES (o personas live) + personas de los
+  // dossiers nuevos (IBEX 35, poder no-electo, diputaciones) que tienen redes.
+  const grafoActors = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const base = (personas.length > 0 ? personas : ACTORES).map((p: any) => ({
+      id: p.id,
+      nombre: p.nombre_completo ?? p.nombre,
+      partido: p.partido,
+      cargo: p.cargo_actual ?? p.cargo,
+      cat: p.cat,
+      color: p.color,
+      ejeX: p.ejeX,
+      ejeY: p.ejeY,
+      inf: p.inf,
+      score_influencia: p.score_influencia ?? p.inf,
+    }))
+    const seen = new Set(base.map((a) => a.id))
+    return [...base, ...GRAFO_DOSIERES_ACTORS.filter((a) => !seen.has(a.id))]
+  }, [personas])
+
+  const grafoSelDossier = useMemo(() => {
+    if (!grafoSel) return null
+    const nombre = grafoActors.find((a) => a.id === grafoSel)?.nombre
+    return getDossierAny(grafoSel, nombre)
+  }, [grafoSel, grafoActors])
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -148,25 +177,14 @@ export default function MapaActoresPage() {
  </div>
 
       {view === 'grafo' && (
- <RelacionesGrafo
-          actors={(personas.length > 0 ? personas : ACTORES).map(p => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const any = p as any
-            return {
-              id: 'id' in p ? p.id : any.id,
-              nombre: 'nombre_completo' in p ? p.nombre_completo : any.nombre,
-              partido: p.partido,
-              cargo: 'cargo_actual' in p ? p.cargo_actual : any.cargo,
-              cat: any.cat,
-              color: any.color,
-              ejeX: any.ejeX,
-              ejeY: any.ejeY,
-              inf: any.inf,
-              score_influencia: 'score_influencia' in p ? p.score_influencia : any.inf,
-            }
-          })}
-          maxActors={300}
-        />
+        <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <RelacionesGrafo actors={grafoActors} maxActors={500} onSelect={setGrafoSel} />
+          </div>
+          {grafoSelDossier && (
+            <DossierSidebar dossier={grafoSelDossier} onClose={() => setGrafoSel(null)} />
+          )}
+        </div>
       )}
 
       {view === 'dossier' && (
@@ -550,6 +568,58 @@ function Coord({ label, value, pos, color }: { label:string, value:number, pos:s
 }
 
 // Inline dossier view: scrollable list of actors on the left + full dossier on the right
+// Barra lateral del grafo · muestra la ficha del nodo clicado
+function DossierSidebar({ dossier, onClose }: { dossier: DossierCompleto; onClose: () => void }) {
+  const clean = (s: string) => (s || '').replace(/\*\*/g, '').replace(/\s*\(nota[^)]*\)/i, '').trim()
+  const redes = dossier.apartados.find(a => a.tipo === 'redes')
+  const identidad = dossier.apartados.find(a => a.tipo === 'identidad')
+  const evidencia = dossier.apartados.find(a => a.tipo === 'evidencia')
+  return (
+    <aside style={{
+      width: 350, flexShrink: 0, background: '#fff', border: '1px solid #e5e7eb',
+      borderLeft: '4px solid #0EA5E9', borderRadius: 10, padding: 16,
+      position: 'sticky', top: 16, maxHeight: '82vh', overflowY: 'auto',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#1f2937', lineHeight: 1.25 }}>{dossier.nombre_completo}</h3>
+        <button onClick={onClose} aria-label="Cerrar" style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#9ca3af', fontSize: 20, lineHeight: 1 }}>×</button>
+      </div>
+      {dossier.cargo_actual && <p style={{ margin: '4px 0 0', fontSize: 12, color: '#6b7280', lineHeight: 1.4 }}>{dossier.cargo_actual}</p>}
+      {dossier.partido && (
+        <span style={{ display: 'inline-block', marginTop: 8, fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999, background: '#eef2ff', color: '#4338ca' }}>{dossier.partido}</span>
+      )}
+      {dossier.bio_corta && (
+        <p style={{ margin: '10px 0 0', fontSize: 12.5, lineHeight: 1.55, color: '#3a3a3d' }}>
+          {identidad?.items?.[0]?.contenido || dossier.bio_corta}
+        </p>
+      )}
+      {redes && redes.items.length > 0 && (
+        <div style={{ marginTop: 14 }}>
+          <h4 style={{ margin: '0 0 6px', fontSize: 10.5, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase', color: '#0EA5E9' }}>Quién está cerca</h4>
+          {redes.items.slice(0, 7).map((it, i) => (
+            <div key={i} style={{ fontSize: 11.5, color: '#444', lineHeight: 1.5, marginBottom: 7 }}>
+              <strong style={{ color: '#1f2937' }}>{it.titulo}</strong> — {clean(it.contenido || '').slice(0, 130)}
+            </div>
+          ))}
+        </div>
+      )}
+      {evidencia && evidencia.items.length > 0 && (
+        <div style={{ marginTop: 12 }}>
+          <h4 style={{ margin: '0 0 6px', fontSize: 10.5, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase', color: '#525258' }}>Patrimonio / declaración</h4>
+          {evidencia.items.slice(0, 2).map((it, i) => (
+            <div key={i} style={{ fontSize: 11.5, color: '#444', lineHeight: 1.5, marginBottom: 6 }}>
+              <strong style={{ color: '#1f2937' }}>{it.titulo}</strong>{it.fecha ? ` · ${it.fecha}` : ''} — {clean(it.contenido || '').slice(0, 120)}
+            </div>
+          ))}
+        </div>
+      )}
+      <Link href={`/dosieres/${dossier.slug}`} style={{ display: 'inline-block', marginTop: 14, fontSize: 12, fontWeight: 600, color: '#0071e3', textDecoration: 'none' }}>
+        Ver ficha completa →
+      </Link>
+    </aside>
+  )
+}
+
 function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: {
   actors: typeof ACTORES
   liveByName: Record<string, ApiPersona>
