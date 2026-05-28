@@ -319,6 +319,18 @@ export default function DosieresPage() {
             }}
           />
           <button
+            onClick={() => router.push('/dosieres/stats')}
+            style={{
+              background: '#fff', border: '1px solid #ECECEF', color: '#1d1d1f',
+              padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+              cursor: 'pointer', fontFamily: 'inherit',
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+            }}
+            title="Panorama del dataset · composición por partido, top conectados, etc."
+          >
+            Stats
+          </button>
+          <button
             onClick={() => router.push('/dosieres/importar')}
             style={{
               background: '#fff', border: '1px solid #ECECEF', color: '#1d1d1f',
