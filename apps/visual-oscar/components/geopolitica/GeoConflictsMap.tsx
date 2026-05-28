@@ -15,17 +15,35 @@ interface Conflict {
   iso3: string; name_es: string; iso2: string
   lat: number; lon: number; region: string
   intensity: 1 | 2 | 3 | 4 | 5
+  intensity_baseline?: 1 | 2 | 3 | 4 | 5
   events_30d: number; events_7d: number
   trend: 'subida' | 'estable' | 'bajada'
   avg_tone: number
   top_themes: string[]
   top_sources: string[]
+  // ── Nuevos campos UCDP/PRIO (FIX-A3) ─────────────────────────────
+  conflict_label?: string
+  conflict_type?: 'state-based' | 'non-state' | 'one-sided'
+  start_year?: number
+  actors?: string[]
+  fatalities_year_est?: number
+  notes?: string
+  has_gdelt_signal?: boolean
+  source?: 'ucdp-baseline' | 'ucdp+gdelt' | 'gdelt-only'
 }
 interface Response {
   ok: boolean
   conflicts: Conflict[]
   total_with_signal: number
-  _meta?: { sources: Array<{ name: string; role: string }>; method: string }
+  summary?: {
+    total_conflicts: number
+    total_with_gdelt_signal: number
+    total_events_30d: number
+    total_fatalities_year_est: number
+    by_intensity: Record<string, number>
+    gdelt_available: boolean
+  }
+  _meta?: { sources: Array<{ name: string; role: string }>; method: string; capa_b_status?: string }
 }
 
 interface Props {
@@ -64,12 +82,21 @@ export function GeoConflictsMap({ onConflictClick }: Props) {
     }}>
       <header style={{ marginBottom: 10 }}>
         <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: '#0f172a' }}>
-          Mapa de conflictos activos · intensidad mediática 30 días
+          Mapa de conflictos activos · UCDP/PRIO + GDELT enrichment
         </h3>
         <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
-          Tamaño del círculo = volumen artículos GDELT WAR_CONFLICT. Color = tono medio (rojo=hostil).
-          Click para detalle multi-pestaña. ACLED no disponible.
+          Top 30 conflictos UCDP estructurales (Ucrania, Sudán, Myanmar, Gaza, Yemen, RDC, Sahel...) +
+          enriquecimiento GDELT táctico (volumen 30d, tono, tendencia). Click para drawer detalle.
         </p>
+        {data?.summary && (
+          <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>
+            {data.summary.total_conflicts} conflictos UCDP · {data.summary.total_with_gdelt_signal} con señal GDELT 30d ·
+            ~{Math.round(data.summary.total_fatalities_year_est / 1000)}k muertes/año estimadas
+            {data._meta?.capa_b_status === 'rate-limited' && (
+              <span style={{ marginLeft: 8, color: '#f59e0b' }}>· GDELT rate-limited (seed UCDP íntegro)</span>
+            )}
+          </p>
+        )}
       </header>
 
       {loading && <p style={{ fontSize: 11, color: '#94a3b8' }}>Cargando conflictos activos…</p>}
@@ -142,21 +169,51 @@ export function GeoConflictsMap({ onConflictClick }: Props) {
             <div style={{
               position: 'absolute', top: 60, right: 20,
               background: '#0f172a', color: '#fff',
-              padding: '10px 14px', borderRadius: 8, fontSize: 11, maxWidth: 260,
+              padding: '12px 14px', borderRadius: 8, fontSize: 11, maxWidth: 320,
               pointerEvents: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
             }}>
               <p style={{ margin: 0, fontWeight: 700, fontSize: 13 }}>{hover.name_es}</p>
-              <p style={{ margin: '4px 0 0', fontFamily: 'ui-monospace, monospace' }}>
-                {'★'.repeat(hover.intensity)}{'☆'.repeat(5 - hover.intensity)} · {hover.events_30d} arts 30d
+              {hover.conflict_label && (
+                <p style={{ margin: '2px 0 0', fontSize: 10, color: '#fbbf24', fontWeight: 600 }}>
+                  {hover.conflict_label}
+                </p>
+              )}
+              <p style={{ margin: '6px 0 0', fontFamily: 'ui-monospace, monospace' }}>
+                {'★'.repeat(hover.intensity)}{'☆'.repeat(5 - hover.intensity)}
+                {hover.conflict_type && (
+                  <span style={{ marginLeft: 6, fontSize: 9, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+                    {hover.conflict_type}
+                  </span>
+                )}
               </p>
-              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#cbd5e1' }}>
-                Tendencia: <strong style={{ color: hover.trend === 'subida' ? '#dc2626' : hover.trend === 'bajada' ? '#16a34a' : '#94a3b8' }}>{hover.trend}</strong>
-                {' '}({hover.events_7d} arts 7d)
-              </p>
-              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#cbd5e1' }}>
-                Tono medio: {hover.avg_tone}
-              </p>
-              <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>Click para drawer detalle →</p>
+              {hover.actors && hover.actors.length > 0 && (
+                <p style={{ margin: '4px 0 0', fontSize: 10, color: '#cbd5e1' }}>
+                  <span style={{ color: '#94a3b8' }}>Actores: </span>
+                  {hover.actors.slice(0, 3).join(' · ')}
+                </p>
+              )}
+              {hover.fatalities_year_est !== undefined && hover.fatalities_year_est > 0 && (
+                <p style={{ margin: '2px 0 0', fontSize: 10, color: '#fca5a5' }}>
+                  ~{hover.fatalities_year_est.toLocaleString('es-ES')} muertes/año
+                  {hover.start_year && <span style={{ color: '#94a3b8' }}> · desde {hover.start_year}</span>}
+                </p>
+              )}
+              {hover.events_30d > 0 ? (
+                <>
+                  <p style={{ margin: '6px 0 0', fontSize: 10, color: '#cbd5e1' }}>
+                    GDELT: <strong>{hover.events_30d} arts 30d</strong> · tono {hover.avg_tone}
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 10, color: '#cbd5e1' }}>
+                    Tendencia: <strong style={{ color: hover.trend === 'subida' ? '#dc2626' : hover.trend === 'bajada' ? '#16a34a' : '#94a3b8' }}>{hover.trend}</strong>
+                    {' '}({hover.events_7d} arts 7d)
+                  </p>
+                </>
+              ) : (
+                <p style={{ margin: '6px 0 0', fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>
+                  GDELT sin señal 30d (rate-limit o censura informativa)
+                </p>
+              )}
+              <p style={{ margin: '6px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>Click para drawer detalle →</p>
             </div>
           )}
         </>

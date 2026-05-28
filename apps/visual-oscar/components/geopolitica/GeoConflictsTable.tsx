@@ -19,6 +19,13 @@ interface Conflict {
   top_sources: string[]
   vdem_polyarchy: number | null
   milex_pct_gdp: number | null
+  // ── Nuevos campos UCDP/PRIO (FIX-A3) ─────────────────────────────
+  conflict_label?: string
+  conflict_type?: 'state-based' | 'non-state' | 'one-sided'
+  start_year?: number
+  actors?: string[]
+  fatalities_year_est?: number
+  has_gdelt_signal?: boolean
 }
 interface Response { ok: boolean; conflicts: Conflict[] }
 
@@ -123,14 +130,42 @@ export function GeoConflictsTable({ onConflictClick, highlightIso3 }: Props) {
                   >
                     <td style={{ padding: '8px 8px', fontWeight: 600, color: '#0f172a' }}>
                       {c.name_es} <span style={{ color: '#94a3b8', fontSize: 9, fontWeight: 400 }}>{c.iso3}</span>
+                      {c.conflict_label && (
+                        <p style={{ margin: '2px 0 0', fontSize: 9, color: '#7c3aed', fontWeight: 500, lineHeight: 1.3 }}>
+                          {c.conflict_label}
+                        </p>
+                      )}
+                      {c.actors && c.actors.length > 0 && (
+                        <p style={{ margin: '1px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic', lineHeight: 1.3 }}>
+                          {c.actors.slice(0, 2).join(' · ')}
+                          {c.actors.length > 2 && <span> +{c.actors.length - 2}</span>}
+                        </p>
+                      )}
                     </td>
                     <td style={{ padding: '8px 8px', color: '#dc2626', fontFamily: 'ui-monospace, monospace' }}>
                       {'●'.repeat(c.intensity)}<span style={{ color: '#e2e8f0' }}>{'●'.repeat(5 - c.intensity)}</span>
+                      {c.conflict_type && (
+                        <p style={{ margin: '2px 0 0', fontSize: 8, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.2 }}>
+                          {c.conflict_type}
+                        </p>
+                      )}
                     </td>
-                    <td style={{ padding: '8px 8px', color: trendColor, fontWeight: 700, fontSize: 14 }}>{trendArrow}</td>
-                    <td style={{ padding: '8px 8px', fontFamily: 'ui-monospace, monospace', color: '#0f172a' }}>{c.events_30d}</td>
+                    <td style={{ padding: '8px 8px', color: trendColor, fontWeight: 700, fontSize: 14 }}>
+                      {trendArrow}
+                      {!c.has_gdelt_signal && (
+                        <p style={{ margin: '2px 0 0', fontSize: 8, color: '#94a3b8', fontWeight: 400 }}>baseline</p>
+                      )}
+                    </td>
+                    <td style={{ padding: '8px 8px', fontFamily: 'ui-monospace, monospace', color: '#0f172a' }}>
+                      {c.events_30d}
+                      {c.fatalities_year_est !== undefined && c.fatalities_year_est > 0 && (
+                        <p style={{ margin: '2px 0 0', fontSize: 9, color: '#dc2626', fontFamily: 'inherit' }}>
+                          ~{Math.round(c.fatalities_year_est / 1000)}k muertes/año
+                        </p>
+                      )}
+                    </td>
                     <td style={{ padding: '8px 8px', fontFamily: 'ui-monospace, monospace', color: toneColor, fontWeight: 600 }}>
-                      {c.avg_tone > 0 ? '+' : ''}{c.avg_tone}
+                      {c.has_gdelt_signal ? `${c.avg_tone > 0 ? '+' : ''}${c.avg_tone}` : <span style={{ color: '#cbd5e1' }}>—</span>}
                     </td>
                     <td style={{ padding: '8px 8px', fontSize: 10, color: '#475569' }}>
                       {c.top_sources.slice(0, 2).join(', ') || '—'}

@@ -212,7 +212,7 @@ export function MilitaryMap({ onCountryClick }: Props) {
               </span>
             )}
             <span style={{ marginLeft: 'auto', color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>
-              {milex.summary.countries_above_2pct_gdp} países >2% PIB
+              {milex.summary.countries_above_2pct_gdp} países {'>'}2% PIB
             </span>
           </div>
 
