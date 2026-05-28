@@ -295,7 +295,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.78,
     "apartados": [
       {
         "tipo": "identidad",
@@ -336,6 +336,11 @@
             "tipo": "contacto",
             "titulo": "Partido Popular",
             "contenido": "**Aliado exigente** (nota +3/10) — Apoya al PP frente a la izquierda pero presiona públicamente a su dirección cuando la considera tibia."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "carlos-herrera",
+            "contenido": "**Antecesor y rival en la COPE** (nota -2/10) — Tras su salida acrimoniosa de la COPE (hoy de Herrera), levantó esRadio como competencia directa por el oyente conservador."
           }
         ]
       },
@@ -351,6 +356,17 @@
               "injurias",
               "presuncion-inocencia"
             ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De Barcelona al micrófono",
+            "contenido": "Filólogo aragonés afincado en Barcelona en su juventud, sufrió un atentado de Terra Lliure en 1981. Pasó por El País y ABC, fue estrella de la COPE y fundó esRadio y Libertad Digital."
           }
         ]
       }

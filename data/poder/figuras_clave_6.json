@@ -1,0 +1,549 @@
+[
+  {
+    "slug": "christine-lagarde",
+    "tipo": "institucional",
+    "nombre": "Christine Lagarde",
+    "alias": "Lagarde",
+    "cargo": "Presidenta del Banco Central Europeo (BCE)",
+    "bio_corta": "Presidenta del Banco Central Europeo, la institución que fija la política monetaria del euro. Sus decisiones sobre los tipos de interés condicionan directamente las hipotecas de los españoles, los márgenes de la banca y el coste de la deuda pública del Estado. Aunque no es española, su poder sobre la economía de España es de primer orden.",
+    "fuente_principal": "https://www.ecb.europa.eu",
+    "tags": ["institucional", "bce", "regulador", "internacional", "no-electo"],
+    "confidence": 0.88,
+    "completeness": 0.74,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Abogada y política francesa, exministra de Economía de Francia y exdirectora gerente del FMI. Preside el BCE desde 2019, primera mujer al frente del banco emisor del euro."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La subida de tipos",
+            "contenido": "Lideró el ciclo de subidas de tipos más agresivo de la historia del euro para combatir la inflación, encareciendo hipotecas y crédito pero disparando los beneficios de la banca española.",
+            "fecha": "2022-07-21"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Guardiana del euro",
+            "contenido": "Equilibra el control de la inflación con la estabilidad financiera y la prima de riesgo de los países del sur. Su escudo antifragmentación protege la deuda española de ataques especulativos.",
+            "tags": ["inflacion", "prima-de-riesgo", "estabilidad"]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "jose-luis-escriva",
+            "contenido": "**Miembro de su consejo de gobierno** (nota +6/10) — Como gobernador del Banco de España, Escrivá vota en el BCE; canal directo de España en la política monetaria del euro."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "banco-santander",
+            "contenido": "**Sujeto a su política monetaria y supervisión** (nota +5/10) — Los tipos del BCE y la supervisión única marcan los márgenes y la solvencia del primer banco español."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tesoro Público de España",
+            "contenido": "**Compra de deuda y prima de riesgo** (nota +6/10) — Las decisiones del BCE sobre compras de bonos condicionan el coste de financiación del Estado español."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ignacio-garralda",
+    "tipo": "actor",
+    "nombre": "Ignacio Garralda Ruiz de Velasco",
+    "alias": "Garralda",
+    "cargo": "Presidente de Mutua Madrileña",
+    "bio_corta": "Presidente del Grupo Mutua Madrileña, una de las mayores aseguradoras de España y un inversor institucional de peso. Mutua es accionista de referencia de El Corte Inglés y socio en distintos negocios financieros. Garralda, con pasado en la banca de inversión, es una figura muy influyente en el establishment económico madrileño.",
+    "fuente_principal": "https://www.mutua.es",
+    "tags": ["empresario", "seguros", "inversion", "mutua", "no-electo"],
+    "confidence": 0.82,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Directivo con trayectoria en la banca de inversión, preside Mutua Madrileña, mutua de seguros sin accionistas que reinvierte sus excedentes y se ha convertido en un gran inversor institucional."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Asegurador-inversor",
+            "contenido": "Combina el negocio asegurador con una cartera de participaciones financieras e inmobiliarias que le da entrada en los consejos de grandes empresas y proyectos.",
+            "tags": ["seguros", "cartera"]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "marta-alvarez",
+            "contenido": "**Socio accionista de El Corte Inglés** (nota +7/10) — Mutua Madrileña entró en el capital de El Corte Inglés y en su negocio de seguros, alianza clave para ambos grupos."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gran banca española",
+            "contenido": "**Socio en bancaseguros y coinversión** (nota +5/10) — Mutua participa en alianzas de seguros y coinversión con la gran banca."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "demetrio-carceller",
+    "tipo": "actor",
+    "nombre": "Demetrio Carceller Arce",
+    "alias": "Carceller",
+    "cargo": "Presidente de Damm · accionista de Sacyr y Disa",
+    "bio_corta": "Empresario que preside la cervecera Damm (Estrella Damm) y controla el grupo energético canario Disa, además de ser accionista de referencia y consejero de la constructora Sacyr. Heredero de una saga empresarial, combina cerveza, energía y construcción en uno de los conglomerados familiares más potentes y discretos del país.",
+    "fuente_principal": "https://www.damm.com",
+    "tags": ["empresario", "alimentacion", "energia", "construccion", "no-electo"],
+    "confidence": 0.8,
+    "completeness": 0.66,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario con intereses cruzados en cerveza (Damm), distribución de combustibles y energía (Disa) y construcción (Sacyr), donde es accionista de referencia y consejero. Saga familiar de largo recorrido."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Conglomerado diversificado",
+            "contenido": "Su poder reside en la diversificación: consumo, energía e infraestructuras. La participación en Sacyr lo conecta con la obra pública y las concesiones.",
+            "tags": ["diversificacion", "concesiones"]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Sacyr",
+            "contenido": "**Accionista de referencia y consejero** (nota +7/10) — Su peso en la constructora lo vincula a las grandes concesiones de infraestructuras y a la obra pública."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sector energético",
+            "contenido": "**Distribución de combustibles (Disa)** (nota +6/10) — Disa es operador dominante en Canarias y actor relevante del mercado de carburantes."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jaume-roures",
+    "tipo": "medio",
+    "nombre": "Jaume Roures Llop",
+    "alias": "Roures",
+    "cargo": "Fundador de Mediapro",
+    "bio_corta": "Fundador del Grupo Mediapro, gigante de la producción audiovisual y de los derechos del fútbol. Productor de cine y televisión de marcado perfil progresista, ha sido pieza clave en la guerra de los derechos televisivos del fútbol y un actor de influencia en el espacio mediático de la izquierda.",
+    "fuente_principal": "https://www.mediapro.tv",
+    "tags": ["medios", "audiovisual", "produccion", "futbol", "no-electo"],
+    "confidence": 0.8,
+    "completeness": 0.66,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Productor audiovisual catalán, fundador de Mediapro (hoy en la órbita del fondo Orient Hontai). Trotskista en su juventud, ha mantenido un perfil ideológico de izquierdas y vínculos con el soberanismo y el sanchismo."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La guerra del fútbol",
+            "contenido": "Mediapro fue protagonista de la batalla por los derechos televisivos del fútbol durante años, enfrentándose a las plataformas y al propio modelo de LaLiga.",
+            "fecha": "2015-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "javier-tebas",
+            "contenido": "**Pulso histórico por los derechos del fútbol** (nota -4/10) — Mediapro y LaLiga han chocado en la comercialización y producción de los derechos audiovisuales."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Espacio mediático de izquierdas",
+            "contenido": "**Productor afín al progresismo** (nota +4/10) — Su perfil ideológico lo sitúa como actor del ecosistema audiovisual cercano a la izquierda y al soberanismo."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "joaquin-manso",
+    "tipo": "medio",
+    "nombre": "Joaquín Manso",
+    "alias": "Manso",
+    "cargo": "Director de El Mundo",
+    "bio_corta": "Director de El Mundo, el segundo diario de información general de España y buque insignia de Unidad Editorial (grupo del italiano RCS). Periodismo de centro-derecha con fuerte tradición de investigación; su línea fija agenda en el electorado conservador y en los tribunales mediáticos.",
+    "fuente_principal": "https://www.elmundo.es",
+    "tags": ["medios", "periodista", "prensa", "no-electo"],
+    "confidence": 0.8,
+    "completeness": 0.64,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista al frente de El Mundo, cabecera de referencia del centro-derecha y una de las grandes marcas del periodismo de investigación español, propiedad de Unidad Editorial (RCS MediaGroup)."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Investigación y agenda",
+            "contenido": "Mantiene la tradición de investigación del diario, con foco en corrupción y casos judiciales. Su cobertura condiciona el relato político del bloque de la derecha.",
+            "tags": ["investigacion", "agenda"]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "pedro-jose-ramirez",
+            "contenido": "**Fundador histórico del diario que dirige** (nota +2/10) — Pedro J. Ramírez fundó y dirigió El Mundo durante décadas antes de crear El Español; herencia editorial compartida."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "francisco-marhuenda",
+            "contenido": "**Par en la prensa de centro-derecha** (nota +3/10) — El Mundo y La Razón comparten espacio editorial, compitiendo por el lector conservador."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "vocento",
+    "tipo": "medio",
+    "nombre": "Vocento",
+    "alias": "Vocento",
+    "cargo": "Grupo editor de ABC y la prensa regional conservadora",
+    "bio_corta": "Grupo de comunicación controlado por familias del País Vasco y de tradición conservadora (entre ellas los Ybarra), editor de ABC y de una potente red de diarios regionales (El Correo, El Diario Vasco, Las Provincias, Ideal…). Es uno de los pilares de la prensa de centro-derecha y un actor de peso en la opinión publicada.",
+    "fuente_principal": "https://www.vocento.com",
+    "tags": ["medios", "prensa", "abc", "conservador", "no-electo"],
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Grupo editor de ABC y de una amplia red de cabeceras regionales líderes en sus mercados. Su accionariado, de raíz familiar vasca, lo vincula a la burguesía conservadora histórica."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "javier-moll",
+            "contenido": "**Competidor en la prensa regional** (nota -2/10) — Vocento y Prensa Ibérica se disputan el liderazgo de la prensa de proximidad en distintos territorios."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "francisco-marhuenda",
+            "contenido": "**Mismo espacio editorial conservador** (nota +3/10) — ABC, La Razón y El Mundo conforman el núcleo de la prensa de derecha que marca agenda al PP y a Vox."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "magdalena-valerio",
+    "tipo": "institucional",
+    "nombre": "Magdalena Valerio Cordero",
+    "alias": "Magdalena Valerio",
+    "cargo": "Presidenta del Consejo de Estado",
+    "bio_corta": "Presidenta del Consejo de Estado, el supremo órgano consultivo del Gobierno, cuyos dictámenes preceden a las grandes decisiones normativas del Estado. Exministra de Trabajo del PSOE, su designación al frente del Consejo fue polémica por su perfil político en un órgano de naturaleza jurídica.",
+    "fuente_principal": "https://www.consejo-estado.es",
+    "tags": ["institucional", "consejo-de-estado", "consultivo", "no-electo"],
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jurista y política socialista, exministra de Trabajo, Migraciones y Seguridad Social. Preside el Consejo de Estado, máximo órgano consultivo que dictamina sobre la legalidad de normas y grandes decisiones del Gobierno."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno de España",
+            "contenido": "**Órgano consultivo del Ejecutivo** (nota +4/10) — Sus dictámenes, no vinculantes pero de gran peso, preceden a reales decretos y grandes reformas."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Origen político socialista** (nota +5/10) — Exministra del PSOE; su nombramiento alimentó el debate sobre la politización de los órganos del Estado."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "helena-revoredo",
+    "tipo": "actor",
+    "nombre": "Helena Revoredo Delvecchio",
+    "alias": "Revoredo",
+    "cargo": "Presidenta de Prosegur",
+    "bio_corta": "Presidenta y accionista de control de Prosegur, multinacional española de la seguridad privada y la logística de valores presente en toda Iberoamérica. Una de las mujeres más ricas de España, controla a través de su grupo la vigilancia, el transporte de fondos y la ciberseguridad de empresas y bancos.",
+    "fuente_principal": "https://www.prosegur.com",
+    "tags": ["empresaria", "seguridad", "prosegur", "no-electo"],
+    "confidence": 0.8,
+    "completeness": 0.64,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresaria de origen argentino, viuda del fundador de Prosegur, preside y controla el grupo de seguridad privada, presente en buena parte de Europa y América Latina."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Infraestructura crítica privada",
+            "contenido": "El transporte de fondos, la vigilancia y la ciberseguridad de Prosegur la convierten en proveedora de un servicio sensible para bancos, empresas e instituciones.",
+            "tags": ["seguridad", "logistica-valores"]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Gran banca española",
+            "contenido": "**Proveedora de logística de efectivo** (nota +5/10) — Prosegur gestiona el transporte y la custodia de valores de buena parte del sistema bancario."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "daniel-mate",
+    "tipo": "actor",
+    "nombre": "Daniel Maté Badenes",
+    "alias": "Daniel Maté",
+    "cargo": "Cofundador y gran accionista de Glencore",
+    "bio_corta": "Empresario español, uno de los mayores accionistas individuales de Glencore, el gigante mundial de las materias primas y la minería. Considerado de forma recurrente el hombre más rico de España, mantiene un perfil de extrema discreción y reside parte del tiempo fuera del país. Su fortuna procede del comercio global de commodities.",
+    "fuente_principal": "https://www.glencore.com",
+    "tags": ["empresario", "materias-primas", "mineria", "internacional", "no-electo"],
+    "confidence": 0.76,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Uno de los socios históricos de Glencore, multinacional suiza líder en el comercio de materias primas y la minería. Su participación lo sitúa en lo más alto de las listas de grandes fortunas españolas, pese a su bajísimo perfil público."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Mercado global de materias primas",
+            "contenido": "**Gran accionista de Glencore** (nota +8/10) — Su fortuna depende del comercio mundial de metales, energía y agroalimentación a través del gigante suizo."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alberto-alcocer",
+    "tipo": "actor",
+    "nombre": "Alberto Alcocer y Alberto Cortina («los Albertos»)",
+    "alias": "Los Albertos",
+    "cargo": "Financieros históricos · accionistas de Ence y otros activos",
+    "bio_corta": "Primos y socios financieros (Alberto Alcocer y Alberto Cortina), protagonistas del capitalismo español desde los años 80. Tras su paso por banca, construcción (la antigua FCC) y energía, mantienen posiciones de referencia en cotizadas como Ence (celulosa/energía) a través de Alcor. Iconos de una época del poder económico madrileño.",
+    "fuente_principal": "https://www.ence.es",
+    "tags": ["empresario", "inversion", "financieros", "no-electo"],
+    "confidence": 0.76,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Conocidos como «los Albertos», construyeron y deshicieron alianzas en banca, construcción y energía durante décadas. Hoy mantienen posiciones de control en compañías como Ence a través de su sociedad Alcor."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Ence",
+            "contenido": "**Accionistas de referencia** (nota +7/10) — Controlan la mayor empresa española de celulosa y energía con biomasa a través de Alcor."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment financiero madrileño",
+            "contenido": "**Veteranos del capitalismo de los 80-90** (nota +5/10) — Su trayectoria los conecta con la historia de la banca y la construcción españolas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "instituto-empresa-familiar",
+    "tipo": "institucional",
+    "nombre": "Instituto de la Empresa Familiar",
+    "alias": "IEF",
+    "cargo": "Lobby de las grandes empresas y fortunas familiares",
+    "bio_corta": "Asociación que agrupa a las mayores empresas familiares de España (de Inditex y Mercadona a Mango, El Pozo o Puig), responsables de buena parte del PIB y el empleo privado. Es uno de los lobbies más influyentes del país en materia fiscal —especialmente en el impuesto de patrimonio y sucesiones— y de política económica.",
+    "fuente_principal": "https://www.iefamiliar.com",
+    "tags": ["patronal", "lobby", "empresa-familiar", "fiscalidad", "no-electo"],
+    "confidence": 0.82,
+    "completeness": 0.66,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Reúne a las grandes empresas familiares españolas y a sus asociaciones territoriales. Defiende un marco fiscal favorable a la continuidad de las empresas familiares y a la inversión."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Batalla fiscal",
+            "contenido": "Es el gran lobby contra el impuesto de patrimonio y de grandes fortunas, y a favor de bonificaciones en sucesiones, argumentando que protegen el empleo y la inversión familiar.",
+            "tags": ["patrimonio", "sucesiones", "fiscalidad"]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "juan-roig",
+            "contenido": "**Gran empresa familiar asociada (Mercadona)** (nota +6/10) — Roig representa el arquetipo de la empresa familiar que el IEF defiende ante el fisco y el Gobierno."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "familia-andic",
+            "contenido": "**Empresa familiar asociada (Mango)** (nota +6/10) — Mango es ejemplo del tejido de multinacionales familiares que agrupa el instituto."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "antonio-garamendi",
+            "contenido": "**Coordinación con la CEOE** (nota +5/10) — El IEF alinea su agenda fiscal y económica con la gran patronal."
+          }
+        ]
+      }
+    ]
+  }
+]

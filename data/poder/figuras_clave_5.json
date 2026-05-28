@@ -7,7 +7,14 @@
     "cargo": "Mayor gestora de activos del mundo · primer accionista institucional del IBEX",
     "bio_corta": "La mayor gestora de activos del planeta. A través de sus fondos indexados y activos es el primer o uno de los mayores accionistas institucionales de casi todas las grandes cotizadas del IBEX 35 (Santander, BBVA, Iberdrola, Telefónica, Inditex…). Su voto en juntas y su política de gobernanza condicionan, de forma silenciosa, la estrategia de la élite empresarial española.",
     "fuente_principal": "https://www.blackrock.com",
-    "tags": ["fondo", "inversion", "gestora", "ibex", "internacional", "no-electo"],
+    "tags": [
+      "fondo",
+      "inversion",
+      "gestora",
+      "ibex",
+      "internacional",
+      "no-electo"
+    ],
     "confidence": 0.9,
     "completeness": 0.78,
     "apartados": [
@@ -46,7 +53,11 @@
             "tipo": "dato",
             "titulo": "Poder silencioso",
             "contenido": "No gestiona empresas, pero su peso accionarial agregado le da una influencia estructural sobre los consejos. Combina exigencia de rentabilidad con políticas de voto en sostenibilidad y gobierno corporativo.",
-            "tags": ["gobernanza", "voto-junta", "sostenibilidad"]
+            "tags": [
+              "gobernanza",
+              "voto-junta",
+              "sostenibilidad"
+            ]
           }
         ]
       },
@@ -86,7 +97,14 @@
     "cargo": "Mayor fondo soberano del mundo · accionista relevante del IBEX",
     "bio_corta": "El fondo soberano noruego, el mayor del mundo, gestiona el ahorro petrolero del país invirtiéndolo en miles de empresas cotizadas. En España mantiene participaciones declarables en buena parte del IBEX 35. Es conocido por su activismo en sostenibilidad y por excluir de su cartera empresas que vulneran sus criterios éticos.",
     "fuente_principal": "https://www.nbim.no",
-    "tags": ["fondo", "fondo-soberano", "inversion", "ibex", "internacional", "no-electo"],
+    "tags": [
+      "fondo",
+      "fondo-soberano",
+      "inversion",
+      "ibex",
+      "internacional",
+      "no-electo"
+    ],
     "confidence": 0.85,
     "completeness": 0.7,
     "apartados": [
@@ -109,7 +127,11 @@
             "tipo": "dato",
             "titulo": "Activismo ético",
             "contenido": "Publica su lista de exclusiones por criterios medioambientales, de derechos humanos o de armamento, y vota activamente en las juntas. Su salida del capital de una empresa es una señal reputacional potente.",
-            "tags": ["esg", "exclusiones", "voto-junta"]
+            "tags": [
+              "esg",
+              "exclusiones",
+              "voto-junta"
+            ]
           }
         ]
       },
@@ -144,7 +166,13 @@
     "cargo": "Director de El Confidencial",
     "bio_corta": "Director de El Confidencial, uno de los diarios nativos digitales más influyentes de España, especializado en información económica, política y de investigación. Su redacción ha destapado numerosos escándalos y marca agenda en los despachos del poder económico y político.",
     "fuente_principal": "https://www.elconfidencial.com",
-    "tags": ["medios", "periodista", "digital", "investigacion", "no-electo"],
+    "tags": [
+      "medios",
+      "periodista",
+      "digital",
+      "investigacion",
+      "no-electo"
+    ],
     "confidence": 0.85,
     "completeness": 0.72,
     "apartados": [
@@ -178,7 +206,10 @@
             "tipo": "dato",
             "titulo": "Línea editorial",
             "contenido": "Liberal en lo económico, independiente en lo político, con vocación de fiscalización del poder. Cuida especialmente la información de mercados y grandes fortunas.",
-            "tags": ["independiente", "economia"]
+            "tags": [
+              "independiente",
+              "economia"
+            ]
           }
         ]
       },
@@ -208,9 +239,15 @@
     "cargo": "Presidente de Prensa Ibérica",
     "bio_corta": "Presidente de Prensa Ibérica, el mayor grupo de prensa regional de España, propietario de decenas de cabeceras locales y del diario El Periódico de Catalunya y de información económica. Su control de la prensa de proximidad le da una influencia enorme en la opinión pública territorial, donde a menudo se decide el voto.",
     "fuente_principal": "https://www.prensaiberica.es",
-    "tags": ["medios", "prensa", "regional", "editor", "no-electo"],
+    "tags": [
+      "medios",
+      "prensa",
+      "regional",
+      "editor",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -232,6 +269,11 @@
             "titulo": "Compra de El Periódico",
             "contenido": "Prensa Ibérica adquirió el Grupo Zeta, sumando El Periódico de Catalunya y Sport a su cartera, reforzando su peso en el mercado catalán y deportivo.",
             "fecha": "2019-06-01"
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Origen canario",
+            "contenido": "Construyó Prensa Ibérica desde Canarias (La Provincia) hasta convertirla en el mayor grupo de prensa regional de España, con una expansión basada en la compra de cabeceras locales líderes."
           }
         ]
       },
@@ -243,7 +285,10 @@
             "tipo": "dato",
             "titulo": "Poder de proximidad",
             "contenido": "El control de la prensa local es una palanca de influencia política y de captación de publicidad institucional autonómica y municipal, terreno clave en las elecciones de proximidad.",
-            "tags": ["prensa-local", "publicidad-institucional"]
+            "tags": [
+              "prensa-local",
+              "publicidad-institucional"
+            ]
           }
         ]
       },
@@ -273,9 +318,15 @@
     "cargo": "Presidente de Mediaset España",
     "bio_corta": "Presidente de Mediaset España (Telecinco, Cuatro), uno de los dos grandes grupos audiovisuales privados del país. Antes presidió Endesa durante más de una década. Hombre muy conectado con la élite empresarial y financiera madrileña, combina poder mediático y networking corporativo.",
     "fuente_principal": "https://www.mediaset.es",
-    "tags": ["medios", "audiovisual", "mediaset", "empresario", "no-electo"],
+    "tags": [
+      "medios",
+      "audiovisual",
+      "mediaset",
+      "empresario",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -308,7 +359,10 @@
             "tipo": "dato",
             "titulo": "Networking de poder",
             "contenido": "Su valor diferencial es la red de contactos en la alta empresa, la banca y la política, que combina con el poder de agenda de la televisión líder en entretenimiento.",
-            "tags": ["networking", "audiovisual"]
+            "tags": [
+              "networking",
+              "audiovisual"
+            ]
           }
         ]
       },
@@ -325,6 +379,11 @@
             "tipo": "contacto",
             "titulo": "jose-creuheras",
             "contenido": "**Competidor directo (Atresmedia)** (nota -3/10) — Mediaset y Atresmedia se reparten el duopolio de la televisión privada y la tarta publicitaria."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "jose-pablo-lopez",
+            "contenido": "**Competidor por la audiencia (RTVE)** (nota -2/10) — Mediaset compite con la televisión pública y con Atresmedia por espectadores y publicidad."
           }
         ]
       }
@@ -338,9 +397,15 @@
     "cargo": "Presidente de CEPYME",
     "bio_corta": "Presidente de CEPYME, la confederación de la pequeña y mediana empresa, integrada en la CEOE. Representa a la inmensa mayoría del tejido productivo y del empleo privado de España, y es voz central en el diálogo social sobre SMI, morosidad, cotizaciones y carga regulatoria sobre las pymes.",
     "fuente_principal": "https://www.cepyme.es",
-    "tags": ["patronal", "pymes", "cepyme", "dialogo-social", "no-electo"],
+    "tags": [
+      "patronal",
+      "pymes",
+      "cepyme",
+      "dialogo-social",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -361,7 +426,11 @@
             "tipo": "dato",
             "titulo": "Línea",
             "contenido": "Especialmente crítico con las subidas del SMI desligadas de la productividad, la morosidad de las administraciones y la presión regulatoria y de cotizaciones que, advierte, asfixia a las pymes.",
-            "tags": ["smi", "morosidad", "cotizaciones"]
+            "tags": [
+              "smi",
+              "morosidad",
+              "cotizaciones"
+            ]
           }
         ]
       },
@@ -380,6 +449,17 @@
             "contenido": "**Interlocutor crítico en el diálogo social** (nota -2/10) — Choca con Trabajo y Hacienda por el SMI, las cotizaciones y la carga administrativa sobre la pequeña empresa."
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Empresario y dirigente",
+            "contenido": "Empresario granadino del sector servicios, llegó a la presidencia de CEPYME desde la representación territorial y sectorial de las pequeñas y medianas empresas."
+          }
+        ]
       }
     ]
   },
@@ -391,9 +471,16 @@
     "cargo": "Director de la Real Academia Española (RAE)",
     "bio_corta": "Director de la Real Academia Española y catedrático de Derecho Administrativo de enorme prestigio. Combina la máxima autoridad sobre la lengua con un peso intelectual y jurídico notable. La RAE, además, dirige la asociación de academias del español, lo que proyecta su influencia a toda Hispanoamérica.",
     "fuente_principal": "https://www.rae.es",
-    "tags": ["institucional", "rae", "cultura", "juridico", "academia", "no-electo"],
+    "tags": [
+      "institucional",
+      "rae",
+      "cultura",
+      "juridico",
+      "academia",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.66,
+    "completeness": 0.74,
     "apartados": [
       {
         "tipo": "identidad",
@@ -414,7 +501,11 @@
             "tipo": "dato",
             "titulo": "Lengua y poder",
             "contenido": "Defiende el valor económico y diplomático del español como activo estratégico de España. Su criterio sobre el lenguaje inclusivo o el uso institucional de la lengua tiene eco político.",
-            "tags": ["lengua", "soft-power", "diplomacia-cultural"]
+            "tags": [
+              "lengua",
+              "soft-power",
+              "diplomacia-cultural"
+            ]
           }
         ]
       },
@@ -431,6 +522,22 @@
             "tipo": "contacto",
             "titulo": "Élite jurídica y académica",
             "contenido": "**Referente del Derecho Administrativo** (nota +5/10) — Su autoridad académica le da peso en debates jurídicos e institucionales del Estado."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "candido-conde-pumpido",
+            "contenido": "**Par en la élite jurídica** (nota +3/10) — Su prestigio como administrativista lo vincula al mundo de los grandes juristas y de la justicia constitucional."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Tratadista del Derecho",
+            "contenido": "Catedrático de Derecho Administrativo, autor de tratados de referencia y de obras sobre el Estado autonómico y el Código Civil. Su autoridad académica precede a su llegada a la RAE."
           }
         ]
       }
@@ -444,9 +551,14 @@
     "cargo": "Cardenal arzobispo de Barcelona · expresidente de la Conferencia Episcopal",
     "bio_corta": "Cardenal arzobispo de Barcelona y expresidente de la Conferencia Episcopal Española. Hombre de confianza del Papa Francisco en España, de perfil pastoral y social, ha pilotado la respuesta de la Iglesia española a asuntos delicados como los abusos y la financiación. Una de las máximas autoridades morales del catolicismo español.",
     "fuente_principal": "https://www.conferenciaepiscopal.es",
-    "tags": ["iglesia", "religion", "cardenal", "no-electo"],
+    "tags": [
+      "iglesia",
+      "religion",
+      "cardenal",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.66,
+    "completeness": 0.74,
     "apartados": [
       {
         "tipo": "identidad",
@@ -467,7 +579,10 @@
             "tipo": "dato",
             "titulo": "Línea pastoral",
             "contenido": "De sensibilidad social y diálogo, más cercano al perfil de Francisco que al ala conservadora. Ha gestionado la relación con el Gobierno en asuntos como abusos, inmatriculaciones y financiación.",
-            "tags": ["doctrina-social", "dialogo"]
+            "tags": [
+              "doctrina-social",
+              "dialogo"
+            ]
           }
         ]
       },
@@ -486,6 +601,17 @@
             "contenido": "**Hombre de confianza pontificia** (nota +7/10) — Su cercanía a Roma refuerza su autoridad dentro de la Iglesia española."
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "La crisis de los abusos",
+            "contenido": "Al frente de la Conferencia Episcopal pilotó la respuesta de la Iglesia española a la crisis de los abusos, con encargos de auditoría externa y planes de reparación, en un terreno de fuerte escrutinio público."
+          }
+        ]
       }
     ]
   },
@@ -497,9 +623,15 @@
     "cargo": "Presidente del Grupo Fuertes (ElPozo)",
     "bio_corta": "Empresario murciano, fundador y presidente del Grupo Fuertes, propietario de ElPozo Alimentación, uno de los mayores grupos cárnicos y agroalimentarios de España. Una de las grandes fortunas y patriarcas empresariales del sureste, con diversificación en inmobiliario, energía y banca.",
     "fuente_principal": "https://www.grupofuertes.com",
-    "tags": ["empresario", "alimentacion", "carnico", "agro", "no-electo"],
+    "tags": [
+      "empresario",
+      "alimentacion",
+      "carnico",
+      "agro",
+      "no-electo"
+    ],
     "confidence": 0.8,
-    "completeness": 0.64,
+    "completeness": 0.72,
     "apartados": [
       {
         "tipo": "identidad",
@@ -520,7 +652,10 @@
             "tipo": "dato",
             "titulo": "Peso agroalimentario",
             "contenido": "El sector cárnico es un pilar exportador de la economía española y objeto de debate por su impacto ambiental y laboral; Fuertes es uno de sus rostros más visibles.",
-            "tags": ["exportacion", "agroindustria"]
+            "tags": [
+              "exportacion",
+              "agroindustria"
+            ]
           }
         ]
       },
@@ -537,6 +672,11 @@
             "tipo": "contacto",
             "titulo": "Tejido empresarial murciano",
             "contenido": "**Patriarca económico regional** (nota +6/10) — Referente del empresariado del sureste, con influencia en su tejido económico e institucional."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "instituto-empresa-familiar",
+            "contenido": "**Gran empresa familiar** (nota +5/10) — El Grupo Fuertes es arquetipo de la multinacional familiar que defiende el Instituto de la Empresa Familiar ante el fisco."
           }
         ]
       }
@@ -550,9 +690,16 @@
     "cargo": "Magnate mexicano · gran accionista en España (FCC, Realia)",
     "bio_corta": "Magnate mexicano de las telecomunicaciones (América Móvil) y una de las mayores fortunas del mundo. En España es accionista de control de FCC (construcción y servicios) y de la inmobiliaria Realia, además de haber tenido posiciones en otras cotizadas. Su entrada marcó la internacionalización del capital de grandes empresas españolas.",
     "fuente_principal": "https://www.fcc.es",
-    "tags": ["empresario", "inversion", "construccion", "inmobiliario", "internacional", "no-electo"],
+    "tags": [
+      "empresario",
+      "inversion",
+      "construccion",
+      "inmobiliario",
+      "internacional",
+      "no-electo"
+    ],
     "confidence": 0.8,
-    "completeness": 0.64,
+    "completeness": 0.72,
     "apartados": [
       {
         "tipo": "identidad",
@@ -590,6 +737,11 @@
             "tipo": "contacto",
             "titulo": "alicia-koplowitz",
             "contenido": "**Relevo en el accionariado de FCC** (nota -2/10) — Slim sucedió a la familia Koplowitz en el control de FCC, cierre de una etapa histórica del grupo."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "telefonica",
+            "contenido": "**Rival histórico en Latinoamérica** (nota -3/10) — Su América Móvil y Telefónica han competido ferozmente por el mercado latinoamericano de telecomunicaciones durante décadas."
           }
         ]
       }
@@ -603,7 +755,13 @@
     "cargo": "Fundador y CEO de Glovo",
     "bio_corta": "Cofundador y consejero delegado de Glovo, la plataforma de reparto a domicilio nacida en Barcelona y hoy integrada en el grupo alemán Delivery Hero. Símbolo de la nueva economía digital española, está en el centro del debate sobre los derechos de los riders y la 'ley rider' impulsada por el Ministerio de Trabajo.",
     "fuente_principal": "https://about.glovoapp.com",
-    "tags": ["empresario", "tecnologia", "startup", "gig-economy", "no-electo"],
+    "tags": [
+      "empresario",
+      "tecnologia",
+      "startup",
+      "gig-economy",
+      "no-electo"
+    ],
     "confidence": 0.82,
     "completeness": 0.66,
     "apartados": [
@@ -626,7 +784,11 @@
             "tipo": "dato",
             "titulo": "Economía de plataformas",
             "contenido": "Defiende el modelo de autónomos para los repartidores frente a la presión regulatoria por considerarlos asalariados. El choque con la 'ley rider' define su relación con el poder político.",
-            "tags": ["riders", "autonomos", "plataformas"]
+            "tags": [
+              "riders",
+              "autonomos",
+              "plataformas"
+            ]
           }
         ]
       },
@@ -654,7 +816,11 @@
             "tipo": "controversia",
             "titulo": "Conflicto laboral por los riders",
             "contenido": "Glovo ha acumulado inspecciones, sanciones y litigios por el encaje laboral de sus repartidores. Los procedimientos siguen su curso y, salvo resolución firme, rige la presunción de inocencia.",
-            "tags": ["ley-rider", "litigios", "presuncion-inocencia"]
+            "tags": [
+              "ley-rider",
+              "litigios",
+              "presuncion-inocencia"
+            ]
           }
         ]
       }

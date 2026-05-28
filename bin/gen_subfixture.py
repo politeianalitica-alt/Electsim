@@ -70,6 +70,7 @@ SOURCES = {
             REPO / "data" / "poder" / "figuras_clave_3.json",
             REPO / "data" / "poder" / "figuras_clave_4.json",
             REPO / "data" / "poder" / "figuras_clave_5.json",
+            REPO / "data" / "poder" / "figuras_clave_6.json",
         ],
         "out": VISUAL / "poder-fixture.ts",
         "fixture_name": "PODER_FIXTURE",
@@ -97,6 +98,10 @@ SOURCES = {
             "//     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños\n"
             "//     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,\n"
             "//     Losantos), LaLiga/Tebas, Fundación Alternativas, Funcas, Manuel Jove.\n"
+            "//   · figuras_clave_6.json · BCE (Lagarde), Mutua (Garralda), Damm/Disa\n"
+            "//     (Carceller), Mediapro (Roures), El Mundo (Manso), Vocento/ABC, Consejo\n"
+            "//     de Estado (Valerio), Prosegur (Revoredo), Glencore (Daniel Maté), los\n"
+            "//     Albertos e Instituto de la Empresa Familiar.\n"
             "// Re-generar: python3 bin/gen_subfixture.py --source poder\n"
         ),
     },

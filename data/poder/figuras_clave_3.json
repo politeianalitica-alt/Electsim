@@ -15,7 +15,7 @@
       "no-electo"
     ],
     "confidence": 0.88,
-    "completeness": 0.72,
+    "completeness": 0.8,
     "apartados": [
       {
         "tipo": "identidad",
@@ -56,6 +56,22 @@
             "tipo": "contacto",
             "titulo": "Empresas del IBEX 35",
             "contenido": "**Accionista de referencia en varias** (nota +7/10) — Sus paquetes accionariales le dan asiento en consejos y peso en juntas del IBEX y el Continuo."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "naturgy",
+            "contenido": "**Participación relevante** (nota +6/10) — Alba ha sido accionista significativo de la gasista, una de sus mayores posiciones cotizadas."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Cartera de participadas",
+            "contenido": "Su cartera ha incluido posiciones de referencia en Naturgy, Acerinox, CIE Automotive, Ebro Foods e Indra, entre otras, rotando según el ciclo y las oportunidades."
           }
         ]
       }

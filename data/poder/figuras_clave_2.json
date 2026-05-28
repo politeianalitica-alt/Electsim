@@ -803,7 +803,7 @@
       "relaciones-internacionales"
     ],
     "confidence": 0.8,
-    "completeness": 0.58,
+    "completeness": 0.66,
     "apartados": [
       {
         "tipo": "identidad",
@@ -813,6 +813,11 @@
             "tipo": "dato",
             "titulo": "Datos básicos",
             "contenido": "Fundado en 2001. Think tank independiente de estudios internacionales. Su patronato reúne a grandes empresas españolas y exaltos cargos. Presidencia de honor de la Casa Real."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Barómetro e informes de referencia",
+            "contenido": "Publica el Barómetro del Real Instituto Elcano y análisis de política exterior, defensa y reputación de España, que son lectura obligada en Exteriores, Defensa y las embajadas."
           }
         ]
       },
@@ -839,6 +844,11 @@
               "nota-+5",
               "alianza-debil"
             ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno de España (Exteriores)",
+            "contenido": "**Think tank de referencia en política exterior** (nota +5/10) — Sus informes nutren la acción diplomática y de seguridad del Estado; patronato con presencia pública y privada."
           }
         ]
       },
@@ -1048,7 +1058,7 @@
       "psoe"
     ],
     "confidence": 0.8,
-    "completeness": 0.6,
+    "completeness": 0.68,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1109,6 +1119,21 @@
             "tipo": "documento",
             "titulo": "CIS",
             "fuente_url": "https://www.cis.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "La 'cocina' del CIS",
+            "contenido": "Defiende el modelo de estimación del CIS, que ajusta los datos brutos con un algoritmo. Sus resultados, a menudo más favorables al PSOE que otros sondeos, son objeto de polémica recurrente.",
+            "tags": [
+              "demoscopia",
+              "estimacion"
+            ]
           }
         ]
       }
@@ -1442,7 +1467,7 @@
       "cataluna"
     ],
     "confidence": 0.78,
-    "completeness": 0.55,
+    "completeness": 0.63,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1467,6 +1492,12 @@
             "tags": [
               "sucesion"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Isak Andic y la sucesión",
+            "contenido": "Isak Andic fundó Mango y la convirtió en multinacional de la moda. Tras su fallecimiento en un accidente en diciembre de 2024, la continuidad del grupo recae en la familia y el equipo directivo.",
+            "fecha": "2024-12-14"
           }
         ]
       },
@@ -1676,7 +1707,7 @@
       "internacional"
     ],
     "confidence": 0.82,
-    "completeness": 0.58,
+    "completeness": 0.66,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1712,6 +1743,16 @@
               "nota-+3",
               "neutral"
             ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "josep-borrell",
+            "contenido": "**Su Alto Representante de Exteriores** (nota +5/10) — Borrell fue jefe de la diplomacia de la UE y vicepresidente de su primera Comisión."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno de España (fondos Next Generation)",
+            "contenido": "**Distribuye los fondos europeos** (nota +6/10) — España es de los mayores receptores del plan de recuperación que gestiona su Comisión."
           }
         ]
       },
@@ -1723,6 +1764,18 @@
             "tipo": "documento",
             "titulo": "Comisión Europea",
             "fuente_url": "https://commission.europa.eu"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De ministra de Merkel a la Comisión",
+            "contenido": "Ministra durante años en los gobiernos de Angela Merkel, preside la Comisión Europea desde 2019, reelegida en 2024. Pilota la respuesta europea en pandemia, energía y la guerra de Ucrania.",
+            "fecha": "2019-12-01"
           }
         ]
       }

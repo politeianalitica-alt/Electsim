@@ -1292,7 +1292,7 @@
       "competencia"
     ],
     "confidence": 0.8,
-    "completeness": 0.65,
+    "completeness": 0.73,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1341,6 +1341,11 @@
               "nota-0",
               "neutral"
             ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Vigila concentraciones y cárteles** (nota +6/10) — La CNMC autoriza fusiones, sanciona prácticas anticompetitivas y regula energía, telecos y transporte; su criterio condiciona operaciones del IBEX."
           }
         ]
       },
@@ -1352,6 +1357,17 @@
             "tipo": "documento",
             "titulo": "CNMC",
             "fuente_url": "https://www.cnmc.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De Cuatrecasas y Luxemburgo a la CNMC",
+            "contenido": "Abogada especialista en competencia, trabajó en Cuatrecasas y como letrada en el Tribunal de Justicia de la UE antes de presidir la Comisión Nacional de los Mercados y la Competencia."
           }
         ]
       }
@@ -1732,7 +1748,7 @@
       "dialogo-social"
     ],
     "confidence": 0.82,
-    "completeness": 0.6,
+    "completeness": 0.68,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1768,6 +1784,11 @@
               "nota-+6",
               "alianza-debil"
             ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "unai-sordo",
+            "contenido": "**Aliado sindical (CCOO)** (nota +6/10) — UGT y CCOO actúan en bloque frente a la patronal en el diálogo social, aunque compiten por la afiliación y la representatividad."
           }
         ]
       },
@@ -1779,6 +1800,22 @@
             "tipo": "documento",
             "titulo": "UGT",
             "fuente_url": "https://www.ugt.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Agenda sindical",
+            "contenido": "Defiende la subida del SMI, la reducción de jornada y el blindaje de las pensiones. Firma los grandes acuerdos del diálogo social, aunque tensa la cuerda con la patronal cuando lo cree necesario.",
+            "tags": [
+              "smi",
+              "jornada",
+              "pensiones"
+            ]
           }
         ]
       }
@@ -2069,7 +2106,7 @@
       "ex-periodista"
     ],
     "confidence": 0.85,
-    "completeness": 0.6,
+    "completeness": 0.68,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2104,6 +2141,11 @@
               "nota-+6",
               "alianza-debil"
             ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "felipe-vi",
+            "contenido": "**Su esposo, el Rey** (nota +9/10) — Forma con Felipe VI el núcleo de la Casa Real; comparten la agenda institucional y la estrategia de modernización de la Corona."
           }
         ]
       },
@@ -2115,6 +2157,17 @@
             "tipo": "documento",
             "titulo": "Casa Real",
             "fuente_url": "https://www.casareal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De periodista a Reina",
+            "contenido": "Antes de casarse con Felipe en 2004 fue periodista en agencias, CNN+ y presentadora del Telediario de TVE. Es la primera reina consorte de origen plebeyo y con carrera profesional propia, lo que marca su perfil público."
           }
         ]
       }

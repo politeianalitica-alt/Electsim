@@ -240,6 +240,135 @@ ENRICH: dict[str, dict] = {
             {"titulo": "felipe-gonzalez", "contenido": "**Su histórico compañero y rival** (nota +2/10) — Vicepresidente con Felipe González, su relación combinó alianza fundacional del PSOE moderno y posterior distanciamiento; hoy ambos critican al PSOE de Sánchez."},
         ],
     },
+    # ── Ronda 2 ──────────────────────────────────────────────────────────────
+    "letizia-ortiz": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "De periodista a Reina",
+             "contenido": "Antes de casarse con Felipe en 2004 fue periodista en agencias, CNN+ y presentadora del Telediario de TVE. Es la primera reina consorte de origen plebeyo y con carrera profesional propia, lo que marca su perfil público."},
+        ],
+        "redes": [
+            {"titulo": "felipe-vi", "contenido": "**Su esposo, el Rey** (nota +9/10) — Forma con Felipe VI el núcleo de la Casa Real; comparten la agenda institucional y la estrategia de modernización de la Corona."},
+        ],
+    },
+    "pepe-alvarez": {
+        "items": [
+            {"ap": "posiciones", "tipo": "dato", "titulo": "Agenda sindical",
+             "contenido": "Defiende la subida del SMI, la reducción de jornada y el blindaje de las pensiones. Firma los grandes acuerdos del diálogo social, aunque tensa la cuerda con la patronal cuando lo cree necesario.",
+             "tags": ["smi", "jornada", "pensiones"]},
+        ],
+        "redes": [
+            {"titulo": "unai-sordo", "contenido": "**Aliado sindical (CCOO)** (nota +6/10) — UGT y CCOO actúan en bloque frente a la patronal en el diálogo social, aunque compiten por la afiliación y la representatividad."},
+        ],
+    },
+    "cani-fernandez": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "De Cuatrecasas y Luxemburgo a la CNMC",
+             "contenido": "Abogada especialista en competencia, trabajó en Cuatrecasas y como letrada en el Tribunal de Justicia de la UE antes de presidir la Comisión Nacional de los Mercados y la Competencia."},
+        ],
+        "redes": [
+            {"titulo": "Empresas del IBEX 35", "contenido": "**Vigila concentraciones y cárteles** (nota +6/10) — La CNMC autoriza fusiones, sanciona prácticas anticompetitivas y regula energía, telecos y transporte; su criterio condiciona operaciones del IBEX."},
+        ],
+    },
+    "jose-felix-tezanos": {
+        "items": [
+            {"ap": "posiciones", "tipo": "dato", "titulo": "La 'cocina' del CIS",
+             "contenido": "Defiende el modelo de estimación del CIS, que ajusta los datos brutos con un algoritmo. Sus resultados, a menudo más favorables al PSOE que otros sondeos, son objeto de polémica recurrente.",
+             "tags": ["demoscopia", "estimacion"]},
+        ],
+        "redes": [
+            {"titulo": "PSOE", "contenido": "**Sociólogo de origen socialista** (nota +6/10) — Histórico militante y teórico del PSOE; su designación al frente del CIS alimentó el debate sobre la independencia del organismo."},
+        ],
+    },
+    "real-instituto-elcano": {
+        "items": [
+            {"ap": "identidad", "tipo": "dato", "titulo": "Barómetro e informes de referencia",
+             "contenido": "Publica el Barómetro del Real Instituto Elcano y análisis de política exterior, defensa y reputación de España, que son lectura obligada en Exteriores, Defensa y las embajadas."},
+        ],
+        "redes": [
+            {"titulo": "Gobierno de España (Exteriores)", "contenido": "**Think tank de referencia en política exterior** (nota +5/10) — Sus informes nutren la acción diplomática y de seguridad del Estado; patronato con presencia pública y privada."},
+        ],
+    },
+    "familia-andic": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "evento", "titulo": "Isak Andic y la sucesión",
+             "contenido": "Isak Andic fundó Mango y la convirtió en multinacional de la moda. Tras su fallecimiento en un accidente en diciembre de 2024, la continuidad del grupo recae en la familia y el equipo directivo.",
+             "fecha": "2024-12-14"},
+        ],
+        "redes": [
+            {"titulo": "Inditex", "contenido": "**Competidor en la moda global** (nota -3/10) — Mango compite con Inditex (Zara) y otros gigantes del textil por el mercado internacional."},
+        ],
+    },
+    "federico-jimenez-losantos": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "De Barcelona al micrófono",
+             "contenido": "Filólogo aragonés afincado en Barcelona en su juventud, sufrió un atentado de Terra Lliure en 1981. Pasó por El País y ABC, fue estrella de la COPE y fundó esRadio y Libertad Digital."},
+        ],
+        "redes": [
+            {"titulo": "carlos-herrera", "contenido": "**Antecesor y rival en la COPE** (nota -2/10) — Tras su salida acrimoniosa de la COPE (hoy de Herrera), levantó esRadio como competencia directa por el oyente conservador."},
+        ],
+    },
+    "ursula-von-der-leyen": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "evento", "titulo": "De ministra de Merkel a la Comisión",
+             "contenido": "Ministra durante años en los gobiernos de Angela Merkel, preside la Comisión Europea desde 2019, reelegida en 2024. Pilota la respuesta europea en pandemia, energía y la guerra de Ucrania.",
+             "fecha": "2019-12-01"},
+        ],
+        "redes": [
+            {"titulo": "josep-borrell", "contenido": "**Su Alto Representante de Exteriores** (nota +5/10) — Borrell fue jefe de la diplomacia de la UE y vicepresidente de su primera Comisión."},
+            {"titulo": "Gobierno de España (fondos Next Generation)", "contenido": "**Distribuye los fondos europeos** (nota +6/10) — España es de los mayores receptores del plan de recuperación que gestiona su Comisión."},
+        ],
+    },
+    "carlos-slim": {
+        "redes": [
+            {"titulo": "telefonica", "contenido": "**Rival histórico en Latinoamérica** (nota -3/10) — Su América Móvil y Telefónica han competido ferozmente por el mercado latinoamericano de telecomunicaciones durante décadas."},
+        ],
+    },
+    "corporacion-financiera-alba": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "Cartera de participadas",
+             "contenido": "Su cartera ha incluido posiciones de referencia en Naturgy, Acerinox, CIE Automotive, Ebro Foods e Indra, entre otras, rotando según el ciclo y las oportunidades."},
+        ],
+        "redes": [
+            {"titulo": "naturgy", "contenido": "**Participación relevante** (nota +6/10) — Alba ha sido accionista significativo de la gasista, una de sus mayores posiciones cotizadas."},
+        ],
+    },
+    "santiago-munoz-machado": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "Tratadista del Derecho",
+             "contenido": "Catedrático de Derecho Administrativo, autor de tratados de referencia y de obras sobre el Estado autonómico y el Código Civil. Su autoridad académica precede a su llegada a la RAE."},
+        ],
+        "redes": [
+            {"titulo": "candido-conde-pumpido", "contenido": "**Par en la élite jurídica** (nota +3/10) — Su prestigio como administrativista lo vincula al mundo de los grandes juristas y de la justicia constitucional."},
+        ],
+    },
+    "tomas-fuertes": {
+        "redes": [
+            {"titulo": "instituto-empresa-familiar", "contenido": "**Gran empresa familiar** (nota +5/10) — El Grupo Fuertes es arquetipo de la multinacional familiar que defiende el Instituto de la Empresa Familiar ante el fisco."},
+        ],
+    },
+    "gerardo-cuerva": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "Empresario y dirigente",
+             "contenido": "Empresario granadino del sector servicios, llegó a la presidencia de CEPYME desde la representación territorial y sectorial de las pequeñas y medianas empresas."},
+        ],
+    },
+    "juan-jose-omella": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "La crisis de los abusos",
+             "contenido": "Al frente de la Conferencia Episcopal pilotó la respuesta de la Iglesia española a la crisis de los abusos, con encargos de auditoría externa y planes de reparación, en un terreno de fuerte escrutinio público."},
+        ],
+    },
+    "borja-prado": {
+        "redes": [
+            {"titulo": "jose-pablo-lopez", "contenido": "**Competidor por la audiencia (RTVE)** (nota -2/10) — Mediaset compite con la televisión pública y con Atresmedia por espectadores y publicidad."},
+        ],
+    },
+    "javier-moll": {
+        "items": [
+            {"ap": "trayectoria", "tipo": "dato", "titulo": "Origen canario",
+             "contenido": "Construyó Prensa Ibérica desde Canarias (La Provincia) hasta convertirla en el mayor grupo de prensa regional de España, con una expansión basada en la compra de cabeceras locales líderes."},
+        ],
+    },
 }
 
 

@@ -19,6 +19,10 @@
 //     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños
 //     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,
 //     Losantos), LaLiga/Tebas, Fundación Alternativas, Funcas, Manuel Jove.
+//   · figuras_clave_6.json · BCE (Lagarde), Mutua (Garralda), Damm/Disa
+//     (Carceller), Mediapro (Roures), El Mundo (Manso), Vocento/ABC, Consejo
+//     de Estado (Valerio), Prosegur (Revoredo), Glencore (Daniel Maté), los
+//     Albertos e Instituto de la Empresa Familiar.
 // Re-generar: python3 bin/gen_subfixture.py --source poder
 
 import type {
@@ -228,8 +232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0002",
@@ -427,8 +431,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0003",
@@ -603,8 +607,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0004",
@@ -756,8 +760,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0005",
@@ -895,8 +899,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0006",
@@ -1039,8 +1043,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0007",
@@ -1172,8 +1176,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0008",
@@ -1296,8 +1300,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0009",
@@ -1444,8 +1448,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0010",
@@ -1603,8 +1607,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0011",
@@ -1767,8 +1771,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0012",
@@ -1894,8 +1898,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0013",
@@ -2082,8 +2086,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0014",
@@ -2182,6 +2186,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "neutral"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0014-ap-02-it-02",
+            "apartado_id": "pod-0014-ap-02",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Vigila concentraciones y cárteles** (nota +6/10) — La CNMC autoriza fusiones, sanciona prácticas anticompetitivas y regula energía, telecos y transporte; su criterio condiciona operaciones del IBEX.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -2205,10 +2221,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0014-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "pod-0014-ap-04-it-00",
+            "apartado_id": "pod-0014-ap-04",
+            "tipo": "dato",
+            "titulo": "De Cuatrecasas y Luxemburgo a la CNMC",
+            "contenido": "Abogada especialista en competencia, trabajó en Cuatrecasas y como letrada en el Tribunal de Justicia de la UE antes de presidir la Comisión Nacional de los Mercados y la Competencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0015",
@@ -2384,8 +2421,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0016",
@@ -2505,8 +2542,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0017",
@@ -2642,8 +2679,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0018",
@@ -2784,8 +2821,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0019",
@@ -2862,6 +2899,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-debil"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0019-ap-01-it-02",
+            "apartado_id": "pod-0019-ap-01",
+            "tipo": "contacto",
+            "titulo": "unai-sordo",
+            "contenido": "**Aliado sindical (CCOO)** (nota +6/10) — UGT y CCOO actúan en bloque frente a la patronal en el diálogo social, aunque compiten por la afiliación y la representatividad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -2885,10 +2934,35 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0019-ap-03",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0019-ap-03-it-00",
+            "apartado_id": "pod-0019-ap-03",
+            "tipo": "dato",
+            "titulo": "Agenda sindical",
+            "contenido": "Defiende la subida del SMI, la reducción de jornada y el blindaje de las pensiones. Firma los grandes acuerdos del diálogo social, aunque tensa la cuerda con la patronal cuando lo cree necesario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "smi",
+              "jornada",
+              "pensiones"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0020",
@@ -3023,8 +3097,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0021",
@@ -3148,8 +3222,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0022",
@@ -3323,8 +3397,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0023",
@@ -3400,6 +3474,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-debil"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0023-ap-01-it-02",
+            "apartado_id": "pod-0023-ap-01",
+            "tipo": "contacto",
+            "titulo": "felipe-vi",
+            "contenido": "**Su esposo, el Rey** (nota +9/10) — Forma con Felipe VI el núcleo de la Casa Real; comparten la agenda institucional y la estrategia de modernización de la Corona.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -3423,10 +3509,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0023-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0023-ap-03-it-00",
+            "apartado_id": "pod-0023-ap-03",
+            "tipo": "dato",
+            "titulo": "De periodista a Reina",
+            "contenido": "Antes de casarse con Felipe en 2004 fue periodista en agencias, CNN+ y presentadora del Telediario de TVE. Es la primera reina consorte de origen plebeyo y con carrera profesional propia, lo que marca su perfil público.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0024",
@@ -3580,8 +3687,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0025",
@@ -3707,8 +3814,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0026",
@@ -3827,8 +3934,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0027",
@@ -4037,8 +4144,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0028",
@@ -4191,8 +4298,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0029",
@@ -4355,8 +4462,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0030",
@@ -4509,8 +4616,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0031",
@@ -4678,8 +4785,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0032",
@@ -4815,8 +4922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0033",
@@ -4968,8 +5075,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0034",
@@ -5088,8 +5195,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0035",
@@ -5125,6 +5232,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0035-ap-00-it-01",
+            "apartado_id": "pod-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Barómetro e informes de referencia",
+            "contenido": "Publica el Barómetro del Real Instituto Elcano y análisis de política exterior, defensa y reputación de España, que son lectura obligada en Exteriores, Defensa y las embajadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -5166,6 +5285,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-debil"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0035-ap-01-it-02",
+            "apartado_id": "pod-0035-ap-01",
+            "tipo": "contacto",
+            "titulo": "Gobierno de España (Exteriores)",
+            "contenido": "**Think tank de referencia en política exterior** (nota +5/10) — Sus informes nutren la acción diplomática y de seguridad del Estado; patronato con presencia pública y privada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -5191,8 +5322,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0036",
@@ -5328,8 +5459,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0037",
@@ -5481,8 +5612,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0038",
@@ -5606,10 +5737,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0038-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "pod-0038-ap-04-it-00",
+            "apartado_id": "pod-0038-ap-04",
+            "tipo": "dato",
+            "titulo": "La 'cocina' del CIS",
+            "contenido": "Defiende el modelo de estimación del CIS, que ajusta los datos brutos con un algoritmo. Sus resultados, a menudo más favorables al PSOE que otros sondeos, son objeto de polémica recurrente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "demoscopia",
+              "estimacion"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0039",
@@ -5745,8 +5900,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0040",
@@ -5866,8 +6021,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0041",
@@ -6001,8 +6156,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0042",
@@ -6122,8 +6277,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0043",
@@ -6184,6 +6339,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "sucesion"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0043-ap-01-it-01",
+            "apartado_id": "pod-0043-ap-01",
+            "tipo": "evento",
+            "titulo": "Isak Andic y la sucesión",
+            "contenido": "Isak Andic fundó Mango y la convirtió en multinacional de la moda. Tras su fallecimiento en un accidente en diciembre de 2024, la continuidad del grupo recae en la familia y el equipo directivo.",
+            "fecha": "2024-12-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -6250,8 +6417,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0044",
@@ -6385,8 +6552,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0045",
@@ -6500,8 +6667,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0046",
@@ -6579,6 +6746,30 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "neutral"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0046-ap-01-it-02",
+            "apartado_id": "pod-0046-ap-01",
+            "tipo": "contacto",
+            "titulo": "josep-borrell",
+            "contenido": "**Su Alto Representante de Exteriores** (nota +5/10) — Borrell fue jefe de la diplomacia de la UE y vicepresidente de su primera Comisión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0046-ap-01-it-03",
+            "apartado_id": "pod-0046-ap-01",
+            "tipo": "contacto",
+            "titulo": "Gobierno de España (fondos Next Generation)",
+            "contenido": "**Distribuye los fondos europeos** (nota +6/10) — España es de los mayores receptores del plan de recuperación que gestiona su Comisión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -6602,10 +6793,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0046-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0046-ap-03-it-00",
+            "apartado_id": "pod-0046-ap-03",
+            "tipo": "evento",
+            "titulo": "De ministra de Merkel a la Comisión",
+            "contenido": "Ministra durante años en los gobiernos de Angela Merkel, preside la Comisión Europea desde 2019, reelegida en 2024. Pilota la respuesta europea en pandemia, energía y la guerra de Ucrania.",
+            "fecha": "2019-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0047",
@@ -6700,12 +6912,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0047-ap-02-it-02",
+            "apartado_id": "pod-0047-ap-02",
+            "tipo": "contacto",
+            "titulo": "naturgy",
+            "contenido": "**Participación relevante** (nota +6/10) — Alba ha sido accionista significativo de la gasista, una de sus mayores posiciones cotizadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0047-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0047-ap-03-it-00",
+            "apartado_id": "pod-0047-ap-03",
+            "tipo": "dato",
+            "titulo": "Cartera de participadas",
+            "contenido": "Su cartera ha incluido posiciones de referencia en Naturgy, Acerinox, CIE Automotive, Ebro Foods e Indra, entre otras, rotando según el ciclo y las oportunidades.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0048",
@@ -6804,8 +7049,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0049",
@@ -6937,8 +7182,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0050",
@@ -7024,8 +7269,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0051",
@@ -7111,8 +7356,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0052",
@@ -7243,8 +7488,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0053",
@@ -7351,8 +7596,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0054",
@@ -7460,8 +7705,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0055",
@@ -7569,8 +7814,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0056",
@@ -7665,8 +7910,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0057",
@@ -7789,8 +8034,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0058",
@@ -7902,8 +8147,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0059",
@@ -8015,8 +8260,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0060",
@@ -8139,8 +8384,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0061",
@@ -8235,6 +8480,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0061-ap-02-it-02",
+            "apartado_id": "pod-0061-ap-02",
+            "tipo": "contacto",
+            "titulo": "carlos-herrera",
+            "contenido": "**Antecesor y rival en la COPE** (nota -2/10) — Tras su salida acrimoniosa de la COPE (hoy de Herrera), levantó esRadio como competencia directa por el oyente conservador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -8261,10 +8518,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0061-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "pod-0061-ap-04-it-00",
+            "apartado_id": "pod-0061-ap-04",
+            "tipo": "dato",
+            "titulo": "De Barcelona al micrófono",
+            "contenido": "Filólogo aragonés afincado en Barcelona en su juventud, sufrió un atentado de Terra Lliure en 1981. Pasó por El País y ABC, fue estrella de la COPE y fundó esRadio y Libertad Digital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0062",
@@ -8376,8 +8654,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0063",
@@ -8510,8 +8788,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0064",
@@ -8644,8 +8922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0065",
@@ -8744,8 +9022,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0066",
@@ -8844,8 +9122,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0067",
@@ -8941,8 +9219,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0068",
@@ -9029,8 +9307,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0069",
@@ -9188,8 +9466,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0070",
@@ -9302,8 +9580,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0071",
@@ -9423,8 +9701,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0072",
@@ -9483,6 +9761,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0072-ap-01-it-01",
+            "apartado_id": "pod-0072-ap-01",
+            "tipo": "dato",
+            "titulo": "Origen canario",
+            "contenido": "Construyó Prensa Ibérica desde Canarias (La Provincia) hasta convertirla en el mayor grupo de prensa regional de España, con una expansión basada en la compra de cabeceras locales líderes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -9544,8 +9834,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0073",
@@ -9661,12 +9951,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0073-ap-03-it-02",
+            "apartado_id": "pod-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "jose-pablo-lopez",
+            "contenido": "**Competidor por la audiencia (RTVE)** (nota -2/10) — Mediaset compite con la televisión pública y con Atresmedia por espectadores y publicidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0074",
@@ -9764,10 +10066,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 1
           }
         ]
+      },
+      {
+        "id": "pod-0074-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0074-ap-03-it-00",
+            "apartado_id": "pod-0074-ap-03",
+            "tipo": "dato",
+            "titulo": "Empresario y dirigente",
+            "contenido": "Empresario granadino del sector servicios, llegó a la presidencia de CEPYME desde la representación territorial y sectorial de las pequeñas y medianas empresas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0075",
@@ -9864,12 +10187,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0075-ap-02-it-02",
+            "apartado_id": "pod-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "candido-conde-pumpido",
+            "contenido": "**Par en la élite jurídica** (nota +3/10) — Su prestigio como administrativista lo vincula al mundo de los grandes juristas y de la justicia constitucional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0075-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0075-ap-03-it-00",
+            "apartado_id": "pod-0075-ap-03",
+            "tipo": "dato",
+            "titulo": "Tratadista del Derecho",
+            "contenido": "Catedrático de Derecho Administrativo, autor de tratados de referencia y de obras sobre el Estado autonómico y el Código Civil. Su autoridad académica precede a su llegada a la RAE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0076",
@@ -9965,10 +10321,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 1
           }
         ]
+      },
+      {
+        "id": "pod-0076-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0076-ap-03-it-00",
+            "apartado_id": "pod-0076-ap-03",
+            "tipo": "dato",
+            "titulo": "La crisis de los abusos",
+            "contenido": "Al frente de la Conferencia Episcopal pilotó la respuesta de la Iglesia española a la crisis de los abusos, con encargos de auditoría externa y planes de reparación, en un terreno de fuerte escrutinio público.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0077",
@@ -10063,12 +10440,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0077-ap-02-it-02",
+            "apartado_id": "pod-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "instituto-empresa-familiar",
+            "contenido": "**Gran empresa familiar** (nota +5/10) — El Grupo Fuertes es arquetipo de la multinacional familiar que defiende el Instituto de la Empresa Familiar ante el fisco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0078",
@@ -10161,12 +10550,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0078-ap-02-it-02",
+            "apartado_id": "pod-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "telefonica",
+            "contenido": "**Rival histórico en Latinoamérica** (nota -3/10) — Su América Móvil y Telefónica han competido ferozmente por el mercado latinoamericano de telecomunicaciones durante décadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   },
   {
     "id": "pod-0079",
@@ -10291,8 +10692,1028 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:56:41.794754Z",
-    "updated_at": "2026-05-28T19:56:41.794754Z"
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0080",
+    "slug": "christine-lagarde",
+    "nombre_completo": "Christine Lagarde",
+    "alias": "Lagarde",
+    "cargo_actual": "Presidenta del Banco Central Europeo (BCE)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta del Banco Central Europeo, la institución que fija la política monetaria del euro. Sus decisiones sobre los tipos de interés condicionan directamente las hipotecas de los españoles, los márgenes de la banca y el coste de la deuda pública del Estado. Aunque no es española, su poder sobre la economía de España es de primer orden.",
+    "tags": [
+      "institucional",
+      "bce",
+      "regulador",
+      "internacional",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.ecb.europa.eu",
+    "apartados": [
+      {
+        "id": "pod-0080-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0080-ap-00-it-00",
+            "apartado_id": "pod-0080-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Abogada y política francesa, exministra de Economía de Francia y exdirectora gerente del FMI. Preside el BCE desde 2019, primera mujer al frente del banco emisor del euro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0080-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0080-ap-01-it-00",
+            "apartado_id": "pod-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "La subida de tipos",
+            "contenido": "Lideró el ciclo de subidas de tipos más agresivo de la historia del euro para combatir la inflación, encareciendo hipotecas y crédito pero disparando los beneficios de la banca española.",
+            "fecha": "2022-07-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0080-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0080-ap-02-it-00",
+            "apartado_id": "pod-0080-ap-02",
+            "tipo": "dato",
+            "titulo": "Guardiana del euro",
+            "contenido": "Equilibra el control de la inflación con la estabilidad financiera y la prima de riesgo de los países del sur. Su escudo antifragmentación protege la deuda española de ataques especulativos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "inflacion",
+              "prima-de-riesgo",
+              "estabilidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0080-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0080-ap-03-it-00",
+            "apartado_id": "pod-0080-ap-03",
+            "tipo": "contacto",
+            "titulo": "jose-luis-escriva",
+            "contenido": "**Miembro de su consejo de gobierno** (nota +6/10) — Como gobernador del Banco de España, Escrivá vota en el BCE; canal directo de España en la política monetaria del euro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0080-ap-03-it-01",
+            "apartado_id": "pod-0080-ap-03",
+            "tipo": "contacto",
+            "titulo": "banco-santander",
+            "contenido": "**Sujeto a su política monetaria y supervisión** (nota +5/10) — Los tipos del BCE y la supervisión única marcan los márgenes y la solvencia del primer banco español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0080-ap-03-it-02",
+            "apartado_id": "pod-0080-ap-03",
+            "tipo": "contacto",
+            "titulo": "Tesoro Público de España",
+            "contenido": "**Compra de deuda y prima de riesgo** (nota +6/10) — Las decisiones del BCE sobre compras de bonos condicionan el coste de financiación del Estado español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0081",
+    "slug": "ignacio-garralda",
+    "nombre_completo": "Ignacio Garralda Ruiz de Velasco",
+    "alias": "Garralda",
+    "cargo_actual": "Presidente de Mutua Madrileña",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente del Grupo Mutua Madrileña, una de las mayores aseguradoras de España y un inversor institucional de peso. Mutua es accionista de referencia de El Corte Inglés y socio en distintos negocios financieros. Garralda, con pasado en la banca de inversión, es una figura muy influyente en el establishment económico madrileño.",
+    "tags": [
+      "empresario",
+      "seguros",
+      "inversion",
+      "mutua",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.mutua.es",
+    "apartados": [
+      {
+        "id": "pod-0081-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0081-ap-00-it-00",
+            "apartado_id": "pod-0081-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Directivo con trayectoria en la banca de inversión, preside Mutua Madrileña, mutua de seguros sin accionistas que reinvierte sus excedentes y se ha convertido en un gran inversor institucional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0081-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0081-ap-01-it-00",
+            "apartado_id": "pod-0081-ap-01",
+            "tipo": "dato",
+            "titulo": "Asegurador-inversor",
+            "contenido": "Combina el negocio asegurador con una cartera de participaciones financieras e inmobiliarias que le da entrada en los consejos de grandes empresas y proyectos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "seguros",
+              "cartera"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0081-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0081-ap-02-it-00",
+            "apartado_id": "pod-0081-ap-02",
+            "tipo": "contacto",
+            "titulo": "marta-alvarez",
+            "contenido": "**Socio accionista de El Corte Inglés** (nota +7/10) — Mutua Madrileña entró en el capital de El Corte Inglés y en su negocio de seguros, alianza clave para ambos grupos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0081-ap-02-it-01",
+            "apartado_id": "pod-0081-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gran banca española",
+            "contenido": "**Socio en bancaseguros y coinversión** (nota +5/10) — Mutua participa en alianzas de seguros y coinversión con la gran banca.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0082",
+    "slug": "demetrio-carceller",
+    "nombre_completo": "Demetrio Carceller Arce",
+    "alias": "Carceller",
+    "cargo_actual": "Presidente de Damm · accionista de Sacyr y Disa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario que preside la cervecera Damm (Estrella Damm) y controla el grupo energético canario Disa, además de ser accionista de referencia y consejero de la constructora Sacyr. Heredero de una saga empresarial, combina cerveza, energía y construcción en uno de los conglomerados familiares más potentes y discretos del país.",
+    "tags": [
+      "empresario",
+      "alimentacion",
+      "energia",
+      "construccion",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.damm.com",
+    "apartados": [
+      {
+        "id": "pod-0082-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0082-ap-00-it-00",
+            "apartado_id": "pod-0082-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario con intereses cruzados en cerveza (Damm), distribución de combustibles y energía (Disa) y construcción (Sacyr), donde es accionista de referencia y consejero. Saga familiar de largo recorrido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0082-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0082-ap-01-it-00",
+            "apartado_id": "pod-0082-ap-01",
+            "tipo": "dato",
+            "titulo": "Conglomerado diversificado",
+            "contenido": "Su poder reside en la diversificación: consumo, energía e infraestructuras. La participación en Sacyr lo conecta con la obra pública y las concesiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "diversificacion",
+              "concesiones"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0082-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0082-ap-02-it-00",
+            "apartado_id": "pod-0082-ap-02",
+            "tipo": "contacto",
+            "titulo": "Sacyr",
+            "contenido": "**Accionista de referencia y consejero** (nota +7/10) — Su peso en la constructora lo vincula a las grandes concesiones de infraestructuras y a la obra pública.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0082-ap-02-it-01",
+            "apartado_id": "pod-0082-ap-02",
+            "tipo": "contacto",
+            "titulo": "Sector energético",
+            "contenido": "**Distribución de combustibles (Disa)** (nota +6/10) — Disa es operador dominante en Canarias y actor relevante del mercado de carburantes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0083",
+    "slug": "jaume-roures",
+    "nombre_completo": "Jaume Roures Llop",
+    "alias": "Roures",
+    "cargo_actual": "Fundador de Mediapro",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fundador del Grupo Mediapro, gigante de la producción audiovisual y de los derechos del fútbol. Productor de cine y televisión de marcado perfil progresista, ha sido pieza clave en la guerra de los derechos televisivos del fútbol y un actor de influencia en el espacio mediático de la izquierda.",
+    "tags": [
+      "medios",
+      "audiovisual",
+      "produccion",
+      "futbol",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.mediapro.tv",
+    "apartados": [
+      {
+        "id": "pod-0083-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0083-ap-00-it-00",
+            "apartado_id": "pod-0083-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Productor audiovisual catalán, fundador de Mediapro (hoy en la órbita del fondo Orient Hontai). Trotskista en su juventud, ha mantenido un perfil ideológico de izquierdas y vínculos con el soberanismo y el sanchismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0083-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0083-ap-01-it-00",
+            "apartado_id": "pod-0083-ap-01",
+            "tipo": "evento",
+            "titulo": "La guerra del fútbol",
+            "contenido": "Mediapro fue protagonista de la batalla por los derechos televisivos del fútbol durante años, enfrentándose a las plataformas y al propio modelo de LaLiga.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0083-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0083-ap-02-it-00",
+            "apartado_id": "pod-0083-ap-02",
+            "tipo": "contacto",
+            "titulo": "javier-tebas",
+            "contenido": "**Pulso histórico por los derechos del fútbol** (nota -4/10) — Mediapro y LaLiga han chocado en la comercialización y producción de los derechos audiovisuales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0083-ap-02-it-01",
+            "apartado_id": "pod-0083-ap-02",
+            "tipo": "contacto",
+            "titulo": "Espacio mediático de izquierdas",
+            "contenido": "**Productor afín al progresismo** (nota +4/10) — Su perfil ideológico lo sitúa como actor del ecosistema audiovisual cercano a la izquierda y al soberanismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0084",
+    "slug": "joaquin-manso",
+    "nombre_completo": "Joaquín Manso",
+    "alias": "Manso",
+    "cargo_actual": "Director de El Mundo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director de El Mundo, el segundo diario de información general de España y buque insignia de Unidad Editorial (grupo del italiano RCS). Periodismo de centro-derecha con fuerte tradición de investigación; su línea fija agenda en el electorado conservador y en los tribunales mediáticos.",
+    "tags": [
+      "medios",
+      "periodista",
+      "prensa",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.elmundo.es",
+    "apartados": [
+      {
+        "id": "pod-0084-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0084-ap-00-it-00",
+            "apartado_id": "pod-0084-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista al frente de El Mundo, cabecera de referencia del centro-derecha y una de las grandes marcas del periodismo de investigación español, propiedad de Unidad Editorial (RCS MediaGroup).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0084-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0084-ap-01-it-00",
+            "apartado_id": "pod-0084-ap-01",
+            "tipo": "dato",
+            "titulo": "Investigación y agenda",
+            "contenido": "Mantiene la tradición de investigación del diario, con foco en corrupción y casos judiciales. Su cobertura condiciona el relato político del bloque de la derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "investigacion",
+              "agenda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0084-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0084-ap-02-it-00",
+            "apartado_id": "pod-0084-ap-02",
+            "tipo": "contacto",
+            "titulo": "pedro-jose-ramirez",
+            "contenido": "**Fundador histórico del diario que dirige** (nota +2/10) — Pedro J. Ramírez fundó y dirigió El Mundo durante décadas antes de crear El Español; herencia editorial compartida.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0084-ap-02-it-01",
+            "apartado_id": "pod-0084-ap-02",
+            "tipo": "contacto",
+            "titulo": "francisco-marhuenda",
+            "contenido": "**Par en la prensa de centro-derecha** (nota +3/10) — El Mundo y La Razón comparten espacio editorial, compitiendo por el lector conservador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0085",
+    "slug": "vocento",
+    "nombre_completo": "Vocento",
+    "alias": "Vocento",
+    "cargo_actual": "Grupo editor de ABC y la prensa regional conservadora",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Grupo de comunicación controlado por familias del País Vasco y de tradición conservadora (entre ellas los Ybarra), editor de ABC y de una potente red de diarios regionales (El Correo, El Diario Vasco, Las Provincias, Ideal…). Es uno de los pilares de la prensa de centro-derecha y un actor de peso en la opinión publicada.",
+    "tags": [
+      "medios",
+      "prensa",
+      "abc",
+      "conservador",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.vocento.com",
+    "apartados": [
+      {
+        "id": "pod-0085-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0085-ap-00-it-00",
+            "apartado_id": "pod-0085-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Grupo editor de ABC y de una amplia red de cabeceras regionales líderes en sus mercados. Su accionariado, de raíz familiar vasca, lo vincula a la burguesía conservadora histórica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0085-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0085-ap-01-it-00",
+            "apartado_id": "pod-0085-ap-01",
+            "tipo": "contacto",
+            "titulo": "javier-moll",
+            "contenido": "**Competidor en la prensa regional** (nota -2/10) — Vocento y Prensa Ibérica se disputan el liderazgo de la prensa de proximidad en distintos territorios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0085-ap-01-it-01",
+            "apartado_id": "pod-0085-ap-01",
+            "tipo": "contacto",
+            "titulo": "francisco-marhuenda",
+            "contenido": "**Mismo espacio editorial conservador** (nota +3/10) — ABC, La Razón y El Mundo conforman el núcleo de la prensa de derecha que marca agenda al PP y a Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0086",
+    "slug": "magdalena-valerio",
+    "nombre_completo": "Magdalena Valerio Cordero",
+    "alias": "Magdalena Valerio",
+    "cargo_actual": "Presidenta del Consejo de Estado",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta del Consejo de Estado, el supremo órgano consultivo del Gobierno, cuyos dictámenes preceden a las grandes decisiones normativas del Estado. Exministra de Trabajo del PSOE, su designación al frente del Consejo fue polémica por su perfil político en un órgano de naturaleza jurídica.",
+    "tags": [
+      "institucional",
+      "consejo-de-estado",
+      "consultivo",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.consejo-estado.es",
+    "apartados": [
+      {
+        "id": "pod-0086-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0086-ap-00-it-00",
+            "apartado_id": "pod-0086-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jurista y política socialista, exministra de Trabajo, Migraciones y Seguridad Social. Preside el Consejo de Estado, máximo órgano consultivo que dictamina sobre la legalidad de normas y grandes decisiones del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0086-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0086-ap-01-it-00",
+            "apartado_id": "pod-0086-ap-01",
+            "tipo": "contacto",
+            "titulo": "Gobierno de España",
+            "contenido": "**Órgano consultivo del Ejecutivo** (nota +4/10) — Sus dictámenes, no vinculantes pero de gran peso, preceden a reales decretos y grandes reformas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0086-ap-01-it-01",
+            "apartado_id": "pod-0086-ap-01",
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Origen político socialista** (nota +5/10) — Exministra del PSOE; su nombramiento alimentó el debate sobre la politización de los órganos del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0087",
+    "slug": "helena-revoredo",
+    "nombre_completo": "Helena Revoredo Delvecchio",
+    "alias": "Revoredo",
+    "cargo_actual": "Presidenta de Prosegur",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta y accionista de control de Prosegur, multinacional española de la seguridad privada y la logística de valores presente en toda Iberoamérica. Una de las mujeres más ricas de España, controla a través de su grupo la vigilancia, el transporte de fondos y la ciberseguridad de empresas y bancos.",
+    "tags": [
+      "empresaria",
+      "seguridad",
+      "prosegur",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.prosegur.com",
+    "apartados": [
+      {
+        "id": "pod-0087-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0087-ap-00-it-00",
+            "apartado_id": "pod-0087-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresaria de origen argentino, viuda del fundador de Prosegur, preside y controla el grupo de seguridad privada, presente en buena parte de Europa y América Latina.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0087-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0087-ap-01-it-00",
+            "apartado_id": "pod-0087-ap-01",
+            "tipo": "dato",
+            "titulo": "Infraestructura crítica privada",
+            "contenido": "El transporte de fondos, la vigilancia y la ciberseguridad de Prosegur la convierten en proveedora de un servicio sensible para bancos, empresas e instituciones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "seguridad",
+              "logistica-valores"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0087-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0087-ap-02-it-00",
+            "apartado_id": "pod-0087-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gran banca española",
+            "contenido": "**Proveedora de logística de efectivo** (nota +5/10) — Prosegur gestiona el transporte y la custodia de valores de buena parte del sistema bancario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0088",
+    "slug": "daniel-mate",
+    "nombre_completo": "Daniel Maté Badenes",
+    "alias": "Daniel Maté",
+    "cargo_actual": "Cofundador y gran accionista de Glencore",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario español, uno de los mayores accionistas individuales de Glencore, el gigante mundial de las materias primas y la minería. Considerado de forma recurrente el hombre más rico de España, mantiene un perfil de extrema discreción y reside parte del tiempo fuera del país. Su fortuna procede del comercio global de commodities.",
+    "tags": [
+      "empresario",
+      "materias-primas",
+      "mineria",
+      "internacional",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.glencore.com",
+    "apartados": [
+      {
+        "id": "pod-0088-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0088-ap-00-it-00",
+            "apartado_id": "pod-0088-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Uno de los socios históricos de Glencore, multinacional suiza líder en el comercio de materias primas y la minería. Su participación lo sitúa en lo más alto de las listas de grandes fortunas españolas, pese a su bajísimo perfil público.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0088-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0088-ap-01-it-00",
+            "apartado_id": "pod-0088-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mercado global de materias primas",
+            "contenido": "**Gran accionista de Glencore** (nota +8/10) — Su fortuna depende del comercio mundial de metales, energía y agroalimentación a través del gigante suizo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0089",
+    "slug": "alberto-alcocer",
+    "nombre_completo": "Alberto Alcocer y Alberto Cortina («los Albertos»)",
+    "alias": "Los Albertos",
+    "cargo_actual": "Financieros históricos · accionistas de Ence y otros activos",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Primos y socios financieros (Alberto Alcocer y Alberto Cortina), protagonistas del capitalismo español desde los años 80. Tras su paso por banca, construcción (la antigua FCC) y energía, mantienen posiciones de referencia en cotizadas como Ence (celulosa/energía) a través de Alcor. Iconos de una época del poder económico madrileño.",
+    "tags": [
+      "empresario",
+      "inversion",
+      "financieros",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.ence.es",
+    "apartados": [
+      {
+        "id": "pod-0089-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0089-ap-00-it-00",
+            "apartado_id": "pod-0089-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Conocidos como «los Albertos», construyeron y deshicieron alianzas en banca, construcción y energía durante décadas. Hoy mantienen posiciones de control en compañías como Ence a través de su sociedad Alcor.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0089-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0089-ap-01-it-00",
+            "apartado_id": "pod-0089-ap-01",
+            "tipo": "contacto",
+            "titulo": "Ence",
+            "contenido": "**Accionistas de referencia** (nota +7/10) — Controlan la mayor empresa española de celulosa y energía con biomasa a través de Alcor.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0089-ap-01-it-01",
+            "apartado_id": "pod-0089-ap-01",
+            "tipo": "contacto",
+            "titulo": "Establishment financiero madrileño",
+            "contenido": "**Veteranos del capitalismo de los 80-90** (nota +5/10) — Su trayectoria los conecta con la historia de la banca y la construcción españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
+  },
+  {
+    "id": "pod-0090",
+    "slug": "instituto-empresa-familiar",
+    "nombre_completo": "Instituto de la Empresa Familiar",
+    "alias": "IEF",
+    "cargo_actual": "Lobby de las grandes empresas y fortunas familiares",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Asociación que agrupa a las mayores empresas familiares de España (de Inditex y Mercadona a Mango, El Pozo o Puig), responsables de buena parte del PIB y el empleo privado. Es uno de los lobbies más influyentes del país en materia fiscal —especialmente en el impuesto de patrimonio y sucesiones— y de política económica.",
+    "tags": [
+      "patronal",
+      "lobby",
+      "empresa-familiar",
+      "fiscalidad",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.iefamiliar.com",
+    "apartados": [
+      {
+        "id": "pod-0090-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0090-ap-00-it-00",
+            "apartado_id": "pod-0090-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Reúne a las grandes empresas familiares españolas y a sus asociaciones territoriales. Defiende un marco fiscal favorable a la continuidad de las empresas familiares y a la inversión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0090-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0090-ap-01-it-00",
+            "apartado_id": "pod-0090-ap-01",
+            "tipo": "dato",
+            "titulo": "Batalla fiscal",
+            "contenido": "Es el gran lobby contra el impuesto de patrimonio y de grandes fortunas, y a favor de bonificaciones en sucesiones, argumentando que protegen el empleo y la inversión familiar.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "patrimonio",
+              "sucesiones",
+              "fiscalidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0090-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0090-ap-02-it-00",
+            "apartado_id": "pod-0090-ap-02",
+            "tipo": "contacto",
+            "titulo": "juan-roig",
+            "contenido": "**Gran empresa familiar asociada (Mercadona)** (nota +6/10) — Roig representa el arquetipo de la empresa familiar que el IEF defiende ante el fisco y el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0090-ap-02-it-01",
+            "apartado_id": "pod-0090-ap-02",
+            "tipo": "contacto",
+            "titulo": "familia-andic",
+            "contenido": "**Empresa familiar asociada (Mango)** (nota +6/10) — Mango es ejemplo del tejido de multinacionales familiares que agrupa el instituto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0090-ap-02-it-02",
+            "apartado_id": "pod-0090-ap-02",
+            "tipo": "contacto",
+            "titulo": "antonio-garamendi",
+            "contenido": "**Coordinación con la CEOE** (nota +5/10) — El IEF alinea su agenda fiscal y económica con la gran patronal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T21:21:32.462543Z",
+    "updated_at": "2026-05-28T21:21:32.462543Z"
   }
 ]
 
