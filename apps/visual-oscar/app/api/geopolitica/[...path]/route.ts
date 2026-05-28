@@ -33,6 +33,9 @@ import { withCascade, AiUnavailableError } from '@/lib/ai'
 // FIX-A2 · OpenSanctions API real para drawer país por ISO
 import { fetchEntitiesByCountry } from '@/lib/opensanctions/client'
 import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
+// FIX-B2 · seed UCDP estructural + World Bank crisis years para timeline
+import { getUcdpConflictByIso } from '@/lib/geopolitica/ucdp-active-conflicts'
+import { fetchCountryMacro, latestWBValue } from '@/lib/worldbank/client'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -2594,17 +2597,20 @@ async function buildSpainWatchlist(req: Request) {
 // + sanciones + Travel Advisory updates. Todo data-driven, sin hardcode.
 async function buildCountryTimeline(req: Request, iso3: string) {
   const base = baseUrl(req)
-  const meta = WORLD_COUNTRY_BASELINE[iso3.toUpperCase()]
+  const iso3Upper = iso3.toUpperCase()
+  const meta = WORLD_COUNTRY_BASELINE[iso3Upper]
   if (!meta) {
     return { ok: false, error: 'country_not_found', iso: iso3 }
   }
-  const ucdpName = ISO3_TO_UCDP_NAME[iso3.toUpperCase()] || meta.name
+  const ucdpName = ISO3_TO_UCDP_NAME[iso3Upper] || meta.name
 
-  const [ucdp, acled, sanctions, travel] = await Promise.all([
+  // FIX-B2: Pulls paralelos extendidos (UCDP live + Sanctions + Travel + WB macro)
+  const [ucdp, acled, sanctions, travel, wbMacro] = await Promise.all([
     jsonFetch(`https://ucdpapi.pcr.uu.se/api/ucdpprioconflict/24.1?Country=${encodeURIComponent(ucdpName)}&pagesize=500`),
     jsonFetch(`${base}/api/acled/spain-context`),
     jsonFetch(`${base}/api/geopolitica/sanciones?source=all`),
-    jsonFetch(`${base}/api/geopolitica/travel-advisories?country=${ISO3_TO_ISO2[iso3.toUpperCase()] || ''}`),
+    jsonFetch(`${base}/api/geopolitica/travel-advisories?country=${ISO3_TO_ISO2[iso3Upper] || ''}`),
+    fetchCountryMacro(iso3Upper).catch(() => null),
   ])
 
   type TimelineEvent = { date: string; year: number; source: string; type: string; severity: 'LOW' | 'MED' | 'HIGH' | 'CRITICAL'; title: string; detail?: string }
@@ -2683,6 +2689,70 @@ async function buildCountryTimeline(req: Request, iso3: string) {
     })
   }
 
+  // ─── FIX-B2 · UCDP seed estructural si live API no devolvió nada ─────
+  const ucdpSeed = getUcdpConflictByIso(iso3Upper)
+  if (ucdpSeed && ucdpResults.length === 0) {
+    events.push({
+      date: `${ucdpSeed.start_year}-01-01`,
+      year: ucdpSeed.start_year,
+      source: 'UCDP',
+      type: ucdpSeed.conflict_type === 'state-based' ? 'GUERRA' : 'CONFLICTO',
+      severity: ucdpSeed.intensity_baseline >= 4 ? 'CRITICAL' : ucdpSeed.intensity_baseline >= 3 ? 'HIGH' : 'MED',
+      title: ucdpSeed.conflict_label,
+      detail: `Actores: ${ucdpSeed.actors.join(' / ')} · ~${ucdpSeed.fatalities_year_est.toLocaleString('es-ES')} muertes/año estimadas`,
+    })
+  }
+
+  // ─── FIX-B2 · World Bank crisis years (recesiones + hiperinflación) ─
+  if (wbMacro) {
+    const gdpSeries = wbMacro.indicators.gdp_growth_pct || []
+    const inflSeries = wbMacro.indicators.inflation_pct || []
+    for (const p of gdpSeries) {
+      if (p.value !== null && p.value < -2) {
+        events.push({
+          date: `${p.year}-12-31`,
+          year: p.year,
+          source: 'Economic',
+          type: 'Recesión económica',
+          severity: p.value < -5 ? 'CRITICAL' : 'HIGH',
+          title: `Recesión año ${p.year}`,
+          detail: `PIB real ${p.value.toFixed(1)}% (World Bank)`,
+        })
+      }
+    }
+    for (const p of inflSeries) {
+      if (p.value !== null && p.value > 15) {
+        events.push({
+          date: `${p.year}-12-31`,
+          year: p.year,
+          source: 'Economic',
+          type: 'Hiperinflación',
+          severity: p.value > 50 ? 'CRITICAL' : 'HIGH',
+          title: `Inflación elevada año ${p.year}`,
+          detail: `IPC anual ${p.value.toFixed(1)}% (World Bank)`,
+        })
+      }
+    }
+    // Latest snapshot point para resaltar estado actual
+    const latestGdp = latestWBValue(gdpSeries)
+    const latestInfl = latestWBValue(inflSeries)
+    if (latestGdp !== null || latestInfl !== null) {
+      const year = new Date().getFullYear()
+      const parts: string[] = []
+      if (latestGdp !== null) parts.push(`PIB ${latestGdp.toFixed(1)}%`)
+      if (latestInfl !== null) parts.push(`IPC ${latestInfl.toFixed(1)}%`)
+      events.push({
+        date: `${year}-01-01`,
+        year,
+        source: 'Economic',
+        type: 'Snapshot macro actual',
+        severity: (latestGdp !== null && latestGdp < -2) || (latestInfl !== null && latestInfl > 15) ? 'HIGH' : 'LOW',
+        title: 'Indicadores macro actuales',
+        detail: parts.join(' · '),
+      })
+    }
+  }
+
   // Ordenar desc por fecha
   events.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
 
@@ -2694,20 +2764,27 @@ async function buildCountryTimeline(req: Request, iso3: string) {
   }
   const years = Object.keys(byYear).map(Number).sort((a, b) => b - a)
 
+  const economicEvents = events.filter((e) => e.source === 'Economic').length
+  const ucdpEvents = events.filter((e) => e.source === 'UCDP').length
+
   return {
     ok: true,
     country: { iso3: meta.iso3, name: meta.name, region: meta.region },
     n_events: events.length,
     sources_used: {
-      ucdp: ucdpResults.length,
+      ucdp: ucdpEvents,
+      ucdp_live_results: ucdpResults.length,
+      ucdp_seed_used: ucdpResults.length === 0 && ucdpSeed !== null,
       acled: countryEventsAcled.length,
       sanctions: countrySanctions.length,
       travel: travel?.ok ? 1 : 0,
+      economic: economicEvents,
+      wb_available: wbMacro !== null,
     },
     years_covered: years.length > 0 ? `${years[years.length - 1]}-${years[0]}` : '—',
     events: events.slice(0, 80),
     by_year: byYear,
-    methodology: 'Country timeline multi-source · UCDP conflictos (1946→2023 según v24.1) + ACLED eventos recientes + sanciones que mencionan país + Travel Advisory actual. Todo live · ningún dato hardcodeado.',
+    methodology: 'Country timeline multi-source · (FIX-B2) UCDP live API + seed estructural top 30 conflictos + World Bank crisis years (PIB <-2% recesión, IPC >15% hiperinflación) + ACLED si disponible + sanciones que mencionan país + Travel Advisory actual. Live data + capa estructural cuando live falla.',
   }
 }
 

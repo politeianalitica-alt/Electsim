@@ -25,7 +25,16 @@ interface Resp {
   country?: { iso3: string; name: string; region: string }
   n_events?: number
   years_covered?: string
-  sources_used?: { ucdp: number; acled: number; sanctions: number; travel: number }
+  sources_used?: {
+    ucdp: number
+    ucdp_live_results?: number
+    ucdp_seed_used?: boolean
+    acled: number
+    sanctions: number
+    travel: number
+    economic?: number
+    wb_available?: boolean
+  }
   events?: Ev[]
   by_year?: Record<string, Ev[]>
   methodology?: string
@@ -37,6 +46,7 @@ const SOURCE_COLOR: Record<string, string> = {
   ACLED:    '#dc2626',
   Sanctions: '#f97316',
   Travel:   '#0ea5e9',
+  Economic: '#16a34a',   // FIX-B2 · recesión + hiperinflación + snapshot macro
 }
 const SEV_COLOR: Record<string, string> = {
   CRITICAL: '#7f1d1d',
@@ -48,7 +58,7 @@ const SEV_COLOR: Record<string, string> = {
 export function GeoCountryTimeline({ iso }: { iso: string }) {
   const [data, setData] = useState<Resp | null>(null)
   const [loading, setLoading] = useState(true)
-  const [sourceFilter, setSourceFilter] = useState<'all' | 'UCDP' | 'ACLED' | 'Sanctions' | 'Travel'>('all')
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'UCDP' | 'ACLED' | 'Sanctions' | 'Travel' | 'Economic'>('all')
 
   useEffect(() => {
     if (!iso) return
@@ -93,7 +103,7 @@ export function GeoCountryTimeline({ iso }: { iso: string }) {
         </div>
         {data?.ok && (
           <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-            {(['all', 'UCDP', 'ACLED', 'Sanctions', 'Travel'] as const).map((f) => {
+            {(['all', 'UCDP', 'ACLED', 'Sanctions', 'Travel', 'Economic'] as const).map((f) => {
               const active = sourceFilter === f
               const col = f === 'all' ? '#0f172a' : (SOURCE_COLOR[f] || '#94a3b8')
               return (
