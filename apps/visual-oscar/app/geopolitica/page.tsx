@@ -61,6 +61,8 @@ import { MilitaryMap } from '@/components/geopolitica/militar/MilitaryMap'
 import { MilitaryKpis } from '@/components/geopolitica/militar/MilitaryKpis'
 import { DefenseCommoditiesPanel } from '@/components/geopolitica/militar/DefenseCommoditiesPanel'
 import { MilitarySignalFeed } from '@/components/geopolitica/militar/MilitarySignalFeed'
+// Sprint GEO-MIL C6 · Drawer ficha militar país (5 sub-tabs)
+import { GeoMilitaryDrawer } from '@/components/geopolitica/militar/GeoMilitaryDrawer'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1074,36 +1076,7 @@ export default function GeopoliticaPage() {
               <MilitarySignalFeed onCountryClick={(iso3) => setMilitaryDrawerIso(iso3)} />
             </div>
 
-            {/* Drawer ficha militar país · stub mínimo · C6 lo completa con 5 sub-tabs */}
-            {militaryDrawerIso && (
-              <>
-                <div onClick={() => setMilitaryDrawerIso(null)} style={{
-                  position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.5)', zIndex: 1000,
-                }} />
-                <aside style={{
-                  position: 'fixed', top: 0, right: 0, bottom: 0,
-                  width: 'min(640px, 96vw)', background: '#fff',
-                  boxShadow: '-8px 0 32px rgba(15,23,42,0.2)',
-                  zIndex: 1001, overflowY: 'auto', padding: 20,
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
-                    <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: '#0f172a' }}>
-                      Ficha militar · {militaryDrawerIso}
-                    </h2>
-                    <button onClick={() => setMilitaryDrawerIso(null)} style={{ background: 'none', border: 'none', fontSize: 22, color: '#64748b', cursor: 'pointer', padding: 0, lineHeight: 1 }}>×</button>
-                  </div>
-                  <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '4px solid #f59e0b', padding: '14px 16px', borderRadius: 8 }}>
-                    <strong style={{ color: '#92400e', fontSize: 13 }}>Drawer en construcción</strong>
-                    <p style={{ margin: '6px 0 0', fontSize: 11, color: '#78350f' }}>
-                      La ficha militar país completa (5 sub-tabs: Presupuesto + Capacidades IISS + Transferencias armas + Posición alianzas + Industria defensa con Finnhub) viene en commit C6.
-                    </p>
-                    <p style={{ margin: '6px 0 0', fontSize: 11, color: '#78350f' }}>
-                      Mientras tanto puedes ver el país en la <a onClick={() => { setRiskDrawerIso(militaryDrawerIso); setMilitaryDrawerIso(null) }} style={{ color: '#0891b2', cursor: 'pointer', textDecoration: 'underline' }}>ficha Riesgo País</a> (Sub-tab Economía tiene SIPRI milex completo).
-                    </p>
-                  </div>
-                </aside>
-              </>
-            )}
+            <GeoMilitaryDrawer iso3={militaryDrawerIso} onClose={() => setMilitaryDrawerIso(null)} />
 
             {/* Vista legacy · NATO + Spain Defensa + ISW conservada */}
             <details style={{
