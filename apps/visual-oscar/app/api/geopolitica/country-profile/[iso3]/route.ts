@@ -49,6 +49,7 @@ import {
   latestWBValue,
   type WBCountryIndicators,
 } from '@/lib/worldbank/client'
+import { fetchCountryFactsFromWikidata } from '@/lib/wikidata/client'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -166,6 +167,13 @@ interface GovernmentLayer {
   governing_parties: string[]
   international_orgs: string[]
   independence_date: string | null
+  // ── Wikidata facts extendidos (FIX-A7) ───────────────────────────
+  national_motto?: string | null
+  state_religion?: string | null
+  legal_system?: string | null
+  official_language?: string | null
+  head_of_state_since?: string | null
+  head_of_government_since?: string | null
   _source: SourceMeta
 }
 
@@ -207,6 +215,9 @@ LIMIT 20`.trim()
     ? orgsData.results.bindings.map((b: any) => b.orgLabel?.value).filter(Boolean)
     : []
 
+  // Tercera query: facts estructurales extendidos (FIX-A7) — paralelo
+  const extendedFacts = await fetchCountryFactsFromWikidata(iso3)
+
   return {
     head_of_state: row.headOfStateLabel?.value || null,
     head_of_government: row.headOfGovernmentLabel?.value || null,
@@ -214,12 +225,18 @@ LIMIT 20`.trim()
     governing_parties: [],     // P3033 si quisiéramos · costoso · skip
     international_orgs: orgs,
     independence_date: row.independence?.value?.slice(0, 10) || null,
+    national_motto: extendedFacts?.national_motto || null,
+    state_religion: extendedFacts?.state_religion || null,
+    legal_system: extendedFacts?.legal_system || null,
+    official_language: extendedFacts?.official_language || null,
+    head_of_state_since: extendedFacts?.head_of_state?.since || null,
+    head_of_government_since: extendedFacts?.head_of_government?.since || null,
     _source: {
       id: 'wikidata',
-      name: 'Wikidata',
+      name: 'Wikidata SPARQL (queries jefes de estado + orgs + facts estructurales)',
       access_type: 'public_api_no_key',
       source_url: 'https://query.wikidata.org/',
-      what_it_measures: 'Jefe de Estado, jefe de Gobierno, forma de gobierno, organizaciones internacionales (P463), independencia',
+      what_it_measures: 'Jefe de Estado P35, jefe de Gobierno P6, forma gobierno P122, organizaciones P463, independencia P571, lema P1546, religión oficial P140, sistema legal P1387, idioma P37',
       confidence: 'medium',
     },
   }
