@@ -69,6 +69,7 @@ SOURCES = {
             REPO / "data" / "poder" / "figuras_clave_2.json",
             REPO / "data" / "poder" / "figuras_clave_3.json",
             REPO / "data" / "poder" / "figuras_clave_4.json",
+            REPO / "data" / "poder" / "figuras_clave_5.json",
         ],
         "out": VISUAL / "poder-fixture.ts",
         "fixture_name": "PODER_FIXTURE",
@@ -88,6 +89,10 @@ SOURCES = {
             "//     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte\n"
             "//     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),\n"
             "//     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).\n"
+            "//   · figuras_clave_5.json · grandes fondos accionistas del IBEX (BlackRock,\n"
+            "//     fondo de Noruega), prensa (El Confidencial/Cardero, Prensa Ibérica/Moll,\n"
+            "//     Mediaset/Borja Prado), CEPYME (Cuerva), RAE (Muñoz Machado), cardenal\n"
+            "//     Omella, ElPozo (T. Fuertes), Carlos Slim y Glovo (Oscar Pierre).\n"
             "//   · figuras_clave_4.json · reguladores y holding público sobre el IBEX\n"
             "//     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños\n"
             "//     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,\n"

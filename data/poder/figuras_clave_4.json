@@ -7,7 +7,13 @@
     "cargo": "Presidenta de la SEPI",
     "bio_corta": "Presidenta de la Sociedad Estatal de Participaciones Industriales (SEPI), el holding público que gestiona las participaciones del Estado en empresas estratégicas. Desde la SEPI, el Estado es accionista de referencia en Indra, Redeia, Enagás, Airbus y otras compañías clave, lo que la convierte en una pieza central del capitalismo de Estado español.",
     "fuente_principal": "https://www.sepi.es",
-    "tags": ["estado", "sepi", "participaciones-publicas", "ibex", "no-electo"],
+    "tags": [
+      "estado",
+      "sepi",
+      "participaciones-publicas",
+      "ibex",
+      "no-electo"
+    ],
     "confidence": 0.85,
     "completeness": 0.7,
     "apartados": [
@@ -30,7 +36,10 @@
             "tipo": "dato",
             "titulo": "Capitalismo de Estado",
             "contenido": "La SEPI ha reforzado el papel del Estado como accionista estable en sectores estratégicos (defensa, energía, telecomunicaciones), en la lógica de la autonomía estratégica defendida por el Gobierno.",
-            "tags": ["autonomia-estrategica", "blindaje"]
+            "tags": [
+              "autonomia-estrategica",
+              "blindaje"
+            ]
           }
         ]
       },
@@ -70,7 +79,13 @@
     "cargo": "Presidente de la CNMV",
     "bio_corta": "Presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Vigila a todas las cotizadas del IBEX, autoriza OPAs y emisiones, y persigue el abuso de mercado y el uso de información privilegiada. Procede de la alta función pública del Ministerio de Economía.",
     "fuente_principal": "https://www.cnmv.es",
-    "tags": ["regulador", "cnmv", "mercados", "supervision", "no-electo"],
+    "tags": [
+      "regulador",
+      "cnmv",
+      "mercados",
+      "supervision",
+      "no-electo"
+    ],
     "confidence": 0.82,
     "completeness": 0.68,
     "apartados": [
@@ -93,7 +108,11 @@
             "tipo": "dato",
             "titulo": "Supervisión",
             "contenido": "La CNMV arbitra las grandes operaciones corporativas del mercado: OPAs hostiles, fusiones bancarias, salidas a bolsa. Su criterio condiciona los tiempos y las condiciones de operaciones multimillonarias.",
-            "tags": ["opas", "fusiones", "transparencia"]
+            "tags": [
+              "opas",
+              "fusiones",
+              "transparencia"
+            ]
           }
         ]
       },
@@ -128,9 +147,15 @@
     "cargo": "Presidenta de la AIReF",
     "bio_corta": "Presidenta de la Autoridad Independiente de Responsabilidad Fiscal (AIReF), el organismo que fiscaliza las cuentas públicas y evalúa la sostenibilidad de la deuda, las pensiones y el gasto. Su voz técnica condiciona el debate sobre el déficit y las reglas fiscales, a menudo en tensión con el optimismo del Gobierno.",
     "fuente_principal": "https://www.airef.es",
-    "tags": ["regulador", "airef", "fiscalidad", "deficit", "no-electo"],
+    "tags": [
+      "regulador",
+      "airef",
+      "fiscalidad",
+      "deficit",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.66,
+    "completeness": 0.74,
     "apartados": [
       {
         "tipo": "identidad",
@@ -151,7 +176,11 @@
             "tipo": "dato",
             "titulo": "Vigilancia del gasto",
             "contenido": "La AIReF advierte recurrentemente sobre desviaciones de déficit, sostenibilidad de las pensiones y eficiencia del gasto público, lo que genera roces con el Ministerio de Hacienda.",
-            "tags": ["sostenibilidad", "pensiones", "reglas-fiscales"]
+            "tags": [
+              "sostenibilidad",
+              "pensiones",
+              "reglas-fiscales"
+            ]
           }
         ]
       },
@@ -168,6 +197,11 @@
             "tipo": "contacto",
             "titulo": "jose-luis-escriva",
             "contenido": "**Interlocución técnica con el Banco de España** (nota +4/10) — Comparten diagnóstico sobre sostenibilidad de la deuda y necesidad de consolidación fiscal."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Congreso de los Diputados",
+            "contenido": "**Comparecencias y control** (nota +3/10) — Sus informes y comparecencias parlamentarias condicionan el debate sobre déficit, deuda y pensiones."
           }
         ]
       }
@@ -181,7 +215,13 @@
     "cargo": "Presidenta de la AEB",
     "bio_corta": "Presidenta de la Asociación Española de Banca (AEB), la patronal de los grandes bancos. Es la voz unificada del sector bancario ante el Gobierno, el Banco de España y el BCE en debates como el impuesto a la banca, la remuneración del ahorro o la regulación europea. Procede de la cúpula del Banco Santander.",
     "fuente_principal": "https://www.aebanca.es",
-    "tags": ["patronal", "banca", "aeb", "lobby", "no-electo"],
+    "tags": [
+      "patronal",
+      "banca",
+      "aeb",
+      "lobby",
+      "no-electo"
+    ],
     "confidence": 0.82,
     "completeness": 0.66,
     "apartados": [
@@ -204,7 +244,10 @@
             "tipo": "dato",
             "titulo": "Defensa del sector",
             "contenido": "Lidera la oposición de la banca al impuesto extraordinario sobre el sector y defiende el papel del crédito en la economía frente a la presión política por los beneficios récord.",
-            "tags": ["impuesto-banca", "credito"]
+            "tags": [
+              "impuesto-banca",
+              "credito"
+            ]
           }
         ]
       },
@@ -244,7 +287,13 @@
     "cargo": "Director de «Es la mañana de Federico» (esRadio)",
     "bio_corta": "Periodista y comunicador, fundador de esRadio y de Libertad Digital junto a un grupo de socios. Una de las voces más influyentes y polémicas de la derecha mediática española, con un programa matinal de gran audiencia y enorme capacidad de fijar agenda en el electorado conservador y liberal.",
     "fuente_principal": "https://esradio.libertaddigital.com",
-    "tags": ["medios", "radio", "tertuliano", "derecha-mediatica", "no-electo"],
+    "tags": [
+      "medios",
+      "radio",
+      "tertuliano",
+      "derecha-mediatica",
+      "no-electo"
+    ],
     "confidence": 0.85,
     "completeness": 0.7,
     "apartados": [
@@ -267,7 +316,10 @@
             "tipo": "dato",
             "titulo": "Línea editorial",
             "contenido": "Antinacionalista, liberal en lo económico y muy crítico con el Gobierno de Sánchez. Mantiene también una relación de amor-odio con la dirección del PP, a la que exige firmeza.",
-            "tags": ["liberalismo", "anti-sanchismo"]
+            "tags": [
+              "liberalismo",
+              "anti-sanchismo"
+            ]
           }
         ]
       },
@@ -295,7 +347,10 @@
             "tipo": "controversia",
             "titulo": "Estilo y condenas por injurias",
             "contenido": "Su estilo combativo le ha valido a lo largo de su carrera distintos procesos por injurias. Como en todo procedimiento, rige la presunción de inocencia salvo sentencia firme.",
-            "tags": ["injurias", "presuncion-inocencia"]
+            "tags": [
+              "injurias",
+              "presuncion-inocencia"
+            ]
           }
         ]
       }
@@ -309,7 +364,13 @@
     "cargo": "Presidente de Grupo Planeta y de Atresmedia",
     "bio_corta": "Presidente del Grupo Planeta, el mayor grupo editorial en español, y de Atresmedia (Antena 3, laSexta, Onda Cero). Concentra un poder mediático de primer orden: televisión, radio, prensa (La Razón) y edición de libros. Perfil discreto pero con enorme influencia sobre el ecosistema informativo del centro-derecha.",
     "fuente_principal": "https://www.planeta.es",
-    "tags": ["medios", "planeta", "atresmedia", "editorial", "no-electo"],
+    "tags": [
+      "medios",
+      "planeta",
+      "atresmedia",
+      "editorial",
+      "no-electo"
+    ],
     "confidence": 0.82,
     "completeness": 0.68,
     "apartados": [
@@ -332,7 +393,11 @@
             "tipo": "dato",
             "titulo": "Poder mediático",
             "contenido": "Controla un conglomerado que abarca televisión generalista, radio, prensa y edición. Esa diversidad le da capacidad de fijar agenda y un peso decisivo en el reparto de la publicidad institucional y privada.",
-            "tags": ["audiovisual", "publicidad", "agenda"]
+            "tags": [
+              "audiovisual",
+              "publicidad",
+              "agenda"
+            ]
           }
         ]
       },
@@ -367,9 +432,15 @@
     "cargo": "Presidente de PRISA · fundador de Amber Capital",
     "bio_corta": "Inversor franco-armenio, fundador del fondo Amber Capital y presidente de PRISA, el grupo editor de El País, la Cadena SER y Santillana. Llegó al control del grupo como accionista activista y hoy preside uno de los mayores conglomerados de medios en español, de influencia decisiva en el espacio progresista.",
     "fuente_principal": "https://www.prisa.com",
-    "tags": ["medios", "prisa", "el-pais", "fondo", "no-electo"],
+    "tags": [
+      "medios",
+      "prisa",
+      "el-pais",
+      "fondo",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -390,7 +461,11 @@
             "tipo": "dato",
             "titulo": "Control de PRISA",
             "contenido": "Su llegada reordenó el accionariado del grupo y su orientación. La propiedad y la línea de El País son objeto recurrente de pugna entre fondos, bancos acreedores y socios con intereses políticos.",
-            "tags": ["accionariado", "activismo", "linea-editorial"]
+            "tags": [
+              "accionariado",
+              "activismo",
+              "linea-editorial"
+            ]
           }
         ]
       },
@@ -407,6 +482,23 @@
             "tipo": "contacto",
             "titulo": "juan-luis-cebrian",
             "contenido": "**Predecesor histórico en el poder de PRISA** (nota -3/10) — La era Oughourlian sucede y en parte desplaza a la influencia del fundador-director histórico del grupo."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno de España",
+            "contenido": "**El control de El País, asunto de Estado** (nota +2/10) — La propiedad y la línea del grupo de El País y la SER son seguidas de cerca por el poder político por su influencia."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La batalla por PRISA",
+            "contenido": "Desde Amber Capital protagonizó una larga guerra accionarial por el control de PRISA, desplazando a la vieja guardia y a otros socios como Vivendi/Telefónica, hasta hacerse con la presidencia del grupo.",
+            "fecha": "2021-12-01"
           }
         ]
       }
@@ -420,9 +512,15 @@
     "cargo": "Presidente de LaLiga",
     "bio_corta": "Presidente de LaLiga, la patronal del fútbol profesional español. Gestiona los derechos televisivos multimillonarios del fútbol, negocia con operadores y plataformas, y mantiene pulsos públicos con clubes, federación y gobierno. El fútbol es un poder económico y mediático de primer orden y Tebas es su gestor más visible.",
     "fuente_principal": "https://www.laliga.com",
-    "tags": ["deporte", "futbol", "laliga", "derechos-tv", "no-electo"],
+    "tags": [
+      "deporte",
+      "futbol",
+      "laliga",
+      "derechos-tv",
+      "no-electo"
+    ],
     "confidence": 0.8,
-    "completeness": 0.65,
+    "completeness": 0.73,
     "apartados": [
       {
         "tipo": "identidad",
@@ -443,7 +541,11 @@
             "tipo": "dato",
             "titulo": "Pulsos de poder",
             "contenido": "Mantiene enfrentamientos públicos recurrentes con la Federación, con grandes clubes y con proyectos como la Superliga. Defiende el control financiero (fair play) frente a los clubes-estado.",
-            "tags": ["superliga", "fair-play", "derechos-tv"]
+            "tags": [
+              "superliga",
+              "fair-play",
+              "derechos-tv"
+            ]
           }
         ]
       },
@@ -460,6 +562,22 @@
             "tipo": "contacto",
             "titulo": "Grandes clubes de fútbol",
             "contenido": "**Relación de tensión** (nota -3/10) — Pulsos públicos con Real Madrid y Barça por el reparto de derechos y los proyectos de competición alternativa."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "CVC y fondos del fútbol",
+            "contenido": "**Socio financiero de LaLiga** (nota +4/10) — El acuerdo con CVC (LaLiga Impulso) inyectó capital a los clubes a cambio de derechos, operación clave y polémica de su gestión."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Guerra a la piratería y la Superliga",
+            "contenido": "Ha hecho de la lucha contra la piratería audiovisual y de la oposición frontal a la Superliga sus grandes batallas, defendiendo el modelo de venta centralizada de derechos y el control económico de los clubes."
           }
         ]
       }
@@ -473,9 +591,15 @@
     "cargo": "Think tank de la izquierda española",
     "bio_corta": "Laboratorio de ideas de referencia del centro-izquierda español, próximo al entorno socialista. Produce informes sobre democracia, política económica, Europa y cultura que alimentan el debate progresista. Es, en cierto modo, el contrapeso ideológico de FAES en el ecosistema de think tanks.",
     "fuente_principal": "https://fundacionalternativas.org",
-    "tags": ["think-tank", "izquierda", "psoe", "ideas", "no-electo"],
+    "tags": [
+      "think-tank",
+      "izquierda",
+      "psoe",
+      "ideas",
+      "no-electo"
+    ],
     "confidence": 0.8,
-    "completeness": 0.62,
+    "completeness": 0.7,
     "apartados": [
       {
         "tipo": "identidad",
@@ -485,6 +609,11 @@
             "tipo": "dato",
             "titulo": "Qué es",
             "contenido": "Fundación dedicada al análisis y la propuesta de políticas públicas desde una óptica progresista. Publica informes anuales sobre el estado de la democracia y la cultura."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Informe sobre la democracia",
+            "contenido": "Su 'Informe sobre la Democracia en España' y sus análisis de cultura y política económica son referencia anual del pensamiento progresista y alimentan el debate público de la izquierda."
           }
         ]
       },
@@ -501,6 +630,11 @@
             "tipo": "contacto",
             "titulo": "PSOE",
             "contenido": "**Afinidad con el espacio socialista** (nota +6/10) — Sin ser orgánica del partido, su producción intelectual sintoniza con la agenda del centro-izquierda."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "jose-luis-rodriguez-zapatero",
+            "contenido": "**Sintonía con el socialismo histórico** (nota +4/10) — Su producción intelectual conecta con figuras y gobiernos del PSOE de las últimas décadas."
           }
         ]
       }
@@ -514,9 +648,15 @@
     "cargo": "Mayor grupo editorial y de comunicación en español",
     "bio_corta": "Conglomerado de la familia Lara que reúne el mayor grupo editorial en lengua española, la participación de control en Atresmedia (Antena 3, laSexta, Onda Cero), el diario La Razón, universidades y formación. Un poder mediático, cultural y empresarial transversal.",
     "fuente_principal": "https://www.planeta.es",
-    "tags": ["medios", "editorial", "atresmedia", "familia-lara", "no-electo"],
+    "tags": [
+      "medios",
+      "editorial",
+      "atresmedia",
+      "familia-lara",
+      "no-electo"
+    ],
     "confidence": 0.82,
-    "completeness": 0.65,
+    "completeness": 0.73,
     "apartados": [
       {
         "tipo": "identidad",
@@ -526,6 +666,11 @@
             "tipo": "dato",
             "titulo": "Qué es",
             "contenido": "Grupo familiar con intereses en edición de libros, televisión, radio, prensa y educación superior. Su diversificación lo hace menos dependiente de un único negocio y muy resistente a los ciclos."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Del Premio Planeta a las universidades",
+            "contenido": "Además de la edición y el audiovisual, controla un potente negocio de formación y universidades privadas (UNIE, parte de la órbita educativa del grupo) y otorga el Premio Planeta, el más dotado de las letras en español."
           }
         ]
       },
@@ -542,6 +687,11 @@
             "tipo": "contacto",
             "titulo": "francisco-marhuenda",
             "contenido": "**Director de La Razón, cabecera del grupo** (nota +6/10) — El diario conservador es la pata de prensa escrita del conglomerado."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "javier-moll",
+            "contenido": "**Competencia entre grandes editores** (nota -2/10) — Planeta y Prensa Ibérica compiten por audiencia, publicidad y peso en el mercado de medios."
           }
         ]
       }
@@ -555,9 +705,15 @@
     "cargo": "Presidente de Inveravante",
     "bio_corta": "Empresario gallego, fundador de la promotora Fadesa (que vendió antes de la crisis inmobiliaria) y hoy presidente del holding Inveravante. Una de las grandes fortunas del noroeste peninsular, con inversiones diversificadas en energía, inmobiliario y participaciones financieras.",
     "fuente_principal": "https://www.inveravante.com",
-    "tags": ["empresario", "inversion", "galicia", "inmobiliario", "no-electo"],
+    "tags": [
+      "empresario",
+      "inversion",
+      "galicia",
+      "inmobiliario",
+      "no-electo"
+    ],
     "confidence": 0.78,
-    "completeness": 0.6,
+    "completeness": 0.68,
     "apartados": [
       {
         "tipo": "identidad",
@@ -585,6 +741,18 @@
             "contenido": "**Gran fortuna regional** (nota +5/10) — Forma parte, con Amancio Ortega y otros, del núcleo de grandes patrimonios de Galicia."
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La venta de Fadesa",
+            "contenido": "Vendió la promotora Fadesa en el pico del ciclo inmobiliario, poco antes del estallido de la burbuja, una operación que blindó su patrimonio y financió la diversificación de Inveravante.",
+            "fecha": "2007-01-01"
+          }
+        ]
       }
     ]
   },
@@ -596,9 +764,15 @@
     "cargo": "Think tank económico del sector financiero",
     "bio_corta": "Fundación de análisis económico vinculada a la CECA (las antiguas cajas de ahorros). Es una de las fuentes de previsiones macroeconómicas más citadas de España, junto al Banco de España y los servicios de estudios de la gran banca. Su panel de previsiones marca el consenso del mercado.",
     "fuente_principal": "https://www.funcas.es",
-    "tags": ["think-tank", "economia", "ceca", "previsiones", "no-electo"],
+    "tags": [
+      "think-tank",
+      "economia",
+      "ceca",
+      "previsiones",
+      "no-electo"
+    ],
     "confidence": 0.8,
-    "completeness": 0.6,
+    "completeness": 0.68,
     "apartados": [
       {
         "tipo": "identidad",
@@ -624,6 +798,11 @@
             "tipo": "contacto",
             "titulo": "jose-luis-escriva",
             "contenido": "**Diálogo con el Banco de España** (nota +5/10) — Sus previsiones se contrastan con las del supervisor en el consenso macroeconómico."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "cristina-herrero",
+            "contenido": "**Contraste de previsiones con la AIReF** (nota +4/10) — Sus estimaciones macro dialogan con las de la autoridad fiscal y el Banco de España en el consenso económico."
           }
         ]
       }

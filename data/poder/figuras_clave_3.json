@@ -77,7 +77,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.78,
     "apartados": [
       {
         "tipo": "identidad",
@@ -87,6 +87,11 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Dinastía financiera mallorquina cuyo origen se remonta a Juan March Ordinas. Hoy combina banca privada (Banca March), inversión cotizada (Alba) y mecenazgo cultural (Fundación Juan March)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Fundación Juan March",
+            "contenido": "Más allá de la banca y la inversión, la familia sostiene la Fundación Juan March, una de las instituciones culturales y científicas privadas más prestigiosas de España, lo que añade poder reputacional al financiero."
           }
         ]
       },
@@ -103,6 +108,11 @@
             "tipo": "contacto",
             "titulo": "Banca March",
             "contenido": "**Banco familiar de banca privada** (nota +9/10) — Una de las pocas entidades de capital 100% familiar que quedan en España."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mundo cultural y científico",
+            "contenido": "**Mecenazgo de primer nivel** (nota +5/10) — La Fundación Juan March proyecta a la familia en el ámbito cultural, musical y de la investigación."
           }
         ]
       }
@@ -124,7 +134,7 @@
       "no-electo"
     ],
     "confidence": 0.88,
-    "completeness": 0.72,
+    "completeness": 0.8,
     "apartados": [
       {
         "tipo": "identidad",
@@ -165,6 +175,22 @@
             "tipo": "contacto",
             "titulo": "Alta función pública y magistratura",
             "contenido": "**Destino de la puerta giratoria** (nota +5/10) — Incorpora exinspectores de Hacienda, exaltos cargos y magistrados, lo que refuerza su capacidad de interlocución con la Administración."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ministerio de Hacienda",
+            "contenido": "**Interlocución técnica y puerta giratoria** (nota +4/10) — El trasvase de inspectores y altos cargos de Hacienda al despacho facilita su conocimiento y diálogo con la Administración tributaria."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Asesor fiscal de las grandes fortunas",
+            "contenido": "Además del IBEX, asesora a buena parte de las grandes fortunas y family offices del país en planificación fiscal y sucesoria, lo que lo sitúa en el centro de los debates sobre fiscalidad del patrimonio."
           }
         ]
       }
@@ -185,7 +211,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -211,6 +237,11 @@
             "tipo": "contacto",
             "titulo": "garrigues",
             "contenido": "**Competidor del top de despachos** (nota -2/10) — Rivalidad por los grandes mandatos del IBEX, aunque a menudo en lados opuestos de la misma operación."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "uria-menendez",
+            "contenido": "**Rivalidad en el top del Derecho de los negocios** (nota -2/10) — Cuatrecasas y Uría se disputan, con Garrigues, los grandes mandatos del IBEX y la banca."
           }
         ]
       }
@@ -231,7 +262,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -257,6 +288,11 @@
             "tipo": "contacto",
             "titulo": "Elite jurídica y reguladores",
             "contenido": "**Vínculo con el mundo académico y regulatorio** (nota +5/10) — Sus socios y of counsel incluyen catedráticos y exmagistrados de referencia."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "cuatrecasas",
+            "contenido": "**Competencia en la cúspide jurídica** (nota -2/10) — Junto a Garrigues, forman el trío de despachos que reparte las grandes operaciones corporativas y financieras."
           }
         ]
       }
@@ -277,7 +313,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.68,
+    "completeness": 0.76,
     "apartados": [
       {
         "tipo": "identidad",
@@ -318,6 +354,22 @@
             "tipo": "contacto",
             "titulo": "Gran banca y fondos",
             "contenido": "**Socios financieros e inmobiliarios** (nota +5/10) — La reestructuración del grupo la ha acercado a la banca acreedora y a inversores en su cartera inmobiliaria."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gran banca acreedora",
+            "contenido": "**Socios financieros del grupo** (nota +5/10) — La reestructuración acercó El Corte Inglés a la banca y a inversores en su patrimonio inmobiliario."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Reordenación de El Corte Inglés",
+            "contenido": "Asumió la presidencia tras años de pugnas familiares y societarias. Ha pilotado la reducción de deuda, la entrada de socios (catarí, banca) y la monetización de la enorme cartera inmobiliaria del grupo."
           }
         ]
       }
@@ -338,7 +390,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.65,
+    "completeness": 0.73,
     "apartados": [
       {
         "tipo": "identidad",
@@ -364,6 +416,22 @@
             "tipo": "contacto",
             "titulo": "antonio-garamendi",
             "contenido": "**Par en la representación empresarial** (nota +4/10) — Cámaras y CEOE comparten agenda de competitividad y proyección exterior de la empresa española."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cámaras de comercio territoriales",
+            "contenido": "**Red cameral** (nota +5/10) — Como expresidente de la Cámara de España articuló la representación del comercio exterior con las cámaras territoriales."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Freixenet y la marca España",
+            "contenido": "Patriarca de Freixenet (hoy en la órbita de la alemana Henkell) y promotor del Foro de Marcas Renombradas, ha sido uno de los grandes embajadores de la internacionalización de la empresa española."
           }
         ]
       }
@@ -385,7 +453,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.65,
+    "completeness": 0.73,
     "apartados": [
       {
         "tipo": "identidad",
@@ -411,6 +479,22 @@
             "tipo": "contacto",
             "titulo": "Mercado de capitales español",
             "contenido": "**Inversor histórico** (nota +5/10) — Su nombre aparece de forma recurrente en operaciones corporativas y en consejos de administración."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mercado de M&A español",
+            "contenido": "**Inversor recurrente** (nota +5/10) — Su nombre aparece de forma habitual en operaciones de capital privado y consejos de cotizadas."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Del laboratorio a Torreal",
+            "contenido": "Hizo su primera gran fortuna en el sector farmacéutico y la multiplicó con la sociedad de inversión Torreal, presente en sanidad, energía, alimentación y servicios. Reconocido coleccionista de arte."
           }
         ]
       }
@@ -432,7 +516,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.65,
+    "completeness": 0.73,
     "apartados": [
       {
         "tipo": "identidad",
@@ -458,6 +542,23 @@
             "tipo": "contacto",
             "titulo": "Mundo cultural valenciano",
             "contenido": "**Gran mecenas del arte** (nota +7/10) — Su fundación es interlocutora de instituciones culturales y administraciones autonómicas."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Generalitat Valenciana",
+            "contenido": "**Interlocución cultural** (nota +4/10) — Su mecenazgo la convierte en socia de las instituciones culturales valencianas."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Centro de Arte Hortensia Herrero",
+            "contenido": "Abrió en Valencia uno de los grandes centros privados de arte contemporáneo de España, rehabilitando un palacio histórico. Su fundación es hoy referente del mecenazgo cultural.",
+            "fecha": "2023-11-01"
           }
         ]
       }
@@ -478,7 +579,7 @@
       "no-electo"
     ],
     "confidence": 0.78,
-    "completeness": 0.6,
+    "completeness": 0.68,
     "apartados": [
       {
         "tipo": "identidad",
@@ -499,6 +600,22 @@
             "tipo": "contacto",
             "titulo": "General de Galerías Comerciales",
             "contenido": "**Accionista de control** (nota +9/10) — Vehículo de su patrimonio inmobiliario, una de las mayores socimi/inmobiliarias del país por valor de activos."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Banca acreedora",
+            "contenido": "**Financiación de su cartera** (nota +4/10) — Sus desarrollos comerciales lo vinculan a la gran banca como financiadora de proyectos inmobiliarios."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De Murcia al podio de las fortunas",
+            "contenido": "Construyó desde el sureste un imperio de grandes centros comerciales (La Salinas, Nueva Condomina). El valor de su cartera inmobiliaria lo sitúa de forma recurrente entre las mayores fortunas de España, con un perfil de máxima discreción pública."
           }
         ]
       }

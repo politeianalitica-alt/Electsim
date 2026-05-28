@@ -11,6 +11,10 @@
 //     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte
 //     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),
 //     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).
+//   · figuras_clave_5.json · grandes fondos accionistas del IBEX (BlackRock,
+//     fondo de Noruega), prensa (El Confidencial/Cardero, Prensa Ibérica/Moll,
+//     Mediaset/Borja Prado), CEPYME (Cuerva), RAE (Muñoz Machado), cardenal
+//     Omella, ElPozo (T. Fuertes), Carlos Slim y Glovo (Oscar Pierre).
 //   · figuras_clave_4.json · reguladores y holding público sobre el IBEX
 //     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños
 //     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,
@@ -224,8 +228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0002",
@@ -423,8 +427,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0003",
@@ -599,8 +603,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0004",
@@ -752,8 +756,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0005",
@@ -891,8 +895,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0006",
@@ -1035,8 +1039,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0007",
@@ -1119,6 +1123,30 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-debil"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0007-ap-02-it-01",
+            "apartado_id": "pod-0007-ap-02",
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Su grupo (Onda Cero / Atresmedia)** (nota +5/10) — Alsina lidera las mañanas de Onda Cero, radio del grupo Planeta/Atresmedia que preside Creuheras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0007-ap-02-it-02",
+            "apartado_id": "pod-0007-ap-02",
+            "tipo": "contacto",
+            "titulo": "carlos-herrera",
+            "contenido": "**Competidor matinal en radio** (nota -2/10) — Alsina (Onda Cero) y Herrera (COPE) compiten por el liderazgo de la radio hablada de la mañana.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -1144,8 +1172,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0008",
@@ -1207,6 +1235,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-debil"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0008-ap-01-it-01",
+            "apartado_id": "pod-0008-ap-01",
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Su grupo editor (Atresmedia/Planeta)** (nota +6/10) — Vallés es activo estrella de Atresmedia, presidida por Creuheras; su credibilidad refuerza la marca del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -1230,10 +1270,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0008-ap-03",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0008-ap-03-it-00",
+            "apartado_id": "pod-0008-ap-03",
+            "tipo": "dato",
+            "titulo": "Rigor y liderazgo de audiencia",
+            "contenido": "Conduce el informativo de referencia de Antena 3, líder de audiencia. Su estilo analítico y sus entrevistas marcan agenda; es uno de los rostros con más credibilidad del panorama televisivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "informativos",
+              "audiencia"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0009",
@@ -1380,8 +1444,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0010",
@@ -1539,8 +1603,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0011",
@@ -1703,8 +1767,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0012",
@@ -1830,8 +1894,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0013",
@@ -2018,8 +2082,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0014",
@@ -2143,8 +2207,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0015",
@@ -2320,8 +2384,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0016",
@@ -2441,8 +2505,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0017",
@@ -2520,6 +2584,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-fuerte"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0017-ap-01-it-02",
+            "apartado_id": "pod-0017-ap-01",
+            "tipo": "contacto",
+            "titulo": "Tejido financiero gallego",
+            "contenido": "**Banca de referencia en Galicia** (nota +6/10) — Abanca es pieza central del poder económico gallego, con creciente peso nacional vía adquisiciones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -2543,10 +2619,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0017-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0017-ap-03-it-00",
+            "apartado_id": "pod-0017-ap-03",
+            "tipo": "dato",
+            "titulo": "De Venezuela a Galicia",
+            "contenido": "Banquero de origen venezolano (Banesco), compró la antigua Novagalicia/Banco Etcheverría en la reestructuración de las cajas gallegas y la transformó en Abanca, hoy uno de los grandes bancos regionales con vocación expansiva.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0018",
@@ -2687,8 +2784,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0019",
@@ -2790,8 +2887,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0020",
@@ -2926,8 +3023,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0021",
@@ -3051,8 +3148,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0022",
@@ -3226,8 +3323,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0023",
@@ -3328,8 +3425,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0024",
@@ -3483,8 +3580,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0025",
@@ -3610,8 +3707,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0026",
@@ -3730,8 +3827,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0027",
@@ -3940,8 +4037,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0028",
@@ -4094,8 +4191,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0029",
@@ -4258,8 +4355,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0030",
@@ -4412,8 +4509,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0031",
@@ -4581,8 +4678,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0032",
@@ -4718,8 +4815,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0033",
@@ -4871,8 +4968,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0034",
@@ -4991,8 +5088,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0035",
@@ -5094,8 +5191,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0036",
@@ -5231,8 +5328,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0037",
@@ -5311,6 +5408,30 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "tension"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0037-ap-01-it-02",
+            "apartado_id": "pod-0037-ap-01",
+            "tipo": "contacto",
+            "titulo": "luis-arguello",
+            "contenido": "**La COPE es de la Iglesia** (nota +4/10) — La cadena pertenece a la Conferencia Episcopal; el peso de Herrera convive con la propiedad eclesial que representa Argüello.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0037-ap-01-it-03",
+            "apartado_id": "pod-0037-ap-01",
+            "tipo": "contacto",
+            "titulo": "carlos-alsina",
+            "contenido": "**Duelo matinal de la radio** (nota -2/10) — Herrera (COPE) y Alsina (Onda Cero) se disputan el liderazgo de la radio generalista por la mañana.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -5334,10 +5455,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0037-ap-03",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0037-ap-03-it-00",
+            "apartado_id": "pod-0037-ap-03",
+            "tipo": "dato",
+            "titulo": "Voz matinal de la derecha",
+            "contenido": "Lidera las mañanas de la COPE con una audiencia masiva y una línea crítica con el Gobierno de Sánchez. Su programa es parada obligada para políticos del centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "radio",
+              "audiencia"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0038",
@@ -5463,8 +5608,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0039",
@@ -5542,6 +5687,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "tension"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0039-ap-01-it-02",
+            "apartado_id": "pod-0039-ap-01",
+            "tipo": "contacto",
+            "titulo": "Congreso de los Diputados",
+            "contenido": "**Elección parlamentaria** (nota -1/10) — Su designación dependió del acuerdo PSOE-PP; debe equilibrar independencia y origen político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -5565,10 +5722,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0039-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0039-ap-03-it-00",
+            "apartado_id": "pod-0039-ap-03",
+            "tipo": "dato",
+            "titulo": "De ministro a Defensor del Pueblo",
+            "contenido": "Exministro de Educación y excandidato del PSOE a la Comunidad de Madrid, fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que supervisa a las administraciones y tramita el polémico informe sobre los abusos en la Iglesia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0040",
@@ -5630,6 +5808,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "neutral"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0040-ap-01-it-01",
+            "apartado_id": "pod-0040-ap-01",
+            "tipo": "contacto",
+            "titulo": "pepa-bueno",
+            "contenido": "**Heredera en la dirección de El País** (nota +3/10) — La cabecera que él fundó la dirige hoy Pepa Bueno; vínculo simbólico entre la vieja y la nueva PRISA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -5653,10 +5843,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0040-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0040-ap-03-it-00",
+            "apartado_id": "pod-0040-ap-03",
+            "tipo": "evento",
+            "titulo": "Fundador de El País",
+            "contenido": "Primer director de El País (1976) y después consejero delegado y presidente de PRISA durante décadas. Figura central del poder mediático de la Transición y de la construcción del grupo de comunicación más influyente de la izquierda.",
+            "fecha": "1976-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0041",
@@ -5732,6 +5943,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "neutral"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0041-ap-01-it-02",
+            "apartado_id": "pod-0041-ap-01",
+            "tipo": "contacto",
+            "titulo": "carlos-slim",
+            "contenido": "**Fin de la era Koplowitz en FCC** (nota -2/10) — La familia Koplowitz dejó el control de FCC, que acabó en manos del mexicano Carlos Slim.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -5755,10 +5978,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0041-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0041-ap-03-it-00",
+            "apartado_id": "pod-0041-ap-03",
+            "tipo": "dato",
+            "titulo": "Omega Capital y el arte",
+            "contenido": "Tras separar su patrimonio del de su hermana Esther y salir de FCC, gestiona su fortuna a través del family office Omega Capital, con inversiones diversificadas, y es una de las grandes coleccionistas y mecenas de arte de España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0042",
@@ -5820,6 +6064,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "alianza-fuerte"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0042-ap-01-it-01",
+            "apartado_id": "pod-0042-ap-01",
+            "tipo": "contacto",
+            "titulo": "Fondos de capital privado",
+            "contenido": "**Vendedor a Blackstone** (nota +3/10) — La venta de Cirsa lo conectó con el gran capital privado internacional; hoy gestiona su patrimonio diversificado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -5843,10 +6099,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0042-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0042-ap-03-it-00",
+            "apartado_id": "pod-0042-ap-03",
+            "tipo": "evento",
+            "titulo": "La venta de Cirsa",
+            "contenido": "Fundó y desarrolló Cirsa hasta convertirla en un gigante europeo del juego, que vendió al fondo Blackstone, operación que cristalizó una de las mayores fortunas del país. Reinvierte a través de su family office Nortia.",
+            "fecha": "2018-05-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0043",
@@ -5973,8 +6250,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0044",
@@ -6035,6 +6312,30 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "neutral"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0044-ap-01-it-01",
+            "apartado_id": "pod-0044-ap-01",
+            "tipo": "contacto",
+            "titulo": "Congreso de los Diputados",
+            "contenido": "**Nombramiento de origen parlamentario** (nota -1/10) — La presidencia de RTVE depende del reparto de fuerzas en el Congreso, lo que tensiona su autonomía frente a los partidos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0044-ap-01-it-02",
+            "apartado_id": "pod-0044-ap-01",
+            "tipo": "contacto",
+            "titulo": "borja-prado",
+            "contenido": "**Competidor por la audiencia (Mediaset)** (nota -2/10) — La televisión pública compite por espectadores y publicidad con los grupos privados Mediaset y Atresmedia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -6058,10 +6359,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0044-ap-03",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0044-ap-03-it-00",
+            "apartado_id": "pod-0044-ap-03",
+            "tipo": "dato",
+            "titulo": "Servicio público y audiencias",
+            "contenido": "Pilota una RTVE en plena pugna por la audiencia y por su independencia editorial, con la reforma del sistema de elección del consejo y la presión política sobre los informativos como telón de fondo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "servicio-publico",
+              "independencia"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0045",
@@ -6138,6 +6463,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "tension"
             ],
             "orden": 1
+          },
+          {
+            "id": "pod-0045-ap-01-it-02",
+            "apartado_id": "pod-0045-ap-01",
+            "tipo": "contacto",
+            "titulo": "felipe-gonzalez",
+            "contenido": "**Su histórico compañero y rival** (nota +2/10) — Vicepresidente con Felipe González, su relación combinó alianza fundacional del PSOE moderno y posterior distanciamiento; hoy ambos critican al PSOE de Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -6163,8 +6500,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0046",
@@ -6267,8 +6604,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0047",
@@ -6367,8 +6704,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0048",
@@ -6406,6 +6743,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0048-ap-00-it-01",
+            "apartado_id": "pod-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Fundación Juan March",
+            "contenido": "Más allá de la banca y la inversión, la familia sostiene la Fundación Juan March, una de las instituciones culturales y científicas privadas más prestigiosas de España, lo que añade poder reputacional al financiero.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -6439,12 +6788,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0048-ap-01-it-02",
+            "apartado_id": "pod-0048-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mundo cultural y científico",
+            "contenido": "**Mecenazgo de primer nivel** (nota +5/10) — La Fundación Juan March proyecta a la familia en el ámbito cultural, musical y de la investigación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0049",
@@ -6539,12 +6900,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0049-ap-02-it-02",
+            "apartado_id": "pod-0049-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ministerio de Hacienda",
+            "contenido": "**Interlocución técnica y puerta giratoria** (nota +4/10) — El trasvase de inspectores y altos cargos de Hacienda al despacho facilita su conocimiento y diálogo con la Administración tributaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0049-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0049-ap-03-it-00",
+            "apartado_id": "pod-0049-ap-03",
+            "tipo": "dato",
+            "titulo": "Asesor fiscal de las grandes fortunas",
+            "contenido": "Además del IBEX, asesora a buena parte de las grandes fortunas y family offices del país en planificación fiscal y sucesoria, lo que lo sitúa en el centro de los debates sobre fiscalidad del patrimonio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0050",
@@ -6614,12 +7008,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0050-ap-01-it-02",
+            "apartado_id": "pod-0050-ap-01",
+            "tipo": "contacto",
+            "titulo": "uria-menendez",
+            "contenido": "**Rivalidad en el top del Derecho de los negocios** (nota -2/10) — Cuatrecasas y Uría se disputan, con Garrigues, los grandes mandatos del IBEX y la banca.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0051",
@@ -6689,12 +7095,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0051-ap-01-it-02",
+            "apartado_id": "pod-0051-ap-01",
+            "tipo": "contacto",
+            "titulo": "cuatrecasas",
+            "contenido": "**Competencia en la cúspide jurídica** (nota -2/10) — Junto a Garrigues, forman el trío de despachos que reparte las grandes operaciones corporativas y financieras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0052",
@@ -6788,12 +7206,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0052-ap-02-it-02",
+            "apartado_id": "pod-0052-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gran banca acreedora",
+            "contenido": "**Socios financieros del grupo** (nota +5/10) — La reestructuración acercó El Corte Inglés a la banca y a inversores en su patrimonio inmobiliario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0052-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0052-ap-03-it-00",
+            "apartado_id": "pod-0052-ap-03",
+            "tipo": "dato",
+            "titulo": "Reordenación de El Corte Inglés",
+            "contenido": "Asumió la presidencia tras años de pugnas familiares y societarias. Ha pilotado la reducción de deuda, la entrada de socios (catarí, banca) y la monetización de la enorme cartera inmobiliaria del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0053",
@@ -6863,12 +7314,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0053-ap-01-it-02",
+            "apartado_id": "pod-0053-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cámaras de comercio territoriales",
+            "contenido": "**Red cameral** (nota +5/10) — Como expresidente de la Cámara de España articuló la representación del comercio exterior con las cámaras territoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0053-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0053-ap-02-it-00",
+            "apartado_id": "pod-0053-ap-02",
+            "tipo": "dato",
+            "titulo": "Freixenet y la marca España",
+            "contenido": "Patriarca de Freixenet (hoy en la órbita de la alemana Henkell) y promotor del Foro de Marcas Renombradas, ha sido uno de los grandes embajadores de la internacionalización de la empresa española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0054",
@@ -6939,12 +7423,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0054-ap-01-it-02",
+            "apartado_id": "pod-0054-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mercado de M&A español",
+            "contenido": "**Inversor recurrente** (nota +5/10) — Su nombre aparece de forma habitual en operaciones de capital privado y consejos de cotizadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0054-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0054-ap-02-it-00",
+            "apartado_id": "pod-0054-ap-02",
+            "tipo": "dato",
+            "titulo": "Del laboratorio a Torreal",
+            "contenido": "Hizo su primera gran fortuna en el sector farmacéutico y la multiplicó con la sociedad de inversión Torreal, presente en sanidad, energía, alimentación y servicios. Reconocido coleccionista de arte.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0055",
@@ -7015,12 +7532,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0055-ap-01-it-02",
+            "apartado_id": "pod-0055-ap-01",
+            "tipo": "contacto",
+            "titulo": "Generalitat Valenciana",
+            "contenido": "**Interlocución cultural** (nota +4/10) — Su mecenazgo la convierte en socia de las instituciones culturales valencianas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0055-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0055-ap-02-it-00",
+            "apartado_id": "pod-0055-ap-02",
+            "tipo": "evento",
+            "titulo": "Centro de Arte Hortensia Herrero",
+            "contenido": "Abrió en Valencia uno de los grandes centros privados de arte contemporáneo de España, rehabilitando un palacio histórico. Su fundación es hoy referente del mecenazgo cultural.",
+            "fecha": "2023-11-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0056",
@@ -7078,12 +7628,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0056-ap-01-it-01",
+            "apartado_id": "pod-0056-ap-01",
+            "tipo": "contacto",
+            "titulo": "Banca acreedora",
+            "contenido": "**Financiación de su cartera** (nota +4/10) — Sus desarrollos comerciales lo vinculan a la gran banca como financiadora de proyectos inmobiliarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0056-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0056-ap-02-it-00",
+            "apartado_id": "pod-0056-ap-02",
+            "tipo": "dato",
+            "titulo": "De Murcia al podio de las fortunas",
+            "contenido": "Construyó desde el sureste un imperio de grandes centros comerciales (La Salinas, Nueva Condomina). El valor de su cartera inmobiliaria lo sitúa de forma recurrente entre las mayores fortunas de España, con un perfil de máxima discreción pública.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0057",
@@ -7206,8 +7789,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0058",
@@ -7319,8 +7902,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0059",
@@ -7416,12 +7999,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0059-ap-02-it-02",
+            "apartado_id": "pod-0059-ap-02",
+            "tipo": "contacto",
+            "titulo": "Congreso de los Diputados",
+            "contenido": "**Comparecencias y control** (nota +3/10) — Sus informes y comparecencias parlamentarias condicionan el debate sobre déficit, deuda y pensiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0060",
@@ -7544,8 +8139,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0061",
@@ -7668,8 +8263,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0062",
@@ -7781,8 +8376,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0063",
@@ -7878,12 +8473,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0063-ap-02-it-02",
+            "apartado_id": "pod-0063-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gobierno de España",
+            "contenido": "**El control de El País, asunto de Estado** (nota +2/10) — La propiedad y la línea del grupo de El País y la SER son seguidas de cerca por el poder político por su influencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0063-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0063-ap-03-it-00",
+            "apartado_id": "pod-0063-ap-03",
+            "tipo": "evento",
+            "titulo": "La batalla por PRISA",
+            "contenido": "Desde Amber Capital protagonizó una larga guerra accionarial por el control de PRISA, desplazando a la vieja guardia y a otros socios como Vivendi/Telefónica, hasta hacerse con la presidencia del grupo.",
+            "fecha": "2021-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0064",
@@ -7979,12 +8607,45 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0064-ap-02-it-02",
+            "apartado_id": "pod-0064-ap-02",
+            "tipo": "contacto",
+            "titulo": "CVC y fondos del fútbol",
+            "contenido": "**Socio financiero de LaLiga** (nota +4/10) — El acuerdo con CVC (LaLiga Impulso) inyectó capital a los clubes a cambio de derechos, operación clave y polémica de su gestión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0064-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0064-ap-03-it-00",
+            "apartado_id": "pod-0064-ap-03",
+            "tipo": "dato",
+            "titulo": "Guerra a la piratería y la Superliga",
+            "contenido": "Ha hecho de la lucha contra la piratería audiovisual y de la oposición frontal a la Superliga sus grandes batallas, defendiendo el modelo de venta centralizada de derechos y el control económico de los clubes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0065",
@@ -8022,6 +8683,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0065-ap-00-it-01",
+            "apartado_id": "pod-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Informe sobre la democracia",
+            "contenido": "Su 'Informe sobre la Democracia en España' y sus análisis de cultura y política económica son referencia anual del pensamiento progresista y alimentan el debate público de la izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -8055,12 +8728,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0065-ap-01-it-02",
+            "apartado_id": "pod-0065-ap-01",
+            "tipo": "contacto",
+            "titulo": "jose-luis-rodriguez-zapatero",
+            "contenido": "**Sintonía con el socialismo histórico** (nota +4/10) — Su producción intelectual conecta con figuras y gobiernos del PSOE de las últimas décadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0066",
@@ -8098,6 +8783,18 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0066-ap-00-it-01",
+            "apartado_id": "pod-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Del Premio Planeta a las universidades",
+            "contenido": "Además de la edición y el audiovisual, controla un potente negocio de formación y universidades privadas (UNIE, parte de la órbita educativa del grupo) y otorga el Premio Planeta, el más dotado de las letras en español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -8131,12 +8828,24 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0066-ap-01-it-02",
+            "apartado_id": "pod-0066-ap-01",
+            "tipo": "contacto",
+            "titulo": "javier-moll",
+            "contenido": "**Competencia entre grandes editores** (nota -2/10) — Planeta y Prensa Ibérica compiten por audiencia, publicidad y peso en el mercado de medios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0067",
@@ -8209,10 +8918,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 1
           }
         ]
+      },
+      {
+        "id": "pod-0067-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0067-ap-02-it-00",
+            "apartado_id": "pod-0067-ap-02",
+            "tipo": "evento",
+            "titulo": "La venta de Fadesa",
+            "contenido": "Vendió la promotora Fadesa en el pico del ciclo inmobiliario, poco antes del estallido de la burbuja, una operación que blindó su patrimonio y financió la diversificación de Inveravante.",
+            "fecha": "2007-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   },
   {
     "id": "pod-0068",
@@ -8283,12 +9013,1286 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0068-ap-01-it-02",
+            "apartado_id": "pod-0068-ap-01",
+            "tipo": "contacto",
+            "titulo": "cristina-herrero",
+            "contenido": "**Contraste de previsiones con la AIReF** (nota +4/10) — Sus estimaciones macro dialogan con las de la autoridad fiscal y el Banco de España en el consenso económico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T19:18:18.137969Z",
-    "updated_at": "2026-05-28T19:18:18.137969Z"
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0069",
+    "slug": "blackrock",
+    "nombre_completo": "BlackRock",
+    "alias": "BlackRock",
+    "cargo_actual": "Mayor gestora de activos del mundo · primer accionista institucional del IBEX",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "La mayor gestora de activos del planeta. A través de sus fondos indexados y activos es el primer o uno de los mayores accionistas institucionales de casi todas las grandes cotizadas del IBEX 35 (Santander, BBVA, Iberdrola, Telefónica, Inditex…). Su voto en juntas y su política de gobernanza condicionan, de forma silenciosa, la estrategia de la élite empresarial española.",
+    "tags": [
+      "fondo",
+      "inversion",
+      "gestora",
+      "ibex",
+      "internacional",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.blackrock.com",
+    "apartados": [
+      {
+        "id": "pod-0069-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0069-ap-00-it-00",
+            "apartado_id": "pod-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Gestora estadounidense fundada por Larry Fink, con billones de dólares bajo gestión. Su plataforma de fondos indexados (iShares) la convierte en accionista automático de prácticamente toda gran empresa cotizada del mundo, España incluida.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0069-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0069-ap-01-it-00",
+            "apartado_id": "pod-0069-ap-01",
+            "tipo": "dato",
+            "titulo": "Presencia en España",
+            "contenido": "Declara participaciones significativas en la mayoría del IBEX 35 y vota en sus juntas generales. Sus criterios de gobernanza, sostenibilidad y remuneración de consejeros marcan tendencia en el resto de inversores.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0069-ap-01-it-01",
+            "apartado_id": "pod-0069-ap-01",
+            "tipo": "evento",
+            "titulo": "Operaciones bancarias",
+            "contenido": "Como accionista relevante de varios bancos, su posición es seguida de cerca en operaciones como la OPA de BBVA sobre Sabadell, donde el voto de los grandes institucionales es decisivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0069-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0069-ap-02-it-00",
+            "apartado_id": "pod-0069-ap-02",
+            "tipo": "dato",
+            "titulo": "Poder silencioso",
+            "contenido": "No gestiona empresas, pero su peso accionarial agregado le da una influencia estructural sobre los consejos. Combina exigencia de rentabilidad con políticas de voto en sostenibilidad y gobierno corporativo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza",
+              "voto-junta",
+              "sostenibilidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0069-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0069-ap-03-it-00",
+            "apartado_id": "pod-0069-ap-03",
+            "tipo": "contacto",
+            "titulo": "banco-santander",
+            "contenido": "**Accionista institucional de referencia** (nota +7/10) — Figura entre los mayores accionistas del primer banco español; su voto pesa en la reelección del consejo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0069-ap-03-it-01",
+            "apartado_id": "pod-0069-ap-03",
+            "tipo": "contacto",
+            "titulo": "bbva",
+            "contenido": "**Gran accionista institucional** (nota +7/10) — Posición relevante; clave en operaciones corporativas como la OPA sobre Sabadell.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0069-ap-03-it-02",
+            "apartado_id": "pod-0069-ap-03",
+            "tipo": "contacto",
+            "titulo": "iberdrola",
+            "contenido": "**Accionista de referencia** (nota +7/10) — Uno de los mayores tenedores institucionales de la primera eléctrica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0069-ap-03-it-03",
+            "apartado_id": "pod-0069-ap-03",
+            "tipo": "contacto",
+            "titulo": "telefonica",
+            "contenido": "**Accionista institucional** (nota +6/10) — Posición relevante junto a la SEPI y CriteriaCaixa en el capital de la teleco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0070",
+    "slug": "norges-bank",
+    "nombre_completo": "Norges Bank Investment Management (Fondo soberano de Noruega)",
+    "alias": "Fondo de Noruega",
+    "cargo_actual": "Mayor fondo soberano del mundo · accionista relevante del IBEX",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "El fondo soberano noruego, el mayor del mundo, gestiona el ahorro petrolero del país invirtiéndolo en miles de empresas cotizadas. En España mantiene participaciones declarables en buena parte del IBEX 35. Es conocido por su activismo en sostenibilidad y por excluir de su cartera empresas que vulneran sus criterios éticos.",
+    "tags": [
+      "fondo",
+      "fondo-soberano",
+      "inversion",
+      "ibex",
+      "internacional",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.nbim.no",
+    "apartados": [
+      {
+        "id": "pod-0070-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0070-ap-00-it-00",
+            "apartado_id": "pod-0070-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Vehículo que invierte los ingresos del petróleo noruego en renta variable global. Posee pequeñas pero significativas participaciones en la mayoría de grandes cotizadas, lo que agregado lo convierte en un accionista de peso.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0070-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0070-ap-01-it-00",
+            "apartado_id": "pod-0070-ap-01",
+            "tipo": "dato",
+            "titulo": "Activismo ético",
+            "contenido": "Publica su lista de exclusiones por criterios medioambientales, de derechos humanos o de armamento, y vota activamente en las juntas. Su salida del capital de una empresa es una señal reputacional potente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg",
+              "exclusiones",
+              "voto-junta"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0070-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0070-ap-02-it-00",
+            "apartado_id": "pod-0070-ap-02",
+            "tipo": "contacto",
+            "titulo": "blackrock",
+            "contenido": "**Par entre los grandes institucionales** (nota +3/10) — Junto a las grandes gestoras, conforma el bloque de inversores internacionales que marca la gobernanza del IBEX.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0070-ap-02-it-01",
+            "apartado_id": "pod-0070-ap-02",
+            "tipo": "contacto",
+            "titulo": "iberdrola",
+            "contenido": "**Accionista internacional relevante** (nota +6/10) — La apuesta renovable de la eléctrica encaja con sus criterios de inversión sostenible.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0070-ap-02-it-02",
+            "apartado_id": "pod-0070-ap-02",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Accionista transversal** (nota +5/10) — Participaciones declarables en gran parte del índice; su criterio ESG influye en las políticas corporativas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0071",
+    "slug": "nacho-cardero",
+    "nombre_completo": "Nacho Cardero",
+    "alias": "Cardero",
+    "cargo_actual": "Director de El Confidencial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director de El Confidencial, uno de los diarios nativos digitales más influyentes de España, especializado en información económica, política y de investigación. Su redacción ha destapado numerosos escándalos y marca agenda en los despachos del poder económico y político.",
+    "tags": [
+      "medios",
+      "periodista",
+      "digital",
+      "investigacion",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.elconfidencial.com",
+    "apartados": [
+      {
+        "id": "pod-0071-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0071-ap-00-it-00",
+            "apartado_id": "pod-0071-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista económico al frente de El Confidencial, medio de referencia en periodismo de datos e investigación, con fuerte penetración entre directivos, inversores y clase política.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0071-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0071-ap-01-it-00",
+            "apartado_id": "pod-0071-ap-01",
+            "tipo": "dato",
+            "titulo": "Periodismo de investigación",
+            "contenido": "Bajo su dirección el diario ha publicado investigaciones de gran impacto sobre corrupción, finanzas y poder empresarial, consolidándose como uno de los digitales más leídos del país.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0071-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0071-ap-02-it-00",
+            "apartado_id": "pod-0071-ap-02",
+            "tipo": "dato",
+            "titulo": "Línea editorial",
+            "contenido": "Liberal en lo económico, independiente en lo político, con vocación de fiscalización del poder. Cuida especialmente la información de mercados y grandes fortunas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "independiente",
+              "economia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0071-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0071-ap-03-it-00",
+            "apartado_id": "pod-0071-ap-03",
+            "tipo": "contacto",
+            "titulo": "ignacio-escolar",
+            "contenido": "**Competidor en el digital nativo** (nota -2/10) — El Confidencial y elDiario.es compiten por la audiencia digital, con líneas editoriales distintas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0071-ap-03-it-01",
+            "apartado_id": "pod-0071-ap-03",
+            "tipo": "contacto",
+            "titulo": "pedro-jose-ramirez",
+            "contenido": "**Rival en periodismo de investigación** (nota -2/10) — El Confidencial y El Español pugnan por las grandes exclusivas y el público de centro-derecha digital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0072",
+    "slug": "javier-moll",
+    "nombre_completo": "Javier Moll de Miguel",
+    "alias": "Javier Moll",
+    "cargo_actual": "Presidente de Prensa Ibérica",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente de Prensa Ibérica, el mayor grupo de prensa regional de España, propietario de decenas de cabeceras locales y del diario El Periódico de Catalunya y de información económica. Su control de la prensa de proximidad le da una influencia enorme en la opinión pública territorial, donde a menudo se decide el voto.",
+    "tags": [
+      "medios",
+      "prensa",
+      "regional",
+      "editor",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.prensaiberica.es",
+    "apartados": [
+      {
+        "id": "pod-0072-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0072-ap-00-it-00",
+            "apartado_id": "pod-0072-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario canario de la comunicación, fundador y presidente de Prensa Ibérica. Su grupo agrupa decenas de diarios regionales y locales que dominan la información de proximidad en buena parte del territorio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0072-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0072-ap-01-it-00",
+            "apartado_id": "pod-0072-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra de El Periódico",
+            "contenido": "Prensa Ibérica adquirió el Grupo Zeta, sumando El Periódico de Catalunya y Sport a su cartera, reforzando su peso en el mercado catalán y deportivo.",
+            "fecha": "2019-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0072-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0072-ap-02-it-00",
+            "apartado_id": "pod-0072-ap-02",
+            "tipo": "dato",
+            "titulo": "Poder de proximidad",
+            "contenido": "El control de la prensa local es una palanca de influencia política y de captación de publicidad institucional autonómica y municipal, terreno clave en las elecciones de proximidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "prensa-local",
+              "publicidad-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0072-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0072-ap-03-it-00",
+            "apartado_id": "pod-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Competidor entre grandes editores** (nota -2/10) — Prensa Ibérica y Planeta/Atresmedia compiten por publicidad y audiencia en distintos formatos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0072-ap-03-it-01",
+            "apartado_id": "pod-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "Administraciones autonómicas y locales",
+            "contenido": "**Interlocutor por la publicidad institucional** (nota +4/10) — Su red de cabeceras le da capacidad de negociación con gobiernos regionales y ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0073",
+    "slug": "borja-prado",
+    "nombre_completo": "Borja Prado Eulate",
+    "alias": "Borja Prado",
+    "cargo_actual": "Presidente de Mediaset España",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente de Mediaset España (Telecinco, Cuatro), uno de los dos grandes grupos audiovisuales privados del país. Antes presidió Endesa durante más de una década. Hombre muy conectado con la élite empresarial y financiera madrileña, combina poder mediático y networking corporativo.",
+    "tags": [
+      "medios",
+      "audiovisual",
+      "mediaset",
+      "empresario",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.mediaset.es",
+    "apartados": [
+      {
+        "id": "pod-0073-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0073-ap-00-it-00",
+            "apartado_id": "pod-0073-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Directivo con un largo recorrido en la banca de inversión y la gran empresa. Presidió Endesa y hoy preside Mediaset España, primer grupo audiovisual privado junto a Atresmedia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0073-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0073-ap-01-it-00",
+            "apartado_id": "pod-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "De Endesa a Mediaset",
+            "contenido": "Tras más de una década al frente de Endesa, dio el salto a la presidencia de Mediaset España, en plena reordenación del grupo bajo el paraguas del italiano MFE (Berlusconi).",
+            "fecha": "2021-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0073-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0073-ap-02-it-00",
+            "apartado_id": "pod-0073-ap-02",
+            "tipo": "dato",
+            "titulo": "Networking de poder",
+            "contenido": "Su valor diferencial es la red de contactos en la alta empresa, la banca y la política, que combina con el poder de agenda de la televisión líder en entretenimiento.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "networking",
+              "audiovisual"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0073-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0073-ap-03-it-00",
+            "apartado_id": "pod-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "ana-rosa-quintana",
+            "contenido": "**Estrella de su cadena** (nota +7/10) — Ana Rosa es la cara más influyente de Mediaset; su programa fija agenda matinal y vespertina.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0073-ap-03-it-01",
+            "apartado_id": "pod-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Competidor directo (Atresmedia)** (nota -3/10) — Mediaset y Atresmedia se reparten el duopolio de la televisión privada y la tarta publicitaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0074",
+    "slug": "gerardo-cuerva",
+    "nombre_completo": "Gerardo Cuerva Valdivia",
+    "alias": "Cuerva",
+    "cargo_actual": "Presidente de CEPYME",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente de CEPYME, la confederación de la pequeña y mediana empresa, integrada en la CEOE. Representa a la inmensa mayoría del tejido productivo y del empleo privado de España, y es voz central en el diálogo social sobre SMI, morosidad, cotizaciones y carga regulatoria sobre las pymes.",
+    "tags": [
+      "patronal",
+      "pymes",
+      "cepyme",
+      "dialogo-social",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.cepyme.es",
+    "apartados": [
+      {
+        "id": "pod-0074-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0074-ap-00-it-00",
+            "apartado_id": "pod-0074-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario granadino, preside CEPYME, la patronal de las pymes que forma parte de la estructura de la CEOE. Defiende los intereses del pequeño y mediano empresario en la negociación con el Gobierno y los sindicatos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0074-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0074-ap-01-it-00",
+            "apartado_id": "pod-0074-ap-01",
+            "tipo": "dato",
+            "titulo": "Línea",
+            "contenido": "Especialmente crítico con las subidas del SMI desligadas de la productividad, la morosidad de las administraciones y la presión regulatoria y de cotizaciones que, advierte, asfixia a las pymes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "smi",
+              "morosidad",
+              "cotizaciones"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0074-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0074-ap-02-it-00",
+            "apartado_id": "pod-0074-ap-02",
+            "tipo": "contacto",
+            "titulo": "antonio-garamendi",
+            "contenido": "**Integrado en la CEOE** (nota +6/10) — CEPYME forma parte de la gran patronal; coordinan posición ante el Gobierno, aunque las pymes tienen agenda propia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0074-ap-02-it-01",
+            "apartado_id": "pod-0074-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gobierno de España",
+            "contenido": "**Interlocutor crítico en el diálogo social** (nota -2/10) — Choca con Trabajo y Hacienda por el SMI, las cotizaciones y la carga administrativa sobre la pequeña empresa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0075",
+    "slug": "santiago-munoz-machado",
+    "nombre_completo": "Santiago Muñoz Machado",
+    "alias": "Muñoz Machado",
+    "cargo_actual": "Director de la Real Academia Española (RAE)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director de la Real Academia Española y catedrático de Derecho Administrativo de enorme prestigio. Combina la máxima autoridad sobre la lengua con un peso intelectual y jurídico notable. La RAE, además, dirige la asociación de academias del español, lo que proyecta su influencia a toda Hispanoamérica.",
+    "tags": [
+      "institucional",
+      "rae",
+      "cultura",
+      "juridico",
+      "academia",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.rae.es",
+    "apartados": [
+      {
+        "id": "pod-0075-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0075-ap-00-it-00",
+            "apartado_id": "pod-0075-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jurista y académico, catedrático de Derecho Administrativo. Dirige la RAE y la Asociación de Academias de la Lengua Española (ASALE), lo que le otorga autoridad sobre el idioma en todo el mundo hispano.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0075-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0075-ap-01-it-00",
+            "apartado_id": "pod-0075-ap-01",
+            "tipo": "dato",
+            "titulo": "Lengua y poder",
+            "contenido": "Defiende el valor económico y diplomático del español como activo estratégico de España. Su criterio sobre el lenguaje inclusivo o el uso institucional de la lengua tiene eco político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "lengua",
+              "soft-power",
+              "diplomacia-cultural"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0075-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0075-ap-02-it-00",
+            "apartado_id": "pod-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "Instituto Cervantes y mundo cultural",
+            "contenido": "**Eje de la diplomacia cultural** (nota +6/10) — RAE, Cervantes y las academias americanas forman la red del poder blando del español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0075-ap-02-it-01",
+            "apartado_id": "pod-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "Élite jurídica y académica",
+            "contenido": "**Referente del Derecho Administrativo** (nota +5/10) — Su autoridad académica le da peso en debates jurídicos e institucionales del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0076",
+    "slug": "juan-jose-omella",
+    "nombre_completo": "Juan José Omella Omella",
+    "alias": "Cardenal Omella",
+    "cargo_actual": "Cardenal arzobispo de Barcelona · expresidente de la Conferencia Episcopal",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Cardenal arzobispo de Barcelona y expresidente de la Conferencia Episcopal Española. Hombre de confianza del Papa Francisco en España, de perfil pastoral y social, ha pilotado la respuesta de la Iglesia española a asuntos delicados como los abusos y la financiación. Una de las máximas autoridades morales del catolicismo español.",
+    "tags": [
+      "iglesia",
+      "religion",
+      "cardenal",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.conferenciaepiscopal.es",
+    "apartados": [
+      {
+        "id": "pod-0076-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0076-ap-00-it-00",
+            "apartado_id": "pod-0076-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Cardenal arzobispo de Barcelona, nombrado por el Papa Francisco, de quien es considerado hombre de confianza en España. Presidió la Conferencia Episcopal en una etapa marcada por la crisis de los abusos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0076-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0076-ap-01-it-00",
+            "apartado_id": "pod-0076-ap-01",
+            "tipo": "dato",
+            "titulo": "Línea pastoral",
+            "contenido": "De sensibilidad social y diálogo, más cercano al perfil de Francisco que al ala conservadora. Ha gestionado la relación con el Gobierno en asuntos como abusos, inmatriculaciones y financiación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "doctrina-social",
+              "dialogo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0076-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0076-ap-02-it-00",
+            "apartado_id": "pod-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "luis-arguello",
+            "contenido": "**Sucesor al frente de la Conferencia Episcopal** (nota +5/10) — Omella presidió la CEE; Argüello continúa la representación institucional de los obispos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0076-ap-02-it-01",
+            "apartado_id": "pod-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Vaticano (Papa Francisco)",
+            "contenido": "**Hombre de confianza pontificia** (nota +7/10) — Su cercanía a Roma refuerza su autoridad dentro de la Iglesia española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0077",
+    "slug": "tomas-fuertes",
+    "nombre_completo": "Tomás Fuertes Fernández",
+    "alias": "Tomás Fuertes",
+    "cargo_actual": "Presidente del Grupo Fuertes (ElPozo)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario murciano, fundador y presidente del Grupo Fuertes, propietario de ElPozo Alimentación, uno de los mayores grupos cárnicos y agroalimentarios de España. Una de las grandes fortunas y patriarcas empresariales del sureste, con diversificación en inmobiliario, energía y banca.",
+    "tags": [
+      "empresario",
+      "alimentacion",
+      "carnico",
+      "agro",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.grupofuertes.com",
+    "apartados": [
+      {
+        "id": "pod-0077-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0077-ap-00-it-00",
+            "apartado_id": "pod-0077-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario hecho a sí mismo, construyó desde Murcia uno de los mayores grupos cárnicos de Europa (ElPozo) y diversificó hacia inmobiliario, energía y participaciones financieras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0077-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0077-ap-01-it-00",
+            "apartado_id": "pod-0077-ap-01",
+            "tipo": "dato",
+            "titulo": "Peso agroalimentario",
+            "contenido": "El sector cárnico es un pilar exportador de la economía española y objeto de debate por su impacto ambiental y laboral; Fuertes es uno de sus rostros más visibles.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "exportacion",
+              "agroindustria"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0077-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0077-ap-02-it-00",
+            "apartado_id": "pod-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Distribución y gran consumo",
+            "contenido": "**Proveedor del gran retail** (nota +5/10) — ElPozo es proveedor de referencia de las grandes cadenas de distribución, Mercadona incluida.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0077-ap-02-it-01",
+            "apartado_id": "pod-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Tejido empresarial murciano",
+            "contenido": "**Patriarca económico regional** (nota +6/10) — Referente del empresariado del sureste, con influencia en su tejido económico e institucional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0078",
+    "slug": "carlos-slim",
+    "nombre_completo": "Carlos Slim Helú",
+    "alias": "Carlos Slim",
+    "cargo_actual": "Magnate mexicano · gran accionista en España (FCC, Realia)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Magnate mexicano de las telecomunicaciones (América Móvil) y una de las mayores fortunas del mundo. En España es accionista de control de FCC (construcción y servicios) y de la inmobiliaria Realia, además de haber tenido posiciones en otras cotizadas. Su entrada marcó la internacionalización del capital de grandes empresas españolas.",
+    "tags": [
+      "empresario",
+      "inversion",
+      "construccion",
+      "inmobiliario",
+      "internacional",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.fcc.es",
+    "apartados": [
+      {
+        "id": "pod-0078-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0078-ap-00-it-00",
+            "apartado_id": "pod-0078-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Inversor mexicano de origen libanés, dueño de América Móvil. Tras la crisis tomó el control de FCC y Realia en España, convirtiéndose en uno de los mayores propietarios extranjeros de empresas españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0078-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0078-ap-01-it-00",
+            "apartado_id": "pod-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Control de FCC",
+            "contenido": "Entró en el capital de FCC en plena reestructuración de la deuda del grupo, desplazando progresivamente a la familia Koplowitz como accionista de referencia.",
+            "fecha": "2014-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0078-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0078-ap-02-it-00",
+            "apartado_id": "pod-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "FCC y Realia",
+            "contenido": "**Accionista de control** (nota +9/10) — Domina la construcción, los servicios urbanos y el negocio inmobiliario de ambas cotizadas españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0078-ap-02-it-01",
+            "apartado_id": "pod-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "alicia-koplowitz",
+            "contenido": "**Relevo en el accionariado de FCC** (nota -2/10) — Slim sucedió a la familia Koplowitz en el control de FCC, cierre de una etapa histórica del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
+  },
+  {
+    "id": "pod-0079",
+    "slug": "oscar-pierre",
+    "nombre_completo": "Oscar Pierre",
+    "alias": "Oscar Pierre",
+    "cargo_actual": "Fundador y CEO de Glovo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Cofundador y consejero delegado de Glovo, la plataforma de reparto a domicilio nacida en Barcelona y hoy integrada en el grupo alemán Delivery Hero. Símbolo de la nueva economía digital española, está en el centro del debate sobre los derechos de los riders y la 'ley rider' impulsada por el Ministerio de Trabajo.",
+    "tags": [
+      "empresario",
+      "tecnologia",
+      "startup",
+      "gig-economy",
+      "no-electo"
+    ],
+    "fuente_principal": "https://about.glovoapp.com",
+    "apartados": [
+      {
+        "id": "pod-0079-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0079-ap-00-it-00",
+            "apartado_id": "pod-0079-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero aeronáutico catalán, cofundó Glovo y la convirtió en una de las mayores plataformas de reparto del sur de Europa, hoy controlada por Delivery Hero. Referente del emprendimiento tecnológico español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0079-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0079-ap-01-it-00",
+            "apartado_id": "pod-0079-ap-01",
+            "tipo": "dato",
+            "titulo": "Economía de plataformas",
+            "contenido": "Defiende el modelo de autónomos para los repartidores frente a la presión regulatoria por considerarlos asalariados. El choque con la 'ley rider' define su relación con el poder político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "riders",
+              "autonomos",
+              "plataformas"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0079-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0079-ap-02-it-00",
+            "apartado_id": "pod-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ministerio de Trabajo",
+            "contenido": "**Pulso por la ley rider** (nota -4/10) — La regulación que obliga a laboralizar a los repartidores enfrenta a Glovo con Trabajo; sanciones e inspecciones de por medio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0079-ap-02-it-01",
+            "apartado_id": "pod-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ecosistema startup español",
+            "contenido": "**Referente del emprendimiento** (nota +6/10) — Glovo es uno de los pocos 'unicornios' españoles; modelo y escuela de talento para la nueva economía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0079-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0079-ap-03-it-00",
+            "apartado_id": "pod-0079-ap-03",
+            "tipo": "controversia",
+            "titulo": "Conflicto laboral por los riders",
+            "contenido": "Glovo ha acumulado inspecciones, sanciones y litigios por el encaje laboral de sus repartidores. Los procedimientos siguen su curso y, salvo resolución firme, rige la presunción de inocencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ley-rider",
+              "litigios",
+              "presuncion-inocencia"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:56:41.794754Z",
+    "updated_at": "2026-05-28T19:56:41.794754Z"
   }
 ]
 
