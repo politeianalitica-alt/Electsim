@@ -11,6 +11,10 @@
 //     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte
 //     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),
 //     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).
+//   · figuras_clave_4.json · reguladores y holding público sobre el IBEX
+//     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños
+//     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,
+//     Losantos), LaLiga/Tebas, Fundación Alternativas, Funcas, Manuel Jove.
 // Re-generar: python3 bin/gen_subfixture.py --source poder
 
 import type {
@@ -220,8 +224,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0002",
@@ -419,8 +423,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0003",
@@ -595,8 +599,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0004",
@@ -748,8 +752,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0005",
@@ -887,8 +891,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0006",
@@ -1031,8 +1035,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0007",
@@ -1140,8 +1144,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0008",
@@ -1228,8 +1232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0009",
@@ -1376,8 +1380,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0010",
@@ -1535,8 +1539,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0011",
@@ -1699,8 +1703,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0012",
@@ -1826,8 +1830,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0013",
@@ -2014,8 +2018,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0014",
@@ -2139,8 +2143,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0015",
@@ -2316,8 +2320,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0016",
@@ -2437,8 +2441,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0017",
@@ -2541,8 +2545,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0018",
@@ -2683,8 +2687,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0019",
@@ -2786,8 +2790,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0020",
@@ -2922,8 +2926,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0021",
@@ -3047,8 +3051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0022",
@@ -3222,8 +3226,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0023",
@@ -3324,8 +3328,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0024",
@@ -3479,8 +3483,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0025",
@@ -3606,8 +3610,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0026",
@@ -3726,8 +3730,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0027",
@@ -3936,8 +3940,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0028",
@@ -4090,8 +4094,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0029",
@@ -4254,8 +4258,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0030",
@@ -4408,8 +4412,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0031",
@@ -4577,8 +4581,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0032",
@@ -4714,8 +4718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0033",
@@ -4867,8 +4871,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0034",
@@ -4987,8 +4991,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0035",
@@ -5090,8 +5094,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0036",
@@ -5227,8 +5231,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0037",
@@ -5332,8 +5336,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0038",
@@ -5459,8 +5463,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0039",
@@ -5563,8 +5567,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0040",
@@ -5651,8 +5655,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0041",
@@ -5753,8 +5757,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0042",
@@ -5841,8 +5845,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0043",
@@ -5969,8 +5973,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0044",
@@ -6056,8 +6060,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0045",
@@ -6159,8 +6163,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0046",
@@ -6263,8 +6267,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0047",
@@ -6363,8 +6367,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0048",
@@ -6439,8 +6443,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0049",
@@ -6539,8 +6543,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0050",
@@ -6614,8 +6618,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0051",
@@ -6689,8 +6693,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0052",
@@ -6788,8 +6792,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0053",
@@ -6863,8 +6867,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0054",
@@ -6939,8 +6943,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0055",
@@ -7015,8 +7019,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   },
   {
     "id": "pod-0056",
@@ -7078,8 +7082,1213 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:10:13.009483Z",
-    "updated_at": "2026-05-28T19:10:13.009483Z"
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0057",
+    "slug": "belen-gualda",
+    "nombre_completo": "Belén Gualda González",
+    "alias": "Belén Gualda",
+    "cargo_actual": "Presidenta de la SEPI",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta de la Sociedad Estatal de Participaciones Industriales (SEPI), el holding público que gestiona las participaciones del Estado en empresas estratégicas. Desde la SEPI, el Estado es accionista de referencia en Indra, Redeia, Enagás, Airbus y otras compañías clave, lo que la convierte en una pieza central del capitalismo de Estado español.",
+    "tags": [
+      "estado",
+      "sepi",
+      "participaciones-publicas",
+      "ibex",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.sepi.es",
+    "apartados": [
+      {
+        "id": "pod-0057-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0057-ap-00-it-00",
+            "apartado_id": "pod-0057-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniera y alta funcionaria con larga trayectoria en la propia SEPI. Preside el holding industrial del Estado, que reúne participaciones de control e influencia en empresas estratégicas y media docena de cotizadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0057-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0057-ap-01-it-00",
+            "apartado_id": "pod-0057-ap-01",
+            "tipo": "dato",
+            "titulo": "Capitalismo de Estado",
+            "contenido": "La SEPI ha reforzado el papel del Estado como accionista estable en sectores estratégicos (defensa, energía, telecomunicaciones), en la lógica de la autonomía estratégica defendida por el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "autonomia-estrategica",
+              "blindaje"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0057-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0057-ap-02-it-00",
+            "apartado_id": "pod-0057-ap-02",
+            "tipo": "contacto",
+            "titulo": "indra",
+            "contenido": "**Primer accionista vía SEPI** (nota +9/10) — El Estado controla Indra como pieza del consorcio de defensa nacional; la SEPI ha pilotado los cambios de consejo y la entrada en el capital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0057-ap-02-it-01",
+            "apartado_id": "pod-0057-ap-02",
+            "tipo": "contacto",
+            "titulo": "telefonica",
+            "contenido": "**Accionista de referencia del Estado** (nota +8/10) — La SEPI tomó cerca del 10% de la teleco como ancla de capital nacional frente a la entrada de STC (Arabia Saudí).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0057-ap-02-it-02",
+            "apartado_id": "pod-0057-ap-02",
+            "tipo": "contacto",
+            "titulo": "redeia",
+            "contenido": "**Accionista público de control** (nota +8/10) — El Estado mantiene la participación de referencia en el operador del sistema eléctrico por su carácter estratégico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0057-ap-02-it-03",
+            "apartado_id": "pod-0057-ap-02",
+            "tipo": "contacto",
+            "titulo": "enagas",
+            "contenido": "**Participación pública de referencia** (nota +7/10) — Como gestor técnico del sistema gasista, Enagás es otra pieza del perímetro estratégico tutelado por la SEPI.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0058",
+    "slug": "carlos-san-basilio",
+    "nombre_completo": "Carlos San Basilio Pardo",
+    "alias": "San Basilio",
+    "cargo_actual": "Presidente de la CNMV",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Vigila a todas las cotizadas del IBEX, autoriza OPAs y emisiones, y persigue el abuso de mercado y el uso de información privilegiada. Procede de la alta función pública del Ministerio de Economía.",
+    "tags": [
+      "regulador",
+      "cnmv",
+      "mercados",
+      "supervision",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.cnmv.es",
+    "apartados": [
+      {
+        "id": "pod-0058-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0058-ap-00-it-00",
+            "apartado_id": "pod-0058-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Alto funcionario del Estado con experiencia en la Secretaría General del Tesoro y la política financiera. Preside el supervisor bursátil, organismo independiente clave del sistema financiero.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0058-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0058-ap-01-it-00",
+            "apartado_id": "pod-0058-ap-01",
+            "tipo": "dato",
+            "titulo": "Supervisión",
+            "contenido": "La CNMV arbitra las grandes operaciones corporativas del mercado: OPAs hostiles, fusiones bancarias, salidas a bolsa. Su criterio condiciona los tiempos y las condiciones de operaciones multimillonarias.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opas",
+              "fusiones",
+              "transparencia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0058-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0058-ap-02-it-00",
+            "apartado_id": "pod-0058-ap-02",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Supervisor de todas las cotizadas** (nota +8/10) — Cada hecho relevante, ampliación o cambio de control pasa por la CNMV; su relación con los consejos es de vigilancia, no de alianza.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0058-ap-02-it-01",
+            "apartado_id": "pod-0058-ap-02",
+            "tipo": "contacto",
+            "titulo": "bbva",
+            "contenido": "**Árbitro de la OPA sobre Sabadell** (nota +6/10) — La CNMV ha sido pieza clave en los plazos y la transparencia de la operación bancaria más relevante de la década.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0058-ap-02-it-02",
+            "apartado_id": "pod-0058-ap-02",
+            "tipo": "contacto",
+            "titulo": "jose-luis-escriva",
+            "contenido": "**Coordinación con el Banco de España** (nota +5/10) — CNMV y BdE reparten la supervisión financiera; coordinación obligada en estabilidad y solvencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0059",
+    "slug": "cristina-herrero",
+    "nombre_completo": "Cristina Herrero Sánchez",
+    "alias": "Cristina Herrero",
+    "cargo_actual": "Presidenta de la AIReF",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta de la Autoridad Independiente de Responsabilidad Fiscal (AIReF), el organismo que fiscaliza las cuentas públicas y evalúa la sostenibilidad de la deuda, las pensiones y el gasto. Su voz técnica condiciona el debate sobre el déficit y las reglas fiscales, a menudo en tensión con el optimismo del Gobierno.",
+    "tags": [
+      "regulador",
+      "airef",
+      "fiscalidad",
+      "deficit",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.airef.es",
+    "apartados": [
+      {
+        "id": "pod-0059-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0059-ap-00-it-00",
+            "apartado_id": "pod-0059-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Técnica de Hacienda de larga trayectoria en la AIReF, de la que fue directora antes de presidirla. Voz de referencia en la evaluación independiente de la política fiscal española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0059-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0059-ap-01-it-00",
+            "apartado_id": "pod-0059-ap-01",
+            "tipo": "dato",
+            "titulo": "Vigilancia del gasto",
+            "contenido": "La AIReF advierte recurrentemente sobre desviaciones de déficit, sostenibilidad de las pensiones y eficiencia del gasto público, lo que genera roces con el Ministerio de Hacienda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sostenibilidad",
+              "pensiones",
+              "reglas-fiscales"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0059-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0059-ap-02-it-00",
+            "apartado_id": "pod-0059-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ministerio de Hacienda",
+            "contenido": "**Fiscalizador incómodo** (nota -2/10) — Sus informes suelen contradecir el cuadro macro del Gobierno; relación institucional pero tensa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0059-ap-02-it-01",
+            "apartado_id": "pod-0059-ap-02",
+            "tipo": "contacto",
+            "titulo": "jose-luis-escriva",
+            "contenido": "**Interlocución técnica con el Banco de España** (nota +4/10) — Comparten diagnóstico sobre sostenibilidad de la deuda y necesidad de consolidación fiscal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0060",
+    "slug": "alejandra-kindelan",
+    "nombre_completo": "Alejandra Kindelán Oteyza",
+    "alias": "Kindelán",
+    "cargo_actual": "Presidenta de la AEB",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta de la Asociación Española de Banca (AEB), la patronal de los grandes bancos. Es la voz unificada del sector bancario ante el Gobierno, el Banco de España y el BCE en debates como el impuesto a la banca, la remuneración del ahorro o la regulación europea. Procede de la cúpula del Banco Santander.",
+    "tags": [
+      "patronal",
+      "banca",
+      "aeb",
+      "lobby",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.aebanca.es",
+    "apartados": [
+      {
+        "id": "pod-0060-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0060-ap-00-it-00",
+            "apartado_id": "pod-0060-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista con larga carrera en el Banco Santander, donde dirigió estudios y relaciones institucionales. Preside la AEB, patronal que agrupa a los grandes bancos que operan en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0060-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0060-ap-01-it-00",
+            "apartado_id": "pod-0060-ap-01",
+            "tipo": "dato",
+            "titulo": "Defensa del sector",
+            "contenido": "Lidera la oposición de la banca al impuesto extraordinario sobre el sector y defiende el papel del crédito en la economía frente a la presión política por los beneficios récord.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "impuesto-banca",
+              "credito"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0060-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0060-ap-02-it-00",
+            "apartado_id": "pod-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "banco-santander",
+            "contenido": "**Su casa de origen** (nota +7/10) — Procede de la cúpula del Santander, lo que estrecha su vínculo con el primer banco del país.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0060-ap-02-it-01",
+            "apartado_id": "pod-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "bbva",
+            "contenido": "**Asociado de referencia** (nota +6/10) — Representa también los intereses del segundo banco en el debate regulatorio y fiscal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0060-ap-02-it-02",
+            "apartado_id": "pod-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "caixabank",
+            "contenido": "**Asociado de referencia** (nota +6/10) — La AEB unifica la posición de los grandes bancos ante el regulador y el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0060-ap-02-it-03",
+            "apartado_id": "pod-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "antonio-garamendi",
+            "contenido": "**Coordinación con la CEOE** (nota +5/10) — La patronal bancaria alinea su discurso fiscal y regulatorio con el de la gran patronal empresarial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0061",
+    "slug": "federico-jimenez-losantos",
+    "nombre_completo": "Federico Jiménez Losantos",
+    "alias": "Federico",
+    "cargo_actual": "Director de «Es la mañana de Federico» (esRadio)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista y comunicador, fundador de esRadio y de Libertad Digital junto a un grupo de socios. Una de las voces más influyentes y polémicas de la derecha mediática española, con un programa matinal de gran audiencia y enorme capacidad de fijar agenda en el electorado conservador y liberal.",
+    "tags": [
+      "medios",
+      "radio",
+      "tertuliano",
+      "derecha-mediatica",
+      "no-electo"
+    ],
+    "fuente_principal": "https://esradio.libertaddigital.com",
+    "apartados": [
+      {
+        "id": "pod-0061-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0061-ap-00-it-00",
+            "apartado_id": "pod-0061-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Comunicador veterano, fundador de esRadio y Libertad Digital. Su programa matinal es referencia de la derecha liberal-conservadora y un termómetro del ánimo de ese electorado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0061-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0061-ap-01-it-00",
+            "apartado_id": "pod-0061-ap-01",
+            "tipo": "dato",
+            "titulo": "Línea editorial",
+            "contenido": "Antinacionalista, liberal en lo económico y muy crítico con el Gobierno de Sánchez. Mantiene también una relación de amor-odio con la dirección del PP, a la que exige firmeza.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "liberalismo",
+              "anti-sanchismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0061-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0061-ap-02-it-00",
+            "apartado_id": "pod-0061-ap-02",
+            "tipo": "contacto",
+            "titulo": "eduardo-inda",
+            "contenido": "**Afinidad en la derecha mediática** (nota +5/10) — Comparten encuadre editorial anti-sanchista y se citan mutuamente, aunque compiten por la misma audiencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0061-ap-02-it-01",
+            "apartado_id": "pod-0061-ap-02",
+            "tipo": "contacto",
+            "titulo": "Partido Popular",
+            "contenido": "**Aliado exigente** (nota +3/10) — Apoya al PP frente a la izquierda pero presiona públicamente a su dirección cuando la considera tibia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0061-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0061-ap-03-it-00",
+            "apartado_id": "pod-0061-ap-03",
+            "tipo": "controversia",
+            "titulo": "Estilo y condenas por injurias",
+            "contenido": "Su estilo combativo le ha valido a lo largo de su carrera distintos procesos por injurias. Como en todo procedimiento, rige la presunción de inocencia salvo sentencia firme.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "injurias",
+              "presuncion-inocencia"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0062",
+    "slug": "jose-creuheras",
+    "nombre_completo": "José Creuheras Margenat",
+    "alias": "Creuheras",
+    "cargo_actual": "Presidente de Grupo Planeta y de Atresmedia",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente del Grupo Planeta, el mayor grupo editorial en español, y de Atresmedia (Antena 3, laSexta, Onda Cero). Concentra un poder mediático de primer orden: televisión, radio, prensa (La Razón) y edición de libros. Perfil discreto pero con enorme influencia sobre el ecosistema informativo del centro-derecha.",
+    "tags": [
+      "medios",
+      "planeta",
+      "atresmedia",
+      "editorial",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.planeta.es",
+    "apartados": [
+      {
+        "id": "pod-0062-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0062-ap-00-it-00",
+            "apartado_id": "pod-0062-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Heredero de la familia Lara al frente del Grupo Planeta. Preside también Atresmedia, primer grupo audiovisual privado por audiencia e ingresos publicitarios junto a Mediaset.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0062-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0062-ap-01-it-00",
+            "apartado_id": "pod-0062-ap-01",
+            "tipo": "dato",
+            "titulo": "Poder mediático",
+            "contenido": "Controla un conglomerado que abarca televisión generalista, radio, prensa y edición. Esa diversidad le da capacidad de fijar agenda y un peso decisivo en el reparto de la publicidad institucional y privada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "audiovisual",
+              "publicidad",
+              "agenda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0062-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0062-ap-02-it-00",
+            "apartado_id": "pod-0062-ap-02",
+            "tipo": "contacto",
+            "titulo": "antonio-garcia-ferreras",
+            "contenido": "**Director estrella de su grupo (laSexta)** (nota +7/10) — Ferreras dirige y presenta el buque insignia informativo de Atresmedia; su línea editorial pesa en la imagen del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0062-ap-02-it-01",
+            "apartado_id": "pod-0062-ap-02",
+            "tipo": "contacto",
+            "titulo": "vicente-valles",
+            "contenido": "**Presentador de referencia (Antena 3)** (nota +7/10) — Vallés conduce el informativo líder de audiencia del grupo Atresmedia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0062-ap-02-it-02",
+            "apartado_id": "pod-0062-ap-02",
+            "tipo": "contacto",
+            "titulo": "francisco-marhuenda",
+            "contenido": "**Director de La Razón, del grupo Planeta** (nota +6/10) — La cabecera conservadora forma parte del perímetro editorial de Planeta.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0063",
+    "slug": "joseph-oughourlian",
+    "nombre_completo": "Joseph Oughourlian",
+    "alias": "Oughourlian",
+    "cargo_actual": "Presidente de PRISA · fundador de Amber Capital",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Inversor franco-armenio, fundador del fondo Amber Capital y presidente de PRISA, el grupo editor de El País, la Cadena SER y Santillana. Llegó al control del grupo como accionista activista y hoy preside uno de los mayores conglomerados de medios en español, de influencia decisiva en el espacio progresista.",
+    "tags": [
+      "medios",
+      "prisa",
+      "el-pais",
+      "fondo",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.prisa.com",
+    "apartados": [
+      {
+        "id": "pod-0063-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0063-ap-00-it-00",
+            "apartado_id": "pod-0063-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Gestor de fondos fundador de Amber Capital. Tomó el control de PRISA tras una larga batalla accionarial y preside el grupo de El País, la SER y Santillana.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0063-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0063-ap-01-it-00",
+            "apartado_id": "pod-0063-ap-01",
+            "tipo": "dato",
+            "titulo": "Control de PRISA",
+            "contenido": "Su llegada reordenó el accionariado del grupo y su orientación. La propiedad y la línea de El País son objeto recurrente de pugna entre fondos, bancos acreedores y socios con intereses políticos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "activismo",
+              "linea-editorial"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0063-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0063-ap-02-it-00",
+            "apartado_id": "pod-0063-ap-02",
+            "tipo": "contacto",
+            "titulo": "pepa-bueno",
+            "contenido": "**Directora de El País, su principal cabecera** (nota +7/10) — La dirección del diario depende del consejo de PRISA que él preside.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0063-ap-02-it-01",
+            "apartado_id": "pod-0063-ap-02",
+            "tipo": "contacto",
+            "titulo": "juan-luis-cebrian",
+            "contenido": "**Predecesor histórico en el poder de PRISA** (nota -3/10) — La era Oughourlian sucede y en parte desplaza a la influencia del fundador-director histórico del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0064",
+    "slug": "javier-tebas",
+    "nombre_completo": "Javier Tebas Medrano",
+    "alias": "Tebas",
+    "cargo_actual": "Presidente de LaLiga",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente de LaLiga, la patronal del fútbol profesional español. Gestiona los derechos televisivos multimillonarios del fútbol, negocia con operadores y plataformas, y mantiene pulsos públicos con clubes, federación y gobierno. El fútbol es un poder económico y mediático de primer orden y Tebas es su gestor más visible.",
+    "tags": [
+      "deporte",
+      "futbol",
+      "laliga",
+      "derechos-tv",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.laliga.com",
+    "apartados": [
+      {
+        "id": "pod-0064-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0064-ap-00-it-00",
+            "apartado_id": "pod-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Abogado y dirigente deportivo. Preside LaLiga, donde ha profesionalizado la venta centralizada de derechos audiovisuales y la lucha contra la piratería y el déficit de los clubes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0064-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0064-ap-01-it-00",
+            "apartado_id": "pod-0064-ap-01",
+            "tipo": "dato",
+            "titulo": "Pulsos de poder",
+            "contenido": "Mantiene enfrentamientos públicos recurrentes con la Federación, con grandes clubes y con proyectos como la Superliga. Defiende el control financiero (fair play) frente a los clubes-estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "superliga",
+              "fair-play",
+              "derechos-tv"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0064-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0064-ap-02-it-00",
+            "apartado_id": "pod-0064-ap-02",
+            "tipo": "contacto",
+            "titulo": "telefonica",
+            "contenido": "**Cliente y socio de derechos audiovisuales** (nota +5/10) — Movistar Plus+ y las plataformas pagan miles de millones por el fútbol que LaLiga comercializa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0064-ap-02-it-01",
+            "apartado_id": "pod-0064-ap-02",
+            "tipo": "contacto",
+            "titulo": "Grandes clubes de fútbol",
+            "contenido": "**Relación de tensión** (nota -3/10) — Pulsos públicos con Real Madrid y Barça por el reparto de derechos y los proyectos de competición alternativa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0065",
+    "slug": "fundacion-alternativas",
+    "nombre_completo": "Fundación Alternativas",
+    "alias": "Alternativas",
+    "cargo_actual": "Think tank de la izquierda española",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Laboratorio de ideas de referencia del centro-izquierda español, próximo al entorno socialista. Produce informes sobre democracia, política económica, Europa y cultura que alimentan el debate progresista. Es, en cierto modo, el contrapeso ideológico de FAES en el ecosistema de think tanks.",
+    "tags": [
+      "think-tank",
+      "izquierda",
+      "psoe",
+      "ideas",
+      "no-electo"
+    ],
+    "fuente_principal": "https://fundacionalternativas.org",
+    "apartados": [
+      {
+        "id": "pod-0065-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0065-ap-00-it-00",
+            "apartado_id": "pod-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Fundación dedicada al análisis y la propuesta de políticas públicas desde una óptica progresista. Publica informes anuales sobre el estado de la democracia y la cultura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0065-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0065-ap-01-it-00",
+            "apartado_id": "pod-0065-ap-01",
+            "tipo": "contacto",
+            "titulo": "faes",
+            "contenido": "**Contrapeso ideológico** (nota -4/10) — Alternativas y FAES ocupan polos opuestos del campo de los think tanks; nutren a sus respectivos espacios políticos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0065-ap-01-it-01",
+            "apartado_id": "pod-0065-ap-01",
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Afinidad con el espacio socialista** (nota +6/10) — Sin ser orgánica del partido, su producción intelectual sintoniza con la agenda del centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0066",
+    "slug": "grupo-planeta",
+    "nombre_completo": "Grupo Planeta",
+    "alias": "Planeta",
+    "cargo_actual": "Mayor grupo editorial y de comunicación en español",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Conglomerado de la familia Lara que reúne el mayor grupo editorial en lengua española, la participación de control en Atresmedia (Antena 3, laSexta, Onda Cero), el diario La Razón, universidades y formación. Un poder mediático, cultural y empresarial transversal.",
+    "tags": [
+      "medios",
+      "editorial",
+      "atresmedia",
+      "familia-lara",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.planeta.es",
+    "apartados": [
+      {
+        "id": "pod-0066-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0066-ap-00-it-00",
+            "apartado_id": "pod-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Grupo familiar con intereses en edición de libros, televisión, radio, prensa y educación superior. Su diversificación lo hace menos dependiente de un único negocio y muy resistente a los ciclos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0066-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0066-ap-01-it-00",
+            "apartado_id": "pod-0066-ap-01",
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Su presidente** (nota +10/10) — Creuheras encarna la continuidad de la familia Lara al frente del conglomerado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0066-ap-01-it-01",
+            "apartado_id": "pod-0066-ap-01",
+            "tipo": "contacto",
+            "titulo": "francisco-marhuenda",
+            "contenido": "**Director de La Razón, cabecera del grupo** (nota +6/10) — El diario conservador es la pata de prensa escrita del conglomerado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0067",
+    "slug": "manuel-jove",
+    "nombre_completo": "Manuel Jove Capellán",
+    "alias": "Manuel Jove",
+    "cargo_actual": "Presidente de Inveravante",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario gallego, fundador de la promotora Fadesa (que vendió antes de la crisis inmobiliaria) y hoy presidente del holding Inveravante. Una de las grandes fortunas del noroeste peninsular, con inversiones diversificadas en energía, inmobiliario y participaciones financieras.",
+    "tags": [
+      "empresario",
+      "inversion",
+      "galicia",
+      "inmobiliario",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.inveravante.com",
+    "apartados": [
+      {
+        "id": "pod-0067-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0067-ap-00-it-00",
+            "apartado_id": "pod-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario coruñés que hizo su fortuna en la promoción inmobiliaria con Fadesa y diversificó a través de Inveravante en energía, hoteles y participaciones financieras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0067-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0067-ap-01-it-00",
+            "apartado_id": "pod-0067-ap-01",
+            "tipo": "contacto",
+            "titulo": "Inveravante",
+            "contenido": "**Accionista de control** (nota +9/10) — Holding a través del cual gestiona su patrimonio e inversiones diversificadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0067-ap-01-it-01",
+            "apartado_id": "pod-0067-ap-01",
+            "tipo": "contacto",
+            "titulo": "Tejido empresarial gallego",
+            "contenido": "**Gran fortuna regional** (nota +5/10) — Forma parte, con Amancio Ortega y otros, del núcleo de grandes patrimonios de Galicia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
+  },
+  {
+    "id": "pod-0068",
+    "slug": "funcas",
+    "nombre_completo": "Funcas (Fundación de las Cajas de Ahorros)",
+    "alias": "Funcas",
+    "cargo_actual": "Think tank económico del sector financiero",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fundación de análisis económico vinculada a la CECA (las antiguas cajas de ahorros). Es una de las fuentes de previsiones macroeconómicas más citadas de España, junto al Banco de España y los servicios de estudios de la gran banca. Su panel de previsiones marca el consenso del mercado.",
+    "tags": [
+      "think-tank",
+      "economia",
+      "ceca",
+      "previsiones",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.funcas.es",
+    "apartados": [
+      {
+        "id": "pod-0068-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0068-ap-00-it-00",
+            "apartado_id": "pod-0068-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Centro de estudios económicos de la CECA. Publica previsiones de crecimiento, empleo e inflación y análisis sectoriales que orientan el debate económico y la toma de decisiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0068-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0068-ap-01-it-00",
+            "apartado_id": "pod-0068-ap-01",
+            "tipo": "contacto",
+            "titulo": "alejandra-kindelan",
+            "contenido": "**Ecosistema financiero compartido** (nota +4/10) — Funcas (cajas/CECA) y la AEB (bancos) conviven en el debate sobre regulación y coyuntura financiera.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0068-ap-01-it-01",
+            "apartado_id": "pod-0068-ap-01",
+            "tipo": "contacto",
+            "titulo": "jose-luis-escriva",
+            "contenido": "**Diálogo con el Banco de España** (nota +5/10) — Sus previsiones se contrastan con las del supervisor en el consenso macroeconómico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:18:18.137969Z",
+    "updated_at": "2026-05-28T19:18:18.137969Z"
   }
 ]
 
