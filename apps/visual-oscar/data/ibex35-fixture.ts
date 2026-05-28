@@ -175,13 +175,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0001-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Pontegadea",
-            "contenido": "Pontegadea Inversiones (vehículo de Amancio Ortega) controla ~59% de Inditex. Pontegadea es además uno de los mayores caseros institucionales de España.",
+            "contenido": "**Pontegadea Inversiones (vehículo de Amancio Ortega) controla ~59% de Inditex** (nota +8/10) — Pontegadea es además uno de los mayores caseros institucionales de España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "pontegadea"
+              "pontegadea",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -190,12 +192,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0001-ap-03",
             "tipo": "contacto",
             "titulo": "Cadena de suministro",
-            "contenido": "Red de ~1.800 proveedores y ~8.500 fábricas auditadas, con foco en proximidad (España, Portugal, Marruecos, Turquía). Esta proximidad es clave en su modelo just-in-time.",
+            "contenido": "**Red de ~1** — 800 proveedores y ~8.500 fábricas auditadas, con foco en proximidad (España, Portugal, Marruecos, Turquía). Esta proximidad es clave en su modelo just-in-time.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "proveedores"
+              "proveedores",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -204,13 +207,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0001-ap-03",
             "tipo": "contacto",
             "titulo": "Nexo con Gobierno",
-            "contenido": "Inditex y Pontegadea han mantenido históricamente relación cordial con todos los Gobiernos. Pablo Isla (ex CEO) ocupó la vicepresidencia primera de CEOE entre 2014 y 2022.",
+            "contenido": "**Inditex y Pontegadea han mantenido históricamente relación cordial con todos los Gobiernos** (nota +8/10) — Pablo Isla (ex CEO) ocupó la vicepresidencia primera de CEOE entre 2014 y 2022.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "ceoe"
+              "ceoe",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -308,8 +313,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0002",
@@ -475,12 +480,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0002-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Capital muy disperso. Mayores accionistas conocidos: Qatar Investment Authority (~8%), Norges Bank (~3-4%), BlackRock (~5%), Kutxabank (~1%). No hay un accionista de control.",
+            "contenido": "**Capital muy disperso** (nota +8/10) — Mayores accionistas conocidos: Qatar Investment Authority (~8%), Norges Bank (~3-4%), BlackRock (~5%), Kutxabank (~1%). No hay un accionista de control.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -489,13 +496,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0002-ap-03",
             "tipo": "contacto",
             "titulo": "Choque con el Gobierno (Sánchez)",
-            "contenido": "Relación tensa con el Gobierno de Pedro Sánchez en 2021-2024 por el tope al gas, el recorte a beneficios caídos del cielo y el impuesto extraordinario. Sánchez Galán ha sido voz crítica pública.",
+            "contenido": "**Relación tensa con el Gobierno de Pedro Sánchez en 2021-2024 por el tope al gas, el recorte a beneficios caídos del cielo y el impuesto extraordinario** (nota -7/10) — Sánchez Galán ha sido voz crítica pública.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -504,12 +513,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0002-ap-03",
             "tipo": "contacto",
             "titulo": "CEOE",
-            "contenido": "Histórica presencia en órganos de la CEOE. Sánchez Galán ha sido vocal y miembro destacado del comité ejecutivo.",
+            "contenido": "**Histórica presencia en órganos de la CEOE** (nota +6/10) — Sánchez Galán ha sido vocal y miembro destacado del comité ejecutivo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ceoe"
+              "ceoe",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -518,13 +529,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0002-ap-03",
             "tipo": "contacto",
             "titulo": "Investigación judicial Villarejo",
-            "contenido": "Iberdrola está procesada en el caso Villarejo (pieza Tándem) por presunto encargo de espionaje a rivales y directivos entre 2004-2017. Sánchez Galán fue imputado en 2022.",
+            "contenido": "**Iberdrola está procesada en el caso Villarejo (pieza Tándem) por presunto encargo de espionaje a rivales y directivos entre 2004-2017** (nota -8/10) — Sánchez Galán fue imputado en 2022.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "judicial",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 3
           }
@@ -624,8 +637,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0003",
@@ -779,12 +792,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0003-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Capital muy disperso, sin accionista de control. Familia Botín mantiene ~0,5%. Mayores institucionales: BlackRock, Vanguard, State Street.",
+            "contenido": "**Capital muy disperso, sin accionista de control** (nota +8/10) — Familia Botín mantiene ~0,5%. Mayores institucionales: BlackRock, Vanguard, State Street.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -793,13 +808,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0003-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Botín",
-            "contenido": "Brazo filantrópico de la familia con sede en Santander, foco en arte, ciencia y educación. Patronazgo de Ana Botín.",
+            "contenido": "**Brazo filantrópico de la familia con sede en Santander, foco en arte, ciencia y educación** (nota +8/10) — Patronazgo de Ana Botín.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "filantropia",
-              "familia-botin"
+              "familia-botin",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -808,13 +825,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0003-ap-03",
             "tipo": "contacto",
             "titulo": "AEB y CEOE",
-            "contenido": "Asociación Española de Banca dominada históricamente por Santander. Presidente de AEB es José María Roldán (ex Banco de España).",
+            "contenido": "**Asociación Española de Banca dominada históricamente por Santander** (nota +8/10) — Presidente de AEB es José María Roldán (ex Banco de España).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "aeb",
-              "ceoe"
+              "ceoe",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -823,12 +842,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0003-ap-03",
             "tipo": "contacto",
             "titulo": "Nexo político",
-            "contenido": "Botín familia ha mantenido relación cordial con sucesivos Gobiernos PSOE y PP. Reuniones puntuales con Sánchez en La Moncloa documentadas en agendas oficiales.",
+            "contenido": "**Botín familia ha mantenido relación cordial con sucesivos Gobiernos PSOE y PP** (nota +6/10) — Reuniones puntuales con Sánchez en La Moncloa documentadas en agendas oficiales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -927,8 +948,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0004",
@@ -1082,12 +1103,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0004-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Sin accionista de control. Mayores: BlackRock ~5%, Vanguard ~3%, Norges Bank ~3%. Free float muy elevado.",
+            "contenido": "**Sin accionista de control** (nota +8/10) — Mayores: BlackRock ~5%, Vanguard ~3%, Norges Bank ~3%. Free float muy elevado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -1096,14 +1119,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0004-ap-03",
             "tipo": "contacto",
             "titulo": "OPA Sabadell · Gobierno",
-            "contenido": "La OPA enfrenta resistencia política. El Gobierno (Pedro Sánchez, Carlos Cuerpo en Economía) ha manifestado dudas sobre la concentración bancaria y la salida de TSB del perímetro UK.",
+            "contenido": "**La OPA enfrenta resistencia política** — El Gobierno (Pedro Sánchez, Carlos Cuerpo en Economía) ha manifestado dudas sobre la concentración bancaria y la salida de TSB del perímetro UK.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "sabadell",
-              "gobierno"
+              "gobierno",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -1112,13 +1136,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0004-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Villarejo - pieza BBVA",
-            "contenido": "Audiencia Nacional investiga contratos del BBVA con Villarejo entre 2004-2017 (caso Tándem, pieza BBVA), originalmente para espiar a Sacyr y a directivos en torno a la OPA Sacyr-Repsol de 2004. Francisco González (ex presidente) imputado.",
+            "contenido": "**Audiencia Nacional investiga contratos del BBVA con Villarejo entre 2004-2017 (caso Tándem, pieza BBVA), originalmente para espiar a Sacyr y a directivos en torno a la OPA Sacyr-Repsol de 2004** (nota -8/10) — Francisco González (ex presidente) imputado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "judicial",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -1202,8 +1228,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0005",
@@ -1344,14 +1370,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0005-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista principal: Fundación La Caixa",
-            "contenido": "CriteriaCaixa (vehículo de la Fundación La Caixa) controla ~32% de CaixaBank. Es accionista de referencia.",
+            "contenido": "**CriteriaCaixa (vehículo de la Fundación La Caixa) controla ~32% de CaixaBank** (nota +8/10) — Es accionista de referencia.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
               "criteria",
-              "la-caixa"
+              "la-caixa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -1360,14 +1388,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0005-ap-03",
             "tipo": "contacto",
             "titulo": "FROB / Estado",
-            "contenido": "El Estado (FROB) heredó ~16% del capital tras la fusión con Bankia. Plan de desinversión gradual; participación en 2024 ~17,9%.",
+            "contenido": "**El Estado (FROB) heredó ~16% del capital tras la fusión con Bankia** (nota +3/10) — Plan de desinversión gradual; participación en 2024 ~17,9%.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
               "estado",
-              "frob"
+              "frob",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           },
@@ -1376,12 +1406,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0005-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación La Caixa",
-            "contenido": "La Fundación La Caixa es uno de los mayores patrocinadores filantrópicos de Europa. Isidre Fainé preside Fundación y CriteriaCaixa.",
+            "contenido": "**La Fundación La Caixa es uno de los mayores patrocinadores filantrópicos de Europa** (nota +8/10) — Isidre Fainé preside Fundación y CriteriaCaixa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "filantropia"
+              "filantropia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -1390,12 +1422,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0005-ap-03",
             "tipo": "contacto",
             "titulo": "Nexo político",
-            "contenido": "Goirigolzarri tiene buena interlocución bipartidista (gestionó la nacionalización de Bankia bajo Rajoy y la fusión con CaixaBank bajo Sánchez).",
+            "contenido": "**Goirigolzarri tiene buena interlocución bipartidista (gestionó la nacionalización de Bankia bajo Rajoy y la fusión con CaixaBank bajo Sánchez)** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -1480,8 +1514,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0006",
@@ -1656,14 +1690,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0006-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "STC ~9,9%, SEPI ~10%, BBVA ~4,8%, CriteriaCaixa ~2,7%. Capital semi-controlado tras entrada SEPI 2024.",
+            "contenido": "**STC ~9,9%, SEPI ~10%, BBVA ~4,8%, CriteriaCaixa ~2,7%** (nota +8/10) — Capital semi-controlado tras entrada SEPI 2024.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
               "sepi",
-              "stc"
+              "stc",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -1672,13 +1708,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0006-ap-03",
             "tipo": "contacto",
             "titulo": "Telefónica - Gobierno Sánchez",
-            "contenido": "Entrada de SEPI ordenada por el Gobierno con voluntad explícita de proteger el carácter estratégico nacional. Refleja prioridad geopolítica.",
+            "contenido": "**Entrada de SEPI ordenada por el Gobierno con voluntad explícita de proteger el carácter estratégico nacional** — Refleja prioridad geopolítica.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -1687,12 +1724,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0006-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Telefónica",
-            "contenido": "Brazo de RSC con foco en educación digital y empleabilidad joven. Patronato encabezado por el presidente de Telefónica.",
+            "contenido": "**Brazo de RSC con foco en educación digital y empleabilidad joven** (nota +8/10) — Patronato encabezado por el presidente de Telefónica.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "filantropia"
+              "filantropia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -1701,12 +1740,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0006-ap-03",
             "tipo": "contacto",
             "titulo": "Joint venture VMO2 (UK)",
-            "contenido": "Virgin Media O2 es joint venture al 50% con Liberty Global en Reino Unido.",
+            "contenido": "**Virgin Media O2 es joint venture al 50% con Liberty Global en Reino Unido**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "joint-venture"
+              "joint-venture",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -1790,8 +1830,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0007",
@@ -1948,13 +1988,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0007-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Sacyr ~9%, BlackRock ~3%, Amundi ~3%. Capital muy disperso. Mexicanos Pemex desinvirtieron tras 2014.",
+            "contenido": "**Sacyr ~9%, BlackRock ~3%, Amundi ~3%** — Capital muy disperso. Mexicanos Pemex desinvirtieron tras 2014.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "sacyr"
+              "sacyr",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -1963,13 +2004,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0007-ap-03",
             "tipo": "contacto",
             "titulo": "Choque con Gobierno Sánchez",
-            "contenido": "Imaz ha sido voz crítica del Gobierno por el impuesto. En 2024 anunció pausa de inversiones en hidrógeno verde en España condicionada al marco fiscal.",
+            "contenido": "**Imaz ha sido voz crítica del Gobierno por el impuesto** (nota -7/10) — En 2024 anunció pausa de inversiones en hidrógeno verde en España condicionada al marco fiscal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -1978,12 +2021,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0007-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Repsol",
-            "contenido": "Brazo filantrópico con foco en cultura, educación, transición energética.",
+            "contenido": "**Brazo filantrópico con foco en cultura, educación, transición energética**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "filantropia"
+              "filantropia",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -2083,8 +2127,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0008",
@@ -2226,13 +2270,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0008-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Enaire / Estado",
-            "contenido": "Enaire (sociedad estatal dependiente del Ministerio de Transportes) controla 51%. Aena es de facto una empresa pública cotizada.",
+            "contenido": "**Enaire (sociedad estatal dependiente del Ministerio de Transportes) controla 51%** (nota +8/10) — Aena es de facto una empresa pública cotizada.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "estado",
-              "enaire"
+              "enaire",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -2241,14 +2287,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0008-ap-03",
             "tipo": "contacto",
             "titulo": "Nexo PSC / PSOE",
-            "contenido": "Lucena (presidente) procede del PSC. Fue secretario de Estado de Comercio en el primer Gobierno Sánchez (2018) antes de saltar a Aena. Su nombramiento es político.",
+            "contenido": "**Lucena (presidente) procede del PSC** (nota +8/10) — Fue secretario de Estado de Comercio en el primer Gobierno Sánchez (2018) antes de saltar a Aena. Su nombramiento es político.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "psc",
-              "psoe"
+              "psoe",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -2257,13 +2305,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0008-ap-03",
             "tipo": "contacto",
             "titulo": "Ministerio Transportes",
-            "contenido": "Tutela directa del Ministerio de Transportes y Movilidad Sostenible (Óscar Puente desde diciembre 2023).",
+            "contenido": "**Tutela directa del Ministerio de Transportes y Movilidad Sostenible (Óscar Puente desde diciembre 2023)** (nota +0/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "ministerio",
-              "puente"
+              "puente",
+              "nota-+0",
+              "neutral"
             ],
             "orden": 2
           }
@@ -2348,8 +2398,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0009",
@@ -2504,13 +2554,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0009-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Enel (Italia)",
-            "contenido": "Enel controla 70,1% de Endesa. Decisiones estratégicas integradas con el grupo italiano.",
+            "contenido": "**Enel controla 70,1% de Endesa** (nota +8/10) — Decisiones estratégicas integradas con el grupo italiano.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "enel"
+              "enel",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -2519,12 +2571,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0009-ap-03",
             "tipo": "contacto",
             "titulo": "Enel - Gobierno italiano",
-            "contenido": "Enel está controlada en último término por el Tesoro italiano (~24%). Las decisiones sobre Endesa tienen componente geopolítico Italia-España.",
+            "contenido": "**Enel está controlada en último término por el Tesoro italiano (~24%)** (nota +8/10) — Las decisiones sobre Endesa tienen componente geopolítico Italia-España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "geopolitica"
+              "geopolitica",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -2533,12 +2587,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0009-ap-03",
             "tipo": "contacto",
             "titulo": "AELEC",
-            "contenido": "Endesa, junto con Iberdrola y EDP, forma la patronal AELEC (antes UNESA).",
+            "contenido": "**Endesa, junto con Iberdrola y EDP, forma la patronal AELEC (antes UNESA)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "patronal"
+              "patronal",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -2624,8 +2680,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0010",
@@ -2779,7 +2835,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0010-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "CriteriaCaixa ~26%, fondos GIP ~20%, CVC ~20%, IFM (australiano) ~15%. Estructura muy concentrada y compleja.",
+            "contenido": "**CriteriaCaixa ~26%, fondos GIP ~20%, CVC ~20%, IFM (australiano) ~15%** — Estructura muy concentrada y compleja.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2788,7 +2844,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "criteria",
               "gip",
               "cvc",
-              "ifm"
+              "ifm",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -2797,13 +2854,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0010-ap-03",
             "tipo": "contacto",
             "titulo": "OPA IFM 2021",
-            "contenido": "El fondo australiano IFM lanzó OPA parcial sobre Naturgy en 2021. El Gobierno de Sánchez aprobó la operación con condiciones especiales (mantenimiento de sede y empleo).",
+            "contenido": "**El fondo australiano IFM lanzó OPA parcial sobre Naturgy en 2021** — El Gobierno de Sánchez aprobó la operación con condiciones especiales (mantenimiento de sede y empleo).",
             "fecha": "2021-08-10",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "gobierno",
-              "ifm"
+              "ifm",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -2812,13 +2870,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0010-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno argelino (Sonatrach)",
-            "contenido": "Sonatrach es socio en Medgaz y proveedor estratégico. Relación geopolítica directa.",
+            "contenido": "**Sonatrach es socio en Medgaz y proveedor estratégico** (nota +5/10) — Relación geopolítica directa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "argelia",
-              "sonatrach"
+              "sonatrach",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -2903,8 +2963,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0011",
@@ -3062,13 +3122,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0011-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Familia Del Pino",
-            "contenido": "La familia Del Pino (vehículo Rijn Capital/Karlovy + otros) controla ~33% del capital. Rafael del Pino y Calvo-Sotelo preside el consejo.",
+            "contenido": "**La familia Del Pino (vehículo Rijn Capital/Karlovy + otros) controla ~33% del capital** (nota +8/10) — Rafael del Pino y Calvo-Sotelo preside el consejo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "del-pino"
+              "del-pino",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -3077,13 +3139,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0011-ap-03",
             "tipo": "contacto",
             "titulo": "Choque con Gobierno Sánchez",
-            "contenido": "El traslado de sede 2023 generó choque público con el Gobierno (Pedro Sánchez, Yolanda Díaz, Nadia Calviño). Acusaciones cruzadas sobre lealtad al país e inseguridad jurídica.",
+            "contenido": "**El traslado de sede 2023 generó choque público con el Gobierno (Pedro Sánchez, Yolanda Díaz, Nadia Calviño)** (nota -7/10) — Acusaciones cruzadas sobre lealtad al país e inseguridad jurídica.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -3092,14 +3156,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0011-ap-03",
             "tipo": "contacto",
             "titulo": "PP / Ayuntamientos PP",
-            "contenido": "Mayor cuota de obra pública en gobiernos PP que en PSOE. Buena relación tradicional con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "contenido": "**Mayor cuota de obra pública en gobiernos PP que en PSOE** — Buena relación tradicional con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "pp",
-              "ayuso"
+              "ayuso",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -3108,13 +3173,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0011-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Rafael del Pino",
-            "contenido": "Una de las principales fundaciones liberales del país. Patrocinio de cátedras, foros (Madrid Forum), publicaciones en favor del libre mercado.",
+            "contenido": "**Una de las principales fundaciones liberales del país** (nota +5/10) — Patrocinio de cátedras, foros (Madrid Forum), publicaciones en favor del libre mercado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "filantropia",
-              "liberalismo"
+              "liberalismo",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -3199,8 +3266,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0012",
@@ -3325,12 +3392,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0012-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Free float muy elevado. Mayor accionista BlackRock ~5%, Capital Research ~5%. Sin accionista de control.",
+            "contenido": "**Free float muy elevado** (nota +8/10) — Mayor accionista BlackRock ~5%, Capital Research ~5%. Sin accionista de control.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -3339,12 +3408,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0012-ap-03",
             "tipo": "contacto",
             "titulo": "Clientes - aerolíneas",
-            "contenido": "Iberia, IAG, Lufthansa, Air France-KLM siguen siendo clientes principales (y antiguos socios fundadores).",
+            "contenido": "**Iberia, IAG, Lufthansa, Air France-KLM siguen siendo clientes principales (y antiguos socios fundadores)** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "clientes"
+              "clientes",
+              "nota--5",
+              "tension"
             ],
             "orden": 1
           }
@@ -3428,8 +3499,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0013",
@@ -3568,7 +3639,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0013-ap-03",
             "tipo": "contacto",
             "titulo": "Accionistas",
-            "contenido": "GIC (Singapur) ~7%, ConnecT/Edizione (Benetton) ~9%, TCI Fund ~6%, BlackRock ~5%, Criteria ~5%.",
+            "contenido": "**GIC (Singapur) ~7%, ConnecT/Edizione (Benetton) ~9%, TCI Fund ~6%, BlackRock ~5%, Criteria ~5%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3576,7 +3647,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "accionariado",
               "gic",
               "benetton",
-              "tci"
+              "tci",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -3585,12 +3657,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0013-ap-03",
             "tipo": "contacto",
             "titulo": "Clientes operadores",
-            "contenido": "Telefónica, Bouygues, Iliad, MasOrange, Vodafone, Wind Tre, Three UK. Relación dual: clientes y fuentes de adquisición de torres.",
+            "contenido": "**Telefónica, Bouygues, Iliad, MasOrange, Vodafone, Wind Tre, Three UK** — Relación dual: clientes y fuentes de adquisición de torres.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "clientes"
+              "clientes",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -3674,8 +3747,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0014",
@@ -3816,13 +3889,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0014-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Florentino Pérez",
-            "contenido": "Florentino y su entorno controlan ~13%. Fundación Florentino Pérez y vehículos varios.",
+            "contenido": "**Florentino y su entorno controlan ~13%** (nota +8/10) — Fundación Florentino Pérez y vehículos varios.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "florentino"
+              "florentino",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -3831,13 +3906,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0014-ap-03",
             "tipo": "contacto",
             "titulo": "Real Madrid",
-            "contenido": "Florentino Pérez es presidente del Real Madrid (1995-2006 y 2009-presente). El club da proyección política e internacional.",
+            "contenido": "**Florentino Pérez es presidente del Real Madrid (1995-2006 y 2009-presente)** (nota +8/10) — El club da proyección política e internacional.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "real-madrid",
-              "florentino"
+              "florentino",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -3846,12 +3923,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0014-ap-03",
             "tipo": "contacto",
             "titulo": "Relación con Gobiernos",
-            "contenido": "Cordial con sucesivos Gobiernos PP y PSOE. Florentino ha sido figura de consenso en sectores económicos. Vínculos con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "contenido": "**Cordial con sucesivos Gobiernos PP y PSOE** (nota +6/10) — Florentino ha sido figura de consenso en sectores económicos. Vínculos con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -3860,13 +3939,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0014-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Villarejo (víctima)",
-            "contenido": "ACS y Florentino aparecen como víctimas de los servicios de Villarejo contratados por Iberdrola y BBVA (espionaje a directivos).",
+            "contenido": "**ACS y Florentino aparecen como víctimas de los servicios de Villarejo contratados por Iberdrola y BBVA (espionaje a directivos)** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "judicial",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 3
           }
@@ -3965,8 +4046,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0015",
@@ -4136,12 +4217,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0015-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Disperso. BlackRock ~6%, Zurich ~5%, otros institucionales. Sin accionista de control. La OPA BBVA puede alterar este mapa.",
+            "contenido": "**Disperso** (nota +8/10) — BlackRock ~6%, Zurich ~5%, otros institucionales. Sin accionista de control. La OPA BBVA puede alterar este mapa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -4150,14 +4233,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0015-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - Postura crítica BBVA",
-            "contenido": "El Gobierno (Pedro Sánchez, Carlos Cuerpo) ha expresado dudas sobre la operación BBVA-Sabadell, condicionante último de la autorización.",
+            "contenido": "**El Gobierno (Pedro Sánchez, Carlos Cuerpo) ha expresado dudas sobre la operación BBVA-Sabadell, condicionante último de la autorización** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "gobierno",
-              "opa"
+              "opa",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -4166,13 +4251,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0015-ap-03",
             "tipo": "contacto",
             "titulo": "Generalitat / catalanismo",
-            "contenido": "Aunque trasladó la sede, Sabadell mantiene fuerte vinculación con tejido empresarial catalán y PYMES catalanas.",
+            "contenido": "**Aunque trasladó la sede, Sabadell mantiene fuerte vinculación con tejido empresarial catalán y PYMES catalanas** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "cataluna"
+              "cataluna",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -4256,8 +4343,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0016",
@@ -4394,13 +4481,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0016-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Cartival (familia Botín-Rivero) ~22%, Fernando Masaveu ~5%, Corp. Mp. Indus ~5%. Familia Botín-Rivero (rama Jaime Botín) es accionista de referencia histórico.",
+            "contenido": "**Cartival (familia Botín-Rivero) ~22%, Fernando Masaveu ~5%, Corp** (nota +5/10) — Mp. Indus ~5%. Familia Botín-Rivero (rama Jaime Botín) es accionista de referencia histórico.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "botin"
+              "botin",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -4409,13 +4498,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0016-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Botín-Rivero",
-            "contenido": "Jaime Botín (hermano del fallecido Emilio Botín) y su entorno controlan vía Cartival. Jaime Botín condenado en 2020 por contrabando del Picasso.",
+            "contenido": "**Jaime Botín (hermano del fallecido Emilio Botín) y su entorno controlan vía Cartival** (nota +8/10) — Jaime Botín condenado en 2020 por contrabando del Picasso.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "botin",
-              "judicial"
+              "judicial",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -4499,8 +4590,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0017",
@@ -4629,13 +4720,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0017-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Fundación Mapfre",
-            "contenido": "Fundación Mapfre (no cotiza) controla ~70% del capital de Mapfre S.A. La fundación es uno de los mayores patrocinadores culturales del país (exposiciones, premios).",
+            "contenido": "**Fundación Mapfre (no cotiza) controla ~70% del capital de Mapfre S** (nota +8/10) — A. La fundación es uno de los mayores patrocinadores culturales del país (exposiciones, premios).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "fundacion"
+              "fundacion",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -4644,12 +4737,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0017-ap-03",
             "tipo": "contacto",
             "titulo": "Filantropía cultural",
-            "contenido": "Fundación Mapfre opera sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga). Patrocina premios y proyectos sociales en LatAm.",
+            "contenido": "**Fundación Mapfre opera sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga)** (nota +3/10) — Patrocina premios y proyectos sociales en LatAm.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "filantropia"
+              "filantropia",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           },
@@ -4658,12 +4753,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0017-ap-03",
             "tipo": "contacto",
             "titulo": "Bankia / CaixaBank",
-            "contenido": "Alianza estratégica de distribución con Bankia (heredada por CaixaBank tras fusión). Producto bancaseguro.",
+            "contenido": "**Alianza estratégica de distribución con Bankia (heredada por CaixaBank tras fusión)** (nota +7/10) — Producto bancaseguro.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caixabank"
+              "caixabank",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -4747,8 +4844,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0018",
@@ -4906,13 +5003,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0018-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: SEPI",
-            "contenido": "SEPI (Estado) mantiene 20%. Es accionista de referencia (límite legal del 10% para resto inversores).",
+            "contenido": "**SEPI (Estado) mantiene 20%** (nota +8/10) — Es accionista de referencia (límite legal del 10% para resto inversores).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sepi",
-              "estado"
+              "estado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -4921,12 +5020,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0018-ap-03",
             "tipo": "contacto",
             "titulo": "Limitación 10% otros",
-            "contenido": "Ley sector eléctrico (Ley 17/2007) limita a 5% participaciones individuales y 1% participaciones políticas (operadores).",
+            "contenido": "**Ley sector eléctrico (Ley 17/2007) limita a 5% participaciones individuales y 1% participaciones políticas (operadores)** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "regulacion"
+              "regulacion",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           },
@@ -4935,14 +5036,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0018-ap-03",
             "tipo": "contacto",
             "titulo": "Nexo PSOE",
-            "contenido": "Corredor procede del PSOE (ex ministra). Su nombramiento es político. Refleja preferencia del Gobierno Sánchez por perfil afín en infraestructura crítica.",
+            "contenido": "**Corredor procede del PSOE (ex ministra)** (nota -7/10) — Su nombramiento es político. Refleja preferencia del Gobierno Sánchez por perfil afín en infraestructura crítica.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "psoe",
-              "sanchez"
+              "sanchez",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -5026,8 +5129,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0019",
@@ -5173,14 +5276,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0019-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "SEPI ~5%, BlackRock ~5%, Vanguard ~3%, Amancio Ortega vía Pontegadea ~5%, GIC ~5%. Muy disperso.",
+            "contenido": "**SEPI ~5%, BlackRock ~5%, Vanguard ~3%, Amancio Ortega vía Pontegadea ~5%, GIC ~5%** — Muy disperso.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
               "sepi",
-              "pontegadea"
+              "pontegadea",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -5189,7 +5293,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0019-ap-03",
             "tipo": "contacto",
             "titulo": "H2Med - apoyo político",
-            "contenido": "H2Med (proyecto Iberia-Francia para H2) cuenta con apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa. Financiación CEF-Energy.",
+            "contenido": "**H2Med (proyecto Iberia-Francia para H2) cuenta con apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa** — Financiación CEF-Energy.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5197,7 +5301,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "politica",
               "sanchez",
               "macron",
-              "h2med"
+              "h2med",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -5206,13 +5311,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0019-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - Aizpiri",
-            "contenido": "Arturo Gonzalo Aizpiri (CEO) procede del entorno empresarial verde, encaje político con la agenda de transición ecológica del Gobierno.",
+            "contenido": "**Arturo Gonzalo Aizpiri (CEO) procede del entorno empresarial verde, encaje político con la agenda de transición ecológica del Gobierno** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "sanchez"
+              "sanchez",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -5296,8 +5403,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0020",
@@ -5425,13 +5532,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0020-ap-03",
             "tipo": "contacto",
             "titulo": "Accionista de control: Familia Entrecanales",
-            "contenido": "Familia Entrecanales-Domecq controla ~55% vía sociedades patrimoniales (Tussen de Grachten, etc.).",
+            "contenido": "**Familia Entrecanales-Domecq controla ~55% vía sociedades patrimoniales (Tussen de Grachten, etc** (nota +8/10) — ).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "entrecanales"
+              "entrecanales",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -5440,12 +5549,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0020-ap-03",
             "tipo": "contacto",
             "titulo": "Acciona Energía (ANE)",
-            "contenido": "Filial cotizada también IBEX 35. Acciona mantiene 83%.",
+            "contenido": "**Filial cotizada también IBEX 35** — Acciona mantiene 83%.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "acciona-energia"
+              "acciona-energia",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -5454,12 +5564,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0020-ap-03",
             "tipo": "contacto",
             "titulo": "Nexo política exterior",
-            "contenido": "Acciona muy expuesta a grandes obras internacionales (Canal de Panamá, Sao Paulo Metro, Sídney Metro). Diplomacia económica activa.",
+            "contenido": "**Acciona muy expuesta a grandes obras internacionales (Canal de Panamá, Sao Paulo Metro, Sídney Metro)** — Diplomacia económica activa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "internacional"
+              "internacional",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -5544,8 +5655,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0021",
@@ -5658,12 +5769,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0021-ap-03",
             "tipo": "contacto",
             "titulo": "Matriz Acciona",
-            "contenido": "Acciona S.A. mantiene 83%. Gobernanza compartida (mismos consejeros familiares).",
+            "contenido": "**Acciona S** (nota +8/10) — A. mantiene 83%. Gobernanza compartida (mismos consejeros familiares).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -5672,12 +5785,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0021-ap-03",
             "tipo": "contacto",
             "titulo": "José Manuel Entrecanales",
-            "contenido": "Presidente de Acciona Energía vía matriz.",
+            "contenido": "**Presidente de Acciona Energía vía matriz** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "entrecanales"
+              "entrecanales",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -5686,12 +5801,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0021-ap-03",
             "tipo": "contacto",
             "titulo": "Rafael Mateo (CEO)",
-            "contenido": "CEO operativo desde OPV 2021.",
+            "contenido": "**CEO operativo desde OPV 2021** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mateo"
+              "mateo",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -5700,12 +5817,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0021-ap-03",
             "tipo": "contacto",
             "titulo": "APPA Renovables",
-            "contenido": "Miembro de la patronal de renovables. Voz pública pro-PPA y subastas estables.",
+            "contenido": "**Miembro de la patronal de renovables** (nota +8/10) — Voz pública pro-PPA y subastas estables.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "appa"
+              "appa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 3
           },
@@ -5714,12 +5833,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0021-ap-03",
             "tipo": "contacto",
             "titulo": "Mercados internacionales",
-            "contenido": "Operaciones en EE.UU., Australia, México, Chile, India. Diversificación geográfica como ventaja sobre puros-España.",
+            "contenido": "**Operaciones en EE** — UU., Australia, México, Chile, India. Diversificación geográfica como ventaja sobre puros-España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "internacional"
+              "internacional",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -5778,8 +5898,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0022",
@@ -5892,13 +6012,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0022-ap-03",
             "tipo": "contacto",
             "titulo": "Imperial Brands",
-            "contenido": "Imperial Brands plc (UK) mantiene ~50,01% del capital. Decisiones estratégicas se coordinan con Bristol.",
+            "contenido": "**Imperial Brands plc (UK) mantiene ~50,01% del capital** (nota +7/10) — Decisiones estratégicas se coordinan con Bristol.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "imperial"
+              "imperial",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -5907,12 +6029,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0022-ap-03",
             "tipo": "contacto",
             "titulo": "Estancos",
-            "contenido": "Red de ~50.000 puntos de venta (estancos y conveniencia) en sus mercados.",
+            "contenido": "**Red de ~50** — 000 puntos de venta (estancos y conveniencia) en sus mercados.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "red-distribucion"
+              "red-distribucion",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -5921,12 +6044,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0022-ap-03",
             "tipo": "contacto",
             "titulo": "Logista Pharma",
-            "contenido": "Filial dedicada a logística farmacéutica de frío y especializada.",
+            "contenido": "**Filial dedicada a logística farmacéutica de frío y especializada**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pharma"
+              "pharma",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -5935,12 +6059,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0022-ap-03",
             "tipo": "contacto",
             "titulo": "Logista Parcel (Nacex, Seur Iberia, MRW)",
-            "contenido": "Crecimiento en paquetería B2C/B2B vía adquisiciones de empresas paqueteras españolas.",
+            "contenido": "**Crecimiento en paquetería B2C/B2B vía adquisiciones de empresas paqueteras españolas**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "paqueteria"
+              "paqueteria",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -5949,12 +6074,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0022-ap-03",
             "tipo": "contacto",
             "titulo": "AEAT y Aduanas",
-            "contenido": "Interlocución regulatoria intensa por la fiscalidad del tabaco (Impuestos Especiales) y supervisión aduanera.",
+            "contenido": "**Interlocución regulatoria intensa por la fiscalidad del tabaco (Impuestos Especiales) y supervisión aduanera** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aeat"
+              "aeat",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 4
           }
@@ -6013,8 +6140,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0023",
@@ -6142,13 +6269,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0023-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Santander ~24%, BlackRock ~5%, Norges Bank ~3%, free float ~65%.",
+            "contenido": "**Santander ~24%, BlackRock ~5%, Norges Bank ~3%, free float ~65%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "santander"
+              "santander",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -6157,13 +6285,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0023-ap-03",
             "tipo": "contacto",
             "titulo": "Joint venture data centers",
-            "contenido": "Edge Conex (filial EQT) y Merlin acordaron pacto para data centers Madrid-Bilbao-Lisboa.",
+            "contenido": "**Edge Conex (filial EQT) y Merlin acordaron pacto para data centers Madrid-Bilbao-Lisboa** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "data-centers",
-              "eqt"
+              "eqt",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -6235,8 +6365,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0024",
@@ -6349,14 +6479,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0024-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Qatar Investment Authority ~19%, Grupo Santo Domingo ~7%, Aguila LTD (Banco Santander) ~6%, Finaccess (familia mexicana Del Valle) ~16%.",
+            "contenido": "**Qatar Investment Authority ~19%, Grupo Santo Domingo ~7%, Aguila LTD (Banco Santander) ~6%, Finaccess (familia mexicana Del Valle) ~16%** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
               "qia",
-              "finaccess"
+              "finaccess",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -6365,13 +6497,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0024-ap-03",
             "tipo": "contacto",
             "titulo": "SFL París",
-            "contenido": "Société Foncière Lyonnaise (SFL) es filial cotizada en París (~83%). Activos prime en CBD parisino.",
+            "contenido": "**Société Foncière Lyonnaise (SFL) es filial cotizada en París (~83%)** — Activos prime en CBD parisino.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sfl",
-              "francia"
+              "francia",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -6430,8 +6563,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0025",
@@ -6545,12 +6678,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0025-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Mittal",
-            "contenido": "Lakshmi Mittal y familia controlan ~37%. Hijo Aditya Mittal es CEO desde 2021.",
+            "contenido": "**Lakshmi Mittal y familia controlan ~37%** (nota +8/10) — Hijo Aditya Mittal es CEO desde 2021.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mittal"
+              "mittal",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -6559,13 +6694,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0025-ap-03",
             "tipo": "contacto",
             "titulo": "PERTE - Gobierno Sánchez",
-            "contenido": "ArcelorMittal beneficiaria del PERTE de descarbonización industrial (>300 M€ ayudas para Sestao y Gijón).",
+            "contenido": "**ArcelorMittal beneficiaria del PERTE de descarbonización industrial (>300 M€ ayudas para Sestao y Gijón)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "perte",
-              "gobierno"
+              "gobierno",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -6574,13 +6710,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0025-ap-03",
             "tipo": "contacto",
             "titulo": "Sindicatos",
-            "contenido": "Relación tensa con CCOO y UGT en Asturias por reestructuraciones y ERTEs periódicos.",
+            "contenido": "**Relación tensa con CCOO y UGT en Asturias por reestructuraciones y ERTEs periódicos**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "laboral",
-              "asturias"
+              "asturias",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -6640,8 +6777,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0026",
@@ -6795,13 +6932,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0026-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Qatar Airways ~25% (límite UE), Capital Research ~9%, BlackRock ~6%, Europacific ~3%.",
+            "contenido": "**Qatar Airways ~25% (límite UE), Capital Research ~9%, BlackRock ~6%, Europacific ~3%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "qatar"
+              "qatar",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -6810,13 +6948,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0026-ap-03",
             "tipo": "contacto",
             "titulo": "Qatar Airways - alianza",
-            "contenido": "Qatar Airways es socio estratégico (oneworld) y mayor accionista. Influencia en gobierno corporativo.",
+            "contenido": "**Qatar Airways es socio estratégico (oneworld) y mayor accionista** (nota +7/10) — Influencia en gobierno corporativo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "qatar",
-              "oneworld"
+              "oneworld",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -6825,13 +6965,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0026-ap-03",
             "tipo": "contacto",
             "titulo": "Hub Barajas - Aena",
-            "contenido": "IAG es el cliente principal de Aena en Madrid-Barajas (~50% de las operaciones). Tensiones por tarifas DORA.",
+            "contenido": "**IAG es el cliente principal de Aena en Madrid-Barajas (~50% de las operaciones)** (nota -7/10) — Tensiones por tarifas DORA.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "aena",
-              "barajas"
+              "barajas",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -6903,8 +7045,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0027",
@@ -7048,13 +7190,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0027-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Grifols",
-            "contenido": "Familia Grifols controla ~30% vía vehículos (Scranton Enterprises B.V., entre otros).",
+            "contenido": "**Familia Grifols controla ~30% vía vehículos (Scranton Enterprises B** (nota +8/10) — V., entre otros).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "familia-grifols"
+              "familia-grifols",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -7063,13 +7207,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0027-ap-03",
             "tipo": "contacto",
             "titulo": "Scranton - controversia",
-            "contenido": "Scranton Enterprises es vehículo de la familia que adquirió activos vendidos por Grifols. Gotham cuestionó la doble contabilización.",
+            "contenido": "**Scranton Enterprises es vehículo de la familia que adquirió activos vendidos por Grifols** (nota -7/10) — Gotham cuestionó la doble contabilización.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "scranton",
-              "gotham"
+              "gotham",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -7078,12 +7224,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0027-ap-03",
             "tipo": "contacto",
             "titulo": "Brookfield - relación",
-            "contenido": "Brookfield (Canadá) gestor de infra fue partner potencial 2024. Tras OPA fallida, relación distante.",
+            "contenido": "**Brookfield (Canadá) gestor de infra fue partner potencial 2024** — Tras OPA fallida, relación distante.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "brookfield"
+              "brookfield",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -7182,8 +7329,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0028",
@@ -7355,7 +7502,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0028-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "SEPI ~28%, Amber Capital ~7,2% (Joseph Oughourlian), Escribano Mechanical & Engineering ~8%, SAPA Placencia ~7%.",
+            "contenido": "**SEPI ~28%, Amber Capital ~7,2% (Joseph Oughourlian), Escribano Mechanical & Engineering ~8%, SAPA Placencia ~7%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7363,7 +7510,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "accionariado",
               "sepi",
               "amber",
-              "escribano"
+              "escribano",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -7372,14 +7520,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0028-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez",
-            "contenido": "Nombramiento de Murtra y luego Escribano refleja control directo del Gobierno vía SEPI. Defensa es área estratégica priorizada.",
+            "contenido": "**Nombramiento de Murtra y luego Escribano refleja control directo del Gobierno vía SEPI** — Defensa es área estratégica priorizada.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "sanchez",
-              "sepi"
+              "sepi",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -7388,13 +7537,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0028-ap-03",
             "tipo": "contacto",
             "titulo": "Ministerio de Defensa - Margarita Robles",
-            "contenido": "Indra como suministrador clave del Ministerio. Reuniones recurrentes en programas (FCAS, NH90, Eurofighter).",
+            "contenido": "**Indra como suministrador clave del Ministerio** — Reuniones recurrentes en programas (FCAS, NH90, Eurofighter).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "mindef",
-              "robles"
+              "robles",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -7479,8 +7629,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0029",
@@ -7593,7 +7743,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0029-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Nippon Steel ~19%, Corporación Financiera Alba (March) ~19%, Casa Grande de Cartagena ~5%.",
+            "contenido": "**Nippon Steel ~19%, Corporación Financiera Alba (March) ~19%, Casa Grande de Cartagena ~5%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7601,7 +7751,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "accionariado",
               "alba",
               "march",
-              "nippon"
+              "nippon",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -7610,13 +7761,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0029-ap-03",
             "tipo": "contacto",
             "titulo": "Familia March",
-            "contenido": "Vía Corporación Financiera Alba (vehículo de la familia March), Acerinox tiene anclaje accionarial estable.",
+            "contenido": "**Vía Corporación Financiera Alba (vehículo de la familia March), Acerinox tiene anclaje accionarial estable** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "march",
-              "alba"
+              "alba",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -7676,8 +7829,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0030",
@@ -7807,13 +7960,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0030-ap-03",
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Disperso. Beta Asociados (Manrique y entorno) ~7%, Disa Corporación ~6%, Prilou (Jacobs) ~5%.",
+            "contenido": "**Disperso** — Beta Asociados (Manrique y entorno) ~7%, Disa Corporación ~6%, Prilou (Jacobs) ~5%.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "manrique"
+              "manrique",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -7822,12 +7976,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0030-ap-03",
             "tipo": "contacto",
             "titulo": "Participación Repsol",
-            "contenido": "Sacyr conserva ~9% de Repsol (a 2024) tras décadas como accionista. Tensiones intermitentes con el consejo de Repsol.",
+            "contenido": "**Sacyr conserva ~9% de Repsol (a 2024) tras décadas como accionista** (nota -7/10) — Tensiones intermitentes con el consejo de Repsol.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "repsol"
+              "repsol",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
@@ -7887,8 +8043,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0031",
@@ -8015,13 +8171,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0031-ap-03",
             "tipo": "contacto",
             "titulo": "Accionistas familiares",
-            "contenido": "Familias fundadoras (Planes, Garrigós, Serra, Corbera) mantienen acuerdo de voto sobre ~36%. Rhône Capital salió tras 2018.",
+            "contenido": "**Familias fundadoras (Planes, Garrigós, Serra, Corbera) mantienen acuerdo de voto sobre ~36%** (nota +8/10) — Rhône Capital salió tras 2018.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "familias"
+              "familias",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8030,12 +8188,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0031-ap-03",
             "tipo": "contacto",
             "titulo": "Bruce Brooks (CEO)",
-            "contenido": "CEO de Fluidra desde 2018 (post-fusión Zodiac).",
+            "contenido": "**CEO de Fluidra desde 2018 (post-fusión Zodiac)** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "brooks"
+              "brooks",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -8044,12 +8204,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0031-ap-03",
             "tipo": "contacto",
             "titulo": "Eloi Planes (presidente)",
-            "contenido": "Tercera generación de la familia Planes.",
+            "contenido": "**Tercera generación de la familia Planes** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "planes"
+              "planes",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -8058,12 +8220,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0031-ap-03",
             "tipo": "contacto",
             "titulo": "Acuerdo familias",
-            "contenido": "Planes, Garrigós, Serra, Corbera mantienen ~36% conjuntamente con acuerdo de voto.",
+            "contenido": "**Planes, Garrigós, Serra, Corbera mantienen ~36% conjuntamente con acuerdo de voto** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familias"
+              "familias",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 3
           },
@@ -8072,12 +8236,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0031-ap-03",
             "tipo": "contacto",
             "titulo": "Rhône Capital legacy",
-            "contenido": "Fondo Rhône (anterior dueño de Zodiac) salió tras la fusión 2018.",
+            "contenido": "**Fondo Rhône (anterior dueño de Zodiac) salió tras la fusión 2018**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rhone"
+              "rhone",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -8150,8 +8315,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0032",
@@ -8268,13 +8433,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0032-ap-03",
             "tipo": "contacto",
             "titulo": "Familia López-Belmonte",
-            "contenido": "Familia López-Belmonte controla ~64% vía Norbel Inversiones.",
+            "contenido": "**Familia López-Belmonte controla ~64% vía Norbel Inversiones** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "lopez-belmonte"
+              "lopez-belmonte",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8283,12 +8450,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0032-ap-03",
             "tipo": "contacto",
             "titulo": "Moderna",
-            "contenido": "Partnership estratégico con Moderna mantiene a Rovi entre fabricantes europeos de mRNA.",
+            "contenido": "**Partnership estratégico con Moderna mantiene a Rovi entre fabricantes europeos de mRNA**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "moderna"
+              "moderna",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -8347,8 +8515,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0033",
@@ -8499,12 +8667,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0033-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Díaz-Tejeiro",
-            "contenido": "Familia Díaz-Tejeiro controla ~37% vía DTL (DTL Corporación).",
+            "contenido": "**Familia Díaz-Tejeiro controla ~37% vía DTL (DTL Corporación)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8513,12 +8683,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0033-ap-03",
             "tipo": "contacto",
             "titulo": "Enrique Díaz-Tejeiro (presidente)",
-            "contenido": "Familia controladora vía DTL Corporación.",
+            "contenido": "**Familia controladora vía DTL Corporación** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "diaz-tejeiro"
+              "diaz-tejeiro",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -8527,12 +8699,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0033-ap-03",
             "tipo": "contacto",
             "titulo": "DTL Corporación (~37%)",
-            "contenido": "Vehículo familiar.",
+            "contenido": "**Vehículo familiar** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "dtl"
+              "dtl",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -8541,12 +8715,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0033-ap-03",
             "tipo": "contacto",
             "titulo": "MITECO y CNMC",
-            "contenido": "Interlocución regulatoria habitual en subastas PPA y conexiones.",
+            "contenido": "**Interlocución regulatoria habitual en subastas PPA y conexiones** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "miteco"
+              "miteco",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -8619,8 +8795,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0034",
@@ -8748,14 +8924,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0034-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Unicaja",
-            "contenido": "Fundación Unicaja controla ~30% del banco. Braulio Medel patrón durante décadas (relevado tras crisis 2023).",
+            "contenido": "**Fundación Unicaja controla ~30% del banco** (nota +8/10) — Braulio Medel patrón durante décadas (relevado tras crisis 2023).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
               "fundacion",
-              "medel"
+              "medel",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8764,13 +8942,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0034-ap-03",
             "tipo": "contacto",
             "titulo": "Política regional",
-            "contenido": "Histórica relación con poderes andaluces (PSOE-A durante décadas, PP-A desde 2018). Caja con perfil político.",
+            "contenido": "**Histórica relación con poderes andaluces (PSOE-A durante décadas, PP-A desde 2018)** — Caja con perfil político.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "andalucia"
+              "andalucia",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -8830,8 +9009,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0035",
@@ -8958,13 +9137,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0035-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Puig",
-            "contenido": "Familia Puig mantiene ~70% del capital y mayoría de voto vía acciones tipo A (estructura dual).",
+            "contenido": "**Familia Puig mantiene ~70% del capital y mayoría de voto vía acciones tipo A (estructura dual)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "accionariado",
-              "familia-puig"
+              "familia-puig",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -8973,13 +9154,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0035-ap-03",
             "tipo": "contacto",
             "titulo": "Patrocinios",
-            "contenido": "Patrocinador FC Barcelona, varias pasarelas (NYFW, PFW).",
+            "contenido": "**Patrocinador FC Barcelona, varias pasarelas (NYFW, PFW)** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "fcbarcelona",
-              "moda"
+              "moda",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -9051,8 +9234,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0036",
@@ -9150,13 +9333,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0036-ap-02",
             "tipo": "contacto",
             "titulo": "Familia Ortega / Pontegadea",
-            "contenido": "Familia con el mayor patrimonio de España. Pontegadea controla ~59% de Inditex.",
+            "contenido": "**Familia con el mayor patrimonio de España** (nota +8/10) — Pontegadea controla ~59% de Inditex.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pontegadea",
-              "ortega"
+              "ortega",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -9165,12 +9350,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0036-ap-02",
             "tipo": "contacto",
             "titulo": "Carlos Torretta",
-            "contenido": "Casada con Carlos Torretta (hijo de Roberto Torretta), exejecutivo de Inditex. Boda 2022.",
+            "contenido": "**Casada con Carlos Torretta (hijo de Roberto Torretta), exejecutivo de Inditex** (nota +5/10) — Boda 2022.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "torretta"
+              "torretta",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -9179,12 +9366,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0036-ap-02",
             "tipo": "contacto",
             "titulo": "Óscar García Maceiras",
-            "contenido": "Tándem ejecutivo con el CEO Óscar García Maceiras (designado el mismo día abril 2022).",
+            "contenido": "**Tándem ejecutivo con el CEO Óscar García Maceiras (designado el mismo día abril 2022)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "maceiras"
+              "maceiras",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -9235,8 +9424,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0037",
@@ -9345,12 +9534,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0037-ap-02",
             "tipo": "contacto",
             "titulo": "Familia Ortega",
-            "contenido": "Reporta directamente a Marta Ortega y al consejo dominado por Pontegadea.",
+            "contenido": "**Reporta directamente a Marta Ortega y al consejo dominado por Pontegadea** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ortega"
+              "ortega",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -9359,13 +9550,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0037-ap-02",
             "tipo": "contacto",
             "titulo": "Red Santander",
-            "contenido": "Mantiene relaciones por su paso en Santander con Ana Botín y Bravo (general counsel del Santander).",
+            "contenido": "**Mantiene relaciones por su paso en Santander con Ana Botín y Bravo (general counsel del Santander)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "santander",
-              "botin"
+              "botin",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -9374,12 +9566,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0037-ap-02",
             "tipo": "contacto",
             "titulo": "Abogacía del Estado",
-            "contenido": "Vinculado al cuerpo de Abogados del Estado, red de influencia institucional.",
+            "contenido": "**Vinculado al cuerpo de Abogados del Estado, red de influencia institucional**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "abogacia-estado"
+              "abogacia-estado",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -9428,8 +9621,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0038",
@@ -9576,13 +9769,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0038-ap-03",
             "tipo": "contacto",
             "titulo": "Choque con Pedro Sánchez",
-            "contenido": "Una de las figuras empresariales más críticas con el Gobierno de Sánchez. Tensión sobre impuesto extraordinario, tope al gas, y políticas energéticas.",
+            "contenido": "**Una de las figuras empresariales más críticas con el Gobierno de Sánchez** (nota -7/10) — Tensión sobre impuesto extraordinario, tope al gas, y políticas energéticas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           },
@@ -9591,14 +9786,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0038-ap-03",
             "tipo": "contacto",
             "titulo": "Conflicto histórico con Florentino Pérez",
-            "contenido": "Guerra societaria 2006-2017 cuando ACS tomó hasta 20% de Iberdrola. Episodio central del caso Villarejo (espionaje de Iberdrola a ACS).",
+            "contenido": "**Guerra societaria 2006-2017 cuando ACS tomó hasta 20% de Iberdrola** (nota -8/10) — Episodio central del caso Villarejo (espionaje de Iberdrola a ACS).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "acs",
               "florentino",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -9607,12 +9804,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0038-ap-03",
             "tipo": "contacto",
             "titulo": "Eurelectric",
-            "contenido": "Vicepresidente y voz clave en Eurelectric (patronal europea de eléctricas).",
+            "contenido": "**Vicepresidente y voz clave en Eurelectric (patronal europea de eléctricas)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "eurelectric"
+              "eurelectric",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -9621,12 +9820,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0038-ap-03",
             "tipo": "contacto",
             "titulo": "Casa Real / monarquía",
-            "contenido": "Buena interlocución institucional con la Casa Real, presencia en actos oficiales.",
+            "contenido": "**Buena interlocución institucional con la Casa Real, presencia en actos oficiales** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "casa-real"
+              "casa-real",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -9699,8 +9900,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0039",
@@ -9847,12 +10048,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0039-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Botín",
-            "contenido": "Saga banquera. Hermanos: Javier, Emilio (consejero del Santander), Carmen, Paloma.",
+            "contenido": "**Saga banquera** (nota +7/10) — Hermanos: Javier, Emilio (consejero del Santander), Carmen, Paloma.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-botin"
+              "familia-botin",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -9861,12 +10064,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0039-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Botín",
-            "contenido": "Patrona de la Fundación Botín (Santander), patronazgo cultural y científico.",
+            "contenido": "**Patrona de la Fundación Botín (Santander), patronazgo cultural y científico** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fundacion-botin"
+              "fundacion-botin",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -9875,13 +10080,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0039-ap-03",
             "tipo": "contacto",
             "titulo": "Davos / Bilderberg",
-            "contenido": "Participante habitual en Foro de Davos. Asistencias documentadas a Bilderberg (2014, 2019).",
+            "contenido": "**Participante habitual en Foro de Davos** (nota +3/10) — Asistencias documentadas a Bilderberg (2014, 2019).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "davos",
-              "bilderberg"
+              "bilderberg",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 2
           },
@@ -9890,13 +10097,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0039-ap-03",
             "tipo": "contacto",
             "titulo": "Reuniones con Sánchez",
-            "contenido": "Reuniones bilaterales documentadas en agenda oficial de Moncloa con Pedro Sánchez y Carlos Cuerpo.",
+            "contenido": "**Reuniones bilaterales documentadas en agenda oficial de Moncloa con Pedro Sánchez y Carlos Cuerpo**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "sanchez"
+              "sanchez",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -9969,8 +10177,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0040",
@@ -10128,12 +10336,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0040-ap-03",
             "tipo": "contacto",
             "titulo": "Ana Botín",
-            "contenido": "Reporta a la presidenta. Tándem.",
+            "contenido": "**Reporta a la presidenta** (nota +8/10) — Tándem.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "botin"
+              "botin",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -10142,12 +10352,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0040-ap-03",
             "tipo": "contacto",
             "titulo": "Élite mexicana",
-            "contenido": "Vinculaciones con el ecosistema empresarial mexicano (Carlos Slim, etc.) durante etapa Santander México.",
+            "contenido": "**Vinculaciones con el ecosistema empresarial mexicano (Carlos Slim, etc** (nota +5/10) — ) durante etapa Santander México.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mexico"
+              "mexico",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -10156,12 +10368,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0040-ap-03",
             "tipo": "contacto",
             "titulo": "Élite empresarial mexicana",
-            "contenido": "Vinculaciones del paso por Santander México (Carlos Slim, FUNO, Inbursa) y Credit Suisse México (Larrea).",
+            "contenido": "**Vinculaciones del paso por Santander México (Carlos Slim, FUNO, Inbursa) y Credit Suisse México (Larrea)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mexico"
+              "mexico",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -10170,12 +10384,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0040-ap-03",
             "tipo": "contacto",
             "titulo": "PNC Bank",
-            "contenido": "Interlocución de la venta de BBVA USA a PNC en 2021.",
+            "contenido": "**Interlocución de la venta de BBVA USA a PNC en 2021** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pnc"
+              "pnc",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -10203,8 +10419,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0041",
@@ -10364,12 +10580,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0041-ap-03",
             "tipo": "contacto",
             "titulo": "Onur Genç",
-            "contenido": "CEO del banco, tándem desde 2018.",
+            "contenido": "**CEO del banco, tándem desde 2018** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "genc"
+              "genc",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -10378,13 +10596,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0041-ap-03",
             "tipo": "contacto",
             "titulo": "Garanti / Turquía",
-            "contenido": "BBVA controla Garanti BBVA en Turquía. Torres Vila gestiona relación con accionistas turcos y autoridades.",
+            "contenido": "**BBVA controla Garanti BBVA en Turquía** (nota +8/10) — Torres Vila gestiona relación con accionistas turcos y autoridades.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "garanti",
-              "turquia"
+              "turquia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -10393,12 +10613,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0041-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Villarejo - imputado",
-            "contenido": "Aunque sucedió a Francisco González (también imputado), Torres Vila ha sido investigado y luego sobreseído en relación con la pieza BBVA.",
+            "contenido": "**Aunque sucedió a Francisco González (también imputado), Torres Vila ha sido investigado y luego sobreseído en relación con la pieza BBVA** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -10470,8 +10692,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0042",
@@ -10617,13 +10839,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0042-ap-03",
             "tipo": "contacto",
             "titulo": "Doğuş Holding",
-            "contenido": "Relación histórica con Doğuş Holding (familia Sahenk) en Garanti.",
+            "contenido": "**Relación histórica con Doğuş Holding (familia Sahenk) en Garanti** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "dogus",
-              "turquia"
+              "turquia",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -10632,12 +10856,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0042-ap-03",
             "tipo": "contacto",
             "titulo": "Doğuş Holding / Sahenk",
-            "contenido": "Relación con la familia Sahenk, accionista histórico de Garanti.",
+            "contenido": "**Relación con la familia Sahenk, accionista histórico de Garanti** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "dogus"
+              "dogus",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -10646,12 +10872,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0042-ap-03",
             "tipo": "contacto",
             "titulo": "Garanti consejo",
-            "contenido": "Sigue como miembro influyente en el consejo de Garanti BBVA.",
+            "contenido": "**Sigue como miembro influyente en el consejo de Garanti BBVA** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "garanti"
+              "garanti",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -10660,12 +10888,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0042-ap-03",
             "tipo": "contacto",
             "titulo": "Carlos Torres Vila",
-            "contenido": "Tándem ejecutivo BBVA.",
+            "contenido": "**Tándem ejecutivo BBVA** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "torres-vila"
+              "torres-vila",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 3
           }
@@ -10693,8 +10923,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0043",
@@ -10828,13 +11058,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0043-ap-03",
             "tipo": "contacto",
             "titulo": "Isidre Fainé / La Caixa",
-            "contenido": "Interlocutor permanente con Isidre Fainé (Fundación La Caixa y CriteriaCaixa, accionista de control).",
+            "contenido": "**Interlocutor permanente con Isidre Fainé (Fundación La Caixa y CriteriaCaixa, accionista de control)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "caixa",
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -10843,13 +11075,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0043-ap-03",
             "tipo": "contacto",
             "titulo": "FROB / Estado",
-            "contenido": "Como presidente de Bankia y luego CaixaBank, interlocutor habitual con el FROB y los Ministerios de Economía sucesivos.",
+            "contenido": "**Como presidente de Bankia y luego CaixaBank, interlocutor habitual con el FROB y los Ministerios de Economía sucesivos** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "frob",
-              "estado"
+              "estado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -10858,12 +11092,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0043-ap-03",
             "tipo": "contacto",
             "titulo": "Reputación bipartidista",
-            "contenido": "Buena interlocución con Gobiernos PP (Rajoy, Montoro) y PSOE (Sánchez, Cuerpo, Calviño).",
+            "contenido": "**Buena interlocución con Gobiernos PP (Rajoy, Montoro) y PSOE (Sánchez, Cuerpo, Calviño)** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -10935,8 +11171,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0044",
@@ -11033,12 +11269,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0044-ap-02",
             "tipo": "contacto",
             "titulo": "Tándem con Goirigolzarri",
-            "contenido": "Reporta al presidente desde 2021.",
+            "contenido": "**Reporta al presidente desde 2021** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caixa"
+              "caixa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -11047,12 +11285,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0044-ap-02",
             "tipo": "contacto",
             "titulo": "Isidre Fainé",
-            "contenido": "Relación directa con el patrono de Criteria desde su etapa anterior.",
+            "contenido": "**Relación directa con el patrono de Criteria desde su etapa anterior** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -11080,8 +11320,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0045",
@@ -11226,14 +11466,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0045-ap-03",
             "tipo": "contacto",
             "titulo": "PSOE / PSC",
-            "contenido": "Vinculado al ecosistema PSC (catalanismo socialista). Su nombramiento es político, vía SEPI.",
+            "contenido": "**Vinculado al ecosistema PSC (catalanismo socialista)** — Su nombramiento es político, vía SEPI.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "psoe",
-              "psc"
+              "psc",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -11242,13 +11483,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0045-ap-03",
             "tipo": "contacto",
             "titulo": "SEPI",
-            "contenido": "SEPI lo impulsó a Indra (2021) y luego a Telefónica (2025). Confianza directa del Gobierno.",
+            "contenido": "**SEPI lo impulsó a Indra (2021) y luego a Telefónica (2025)** — Confianza directa del Gobierno.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sepi",
-              "politica"
+              "politica",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -11257,13 +11499,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0045-ap-03",
             "tipo": "contacto",
             "titulo": "STC (Saudi Telecom)",
-            "contenido": "Como presidente, gestor de la relación con el accionista saudí STC (~9,9%).",
+            "contenido": "**Como presidente, gestor de la relación con el accionista saudí STC (~9,9%)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "stc",
-              "saudi"
+              "saudi",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -11336,8 +11580,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0046",
@@ -11434,13 +11678,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0046-ap-02",
             "tipo": "contacto",
             "titulo": "La Caixa / Fainé",
-            "contenido": "Mantiene vínculo histórico con la órbita La Caixa.",
+            "contenido": "**Mantiene vínculo histórico con la órbita La Caixa**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "faine",
-              "caixa"
+              "caixa",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -11449,13 +11694,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0046-ap-02",
             "tipo": "contacto",
             "titulo": "Crisis YPF",
-            "contenido": "Lideró la negociación de la compensación de Argentina por la expropiación de YPF (2012-2014).",
+            "contenido": "**Lideró la negociación de la compensación de Argentina por la expropiación de YPF (2012-2014)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "ypf",
-              "argentina"
+              "argentina",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -11464,12 +11711,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0046-ap-02",
             "tipo": "contacto",
             "titulo": "Bilderberg",
-            "contenido": "Asistente habitual al grupo Bilderberg.",
+            "contenido": "**Asistente habitual al grupo Bilderberg**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bilderberg"
+              "bilderberg",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -11541,8 +11789,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0047",
@@ -11678,12 +11926,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0047-ap-03",
             "tipo": "contacto",
             "titulo": "PNV",
-            "contenido": "Vinculo histórico vivo con la dirección del PNV (Andoni Ortuzar, Aitor Esteban) por su pasado como presidente.",
+            "contenido": "**Vinculo histórico vivo con la dirección del PNV (Andoni Ortuzar, Aitor Esteban) por su pasado como presidente** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pnv"
+              "pnv",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -11692,13 +11942,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0047-ap-03",
             "tipo": "contacto",
             "titulo": "Lehendakaritza",
-            "contenido": "Buena relación con Lehendakaris (Urkullu y Pradales).",
+            "contenido": "**Buena relación con Lehendakaris (Urkullu y Pradales)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pnv",
-              "euskadi"
+              "euskadi",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -11707,13 +11958,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0047-ap-03",
             "tipo": "contacto",
             "titulo": "Sánchez Galán",
-            "contenido": "Coincidencia en lobby energético crítico con el Gobierno Sánchez.",
+            "contenido": "**Coincidencia en lobby energético crítico con el Gobierno Sánchez**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "iberdrola",
-              "politica"
+              "politica",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -11785,8 +12037,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0048",
@@ -11885,14 +12137,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0048-ap-02",
             "tipo": "contacto",
             "titulo": "PSC / PSOE",
-            "contenido": "Cercano al PSC. Nombramiento político por Gobierno Sánchez.",
+            "contenido": "**Cercano al PSC** — Nombramiento político por Gobierno Sánchez.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "psc",
               "psoe",
-              "politica"
+              "politica",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -11901,13 +12154,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0048-ap-02",
             "tipo": "contacto",
             "titulo": "Min. Transportes (Óscar Puente)",
-            "contenido": "Interlocución con el ministro responsable.",
+            "contenido": "**Interlocución con el ministro responsable** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "mintranspor",
-              "puente"
+              "puente",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -11916,13 +12171,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0048-ap-02",
             "tipo": "contacto",
             "titulo": "Generalitat",
-            "contenido": "Histórica tensión con el Govern catalán por la ampliación de El Prat (impacto La Ricarda).",
+            "contenido": "**Histórica tensión con el Govern catalán por la ampliación de El Prat (impacto La Ricarda)** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "elprat",
-              "cataluna"
+              "cataluna",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -11973,8 +12230,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0049",
@@ -12136,12 +12393,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0049-ap-03",
             "tipo": "contacto",
             "titulo": "Enel / Italia",
-            "contenido": "Reporta a Enel (Italia, controlada por Tesoro italiano).",
+            "contenido": "**Reporta a Enel (Italia, controlada por Tesoro italiano)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "enel"
+              "enel",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -12150,12 +12409,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0049-ap-03",
             "tipo": "contacto",
             "titulo": "AELEC",
-            "contenido": "Voz destacada de AELEC (patronal eléctricas).",
+            "contenido": "**Voz destacada de AELEC (patronal eléctricas)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aelec"
+              "aelec",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -12164,13 +12425,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0049-ap-03",
             "tipo": "contacto",
             "titulo": "Sindicatos cierres térmicos",
-            "contenido": "Diálogo CCOO/UGT en cierres de Compostilla, Andorra (Teruel) y As Pontes.",
+            "contenido": "**Diálogo CCOO/UGT en cierres de Compostilla, Andorra (Teruel) y As Pontes**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sindicatos",
-              "transicion-justa"
+              "transicion-justa",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -12179,12 +12441,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0049-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno - tutela MITECO",
-            "contenido": "Interlocución con el MITECO sobre transición y precios.",
+            "contenido": "**Interlocución con el MITECO sobre transición y precios** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "miteco"
+              "miteco",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -12235,8 +12499,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0050",
@@ -12322,13 +12586,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0050-ap-02",
             "tipo": "contacto",
             "titulo": "CriteriaCaixa / Isidre Fainé",
-            "contenido": "Apoyo accionarial clave; CriteriaCaixa es el mayor accionista.",
+            "contenido": "**Apoyo accionarial clave; CriteriaCaixa es el mayor accionista**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "caixa",
-              "faine"
+              "faine",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -12337,12 +12602,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0050-ap-02",
             "tipo": "contacto",
             "titulo": "Fondos GIP/CVC/IFM",
-            "contenido": "Diálogo con fondos accionistas (GIP, CVC, IFM).",
+            "contenido": "**Diálogo con fondos accionistas (GIP, CVC, IFM)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fondos"
+              "fondos",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -12414,8 +12680,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0051",
@@ -12511,12 +12777,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0051-ap-03",
             "tipo": "contacto",
             "titulo": "Familia del Pino",
-            "contenido": "Hermanos María, Joaquín, Leopoldo y Fernando del Pino, accionistas relevantes.",
+            "contenido": "**Hermanos María, Joaquín, Leopoldo y Fernando del Pino, accionistas relevantes** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-del-pino"
+              "familia-del-pino",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -12525,13 +12793,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0051-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Rafael del Pino",
-            "contenido": "Patrono de la Fundación, plataforma de pensamiento liberal en España.",
+            "contenido": "**Patrono de la Fundación, plataforma de pensamiento liberal en España** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "fundacion",
-              "liberal"
+              "liberal",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -12540,14 +12810,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0051-ap-03",
             "tipo": "contacto",
             "titulo": "Choque con Sánchez 2023",
-            "contenido": "Pulso público con el Gobierno por el traslado de sede a Países Bajos. Acusaciones de deslealtad recíprocas con Yolanda Díaz, Sánchez, Calviño.",
+            "contenido": "**Pulso público con el Gobierno por el traslado de sede a Países Bajos** (nota -7/10) — Acusaciones de deslealtad recíprocas con Yolanda Díaz, Sánchez, Calviño.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "sanchez",
-              "gobierno"
+              "gobierno",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           },
@@ -12556,14 +12828,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0051-ap-03",
             "tipo": "contacto",
             "titulo": "Comunidad de Madrid (Ayuso)",
-            "contenido": "Buena interlocución con Isabel Díaz Ayuso (PP). Asistencia a foros liberales conjuntos.",
+            "contenido": "**Buena interlocución con Isabel Díaz Ayuso (PP)** (nota +6/10) — Asistencia a foros liberales conjuntos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pp",
               "ayuso",
-              "madrid"
+              "madrid",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -12635,8 +12909,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0052",
@@ -12783,12 +13057,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0052-ap-03",
             "tipo": "contacto",
             "titulo": "Rafael del Pino",
-            "contenido": "Tándem con el presidente. Madridejos como brazo ejecutivo de la familia accionista.",
+            "contenido": "**Tándem con el presidente** (nota +8/10) — Madridejos como brazo ejecutivo de la familia accionista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "del-pino"
+              "del-pino",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -12797,13 +13073,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0052-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - tensión",
-            "contenido": "Co-protagonista del choque público de 2023 con Pedro Sánchez por el traslado a Países Bajos.",
+            "contenido": "**Co-protagonista del choque público de 2023 con Pedro Sánchez por el traslado a Países Bajos** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -12812,12 +13090,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0052-ap-03",
             "tipo": "contacto",
             "titulo": "Fondos infraestructura",
-            "contenido": "Interlocución con fondos de infraestructura (Macquarie, Brookfield) co-inversores en concesiones.",
+            "contenido": "**Interlocución con fondos de infraestructura (Macquarie, Brookfield) co-inversores en concesiones** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fondos"
+              "fondos",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -12889,8 +13169,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0053",
@@ -13048,12 +13328,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0053-ap-03",
             "tipo": "contacto",
             "titulo": "Aerolíneas",
-            "contenido": "Relación con CEOs de Iberia, IAG, Lufthansa, Air France-KLM.",
+            "contenido": "**Relación con CEOs de Iberia, IAG, Lufthansa, Air France-KLM** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aerolineas"
+              "aerolineas",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -13062,13 +13344,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0053-ap-03",
             "tipo": "contacto",
             "titulo": "Iberia / IAG",
-            "contenido": "Iberia accionista histórico fundador y cliente clave.",
+            "contenido": "**Iberia accionista histórico fundador y cliente clave** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "iag",
-              "iberia"
+              "iberia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -13077,12 +13361,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0053-ap-03",
             "tipo": "contacto",
             "titulo": "Lufthansa, Air France-KLM",
-            "contenido": "Antiguos accionistas fundadores y clientes principales.",
+            "contenido": "**Antiguos accionistas fundadores y clientes principales** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aerolineas"
+              "aerolineas",
+              "nota--5",
+              "tension"
             ],
             "orden": 2
           },
@@ -13091,12 +13377,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0053-ap-03",
             "tipo": "contacto",
             "titulo": "OTAs (Booking, Expedia)",
-            "contenido": "Relación dual: clientes y competidores en distribución.",
+            "contenido": "**Relación dual: clientes y competidores en distribución**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "otas"
+              "otas",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -13124,8 +13411,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0054",
@@ -13284,13 +13571,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0054-ap-03",
             "tipo": "contacto",
             "titulo": "Benetton / Edizione (Alessandro Benetton)",
-            "contenido": "Su llegada a Cellnex fue impulsada por Edizione (Benetton) y GIC (Singapur), accionistas relevantes.",
+            "contenido": "**Su llegada a Cellnex fue impulsada por Edizione (Benetton) y GIC (Singapur), accionistas relevantes**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "benetton",
-              "edizione"
+              "edizione",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -13299,12 +13587,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0054-ap-03",
             "tipo": "contacto",
             "titulo": "GIC / TCI Fund / BlackRock",
-            "contenido": "Interlocución con los grandes fondos institucionales accionistas de Cellnex.",
+            "contenido": "**Interlocución con los grandes fondos institucionales accionistas de Cellnex** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fondos"
+              "fondos",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -13313,12 +13603,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0054-ap-03",
             "tipo": "contacto",
             "titulo": "Operadores europeos",
-            "contenido": "Relaciones con CEOs de Iliad/Free, Bouygues, Vodafone, Wind Tre y MasOrange como clientes y como potenciales compradores de carteras.",
+            "contenido": "**Relaciones con CEOs de Iliad/Free, Bouygues, Vodafone, Wind Tre y MasOrange como clientes y como potenciales compradores de carteras** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "clientes"
+              "clientes",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -13327,12 +13619,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0054-ap-03",
             "tipo": "contacto",
             "titulo": "Vincent Bolloré",
-            "contenido": "Conflicto previo con Bolloré durante la transición Vivendi-Telecom Italia (2015-2016).",
+            "contenido": "**Conflicto previo con Bolloré durante la transición Vivendi-Telecom Italia (2015-2016)** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bollore"
+              "bollore",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 3
           }
@@ -13429,8 +13723,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0055",
@@ -13578,13 +13872,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0055-ap-03",
             "tipo": "contacto",
             "titulo": "Joan Laporta",
-            "contenido": "Aliado con el FC Barcelona (Joan Laporta) en la Superliga. Inusual eje Madrid-Barcelona.",
+            "contenido": "**Aliado con el FC Barcelona (Joan Laporta) en la Superliga** (nota +7/10) — Inusual eje Madrid-Barcelona.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "superliga",
-              "laporta"
+              "laporta",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -13593,13 +13889,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0055-ap-03",
             "tipo": "contacto",
             "titulo": "Conflicto Iberdrola",
-            "contenido": "Confrontación pública con Sánchez Galán por la batalla societaria 2006-2017 y posterior pieza del caso Villarejo.",
+            "contenido": "**Confrontación pública con Sánchez Galán por la batalla societaria 2006-2017 y posterior pieza del caso Villarejo** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "iberdrola",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -13608,13 +13906,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0055-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Villarejo (víctima)",
-            "contenido": "Víctima del espionaje encargado por Iberdrola y BBVA contra ACS y su entorno entre 2004-2017.",
+            "contenido": "**Víctima del espionaje encargado por Iberdrola y BBVA contra ACS y su entorno entre 2004-2017** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "villarejo",
-              "judicial"
+              "judicial",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 2
           },
@@ -13623,13 +13923,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0055-ap-03",
             "tipo": "contacto",
             "titulo": "Casa Real / Rey Juan Carlos",
-            "contenido": "Histórica relación con el Rey emérito. Florentino fue figura de consenso en los 90s-2000s.",
+            "contenido": "**Histórica relación con el Rey emérito** — Florentino fue figura de consenso en los 90s-2000s.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "casa-real",
-              "juan-carlos"
+              "juan-carlos",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -13638,13 +13939,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0055-ap-03",
             "tipo": "contacto",
             "titulo": "Ayuso / Almeida",
-            "contenido": "Buena relación con la Comunidad de Madrid (Ayuso) y Ayuntamiento (Almeida). Cordialidad bipartidista.",
+            "contenido": "**Buena relación con la Comunidad de Madrid (Ayuso) y Ayuntamiento (Almeida)** (nota +6/10) — Cordialidad bipartidista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pp",
-              "ayuso"
+              "ayuso",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 4
           }
@@ -13717,8 +14020,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0056",
@@ -13815,13 +14118,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0056-ap-03",
             "tipo": "contacto",
             "titulo": "Foment del Treball",
-            "contenido": "Vinculado al Foment del Treball Nacional (patronal catalana).",
+            "contenido": "**Vinculado al Foment del Treball Nacional (patronal catalana)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "foment",
-              "cataluna"
+              "cataluna",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -13830,14 +14135,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0056-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - OPA",
-            "contenido": "Interlocución con el Gobierno español por la OPA BBVA, beneficiándose de la posición pública del Ejecutivo contraria a la operación.",
+            "contenido": "**Interlocución con el Gobierno español por la OPA BBVA, beneficiándose de la posición pública del Ejecutivo contraria a la operación** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
               "gobierno",
-              "opa"
+              "opa",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -13846,12 +14153,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0056-ap-03",
             "tipo": "contacto",
             "titulo": "Generalitat",
-            "contenido": "Histórica vinculación al tejido empresarial catalán y a la Generalitat (todos los Gobiernos).",
+            "contenido": "**Histórica vinculación al tejido empresarial catalán y a la Generalitat (todos los Gobiernos)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cataluna"
+              "cataluna",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -13923,8 +14232,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0057",
@@ -14083,12 +14392,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0057-ap-03",
             "tipo": "contacto",
             "titulo": "Josep Oliu",
-            "contenido": "Tándem con el presidente desde 2021.",
+            "contenido": "**Tándem con el presidente desde 2021** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oliu"
+              "oliu",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -14097,13 +14408,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0057-ap-03",
             "tipo": "contacto",
             "titulo": "Carlos Torres Vila",
-            "contenido": "Adversario directo en la OPA BBVA-Sabadell.",
+            "contenido": "**Adversario directo en la OPA BBVA-Sabadell** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "bbva",
-              "torres-vila"
+              "torres-vila",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -14112,13 +14425,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0057-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez",
-            "contenido": "Interlocución con Moncloa y Ministerio Economía (Cuerpo). Beneficia de la postura crítica del Gobierno con la OPA.",
+            "contenido": "**Interlocución con Moncloa y Ministerio Economía (Cuerpo)** (nota -7/10) — Beneficia de la postura crítica del Gobierno con la OPA.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "gobierno"
+              "gobierno",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           },
@@ -14127,12 +14442,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0057-ap-03",
             "tipo": "contacto",
             "titulo": "Foment del Treball",
-            "contenido": "Vinculado al tejido empresarial catalán vía Sabadell.",
+            "contenido": "**Vinculado al tejido empresarial catalán vía Sabadell**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -14204,8 +14520,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0058",
@@ -14339,12 +14655,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0058-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Botín-Rivero / Cartival",
-            "contenido": "Reportaba a Cartival (Jaime Botín y su entorno).",
+            "contenido": "**Reportaba a Cartival (Jaime Botín y su entorno)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "botin"
+              "botin",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -14353,12 +14671,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0058-ap-03",
             "tipo": "contacto",
             "titulo": "Pedro Guerrero",
-            "contenido": "Tándem como presidente del consejo.",
+            "contenido": "**Tándem como presidente del consejo** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "guerrero"
+              "guerrero",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -14367,12 +14687,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0058-ap-03",
             "tipo": "contacto",
             "titulo": "Gloria Ortiz Portero",
-            "contenido": "Sucesora como CEO desde marzo 2024.",
+            "contenido": "**Sucesora como CEO desde marzo 2024** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ortiz"
+              "ortiz",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -14381,12 +14703,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0058-ap-03",
             "tipo": "contacto",
             "titulo": "Cartival / Jaime Botín",
-            "contenido": "Reportaba al accionista de control.",
+            "contenido": "**Reportaba al accionista de control** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartival"
+              "cartival",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 3
           },
@@ -14395,12 +14719,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0058-ap-03",
             "tipo": "contacto",
             "titulo": "Foro Diálogos para el Desarrollo",
-            "contenido": "Voz pública habitual en foros empresariales.",
+            "contenido": "**Voz pública habitual en foros empresariales**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "foros"
+              "foros",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -14428,8 +14753,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0059",
@@ -14564,12 +14889,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0059-ap-03",
             "tipo": "contacto",
             "titulo": "Fundación Mapfre",
-            "contenido": "Accionista de control. Patronato.",
+            "contenido": "**Accionista de control** (nota +8/10) — Patronato.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fundacion-mapfre"
+              "fundacion-mapfre",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -14578,12 +14905,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0059-ap-03",
             "tipo": "contacto",
             "titulo": "CaixaBank - alianza bancaseguros",
-            "contenido": "Acuerdo de distribución bancaseguros heredado de Bankia.",
+            "contenido": "**Acuerdo de distribución bancaseguros heredado de Bankia** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caixabank"
+              "caixabank",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -14592,12 +14921,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0059-ap-03",
             "tipo": "contacto",
             "titulo": "Unespa",
-            "contenido": "Patronal aseguradora; Huertas presidente entre 2017 y 2022.",
+            "contenido": "**Patronal aseguradora; Huertas presidente entre 2017 y 2022** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "unespa"
+              "unespa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -14625,8 +14956,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0060",
@@ -14712,13 +15043,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0060-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE / Zapatero / Sánchez",
-            "contenido": "Cercana al PSOE. Vinculada al ecosistema Zapatero y mantenida bajo Sánchez.",
+            "contenido": "**Cercana al PSOE** — Vinculada al ecosistema Zapatero y mantenida bajo Sánchez.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "psoe",
-              "politica"
+              "politica",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -14727,12 +15059,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0060-ap-02",
             "tipo": "contacto",
             "titulo": "SEPI",
-            "contenido": "SEPI mantiene 20% de Redeia y propuso su nombramiento.",
+            "contenido": "**SEPI mantiene 20% de Redeia y propuso su nombramiento**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sepi"
+              "sepi",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -14741,13 +15074,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0060-ap-02",
             "tipo": "contacto",
             "titulo": "Ministerio Transición Ecológica",
-            "contenido": "Interlocución con Teresa Ribera durante años; con Aagesen después.",
+            "contenido": "**Interlocución con Teresa Ribera durante años; con Aagesen después** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "miteco",
-              "ribera"
+              "ribera",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -14820,8 +15155,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0061",
@@ -14943,13 +15278,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0061-ap-03",
             "tipo": "contacto",
             "titulo": "H2Med - apoyo político",
-            "contenido": "Lobby del proyecto Iberia-Francia con Sánchez, Macron, Costa.",
+            "contenido": "**Lobby del proyecto Iberia-Francia con Sánchez, Macron, Costa**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "h2med",
-              "politica"
+              "politica",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -14958,12 +15294,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0061-ap-03",
             "tipo": "contacto",
             "titulo": "Arturo Gonzalo Aizpiri",
-            "contenido": "Tándem con el CEO.",
+            "contenido": "**Tándem con el CEO** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aizpiri"
+              "aizpiri",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -14972,12 +15310,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0061-ap-03",
             "tipo": "contacto",
             "titulo": "Sedigás",
-            "contenido": "Patronal del gas, vínculos históricos como presidente.",
+            "contenido": "**Patronal del gas, vínculos históricos como presidente** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sedigas"
+              "sedigas",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -15028,8 +15368,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0062",
@@ -15179,13 +15519,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0062-ap-03",
             "tipo": "contacto",
             "titulo": "PSOE / Narbona",
-            "contenido": "Vínculo histórico con la rama medioambiental del PSOE (Cristina Narbona) desde su paso por el Ministerio.",
+            "contenido": "**Vínculo histórico con la rama medioambiental del PSOE (Cristina Narbona) desde su paso por el Ministerio**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "psoe",
-              "narbona"
+              "narbona",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -15194,13 +15535,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0062-ap-03",
             "tipo": "contacto",
             "titulo": "Teresa Ribera / Aagesen",
-            "contenido": "Interlocutor con sucesivas ministras de Transición Ecológica para el proyecto H2Med.",
+            "contenido": "**Interlocutor con sucesivas ministras de Transición Ecológica para el proyecto H2Med** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "ribera"
+              "ribera",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -15209,13 +15552,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0062-ap-03",
             "tipo": "contacto",
             "titulo": "Macron - Costa",
-            "contenido": "H2Med tiene apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa.",
+            "contenido": "**H2Med tiene apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "ue"
+              "ue",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -15224,12 +15568,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0062-ap-03",
             "tipo": "contacto",
             "titulo": "Imaz (Repsol)",
-            "contenido": "Ex compañero en Repsol durante años; relación profesional.",
+            "contenido": "**Ex compañero en Repsol durante años; relación profesional**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "imaz"
+              "imaz",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -15278,8 +15623,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0063",
@@ -15376,12 +15721,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0063-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Entrecanales-Domecq",
-            "contenido": "Control familiar de ~55%. Hermanos y primos varios en consejos.",
+            "contenido": "**Control familiar de ~55%** (nota +5/10) — Hermanos y primos varios en consejos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-entrecanales"
+              "familia-entrecanales",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -15390,12 +15737,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0063-ap-03",
             "tipo": "contacto",
             "titulo": "Foros internacionales",
-            "contenido": "Davos, UN Global Compact, WEF Climate.",
+            "contenido": "**Davos, UN Global Compact, WEF Climate**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "davos"
+              "davos",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -15444,8 +15792,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0064",
@@ -15579,12 +15927,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0064-ap-03",
             "tipo": "contacto",
             "titulo": "José Manuel Entrecanales",
-            "contenido": "Reporta al presidente de Acciona matriz (83% de Acciona Energía).",
+            "contenido": "**Reporta al presidente de Acciona matriz (83% de Acciona Energía)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "entrecanales"
+              "entrecanales",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -15593,12 +15943,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0064-ap-03",
             "tipo": "contacto",
             "titulo": "APPA Renovables",
-            "contenido": "Miembro destacado de la patronal de renovables.",
+            "contenido": "**Miembro destacado de la patronal de renovables** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "appa"
+              "appa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -15626,8 +15978,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0065",
@@ -15713,13 +16065,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0065-ap-02",
             "tipo": "contacto",
             "titulo": "BBVA / Santander",
-            "contenido": "Conexiones por la compra de la cartera Tree (BBVA) y participación accionarial de Santander.",
+            "contenido": "**Conexiones por la compra de la cartera Tree (BBVA) y participación accionarial de Santander** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "santander",
-              "bbva"
+              "bbva",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 0
           },
@@ -15728,12 +16082,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0065-ap-02",
             "tipo": "contacto",
             "titulo": "Abogacía del Estado",
-            "contenido": "Vinculado a la red de Abogados del Estado.",
+            "contenido": "**Vinculado a la red de Abogados del Estado**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "abogacia-estado"
+              "abogacia-estado",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -15782,8 +16137,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0066",
@@ -15880,12 +16235,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0066-ap-02",
             "tipo": "contacto",
             "titulo": "Establishment catalán",
-            "contenido": "Conexiones con el establishment empresarial catalán histórico.",
+            "contenido": "**Conexiones con el establishment empresarial catalán histórico**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -15894,12 +16250,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0066-ap-02",
             "tipo": "contacto",
             "titulo": "Pere Viñolas",
-            "contenido": "Tándem con el CEO.",
+            "contenido": "**Tándem con el CEO** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "vinolas"
+              "vinolas",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -15908,12 +16266,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0066-ap-02",
             "tipo": "contacto",
             "titulo": "QIA Qatar",
-            "contenido": "Interlocutor con QIA (~19% Colonial).",
+            "contenido": "**Interlocutor con QIA (~19% Colonial)** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "qia"
+              "qia",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -15922,12 +16282,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0066-ap-02",
             "tipo": "contacto",
             "titulo": "Establishment empresarial catalán",
-            "contenido": "Vínculos históricos con el Círculo de Economía y Foment.",
+            "contenido": "**Vínculos históricos con el Círculo de Economía y Foment**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -15955,8 +16316,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0067",
@@ -16078,12 +16439,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0067-ap-03",
             "tipo": "contacto",
             "titulo": "Juan José Brugera",
-            "contenido": "Tándem con el presidente.",
+            "contenido": "**Tándem con el presidente** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "brugera"
+              "brugera",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -16092,12 +16455,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0067-ap-03",
             "tipo": "contacto",
             "titulo": "SFL París",
-            "contenido": "Gestiona la filial cotizada francesa (~83%).",
+            "contenido": "**Gestiona la filial cotizada francesa (~83%)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sfl"
+              "sfl",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -16106,12 +16470,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0067-ap-03",
             "tipo": "contacto",
             "titulo": "QIA / Finaccess / Santo Domingo",
-            "contenido": "Interlocución con los principales accionistas.",
+            "contenido": "**Interlocución con los principales accionistas** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "accionistas"
+              "accionistas",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -16139,8 +16505,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0068",
@@ -16261,12 +16627,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0068-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Mittal",
-            "contenido": "Hijo Aditya Mittal es CEO. Otras posiciones familiares en consejos.",
+            "contenido": "**Hijo Aditya Mittal es CEO** (nota +6/10) — Otras posiciones familiares en consejos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mittal"
+              "mittal",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -16275,12 +16643,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0068-ap-03",
             "tipo": "contacto",
             "titulo": "Aditya Mittal",
-            "contenido": "Hijo y CEO desde 2021.",
+            "contenido": "**Hijo y CEO desde 2021** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-mittal"
+              "familia-mittal",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -16289,13 +16659,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0068-ap-03",
             "tipo": "contacto",
             "titulo": "Filántropo y donante UK",
-            "contenido": "Donaciones documentadas a Partido Laborista UK (Blair, Brown). Polémicas Mittal-Romania (cartas Blair).",
+            "contenido": "**Donaciones documentadas a Partido Laborista UK (Blair, Brown)** (nota -7/10) — Polémicas Mittal-Romania (cartas Blair).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "uk",
-              "politica"
+              "politica",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           },
@@ -16304,13 +16676,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0068-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno español",
-            "contenido": "Interlocución con MINCOTUR y Gobierno autonómico (Asturias, País Vasco) por inversiones en descarbonización.",
+            "contenido": "**Interlocución con MINCOTUR y Gobierno autonómico (Asturias, País Vasco) por inversiones en descarbonización** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "mincotur",
-              "asturias"
+              "asturias",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -16338,8 +16712,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0069",
@@ -16439,12 +16813,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0069-ap-02",
             "tipo": "contacto",
             "titulo": "Lakshmi Mittal",
-            "contenido": "Padre y presidente.",
+            "contenido": "**Padre y presidente** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-mittal"
+              "familia-mittal",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -16453,12 +16829,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0069-ap-02",
             "tipo": "contacto",
             "titulo": "Aperam / Vanisha Mittal",
-            "contenido": "Hermana Vanisha en consejo de Aperam (spin-off acero inox de Mittal).",
+            "contenido": "**Hermana Vanisha en consejo de Aperam (spin-off acero inox de Mittal)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-mittal"
+              "familia-mittal",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -16467,12 +16845,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0069-ap-02",
             "tipo": "contacto",
             "titulo": "Gobierno español",
-            "contenido": "Interlocución con MINCOTUR por PERTE descarbonización (>300 M€ ayudas).",
+            "contenido": "**Interlocución con MINCOTUR por PERTE descarbonización (>300 M€ ayudas)** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mincotur"
+              "mincotur",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -16500,8 +16880,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0070",
@@ -16673,12 +17053,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0070-ap-03",
             "tipo": "contacto",
             "titulo": "Aena / Lucena",
-            "contenido": "Interlocución habitual por tarifas y ampliación Barajas.",
+            "contenido": "**Interlocución habitual por tarifas y ampliación Barajas** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aena"
+              "aena",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -16687,12 +17069,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0070-ap-03",
             "tipo": "contacto",
             "titulo": "Qatar Airways",
-            "contenido": "Mayor accionista de IAG (~25%).",
+            "contenido": "**Mayor accionista de IAG (~25%)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "qatar"
+              "qatar",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -16701,12 +17084,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0070-ap-03",
             "tipo": "contacto",
             "titulo": "Javier Ferrán",
-            "contenido": "Presidente no ejecutivo de IAG. Tándem.",
+            "contenido": "**Presidente no ejecutivo de IAG** (nota +8/10) — Tándem.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ferran"
+              "ferran",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -16715,12 +17100,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0070-ap-03",
             "tipo": "contacto",
             "titulo": "Qatar Airways / Akbar Al Baker",
-            "contenido": "Mayor accionista de IAG; interlocución estratégica con Doha.",
+            "contenido": "**Mayor accionista de IAG; interlocución estratégica con Doha** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "qatar"
+              "qatar",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 3
           },
@@ -16729,13 +17116,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0070-ap-03",
             "tipo": "contacto",
             "titulo": "Globalia / Hidalgo",
-            "contenido": "Interlocución con Juan José Hidalgo (Globalia/Air Europa) durante las negociaciones fallidas.",
+            "contenido": "**Interlocución con Juan José Hidalgo (Globalia/Air Europa) durante las negociaciones fallidas** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "air-europa",
-              "hidalgo"
+              "hidalgo",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 4
           }
@@ -16763,8 +17152,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0071",
@@ -16911,12 +17300,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0071-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Grifols",
-            "contenido": "Tándem complicado con Raimon Grifols (vicepresidente) y los hijos de Víctor Grifols. Tensiones públicas durante la crisis Gotham y OPA Brookfield.",
+            "contenido": "**Tándem complicado con Raimon Grifols (vicepresidente) y los hijos de Víctor Grifols** (nota -7/10) — Tensiones públicas durante la crisis Gotham y OPA Brookfield.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-grifols"
+              "familia-grifols",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           },
@@ -16925,12 +17316,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0071-ap-03",
             "tipo": "contacto",
             "titulo": "Nacho Abia (CEO)",
-            "contenido": "Coordinación con Nacho Abia, CEO desde abril 2024 (procedente de Olympus).",
+            "contenido": "**Coordinación con Nacho Abia, CEO desde abril 2024 (procedente de Olympus)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "abia"
+              "abia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -16939,12 +17332,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0071-ap-03",
             "tipo": "contacto",
             "titulo": "Brookfield",
-            "contenido": "Interlocutor de la negociación OPA con Brookfield 2024.",
+            "contenido": "**Interlocutor de la negociación OPA con Brookfield 2024** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "brookfield"
+              "brookfield",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -16953,12 +17348,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0071-ap-03",
             "tipo": "contacto",
             "titulo": "CNMV",
-            "contenido": "Interlocución crítica con CNMV sobre el expediente Scranton.",
+            "contenido": "**Interlocución crítica con CNMV sobre el expediente Scranton** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cnmv"
+              "cnmv",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 3
           }
@@ -17056,8 +17453,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0072",
@@ -17197,13 +17594,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0072-ap-03",
             "tipo": "contacto",
             "titulo": "SEPI / Belén Gualda",
-            "contenido": "Su nombramiento fue empujado por SEPI (28% Indra) bajo Gobierno Sánchez. Coordinación constante.",
+            "contenido": "**Su nombramiento fue empujado por SEPI (28% Indra) bajo Gobierno Sánchez** (nota +7/10) — Coordinación constante.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sepi",
-              "politica"
+              "politica",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -17212,13 +17611,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0072-ap-03",
             "tipo": "contacto",
             "titulo": "Pedro Sánchez / Margarita Robles",
-            "contenido": "Relación directa con Moncloa y MinDef como gestor del campeón nacional de defensa.",
+            "contenido": "**Relación directa con Moncloa y MinDef como gestor del campeón nacional de defensa**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sanchez",
-              "robles"
+              "robles",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -17227,12 +17627,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0072-ap-03",
             "tipo": "contacto",
             "titulo": "SAPA Placencia",
-            "contenido": "Otro grupo industrial defensa con presencia en Indra (~7%). Coordinación accionarial.",
+            "contenido": "**Otro grupo industrial defensa con presencia en Indra (~7%)** (nota +7/10) — Coordinación accionarial.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sapa-placencia"
+              "sapa-placencia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -17241,12 +17643,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0072-ap-03",
             "tipo": "contacto",
             "titulo": "Amber Capital (Oughourlian)",
-            "contenido": "Accionista relevante de Indra (~7%). Necesita diálogo.",
+            "contenido": "**Accionista relevante de Indra (~7%)** — Necesita diálogo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "amber"
+              "amber",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -17255,12 +17658,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0072-ap-03",
             "tipo": "contacto",
             "titulo": "Hermano Javier Escribano",
-            "contenido": "Cofundador y co-accionista. Mantiene la operativa en Escribano M&E.",
+            "contenido": "**Cofundador y co-accionista** (nota +8/10) — Mantiene la operativa en Escribano M&E.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia"
+              "familia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 4
           }
@@ -17345,8 +17750,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0073",
@@ -17482,12 +17887,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0073-ap-03",
             "tipo": "contacto",
             "titulo": "Disa Corporación",
-            "contenido": "Disa (familia Hernández, Canarias) es accionista relevante (~6%) y aliada estable.",
+            "contenido": "**Disa (familia Hernández, Canarias) es accionista relevante (~6%) y aliada estable** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "disa"
+              "disa",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -17496,12 +17903,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0073-ap-03",
             "tipo": "contacto",
             "titulo": "Beta Asociados",
-            "contenido": "Vehículo del propio Manrique y entorno, ~7% del capital.",
+            "contenido": "**Vehículo del propio Manrique y entorno, ~7% del capital**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "beta"
+              "beta",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -17510,12 +17918,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0073-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Villarejo",
-            "contenido": "Sacyr como víctima del espionaje encargado por BBVA contra Luis del Rivero en torno a la OPA Repsol 2006. Vínculo procesal indirecto.",
+            "contenido": "**Sacyr como víctima del espionaje encargado por BBVA contra Luis del Rivero en torno a la OPA Repsol 2006** (nota -8/10) — Vínculo procesal indirecto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 2
           },
@@ -17524,12 +17934,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0073-ap-03",
             "tipo": "contacto",
             "titulo": "Repsol consejo",
-            "contenido": "Sacyr mantiene consejero en Repsol vía Manrique.",
+            "contenido": "**Sacyr mantiene consejero en Repsol vía Manrique** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "repsol"
+              "repsol",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 3
           }
@@ -17601,8 +18013,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0074",
@@ -17735,12 +18147,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0074-ap-03",
             "tipo": "contacto",
             "titulo": "Familia Puig",
-            "contenido": "Hermano Manuel Puig (vicepresidente) y otros miembros familiares.",
+            "contenido": "**Hermano Manuel Puig (vicepresidente) y otros miembros familiares** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-puig"
+              "familia-puig",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -17749,13 +18163,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0074-ap-03",
             "tipo": "contacto",
             "titulo": "FC Barcelona",
-            "contenido": "Puig patrocinador FCB (camiseta entrenamiento). Vínculo con Joan Laporta.",
+            "contenido": "**Puig patrocinador FCB (camiseta entrenamiento)** (nota +6/10) — Vínculo con Joan Laporta.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "fcbarcelona",
-              "laporta"
+              "laporta",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -17764,12 +18180,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0074-ap-03",
             "tipo": "contacto",
             "titulo": "Establishment catalán",
-            "contenido": "Vinculado al Círculo de Economía, Foment del Treball y al ecosistema empresarial catalán.",
+            "contenido": "**Vinculado al Círculo de Economía, Foment del Treball y al ecosistema empresarial catalán**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -17797,8 +18214,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0075",
@@ -17907,12 +18324,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0075-ap-02",
             "tipo": "contacto",
             "titulo": "Equipo Goirigolzarri",
-            "contenido": "Vinculado al equipo histórico de Goirigolzarri en Bankia y luego CaixaBank.",
+            "contenido": "**Vinculado al equipo histórico de Goirigolzarri en Bankia y luego CaixaBank**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "goirigolzarri"
+              "goirigolzarri",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -17921,12 +18339,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0075-ap-02",
             "tipo": "contacto",
             "titulo": "Fundación Unicaja",
-            "contenido": "Interlocutor con la Fundación tras la crisis Medel 2023-2024.",
+            "contenido": "**Interlocutor con la Fundación tras la crisis Medel 2023-2024** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "medel"
+              "medel",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -17935,12 +18355,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0075-ap-02",
             "tipo": "contacto",
             "titulo": "Isidro Rubiales (CEO)",
-            "contenido": "Tándem ejecutivo en Unicaja.",
+            "contenido": "**Tándem ejecutivo en Unicaja** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rubiales"
+              "rubiales",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -17968,8 +18390,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0076",
@@ -18055,12 +18477,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0076-ap-02",
             "tipo": "contacto",
             "titulo": "Goirigolzarri (CaixaBank)",
-            "contenido": "Interlocutor habitual del presidente de CaixaBank.",
+            "contenido": "**Interlocutor habitual del presidente de CaixaBank** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caixa"
+              "caixa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -18069,12 +18493,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0076-ap-02",
             "tipo": "contacto",
             "titulo": "Reynés (Naturgy)",
-            "contenido": "Naturgy participada por Criteria al 26%.",
+            "contenido": "**Naturgy participada por Criteria al 26%** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "naturgy"
+              "naturgy",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           },
@@ -18083,12 +18509,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0076-ap-02",
             "tipo": "contacto",
             "titulo": "Murtra (Telefónica)",
-            "contenido": "Criteria es accionista de Telefónica.",
+            "contenido": "**Criteria es accionista de Telefónica**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "telefonica"
+              "telefonica",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -18097,12 +18524,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0076-ap-02",
             "tipo": "contacto",
             "titulo": "Establishment catalán",
-            "contenido": "Una de las figuras centrales del catalanismo empresarial moderado.",
+            "contenido": "**Una de las figuras centrales del catalanismo empresarial moderado**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -18111,12 +18539,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0076-ap-02",
             "tipo": "contacto",
             "titulo": "Casa Real",
-            "contenido": "Vinculado al rey emérito y al rey Felipe VI.",
+            "contenido": "**Vinculado al rey emérito y al rey Felipe VI**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "casa-real"
+              "casa-real",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -18165,8 +18594,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0077",
@@ -18262,12 +18691,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0077-ap-02",
             "tipo": "contacto",
             "titulo": "Familia Ortega",
-            "contenido": "Hijas Sandra Ortega Mera (fortuna heredada de su madre Rosalía Mera) y Marta Ortega Pérez (presidenta de Inditex).",
+            "contenido": "**Hijas Sandra Ortega Mera (fortuna heredada de su madre Rosalía Mera) y Marta Ortega Pérez (presidenta de Inditex)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ortega"
+              "ortega",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -18276,13 +18707,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0077-ap-02",
             "tipo": "contacto",
             "titulo": "Patrimonio inmobiliario",
-            "contenido": "Pontegadea propietaria de edificios emblemáticos en Madrid (Castellana 81), Barcelona (Diagonal), Nueva York, Londres, Miami.",
+            "contenido": "**Pontegadea propietaria de edificios emblemáticos en Madrid (Castellana 81), Barcelona (Diagonal), Nueva York, Londres, Miami**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pontegadea",
-              "inmobiliario"
+              "inmobiliario",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -18291,12 +18723,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0077-ap-02",
             "tipo": "contacto",
             "titulo": "Donaciones a Sanidad",
-            "contenido": "Donaciones documentadas (>200 M€) a sanidad pública en Galicia. Reconocimiento bipartidista.",
+            "contenido": "**Donaciones documentadas (>200 M€) a sanidad pública en Galicia** — Reconocimiento bipartidista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "filantropia"
+              "filantropia",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -18347,8 +18780,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0078",
@@ -18469,13 +18902,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0078-ap-02",
             "tipo": "contacto",
             "titulo": "PP / Mariano Rajoy",
-            "contenido": "Vinculado al PP, fichado por Rajoy en 2007 como propuesta económica.",
+            "contenido": "**Vinculado al PP, fichado por Rajoy en 2007 como propuesta económica**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pp",
-              "rajoy"
+              "rajoy",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -18484,13 +18918,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0078-ap-02",
             "tipo": "contacto",
             "titulo": "Mariano Rajoy / PP",
-            "contenido": "Fichado por Rajoy como cabeza de lista PP Madrid en 2008.",
+            "contenido": "**Fichado por Rajoy como cabeza de lista PP Madrid en 2008**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "rajoy",
-              "pp"
+              "pp",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -18499,12 +18934,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0078-ap-02",
             "tipo": "contacto",
             "titulo": "Ana Botín",
-            "contenido": "Consejero externo del Santander desde 2017.",
+            "contenido": "**Consejero externo del Santander desde 2017** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "botin"
+              "botin",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -18513,12 +18950,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0078-ap-02",
             "tipo": "contacto",
             "titulo": "Establishment financiero",
-            "contenido": "Vinculado a la red de banqueros y FAES.",
+            "contenido": "**Vinculado a la red de banqueros y FAES**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "faes"
+              "faes",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -18546,8 +18984,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0079",
@@ -18643,14 +19081,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-02",
             "tipo": "contacto",
             "titulo": "PP histórico",
-            "contenido": "Aznar, Rajoy, círculo del PP histórico.",
+            "contenido": "**Aznar, Rajoy, círculo del PP histórico**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pp",
               "aznar",
-              "rajoy"
+              "rajoy",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -18659,12 +19098,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-02",
             "tipo": "contacto",
             "titulo": "FMI / IMF",
-            "contenido": "Como Managing Director del FMI 2004-2007 conoció a líderes financieros globales (Trichet, Geithner, Lagarde).",
+            "contenido": "**Como Managing Director del FMI 2004-2007 conoció a líderes financieros globales (Trichet, Geithner, Lagarde)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fmi"
+              "fmi",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -18673,12 +19113,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-02",
             "tipo": "contacto",
             "titulo": "Aznar / Aznar José María",
-            "contenido": "Mano derecha económica de Aznar como vicepresidente económico y ministro de Economía (1996-2004).",
+            "contenido": "**Mano derecha económica de Aznar como vicepresidente económico y ministro de Economía (1996-2004)** (nota +9/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aznar"
+              "aznar",
+              "nota-+9",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -18687,12 +19129,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-02",
             "tipo": "contacto",
             "titulo": "Caja Madrid / Bankia",
-            "contenido": "Presidente entre 2010-2012, en plena crisis. Salida tras nacionalización.",
+            "contenido": "**Presidente entre 2010-2012, en plena crisis** (nota +8/10) — Salida tras nacionalización.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bankia"
+              "bankia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 3
           },
@@ -18701,13 +19145,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-02",
             "tipo": "contacto",
             "titulo": "Miguel Blesa",
-            "contenido": "Predecesor en Caja Madrid. Coimputado en Tarjetas Black.",
+            "contenido": "**Predecesor en Caja Madrid** (nota -8/10) — Coimputado en Tarjetas Black.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "blesa",
-              "tarjetas-black"
+              "tarjetas-black",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 4
           },
@@ -18716,12 +19162,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-02",
             "tipo": "contacto",
             "titulo": "Tribunal Supremo / Audiencia Nacional",
-            "contenido": "Múltiples imputaciones y condenas firmes (tarjetas black 2017→2018; fraude fiscal 2024).",
+            "contenido": "**Múltiples imputaciones y condenas firmes (tarjetas black 2017→2018; fraude fiscal 2024)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "judicial"
+              "judicial",
+              "sin-valorar"
             ],
             "orden": 5
           }
@@ -18788,8 +19235,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0080",
@@ -18884,13 +19331,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0080-ap-02",
             "tipo": "contacto",
             "titulo": "CEOE - Garamendi",
-            "contenido": "Vicepresidente primero de CEOE 2014-2022, antes con Rosell y luego con Garamendi.",
+            "contenido": "**Vicepresidente primero de CEOE 2014-2022, antes con Rosell y luego con Garamendi** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "ceoe",
-              "garamendi"
+              "garamendi",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -18899,13 +19348,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0080-ap-02",
             "tipo": "contacto",
             "titulo": "Reconocimiento bipartidista",
-            "contenido": "Figura consensual entre PP y PSOE.",
+            "contenido": "**Figura consensual entre PP y PSOE**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "consensual"
+              "consensual",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -18914,12 +19364,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0080-ap-02",
             "tipo": "contacto",
             "titulo": "Familia Ortega",
-            "contenido": "Tutelado por Pontegadea durante 11 años.",
+            "contenido": "**Tutelado por Pontegadea durante 11 años** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ortega"
+              "ortega",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -18947,8 +19399,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0081",
@@ -19056,12 +19508,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0081-ap-03",
             "tipo": "contacto",
             "titulo": "Diálogo social",
-            "contenido": "Interlocución habitual con CCOO (Sordo) y UGT (Álvarez), Ministerio de Trabajo (Yolanda Díaz).",
+            "contenido": "**Interlocución habitual con CCOO (Sordo) y UGT (Álvarez), Ministerio de Trabajo (Yolanda Díaz)** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "dialogo-social"
+              "dialogo-social",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -19070,12 +19524,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0081-ap-03",
             "tipo": "contacto",
             "titulo": "Ibex 35 grandes",
-            "contenido": "Vinculado a la mayoría de presidentes IBEX (Botín, Sánchez Galán, Florentino, Entrecanales).",
+            "contenido": "**Vinculado a la mayoría de presidentes IBEX (Botín, Sánchez Galán, Florentino, Entrecanales)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ibex35"
+              "ibex35",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -19103,8 +19559,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0082",
@@ -19236,12 +19692,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0082-ap-03",
             "tipo": "contacto",
             "titulo": "Cartera de participadas",
-            "contenido": "Indra (28%), Telefónica (~10%), Redeia (20%), Enagás (~5%), Hispasat (vía Redeia), Aena (51% vía Enaire), Navantia (100%), Hunosa, Tragsa, Correos, Mercasa, EFE…",
+            "contenido": "**Indra (28%), Telefónica (~10%), Redeia (20%), Enagás (~5%), Hispasat (vía Redeia), Aena (51% vía Enaire), Navantia (100%), Hunosa, Tragsa, Correos, Mercasa, EFE…** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera"
+              "cartera",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 0
           },
@@ -19250,12 +19708,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0082-ap-03",
             "tipo": "contacto",
             "titulo": "Belén Gualda (presidenta)",
-            "contenido": "Ingeniera. Presidenta de SEPI desde marzo 2022. Sustituyó a Vicente Fernández Guerrero.",
+            "contenido": "**Ingeniera** (nota +8/10) — Presidenta de SEPI desde marzo 2022. Sustituyó a Vicente Fernández Guerrero.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "presidenta"
+              "presidenta",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -19264,13 +19724,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0082-ap-03",
             "tipo": "contacto",
             "titulo": "Ministerio Hacienda - María Jesús Montero",
-            "contenido": "Tutela política. Montero vicepresidenta primera y ministra Hacienda.",
+            "contenido": "**Tutela política** (nota +8/10) — Montero vicepresidenta primera y ministra Hacienda.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "politica",
-              "montero"
+              "montero",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -19369,8 +19831,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0083",
@@ -19493,12 +19955,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0083-ap-03",
             "tipo": "contacto",
             "titulo": "Grandes IBEX 35",
-            "contenido": "Vinculaciones con presidentes de Santander (Botín), Iberdrola (Sánchez Galán), ACS (Florentino), Inditex (anteriormente Pablo Isla como vicepresidente).",
+            "contenido": "**Vinculaciones con presidentes de Santander (Botín), Iberdrola (Sánchez Galán), ACS (Florentino), Inditex (anteriormente Pablo Isla como vicepresidente)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ibex35"
+              "ibex35",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -19507,12 +19971,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0083-ap-03",
             "tipo": "contacto",
             "titulo": "Cepyme",
-            "contenido": "Confederación de pequeñas y medianas empresas, parte del Consejo Permanente de CEOE.",
+            "contenido": "**Confederación de pequeñas y medianas empresas, parte del Consejo Permanente de CEOE** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cepyme"
+              "cepyme",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -19521,12 +19987,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0083-ap-03",
             "tipo": "contacto",
             "titulo": "BusinessEurope",
-            "contenido": "Patronal europea, CEOE como miembro fundador.",
+            "contenido": "**Patronal europea, CEOE como miembro fundador** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "europa"
+              "europa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -19598,8 +20066,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0084",
@@ -19721,12 +20189,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0084-ap-03",
             "tipo": "contacto",
             "titulo": "CECA",
-            "contenido": "AEB y CECA (cajas) son las dos patronales bancarias españolas, con coordinación creciente desde la crisis 2008-2012.",
+            "contenido": "**AEB y CECA (cajas) son las dos patronales bancarias españolas, con coordinación creciente desde la crisis 2008-2012** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ceca"
+              "ceca",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -19735,12 +20205,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0084-ap-03",
             "tipo": "contacto",
             "titulo": "Miembros",
-            "contenido": "Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, Bank of America España, Citi, JP Morgan.",
+            "contenido": "**Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, Bank of America España, Citi, JP Morgan** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "miembros"
+              "miembros",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -19749,13 +20221,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0084-ap-03",
             "tipo": "contacto",
             "titulo": "European Banking Federation (EBF)",
-            "contenido": "Patronal europea. AEB miembro fundador.",
+            "contenido": "**Patronal europea** (nota +8/10) — AEB miembro fundador.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "ebf",
-              "europa"
+              "europa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -19764,12 +20238,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0084-ap-03",
             "tipo": "contacto",
             "titulo": "Alejandra Kindelán",
-            "contenido": "Presidenta desde 2022.",
+            "contenido": "**Presidenta desde 2022** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "kindelan"
+              "kindelan",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 3
           }
@@ -19797,8 +20273,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0085",
@@ -19869,12 +20345,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Miembros",
-            "contenido": "Iberdrola, Endesa, EDP España. Naturgy fuera (opera vía Sedigás).",
+            "contenido": "**Iberdrola, Endesa, EDP España** (nota +6/10) — Naturgy fuera (opera vía Sedigás).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "miembros"
+              "miembros",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -19883,12 +20361,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Lobby Gobierno",
-            "contenido": "Interlocución con Ministerio de Transición Ecológica (Aagesen tras salto de Teresa Ribera a UE) y CNMC.",
+            "contenido": "**Interlocución con Ministerio de Transición Ecológica (Aagesen tras salto de Teresa Ribera a UE) y CNMC** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "lobby"
+              "lobby",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -19897,12 +20377,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Marina Serrano (presidenta)",
-            "contenido": "Presidenta de AELEC desde 2018.",
+            "contenido": "**Presidenta de AELEC desde 2018** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "serrano"
+              "serrano",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -19911,13 +20393,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Sánchez Galán / Bogas",
-            "contenido": "Voces más fuertes del sector representado.",
+            "contenido": "**Voces más fuertes del sector representado**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "iberdrola",
-              "endesa"
+              "endesa",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -19945,8 +20428,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0086",
@@ -20054,12 +20537,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0086-ap-03",
             "tipo": "contacto",
             "titulo": "OPA BBVA-Sabadell",
-            "contenido": "Autorización CNMV requisito clave de la OPA. Diciembre 2024 CNMV autorizó el folleto.",
+            "contenido": "**Autorización CNMV requisito clave de la OPA** — Diciembre 2024 CNMV autorizó el folleto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bbva-sabadell"
+              "bbva-sabadell",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -20068,12 +20552,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0086-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Grifols",
-            "contenido": "Expediente abierto en 2024 por relación Grifols-Scranton tras Gotham.",
+            "contenido": "**Expediente abierto en 2024 por relación Grifols-Scranton tras Gotham**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "grifols"
+              "grifols",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -20082,12 +20567,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0086-ap-03",
             "tipo": "contacto",
             "titulo": "Caso Indra",
-            "contenido": "Amonestó en 2022 por la destitución de consejeros independientes.",
+            "contenido": "**Amonestó en 2022 por la destitución de consejeros independientes** (nota -6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "indra"
+              "indra",
+              "nota--6",
+              "tension"
             ],
             "orden": 2
           },
@@ -20096,12 +20583,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0086-ap-03",
             "tipo": "contacto",
             "titulo": "Carlos San Basilio",
-            "contenido": "Presidente desde 2024.",
+            "contenido": "**Presidente desde 2024** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "san-basilio"
+              "san-basilio",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 3
           },
@@ -20110,12 +20599,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0086-ap-03",
             "tipo": "contacto",
             "titulo": "ESMA",
-            "contenido": "Reguladora europea. CNMV miembro de la junta.",
+            "contenido": "**Reguladora europea** (nota +6/10) — CNMV miembro de la junta.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "esma"
+              "esma",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 4
           },
@@ -20124,12 +20615,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0086-ap-03",
             "tipo": "contacto",
             "titulo": "Banco de España",
-            "contenido": "Coordinación regulatoria.",
+            "contenido": "**Coordinación regulatoria** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bde"
+              "bde",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 5
           }
@@ -20157,8 +20650,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0087",
@@ -20266,12 +20759,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0087-ap-03",
             "tipo": "contacto",
             "titulo": "Establishment empresarial",
-            "contenido": "Vínculos institucionales con presidentes de Santander, Iberdrola, CaixaBank y otros.",
+            "contenido": "**Vínculos institucionales con presidentes de Santander, Iberdrola, CaixaBank y otros** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "empresariado"
+              "empresariado",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -20280,12 +20775,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0087-ap-03",
             "tipo": "contacto",
             "titulo": "Felipe VI",
-            "contenido": "Jefe de Estado desde junio 2014.",
+            "contenido": "**Jefe de Estado desde junio 2014**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "felipe-vi"
+              "felipe-vi",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -20294,12 +20790,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0087-ap-03",
             "tipo": "contacto",
             "titulo": "Letizia Ortiz",
-            "contenido": "Reina consorte. Activa en programas Casa Real.",
+            "contenido": "**Reina consorte** — Activa en programas Casa Real.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "letizia"
+              "letizia",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -20308,12 +20805,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0087-ap-03",
             "tipo": "contacto",
             "titulo": "Juan Carlos I emérito",
-            "contenido": "Reside en Abu Dabi desde agosto 2020.",
+            "contenido": "**Reside en Abu Dabi desde agosto 2020**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "emerito"
+              "emerito",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -20322,12 +20820,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0087-ap-03",
             "tipo": "contacto",
             "titulo": "Camilo Villarino",
-            "contenido": "Jefe de la Casa desde 2023 (releva a Jaime Alfonsín).",
+            "contenido": "**Jefe de la Casa desde 2023 (releva a Jaime Alfonsín)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "villarino"
+              "villarino",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -20355,8 +20854,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0088",
@@ -20453,12 +20952,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0088-ap-03",
             "tipo": "contacto",
             "titulo": "Pedro Sánchez",
-            "contenido": "Secretario general y presidente del Gobierno.",
+            "contenido": "**Secretario general y presidente del Gobierno** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sanchez"
+              "sanchez",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -20467,12 +20968,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0088-ap-03",
             "tipo": "contacto",
             "titulo": "PSC",
-            "contenido": "Federación catalana hermana.",
+            "contenido": "**Federación catalana hermana** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psc"
+              "psc",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -20481,12 +20984,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0088-ap-03",
             "tipo": "contacto",
             "titulo": "Cuadros en consejos IBEX",
-            "contenido": "Beatriz Corredor (Redeia), Maurici Lucena (Aena, PSC), Marc Murtra (Telefónica, próximo a PSC).",
+            "contenido": "**Beatriz Corredor (Redeia), Maurici Lucena (Aena, PSC), Marc Murtra (Telefónica, próximo a PSC)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "puertas-giratorias"
+              "puertas-giratorias",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -20495,12 +20999,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0088-ap-03",
             "tipo": "contacto",
             "titulo": "Familia PSOE socios",
-            "contenido": "Sumar, ERC, EH Bildu, PNV, BNG, Junts.",
+            "contenido": "**Sumar, ERC, EH Bildu, PNV, BNG, Junts** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "socios"
+              "socios",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -20528,8 +21034,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0089",
@@ -20601,12 +21107,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0089-ap-02",
             "tipo": "contacto",
             "titulo": "Cuadros en IBEX",
-            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena).",
+            "contenido": "**Marc Murtra (Telefónica), Maurici Lucena (Aena)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ibex35"
+              "ibex35",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -20615,12 +21122,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0089-ap-02",
             "tipo": "contacto",
             "titulo": "Cuadros en empresas",
-            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena), José Montilla (consejos varios).",
+            "contenido": "**Marc Murtra (Telefónica), Maurici Lucena (Aena), José Montilla (consejos varios)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ibex35"
+              "ibex35",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -20629,12 +21137,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0089-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE federal",
-            "contenido": "Federación catalana hermana. Pacto de soberanía dual.",
+            "contenido": "**Federación catalana hermana** (nota +5/10) — Pacto de soberanía dual.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe"
+              "psoe",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -20662,8 +21172,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0090",
@@ -20760,12 +21270,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0090-ap-03",
             "tipo": "contacto",
             "titulo": "Núñez Feijóo",
-            "contenido": "Presidente desde abril 2022.",
+            "contenido": "**Presidente desde abril 2022** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "feijoo"
+              "feijoo",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -20774,12 +21286,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0090-ap-03",
             "tipo": "contacto",
             "titulo": "Cuadros pasados en empresa",
-            "contenido": "Manuel Pizarro (Santander), Rodrigo Rato (ex Bankia/FMI).",
+            "contenido": "**Manuel Pizarro (Santander), Rodrigo Rato (ex Bankia/FMI)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "puertas-giratorias"
+              "puertas-giratorias",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -20788,12 +21301,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0090-ap-03",
             "tipo": "contacto",
             "titulo": "Comunidad Madrid - Ayuso",
-            "contenido": "Bastión del PP. Diálogo con establishment empresarial (Florentino, Del Pino, Botín).",
+            "contenido": "**Bastión del PP** — Diálogo con establishment empresarial (Florentino, Del Pino, Botín).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ayuso"
+              "ayuso",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -20821,8 +21335,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0091",
@@ -20896,12 +21410,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0091-ap-02",
             "tipo": "contacto",
             "titulo": "Imanol Pradales",
-            "contenido": "Lehendakari desde junio 2024.",
+            "contenido": "**Lehendakari desde junio 2024**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pradales"
+              "pradales",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -20910,12 +21425,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0091-ap-02",
             "tipo": "contacto",
             "titulo": "Andoni Ortuzar",
-            "contenido": "Presidente del EBB del PNV.",
+            "contenido": "**Presidente del EBB del PNV** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ortuzar"
+              "ortuzar",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -20924,12 +21441,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0091-ap-02",
             "tipo": "contacto",
             "titulo": "Josu Jon Imaz",
-            "contenido": "Ex presidente del EBB (2004-2007), hoy CEO de Repsol.",
+            "contenido": "**Ex presidente del EBB (2004-2007), hoy CEO de Repsol** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "imaz"
+              "imaz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -20938,12 +21457,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0091-ap-02",
             "tipo": "contacto",
             "titulo": "Aitor Esteban",
-            "contenido": "Portavoz histórico en el Congreso, clave en pactos con Sánchez.",
+            "contenido": "**Portavoz histórico en el Congreso, clave en pactos con Sánchez** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "congreso"
+              "congreso",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 3
           },
@@ -20952,12 +21473,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0091-ap-02",
             "tipo": "contacto",
             "titulo": "Empresariado vasco",
-            "contenido": "Vínculos con Confebask, BBK, Kutxabank, Iberdrola (Sánchez Galán).",
+            "contenido": "**Vínculos con Confebask, BBK, Kutxabank, Iberdrola (Sánchez Galán)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "empresariado"
+              "empresariado",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -20985,8 +21507,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0092",
@@ -21133,12 +21655,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0092-ap-03",
             "tipo": "contacto",
             "titulo": "Pedro Sánchez",
-            "contenido": "Una de las ministras de mayor confianza del presidente.",
+            "contenido": "**Una de las ministras de mayor confianza del presidente** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sanchez"
+              "sanchez",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -21147,13 +21671,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0092-ap-03",
             "tipo": "contacto",
             "titulo": "Tensión con eléctricas",
-            "contenido": "Pulso público con Iberdrola (Sánchez Galán) y Repsol (Imaz) por impuesto extraordinario y modelo de mercado.",
+            "contenido": "**Pulso público con Iberdrola (Sánchez Galán) y Repsol (Imaz) por impuesto extraordinario y modelo de mercado** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "iberdrola",
-              "repsol"
+              "repsol",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -21162,12 +21688,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0092-ap-03",
             "tipo": "contacto",
             "titulo": "Sara Aagesen",
-            "contenido": "Su sucesora como ministra Transición Ecológica tras salto a UE.",
+            "contenido": "**Su sucesora como ministra Transición Ecológica tras salto a UE**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sucesora"
+              "sucesora",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -21216,8 +21743,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0093",
@@ -21314,13 +21841,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0093-ap-02",
             "tipo": "contacto",
             "titulo": "Florentino Pérez",
-            "contenido": "Aliado inesperado en la Superliga europea (2021-presente).",
+            "contenido": "**Aliado inesperado en la Superliga europea (2021-presente)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "superliga",
-              "florentino"
+              "florentino",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -21329,12 +21858,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0093-ap-02",
             "tipo": "contacto",
             "titulo": "Independentismo",
-            "contenido": "Posición pro-independencia consistente. Cordialidad con ERC y JxCat.",
+            "contenido": "**Posición pro-independencia consistente** (nota +6/10) — Cordialidad con ERC y JxCat.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "independentismo"
+              "independentismo",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -21362,8 +21893,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0094",
@@ -21436,12 +21967,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0094-ap-02",
             "tipo": "contacto",
             "titulo": "Inditex",
-            "contenido": "~59% del capital. Mayor activo individual.",
+            "contenido": "**~59% del capital** — Mayor activo individual.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "inditex"
+              "inditex",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -21450,12 +21982,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0094-ap-02",
             "tipo": "contacto",
             "titulo": "Cartera inmobiliaria",
-            "contenido": "Torre Picasso (Madrid), Castellana 81, Hotel Marqués de Riscal, Edificio Cepsa, Trump Tower (Manhattan), edificios en Nueva York/Londres/París.",
+            "contenido": "**Torre Picasso (Madrid), Castellana 81, Hotel Marqués de Riscal, Edificio Cepsa, Trump Tower (Manhattan), edificios en Nueva York/Londres/París**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "inmobiliario"
+              "inmobiliario",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -21464,12 +21997,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0094-ap-02",
             "tipo": "contacto",
             "titulo": "Inversiones recientes",
-            "contenido": "Diversificación reciente a energías renovables (Repsol JV, Acciona Energía indirectamente) e infraestructura.",
+            "contenido": "**Diversificación reciente a energías renovables (Repsol JV, Acciona Energía indirectamente) e infraestructura**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "energia"
+              "energia",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -21478,12 +22012,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0094-ap-02",
             "tipo": "contacto",
             "titulo": "Sandra Ortega",
-            "contenido": "Hermana de Amancio (heredera de Rosalía Mera) tiene su propio vehículo: Rosp Corunna. No es Pontegadea.",
+            "contenido": "**Hermana de Amancio (heredera de Rosalía Mera) tiene su propio vehículo: Rosp Corunna** (nota +5/10) — No es Pontegadea.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia"
+              "familia",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -21511,8 +22047,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0095",
@@ -21584,12 +22120,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0095-ap-02",
             "tipo": "contacto",
             "titulo": "Cartera",
-            "contenido": "CaixaBank ~32%, Naturgy ~26%, Telefónica ~2,7%, Cellnex ~5%, Saba (aparcamientos), inmobiliario y participaciones internacionales.",
+            "contenido": "**CaixaBank ~32%, Naturgy ~26%, Telefónica ~2,7%, Cellnex ~5%, Saba (aparcamientos), inmobiliario y participaciones internacionales** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera"
+              "cartera",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 0
           },
@@ -21598,12 +22136,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0095-ap-02",
             "tipo": "contacto",
             "titulo": "Isidre Fainé",
-            "contenido": "Presidente. Toma de decisiones estratégicas.",
+            "contenido": "**Presidente** (nota +8/10) — Toma de decisiones estratégicas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -21612,12 +22152,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0095-ap-02",
             "tipo": "contacto",
             "titulo": "Ángel Simón",
-            "contenido": "CEO desde marzo 2024 (anteriormente CEO de Agbar).",
+            "contenido": "**CEO desde marzo 2024 (anteriormente CEO de Agbar)** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "simon"
+              "simon",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -21645,8 +22187,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0096",
@@ -21718,12 +22260,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0096-ap-02",
             "tipo": "contacto",
             "titulo": "Bankinter",
-            "contenido": "~22% del capital, accionista de referencia.",
+            "contenido": "**~22% del capital, accionista de referencia**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bankinter"
+              "bankinter",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -21732,12 +22275,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0096-ap-02",
             "tipo": "contacto",
             "titulo": "Jaime Botín",
-            "contenido": "Beneficiario último.",
+            "contenido": "**Beneficiario último**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "jaime-botin"
+              "jaime-botin",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -21746,13 +22290,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0096-ap-02",
             "tipo": "contacto",
             "titulo": "Pedro Guerrero (presidente Bankinter)",
-            "contenido": "Interlocutor permanente como presidente del consejo de Bankinter.",
+            "contenido": "**Interlocutor permanente como presidente del consejo de Bankinter** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "bankinter",
-              "guerrero"
+              "guerrero",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -21761,12 +22307,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0096-ap-02",
             "tipo": "contacto",
             "titulo": "Familia Botín-Rivero",
-            "contenido": "Beneficiarios últimos.",
+            "contenido": "**Beneficiarios últimos** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "botin-rivero"
+              "botin-rivero",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -21817,8 +22365,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0097",
@@ -21904,12 +22452,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0097-ap-02",
             "tipo": "contacto",
             "titulo": "Familia Grifols",
-            "contenido": "Beneficiarios últimos: ramas de la familia con participación.",
+            "contenido": "**Beneficiarios últimos: ramas de la familia con participación** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-grifols"
+              "familia-grifols",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -21918,12 +22468,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0097-ap-02",
             "tipo": "contacto",
             "titulo": "Grifols S.A.",
-            "contenido": "Vínculo operativo permanente: compró activos a Grifols en 2018 (Biotest US, Haema).",
+            "contenido": "**Vínculo operativo permanente: compró activos a Grifols en 2018 (Biotest US, Haema)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "grifols"
+              "grifols",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -21932,12 +22483,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0097-ap-02",
             "tipo": "contacto",
             "titulo": "Gotham City Research",
-            "contenido": "Identificó la relación en informe enero 2024 como problema contable.",
+            "contenido": "**Identificó la relación en informe enero 2024 como problema contable**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "gotham"
+              "gotham",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -21946,12 +22498,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0097-ap-02",
             "tipo": "contacto",
             "titulo": "CNMV",
-            "contenido": "Expediente abierto desde 2024.",
+            "contenido": "**Expediente abierto desde 2024**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cnmv"
+              "cnmv",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -22002,8 +22555,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0098",
@@ -22054,12 +22607,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0098-ap-01",
             "tipo": "contacto",
             "titulo": "Cartera",
-            "contenido": "Acerinox ~19%, ACS ~13%, Naturgy ~5%, Ebro Foods ~14%, CIE Automotive ~11%, Indra ~6%.",
+            "contenido": "**Acerinox ~19%, ACS ~13%, Naturgy ~5%, Ebro Foods ~14%, CIE Automotive ~11%, Indra ~6%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -22068,12 +22622,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0098-ap-01",
             "tipo": "contacto",
             "titulo": "Familia March",
-            "contenido": "Carlos y Juan March controlan. Asset manager histórico (Banca March).",
+            "contenido": "**Carlos y Juan March controlan** (nota +8/10) — Asset manager histórico (Banca March).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "march"
+              "march",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -22101,8 +22657,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0099",
@@ -22153,12 +22709,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0099-ap-01",
             "tipo": "contacto",
             "titulo": "CriteriaCaixa",
-            "contenido": "Controla 100% de Criteria (que tiene la cartera industrial).",
+            "contenido": "**Controla 100% de Criteria (que tiene la cartera industrial)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "criteria"
+              "criteria",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -22167,12 +22725,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0099-ap-01",
             "tipo": "contacto",
             "titulo": "CaixaBank",
-            "contenido": "Vía Criteria, ~32% de CaixaBank.",
+            "contenido": "**Vía Criteria, ~32% de CaixaBank**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caixabank"
+              "caixabank",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -22181,12 +22740,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0099-ap-01",
             "tipo": "contacto",
             "titulo": "Isidre Fainé",
-            "contenido": "Presidente del patronato.",
+            "contenido": "**Presidente del patronato** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -22235,8 +22796,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0100",
@@ -22287,12 +22848,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0100-ap-01",
             "tipo": "contacto",
             "titulo": "Mapfre S.A.",
-            "contenido": "~70% del capital.",
+            "contenido": "**~70% del capital**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mapfre"
+              "mapfre",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -22301,12 +22863,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0100-ap-01",
             "tipo": "contacto",
             "titulo": "Antonio Huertas",
-            "contenido": "Presidente de Mapfre.",
+            "contenido": "**Presidente de Mapfre** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "huertas"
+              "huertas",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -22315,12 +22879,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0100-ap-01",
             "tipo": "contacto",
             "titulo": "Patronato",
-            "contenido": "Patronato presidido por Antonio Huertas, presidente de Mapfre.",
+            "contenido": "**Patronato presidido por Antonio Huertas, presidente de Mapfre** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "huertas"
+              "huertas",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -22329,12 +22895,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0100-ap-01",
             "tipo": "contacto",
             "titulo": "Programas culturales",
-            "contenido": "Sala Recoletos (Madrid), Casa Garriga Nogués (Barcelona). Exposiciones y premios.",
+            "contenido": "**Sala Recoletos (Madrid), Casa Garriga Nogués (Barcelona)** — Exposiciones y premios.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cultura"
+              "cultura",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -22343,12 +22910,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0100-ap-01",
             "tipo": "contacto",
             "titulo": "Programas sociales LatAm",
-            "contenido": "Programas en países Mapfre (Brasil, México, Perú, Colombia).",
+            "contenido": "**Programas en países Mapfre (Brasil, México, Perú, Colombia)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "latam"
+              "latam",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -22376,8 +22944,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0101",
@@ -22452,12 +23020,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0101-ap-02",
             "tipo": "contacto",
             "titulo": "Unicaja Banco",
-            "contenido": "~30%.",
+            "contenido": "**~30%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "unicaja"
+              "unicaja",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -22466,12 +23035,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0101-ap-02",
             "tipo": "contacto",
             "titulo": "Patronato post-Medel",
-            "contenido": "Tras la crisis 2023-2024, renovación del patronato con perfiles independientes.",
+            "contenido": "**Tras la crisis 2023-2024, renovación del patronato con perfiles independientes** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "medel"
+              "medel",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -22480,12 +23051,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0101-ap-02",
             "tipo": "contacto",
             "titulo": "Bipartidismo andaluz",
-            "contenido": "Histórica relación con PSOE-A y PP-A. Caja con perfil político.",
+            "contenido": "**Histórica relación con PSOE-A y PP-A** — Caja con perfil político.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "andalucia"
+              "andalucia",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -22513,8 +23085,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0102",
@@ -22566,12 +23138,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0102-ap-01",
             "tipo": "contacto",
             "titulo": "Rafael del Pino",
-            "contenido": "Presidente.",
+            "contenido": "**Presidente** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "del-pino"
+              "del-pino",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -22580,12 +23154,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0102-ap-01",
             "tipo": "contacto",
             "titulo": "Ideología",
-            "contenido": "Plataforma de promoción del pensamiento liberal en España. Vínculos con Mont Pelerin Society y FAES.",
+            "contenido": "**Plataforma de promoción del pensamiento liberal en España** — Vínculos con Mont Pelerin Society y FAES.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "liberalismo"
+              "liberalismo",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -22594,12 +23169,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0102-ap-01",
             "tipo": "contacto",
             "titulo": "Madrid Forum",
-            "contenido": "Foro anual con economistas y políticos liberales (LLM, exministros, académicos).",
+            "contenido": "**Foro anual con economistas y políticos liberales (LLM, exministros, académicos)** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "madrid-forum"
+              "madrid-forum",
+              "nota--5",
+              "tension"
             ],
             "orden": 2
           },
@@ -22608,13 +23185,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0102-ap-01",
             "tipo": "contacto",
             "titulo": "FAES / Mont Pelerin Society",
-            "contenido": "Vínculos con think tanks liberales nacionales e internacionales.",
+            "contenido": "**Vínculos con think tanks liberales nacionales e internacionales**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "faes",
-              "mps"
+              "mps",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -22642,8 +23220,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0103",
@@ -22694,12 +23272,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0103-ap-01",
             "tipo": "contacto",
             "titulo": "Familia Botín",
-            "contenido": "Patronazgo familiar. Ana Botín presidenta.",
+            "contenido": "**Patronazgo familiar** (nota +8/10) — Ana Botín presidenta.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "botin"
+              "botin",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -22708,12 +23288,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0103-ap-01",
             "tipo": "contacto",
             "titulo": "Ana Botín",
-            "contenido": "Presidenta del patronato. Continuidad familiar.",
+            "contenido": "**Presidenta del patronato** (nota +8/10) — Continuidad familiar.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "botin"
+              "botin",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -22722,12 +23304,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0103-ap-01",
             "tipo": "contacto",
             "titulo": "Programa Talento Solidario y Ciencia",
-            "contenido": "Becas en programas científicos (CSIC), arte y emprendimiento social.",
+            "contenido": "**Becas en programas científicos (CSIC), arte y emprendimiento social**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "programas"
+              "programas",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -22736,12 +23319,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0103-ap-01",
             "tipo": "contacto",
             "titulo": "Renzo Piano - Centro Botín",
-            "contenido": "Centro Botín en Santander (2017) diseñado por Renzo Piano.",
+            "contenido": "**Centro Botín en Santander (2017) diseñado por Renzo Piano**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "centro-botin"
+              "centro-botin",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -22769,8 +23353,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0104",
@@ -22843,12 +23427,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0104-ap-02",
             "tipo": "contacto",
             "titulo": "Florentino Pérez",
-            "contenido": "Presidente desde 2009 (segunda etapa).",
+            "contenido": "**Presidente desde 2009 (segunda etapa)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "florentino"
+              "florentino",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -22857,12 +23443,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0104-ap-02",
             "tipo": "contacto",
             "titulo": "Superliga",
-            "contenido": "Impulsor con FC Barcelona del proyecto Superliga europea desde 2021.",
+            "contenido": "**Impulsor con FC Barcelona del proyecto Superliga europea desde 2021**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "superliga"
+              "superliga",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -22871,13 +23458,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0104-ap-02",
             "tipo": "contacto",
             "titulo": "Joan Laporta / FC Barcelona",
-            "contenido": "Aliado en la Superliga. Eje Madrid-Barcelona inusual.",
+            "contenido": "**Aliado en la Superliga** (nota +7/10) — Eje Madrid-Barcelona inusual.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "laporta",
-              "fcbarcelona"
+              "fcbarcelona",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -22886,12 +23475,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0104-ap-02",
             "tipo": "contacto",
             "titulo": "UEFA - conflicto",
-            "contenido": "Pulso público con la UEFA (Aleksander Čeferin) por la Superliga.",
+            "contenido": "**Pulso público con la UEFA (Aleksander Čeferin) por la Superliga** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "uefa"
+              "uefa",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 3
           }
@@ -22919,8 +23510,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0105",
@@ -22971,13 +23562,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0105-ap-01",
             "tipo": "contacto",
             "titulo": "Cartival / Bankinter",
-            "contenido": "Beneficiario último de Cartival, ~22% Bankinter.",
+            "contenido": "**Beneficiario último de Cartival, ~22% Bankinter**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "bankinter",
-              "cartival"
+              "cartival",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -22986,12 +23578,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0105-ap-01",
             "tipo": "contacto",
             "titulo": "Familia Botín",
-            "contenido": "Rama Botín-Rivero, separada institucionalmente de la rama Botín-O'Shea (Ana Botín).",
+            "contenido": "**Rama Botín-Rivero, separada institucionalmente de la rama Botín-O'Shea (Ana Botín)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia-botin"
+              "familia-botin",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -23043,8 +23637,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0106",
@@ -23157,14 +23751,16 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0106-ap-02",
             "tipo": "contacto",
             "titulo": "Procesados (jurídicos)",
-            "contenido": "BBVA, Iberdrola (personas jurídicas). Repsol investigada.",
+            "contenido": "**BBVA, Iberdrola (personas jurídicas)** (nota -8/10) — Repsol investigada.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "bbva",
               "iberdrola",
-              "repsol"
+              "repsol",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 0
           },
@@ -23173,13 +23769,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0106-ap-02",
             "tipo": "contacto",
             "titulo": "Imputados destacados",
-            "contenido": "Francisco González (ex pte BBVA), Ignacio Sánchez Galán (Iberdrola), ex directivos varios.",
+            "contenido": "**Francisco González (ex pte BBVA), Ignacio Sánchez Galán (Iberdrola), ex directivos varios** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "fg",
-              "galan"
+              "galan",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -23188,12 +23786,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0106-ap-02",
             "tipo": "contacto",
             "titulo": "Víctimas de espionaje",
-            "contenido": "Sacyr/Luis del Rivero, Florentino Pérez/ACS, exministros, juezas/jueces, periodistas.",
+            "contenido": "**Sacyr/Luis del Rivero, Florentino Pérez/ACS, exministros, juezas/jueces, periodistas** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "victimas"
+              "victimas",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -23221,8 +23821,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0107",
@@ -23306,13 +23906,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0107-ap-02",
             "tipo": "contacto",
             "titulo": "Condenados destacados",
-            "contenido": "Rodrigo Rato (4,5 años), Miguel Blesa (6 años), Ildefonso Sánchez Barcoj, etc.",
+            "contenido": "**Rodrigo Rato (4,5 años), Miguel Blesa (6 años), Ildefonso Sánchez Barcoj, etc**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "rato",
-              "blesa"
+              "blesa",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -23321,12 +23922,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0107-ap-02",
             "tipo": "contacto",
             "titulo": "Rodrigo Rato",
-            "contenido": "Condenado a 4,5 años (TS 2018).",
+            "contenido": "**Condenado a 4,5 años (TS 2018)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rato"
+              "rato",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -23335,12 +23937,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0107-ap-02",
             "tipo": "contacto",
             "titulo": "Miguel Blesa",
-            "contenido": "Condenado a 6 años. Suicidio en 2017 antes de ingreso en prisión.",
+            "contenido": "**Condenado a 6 años** — Suicidio en 2017 antes de ingreso en prisión.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "blesa"
+              "blesa",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -23349,12 +23952,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0107-ap-02",
             "tipo": "contacto",
             "titulo": "65 condenados",
-            "contenido": "Ex consejeros y directivos de Caja Madrid y Bankia (sindicatos, PSOE, PP, IU).",
+            "contenido": "**Ex consejeros y directivos de Caja Madrid y Bankia (sindicatos, PSOE, PP, IU)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "condenados"
+              "condenados",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 3
           },
@@ -23363,13 +23968,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0107-ap-02",
             "tipo": "contacto",
             "titulo": "Bankia/CaixaBank",
-            "contenido": "Heredero institucional. Bankia indemnizada por sus responsables.",
+            "contenido": "**Heredero institucional** — Bankia indemnizada por sus responsables.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "bankia",
-              "caixabank"
+              "caixabank",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -23397,8 +24003,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0108",
@@ -23461,12 +24067,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0108-ap-01",
             "tipo": "contacto",
             "titulo": "Jaime Botín",
-            "contenido": "Condenado AN 2020 (18 meses + 91 M€ multa + comiso cuadro).",
+            "contenido": "**Condenado AN 2020 (18 meses + 91 M€ multa + comiso cuadro)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "jaime-botin"
+              "jaime-botin",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -23475,12 +24082,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0108-ap-01",
             "tipo": "contacto",
             "titulo": "Cabeza de mujer joven (Picasso)",
-            "contenido": "Cuadro decomisado por el Estado español tasado en 25 M€.",
+            "contenido": "**Cuadro decomisado por el Estado español tasado en 25 M€**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "picasso"
+              "picasso",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -23489,13 +24097,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0108-ap-01",
             "tipo": "contacto",
             "titulo": "Aduanas francesas",
-            "contenido": "Interceptaron el yate en Córcega (julio 2015) detectando el cuadro.",
+            "contenido": "**Interceptaron el yate en Córcega (julio 2015) detectando el cuadro**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "aduanas",
-              "francia"
+              "francia",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -23523,8 +24132,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0109",
@@ -23575,11 +24184,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0109-ap-01",
             "tipo": "contacto",
             "titulo": "Ramas",
-            "contenido": "Rama Botín-O'Shea (Santander, Ana Botín). Rama Botín-Rivero (Bankinter, Jaime Botín).",
+            "contenido": "**Rama Botín-O'Shea (Santander, Ana Botín)** — Rama Botín-Rivero (Bankinter, Jaime Botín).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -23587,12 +24198,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0109-ap-01",
             "tipo": "contacto",
             "titulo": "Rama Botín-O'Shea (Santander)",
-            "contenido": "Ana Patricia (presidenta Santander), Javier (consejero familiar), Carmen, Paloma. Madre Carmen O'Shea Soriano.",
+            "contenido": "**Ana Patricia (presidenta Santander), Javier (consejero familiar), Carmen, Paloma** (nota +8/10) — Madre Carmen O'Shea Soriano.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "santander"
+              "santander",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -23601,13 +24214,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0109-ap-01",
             "tipo": "contacto",
             "titulo": "Rama Botín-Rivero (Bankinter)",
-            "contenido": "Jaime Botín (Bankinter vía Cartival, condenado Picasso). Sobrinos vinculados a Bankinter.",
+            "contenido": "**Jaime Botín (Bankinter vía Cartival, condenado Picasso)** — Sobrinos vinculados a Bankinter.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "bankinter",
-              "cartival"
+              "cartival",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -23616,12 +24230,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0109-ap-01",
             "tipo": "contacto",
             "titulo": "Fundación Botín / Centro Botín",
-            "contenido": "Plataforma filantrópica y cultural.",
+            "contenido": "**Plataforma filantrópica y cultural**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fundacion-botin"
+              "fundacion-botin",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -23649,8 +24264,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0110",
@@ -23680,11 +24295,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0110-ap-00",
             "tipo": "contacto",
             "titulo": "Hijos",
-            "contenido": "Rafael (presidente Ferrovial), María, Joaquín, Leopoldo, Fernando. Todos accionistas.",
+            "contenido": "**Rafael (presidente Ferrovial), María, Joaquín, Leopoldo, Fernando** (nota +8/10) — Todos accionistas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+8",
+              "alianza-fuerte"
+            ],
             "orden": 0
           },
           {
@@ -23692,12 +24310,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0110-ap-00",
             "tipo": "contacto",
             "titulo": "Ferrovial (~33%)",
-            "contenido": "Accionista de control vía sociedades patrimoniales.",
+            "contenido": "**Accionista de control vía sociedades patrimoniales** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ferrovial"
+              "ferrovial",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -23706,12 +24326,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0110-ap-00",
             "tipo": "contacto",
             "titulo": "Rafael, María, Joaquín, Leopoldo, Fernando",
-            "contenido": "Hermanos accionistas. Rafael presidente, María consejera, otros con vehículos propios.",
+            "contenido": "**Hermanos accionistas** (nota +8/10) — Rafael presidente, María consejera, otros con vehículos propios.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "hermanos"
+              "hermanos",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -23720,12 +24342,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0110-ap-00",
             "tipo": "contacto",
             "titulo": "Fundación Rafael del Pino",
-            "contenido": "Plataforma liberal en España.",
+            "contenido": "**Plataforma liberal en España**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fundacion"
+              "fundacion",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -23753,8 +24376,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0111",
@@ -23784,11 +24407,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0111-ap-00",
             "tipo": "contacto",
             "titulo": "Cabeza visible",
-            "contenido": "José Manuel Entrecanales Domecq, presidente de Acciona.",
+            "contenido": "**José Manuel Entrecanales Domecq, presidente de Acciona** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+8",
+              "alianza-fuerte"
+            ],
             "orden": 0
           },
           {
@@ -23796,12 +24422,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0111-ap-00",
             "tipo": "contacto",
             "titulo": "Acciona (~55%)",
-            "contenido": "Control vía vehículos Tussen de Grachten, Wit Europese, otros.",
+            "contenido": "**Control vía vehículos Tussen de Grachten, Wit Europese, otros**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "acciona"
+              "acciona",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -23810,12 +24437,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0111-ap-00",
             "tipo": "contacto",
             "titulo": "José Manuel y Juan Ignacio Entrecanales Domecq",
-            "contenido": "Hermanos cabeza visible.",
+            "contenido": "**Hermanos cabeza visible** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "hermanos"
+              "hermanos",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -23843,8 +24472,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0112",
@@ -23873,11 +24502,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0112-ap-00",
             "tipo": "contacto",
             "titulo": "Vehículos",
-            "contenido": "Scranton Enterprises (B.V.), Deria, Ralledor.",
+            "contenido": "**Scranton Enterprises (B** — V.), Deria, Ralledor.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -23885,12 +24516,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0112-ap-00",
             "tipo": "contacto",
             "titulo": "Generación actual",
-            "contenido": "Víctor Grifols Roura (ex CEO), Raimon Grifols Roura (vicepresidente). Hijos: Víctor Jr, Raimon Jr, etc. en consejos.",
+            "contenido": "**Víctor Grifols Roura (ex CEO), Raimon Grifols Roura (vicepresidente)** (nota +8/10) — Hijos: Víctor Jr, Raimon Jr, etc. en consejos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "familia"
+              "familia",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -23899,12 +24532,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0112-ap-00",
             "tipo": "contacto",
             "titulo": "Vehículos B.V.",
-            "contenido": "Scranton Enterprises B.V., Deria S.A., Ralledor Holding.",
+            "contenido": "**Scranton Enterprises B** — V., Deria S.A., Ralledor Holding.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "vehiculos"
+              "vehiculos",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -23913,12 +24547,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0112-ap-00",
             "tipo": "contacto",
             "titulo": "Brookfield (relación)",
-            "contenido": "Negoció OPA conjunta 2024 (fallida noviembre).",
+            "contenido": "**Negoció OPA conjunta 2024 (fallida noviembre)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "brookfield"
+              "brookfield",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -23946,8 +24581,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0113",
@@ -23977,11 +24612,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0113-ap-00",
             "tipo": "contacto",
             "titulo": "Vehículo",
-            "contenido": "Norbel Inversiones S.L.",
+            "contenido": "**Norbel Inversiones S** — L.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -23989,12 +24626,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0113-ap-00",
             "tipo": "contacto",
             "titulo": "Norbel Inversiones",
-            "contenido": "Vehículo familiar, ~64% Rovi.",
+            "contenido": "**Vehículo familiar, ~64% Rovi** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "norbel"
+              "norbel",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -24003,12 +24642,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0113-ap-00",
             "tipo": "contacto",
             "titulo": "Tres generaciones",
-            "contenido": "Juan López-Belmonte Encina (fundador 1946), Juan López-Belmonte López (presidente), Juan López-Belmonte White (CEO).",
+            "contenido": "**Juan López-Belmonte Encina (fundador 1946), Juan López-Belmonte López (presidente), Juan López-Belmonte White (CEO)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "generaciones"
+              "generaciones",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -24036,8 +24677,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0114",
@@ -24066,11 +24707,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0114-ap-00",
             "tipo": "contacto",
             "titulo": "Núcleo",
-            "contenido": "Lakshmi (P), Aditya (CEO), Vanisha (consejera).",
+            "contenido": "**Lakshmi (P), Aditya (CEO), Vanisha (consejera)** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+6",
+              "alianza-debil"
+            ],
             "orden": 0
           },
           {
@@ -24078,12 +24722,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0114-ap-00",
             "tipo": "contacto",
             "titulo": "Aperam / Mittal Steel legacy",
-            "contenido": "Familia controladora indirecta de Aperam (spin-off inox).",
+            "contenido": "**Familia controladora indirecta de Aperam (spin-off inox)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aperam"
+              "aperam",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -24111,8 +24757,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0115",
@@ -24141,11 +24787,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0115-ap-00",
             "tipo": "contacto",
             "titulo": "Cúpula",
-            "contenido": "Marc Puig (P), Manuel Puig (VP).",
+            "contenido": "**Marc Puig (P), Manuel Puig (VP)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -24153,12 +24801,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0115-ap-00",
             "tipo": "contacto",
             "titulo": "Acciones tipo A doble voto",
-            "contenido": "Mantienen control post-OPV vía estructura accionarial dual.",
+            "contenido": "**Mantienen control post-OPV vía estructura accionarial dual**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "dual"
+              "dual",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -24186,8 +24835,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0116",
@@ -24273,11 +24922,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0116-ap-02",
             "tipo": "contacto",
             "titulo": "Endesa",
-            "contenido": "70,1% del capital, decisiones estratégicas integradas.",
+            "contenido": "**70,1% del capital, decisiones estratégicas integradas**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -24285,11 +24936,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0116-ap-02",
             "tipo": "contacto",
             "titulo": "Tesoro italiano",
-            "contenido": "~24%, accionista de referencia.",
+            "contenido": "**~24%, accionista de referencia**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 1
           },
           {
@@ -24297,12 +24950,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0116-ap-02",
             "tipo": "contacto",
             "titulo": "Endesa (70,1%)",
-            "contenido": "Filial española cotizada.",
+            "contenido": "**Filial española cotizada**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "endesa"
+              "endesa",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -24311,12 +24965,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0116-ap-02",
             "tipo": "contacto",
             "titulo": "Enel Green Power",
-            "contenido": "Filial de renovables global.",
+            "contenido": "**Filial de renovables global**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "egp"
+              "egp",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -24325,13 +24980,15 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0116-ap-02",
             "tipo": "contacto",
             "titulo": "Flavio Cattaneo (CEO)",
-            "contenido": "CEO con perfil más cercano al Gobierno Meloni.",
+            "contenido": "**CEO con perfil más cercano al Gobierno Meloni** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "cattaneo",
-              "meloni"
+              "meloni",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 4
           }
@@ -24359,8 +25016,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0117",
@@ -24391,11 +25048,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0117-ap-00",
             "tipo": "contacto",
             "titulo": "Logista",
-            "contenido": "~50,01% del capital.",
+            "contenido": "**~50,01% del capital**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -24403,12 +25062,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0117-ap-00",
             "tipo": "contacto",
             "titulo": "Logista (50,01%)",
-            "contenido": "Accionista de control. Decisiones operativas Logista pasan por Bristol.",
+            "contenido": "**Accionista de control** (nota +8/10) — Decisiones operativas Logista pasan por Bristol.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "logista"
+              "logista",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -24417,12 +25078,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0117-ap-00",
             "tipo": "contacto",
             "titulo": "Stéphan Vermut (CEO Imperial)",
-            "contenido": "CEO desde 2020.",
+            "contenido": "**CEO desde 2020** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "vermut"
+              "vermut",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -24450,8 +25113,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0118",
@@ -24481,11 +25144,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0118-ap-00",
             "tipo": "contacto",
             "titulo": "Cartera España",
-            "contenido": "Iberdrola, Colonial, El Corte Inglés (10%), Banco Santander Brasil.",
+            "contenido": "**Iberdrola, Colonial, El Corte Inglés (10%), Banco Santander Brasil**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -24493,12 +25158,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0118-ap-00",
             "tipo": "contacto",
             "titulo": "Familia Al Thani",
-            "contenido": "Controlado por el Estado de Qatar (Tamim bin Hamad Al Thani).",
+            "contenido": "**Controlado por el Estado de Qatar (Tamim bin Hamad Al Thani)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "al-thani"
+              "al-thani",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -24526,8 +25193,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0119",
@@ -24558,11 +25225,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0119-ap-00",
             "tipo": "contacto",
             "titulo": "IAG",
-            "contenido": "~25% del capital.",
+            "contenido": "**~25% del capital**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -24570,12 +25239,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0119-ap-00",
             "tipo": "contacto",
             "titulo": "IAG (~25%)",
-            "contenido": "Mayor accionista. Akbar Al Baker (ex CEO) y luego Badr Mohammed Al Meer (CEO).",
+            "contenido": "**Mayor accionista** (nota +6/10) — Akbar Al Baker (ex CEO) y luego Badr Mohammed Al Meer (CEO).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "iag"
+              "iag",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -24584,12 +25255,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0119-ap-00",
             "tipo": "contacto",
             "titulo": "oneworld",
-            "contenido": "Alianza estratégica con IAG en oneworld.",
+            "contenido": "**Alianza estratégica con IAG en oneworld** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oneworld"
+              "oneworld",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -24598,12 +25271,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0119-ap-00",
             "tipo": "contacto",
             "titulo": "Estado de Qatar",
-            "contenido": "Aerolínea estatal.",
+            "contenido": "**Aerolínea estatal**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "qatar"
+              "qatar",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -24631,8 +25305,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0120",
@@ -24684,11 +25358,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0120-ap-01",
             "tipo": "contacto",
             "titulo": "PIF",
-            "contenido": "Controlada por Public Investment Fund.",
+            "contenido": "**Controlada por Public Investment Fund** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+8",
+              "alianza-fuerte"
+            ],
             "orden": 0
           },
           {
@@ -24696,12 +25373,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0120-ap-01",
             "tipo": "contacto",
             "titulo": "Telefónica (~9,9%)",
-            "contenido": "Compra septiembre 2023. Operación que motivó respuesta SEPI.",
+            "contenido": "**Compra septiembre 2023** — Operación que motivó respuesta SEPI.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "telefonica"
+              "telefonica",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -24710,12 +25388,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0120-ap-01",
             "tipo": "contacto",
             "titulo": "PIF (fondo soberano saudí)",
-            "contenido": "Controlado por el Public Investment Fund de Arabia Saudí.",
+            "contenido": "**Controlado por el Public Investment Fund de Arabia Saudí** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pif"
+              "pif",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -24743,8 +25423,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0121",
@@ -24807,12 +25487,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0121-ap-01",
             "tipo": "contacto",
             "titulo": "Daniel Yu (fundador)",
-            "contenido": "Analista bajista neoyorquino, fundador.",
+            "contenido": "**Analista bajista neoyorquino, fundador** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "yu"
+              "yu",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -24821,12 +25503,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0121-ap-01",
             "tipo": "contacto",
             "titulo": "General Industrial Partners (con quien co-publican)",
-            "contenido": "Co-publicó análisis Grifols con General Industrial Partners (UK).",
+            "contenido": "**Co-publicó análisis Grifols con General Industrial Partners (UK)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "gip-uk"
+              "gip-uk",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -24835,12 +25518,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0121-ap-01",
             "tipo": "contacto",
             "titulo": "Casos",
-            "contenido": "Gowex (2014, suicidio empresa), Quindell (2014), Aerojet, Grifols (2024).",
+            "contenido": "**Gowex (2014, suicidio empresa), Quindell (2014), Aerojet, Grifols (2024)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "historial"
+              "historial",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -24868,8 +25552,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0122",
@@ -24921,11 +25605,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0122-ap-01",
             "tipo": "contacto",
             "titulo": "Cellnex",
-            "contenido": "~7%.",
+            "contenido": "**~7%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -24933,12 +25619,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0122-ap-01",
             "tipo": "contacto",
             "titulo": "Cellnex (~7%)",
-            "contenido": "Accionista relevante. Apoyo al cambio de CEO 2023.",
+            "contenido": "**Accionista relevante** (nota +6/10) — Apoyo al cambio de CEO 2023.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cellnex"
+              "cellnex",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -24947,12 +25635,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0122-ap-01",
             "tipo": "contacto",
             "titulo": "Estado Singapur",
-            "contenido": "Fondo soberano del Estado de Singapur.",
+            "contenido": "**Fondo soberano del Estado de Singapur**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "singapur"
+              "singapur",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -24961,12 +25650,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0122-ap-01",
             "tipo": "contacto",
             "titulo": "Lim Chow Kiat (CEO)",
-            "contenido": "CEO de GIC desde 2017.",
+            "contenido": "**CEO de GIC desde 2017** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "lim"
+              "lim",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           }
@@ -24994,8 +25685,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0123",
@@ -25025,11 +25716,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0123-ap-00",
             "tipo": "contacto",
             "titulo": "Cellnex",
-            "contenido": "~9% vía ConnecT.",
+            "contenido": "**~9% vía ConnecT**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -25037,12 +25730,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0123-ap-00",
             "tipo": "contacto",
             "titulo": "Familia Benetton",
-            "contenido": "Cuatro hermanos fundadores (Luciano, Giuliana, Gilberto, Carlo) y herederos (Alessandro Benetton presidente).",
+            "contenido": "**Cuatro hermanos fundadores (Luciano, Giuliana, Gilberto, Carlo) y herederos (Alessandro Benetton presidente)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "benetton"
+              "benetton",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -25051,12 +25746,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0123-ap-00",
             "tipo": "contacto",
             "titulo": "Cellnex (~9%)",
-            "contenido": "Via vehículo ConnecT.",
+            "contenido": "**Via vehículo ConnecT**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cellnex"
+              "cellnex",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -25065,12 +25761,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0123-ap-00",
             "tipo": "contacto",
             "titulo": "Atlantia legacy",
-            "contenido": "Antiguo accionista de Atlantia (Autostrade per l'Italia) - vendida en 2022 tras tragedia Genova.",
+            "contenido": "**Antiguo accionista de Atlantia (Autostrade per l'Italia) - vendida en 2022 tras tragedia Genova** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "atlantia"
+              "atlantia",
+              "nota--5",
+              "tension"
             ],
             "orden": 3
           },
@@ -25079,12 +25777,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0123-ap-00",
             "tipo": "contacto",
             "titulo": "Mundys (Aeroporti Roma, Telepass)",
-            "contenido": "Tras venta Atlantia, Edizione retiene parte vía Mundys.",
+            "contenido": "**Tras venta Atlantia, Edizione retiene parte vía Mundys**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mundys"
+              "mundys",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -25135,8 +25834,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0124",
@@ -25210,12 +25909,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0124-ap-02",
             "tipo": "contacto",
             "titulo": "Naturgy (~15%)",
-            "contenido": "Tras OPA parcial 2021, autorizada con condiciones por Gobierno español.",
+            "contenido": "**Tras OPA parcial 2021, autorizada con condiciones por Gobierno español**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "naturgy"
+              "naturgy",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -25224,12 +25924,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0124-ap-02",
             "tipo": "contacto",
             "titulo": "Fondos de pensiones australianos",
-            "contenido": "Propiedad de fondos de pensiones australianos (industria superannuation).",
+            "contenido": "**Propiedad de fondos de pensiones australianos (industria superannuation)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "australia"
+              "australia",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -25238,12 +25939,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0124-ap-02",
             "tipo": "contacto",
             "titulo": "David Neal (CEO)",
-            "contenido": "CEO de IFM Investors desde 2019.",
+            "contenido": "**CEO de IFM Investors desde 2019** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "neal"
+              "neal",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -25271,8 +25974,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0125",
@@ -25302,11 +26005,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0125-ap-00",
             "tipo": "contacto",
             "titulo": "Naturgy",
-            "contenido": "~20%.",
+            "contenido": "**~20%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -25314,12 +26019,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0125-ap-00",
             "tipo": "contacto",
             "titulo": "Naturgy (~20%)",
-            "contenido": "Desde 2018 vía Rioja Bidco.",
+            "contenido": "**Desde 2018 vía Rioja Bidco**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "naturgy"
+              "naturgy",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -25328,12 +26034,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0125-ap-00",
             "tipo": "contacto",
             "titulo": "Universidad Pública",
-            "contenido": "Inversor en distintos sectores: fútbol (LaLiga - Operación Boost en 2021), Tendam, Vitalia, Naturgy.",
+            "contenido": "**Inversor en distintos sectores: fútbol (LaLiga - Operación Boost en 2021), Tendam, Vitalia, Naturgy**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera-espana"
+              "cartera-espana",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -25342,12 +26049,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0125-ap-00",
             "tipo": "contacto",
             "titulo": "LaLiga - Operación Boost",
-            "contenido": "Inversor estratégico de LaLiga desde 2021 (operación rechazada inicialmente por Real Madrid y FC Barcelona).",
+            "contenido": "**Inversor estratégico de LaLiga desde 2021 (operación rechazada inicialmente por Real Madrid y FC Barcelona)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "laliga"
+              "laliga",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -25356,12 +26064,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0125-ap-00",
             "tipo": "contacto",
             "titulo": "Tendam, Vitalia, Universidad Europea",
-            "contenido": "Cartera España diversificada: retail, residencias mayores, educación.",
+            "contenido": "**Cartera España diversificada: retail, residencias mayores, educación**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera-espana"
+              "cartera-espana",
+              "sin-valorar"
             ],
             "orden": 4
           },
@@ -25370,12 +26079,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0125-ap-00",
             "tipo": "contacto",
             "titulo": "Salida a bolsa 2024",
-            "contenido": "CVC se listó en Ámsterdam en abril 2024.",
+            "contenido": "**CVC se listó en Ámsterdam en abril 2024**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "opv"
+              "opv",
+              "sin-valorar"
             ],
             "orden": 5
           }
@@ -25403,8 +26113,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0126",
@@ -25434,12 +26144,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0126-ap-00",
             "tipo": "contacto",
             "titulo": "BlackRock",
-            "contenido": "Adquirido por BlackRock en 2024 por 12.500 M$.",
+            "contenido": "**Adquirido por BlackRock en 2024 por 12** — 500 M$.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "blackrock"
+              "blackrock",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -25448,12 +26159,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0126-ap-00",
             "tipo": "contacto",
             "titulo": "Naturgy (~20%)",
-            "contenido": "Accionista desde 2018.",
+            "contenido": "**Accionista desde 2018**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "naturgy"
+              "naturgy",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -25462,12 +26174,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0126-ap-00",
             "tipo": "contacto",
             "titulo": "Adebayo Ogunlesi (cofundador)",
-            "contenido": "Cofundador y CEO de GIP. Ahora vicepresidente BlackRock.",
+            "contenido": "**Cofundador y CEO de GIP** (nota +8/10) — Ahora vicepresidente BlackRock.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ogunlesi"
+              "ogunlesi",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 2
           },
@@ -25476,12 +26190,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0126-ap-00",
             "tipo": "contacto",
             "titulo": "Cartera global",
-            "contenido": "Gatwick (UK), Edinburgh Airport, Suez Water (Norteamérica), Italo (Italia).",
+            "contenido": "**Gatwick (UK), Edinburgh Airport, Suez Water (Norteamérica), Italo (Italia)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -25509,8 +26224,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0127",
@@ -25564,11 +26279,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0127-ap-01",
             "tipo": "contacto",
             "titulo": "Acerinox",
-            "contenido": "~19%.",
+            "contenido": "**~19%**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -25576,12 +26293,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0127-ap-01",
             "tipo": "contacto",
             "titulo": "Acerinox (~19%)",
-            "contenido": "Accionista histórico.",
+            "contenido": "**Accionista histórico**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "acerinox"
+              "acerinox",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -25590,12 +26308,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0127-ap-01",
             "tipo": "contacto",
             "titulo": "US Steel - OPA fallida",
-            "contenido": "OPA 14.900 M$ sobre US Steel bloqueada por Biden enero 2025, revisada bajo Trump.",
+            "contenido": "**OPA 14** — 900 M$ sobre US Steel bloqueada por Biden enero 2025, revisada bajo Trump.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "us-steel"
+              "us-steel",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -25604,12 +26323,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0127-ap-01",
             "tipo": "contacto",
             "titulo": "Eiji Hashimoto (CEO)",
-            "contenido": "CEO de Nippon Steel desde 2024.",
+            "contenido": "**CEO de Nippon Steel desde 2024** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "hashimoto"
+              "hashimoto",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           },
@@ -25618,12 +26339,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0127-ap-01",
             "tipo": "contacto",
             "titulo": "Tata Steel UK / Europa",
-            "contenido": "Joint venture Tata-Nippon en Países Bajos. Salida ordenada UK.",
+            "contenido": "**Joint venture Tata-Nippon en Países Bajos** — Salida ordenada UK.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "tata"
+              "tata",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -25651,8 +26373,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0128",
@@ -25683,11 +26405,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0128-ap-00",
             "tipo": "contacto",
             "titulo": "Naturgy / Medgaz",
-            "contenido": "Socio en Medgaz (gasoducto).",
+            "contenido": "**Socio en Medgaz (gasoducto)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+5",
+              "alianza-debil"
+            ],
             "orden": 0
           },
           {
@@ -25695,11 +26420,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0128-ap-00",
             "tipo": "contacto",
             "titulo": "Crisis Sáhara 2022",
-            "contenido": "Suspensión parcial de contratos tras viraje español sobre el Sáhara Occidental.",
+            "contenido": "**Suspensión parcial de contratos tras viraje español sobre el Sáhara Occidental**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 1
           },
           {
@@ -25707,12 +26434,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0128-ap-00",
             "tipo": "contacto",
             "titulo": "Naturgy",
-            "contenido": "Socio en Medgaz (gasoducto Argelia-Almería).",
+            "contenido": "**Socio en Medgaz (gasoducto Argelia-Almería)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "naturgy"
+              "naturgy",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -25721,12 +26450,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0128-ap-00",
             "tipo": "contacto",
             "titulo": "Cepsa",
-            "contenido": "Cepsa históricamente vinculada (Sonatrach fue accionista).",
+            "contenido": "**Cepsa históricamente vinculada (Sonatrach fue accionista)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cepsa"
+              "cepsa",
+              "sin-valorar"
             ],
             "orden": 3
           },
@@ -25735,12 +26465,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0128-ap-00",
             "tipo": "contacto",
             "titulo": "Gobierno argelino",
-            "contenido": "Empresa estatal. Relación geopolítica directa con Madrid.",
+            "contenido": "**Empresa estatal** — Relación geopolítica directa con Madrid.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "argelia"
+              "argelia",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -25768,8 +26499,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0129",
@@ -25800,11 +26531,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0129-ap-00",
             "tipo": "contacto",
             "titulo": "Rovi",
-            "contenido": "Fabricación europea de mRNA-1273.",
+            "contenido": "**Fabricación europea de mRNA-1273**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -25812,12 +26545,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0129-ap-00",
             "tipo": "contacto",
             "titulo": "Rovi (España)",
-            "contenido": "Partner industrial para fill-and-finish europeo de mRNA-1273.",
+            "contenido": "**Partner industrial para fill-and-finish europeo de mRNA-1273**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rovi"
+              "rovi",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -25826,12 +26560,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0129-ap-00",
             "tipo": "contacto",
             "titulo": "Stéphane Bancel (CEO)",
-            "contenido": "CEO francés desde 2011.",
+            "contenido": "**CEO francés desde 2011** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bancel"
+              "bancel",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -25859,8 +26595,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0130",
@@ -25891,11 +26627,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0130-ap-00",
             "tipo": "contacto",
             "titulo": "VMO2",
-            "contenido": "50% de Virgin Media O2.",
+            "contenido": "**50% de Virgin Media O2**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -25903,13 +26641,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0130-ap-00",
             "tipo": "contacto",
             "titulo": "Telefónica - VMO2",
-            "contenido": "Joint venture 50/50 desde junio 2021.",
+            "contenido": "**Joint venture 50/50 desde junio 2021**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "telefonica",
-              "vmo2"
+              "vmo2",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -25918,12 +26657,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0130-ap-00",
             "tipo": "contacto",
             "titulo": "John Malone",
-            "contenido": "Magnate del cable y telecos. Mayor accionista.",
+            "contenido": "**Magnate del cable y telecos** — Mayor accionista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "malone"
+              "malone",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -25932,12 +26672,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0130-ap-00",
             "tipo": "contacto",
             "titulo": "Mike Fries (CEO)",
-            "contenido": "CEO de Liberty Global desde 2005.",
+            "contenido": "**CEO de Liberty Global desde 2005** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fries"
+              "fries",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 3
           },
@@ -25946,12 +26688,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0130-ap-00",
             "tipo": "contacto",
             "titulo": "Cartera europea",
-            "contenido": "VMO2 (UK), Sunrise (Suiza, escindida 2024), Telenet (Bélgica), UPC (Polonia, Eslovaquia).",
+            "contenido": "**VMO2 (UK), Sunrise (Suiza, escindida 2024), Telenet (Bélgica), UPC (Polonia, Eslovaquia)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ],
             "orden": 4
           }
@@ -25979,8 +26722,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0131",
@@ -26030,12 +26773,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0131-ap-01",
             "tipo": "contacto",
             "titulo": "Grifols (OPA fallida)",
-            "contenido": "Negoció con familia OPA de exclusión 2024, retirada noviembre 2024.",
+            "contenido": "**Negoció con familia OPA de exclusión 2024, retirada noviembre 2024** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "grifols"
+              "grifols",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -26044,12 +26789,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0131-ap-01",
             "tipo": "contacto",
             "titulo": "Bruce Flatt (CEO)",
-            "contenido": "CEO de Brookfield desde 2002.",
+            "contenido": "**CEO de Brookfield desde 2002** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "flatt"
+              "flatt",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -26058,12 +26805,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0131-ap-01",
             "tipo": "contacto",
             "titulo": "Cartera infraestructura España",
-            "contenido": "Saeta Yield (eolica, vendida), X-Elio, Cupa Pizarras.",
+            "contenido": "**Saeta Yield (eolica, vendida), X-Elio, Cupa Pizarras**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -26091,8 +26839,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0132",
@@ -26143,11 +26891,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0132-ap-01",
             "tipo": "contacto",
             "titulo": "Santander",
-            "contenido": "Lo absorbió tras resolución.",
+            "contenido": "**Lo absorbió tras resolución**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "sin-valorar"
+            ],
             "orden": 0
           },
           {
@@ -26155,12 +26905,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0132-ap-01",
             "tipo": "contacto",
             "titulo": "Santander (absorbente)",
-            "contenido": "Adquirió por 1€ tras resolución JUR junio 2017.",
+            "contenido": "**Adquirió por 1€ tras resolución JUR junio 2017**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "santander"
+              "santander",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -26169,12 +26920,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0132-ap-01",
             "tipo": "contacto",
             "titulo": "Ángel Ron",
-            "contenido": "Presidente saliente al inicio de la crisis (sucesivo de Emilio Saracho).",
+            "contenido": "**Presidente saliente al inicio de la crisis (sucesivo de Emilio Saracho)** (nota -6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ron"
+              "ron",
+              "nota--6",
+              "tension"
             ],
             "orden": 2
           },
@@ -26183,12 +26936,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0132-ap-01",
             "tipo": "contacto",
             "titulo": "Demandas accionistas",
-            "contenido": "Cientos de demandas pendientes resueltas a favor de la legalidad de la resolución (TG UE 2022).",
+            "contenido": "**Cientos de demandas pendientes resueltas a favor de la legalidad de la resolución (TG UE 2022)** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "judicial"
+              "judicial",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 3
           }
@@ -26216,8 +26971,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0133",
@@ -26280,12 +27035,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0133-ap-01",
             "tipo": "contacto",
             "titulo": "CaixaBank (absorbente)",
-            "contenido": "Fusión por absorción marzo 2021.",
+            "contenido": "**Fusión por absorción marzo 2021**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caixabank"
+              "caixabank",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -26294,12 +27050,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0133-ap-01",
             "tipo": "contacto",
             "titulo": "FROB - rescate",
-            "contenido": "Rescate ~22.000 M€ mayo 2012.",
+            "contenido": "**Rescate ~22** — 000 M€ mayo 2012.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "frob"
+              "frob",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -26308,13 +27065,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0133-ap-01",
             "tipo": "contacto",
             "titulo": "Rato → Goirigolzarri",
-            "contenido": "Rato dimite y es sustituido por Goirigolzarri.",
+            "contenido": "**Rato dimite y es sustituido por Goirigolzarri**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "rato",
-              "goirigolzarri"
+              "goirigolzarri",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -26323,12 +27081,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0133-ap-01",
             "tipo": "contacto",
             "titulo": "Caso Tarjetas Black",
-            "contenido": "Caja Madrid/Bankia: causa por uso de tarjetas opacas. Sentencias 2017-2018.",
+            "contenido": "**Caja Madrid/Bankia: causa por uso de tarjetas opacas** — Sentencias 2017-2018.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "tarjetas-black"
+              "tarjetas-black",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -26356,8 +27115,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0134",
@@ -26407,12 +27166,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0134-ap-01",
             "tipo": "contacto",
             "titulo": "Unicaja (absorbente)",
-            "contenido": "Fusión por absorción marzo 2021.",
+            "contenido": "**Fusión por absorción marzo 2021**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "unicaja"
+              "unicaja",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -26421,12 +27181,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0134-ap-01",
             "tipo": "contacto",
             "titulo": "Cajastur, Caja Cantabria, Caja Extremadura",
-            "contenido": "Tres cajas integradas en 2011 que formaron Liberbank.",
+            "contenido": "**Tres cajas integradas en 2011 que formaron Liberbank**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cajas"
+              "cajas",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -26454,8 +27215,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0135",
@@ -26485,12 +27246,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0135-ap-00",
             "tipo": "contacto",
             "titulo": "Banco Santander (matriz)",
-            "contenido": "100% Santander. Sede Londres.",
+            "contenido": "**100% Santander** (nota +8/10) — Sede Londres.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -26499,12 +27262,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0135-ap-00",
             "tipo": "contacto",
             "titulo": "Abbey, A&L, B&B legacy",
-            "contenido": "Heredera de Abbey National (2004), Alliance & Leicester (2008), Bradford & Bingley (2008).",
+            "contenido": "**Heredera de Abbey National (2004), Alliance & Leicester (2008), Bradford & Bingley (2008)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "historia"
+              "historia",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -26513,12 +27277,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0135-ap-00",
             "tipo": "contacto",
             "titulo": "Mercado UK",
-            "contenido": "Compite con HSBC UK, Barclays, Lloyds, NatWest.",
+            "contenido": "**Compite con HSBC UK, Barclays, Lloyds, NatWest**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "competencia"
+              "competencia",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -26546,8 +27311,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0136",
@@ -26577,11 +27342,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0136-ap-00",
             "tipo": "contacto",
             "titulo": "Doğuş",
-            "contenido": "Familia Şahenk, accionista histórico.",
+            "contenido": "**Familia Şahenk, accionista histórico** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+5",
+              "alianza-debil"
+            ],
             "orden": 0
           },
           {
@@ -26589,12 +27357,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0136-ap-00",
             "tipo": "contacto",
             "titulo": "BBVA (matriz)",
-            "contenido": "~86% BBVA. Sede Estambul.",
+            "contenido": "**~86% BBVA** (nota +8/10) — Sede Estambul.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -26603,12 +27373,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0136-ap-00",
             "tipo": "contacto",
             "titulo": "Familia Sahenk (Doğuş)",
-            "contenido": "Accionista histórico minoritario.",
+            "contenido": "**Accionista histórico minoritario** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "dogus"
+              "dogus",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -26617,12 +27389,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0136-ap-00",
             "tipo": "contacto",
             "titulo": "Hiperinflación Turquía",
-            "contenido": "Aplicación NIIF 29 afecta la consolidación contable desde 2022.",
+            "contenido": "**Aplicación NIIF 29 afecta la consolidación contable desde 2022**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "niif-29"
+              "niif-29",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -26650,8 +27423,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0137",
@@ -26702,12 +27475,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0137-ap-01",
             "tipo": "contacto",
             "titulo": "Banco Sabadell (matriz)",
-            "contenido": "100% Sabadell desde 2015. Sede Edimburgo.",
+            "contenido": "**100% Sabadell desde 2015** (nota +8/10) — Sede Edimburgo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -26716,12 +27491,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0137-ap-01",
             "tipo": "contacto",
             "titulo": "OPA BBVA - factor TSB",
-            "contenido": "TSB es elemento clave del debate sobre la OPA hostil de BBVA sobre Sabadell (riesgo de desinversión).",
+            "contenido": "**TSB es elemento clave del debate sobre la OPA hostil de BBVA sobre Sabadell (riesgo de desinversión)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "opa-bbva"
+              "opa-bbva",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -26730,12 +27506,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0137-ap-01",
             "tipo": "contacto",
             "titulo": "FCA (regulador UK)",
-            "contenido": "Tutela regulatoria.",
+            "contenido": "**Tutela regulatoria** (nota +0/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "fca"
+              "fca",
+              "nota-+0",
+              "neutral"
             ],
             "orden": 2
           }
@@ -26763,8 +27541,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0138",
@@ -26794,12 +27572,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0138-ap-00",
             "tipo": "contacto",
             "titulo": "Iberdrola (matriz)",
-            "contenido": "100% Iberdrola desde 2007. Sede Glasgow.",
+            "contenido": "**100% Iberdrola desde 2007** (nota +8/10) — Sede Glasgow.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -26808,12 +27588,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0138-ap-00",
             "tipo": "contacto",
             "titulo": "Ofgem (regulador UK)",
-            "contenido": "Tutela regulatoria.",
+            "contenido": "**Tutela regulatoria** (nota +0/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ofgem"
+              "ofgem",
+              "nota-+0",
+              "neutral"
             ],
             "orden": 1
           },
@@ -26822,12 +27604,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0138-ap-00",
             "tipo": "contacto",
             "titulo": "Big Six UK",
-            "contenido": "Una de las grandes seis utilities británicas (con Centrica, EDF, E.ON, OVO/SSE, Octopus).",
+            "contenido": "**Una de las grandes seis utilities británicas (con Centrica, EDF, E** — ON, OVO/SSE, Octopus).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "big-six"
+              "big-six",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -26855,8 +27638,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0139",
@@ -26886,12 +27669,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0139-ap-00",
             "tipo": "contacto",
             "titulo": "Iberdrola (matriz)",
-            "contenido": "~82% Iberdrola. Cotiza NYSE.",
+            "contenido": "**~82% Iberdrola** (nota +8/10) — Cotiza NYSE.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -26900,12 +27685,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0139-ap-00",
             "tipo": "contacto",
             "titulo": "Mercado EE.UU.",
-            "contenido": "Operaciones en Nueva York, Maine, Connecticut, Massachusetts, etc.",
+            "contenido": "**Operaciones en Nueva York, Maine, Connecticut, Massachusetts, etc**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ee-uu"
+              "ee-uu",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -26914,12 +27700,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0139-ap-00",
             "tipo": "contacto",
             "titulo": "Conflicto PNM Resources",
-            "contenido": "OPA fallida sobre PNM Resources (Nuevo México) bloqueada por reguladores 2023.",
+            "contenido": "**OPA fallida sobre PNM Resources (Nuevo México) bloqueada por reguladores 2023** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pnm"
+              "pnm",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -26947,8 +27735,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0140",
@@ -26978,12 +27766,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0140-ap-00",
             "tipo": "contacto",
             "titulo": "ACS (matriz)",
-            "contenido": "~80% ACS desde 2011.",
+            "contenido": "**~80% ACS desde 2011** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "acs"
+              "acs",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -26992,12 +27782,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0140-ap-00",
             "tipo": "contacto",
             "titulo": "Cimic (Australia)",
-            "contenido": "Filial australiana controlada por Hochtief.",
+            "contenido": "**Filial australiana controlada por Hochtief** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "cimic"
+              "cimic",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -27006,12 +27798,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0140-ap-00",
             "tipo": "contacto",
             "titulo": "Turner (USA)",
-            "contenido": "Filial estadounidense.",
+            "contenido": "**Filial estadounidense**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "turner"
+              "turner",
+              "sin-valorar"
             ],
             "orden": 2
           },
@@ -27020,12 +27813,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0140-ap-00",
             "tipo": "contacto",
             "titulo": "Florentino Pérez",
-            "contenido": "Decisiones estratégicas.",
+            "contenido": "**Decisiones estratégicas**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "florentino"
+              "florentino",
+              "sin-valorar"
             ],
             "orden": 3
           }
@@ -27053,8 +27847,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0141",
@@ -27084,12 +27878,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0141-ap-00",
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "100% IAG desde 2011.",
+            "contenido": "**100% IAG desde 2011** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -27098,12 +27894,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0141-ap-00",
             "tipo": "contacto",
             "titulo": "Hub Madrid-Barajas",
-            "contenido": "Operativa en T4 (Aena). Eje LatAm.",
+            "contenido": "**Operativa en T4 (Aena)** — Eje LatAm.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "barajas"
+              "barajas",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -27112,12 +27909,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0141-ap-00",
             "tipo": "contacto",
             "titulo": "Marco Sansavini (CEO)",
-            "contenido": "CEO desde 2024.",
+            "contenido": "**CEO desde 2024** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sansavini"
+              "sansavini",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           },
@@ -27126,12 +27925,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0141-ap-00",
             "tipo": "contacto",
             "titulo": "oneworld",
-            "contenido": "Alianza estratégica.",
+            "contenido": "**Alianza estratégica** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oneworld"
+              "oneworld",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 3
           }
@@ -27159,8 +27960,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0142",
@@ -27191,12 +27992,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0142-ap-00",
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "100% IAG desde 2011.",
+            "contenido": "**100% IAG desde 2011** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -27205,12 +28008,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0142-ap-00",
             "tipo": "contacto",
             "titulo": "Hub Heathrow",
-            "contenido": "Mayor cuota en Heathrow (~50% slots).",
+            "contenido": "**Mayor cuota en Heathrow (~50% slots)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "heathrow"
+              "heathrow",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -27219,12 +28023,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0142-ap-00",
             "tipo": "contacto",
             "titulo": "Sean Doyle (CEO)",
-            "contenido": "CEO desde 2020.",
+            "contenido": "**CEO desde 2020** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "doyle"
+              "doyle",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -27252,8 +28058,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0143",
@@ -27284,12 +28090,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0143-ap-00",
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "~100% IAG.",
+            "contenido": "**~100% IAG** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -27298,12 +28106,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0143-ap-00",
             "tipo": "contacto",
             "titulo": "Hub Barcelona-El Prat",
-            "contenido": "Mayor low-cost desde El Prat. Competidor de Ryanair y easyJet.",
+            "contenido": "**Mayor low-cost desde El Prat** — Competidor de Ryanair y easyJet.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "elprat"
+              "elprat",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -27312,12 +28121,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0143-ap-00",
             "tipo": "contacto",
             "titulo": "Carolina Martinoli (CEO)",
-            "contenido": "CEO desde 2024.",
+            "contenido": "**CEO desde 2024** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "martinoli"
+              "martinoli",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -27345,8 +28156,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0144",
@@ -27377,12 +28188,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0144-ap-00",
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "100% IAG desde 2015.",
+            "contenido": "**100% IAG desde 2015** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -27391,12 +28204,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0144-ap-00",
             "tipo": "contacto",
             "titulo": "Hub Dublín",
-            "contenido": "Slots clave para Norteamérica.",
+            "contenido": "**Slots clave para Norteamérica**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "dublin"
+              "dublin",
+              "sin-valorar"
             ],
             "orden": 1
           },
@@ -27405,12 +28219,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0144-ap-00",
             "tipo": "contacto",
             "titulo": "Lynne Embleton (CEO)",
-            "contenido": "CEO desde 2021.",
+            "contenido": "**CEO desde 2021** (nota +6/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "embleton"
+              "embleton",
+              "nota-+6",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -27438,8 +28254,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   },
   {
     "id": "ibx-0145",
@@ -27492,12 +28308,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0145-ap-01",
             "tipo": "contacto",
             "titulo": "Telefónica (50%)",
-            "contenido": "Joint venture 50/50.",
+            "contenido": "**Joint venture 50/50**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "telefonica"
+              "telefonica",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -27506,12 +28323,14 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0145-ap-01",
             "tipo": "contacto",
             "titulo": "Liberty Global (50%)",
-            "contenido": "Otro socio 50%.",
+            "contenido": "**Otro socio 50%** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "liberty-global"
+              "liberty-global",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -27520,12 +28339,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0145-ap-01",
             "tipo": "contacto",
             "titulo": "Mercado UK telecos",
-            "contenido": "Compite con BT/EE, Vodafone UK, Three UK.",
+            "contenido": "**Compite con BT/EE, Vodafone UK, Three UK**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "uk"
+              "uk",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -27553,8 +28373,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.025209Z",
-    "updated_at": "2026-05-28T10:25:05.025209Z"
+    "created_at": "2026-05-28T13:35:10.923564Z",
+    "updated_at": "2026-05-28T13:35:10.923564Z"
   }
 ]
 

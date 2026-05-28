@@ -1,432 +1,3265 @@
 [
   {
-    "slug":"javier-aureliano-garcia-molina","tipo":"politico","nombre":"Javier Aureliano García Molina","alias":"Javier A. García","cargo":"Presidente de la Diputación Provincial de Almería","bio_corta":"Político del PP. Presidente de la Diputación de Almería desde 2019, renovado en 2023. Anteriormente alcalde de Roquetas de Mar (2003-2007) y diputado autonómico.","fuente_principal":"https://www.dipalme.org","tags":["politico","pp","diputacion-almeria"],"confidence":0.78,"completeness":0.65,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[
-        {"tipo":"dato","titulo":"Perfil","contenido":"Nacido en Almería. Militante PP. Trayectoria local-provincial-autonómica."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Roquetas de Mar","contenido":"Concejal y luego alcalde de Roquetas de Mar.","fecha":"2003-06-14"},
-        {"tipo":"evento","titulo":"Diputado autonómico","contenido":"Parlamento andaluz por Almería en la era Susana Díaz / Moreno Bonilla.","fecha":"2008-04-01"},
-        {"tipo":"evento","titulo":"Presidente Diputación","contenido":"Sustituye a Gabriel Amat (PP) en 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP Andalucía / Moreno","contenido":"Vínculo con la federación andaluza de PP-A.","tags":["pp-a"]},
-        {"tipo":"contacto","titulo":"FAMP","contenido":"Participación en Federación Andaluza de Municipios y Provincias.","tags":["famp"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Almería","fuente_url":"https://www.dipalme.org"}]}]
+    "slug": "javier-aureliano-garcia-molina",
+    "tipo": "politico",
+    "nombre": "Javier Aureliano García Molina",
+    "alias": "Javier A. García",
+    "cargo": "Presidente de la Diputación Provincial de Almería",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Almería desde 2019, renovado en 2023. Anteriormente alcalde de Roquetas de Mar (2003-2007) y diputado autonómico.",
+    "fuente_principal": "https://www.dipalme.org",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-almeria"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Almería. Militante PP. Trayectoria local-provincial-autonómica."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Roquetas de Mar",
+            "contenido": "Concejal y luego alcalde de Roquetas de Mar.",
+            "fecha": "2003-06-14"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputado autonómico",
+            "contenido": "Parlamento andaluz por Almería en la era Susana Díaz / Moreno Bonilla.",
+            "fecha": "2008-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente Diputación",
+            "contenido": "Sustituye a Gabriel Amat (PP) en 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP Andalucía / Moreno",
+            "contenido": "**Vínculo con la federación andaluza de PP-A**",
+            "tags": [
+              "pp-a",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FAMP",
+            "contenido": "**Participación en Federación Andaluza de Municipios y Provincias** (nota +3/10)",
+            "tags": [
+              "famp",
+              "nota-+3",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Almería",
+            "fuente_url": "https://www.dipalme.org"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"almudena-martinez-del-junco","tipo":"politico","nombre":"Almudena Martínez del Junco","alias":"Almudena Martínez","cargo":"Presidenta de la Diputación Provincial de Cádiz","bio_corta":"Política del PP. Presidenta de la Diputación de Cádiz desde julio 2023, sustituyendo a Irene García (PSOE). Anteriormente alcaldesa de Conil de la Frontera (2011-2015) y diputada provincial.","fuente_principal":"https://www.dipucadiz.es","tags":["politico","pp","diputacion-cadiz"],"confidence":0.75,"completeness":0.62,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política gaditana del PP. Carrera local-provincial en la provincia."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Conil de la Frontera","contenido":"Alcaldesa entre 2011 y 2015.","fecha":"2011-06-11"},
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidenta desde julio 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP-A / Moreno","contenido":"Alineamiento con Juanma Moreno.","tags":["pp-a","moreno"]},
-        {"tipo":"contacto","titulo":"Bahía de Cádiz","contenido":"Coordinación con el área metropolitana de Cádiz.","tags":["bahia-cadiz"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Cádiz","fuente_url":"https://www.dipucadiz.es"}]}]
+    "slug": "almudena-martinez-del-junco",
+    "tipo": "politico",
+    "nombre": "Almudena Martínez del Junco",
+    "alias": "Almudena Martínez",
+    "cargo": "Presidenta de la Diputación Provincial de Cádiz",
+    "bio_corta": "Política del PP. Presidenta de la Diputación de Cádiz desde julio 2023, sustituyendo a Irene García (PSOE). Anteriormente alcaldesa de Conil de la Frontera (2011-2015) y diputada provincial.",
+    "fuente_principal": "https://www.dipucadiz.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-cadiz"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política gaditana del PP. Carrera local-provincial en la provincia."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Conil de la Frontera",
+            "contenido": "Alcaldesa entre 2011 y 2015.",
+            "fecha": "2011-06-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidenta desde julio 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP-A / Moreno",
+            "contenido": "**Alineamiento con Juanma Moreno**",
+            "tags": [
+              "pp-a",
+              "moreno",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bahía de Cádiz",
+            "contenido": "**Coordinación con el área metropolitana de Cádiz** (nota +7/10)",
+            "tags": [
+              "bahia-cadiz",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Cádiz",
+            "fuente_url": "https://www.dipucadiz.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"salvador-fuentes-lopera","tipo":"politico","nombre":"Salvador Fuentes Lopera","alias":"Salvador Fuentes","cargo":"Presidente de la Diputación Provincial de Córdoba","bio_corta":"Político del PP. Presidente de la Diputación de Córdoba desde julio 2023. Diputado autonómico y figura del PP cordobés.","fuente_principal":"https://www.dipucordoba.es","tags":["politico","pp","diputacion-cordoba"],"confidence":0.72,"completeness":0.6,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político cordobés del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputado autonómico","contenido":"Parlamento andaluz por Córdoba.","fecha":"2018-12-02"},
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente desde julio 2023, sustituyendo a Antonio Ruiz (PSOE).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP-A","contenido":"Vinculación regional.","tags":["pp-a"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Córdoba","fuente_url":"https://www.dipucordoba.es"}]}]
+    "slug": "salvador-fuentes-lopera",
+    "tipo": "politico",
+    "nombre": "Salvador Fuentes Lopera",
+    "alias": "Salvador Fuentes",
+    "cargo": "Presidente de la Diputación Provincial de Córdoba",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Córdoba desde julio 2023. Diputado autonómico y figura del PP cordobés.",
+    "fuente_principal": "https://www.dipucordoba.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-cordoba"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político cordobés del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputado autonómico",
+            "contenido": "Parlamento andaluz por Córdoba.",
+            "fecha": "2018-12-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente desde julio 2023, sustituyendo a Antonio Ruiz (PSOE).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP-A",
+            "contenido": "**Vinculación regional** (nota +5/10)",
+            "tags": [
+              "pp-a",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Córdoba",
+            "fuente_url": "https://www.dipucordoba.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"francisco-rodriguez-fernandez-granada","tipo":"politico","nombre":"Francisco Rodríguez Fernández","alias":"Francisco Rodríguez","cargo":"Presidente de la Diputación Provincial de Granada","bio_corta":"Político del PP. Presidente de la Diputación de Granada desde julio 2023. Trayectoria municipal en la provincia.","fuente_principal":"https://www.dipgra.es","tags":["politico","pp","diputacion-granada"],"confidence":0.72,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político granadino del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente desde julio 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP-A / Moreno","contenido":"Alineamiento Junta Andalucía.","tags":["pp-a"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Granada","fuente_url":"https://www.dipgra.es"}]}]
+    "slug": "francisco-rodriguez-fernandez-granada",
+    "tipo": "politico",
+    "nombre": "Francisco Rodríguez Fernández",
+    "alias": "Francisco Rodríguez",
+    "cargo": "Presidente de la Diputación Provincial de Granada",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Granada desde julio 2023. Trayectoria municipal en la provincia.",
+    "fuente_principal": "https://www.dipgra.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-granada"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político granadino del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente desde julio 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP-A / Moreno",
+            "contenido": "**Alineamiento Junta Andalucía**",
+            "tags": [
+              "pp-a",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Granada",
+            "fuente_url": "https://www.dipgra.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"david-toscano-contreras","tipo":"politico","nombre":"David Toscano Contreras","alias":"David Toscano","cargo":"Presidente de la Diputación Provincial de Huelva","bio_corta":"Político del PP. Presidente de la Diputación de Huelva tras la alternancia 2023.","fuente_principal":"https://www.diphuelva.es","tags":["politico","pp","diputacion-huelva"],"confidence":0.65,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político onubense del PP. Cargo presidencial reciente."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación Huelva","contenido":"Presidente tras alternancia 2023, sustituyendo a María Eugenia Limón (PSOE).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP-A","contenido":"Vínculo con la federación regional PP-A.","tags":["pp-a"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Huelva","fuente_url":"https://www.diphuelva.es"}]}]
+    "slug": "david-toscano-contreras",
+    "tipo": "politico",
+    "nombre": "David Toscano Contreras",
+    "alias": "David Toscano",
+    "cargo": "Presidente de la Diputación Provincial de Huelva",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Huelva tras la alternancia 2023.",
+    "fuente_principal": "https://www.diphuelva.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-huelva"
+    ],
+    "confidence": 0.65,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político onubense del PP. Cargo presidencial reciente."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación Huelva",
+            "contenido": "Presidente tras alternancia 2023, sustituyendo a María Eugenia Limón (PSOE).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP-A",
+            "contenido": "**Vínculo con la federación regional PP-A**",
+            "tags": [
+              "pp-a",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Huelva",
+            "fuente_url": "https://www.diphuelva.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"francisco-reyes-martinez","tipo":"politico","nombre":"Francisco Reyes Martínez","alias":"Francisco Reyes","cargo":"Presidente de la Diputación Provincial de Jaén","bio_corta":"Político del PSOE. Presidente de la Diputación de Jaén desde 2015, renovado en 2019 y 2023. Figura central del PSOE en la provincia.","fuente_principal":"https://www.dipujaen.es","tags":["politico","psoe","diputacion-jaen"],"confidence":0.82,"completeness":0.68,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político giennense del PSOE. Años al frente de la Diputación."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Alcaldía Villatorres","contenido":"Alcalde de Villatorres y otros cargos locales.","fecha":"2007-06-16"},
-        {"tipo":"evento","titulo":"Diputación 2015","contenido":"Presidente desde 2015.","fecha":"2015-07-15"},
-        {"tipo":"evento","titulo":"Renovaciones","contenido":"Renovado en 2019 y 2023, Jaén bastión PSOE.","fecha":"2023-07-08"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Olivar / Aceite","contenido":"Defensor activo del olivar de Jaén y de las indicaciones geográficas protegidas (DOP Jaén).","tags":["olivar"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSOE Andalucía","contenido":"Voz importante del PSOE-A en la provincia.","tags":["psoe-a"]},
-        {"tipo":"contacto","titulo":"FAMP","contenido":"Federación andaluza.","tags":["famp"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Jaén","fuente_url":"https://www.dipujaen.es"}]}]
+    "slug": "francisco-reyes-martinez",
+    "tipo": "politico",
+    "nombre": "Francisco Reyes Martínez",
+    "alias": "Francisco Reyes",
+    "cargo": "Presidente de la Diputación Provincial de Jaén",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Jaén desde 2015, renovado en 2019 y 2023. Figura central del PSOE en la provincia.",
+    "fuente_principal": "https://www.dipujaen.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-jaen"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político giennense del PSOE. Años al frente de la Diputación."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldía Villatorres",
+            "contenido": "Alcalde de Villatorres y otros cargos locales.",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2015",
+            "contenido": "Presidente desde 2015.",
+            "fecha": "2015-07-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Renovaciones",
+            "contenido": "Renovado en 2019 y 2023, Jaén bastión PSOE.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Olivar / Aceite",
+            "contenido": "Defensor activo del olivar de Jaén y de las indicaciones geográficas protegidas (DOP Jaén).",
+            "tags": [
+              "olivar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE Andalucía",
+            "contenido": "**Voz importante del PSOE-A en la provincia**",
+            "tags": [
+              "psoe-a",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FAMP",
+            "contenido": "**Federación andaluza**",
+            "tags": [
+              "famp",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Jaén",
+            "fuente_url": "https://www.dipujaen.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"francisco-salado-escano","tipo":"politico","nombre":"Francisco Salado Escaño","alias":"Francisco Salado","cargo":"Presidente de la Diputación Provincial de Málaga","bio_corta":"Político del PP. Presidente de la Diputación de Málaga desde 2019, renovado en 2023. Anteriormente alcalde de Rincón de la Victoria.","fuente_principal":"https://www.malaga.es","tags":["politico","pp","diputacion-malaga"],"confidence":0.8,"completeness":0.65,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político malagueño del PP. Trayectoria local-provincial."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Rincón de la Victoria","contenido":"Alcalde durante la década 2007-2019.","fecha":"2007-06-16"},
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"De la Torre (alcalde Málaga)","contenido":"Coordinación con Francisco de la Torre (PP), alcalde de Málaga capital.","tags":["delatorre"]},
-        {"tipo":"contacto","titulo":"PP-A / Moreno","contenido":"Alineamiento con la Junta de Andalucía.","tags":["pp-a"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Málaga","fuente_url":"https://www.malaga.es"}]}]
+    "slug": "francisco-salado-escano",
+    "tipo": "politico",
+    "nombre": "Francisco Salado Escaño",
+    "alias": "Francisco Salado",
+    "cargo": "Presidente de la Diputación Provincial de Málaga",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Málaga desde 2019, renovado en 2023. Anteriormente alcalde de Rincón de la Victoria.",
+    "fuente_principal": "https://www.malaga.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-malaga"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político malagueño del PP. Trayectoria local-provincial."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Rincón de la Victoria",
+            "contenido": "Alcalde durante la década 2007-2019.",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "De la Torre (alcalde Málaga)",
+            "contenido": "**Coordinación con Francisco de la Torre (PP), alcalde de Málaga capital** (nota +7/10)",
+            "tags": [
+              "delatorre",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PP-A / Moreno",
+            "contenido": "**Alineamiento con la Junta de Andalucía**",
+            "tags": [
+              "pp-a",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Málaga",
+            "fuente_url": "https://www.malaga.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"javier-fernandez-de-los-rios","tipo":"politico","nombre":"Javier Fernández de los Ríos Torres","alias":"Javier Fernández","cargo":"Presidente de la Diputación Provincial de Sevilla","bio_corta":"Político del PSOE. Presidente de la Diputación de Sevilla desde julio 2023. Sucede a Fernando Rodríguez Villalobos (PSOE) tras 12 años.","fuente_principal":"https://www.dipusevilla.es","tags":["politico","psoe","diputacion-sevilla"],"confidence":0.78,"completeness":0.62,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político sevillano del PSOE, trayectoria provincial."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Presidente desde julio 2023, manteniendo la institución en manos del PSOE.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSOE Sevilla","contenido":"Federación provincial. Sevilla bastión PSOE histórico.","tags":["psoe-sevilla"]},
-        {"tipo":"contacto","titulo":"Ayuntamiento Sevilla (Sanz PP)","contenido":"Coordinación complicada con José Luis Sanz (PP, alcalde Sevilla).","tags":["sanz"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Sevilla","fuente_url":"https://www.dipusevilla.es"}]}]
+    "slug": "javier-fernandez-de-los-rios",
+    "tipo": "politico",
+    "nombre": "Javier Fernández de los Ríos Torres",
+    "alias": "Javier Fernández",
+    "cargo": "Presidente de la Diputación Provincial de Sevilla",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Sevilla desde julio 2023. Sucede a Fernando Rodríguez Villalobos (PSOE) tras 12 años.",
+    "fuente_principal": "https://www.dipusevilla.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-sevilla"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político sevillano del PSOE, trayectoria provincial."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Presidente desde julio 2023, manteniendo la institución en manos del PSOE.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE Sevilla",
+            "contenido": "**Federación provincial** — Sevilla bastión PSOE histórico.",
+            "tags": [
+              "psoe-sevilla",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ayuntamiento Sevilla (Sanz PP)",
+            "contenido": "**Coordinación complicada con José Luis Sanz (PP, alcalde Sevilla)** (nota +7/10)",
+            "tags": [
+              "sanz",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Sevilla",
+            "fuente_url": "https://www.dipusevilla.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"isaac-claver-ortigosa","tipo":"politico","nombre":"Isaac Claver Ortigosa","alias":"Isaac Claver","cargo":"Presidente de la Diputación Provincial de Huesca","bio_corta":"Político del PP. Presidente de la Diputación de Huesca desde julio 2023. Anteriormente alcalde de Monzón.","fuente_principal":"https://www.dphuesca.es","tags":["politico","pp","diputacion-huesca"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político oscense del PP, trayectoria municipal."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Monzón","contenido":"Alcalde de Monzón antes de la presidencia.","fecha":"2015-06-13"},
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Presidente desde julio 2023, sustituyendo a Miguel Gracia (PSOE).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP Aragón / Azcón","contenido":"Coordinación con Jorge Azcón (PP, presidente aragonés).","tags":["azcon"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DPHuesca","fuente_url":"https://www.dphuesca.es"}]}]
+    "slug": "isaac-claver-ortigosa",
+    "tipo": "politico",
+    "nombre": "Isaac Claver Ortigosa",
+    "alias": "Isaac Claver",
+    "cargo": "Presidente de la Diputación Provincial de Huesca",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Huesca desde julio 2023. Anteriormente alcalde de Monzón.",
+    "fuente_principal": "https://www.dphuesca.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-huesca"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político oscense del PP, trayectoria municipal."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Monzón",
+            "contenido": "Alcalde de Monzón antes de la presidencia.",
+            "fecha": "2015-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Presidente desde julio 2023, sustituyendo a Miguel Gracia (PSOE).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP Aragón / Azcón",
+            "contenido": "**Coordinación con Jorge Azcón (PP, presidente aragonés)** (nota +8/10)",
+            "tags": [
+              "azcon",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DPHuesca",
+            "fuente_url": "https://www.dphuesca.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"joaquin-juste-sanz","tipo":"politico","nombre":"Joaquín Juste Sanz","alias":"Joaquín Juste","cargo":"Presidente de la Diputación Provincial de Teruel","bio_corta":"Político del PP. Presidente de la Diputación de Teruel desde 2023. Anteriormente alcalde de Híjar y diputado nacional por Teruel.","fuente_principal":"https://www.dpteruel.es","tags":["politico","pp","diputacion-teruel"],"confidence":0.78,"completeness":0.62,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político turolense del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputado nacional","contenido":"Diputado del Congreso por Teruel (PP) varias legislaturas.","fecha":"2015-12-20"},
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Presidente desde julio 2023, sustituyendo a Manuel Rando (PSOE).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Teruel Existe","contenido":"Tensión con Teruel Existe (España Vaciada) como fuerza política provincial.","tags":["teruel-existe"]},
-        {"tipo":"contacto","titulo":"PP Aragón / Azcón","contenido":"Vinculación regional.","tags":["azcon"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DPTeruel","fuente_url":"https://www.dpteruel.es"}]}]
+    "slug": "joaquin-juste-sanz",
+    "tipo": "politico",
+    "nombre": "Joaquín Juste Sanz",
+    "alias": "Joaquín Juste",
+    "cargo": "Presidente de la Diputación Provincial de Teruel",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Teruel desde 2023. Anteriormente alcalde de Híjar y diputado nacional por Teruel.",
+    "fuente_principal": "https://www.dpteruel.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-teruel"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político turolense del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputado nacional",
+            "contenido": "Diputado del Congreso por Teruel (PP) varias legislaturas.",
+            "fecha": "2015-12-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Presidente desde julio 2023, sustituyendo a Manuel Rando (PSOE).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Teruel Existe",
+            "contenido": "**Tensión con Teruel Existe (España Vaciada) como fuerza política provincial** (nota -7/10)",
+            "tags": [
+              "teruel-existe",
+              "nota--7",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PP Aragón / Azcón",
+            "contenido": "**Vinculación regional** (nota +5/10)",
+            "tags": [
+              "azcon",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DPTeruel",
+            "fuente_url": "https://www.dpteruel.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"juan-antonio-sanchez-quero","tipo":"politico","nombre":"Juan Antonio Sánchez Quero","alias":"Sánchez Quero","cargo":"Presidente de la Diputación Provincial de Zaragoza","bio_corta":"Político del PSOE. Presidente de la Diputación de Zaragoza desde 2015, renovado 2019 y 2023. Anteriormente alcalde de Alfamén y diputado provincial.","fuente_principal":"https://www.dpz.es","tags":["politico","psoe","diputacion-zaragoza"],"confidence":0.8,"completeness":0.65,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político zaragozano del PSOE. Trayectoria municipal-provincial."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Alcaldía Alfamén","contenido":"Alcalde de Alfamén.","fecha":"2007-06-16"},
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente desde 2015.","fecha":"2015-07-15"},
-        {"tipo":"evento","titulo":"Renovaciones","contenido":"Renovado en 2019 y 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSOE Aragón","contenido":"Voz del PSOE-A en oposición a Azcón.","tags":["psoe-a"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DPZ","fuente_url":"https://www.dpz.es"}]}]
+    "slug": "juan-antonio-sanchez-quero",
+    "tipo": "politico",
+    "nombre": "Juan Antonio Sánchez Quero",
+    "alias": "Sánchez Quero",
+    "cargo": "Presidente de la Diputación Provincial de Zaragoza",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Zaragoza desde 2015, renovado 2019 y 2023. Anteriormente alcalde de Alfamén y diputado provincial.",
+    "fuente_principal": "https://www.dpz.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-zaragoza"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político zaragozano del PSOE. Trayectoria municipal-provincial."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldía Alfamén",
+            "contenido": "Alcalde de Alfamén.",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente desde 2015.",
+            "fecha": "2015-07-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Renovaciones",
+            "contenido": "Renovado en 2019 y 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE Aragón",
+            "contenido": "**Voz del PSOE-A en oposición a Azcón** (nota -7/10)",
+            "tags": [
+              "psoe-a",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DPZ",
+            "fuente_url": "https://www.dpz.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"carlos-garcia-gonzalez-avila","tipo":"politico","nombre":"Carlos García González","alias":"Carlos García","cargo":"Presidente de la Diputación Provincial de Ávila","bio_corta":"Político del PP. Presidente de la Diputación de Ávila. Trayectoria provincial.","fuente_principal":"https://www.diputacionavila.es","tags":["politico","pp","diputacion-avila"],"confidence":0.7,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político abulense del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación con Junta CyL.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Ávila","fuente_url":"https://www.diputacionavila.es"}]}]
+    "slug": "carlos-garcia-gonzalez-avila",
+    "tipo": "politico",
+    "nombre": "Carlos García González",
+    "alias": "Carlos García",
+    "cargo": "Presidente de la Diputación Provincial de Ávila",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Ávila. Trayectoria provincial.",
+    "fuente_principal": "https://www.diputacionavila.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-avila"
+    ],
+    "confidence": 0.7,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político abulense del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación con Junta CyL** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Ávila",
+            "fuente_url": "https://www.diputacionavila.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"borja-suarez-pedrosa","tipo":"politico","nombre":"Borja Suárez Pedrosa","alias":"Borja Suárez","cargo":"Presidente de la Diputación Provincial de Burgos","bio_corta":"Político del PP. Presidente de la Diputación de Burgos desde 2023.","fuente_principal":"https://www.diputaciondeburgos.es","tags":["politico","pp","diputacion-burgos"],"confidence":0.72,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político burgalés del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Sustituye a Ángel Ibáñez Hernando que pasó al Gobierno autonómico.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Ángel Ibáñez (predecesor)","contenido":"Predecesor, hoy en Junta CyL.","tags":["ibanez"]},
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación regional.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Burgos","fuente_url":"https://www.diputaciondeburgos.es"}]}]
+    "slug": "borja-suarez-pedrosa",
+    "tipo": "politico",
+    "nombre": "Borja Suárez Pedrosa",
+    "alias": "Borja Suárez",
+    "cargo": "Presidente de la Diputación Provincial de Burgos",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Burgos desde 2023.",
+    "fuente_principal": "https://www.diputaciondeburgos.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-burgos"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político burgalés del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Sustituye a Ángel Ibáñez Hernando que pasó al Gobierno autonómico.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Ángel Ibáñez (predecesor)",
+            "contenido": "**Predecesor, hoy en Junta CyL** (nota -5/10)",
+            "tags": [
+              "ibanez",
+              "nota--5",
+              "tension"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación regional** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Burgos",
+            "fuente_url": "https://www.diputaciondeburgos.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"eduardo-moran-pacios","tipo":"politico","nombre":"Eduardo Morán Pacios","alias":"Eduardo Morán","cargo":"Presidente de la Diputación Provincial de León","bio_corta":"Político del PSOE. Presidente de la Diputación de León desde 2023, en pacto con UPL.","fuente_principal":"https://www.dipuleon.es","tags":["politico","psoe","diputacion-leon"],"confidence":0.7,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político leonés del PSOE."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Presidente con apoyo de UPL.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"UPL (socio)","contenido":"Pacto con regionalismo leonés.","tags":["upl"]},
-        {"tipo":"contacto","titulo":"PSOE CyL","contenido":"Oposición Junta del PP-Vox.","tags":["psoe-cyl"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación León","fuente_url":"https://www.dipuleon.es"}]}]
+    "slug": "eduardo-moran-pacios",
+    "tipo": "politico",
+    "nombre": "Eduardo Morán Pacios",
+    "alias": "Eduardo Morán",
+    "cargo": "Presidente de la Diputación Provincial de León",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de León desde 2023, en pacto con UPL.",
+    "fuente_principal": "https://www.dipuleon.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-leon"
+    ],
+    "confidence": 0.7,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político leonés del PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Presidente con apoyo de UPL.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "UPL (socio)",
+            "contenido": "**Pacto con regionalismo leonés** (nota +5/10)",
+            "tags": [
+              "upl",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE CyL",
+            "contenido": "**Oposición Junta del PP-Vox** (nota -7/10)",
+            "tags": [
+              "psoe-cyl",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación León",
+            "fuente_url": "https://www.dipuleon.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"angeles-armisen-pedrejon","tipo":"politico","nombre":"Ángeles Armisén Pedrejón","alias":"Ángeles Armisén","cargo":"Presidenta de la Diputación Provincial de Palencia","bio_corta":"Política del PP. Presidenta de la Diputación de Palencia desde 2015, renovada 2019 y 2023.","fuente_principal":"https://www.diputaciondepalencia.es","tags":["politico","pp","diputacion-palencia"],"confidence":0.78,"completeness":0.6,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política palentina del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2015","contenido":"Presidenta desde 2015.","fecha":"2015-07-15"},
-        {"tipo":"evento","titulo":"Renovaciones 2019/2023","contenido":"Renovada en 2019 y 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación regional.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Palencia","fuente_url":"https://www.diputaciondepalencia.es"}]}]
+    "slug": "angeles-armisen-pedrejon",
+    "tipo": "politico",
+    "nombre": "Ángeles Armisén Pedrejón",
+    "alias": "Ángeles Armisén",
+    "cargo": "Presidenta de la Diputación Provincial de Palencia",
+    "bio_corta": "Política del PP. Presidenta de la Diputación de Palencia desde 2015, renovada 2019 y 2023.",
+    "fuente_principal": "https://www.diputaciondepalencia.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-palencia"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política palentina del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2015",
+            "contenido": "Presidenta desde 2015.",
+            "fecha": "2015-07-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Renovaciones 2019/2023",
+            "contenido": "Renovada en 2019 y 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación regional** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Palencia",
+            "fuente_url": "https://www.diputaciondepalencia.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"javier-iglesias-garcia-salamanca","tipo":"politico","nombre":"Javier Iglesias García","alias":"Javier Iglesias","cargo":"Presidente de la Diputación Provincial de Salamanca","bio_corta":"Político del PP. Presidente de la Diputación de Salamanca, trayectoria larga en la institución.","fuente_principal":"https://www.lasalina.es","tags":["politico","pp","diputacion-salamanca"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político salmantino del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente desde 2015.","fecha":"2015-07-15"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación regional.","tags":["manueco"]},
-        {"tipo":"contacto","titulo":"USAL","contenido":"Convenios con la Universidad de Salamanca.","tags":["usal"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Salamanca","fuente_url":"https://www.lasalina.es"}]}]
+    "slug": "javier-iglesias-garcia-salamanca",
+    "tipo": "politico",
+    "nombre": "Javier Iglesias García",
+    "alias": "Javier Iglesias",
+    "cargo": "Presidente de la Diputación Provincial de Salamanca",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Salamanca, trayectoria larga en la institución.",
+    "fuente_principal": "https://www.lasalina.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-salamanca"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político salmantino del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente desde 2015.",
+            "fecha": "2015-07-15"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación regional** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "USAL",
+            "contenido": "**Convenios con la Universidad de Salamanca** (nota +3/10)",
+            "tags": [
+              "usal",
+              "nota-+3",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Salamanca",
+            "fuente_url": "https://www.lasalina.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"miguel-angel-de-vicente-martin","tipo":"politico","nombre":"Miguel Ángel de Vicente Martín","alias":"De Vicente","cargo":"Presidente de la Diputación Provincial de Segovia","bio_corta":"Político del PP. Presidente de la Diputación de Segovia.","fuente_principal":"https://www.dipsegovia.es","tags":["politico","pp","diputacion-segovia"],"confidence":0.7,"completeness":0.52,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político segoviano del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación regional.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Segovia","fuente_url":"https://www.dipsegovia.es"}]}]
+    "slug": "miguel-angel-de-vicente-martin",
+    "tipo": "politico",
+    "nombre": "Miguel Ángel de Vicente Martín",
+    "alias": "De Vicente",
+    "cargo": "Presidente de la Diputación Provincial de Segovia",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Segovia.",
+    "fuente_principal": "https://www.dipsegovia.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-segovia"
+    ],
+    "confidence": 0.7,
+    "completeness": 0.52,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político segoviano del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación regional** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Segovia",
+            "fuente_url": "https://www.dipsegovia.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"benito-serrano-mata","tipo":"politico","nombre":"Benito Serrano Mata","alias":"Benito Serrano","cargo":"Presidente de la Diputación Provincial de Soria","bio_corta":"Político del PP. Presidente de la Diputación de Soria.","fuente_principal":"https://www.dipsoria.es","tags":["politico","pp","diputacion-soria"],"confidence":0.7,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político soriano del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Soria ¡Ya!","contenido":"Plataforma España Vaciada en la provincia.","tags":["soria-ya"]},
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación regional.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Soria","fuente_url":"https://www.dipsoria.es"}]}]
+    "slug": "benito-serrano-mata",
+    "tipo": "politico",
+    "nombre": "Benito Serrano Mata",
+    "alias": "Benito Serrano",
+    "cargo": "Presidente de la Diputación Provincial de Soria",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Soria.",
+    "fuente_principal": "https://www.dipsoria.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-soria"
+    ],
+    "confidence": 0.7,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político soriano del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Soria ¡Ya!",
+            "contenido": "**Plataforma España Vaciada en la provincia**",
+            "tags": [
+              "soria-ya",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación regional** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Soria",
+            "fuente_url": "https://www.dipsoria.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"conrado-iscar-ordonez","tipo":"politico","nombre":"Conrado Íscar Ordóñez","alias":"Conrado Íscar","cargo":"Presidente de la Diputación Provincial de Valladolid","bio_corta":"Político del PP. Presidente de la Diputación de Valladolid.","fuente_principal":"https://www.diputaciondevalladolid.es","tags":["politico","pp","diputacion-valladolid"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político vallisoletano del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Vínculo directo con Valladolid como capital política.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Valladolid","fuente_url":"https://www.diputaciondevalladolid.es"}]}]
+    "slug": "conrado-iscar-ordonez",
+    "tipo": "politico",
+    "nombre": "Conrado Íscar Ordóñez",
+    "alias": "Conrado Íscar",
+    "cargo": "Presidente de la Diputación Provincial de Valladolid",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Valladolid.",
+    "fuente_principal": "https://www.diputaciondevalladolid.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-valladolid"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político vallisoletano del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Vínculo directo con Valladolid como capital política**",
+            "tags": [
+              "manueco",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Valladolid",
+            "fuente_url": "https://www.diputaciondevalladolid.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"javier-faundez-dominguez","tipo":"politico","nombre":"Javier Faúndez Domínguez","alias":"Javier Faúndez","cargo":"Presidente de la Diputación Provincial de Zamora","bio_corta":"Político del PP. Presidente de la Diputación de Zamora.","fuente_principal":"https://www.diputaciondezamora.es","tags":["politico","pp","diputacion-zamora"],"confidence":0.7,"completeness":0.52,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político zamorano del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CyL / Mañueco","contenido":"Coordinación regional.","tags":["manueco"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Zamora","fuente_url":"https://www.diputaciondezamora.es"}]}]
+    "slug": "javier-faundez-dominguez",
+    "tipo": "politico",
+    "nombre": "Javier Faúndez Domínguez",
+    "alias": "Javier Faúndez",
+    "cargo": "Presidente de la Diputación Provincial de Zamora",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Zamora.",
+    "fuente_principal": "https://www.diputaciondezamora.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-zamora"
+    ],
+    "confidence": 0.7,
+    "completeness": 0.52,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político zamorano del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CyL / Mañueco",
+            "contenido": "**Coordinación regional** (nota +7/10)",
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Zamora",
+            "fuente_url": "https://www.diputaciondezamora.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"santi-cabanero-masip","tipo":"politico","nombre":"Santiago Cabañero Masip","alias":"Santi Cabañero","cargo":"Presidente de la Diputación Provincial de Albacete","bio_corta":"Político del PSOE. Presidente de la Diputación de Albacete desde 2019. Aliado de Emiliano García-Page.","fuente_principal":"https://www.dipualba.es","tags":["politico","psoe","diputacion-albacete"],"confidence":0.78,"completeness":0.6,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político albaceteño del PSOE."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2019","contenido":"Presidente desde 2019, renovado 2023.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Emiliano García-Page","contenido":"Aliado del presidente CLM.","tags":["page"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DipuAlba","fuente_url":"https://www.dipualba.es"}]}]
+    "slug": "santi-cabanero-masip",
+    "tipo": "politico",
+    "nombre": "Santiago Cabañero Masip",
+    "alias": "Santi Cabañero",
+    "cargo": "Presidente de la Diputación Provincial de Albacete",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Albacete desde 2019. Aliado de Emiliano García-Page.",
+    "fuente_principal": "https://www.dipualba.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-albacete"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político albaceteño del PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2019",
+            "contenido": "Presidente desde 2019, renovado 2023.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Emiliano García-Page",
+            "contenido": "**Aliado del presidente CLM** (nota +8/10)",
+            "tags": [
+              "page",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DipuAlba",
+            "fuente_url": "https://www.dipualba.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"miguel-angel-valverde-menchero","tipo":"politico","nombre":"Miguel Ángel Valverde Menchero","alias":"Valverde","cargo":"Presidente de la Diputación Provincial de Ciudad Real","bio_corta":"Político del PP. Presidente de la Diputación de Ciudad Real tras alternancia 2023.","fuente_principal":"https://www.dipucr.es","tags":["politico","pp","diputacion-ciudad-real"],"confidence":0.72,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político manchego del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Sustituye a José Manuel Caballero (PSOE).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CLM","contenido":"Vinculación regional.","tags":["pp-clm"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DipuCR","fuente_url":"https://www.dipucr.es"}]}]
+    "slug": "miguel-angel-valverde-menchero",
+    "tipo": "politico",
+    "nombre": "Miguel Ángel Valverde Menchero",
+    "alias": "Valverde",
+    "cargo": "Presidente de la Diputación Provincial de Ciudad Real",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Ciudad Real tras alternancia 2023.",
+    "fuente_principal": "https://www.dipucr.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-ciudad-real"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político manchego del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Sustituye a José Manuel Caballero (PSOE).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CLM",
+            "contenido": "**Vinculación regional** (nota +5/10)",
+            "tags": [
+              "pp-clm",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DipuCR",
+            "fuente_url": "https://www.dipucr.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"alvaro-martinez-chana","tipo":"politico","nombre":"Álvaro Martínez Chana","alias":"Martínez Chana","cargo":"Presidente de la Diputación Provincial de Cuenca","bio_corta":"Político del PSOE. Presidente de la Diputación de Cuenca. Aliado de Emiliano García-Page.","fuente_principal":"https://www.dipucuenca.es","tags":["politico","psoe","diputacion-cuenca"],"confidence":0.75,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político conquense del PSOE."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2019","contenido":"Presidente desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"García-Page","contenido":"Aliado regional.","tags":["page"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DipuCuenca","fuente_url":"https://www.dipucuenca.es"}]}]
+    "slug": "alvaro-martinez-chana",
+    "tipo": "politico",
+    "nombre": "Álvaro Martínez Chana",
+    "alias": "Martínez Chana",
+    "cargo": "Presidente de la Diputación Provincial de Cuenca",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Cuenca. Aliado de Emiliano García-Page.",
+    "fuente_principal": "https://www.dipucuenca.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-cuenca"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político conquense del PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2019",
+            "contenido": "Presidente desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "García-Page",
+            "contenido": "**Aliado regional** (nota +7/10)",
+            "tags": [
+              "page",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DipuCuenca",
+            "fuente_url": "https://www.dipucuenca.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"jose-luis-vega-perez","tipo":"politico","nombre":"José Luis Vega Pérez","alias":"José Luis Vega","cargo":"Presidente de la Diputación Provincial de Guadalajara","bio_corta":"Político del PSOE. Presidente de la Diputación de Guadalajara.","fuente_principal":"https://www.dguadalajara.es","tags":["politico","psoe","diputacion-guadalajara"],"confidence":0.72,"completeness":0.52,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político alcarreño del PSOE."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación","contenido":"Presidente.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"García-Page","contenido":"Aliado regional.","tags":["page"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Guadalajara","fuente_url":"https://www.dguadalajara.es"}]}]
+    "slug": "jose-luis-vega-perez",
+    "tipo": "politico",
+    "nombre": "José Luis Vega Pérez",
+    "alias": "José Luis Vega",
+    "cargo": "Presidente de la Diputación Provincial de Guadalajara",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Guadalajara.",
+    "fuente_principal": "https://www.dguadalajara.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-guadalajara"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.52,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político alcarreño del PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación",
+            "contenido": "Presidente.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "García-Page",
+            "contenido": "**Aliado regional** (nota +7/10)",
+            "tags": [
+              "page",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Guadalajara",
+            "fuente_url": "https://www.dguadalajara.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"concepcion-cedillo-valverde","tipo":"politico","nombre":"Concepción Cedillo Valverde","alias":"Concepción Cedillo","cargo":"Presidenta de la Diputación Provincial de Toledo","bio_corta":"Política del PP. Presidenta de la Diputación de Toledo tras alternancia 2023.","fuente_principal":"https://www.diputoledo.es","tags":["politico","pp","diputacion-toledo"],"confidence":0.72,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política toledana del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Sustituye a Álvaro Gutiérrez (PSOE).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP CLM","contenido":"Vinculación regional.","tags":["pp-clm"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DipuToledo","fuente_url":"https://www.diputoledo.es"}]}]
+    "slug": "concepcion-cedillo-valverde",
+    "tipo": "politico",
+    "nombre": "Concepción Cedillo Valverde",
+    "alias": "Concepción Cedillo",
+    "cargo": "Presidenta de la Diputación Provincial de Toledo",
+    "bio_corta": "Política del PP. Presidenta de la Diputación de Toledo tras alternancia 2023.",
+    "fuente_principal": "https://www.diputoledo.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-toledo"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política toledana del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Sustituye a Álvaro Gutiérrez (PSOE).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP CLM",
+            "contenido": "**Vinculación regional** (nota +5/10)",
+            "tags": [
+              "pp-clm",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DipuToledo",
+            "fuente_url": "https://www.diputoledo.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"lluisa-moret-sabido","tipo":"politico","nombre":"Lluïsa Moret i Sabidó","alias":"Lluïsa Moret","cargo":"Presidenta de la Diputació de Barcelona","bio_corta":"Política del PSC. Presidenta de la Diputació de Barcelona desde 2023. Alcaldesa de Sant Boi de Llobregat.","fuente_principal":"https://www.diba.cat","tags":["politico","psc","diputacion-barcelona","cataluna"],"confidence":0.82,"completeness":0.65,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política catalana del PSC. Alcaldesa de Sant Boi de Llobregat."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Sant Boi de Llobregat","contenido":"Alcaldesa desde 2014.","fecha":"2014-04-02"},
-        {"tipo":"evento","titulo":"Diba 2023","contenido":"Presidenta de la Diputación de Barcelona desde julio 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Salvador Illa","contenido":"Coordinación con president Generalitat (PSC).","tags":["illa"]},
-        {"tipo":"contacto","titulo":"ERC","contenido":"Socio en la diputación.","tags":["erc"]},
-        {"tipo":"contacto","titulo":"Jaume Collboni","contenido":"Coordinación con alcalde de Barcelona (PSC).","tags":["collboni"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diba","fuente_url":"https://www.diba.cat"}]}]
+    "slug": "lluisa-moret-sabido",
+    "tipo": "politico",
+    "nombre": "Lluïsa Moret i Sabidó",
+    "alias": "Lluïsa Moret",
+    "cargo": "Presidenta de la Diputació de Barcelona",
+    "bio_corta": "Política del PSC. Presidenta de la Diputació de Barcelona desde 2023. Alcaldesa de Sant Boi de Llobregat.",
+    "fuente_principal": "https://www.diba.cat",
+    "tags": [
+      "politico",
+      "psc",
+      "diputacion-barcelona",
+      "cataluna"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política catalana del PSC. Alcaldesa de Sant Boi de Llobregat."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sant Boi de Llobregat",
+            "contenido": "Alcaldesa desde 2014.",
+            "fecha": "2014-04-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diba 2023",
+            "contenido": "Presidenta de la Diputación de Barcelona desde julio 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Salvador Illa",
+            "contenido": "**Coordinación con president Generalitat (PSC)** (nota +8/10)",
+            "tags": [
+              "illa",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "ERC",
+            "contenido": "**Socio en la diputación** (nota +5/10)",
+            "tags": [
+              "erc",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Jaume Collboni",
+            "contenido": "**Coordinación con alcalde de Barcelona (PSC)** (nota +7/10)",
+            "tags": [
+              "collboni",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diba",
+            "fuente_url": "https://www.diba.cat"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"miquel-noguer-planas","tipo":"politico","nombre":"Miquel Noguer i Planas","alias":"Miquel Noguer","cargo":"President de la Diputació de Girona","bio_corta":"Político de Junts. President de la Diputació de Girona desde 2019. Alcalde de Banyoles.","fuente_principal":"https://www.ddgi.cat","tags":["politico","junts","diputacion-girona","cataluna"],"confidence":0.8,"completeness":0.65,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político catalán de Junts (antes CDC/CiU). Alcalde de Banyoles."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Banyoles","contenido":"Alcalde de Banyoles desde 2007.","fecha":"2007-06-16"},
-        {"tipo":"evento","titulo":"Diputació 2019","contenido":"President desde 2019, renovado 2023.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Junts","contenido":"Bastión histórico de Junts en Girona.","tags":["junts"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DDGI","fuente_url":"https://www.ddgi.cat"}]}]
+    "slug": "miquel-noguer-planas",
+    "tipo": "politico",
+    "nombre": "Miquel Noguer i Planas",
+    "alias": "Miquel Noguer",
+    "cargo": "President de la Diputació de Girona",
+    "bio_corta": "Político de Junts. President de la Diputació de Girona desde 2019. Alcalde de Banyoles.",
+    "fuente_principal": "https://www.ddgi.cat",
+    "tags": [
+      "politico",
+      "junts",
+      "diputacion-girona",
+      "cataluna"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político catalán de Junts (antes CDC/CiU). Alcalde de Banyoles."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Banyoles",
+            "contenido": "Alcalde de Banyoles desde 2007.",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputació 2019",
+            "contenido": "President desde 2019, renovado 2023.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Junts",
+            "contenido": "**Bastión histórico de Junts en Girona**",
+            "tags": [
+              "junts",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DDGI",
+            "fuente_url": "https://www.ddgi.cat"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"joan-talarn-gilabert","tipo":"politico","nombre":"Joan Talarn i Gilabert","alias":"Joan Talarn","cargo":"President de la Diputació de Lleida","bio_corta":"Político de ERC. President de la Diputació de Lleida.","fuente_principal":"https://www.diputaciolleida.cat","tags":["politico","erc","diputacion-lleida","cataluna"],"confidence":0.72,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político leridano de ERC."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputació 2019","contenido":"President desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"ERC","contenido":"Federación leridana de ERC.","tags":["erc"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DipuLleida","fuente_url":"https://www.diputaciolleida.cat"}]}]
+    "slug": "joan-talarn-gilabert",
+    "tipo": "politico",
+    "nombre": "Joan Talarn i Gilabert",
+    "alias": "Joan Talarn",
+    "cargo": "President de la Diputació de Lleida",
+    "bio_corta": "Político de ERC. President de la Diputació de Lleida.",
+    "fuente_principal": "https://www.diputaciolleida.cat",
+    "tags": [
+      "politico",
+      "erc",
+      "diputacion-lleida",
+      "cataluna"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político leridano de ERC."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputació 2019",
+            "contenido": "President desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "ERC",
+            "contenido": "**Federación leridana de ERC**",
+            "tags": [
+              "erc",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DipuLleida",
+            "fuente_url": "https://www.diputaciolleida.cat"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"noemi-llaurado-sans","tipo":"politico","nombre":"Noemí Llauradó i Sans","alias":"Noemí Llauradó","cargo":"Presidenta de la Diputació de Tarragona","bio_corta":"Política de ERC. Presidenta de la Diputació de Tarragona en pacto con PSC.","fuente_principal":"https://www.dipta.cat","tags":["politico","erc","diputacion-tarragona","cataluna"],"confidence":0.75,"completeness":0.55,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política catalana de ERC."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputació","contenido":"Presidenta en pacto PSC-ERC.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSC","contenido":"Pacto de gobierno.","tags":["psc"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Dipta","fuente_url":"https://www.dipta.cat"}]}]
+    "slug": "noemi-llaurado-sans",
+    "tipo": "politico",
+    "nombre": "Noemí Llauradó i Sans",
+    "alias": "Noemí Llauradó",
+    "cargo": "Presidenta de la Diputació de Tarragona",
+    "bio_corta": "Política de ERC. Presidenta de la Diputació de Tarragona en pacto con PSC.",
+    "fuente_principal": "https://www.dipta.cat",
+    "tags": [
+      "politico",
+      "erc",
+      "diputacion-tarragona",
+      "cataluna"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.55,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política catalana de ERC."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputació",
+            "contenido": "Presidenta en pacto PSC-ERC.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSC",
+            "contenido": "**Pacto de gobierno** (nota +4/10)",
+            "tags": [
+              "psc",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Dipta",
+            "fuente_url": "https://www.dipta.cat"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"toni-perez-perez-alicante","tipo":"politico","nombre":"Antonio Pérez Pérez","alias":"Toni Pérez","cargo":"Presidente de la Diputación de Alicante y alcalde de Benidorm","bio_corta":"Político del PP. Doble cargo: presidente de la Diputación de Alicante y alcalde de Benidorm. Voz importante del sector turístico de la Costa Blanca.","fuente_principal":"https://www.diputacionalicante.es","tags":["politico","pp","diputacion-alicante","alcalde-benidorm","c-valenciana"],"confidence":0.85,"completeness":0.7,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político alicantino del PP. Foco turístico (Benidorm, Costa Blanca)."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Alcaldía Benidorm","contenido":"Alcalde de Benidorm desde 2015.","fecha":"2015-06-13"},
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Presidente Diputación Alicante desde 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Turismo","contenido":"Defensor del modelo Benidorm como hub turístico residencial. Crítica con la 'tasa turística' valenciana.","tags":["turismo","benidorm"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Mazón","contenido":"Coordinación con president valenciano (PP).","tags":["mazon"]},
-        {"tipo":"contacto","titulo":"HOSBEC","contenido":"Patronal hotelera Benidorm-Costa Blanca.","tags":["hosbec"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Alicante","fuente_url":"https://www.diputacionalicante.es"}]}]
+    "slug": "toni-perez-perez-alicante",
+    "tipo": "politico",
+    "nombre": "Antonio Pérez Pérez",
+    "alias": "Toni Pérez",
+    "cargo": "Presidente de la Diputación de Alicante y alcalde de Benidorm",
+    "bio_corta": "Político del PP. Doble cargo: presidente de la Diputación de Alicante y alcalde de Benidorm. Voz importante del sector turístico de la Costa Blanca.",
+    "fuente_principal": "https://www.diputacionalicante.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-alicante",
+      "alcalde-benidorm",
+      "c-valenciana"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político alicantino del PP. Foco turístico (Benidorm, Costa Blanca)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldía Benidorm",
+            "contenido": "Alcalde de Benidorm desde 2015.",
+            "fecha": "2015-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Presidente Diputación Alicante desde 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Turismo",
+            "contenido": "Defensor del modelo Benidorm como hub turístico residencial. Crítica con la 'tasa turística' valenciana.",
+            "tags": [
+              "turismo",
+              "benidorm"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Mazón",
+            "contenido": "**Coordinación con president valenciano (PP)** (nota +8/10)",
+            "tags": [
+              "mazon",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "HOSBEC",
+            "contenido": "**Patronal hotelera Benidorm-Costa Blanca** (nota +8/10)",
+            "tags": [
+              "hosbec",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Alicante",
+            "fuente_url": "https://www.diputacionalicante.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"marta-barrachina-mateu","tipo":"politico","nombre":"Marta Barrachina Mateu","alias":"Marta Barrachina","cargo":"Presidenta de la Diputación de Castellón","bio_corta":"Política del PP. Presidenta de la Diputación de Castellón desde 2023.","fuente_principal":"https://www.dipcas.es","tags":["politico","pp","diputacion-castellon","c-valenciana"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política castellonense del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2023","contenido":"Presidenta desde julio 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Mazón","contenido":"Coordinación con la Generalitat Valenciana.","tags":["mazon"]},
-        {"tipo":"contacto","titulo":"Sector cerámico","contenido":"Castellón es polo mundial de cerámica.","tags":["ceramica"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"DipCas","fuente_url":"https://www.dipcas.es"}]}]
+    "slug": "marta-barrachina-mateu",
+    "tipo": "politico",
+    "nombre": "Marta Barrachina Mateu",
+    "alias": "Marta Barrachina",
+    "cargo": "Presidenta de la Diputación de Castellón",
+    "bio_corta": "Política del PP. Presidenta de la Diputación de Castellón desde 2023.",
+    "fuente_principal": "https://www.dipcas.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-castellon",
+      "c-valenciana"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política castellonense del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2023",
+            "contenido": "Presidenta desde julio 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Mazón",
+            "contenido": "**Coordinación con la Generalitat Valenciana** (nota +7/10)",
+            "tags": [
+              "mazon",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sector cerámico",
+            "contenido": "**Castellón es polo mundial de cerámica**",
+            "tags": [
+              "ceramica",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "DipCas",
+            "fuente_url": "https://www.dipcas.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"vicent-mompo-aledo","tipo":"politico","nombre":"Vicent Mompó Aledo","alias":"Vicent Mompó","cargo":"Presidente de la Diputació de València","bio_corta":"Político del PP. Presidente de la Diputación de Valencia tras alternancia 2023. Anteriormente alcalde de Gavarda.","fuente_principal":"https://www.dival.es","tags":["politico","pp","diputacion-valencia","c-valenciana"],"confidence":0.78,"completeness":0.62,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político valenciano del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Gavarda","contenido":"Alcalde de Gavarda antes de la presidencia.","fecha":"2011-06-11"},
-        {"tipo":"evento","titulo":"Diputació 2023","contenido":"Presidente desde julio 2023. Sustituye a Toni Gaspar (PSPV).","fecha":"2023-07-08"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"DANA Valencia 2024","contenido":"Crisis institucional tras la DANA de octubre 2024 que afectó municipios valencianos.","fecha":"2024-10-29","tags":["dana"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Mazón","contenido":"Coordinación crítica post-DANA.","tags":["mazon","dana"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Dival","fuente_url":"https://www.dival.es"}]}]
+    "slug": "vicent-mompo-aledo",
+    "tipo": "politico",
+    "nombre": "Vicent Mompó Aledo",
+    "alias": "Vicent Mompó",
+    "cargo": "Presidente de la Diputació de València",
+    "bio_corta": "Político del PP. Presidente de la Diputación de Valencia tras alternancia 2023. Anteriormente alcalde de Gavarda.",
+    "fuente_principal": "https://www.dival.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-valencia",
+      "c-valenciana"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político valenciano del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Gavarda",
+            "contenido": "Alcalde de Gavarda antes de la presidencia.",
+            "fecha": "2011-06-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputació 2023",
+            "contenido": "Presidente desde julio 2023. Sustituye a Toni Gaspar (PSPV).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "DANA Valencia 2024",
+            "contenido": "Crisis institucional tras la DANA de octubre 2024 que afectó municipios valencianos.",
+            "fecha": "2024-10-29",
+            "tags": [
+              "dana"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Mazón",
+            "contenido": "**Coordinación crítica post-DANA** (nota -7/10)",
+            "tags": [
+              "mazon",
+              "dana",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Dival",
+            "fuente_url": "https://www.dival.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"miguel-angel-gallardo-miranda","tipo":"politico","nombre":"Miguel Ángel Gallardo Miranda","alias":"Miguel Ángel Gallardo","cargo":"Presidente de la Diputación de Badajoz","bio_corta":"Político del PSOE. Presidente de la Diputación de Badajoz. Figura interna del PSOE-Extremadura, ha aspirado al liderazgo regional.","fuente_principal":"https://www.dip-badajoz.es","tags":["politico","psoe","diputacion-badajoz","extremadura"],"confidence":0.85,"completeness":0.7,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político pacense del PSOE. Carrera larga en la diputación."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Villanueva de la Serena","contenido":"Alcalde de Villanueva de la Serena (PSOE).","fecha":"2007-06-16"},
-        {"tipo":"evento","titulo":"Diputación 2015","contenido":"Presidente desde 2015.","fecha":"2015-07-15"},
-        {"tipo":"evento","titulo":"Renovaciones 2019/2023","contenido":"Renovado en 2019 y 2023, consolidando bastión PSOE.","fecha":"2023-07-08"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Aspirante liderazgo PSOE-Ex","contenido":"Aspirante en pasado a liderar el PSOE-Extremadura.","tags":["liderazgo-psoe"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSOE Extremadura","contenido":"Figura de peso interno.","tags":["psoe-ex"]},
-        {"tipo":"contacto","titulo":"Junta Extremadura (Guardiola PP)","contenido":"Oposición a la Junta del PP-Vox.","tags":["guardiola","oposicion"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Badajoz","fuente_url":"https://www.dip-badajoz.es"}]}]
+    "slug": "miguel-angel-gallardo-miranda",
+    "tipo": "politico",
+    "nombre": "Miguel Ángel Gallardo Miranda",
+    "alias": "Miguel Ángel Gallardo",
+    "cargo": "Presidente de la Diputación de Badajoz",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Badajoz. Figura interna del PSOE-Extremadura, ha aspirado al liderazgo regional.",
+    "fuente_principal": "https://www.dip-badajoz.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-badajoz",
+      "extremadura"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político pacense del PSOE. Carrera larga en la diputación."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Villanueva de la Serena",
+            "contenido": "Alcalde de Villanueva de la Serena (PSOE).",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2015",
+            "contenido": "Presidente desde 2015.",
+            "fecha": "2015-07-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Renovaciones 2019/2023",
+            "contenido": "Renovado en 2019 y 2023, consolidando bastión PSOE.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Aspirante liderazgo PSOE-Ex",
+            "contenido": "Aspirante en pasado a liderar el PSOE-Extremadura.",
+            "tags": [
+              "liderazgo-psoe"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE Extremadura",
+            "contenido": "**Figura de peso interno**",
+            "tags": [
+              "psoe-ex",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Junta Extremadura (Guardiola PP)",
+            "contenido": "**Oposición a la Junta del PP-Vox** (nota -7/10)",
+            "tags": [
+              "guardiola",
+              "oposicion",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Badajoz",
+            "fuente_url": "https://www.dip-badajoz.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"carlos-carlos-rodriguez","tipo":"politico","nombre":"Carlos Carlos Rodríguez","alias":"Carlos Carlos","cargo":"Presidente de la Diputación de Cáceres","bio_corta":"Político del PSOE. Presidente de la Diputación de Cáceres.","fuente_principal":"https://www.dip-caceres.es","tags":["politico","psoe","diputacion-caceres","extremadura"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político cacereño del PSOE."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación 2019","contenido":"Presidente desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSOE Extremadura","contenido":"Federación regional.","tags":["psoe-ex"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Diputación Cáceres","fuente_url":"https://www.dip-caceres.es"}]}]
+    "slug": "carlos-carlos-rodriguez",
+    "tipo": "politico",
+    "nombre": "Carlos Carlos Rodríguez",
+    "alias": "Carlos Carlos",
+    "cargo": "Presidente de la Diputación de Cáceres",
+    "bio_corta": "Político del PSOE. Presidente de la Diputación de Cáceres.",
+    "fuente_principal": "https://www.dip-caceres.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "diputacion-caceres",
+      "extremadura"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político cacereño del PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación 2019",
+            "contenido": "Presidente desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE Extremadura",
+            "contenido": "**Federación regional**",
+            "tags": [
+              "psoe-ex",
+              "sin-valorar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Diputación Cáceres",
+            "fuente_url": "https://www.dip-caceres.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"valentin-gonzalez-formoso","tipo":"politico","nombre":"Valentín González Formoso","alias":"Valentín González Formoso","cargo":"Presidente de la Deputación da Coruña","bio_corta":"Político del PSdeG. Presidente de la Deputación da Coruña. Aspirante interno al liderazgo PSdeG.","fuente_principal":"https://www.dacoruna.gal","tags":["politico","psdeg","diputacion-coruna","galicia"],"confidence":0.85,"completeness":0.68,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político gallego del PSdeG. Alcalde de As Pontes histórico."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"As Pontes","contenido":"Alcalde de As Pontes de García Rodríguez durante años.","fecha":"2011-06-11"},
-        {"tipo":"evento","titulo":"Deputación 2019","contenido":"Presidente desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Transición justa - As Pontes","contenido":"Voz pública sobre la transición justa del carbón en As Pontes (Endesa).","tags":["transicion-justa","endesa"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PSdeG","contenido":"Aspirante interno al liderazgo regional del PSdeG.","tags":["psdeg"]},
-        {"tipo":"contacto","titulo":"Xunta (Rueda) - oposición","contenido":"Oposición Xunta PP.","tags":["rueda"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Deputación Coruña","fuente_url":"https://www.dacoruna.gal"}]}]
+    "slug": "valentin-gonzalez-formoso",
+    "tipo": "politico",
+    "nombre": "Valentín González Formoso",
+    "alias": "Valentín González Formoso",
+    "cargo": "Presidente de la Deputación da Coruña",
+    "bio_corta": "Político del PSdeG. Presidente de la Deputación da Coruña. Aspirante interno al liderazgo PSdeG.",
+    "fuente_principal": "https://www.dacoruna.gal",
+    "tags": [
+      "politico",
+      "psdeg",
+      "diputacion-coruna",
+      "galicia"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político gallego del PSdeG. Alcalde de As Pontes histórico."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "As Pontes",
+            "contenido": "Alcalde de As Pontes de García Rodríguez durante años.",
+            "fecha": "2011-06-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Deputación 2019",
+            "contenido": "Presidente desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Transición justa - As Pontes",
+            "contenido": "Voz pública sobre la transición justa del carbón en As Pontes (Endesa).",
+            "tags": [
+              "transicion-justa",
+              "endesa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSdeG",
+            "contenido": "**Aspirante interno al liderazgo regional del PSdeG** (nota +7/10)",
+            "tags": [
+              "psdeg",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Xunta (Rueda) - oposición",
+            "contenido": "**Oposición Xunta PP** (nota -7/10)",
+            "tags": [
+              "rueda",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Deputación Coruña",
+            "fuente_url": "https://www.dacoruna.gal"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"jose-tome-roca","tipo":"politico","nombre":"José Tomé Roca","alias":"José Tomé","cargo":"Presidente de la Deputación de Lugo","bio_corta":"Político del PSdeG. Presidente de la Deputación de Lugo. Alcalde de Monforte de Lemos.","fuente_principal":"https://www.deputacionlugo.gal","tags":["politico","psdeg","diputacion-lugo","galicia"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político lucense del PSdeG. Alcalde de Monforte de Lemos."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Monforte de Lemos","contenido":"Alcalde de Monforte.","fecha":"2015-06-13"},
-        {"tipo":"evento","titulo":"Deputación 2019","contenido":"Presidente desde 2019.","fecha":"2019-07-04"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"BNG","contenido":"Pacto local con BNG.","tags":["bng"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Deputación Lugo","fuente_url":"https://www.deputacionlugo.gal"}]}]
+    "slug": "jose-tome-roca",
+    "tipo": "politico",
+    "nombre": "José Tomé Roca",
+    "alias": "José Tomé",
+    "cargo": "Presidente de la Deputación de Lugo",
+    "bio_corta": "Político del PSdeG. Presidente de la Deputación de Lugo. Alcalde de Monforte de Lemos.",
+    "fuente_principal": "https://www.deputacionlugo.gal",
+    "tags": [
+      "politico",
+      "psdeg",
+      "diputacion-lugo",
+      "galicia"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político lucense del PSdeG. Alcalde de Monforte de Lemos."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Monforte de Lemos",
+            "contenido": "Alcalde de Monforte.",
+            "fecha": "2015-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Deputación 2019",
+            "contenido": "Presidente desde 2019.",
+            "fecha": "2019-07-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "BNG",
+            "contenido": "**Pacto local con BNG** (nota +4/10)",
+            "tags": [
+              "bng",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Deputación Lugo",
+            "fuente_url": "https://www.deputacionlugo.gal"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"luis-menor-perez","tipo":"politico","nombre":"Luis Menor Pérez","alias":"Luis Menor","cargo":"Presidente de la Deputación de Ourense","bio_corta":"Político del PP. Presidente de la Deputación de Ourense desde 2023. Sustituye a Manuel Baltar tras la era controvertida.","fuente_principal":"https://www.depourense.es","tags":["politico","pp","diputacion-ourense","galicia"],"confidence":0.75,"completeness":0.62,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político ourensano del PP. Cargo presidencial reciente."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Deputación 2023","contenido":"Presidente desde julio 2023, sustituyendo a Manuel Baltar (PP).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP Galicia / Rueda","contenido":"Alineamiento con la Xunta tras la era Baltar.","tags":["rueda"]},
-        {"tipo":"contacto","titulo":"Manuel Baltar (ex)","contenido":"Predecesor controvertido.","tags":["baltar"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Deputación Ourense","fuente_url":"https://www.depourense.es"}]}]
+    "slug": "luis-menor-perez",
+    "tipo": "politico",
+    "nombre": "Luis Menor Pérez",
+    "alias": "Luis Menor",
+    "cargo": "Presidente de la Deputación de Ourense",
+    "bio_corta": "Político del PP. Presidente de la Deputación de Ourense desde 2023. Sustituye a Manuel Baltar tras la era controvertida.",
+    "fuente_principal": "https://www.depourense.es",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-ourense",
+      "galicia"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político ourensano del PP. Cargo presidencial reciente."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Deputación 2023",
+            "contenido": "Presidente desde julio 2023, sustituyendo a Manuel Baltar (PP).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP Galicia / Rueda",
+            "contenido": "**Alineamiento con la Xunta tras la era Baltar**",
+            "tags": [
+              "rueda",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Manuel Baltar (ex)",
+            "contenido": "**Predecesor controvertido** (nota -5/10)",
+            "tags": [
+              "baltar",
+              "nota--5",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Deputación Ourense",
+            "fuente_url": "https://www.depourense.es"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"luis-lopez-dieguez","tipo":"politico","nombre":"Luis López Diéguez","alias":"Luis López","cargo":"Presidente de la Deputación de Pontevedra","bio_corta":"Político del PP. Presidente de la Deputación de Pontevedra tras alternancia 2023.","fuente_principal":"https://www.depo.gal","tags":["politico","pp","diputacion-pontevedra","galicia"],"confidence":0.75,"completeness":0.58,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político pontevedrés del PP."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Deputación 2023","contenido":"Presidente desde julio 2023. Anterior: Carmela Silva (PSdeG).","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Xunta / Rueda","contenido":"Coordinación con Xunta PP.","tags":["rueda"]},
-        {"tipo":"contacto","titulo":"Vigo / Abel Caballero (PSOE)","contenido":"Tensión con el alcalde de Vigo (PSOE).","tags":["caballero","vigo"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Deputación Pontevedra","fuente_url":"https://www.depo.gal"}]}]
+    "slug": "luis-lopez-dieguez",
+    "tipo": "politico",
+    "nombre": "Luis López Diéguez",
+    "alias": "Luis López",
+    "cargo": "Presidente de la Deputación de Pontevedra",
+    "bio_corta": "Político del PP. Presidente de la Deputación de Pontevedra tras alternancia 2023.",
+    "fuente_principal": "https://www.depo.gal",
+    "tags": [
+      "politico",
+      "pp",
+      "diputacion-pontevedra",
+      "galicia"
+    ],
+    "confidence": 0.75,
+    "completeness": 0.58,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político pontevedrés del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Deputación 2023",
+            "contenido": "Presidente desde julio 2023. Anterior: Carmela Silva (PSdeG).",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Xunta / Rueda",
+            "contenido": "**Coordinación con Xunta PP** (nota +7/10)",
+            "tags": [
+              "rueda",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Vigo / Abel Caballero (PSOE)",
+            "contenido": "**Tensión con el alcalde de Vigo (PSOE)** (nota -7/10)",
+            "tags": [
+              "caballero",
+              "vigo",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Deputación Pontevedra",
+            "fuente_url": "https://www.depo.gal"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"ramiro-gonzalez-vicente","tipo":"politico","nombre":"Ramiro González Vicente","alias":"Ramiro González","cargo":"Diputado General de Álava","bio_corta":"Político del PNV. Diputado General de Álava (presidente de la Diputación Foral) desde 2015, reelegido en 2023. Régimen del Concierto Económico.","fuente_principal":"https://www.araba.eus","tags":["politico","pnv","diputacion-foral-alava","euskadi","regimen-foral"],"confidence":0.85,"completeness":0.7,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Político alavés del PNV. Régimen foral con Concierto Económico."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Juntas Generales","contenido":"Juntero histórico del PNV en Álava.","fecha":"2007-06-16"},
-        {"tipo":"evento","titulo":"Diputado General 2015","contenido":"Diputado General desde 2015, reelegido 2019 y 2023.","fecha":"2015-06-29"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Concierto Económico","contenido":"Defensa del Concierto. Negociación de cupo con Madrid.","tags":["concierto"]},
-        {"tipo":"dato","titulo":"Automoción Mercedes","contenido":"Vínculo industrial con la planta de Mercedes-Benz Vitoria.","tags":["mercedes"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PNV / Pradales","contenido":"Coordinación con el Lehendakari.","tags":["pradales","pnv"]},
-        {"tipo":"contacto","titulo":"PSE (socio)","contenido":"Pacto PNV-PSE en Álava.","tags":["pse"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Araba","fuente_url":"https://www.araba.eus"}]}]
+    "slug": "ramiro-gonzalez-vicente",
+    "tipo": "politico",
+    "nombre": "Ramiro González Vicente",
+    "alias": "Ramiro González",
+    "cargo": "Diputado General de Álava",
+    "bio_corta": "Político del PNV. Diputado General de Álava (presidente de la Diputación Foral) desde 2015, reelegido en 2023. Régimen del Concierto Económico.",
+    "fuente_principal": "https://www.araba.eus",
+    "tags": [
+      "politico",
+      "pnv",
+      "diputacion-foral-alava",
+      "euskadi",
+      "regimen-foral"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político alavés del PNV. Régimen foral con Concierto Económico."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Juntas Generales",
+            "contenido": "Juntero histórico del PNV en Álava.",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputado General 2015",
+            "contenido": "Diputado General desde 2015, reelegido 2019 y 2023.",
+            "fecha": "2015-06-29"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Concierto Económico",
+            "contenido": "Defensa del Concierto. Negociación de cupo con Madrid.",
+            "tags": [
+              "concierto"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Automoción Mercedes",
+            "contenido": "Vínculo industrial con la planta de Mercedes-Benz Vitoria.",
+            "tags": [
+              "mercedes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PNV / Pradales",
+            "contenido": "**Coordinación con el Lehendakari** (nota +7/10)",
+            "tags": [
+              "pradales",
+              "pnv",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PSE (socio)",
+            "contenido": "**Pacto PNV-PSE en Álava** (nota +5/10)",
+            "tags": [
+              "pse",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Araba",
+            "fuente_url": "https://www.araba.eus"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"elixabete-etxanobe-landajuela","tipo":"politico","nombre":"Elixabete Etxanobe Landajuela","alias":"Etxanobe","cargo":"Diputada General de Bizkaia","bio_corta":"Política del PNV. Diputada General de Bizkaia desde 2023, sucediendo a Unai Rementeria. Trayectoria en la Diputación Foral.","fuente_principal":"https://www.bizkaia.eus","tags":["politico","pnv","diputacion-foral-bizkaia","euskadi","regimen-foral"],"confidence":0.85,"completeness":0.7,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política vizcaína del PNV. Trayectoria foral."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación Foral - cargos previos","contenido":"Diputada foral de Hacienda y Finanzas (era Rementeria).","fecha":"2015-06-29"},
-        {"tipo":"evento","titulo":"Diputada General 2023","contenido":"Diputada General desde julio 2023, sucediendo a Unai Rementeria.","fecha":"2023-07-08"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Concierto Económico","contenido":"Defensa activa del Concierto y la fiscalidad propia vizcaína.","tags":["concierto"]}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Imanol Pradales","contenido":"Lehendakari. Pradales fue diputado foral en Bizkaia con Rementeria.","tags":["pradales"]},
-        {"tipo":"contacto","titulo":"Unai Rementeria (predecesor)","contenido":"Predecesor en la Diputación.","tags":["rementeria"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Bizkaia","fuente_url":"https://www.bizkaia.eus"}]}]
+    "slug": "elixabete-etxanobe-landajuela",
+    "tipo": "politico",
+    "nombre": "Elixabete Etxanobe Landajuela",
+    "alias": "Etxanobe",
+    "cargo": "Diputada General de Bizkaia",
+    "bio_corta": "Política del PNV. Diputada General de Bizkaia desde 2023, sucediendo a Unai Rementeria. Trayectoria en la Diputación Foral.",
+    "fuente_principal": "https://www.bizkaia.eus",
+    "tags": [
+      "politico",
+      "pnv",
+      "diputacion-foral-bizkaia",
+      "euskadi",
+      "regimen-foral"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política vizcaína del PNV. Trayectoria foral."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación Foral - cargos previos",
+            "contenido": "Diputada foral de Hacienda y Finanzas (era Rementeria).",
+            "fecha": "2015-06-29"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputada General 2023",
+            "contenido": "Diputada General desde julio 2023, sucediendo a Unai Rementeria.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Concierto Económico",
+            "contenido": "Defensa activa del Concierto y la fiscalidad propia vizcaína.",
+            "tags": [
+              "concierto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "**Lehendakari** — Pradales fue diputado foral en Bizkaia con Rementeria.",
+            "tags": [
+              "pradales",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Unai Rementeria (predecesor)",
+            "contenido": "**Predecesor en la Diputación** (nota -5/10)",
+            "tags": [
+              "rementeria",
+              "nota--5",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Bizkaia",
+            "fuente_url": "https://www.bizkaia.eus"
+          }
+        ]
+      }
+    ]
   },
   {
-    "slug":"eider-mendoza-larranaga","tipo":"politico","nombre":"Eider Mendoza Larrañaga","alias":"Eider Mendoza","cargo":"Diputada General de Gipuzkoa","bio_corta":"Política del PNV. Diputada General de Gipuzkoa desde 2023, sucediendo a Markel Olano.","fuente_principal":"https://www.gipuzkoa.eus","tags":["politico","pnv","diputacion-foral-gipuzkoa","euskadi","regimen-foral"],"confidence":0.82,"completeness":0.68,"apartados":[
-      {"tipo":"identidad","orden":0,"items":[{"tipo":"dato","titulo":"Perfil","contenido":"Política guipuzcoana del PNV."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputación cargos previos","contenido":"Cargos previos en la Diputación Foral con Markel Olano.","fecha":"2015-06-29"},
-        {"tipo":"evento","titulo":"Diputada General 2023","contenido":"Diputada General desde julio 2023.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PNV / Pradales","contenido":"Coordinación con Lehendakari.","tags":["pradales"]},
-        {"tipo":"contacto","titulo":"EH Bildu - oposición","contenido":"EH Bildu fuerza principal de oposición en Gipuzkoa.","tags":["bildu"]},
-        {"tipo":"contacto","titulo":"Markel Olano (predecesor)","contenido":"Predecesor PNV.","tags":["olano"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Gipuzkoa","fuente_url":"https://www.gipuzkoa.eus"}]}]
+    "slug": "eider-mendoza-larranaga",
+    "tipo": "politico",
+    "nombre": "Eider Mendoza Larrañaga",
+    "alias": "Eider Mendoza",
+    "cargo": "Diputada General de Gipuzkoa",
+    "bio_corta": "Política del PNV. Diputada General de Gipuzkoa desde 2023, sucediendo a Markel Olano.",
+    "fuente_principal": "https://www.gipuzkoa.eus",
+    "tags": [
+      "politico",
+      "pnv",
+      "diputacion-foral-gipuzkoa",
+      "euskadi",
+      "regimen-foral"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Política guipuzcoana del PNV."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputación cargos previos",
+            "contenido": "Cargos previos en la Diputación Foral con Markel Olano.",
+            "fecha": "2015-06-29"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputada General 2023",
+            "contenido": "Diputada General desde julio 2023.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PNV / Pradales",
+            "contenido": "**Coordinación con Lehendakari** (nota +7/10)",
+            "tags": [
+              "pradales",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "EH Bildu - oposición",
+            "contenido": "**EH Bildu fuerza principal de oposición en Gipuzkoa** (nota -7/10)",
+            "tags": [
+              "bildu",
+              "nota--7",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Markel Olano (predecesor)",
+            "contenido": "**Predecesor PNV** (nota -5/10)",
+            "tags": [
+              "olano",
+              "nota--5",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Gipuzkoa",
+            "fuente_url": "https://www.gipuzkoa.eus"
+          }
+        ]
+      }
+    ]
   }
 ]

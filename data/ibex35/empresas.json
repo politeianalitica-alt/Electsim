@@ -101,27 +101,32 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Pontegadea",
-            "contenido": "Pontegadea Inversiones (vehículo de Amancio Ortega) controla ~59% de Inditex. Pontegadea es además uno de los mayores caseros institucionales de España.",
+            "contenido": "**Pontegadea Inversiones (vehículo de Amancio Ortega) controla ~59% de Inditex** (nota +8/10) — Pontegadea es además uno de los mayores caseros institucionales de España.",
             "tags": [
               "accionariado",
-              "pontegadea"
+              "pontegadea",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cadena de suministro",
-            "contenido": "Red de ~1.800 proveedores y ~8.500 fábricas auditadas, con foco en proximidad (España, Portugal, Marruecos, Turquía). Esta proximidad es clave en su modelo just-in-time.",
+            "contenido": "**Red de ~1** — 800 proveedores y ~8.500 fábricas auditadas, con foco en proximidad (España, Portugal, Marruecos, Turquía). Esta proximidad es clave en su modelo just-in-time.",
             "tags": [
-              "proveedores"
+              "proveedores",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nexo con Gobierno",
-            "contenido": "Inditex y Pontegadea han mantenido históricamente relación cordial con todos los Gobiernos. Pablo Isla (ex CEO) ocupó la vicepresidencia primera de CEOE entre 2014 y 2022.",
+            "contenido": "**Inditex y Pontegadea han mantenido históricamente relación cordial con todos los Gobiernos** (nota +8/10) — Pablo Isla (ex CEO) ocupó la vicepresidencia primera de CEOE entre 2014 y 2022.",
             "tags": [
               "politica",
-              "ceoe"
+              "ceoe",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -283,35 +288,43 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Capital muy disperso. Mayores accionistas conocidos: Qatar Investment Authority (~8%), Norges Bank (~3-4%), BlackRock (~5%), Kutxabank (~1%). No hay un accionista de control.",
+            "contenido": "**Capital muy disperso** (nota +8/10) — Mayores accionistas conocidos: Qatar Investment Authority (~8%), Norges Bank (~3-4%), BlackRock (~5%), Kutxabank (~1%). No hay un accionista de control.",
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Choque con el Gobierno (Sánchez)",
-            "contenido": "Relación tensa con el Gobierno de Pedro Sánchez en 2021-2024 por el tope al gas, el recorte a beneficios caídos del cielo y el impuesto extraordinario. Sánchez Galán ha sido voz crítica pública.",
+            "contenido": "**Relación tensa con el Gobierno de Pedro Sánchez en 2021-2024 por el tope al gas, el recorte a beneficios caídos del cielo y el impuesto extraordinario** (nota -7/10) — Sánchez Galán ha sido voz crítica pública.",
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "CEOE",
-            "contenido": "Histórica presencia en órganos de la CEOE. Sánchez Galán ha sido vocal y miembro destacado del comité ejecutivo.",
+            "contenido": "**Histórica presencia en órganos de la CEOE** (nota +6/10) — Sánchez Galán ha sido vocal y miembro destacado del comité ejecutivo.",
             "tags": [
-              "ceoe"
+              "ceoe",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Investigación judicial Villarejo",
-            "contenido": "Iberdrola está procesada en el caso Villarejo (pieza Tándem) por presunto encargo de espionaje a rivales y directivos entre 2004-2017. Sánchez Galán fue imputado en 2022.",
+            "contenido": "**Iberdrola está procesada en el caso Villarejo (pieza Tándem) por presunto encargo de espionaje a rivales y directivos entre 2004-2017** (nota -8/10) — Sánchez Galán fue imputado en 2022.",
             "tags": [
               "judicial",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -469,35 +482,43 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Capital muy disperso, sin accionista de control. Familia Botín mantiene ~0,5%. Mayores institucionales: BlackRock, Vanguard, State Street.",
+            "contenido": "**Capital muy disperso, sin accionista de control** (nota +8/10) — Familia Botín mantiene ~0,5%. Mayores institucionales: BlackRock, Vanguard, State Street.",
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Botín",
-            "contenido": "Brazo filantrópico de la familia con sede en Santander, foco en arte, ciencia y educación. Patronazgo de Ana Botín.",
+            "contenido": "**Brazo filantrópico de la familia con sede en Santander, foco en arte, ciencia y educación** (nota +8/10) — Patronazgo de Ana Botín.",
             "tags": [
               "filantropia",
-              "familia-botin"
+              "familia-botin",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "AEB y CEOE",
-            "contenido": "Asociación Española de Banca dominada históricamente por Santander. Presidente de AEB es José María Roldán (ex Banco de España).",
+            "contenido": "**Asociación Española de Banca dominada históricamente por Santander** (nota +8/10) — Presidente de AEB es José María Roldán (ex Banco de España).",
             "tags": [
               "aeb",
-              "ceoe"
+              "ceoe",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nexo político",
-            "contenido": "Botín familia ha mantenido relación cordial con sucesivos Gobiernos PSOE y PP. Reuniones puntuales con Sánchez en La Moncloa documentadas en agendas oficiales.",
+            "contenido": "**Botín familia ha mantenido relación cordial con sucesivos Gobiernos PSOE y PP** (nota +6/10) — Reuniones puntuales con Sánchez en La Moncloa documentadas en agendas oficiales.",
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -655,28 +676,33 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Sin accionista de control. Mayores: BlackRock ~5%, Vanguard ~3%, Norges Bank ~3%. Free float muy elevado.",
+            "contenido": "**Sin accionista de control** (nota +8/10) — Mayores: BlackRock ~5%, Vanguard ~3%, Norges Bank ~3%. Free float muy elevado.",
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "OPA Sabadell · Gobierno",
-            "contenido": "La OPA enfrenta resistencia política. El Gobierno (Pedro Sánchez, Carlos Cuerpo en Economía) ha manifestado dudas sobre la concentración bancaria y la salida de TSB del perímetro UK.",
+            "contenido": "**La OPA enfrenta resistencia política** — El Gobierno (Pedro Sánchez, Carlos Cuerpo en Economía) ha manifestado dudas sobre la concentración bancaria y la salida de TSB del perímetro UK.",
             "tags": [
               "politica",
               "sabadell",
-              "gobierno"
+              "gobierno",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Villarejo - pieza BBVA",
-            "contenido": "Audiencia Nacional investiga contratos del BBVA con Villarejo entre 2004-2017 (caso Tándem, pieza BBVA), originalmente para espiar a Sacyr y a directivos en torno a la OPA Sacyr-Repsol de 2004. Francisco González (ex presidente) imputado.",
+            "contenido": "**Audiencia Nacional investiga contratos del BBVA con Villarejo entre 2004-2017 (caso Tándem, pieza BBVA), originalmente para espiar a Sacyr y a directivos en torno a la OPA Sacyr-Repsol de 2004** (nota -8/10) — Francisco González (ex presidente) imputado.",
             "tags": [
               "judicial",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -817,37 +843,45 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista principal: Fundación La Caixa",
-            "contenido": "CriteriaCaixa (vehículo de la Fundación La Caixa) controla ~32% de CaixaBank. Es accionista de referencia.",
+            "contenido": "**CriteriaCaixa (vehículo de la Fundación La Caixa) controla ~32% de CaixaBank** (nota +8/10) — Es accionista de referencia.",
             "tags": [
               "accionariado",
               "criteria",
-              "la-caixa"
+              "la-caixa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FROB / Estado",
-            "contenido": "El Estado (FROB) heredó ~16% del capital tras la fusión con Bankia. Plan de desinversión gradual; participación en 2024 ~17,9%.",
+            "contenido": "**El Estado (FROB) heredó ~16% del capital tras la fusión con Bankia** (nota +3/10) — Plan de desinversión gradual; participación en 2024 ~17,9%.",
             "tags": [
               "accionariado",
               "estado",
-              "frob"
+              "frob",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación La Caixa",
-            "contenido": "La Fundación La Caixa es uno de los mayores patrocinadores filantrópicos de Europa. Isidre Fainé preside Fundación y CriteriaCaixa.",
+            "contenido": "**La Fundación La Caixa es uno de los mayores patrocinadores filantrópicos de Europa** (nota +8/10) — Isidre Fainé preside Fundación y CriteriaCaixa.",
             "tags": [
-              "filantropia"
+              "filantropia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nexo político",
-            "contenido": "Goirigolzarri tiene buena interlocución bipartidista (gestionó la nacionalización de Bankia bajo Rajoy y la fusión con CaixaBank bajo Sánchez).",
+            "contenido": "**Goirigolzarri tiene buena interlocución bipartidista (gestionó la nacionalización de Bankia bajo Rajoy y la fusión con CaixaBank bajo Sánchez)** (nota +6/10)",
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -1012,36 +1046,42 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "STC ~9,9%, SEPI ~10%, BBVA ~4,8%, CriteriaCaixa ~2,7%. Capital semi-controlado tras entrada SEPI 2024.",
+            "contenido": "**STC ~9,9%, SEPI ~10%, BBVA ~4,8%, CriteriaCaixa ~2,7%** (nota +8/10) — Capital semi-controlado tras entrada SEPI 2024.",
             "tags": [
               "accionariado",
               "sepi",
-              "stc"
+              "stc",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Telefónica - Gobierno Sánchez",
-            "contenido": "Entrada de SEPI ordenada por el Gobierno con voluntad explícita de proteger el carácter estratégico nacional. Refleja prioridad geopolítica.",
+            "contenido": "**Entrada de SEPI ordenada por el Gobierno con voluntad explícita de proteger el carácter estratégico nacional** — Refleja prioridad geopolítica.",
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Telefónica",
-            "contenido": "Brazo de RSC con foco en educación digital y empleabilidad joven. Patronato encabezado por el presidente de Telefónica.",
+            "contenido": "**Brazo de RSC con foco en educación digital y empleabilidad joven** (nota +8/10) — Patronato encabezado por el presidente de Telefónica.",
             "tags": [
-              "filantropia"
+              "filantropia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Joint venture VMO2 (UK)",
-            "contenido": "Virgin Media O2 es joint venture al 50% con Liberty Global en Reino Unido.",
+            "contenido": "**Virgin Media O2 es joint venture al 50% con Liberty Global en Reino Unido**",
             "tags": [
-              "joint-venture"
+              "joint-venture",
+              "sin-valorar"
             ]
           }
         ]
@@ -1194,27 +1234,31 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Sacyr ~9%, BlackRock ~3%, Amundi ~3%. Capital muy disperso. Mexicanos Pemex desinvirtieron tras 2014.",
+            "contenido": "**Sacyr ~9%, BlackRock ~3%, Amundi ~3%** — Capital muy disperso. Mexicanos Pemex desinvirtieron tras 2014.",
             "tags": [
               "accionariado",
-              "sacyr"
+              "sacyr",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Choque con Gobierno Sánchez",
-            "contenido": "Imaz ha sido voz crítica del Gobierno por el impuesto. En 2024 anunció pausa de inversiones en hidrógeno verde en España condicionada al marco fiscal.",
+            "contenido": "**Imaz ha sido voz crítica del Gobierno por el impuesto** (nota -7/10) — En 2024 anunció pausa de inversiones en hidrógeno verde en España condicionada al marco fiscal.",
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Repsol",
-            "contenido": "Brazo filantrópico con foco en cultura, educación, transición energética.",
+            "contenido": "**Brazo filantrópico con foco en cultura, educación, transición energética**",
             "tags": [
-              "filantropia"
+              "filantropia",
+              "sin-valorar"
             ]
           }
         ]
@@ -1366,29 +1410,35 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Enaire / Estado",
-            "contenido": "Enaire (sociedad estatal dependiente del Ministerio de Transportes) controla 51%. Aena es de facto una empresa pública cotizada.",
+            "contenido": "**Enaire (sociedad estatal dependiente del Ministerio de Transportes) controla 51%** (nota +8/10) — Aena es de facto una empresa pública cotizada.",
             "tags": [
               "estado",
-              "enaire"
+              "enaire",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nexo PSC / PSOE",
-            "contenido": "Lucena (presidente) procede del PSC. Fue secretario de Estado de Comercio en el primer Gobierno Sánchez (2018) antes de saltar a Aena. Su nombramiento es político.",
+            "contenido": "**Lucena (presidente) procede del PSC** (nota +8/10) — Fue secretario de Estado de Comercio en el primer Gobierno Sánchez (2018) antes de saltar a Aena. Su nombramiento es político.",
             "tags": [
               "politica",
               "psc",
-              "psoe"
+              "psoe",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ministerio Transportes",
-            "contenido": "Tutela directa del Ministerio de Transportes y Movilidad Sostenible (Óscar Puente desde diciembre 2023).",
+            "contenido": "**Tutela directa del Ministerio de Transportes y Movilidad Sostenible (Óscar Puente desde diciembre 2023)** (nota +0/10)",
             "tags": [
               "ministerio",
-              "puente"
+              "puente",
+              "nota-+0",
+              "neutral"
             ]
           }
         ]
@@ -1538,26 +1588,32 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Enel (Italia)",
-            "contenido": "Enel controla 70,1% de Endesa. Decisiones estratégicas integradas con el grupo italiano.",
+            "contenido": "**Enel controla 70,1% de Endesa** (nota +8/10) — Decisiones estratégicas integradas con el grupo italiano.",
             "tags": [
               "accionariado",
-              "enel"
+              "enel",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Enel - Gobierno italiano",
-            "contenido": "Enel está controlada en último término por el Tesoro italiano (~24%). Las decisiones sobre Endesa tienen componente geopolítico Italia-España.",
+            "contenido": "**Enel está controlada en último término por el Tesoro italiano (~24%)** (nota +8/10) — Las decisiones sobre Endesa tienen componente geopolítico Italia-España.",
             "tags": [
-              "geopolitica"
+              "geopolitica",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "AELEC",
-            "contenido": "Endesa, junto con Iberdrola y EDP, forma la patronal AELEC (antes UNESA).",
+            "contenido": "**Endesa, junto con Iberdrola y EDP, forma la patronal AELEC (antes UNESA)** (nota +8/10)",
             "tags": [
-              "patronal"
+              "patronal",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -1707,32 +1763,36 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "CriteriaCaixa ~26%, fondos GIP ~20%, CVC ~20%, IFM (australiano) ~15%. Estructura muy concentrada y compleja.",
+            "contenido": "**CriteriaCaixa ~26%, fondos GIP ~20%, CVC ~20%, IFM (australiano) ~15%** — Estructura muy concentrada y compleja.",
             "tags": [
               "accionariado",
               "criteria",
               "gip",
               "cvc",
-              "ifm"
+              "ifm",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "OPA IFM 2021",
-            "contenido": "El fondo australiano IFM lanzó OPA parcial sobre Naturgy en 2021. El Gobierno de Sánchez aprobó la operación con condiciones especiales (mantenimiento de sede y empleo).",
+            "contenido": "**El fondo australiano IFM lanzó OPA parcial sobre Naturgy en 2021** — El Gobierno de Sánchez aprobó la operación con condiciones especiales (mantenimiento de sede y empleo).",
             "fecha": "2021-08-10",
             "tags": [
               "gobierno",
-              "ifm"
+              "ifm",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno argelino (Sonatrach)",
-            "contenido": "Sonatrach es socio en Medgaz y proveedor estratégico. Relación geopolítica directa.",
+            "contenido": "**Sonatrach es socio en Medgaz y proveedor estratégico** (nota +5/10) — Relación geopolítica directa.",
             "tags": [
               "argelia",
-              "sonatrach"
+              "sonatrach",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -1886,38 +1946,45 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Familia Del Pino",
-            "contenido": "La familia Del Pino (vehículo Rijn Capital/Karlovy + otros) controla ~33% del capital. Rafael del Pino y Calvo-Sotelo preside el consejo.",
+            "contenido": "**La familia Del Pino (vehículo Rijn Capital/Karlovy + otros) controla ~33% del capital** (nota +8/10) — Rafael del Pino y Calvo-Sotelo preside el consejo.",
             "tags": [
               "accionariado",
-              "del-pino"
+              "del-pino",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Choque con Gobierno Sánchez",
-            "contenido": "El traslado de sede 2023 generó choque público con el Gobierno (Pedro Sánchez, Yolanda Díaz, Nadia Calviño). Acusaciones cruzadas sobre lealtad al país e inseguridad jurídica.",
+            "contenido": "**El traslado de sede 2023 generó choque público con el Gobierno (Pedro Sánchez, Yolanda Díaz, Nadia Calviño)** (nota -7/10) — Acusaciones cruzadas sobre lealtad al país e inseguridad jurídica.",
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "PP / Ayuntamientos PP",
-            "contenido": "Mayor cuota de obra pública en gobiernos PP que en PSOE. Buena relación tradicional con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "contenido": "**Mayor cuota de obra pública en gobiernos PP que en PSOE** — Buena relación tradicional con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
             "tags": [
               "politica",
               "pp",
-              "ayuso"
+              "ayuso",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Rafael del Pino",
-            "contenido": "Una de las principales fundaciones liberales del país. Patrocinio de cátedras, foros (Madrid Forum), publicaciones en favor del libre mercado.",
+            "contenido": "**Una de las principales fundaciones liberales del país** (nota +5/10) — Patrocinio de cátedras, foros (Madrid Forum), publicaciones en favor del libre mercado.",
             "tags": [
               "filantropia",
-              "liberalismo"
+              "liberalismo",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -2048,17 +2115,21 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Free float muy elevado. Mayor accionista BlackRock ~5%, Capital Research ~5%. Sin accionista de control.",
+            "contenido": "**Free float muy elevado** (nota +8/10) — Mayor accionista BlackRock ~5%, Capital Research ~5%. Sin accionista de control.",
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Clientes - aerolíneas",
-            "contenido": "Iberia, IAG, Lufthansa, Air France-KLM siguen siendo clientes principales (y antiguos socios fundadores).",
+            "contenido": "**Iberia, IAG, Lufthansa, Air France-KLM siguen siendo clientes principales (y antiguos socios fundadores)** (nota -5/10)",
             "tags": [
-              "clientes"
+              "clientes",
+              "nota--5",
+              "tension"
             ]
           }
         ]
@@ -2196,20 +2267,22 @@
           {
             "tipo": "contacto",
             "titulo": "Accionistas",
-            "contenido": "GIC (Singapur) ~7%, ConnecT/Edizione (Benetton) ~9%, TCI Fund ~6%, BlackRock ~5%, Criteria ~5%.",
+            "contenido": "**GIC (Singapur) ~7%, ConnecT/Edizione (Benetton) ~9%, TCI Fund ~6%, BlackRock ~5%, Criteria ~5%**",
             "tags": [
               "accionariado",
               "gic",
               "benetton",
-              "tci"
+              "tci",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Clientes operadores",
-            "contenido": "Telefónica, Bouygues, Iliad, MasOrange, Vodafone, Wind Tre, Three UK. Relación dual: clientes y fuentes de adquisición de torres.",
+            "contenido": "**Telefónica, Bouygues, Iliad, MasOrange, Vodafone, Wind Tre, Three UK** — Relación dual: clientes y fuentes de adquisición de torres.",
             "tags": [
-              "clientes"
+              "clientes",
+              "sin-valorar"
             ]
           }
         ]
@@ -2349,36 +2422,44 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Florentino Pérez",
-            "contenido": "Florentino y su entorno controlan ~13%. Fundación Florentino Pérez y vehículos varios.",
+            "contenido": "**Florentino y su entorno controlan ~13%** (nota +8/10) — Fundación Florentino Pérez y vehículos varios.",
             "tags": [
               "accionariado",
-              "florentino"
+              "florentino",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Real Madrid",
-            "contenido": "Florentino Pérez es presidente del Real Madrid (1995-2006 y 2009-presente). El club da proyección política e internacional.",
+            "contenido": "**Florentino Pérez es presidente del Real Madrid (1995-2006 y 2009-presente)** (nota +8/10) — El club da proyección política e internacional.",
             "tags": [
               "real-madrid",
-              "florentino"
+              "florentino",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Relación con Gobiernos",
-            "contenido": "Cordial con sucesivos Gobiernos PP y PSOE. Florentino ha sido figura de consenso en sectores económicos. Vínculos con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "contenido": "**Cordial con sucesivos Gobiernos PP y PSOE** (nota +6/10) — Florentino ha sido figura de consenso en sectores económicos. Vínculos con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Villarejo (víctima)",
-            "contenido": "ACS y Florentino aparecen como víctimas de los servicios de Villarejo contratados por Iberdrola y BBVA (espionaje a directivos).",
+            "contenido": "**ACS y Florentino aparecen como víctimas de los servicios de Villarejo contratados por Iberdrola y BBVA (espionaje a directivos)** (nota -8/10)",
             "tags": [
               "judicial",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -2546,28 +2627,34 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Disperso. BlackRock ~6%, Zurich ~5%, otros institucionales. Sin accionista de control. La OPA BBVA puede alterar este mapa.",
+            "contenido": "**Disperso** (nota +8/10) — BlackRock ~6%, Zurich ~5%, otros institucionales. Sin accionista de control. La OPA BBVA puede alterar este mapa.",
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - Postura crítica BBVA",
-            "contenido": "El Gobierno (Pedro Sánchez, Carlos Cuerpo) ha expresado dudas sobre la operación BBVA-Sabadell, condicionante último de la autorización.",
+            "contenido": "**El Gobierno (Pedro Sánchez, Carlos Cuerpo) ha expresado dudas sobre la operación BBVA-Sabadell, condicionante último de la autorización** (nota -7/10)",
             "tags": [
               "politica",
               "gobierno",
-              "opa"
+              "opa",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Generalitat / catalanismo",
-            "contenido": "Aunque trasladó la sede, Sabadell mantiene fuerte vinculación con tejido empresarial catalán y PYMES catalanas.",
+            "contenido": "**Aunque trasladó la sede, Sabadell mantiene fuerte vinculación con tejido empresarial catalán y PYMES catalanas** (nota +5/10)",
             "tags": [
               "politica",
-              "cataluna"
+              "cataluna",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -2704,19 +2791,23 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Cartival (familia Botín-Rivero) ~22%, Fernando Masaveu ~5%, Corp. Mp. Indus ~5%. Familia Botín-Rivero (rama Jaime Botín) es accionista de referencia histórico.",
+            "contenido": "**Cartival (familia Botín-Rivero) ~22%, Fernando Masaveu ~5%, Corp** (nota +5/10) — Mp. Indus ~5%. Familia Botín-Rivero (rama Jaime Botín) es accionista de referencia histórico.",
             "tags": [
               "accionariado",
-              "botin"
+              "botin",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Botín-Rivero",
-            "contenido": "Jaime Botín (hermano del fallecido Emilio Botín) y su entorno controlan vía Cartival. Jaime Botín condenado en 2020 por contrabando del Picasso.",
+            "contenido": "**Jaime Botín (hermano del fallecido Emilio Botín) y su entorno controlan vía Cartival** (nota +8/10) — Jaime Botín condenado en 2020 por contrabando del Picasso.",
             "tags": [
               "botin",
-              "judicial"
+              "judicial",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -2851,26 +2942,32 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Fundación Mapfre",
-            "contenido": "Fundación Mapfre (no cotiza) controla ~70% del capital de Mapfre S.A. La fundación es uno de los mayores patrocinadores culturales del país (exposiciones, premios).",
+            "contenido": "**Fundación Mapfre (no cotiza) controla ~70% del capital de Mapfre S** (nota +8/10) — A. La fundación es uno de los mayores patrocinadores culturales del país (exposiciones, premios).",
             "tags": [
               "accionariado",
-              "fundacion"
+              "fundacion",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Filantropía cultural",
-            "contenido": "Fundación Mapfre opera sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga). Patrocina premios y proyectos sociales en LatAm.",
+            "contenido": "**Fundación Mapfre opera sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga)** (nota +3/10) — Patrocina premios y proyectos sociales en LatAm.",
             "tags": [
-              "filantropia"
+              "filantropia",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Bankia / CaixaBank",
-            "contenido": "Alianza estratégica de distribución con Bankia (heredada por CaixaBank tras fusión). Producto bancaseguro.",
+            "contenido": "**Alianza estratégica de distribución con Bankia (heredada por CaixaBank tras fusión)** (nota +7/10) — Producto bancaseguro.",
             "tags": [
-              "caixabank"
+              "caixabank",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3023,28 +3120,34 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: SEPI",
-            "contenido": "SEPI (Estado) mantiene 20%. Es accionista de referencia (límite legal del 10% para resto inversores).",
+            "contenido": "**SEPI (Estado) mantiene 20%** (nota +8/10) — Es accionista de referencia (límite legal del 10% para resto inversores).",
             "tags": [
               "sepi",
-              "estado"
+              "estado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Limitación 10% otros",
-            "contenido": "Ley sector eléctrico (Ley 17/2007) limita a 5% participaciones individuales y 1% participaciones políticas (operadores).",
+            "contenido": "**Ley sector eléctrico (Ley 17/2007) limita a 5% participaciones individuales y 1% participaciones políticas (operadores)** (nota +3/10)",
             "tags": [
-              "regulacion"
+              "regulacion",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nexo PSOE",
-            "contenido": "Corredor procede del PSOE (ex ministra). Su nombramiento es político. Refleja preferencia del Gobierno Sánchez por perfil afín en infraestructura crítica.",
+            "contenido": "**Corredor procede del PSOE (ex ministra)** (nota -7/10) — Su nombramiento es político. Refleja preferencia del Gobierno Sánchez por perfil afín en infraestructura crítica.",
             "tags": [
               "politica",
               "psoe",
-              "sanchez"
+              "sanchez",
+              "nota--7",
+              "conflicto"
             ]
           }
         ]
@@ -3190,31 +3293,35 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "SEPI ~5%, BlackRock ~5%, Vanguard ~3%, Amancio Ortega vía Pontegadea ~5%, GIC ~5%. Muy disperso.",
+            "contenido": "**SEPI ~5%, BlackRock ~5%, Vanguard ~3%, Amancio Ortega vía Pontegadea ~5%, GIC ~5%** — Muy disperso.",
             "tags": [
               "accionariado",
               "sepi",
-              "pontegadea"
+              "pontegadea",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "H2Med - apoyo político",
-            "contenido": "H2Med (proyecto Iberia-Francia para H2) cuenta con apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa. Financiación CEF-Energy.",
+            "contenido": "**H2Med (proyecto Iberia-Francia para H2) cuenta con apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa** — Financiación CEF-Energy.",
             "tags": [
               "politica",
               "sanchez",
               "macron",
-              "h2med"
+              "h2med",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - Aizpiri",
-            "contenido": "Arturo Gonzalo Aizpiri (CEO) procede del entorno empresarial verde, encaje político con la agenda de transición ecológica del Gobierno.",
+            "contenido": "**Arturo Gonzalo Aizpiri (CEO) procede del entorno empresarial verde, encaje político con la agenda de transición ecológica del Gobierno** (nota +6/10)",
             "tags": [
               "politica",
-              "sanchez"
+              "sanchez",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -3348,26 +3455,30 @@
           {
             "tipo": "contacto",
             "titulo": "Accionista de control: Familia Entrecanales",
-            "contenido": "Familia Entrecanales-Domecq controla ~55% vía sociedades patrimoniales (Tussen de Grachten, etc.).",
+            "contenido": "**Familia Entrecanales-Domecq controla ~55% vía sociedades patrimoniales (Tussen de Grachten, etc** (nota +8/10) — ).",
             "tags": [
               "accionariado",
-              "entrecanales"
+              "entrecanales",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Acciona Energía (ANE)",
-            "contenido": "Filial cotizada también IBEX 35. Acciona mantiene 83%.",
+            "contenido": "**Filial cotizada también IBEX 35** — Acciona mantiene 83%.",
             "tags": [
-              "acciona-energia"
+              "acciona-energia",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nexo política exterior",
-            "contenido": "Acciona muy expuesta a grandes obras internacionales (Canal de Panamá, Sao Paulo Metro, Sídney Metro). Diplomacia económica activa.",
+            "contenido": "**Acciona muy expuesta a grandes obras internacionales (Canal de Panamá, Sao Paulo Metro, Sídney Metro)** — Diplomacia económica activa.",
             "tags": [
-              "internacional"
+              "internacional",
+              "sin-valorar"
             ]
           }
         ]
@@ -3492,41 +3603,50 @@
           {
             "tipo": "contacto",
             "titulo": "Matriz Acciona",
-            "contenido": "Acciona S.A. mantiene 83%. Gobernanza compartida (mismos consejeros familiares).",
+            "contenido": "**Acciona S** (nota +8/10) — A. mantiene 83%. Gobernanza compartida (mismos consejeros familiares).",
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "José Manuel Entrecanales",
-            "contenido": "Presidente de Acciona Energía vía matriz.",
+            "contenido": "**Presidente de Acciona Energía vía matriz** (nota +8/10)",
             "tags": [
-              "entrecanales"
+              "entrecanales",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rafael Mateo (CEO)",
-            "contenido": "CEO operativo desde OPV 2021.",
+            "contenido": "**CEO operativo desde OPV 2021** (nota +6/10)",
             "tags": [
-              "mateo"
+              "mateo",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "APPA Renovables",
-            "contenido": "Miembro de la patronal de renovables. Voz pública pro-PPA y subastas estables.",
+            "contenido": "**Miembro de la patronal de renovables** (nota +8/10) — Voz pública pro-PPA y subastas estables.",
             "tags": [
-              "appa"
+              "appa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mercados internacionales",
-            "contenido": "Operaciones en EE.UU., Australia, México, Chile, India. Diversificación geográfica como ventaja sobre puros-España.",
+            "contenido": "**Operaciones en EE** — UU., Australia, México, Chile, India. Diversificación geográfica como ventaja sobre puros-España.",
             "tags": [
-              "internacional"
+              "internacional",
+              "sin-valorar"
             ]
           }
         ]
@@ -3637,42 +3757,49 @@
           {
             "tipo": "contacto",
             "titulo": "Imperial Brands",
-            "contenido": "Imperial Brands plc (UK) mantiene ~50,01% del capital. Decisiones estratégicas se coordinan con Bristol.",
+            "contenido": "**Imperial Brands plc (UK) mantiene ~50,01% del capital** (nota +7/10) — Decisiones estratégicas se coordinan con Bristol.",
             "tags": [
               "accionariado",
-              "imperial"
+              "imperial",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Estancos",
-            "contenido": "Red de ~50.000 puntos de venta (estancos y conveniencia) en sus mercados.",
+            "contenido": "**Red de ~50** — 000 puntos de venta (estancos y conveniencia) en sus mercados.",
             "tags": [
-              "red-distribucion"
+              "red-distribucion",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Logista Pharma",
-            "contenido": "Filial dedicada a logística farmacéutica de frío y especializada.",
+            "contenido": "**Filial dedicada a logística farmacéutica de frío y especializada**",
             "tags": [
-              "pharma"
+              "pharma",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Logista Parcel (Nacex, Seur Iberia, MRW)",
-            "contenido": "Crecimiento en paquetería B2C/B2B vía adquisiciones de empresas paqueteras españolas.",
+            "contenido": "**Crecimiento en paquetería B2C/B2B vía adquisiciones de empresas paqueteras españolas**",
             "tags": [
-              "paqueteria"
+              "paqueteria",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "AEAT y Aduanas",
-            "contenido": "Interlocución regulatoria intensa por la fiscalidad del tabaco (Impuestos Especiales) y supervisión aduanera.",
+            "contenido": "**Interlocución regulatoria intensa por la fiscalidad del tabaco (Impuestos Especiales) y supervisión aduanera** (nota +4/10)",
             "tags": [
-              "aeat"
+              "aeat",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -3793,19 +3920,22 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Santander ~24%, BlackRock ~5%, Norges Bank ~3%, free float ~65%.",
+            "contenido": "**Santander ~24%, BlackRock ~5%, Norges Bank ~3%, free float ~65%**",
             "tags": [
               "accionariado",
-              "santander"
+              "santander",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Joint venture data centers",
-            "contenido": "Edge Conex (filial EQT) y Merlin acordaron pacto para data centers Madrid-Bilbao-Lisboa.",
+            "contenido": "**Edge Conex (filial EQT) y Merlin acordaron pacto para data centers Madrid-Bilbao-Lisboa** (nota +4/10)",
             "tags": [
               "data-centers",
-              "eqt"
+              "eqt",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -3923,20 +4053,23 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Qatar Investment Authority ~19%, Grupo Santo Domingo ~7%, Aguila LTD (Banco Santander) ~6%, Finaccess (familia mexicana Del Valle) ~16%.",
+            "contenido": "**Qatar Investment Authority ~19%, Grupo Santo Domingo ~7%, Aguila LTD (Banco Santander) ~6%, Finaccess (familia mexicana Del Valle) ~16%** (nota +5/10)",
             "tags": [
               "accionariado",
               "qia",
-              "finaccess"
+              "finaccess",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "SFL París",
-            "contenido": "Société Foncière Lyonnaise (SFL) es filial cotizada en París (~83%). Activos prime en CBD parisino.",
+            "contenido": "**Société Foncière Lyonnaise (SFL) es filial cotizada en París (~83%)** — Activos prime en CBD parisino.",
             "tags": [
               "sfl",
-              "francia"
+              "francia",
+              "sin-valorar"
             ]
           }
         ]
@@ -4048,27 +4181,31 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Mittal",
-            "contenido": "Lakshmi Mittal y familia controlan ~37%. Hijo Aditya Mittal es CEO desde 2021.",
+            "contenido": "**Lakshmi Mittal y familia controlan ~37%** (nota +8/10) — Hijo Aditya Mittal es CEO desde 2021.",
             "tags": [
-              "mittal"
+              "mittal",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "PERTE - Gobierno Sánchez",
-            "contenido": "ArcelorMittal beneficiaria del PERTE de descarbonización industrial (>300 M€ ayudas para Sestao y Gijón).",
+            "contenido": "**ArcelorMittal beneficiaria del PERTE de descarbonización industrial (>300 M€ ayudas para Sestao y Gijón)**",
             "tags": [
               "perte",
-              "gobierno"
+              "gobierno",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sindicatos",
-            "contenido": "Relación tensa con CCOO y UGT en Asturias por reestructuraciones y ERTEs periódicos.",
+            "contenido": "**Relación tensa con CCOO y UGT en Asturias por reestructuraciones y ERTEs periódicos**",
             "tags": [
               "laboral",
-              "asturias"
+              "asturias",
+              "sin-valorar"
             ]
           }
         ]
@@ -4204,28 +4341,33 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Qatar Airways ~25% (límite UE), Capital Research ~9%, BlackRock ~6%, Europacific ~3%.",
+            "contenido": "**Qatar Airways ~25% (límite UE), Capital Research ~9%, BlackRock ~6%, Europacific ~3%**",
             "tags": [
               "accionariado",
-              "qatar"
+              "qatar",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Qatar Airways - alianza",
-            "contenido": "Qatar Airways es socio estratégico (oneworld) y mayor accionista. Influencia en gobierno corporativo.",
+            "contenido": "**Qatar Airways es socio estratégico (oneworld) y mayor accionista** (nota +7/10) — Influencia en gobierno corporativo.",
             "tags": [
               "qatar",
-              "oneworld"
+              "oneworld",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hub Barajas - Aena",
-            "contenido": "IAG es el cliente principal de Aena en Madrid-Barajas (~50% de las operaciones). Tensiones por tarifas DORA.",
+            "contenido": "**IAG es el cliente principal de Aena en Madrid-Barajas (~50% de las operaciones)** (nota -7/10) — Tensiones por tarifas DORA.",
             "tags": [
               "aena",
-              "barajas"
+              "barajas",
+              "nota--7",
+              "conflicto"
             ]
           }
         ]
@@ -4364,27 +4506,32 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Grifols",
-            "contenido": "Familia Grifols controla ~30% vía vehículos (Scranton Enterprises B.V., entre otros).",
+            "contenido": "**Familia Grifols controla ~30% vía vehículos (Scranton Enterprises B** (nota +8/10) — V., entre otros).",
             "tags": [
               "accionariado",
-              "familia-grifols"
+              "familia-grifols",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Scranton - controversia",
-            "contenido": "Scranton Enterprises es vehículo de la familia que adquirió activos vendidos por Grifols. Gotham cuestionó la doble contabilización.",
+            "contenido": "**Scranton Enterprises es vehículo de la familia que adquirió activos vendidos por Grifols** (nota -7/10) — Gotham cuestionó la doble contabilización.",
             "tags": [
               "scranton",
-              "gotham"
+              "gotham",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Brookfield - relación",
-            "contenido": "Brookfield (Canadá) gestor de infra fue partner potencial 2024. Tras OPA fallida, relación distante.",
+            "contenido": "**Brookfield (Canadá) gestor de infra fue partner potencial 2024** — Tras OPA fallida, relación distante.",
             "tags": [
-              "brookfield"
+              "brookfield",
+              "sin-valorar"
             ]
           }
         ]
@@ -4555,31 +4702,34 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "SEPI ~28%, Amber Capital ~7,2% (Joseph Oughourlian), Escribano Mechanical & Engineering ~8%, SAPA Placencia ~7%.",
+            "contenido": "**SEPI ~28%, Amber Capital ~7,2% (Joseph Oughourlian), Escribano Mechanical & Engineering ~8%, SAPA Placencia ~7%**",
             "tags": [
               "accionariado",
               "sepi",
               "amber",
-              "escribano"
+              "escribano",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez",
-            "contenido": "Nombramiento de Murtra y luego Escribano refleja control directo del Gobierno vía SEPI. Defensa es área estratégica priorizada.",
+            "contenido": "**Nombramiento de Murtra y luego Escribano refleja control directo del Gobierno vía SEPI** — Defensa es área estratégica priorizada.",
             "tags": [
               "politica",
               "sanchez",
-              "sepi"
+              "sepi",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ministerio de Defensa - Margarita Robles",
-            "contenido": "Indra como suministrador clave del Ministerio. Reuniones recurrentes en programas (FCAS, NH90, Eurofighter).",
+            "contenido": "**Indra como suministrador clave del Ministerio** — Reuniones recurrentes en programas (FCAS, NH90, Eurofighter).",
             "tags": [
               "mindef",
-              "robles"
+              "robles",
+              "sin-valorar"
             ]
           }
         ]
@@ -4705,21 +4855,24 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Nippon Steel ~19%, Corporación Financiera Alba (March) ~19%, Casa Grande de Cartagena ~5%.",
+            "contenido": "**Nippon Steel ~19%, Corporación Financiera Alba (March) ~19%, Casa Grande de Cartagena ~5%**",
             "tags": [
               "accionariado",
               "alba",
               "march",
-              "nippon"
+              "nippon",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia March",
-            "contenido": "Vía Corporación Financiera Alba (vehículo de la familia March), Acerinox tiene anclaje accionarial estable.",
+            "contenido": "**Vía Corporación Financiera Alba (vehículo de la familia March), Acerinox tiene anclaje accionarial estable** (nota +5/10)",
             "tags": [
               "march",
-              "alba"
+              "alba",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -4845,18 +4998,21 @@
           {
             "tipo": "contacto",
             "titulo": "Accionariado",
-            "contenido": "Disperso. Beta Asociados (Manrique y entorno) ~7%, Disa Corporación ~6%, Prilou (Jacobs) ~5%.",
+            "contenido": "**Disperso** — Beta Asociados (Manrique y entorno) ~7%, Disa Corporación ~6%, Prilou (Jacobs) ~5%.",
             "tags": [
               "accionariado",
-              "manrique"
+              "manrique",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Participación Repsol",
-            "contenido": "Sacyr conserva ~9% de Repsol (a 2024) tras décadas como accionista. Tensiones intermitentes con el consejo de Repsol.",
+            "contenido": "**Sacyr conserva ~9% de Repsol (a 2024) tras décadas como accionista** (nota -7/10) — Tensiones intermitentes con el consejo de Repsol.",
             "tags": [
-              "repsol"
+              "repsol",
+              "nota--7",
+              "conflicto"
             ]
           }
         ]
@@ -4976,42 +5132,51 @@
           {
             "tipo": "contacto",
             "titulo": "Accionistas familiares",
-            "contenido": "Familias fundadoras (Planes, Garrigós, Serra, Corbera) mantienen acuerdo de voto sobre ~36%. Rhône Capital salió tras 2018.",
+            "contenido": "**Familias fundadoras (Planes, Garrigós, Serra, Corbera) mantienen acuerdo de voto sobre ~36%** (nota +8/10) — Rhône Capital salió tras 2018.",
             "tags": [
               "accionariado",
-              "familias"
+              "familias",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Bruce Brooks (CEO)",
-            "contenido": "CEO de Fluidra desde 2018 (post-fusión Zodiac).",
+            "contenido": "**CEO de Fluidra desde 2018 (post-fusión Zodiac)** (nota +6/10)",
             "tags": [
-              "brooks"
+              "brooks",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Eloi Planes (presidente)",
-            "contenido": "Tercera generación de la familia Planes.",
+            "contenido": "**Tercera generación de la familia Planes** (nota +8/10)",
             "tags": [
-              "planes"
+              "planes",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Acuerdo familias",
-            "contenido": "Planes, Garrigós, Serra, Corbera mantienen ~36% conjuntamente con acuerdo de voto.",
+            "contenido": "**Planes, Garrigós, Serra, Corbera mantienen ~36% conjuntamente con acuerdo de voto** (nota +5/10)",
             "tags": [
-              "familias"
+              "familias",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rhône Capital legacy",
-            "contenido": "Fondo Rhône (anterior dueño de Zodiac) salió tras la fusión 2018.",
+            "contenido": "**Fondo Rhône (anterior dueño de Zodiac) salió tras la fusión 2018**",
             "tags": [
-              "rhone"
+              "rhone",
+              "sin-valorar"
             ]
           }
         ]
@@ -5135,18 +5300,21 @@
           {
             "tipo": "contacto",
             "titulo": "Familia López-Belmonte",
-            "contenido": "Familia López-Belmonte controla ~64% vía Norbel Inversiones.",
+            "contenido": "**Familia López-Belmonte controla ~64% vía Norbel Inversiones** (nota +8/10)",
             "tags": [
               "accionariado",
-              "lopez-belmonte"
+              "lopez-belmonte",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Moderna",
-            "contenido": "Partnership estratégico con Moderna mantiene a Rovi entre fabricantes europeos de mRNA.",
+            "contenido": "**Partnership estratégico con Moderna mantiene a Rovi entre fabricantes europeos de mRNA**",
             "tags": [
-              "moderna"
+              "moderna",
+              "sin-valorar"
             ]
           }
         ]
@@ -5277,33 +5445,41 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Díaz-Tejeiro",
-            "contenido": "Familia Díaz-Tejeiro controla ~37% vía DTL (DTL Corporación).",
+            "contenido": "**Familia Díaz-Tejeiro controla ~37% vía DTL (DTL Corporación)** (nota +8/10)",
             "tags": [
-              "accionariado"
+              "accionariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Enrique Díaz-Tejeiro (presidente)",
-            "contenido": "Familia controladora vía DTL Corporación.",
+            "contenido": "**Familia controladora vía DTL Corporación** (nota +8/10)",
             "tags": [
-              "diaz-tejeiro"
+              "diaz-tejeiro",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "DTL Corporación (~37%)",
-            "contenido": "Vehículo familiar.",
+            "contenido": "**Vehículo familiar** (nota +5/10)",
             "tags": [
-              "dtl"
+              "dtl",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "MITECO y CNMC",
-            "contenido": "Interlocución regulatoria habitual en subastas PPA y conexiones.",
+            "contenido": "**Interlocución regulatoria habitual en subastas PPA y conexiones** (nota +4/10)",
             "tags": [
-              "miteco"
+              "miteco",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -5432,20 +5608,23 @@
           {
             "tipo": "contacto",
             "titulo": "Fundación Unicaja",
-            "contenido": "Fundación Unicaja controla ~30% del banco. Braulio Medel patrón durante décadas (relevado tras crisis 2023).",
+            "contenido": "**Fundación Unicaja controla ~30% del banco** (nota +8/10) — Braulio Medel patrón durante décadas (relevado tras crisis 2023).",
             "tags": [
               "accionariado",
               "fundacion",
-              "medel"
+              "medel",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Política regional",
-            "contenido": "Histórica relación con poderes andaluces (PSOE-A durante décadas, PP-A desde 2018). Caja con perfil político.",
+            "contenido": "**Histórica relación con poderes andaluces (PSOE-A durante décadas, PP-A desde 2018)** — Caja con perfil político.",
             "tags": [
               "politica",
-              "andalucia"
+              "andalucia",
+              "sin-valorar"
             ]
           }
         ]
@@ -5566,19 +5745,23 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Puig",
-            "contenido": "Familia Puig mantiene ~70% del capital y mayoría de voto vía acciones tipo A (estructura dual).",
+            "contenido": "**Familia Puig mantiene ~70% del capital y mayoría de voto vía acciones tipo A (estructura dual)** (nota +5/10)",
             "tags": [
               "accionariado",
-              "familia-puig"
+              "familia-puig",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Patrocinios",
-            "contenido": "Patrocinador FC Barcelona, varias pasarelas (NYFW, PFW).",
+            "contenido": "**Patrocinador FC Barcelona, varias pasarelas (NYFW, PFW)** (nota +6/10)",
             "tags": [
               "fcbarcelona",
-              "moda"
+              "moda",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
