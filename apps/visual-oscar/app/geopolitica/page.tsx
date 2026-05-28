@@ -42,6 +42,12 @@ import { GeoSameEventFraming } from '@/components/geopolitica/GeoSameEventFramin
 import { GeoEventCalendarHeatmap } from '@/components/geopolitica/GeoEventCalendarHeatmap'
 import { GeoGdeltSummary } from '@/components/geopolitica/GeoGdeltSummary'
 import { GeoTvBroadcast } from '@/components/geopolitica/GeoTvBroadcast'
+// Sprint GEO-RADAR C2 · Radar Global de Crisis (V-Dem + SIPRI + GDELT)
+import { GeoRadarMap } from '@/components/geopolitica/GeoRadarMap'
+import { GeoIRCKpis } from '@/components/geopolitica/GeoIRCKpis'
+import { GeoSignalFeed } from '@/components/geopolitica/GeoSignalFeed'
+import { GeoTrendingTemas } from '@/components/geopolitica/GeoTrendingTemas'
+import { GeoCountryDrawer } from '@/components/geopolitica/GeoCountryDrawer'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -362,6 +368,8 @@ export default function GeopoliticaPage() {
   const setTab = (i: number) => setTabSlug((GEO_TABS[i] ?? 'radar') as GeoTabSlug)
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
+  // Sprint GEO-RADAR C2 · drawer país (compartido entre tab radar y conflictos)
+  const [radarDrawerIso, setRadarDrawerIso] = useState<string | null>(null)
   // Filtro de dimensión/sector para TAB 3 Impacto España
   const [impactoDim, setImpactoDim] = useState<string>('all')
   // Orden de TAB 0 Teatro Global
@@ -535,29 +543,71 @@ export default function GeopoliticaPage() {
         {/* TAB 0 — Radar global de crisis · señal rápida multi-fuente */}
         {tab === 0 && (
           <div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
-                <strong style={{ color: '#0f172a' }}>Capa 1 · señal rápida + analítica de convergencia.</strong>{' '}
-                Radar global combinando GDELT (saliencia mediática 7d) + UCDP (conflicto
-                estructural anual) + ReliefWeb (humanitario) + OSINT abierto, más detección
-                automática de países donde 2+ capas (táctica · estructural · humanitaria ·
-                consular) convergen en señal de riesgo elevado al mismo tiempo.
+            {/* ───── Sprint GEO-RADAR C2 · Radar Global de Crisis (nuevo) ─────
+                Hero ejecutivo con IRC compuesto + KPIs + mapa SVG + feed señales.
+                Fuentes: V-Dem v15 + SIPRI 2024 + GDELT GKG + ReliefWeb.
+                ACLED no usado (acceso denegado mayo 2026). */}
+            <div style={{
+              background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+              borderRadius: 14, padding: '14px 18px', marginBottom: 16, color: '#fff',
+            }}>
+              <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
+                Radar Global de Crisis · vista ejecutiva
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5 }}>
+                Índice de Riesgo Compuesto (IRC) por país combinando 4 dimensiones:
+                <strong style={{ color: '#cbd5e1' }}> V-Dem democracia · SIPRI militarización · GDELT tono · GDELT volumen conflictos.</strong>{' '}
+                80 países cubiertos · click en cualquier punto del mapa para detalle.
               </p>
             </div>
-            {/* Sprint G8 · Convergence alerts (hero analítico) */}
-            <div style={{ marginBottom: 18 }}>
-              <GeoConvergenceAlerts />
+            {/* KPIs ejecutivos */}
+            <div style={{ marginBottom: 14 }}>
+              <GeoIRCKpis onFilterClick={(_f) => { /* TODO: filtrar mapa por flag */ }} />
             </div>
-            <div style={{ marginBottom: 18 }}>
-              <GeoKpiGrid />
+            {/* Mapa mundial coroplético + drawer país */}
+            <div style={{ marginBottom: 14 }}>
+              <GeoRadarMap onCountryClick={(iso3) => setRadarDrawerIso(iso3)} />
             </div>
-            <div style={{ marginBottom: 18 }}>
-              <GeoEventStream limit={60} />
+            <GeoCountryDrawer iso3={radarDrawerIso} onClose={() => setRadarDrawerIso(null)} />
+            {/* Trending temas + Feed señales (lado a lado en wide) */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+              gap: 14, marginBottom: 18,
+            }}>
+              <GeoSignalFeed limit={20} onCountryClick={(iso3) => setRadarDrawerIso(iso3)} />
+              <GeoTrendingTemas />
             </div>
-            {/* Sprint G11 · GDELT Summary API · exploración global por tema con GKG */}
-            <div style={{ marginBottom: 18 }}>
-              <GeoGdeltSummary defaultQuery="Ukraine" defaultTimespan="7d" />
-            </div>
+
+            {/* ───── Vista legacy · convergencia + KPIs antiguos + stream + GDELT summary ─────
+                Mantenido por compatibilidad con el flujo del socio.
+                Sprint GEO-RADAR no lo elimina · permite comparar viejo vs nuevo. */}
+            <details style={{
+              background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
+              padding: '12px 16px', marginBottom: 16,
+            }}>
+              <summary style={{ cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                Vista legacy · convergencia + KPIs + GDELT summary (clic para abrir)
+              </summary>
+              <div style={{ marginTop: 14 }}>
+                <p style={{ margin: '0 0 12px', fontSize: 11, color: '#64748b', lineHeight: 1.5 }}>
+                  Vista anterior conservada por compatibilidad. Combina GDELT (saliencia 7d) +
+                  UCDP (conflicto estructural anual) + ReliefWeb (humanitario) + OSINT con detección
+                  automática de convergencia multi-capa.
+                </p>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoConvergenceAlerts />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoKpiGrid />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoEventStream limit={60} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoGdeltSummary defaultQuery="Ukraine" defaultTimespan="7d" />
+                </div>
+              </div>
+            </details>
           </div>
         )}
 
