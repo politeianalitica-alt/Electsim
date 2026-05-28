@@ -15,6 +15,9 @@
  *   /api/geopolitica/pais/[iso3]/ews (Sub-tab 1)
  */
 import { useEffect, useState, type ReactNode } from 'react'
+import { SubEconomia } from './SubEconomia'
+import { SubSeguridad } from './SubSeguridad'
+import { SubEspana } from './SubEspana'
 
 type SubTab = 'senales' | 'regimen' | 'economia' | 'seguridad' | 'espana' | 'briefing'
 
@@ -159,9 +162,9 @@ export function GeoRiskDrawer({ iso3, onClose }: Props) {
 
           {!loading && country && sub === 'senales' && <SubSenales ews={ews?.ews ?? null} />}
           {!loading && country && sub === 'regimen' && <SubRegimen c={country} />}
-          {!loading && country && sub === 'economia' && <SubPlaceholder title="Economía & Deuda" sprint="C3" sources={['World Bank API · 6 indicadores', 'JEDH · perfil vencimientos deuda', 'IMF Fiscal Monitor · break-even commodities', 'Alpha Vantage · precio commodity principal']} />}
-          {!loading && country && sub === 'seguridad' && <SubPlaceholder title="Seguridad & Conflicto" sprint="C3" sources={['GDELT events code 18-20 (sustituye ACLED) · mapa subnacional', 'Series intensidad violencia/bajas', 'Actores principales extraídos', 'Cruce con infraestructura crítica (puertos / oleoductos)']} />}
-          {!loading && country && sub === 'espana' && <SubPlaceholder title="Exposición España" sprint="C3" sources={['UN Comtrade · Sankey bilateral España↔país', 'Dataset IBEX-35 curado con presencia', 'IATI · proyectos AECID', 'DataInvex · FDI español']} />}
+          {!loading && country && sub === 'economia' && <SubEconomia iso3={country.iso3} />}
+          {!loading && country && sub === 'seguridad' && <SubSeguridad iso3={country.iso3} />}
+          {!loading && country && sub === 'espana' && <SubEspana iso3={country.iso3} />}
           {!loading && country && sub === 'briefing' && <SubBriefing c={country} ews={ews?.ews ?? null} />}
         </div>
       </aside>
