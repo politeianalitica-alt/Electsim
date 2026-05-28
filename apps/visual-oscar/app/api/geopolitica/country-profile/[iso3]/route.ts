@@ -44,6 +44,11 @@ import {
   getUcdpConflictByIso,
   type UcdpActiveConflict,
 } from '@/lib/geopolitica/ucdp-active-conflicts'
+import {
+  fetchCountryMacro,
+  latestWBValue,
+  type WBCountryIndicators,
+} from '@/lib/worldbank/client'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -547,6 +552,109 @@ async function buildRisk(req: NextRequest, iso3: string): Promise<RiskLayer | nu
 }
 
 // ────────────────────────────────────────────────────────────────────
+// 10 · Economic · World Bank live indicators (FIX-A6)
+// ────────────────────────────────────────────────────────────────────
+
+interface EconomicLayer {
+  gdp_growth_pct_latest: number | null
+  inflation_pct_latest: number | null
+  unemployment_pct_latest: number | null
+  current_account_pct_gdp_latest: number | null
+  debt_pct_gdp_latest: number | null
+  reserves_months_imports_latest: number | null
+  series_5y: {
+    gdp_growth_pct?: Array<{ year: number; value: number | null }>
+    inflation_pct?: Array<{ year: number; value: number | null }>
+    unemployment_pct?: Array<{ year: number; value: number | null }>
+  }
+  economic_health: 'estable' | 'tension' | 'crisis' | 'sin_datos'
+  alerts: string[]
+  _source: SourceMeta
+}
+
+/** Genera array de alertas según valores macro críticos. */
+function buildEconomicAlerts(wb: WBCountryIndicators): string[] {
+  const alerts: string[] = []
+  const inflation = latestWBValue(wb.indicators.inflation_pct)
+  const gdp = latestWBValue(wb.indicators.gdp_growth_pct)
+  const unemployment = latestWBValue(wb.indicators.unemployment_pct)
+  const debt = latestWBValue(wb.indicators.debt_pct_gdp)
+  const cab = latestWBValue(wb.indicators.current_account_pct_gdp)
+  if (inflation !== null && inflation > 15) {
+    alerts.push(`Hiperinflación · IPC anual ${inflation.toFixed(1)}%`)
+  } else if (inflation !== null && inflation > 8) {
+    alerts.push(`Inflación elevada · IPC anual ${inflation.toFixed(1)}%`)
+  }
+  if (gdp !== null && gdp < -2) {
+    alerts.push(`Recesión profunda · PIB ${gdp.toFixed(1)}%`)
+  } else if (gdp !== null && gdp < 0) {
+    alerts.push(`Contracción económica · PIB ${gdp.toFixed(1)}%`)
+  }
+  if (unemployment !== null && unemployment > 20) {
+    alerts.push(`Paro estructural · ${unemployment.toFixed(1)}% activos`)
+  }
+  if (debt !== null && debt > 100) {
+    alerts.push(`Deuda pública crítica · ${debt.toFixed(0)}% PIB`)
+  }
+  if (cab !== null && cab < -8) {
+    alerts.push(`Déficit cuenta corriente · ${cab.toFixed(1)}% PIB`)
+  }
+  return alerts
+}
+
+function classifyEconomicHealth(alerts: string[], anyData: boolean): EconomicLayer['economic_health'] {
+  if (!anyData) return 'sin_datos'
+  const hasCrisis = alerts.some((a) => /hiperinflación|recesión profunda|crítica/i.test(a))
+  if (hasCrisis) return 'crisis'
+  if (alerts.length >= 2) return 'tension'
+  return 'estable'
+}
+
+async function buildEconomic(iso3: string): Promise<EconomicLayer | null> {
+  try {
+    const wb = await fetchCountryMacro(iso3)
+    const indicators = wb.indicators
+    const gdp = latestWBValue(indicators.gdp_growth_pct)
+    const inflation = latestWBValue(indicators.inflation_pct)
+    const unemployment = latestWBValue(indicators.unemployment_pct)
+    const cab = latestWBValue(indicators.current_account_pct_gdp)
+    const debt = latestWBValue(indicators.debt_pct_gdp)
+    const reserves = latestWBValue(indicators.reserves_months_imports)
+    const anyData = [gdp, inflation, unemployment, cab, debt, reserves].some(
+      (v) => v !== null,
+    )
+    if (!anyData) return null
+    const alerts = buildEconomicAlerts(wb)
+    const health = classifyEconomicHealth(alerts, anyData)
+    return {
+      gdp_growth_pct_latest: gdp,
+      inflation_pct_latest: inflation,
+      unemployment_pct_latest: unemployment,
+      current_account_pct_gdp_latest: cab,
+      debt_pct_gdp_latest: debt,
+      reserves_months_imports_latest: reserves,
+      series_5y: {
+        gdp_growth_pct: indicators.gdp_growth_pct?.slice(-5),
+        inflation_pct: indicators.inflation_pct?.slice(-5),
+        unemployment_pct: indicators.unemployment_pct?.slice(-5),
+      },
+      economic_health: health,
+      alerts,
+      _source: {
+        id: 'worldbank',
+        name: 'World Bank Open Data · API v2',
+        access_type: 'public_api',
+        source_url: `https://api.worldbank.org/v2/country/${iso3}/indicator`,
+        what_it_measures: 'PIB real anual, inflación IPC, desempleo, cuenta corriente, deuda pública, reservas en meses de importación · serie 2015-2025',
+        confidence: 'high',
+      },
+    }
+  } catch {
+    return null
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
 // MAIN handler
 // ────────────────────────────────────────────────────────────────────
 
@@ -560,7 +668,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
   const latlng = identity?.latlng || null
 
   // Lanzar el resto en paralelo (cada uno con su propio try/catch)
-  const [government, seismic, conflict, humanitarian, narrative, sanctions, travel, risk] = await Promise.all([
+  const [government, seismic, conflict, humanitarian, narrative, sanctions, travel, risk, economic] = await Promise.all([
     buildGovernment(iso3),
     buildSeismic(latlng),
     buildConflict(req, countryName, iso3),
@@ -569,6 +677,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
     buildSanctions(req, iso3),
     buildTravel(req, countryName),
     buildRisk(req, iso3),
+    buildEconomic(iso3),
   ])
 
   const layers_available = [
@@ -581,6 +690,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
     sanctions && 'sanctions',
     travel && 'travel',
     risk && 'risk',
+    economic && 'economic',
   ].filter(Boolean)
 
   return NextResponse.json({
@@ -597,6 +707,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
       sanctions,
       travel,
       risk,
+      economic,
     },
     layers_available,
     layers_count: layers_available.length,
