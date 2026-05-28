@@ -75,6 +75,7 @@ import { SpainKpis } from '@/components/geopolitica/espana/SpainKpis'
 import { ComercioPanel } from '@/components/geopolitica/espana/ComercioPanel'
 import { InversionPanel } from '@/components/geopolitica/espana/InversionPanel'
 import { ActivosRiesgoPanel } from '@/components/geopolitica/espana/ActivosRiesgoPanel'
+import { PulseEspanaStrip } from '@/components/geopolitica/PulseEspanaStrip'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -538,13 +539,14 @@ export default function GeopoliticaPage() {
           ))}
         </div>
 
+        {/* Sprint G21 · Pulse España KPI strip · cross-cuts las 6 tabs
+            con visualización ejecutiva siempre-visible de exposición
+            agregada España (países críticos × valor × ciudadanos × UCDP). */}
+        <PulseEspanaStrip />
+
         {/* Sprint G16 · Item 1 · ACLED card removed (siempre devolvía
             "invalid_grant" / "no disponible"). El usuario pidió arrancar
-            la página directamente con la barra de tabs. GeoTermometro y
-            GeoIaBrief también eliminados del top porque sus datos venían
-            principalmente del bloque ACLED (devolvían 0/100 + brief vacío
-            "no hay información disponible"). Las features útiles se
-            recuperan en cada tab cuando aplique. */}
+            la página directamente con la barra de tabs. */}
 
         <TabBar
           items={[
