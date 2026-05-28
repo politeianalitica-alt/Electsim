@@ -28,6 +28,8 @@ import { findAnalogs, HISTORICAL_CRISES, type CrisisType } from '@/lib/geopoliti
 import { lookupMediaBias, regimeTagFromPressFreedom } from '@/lib/geopolitica/media-bias-registry'
 import { cleanText as cleanEventText } from '@/lib/geopolitica/event-classifier'
 import { detectChinaCoverageAnomaly } from '@/lib/geopolitica/china-coverage-baseline'
+// FIX-A1 · cadena LLM Gemini → Groq → heurístico (en vez de Gemini hardcoded)
+import { withCascade, AiUnavailableError } from '@/lib/ai'
 
 export const runtime = 'nodejs'
 export const revalidate = 21600
@@ -676,16 +678,9 @@ async function buildIaBrief(req: Request) {
     alertas_criticas: stats?.alertas_count?.CRITICO,
     sanciones_recientes: Array.isArray(sanctions?.sanctions) ? sanctions.sanctions.slice(0, 3).map((s: any) => `${s.source}: ${s.entity}`) : [],
   }
-  // Call Gemini Flash Lite via existing pattern
-  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY
-  if (!apiKey) {
-    return {
-      ok: false,
-      error: 'no_ai_key',
-      context,
-      fallback_brief: '## Brief geo (sin IA · key faltante)\n\nConsulta los datos en bruto en el endpoint context.',
-    }
-  }
+  // FIX-A1 · cadena de fallback Gemini → Groq → heurístico
+  // El bug original era llamar Gemini directo · cuando da 429 el brief muere.
+  // withCascade ya implementa Gemini→Groq con manejo de AiUnavailableError.
   const prompt = `Eres un analista geopolítico senior. Genera un BRIEF EJECUTIVO en markdown español para un analista de inteligencia geopolítica en España, basado en el contexto siguiente. Máximo 300 palabras.
 
 CONTEXTO (datos hoy):
@@ -702,29 +697,59 @@ REGLAS:
 - Distingue hecho observado de inferencia.
 - No hagas recomendaciones de inversión ni decisiones políticas.
 - Tono profesional, conciso, accionable.`
+
   try {
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-001:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 800 },
-      }),
+    const cascade = await withCascade(async (client) => {
+      return await client.generateText({
+        messages: [{ role: 'user', content: prompt }],
+        tier: 'fast',
+        temperature: 0.3,
+        maxTokens: 800,
+      })
     })
-    if (!r.ok) {
-      return { ok: false, error: `gemini HTTP ${r.status}`, context, fallback_brief: '## Brief (Gemini no respondió)\n\nUsa context para análisis manual.' }
-    }
-    const j = await r.json()
-    const text: string = j?.candidates?.[0]?.content?.parts?.[0]?.text || '## Sin respuesta IA'
     return {
       ok: true,
-      brief: text,
+      brief: cascade.result,
       context_used: context,
-      model: 'gemini-2.0-flash-lite-001',
+      model: cascade.modelHint,
+      provider: cascade.provider,
       generated_at: new Date().toISOString(),
     }
   } catch (e: any) {
-    return { ok: false, error: String(e?.message ?? e).slice(0, 200), context }
+    // Fallback 3 · heurístico textual a partir del contexto · cero LLM
+    const score = context.risk_index?.score
+    const band = context.risk_index?.band
+    const top3 = (context.top_5_risks || []).slice(0, 3)
+    const recent = (context.recent_events || []).slice(0, 3)
+    const heuristicBrief = [
+      '## Resumen ejecutivo',
+      score !== null && score !== undefined
+        ? `Índice de Riesgo España: **${score}/100** (${band || 'sin banda'}). ${(context.alertas_criticas || 0)} alertas críticas activas, ${(context.osint_24h || 0)} señales OSINT en 24h.`
+        : 'Sin valor de Índice de Riesgo disponible. Análisis basado en señales individuales.',
+      '',
+      '## Top 3 prioridades hoy',
+      ...(top3.length > 0
+        ? top3.map((r: any, i: number) => `${i + 1}. **${r.title || 'sin título'}** · exposición España: ${r.spain_exposure ?? 'n/d'}`)
+        : ['- Sin top risks disponibles · consultar /top-risks']),
+      '',
+      '## Señales que vigilar próximos 7 días',
+      ...(recent.length > 0
+        ? recent.map((e: any) => `- ${e.title || 'evento sin título'} · severidad ${e.severity ?? 'n/d'} · tipo ${e.type ?? 'n/d'}`)
+        : ['- Sin eventos cascading disponibles · consultar /cascading-events']),
+      '',
+      '## Disclaimer',
+      'Brief generado heurísticamente sin LLM (Gemini y Groq no respondieron). Texto plantilla rellenado con datos del endpoint context. Para análisis cualitativo, reintentar más tarde.',
+    ].join('\n')
+
+    return {
+      ok: true,
+      brief: heuristicBrief,
+      context_used: context,
+      model: 'heuristic-fallback',
+      provider: 'heuristic',
+      error_llm: e instanceof AiUnavailableError ? 'all_llm_unavailable' : String(e?.message ?? e).slice(0, 200),
+      generated_at: new Date().toISOString(),
+    }
   }
 }
 
