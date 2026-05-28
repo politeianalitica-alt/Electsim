@@ -672,6 +672,206 @@ async function buildEconomic(iso3: string): Promise<EconomicLayer | null> {
 }
 
 // ────────────────────────────────────────────────────────────────────
+// 11 · Concerns · síntesis derivada multi-fuente (FIX-B1)
+// ────────────────────────────────────────────────────────────────────
+
+type ConcernSeverity = 'low' | 'medium' | 'high' | 'critical'
+
+interface Concern {
+  rank: number
+  title: string
+  detail: string
+  source: string
+  severity: ConcernSeverity
+  category: 'conflict' | 'economy' | 'governance' | 'sanctions' | 'humanitarian' | 'security'
+}
+
+interface ConcernsLayer {
+  total: number
+  by_severity: Record<ConcernSeverity, number>
+  by_category: Record<string, number>
+  concerns: Concern[]
+  _source: SourceMeta
+}
+
+const SEV_WEIGHT: Record<ConcernSeverity, number> = {
+  critical: 4,
+  high: 3,
+  medium: 2,
+  low: 1,
+}
+
+/**
+ * Computa top 10 concerns para un país combinando TODAS las capas que ya tenemos:
+ *   - Conflict (UCDP seed): intensidad 4-5 → critical, 3 → high
+ *   - Economic (World Bank): cada alert macro → high/medium según tipo
+ *   - Sanctions (OpenSanctions): >100 → high, >10 → medium, >0 → low
+ *   - Travel advisory: score >=4 → critical, >=3 → high
+ *   - Humanitarian: >20 reports → high
+ *   - Risk band: CRITICO → critical, ALTO → high
+ *
+ * Esto garantiza que la card "Top concerns" SIEMPRE tenga 5-10 items relevantes,
+ * en lugar del comportamiento anterior donde TOP_RISKS_2026 (curado a Spain)
+ * dejaba el panel vacío para 95% de países.
+ */
+function buildConcerns(
+  conflict: ConflictLayer | null,
+  economic: EconomicLayer | null,
+  sanctions: SanctionsLayer | null,
+  travel: TravelLayer | null,
+  humanitarian: HumanitarianLayer | null,
+  risk: RiskLayer | null,
+  government: GovernmentLayer | null,
+  countryName: string,
+): ConcernsLayer {
+  const c: Concern[] = []
+
+  // ─── Conflict ──────────────────────────────────────────────────
+  if (conflict && conflict.max_intensity_level >= 1) {
+    const isWar = conflict.max_intensity_level >= 2
+    const recent = conflict.recent[0]
+    c.push({
+      rank: 0,
+      title: isWar
+        ? `Guerra activa en ${countryName}`
+        : `Conflicto armado menor`,
+      detail: recent
+        ? `${recent.name} (intensidad ${conflict.max_intensity_level}). ${conflict.interpretation}`
+        : conflict.interpretation || 'UCDP/PRIO confirma conflicto activo',
+      source: conflict._source.name,
+      severity: isWar ? 'critical' : 'high',
+      category: 'conflict',
+    })
+  }
+
+  // ─── Economic alerts ───────────────────────────────────────────
+  if (economic) {
+    for (const alert of economic.alerts) {
+      const sev: ConcernSeverity =
+        /hiperinflación|recesión profunda|crítica/i.test(alert) ? 'critical' :
+        /elevada|estructural|déficit/i.test(alert) ? 'high' : 'medium'
+      c.push({
+        rank: 0,
+        title: alert.split('·')[0]?.trim() || alert,
+        detail: alert,
+        source: 'World Bank Open Data',
+        severity: sev,
+        category: 'economy',
+      })
+    }
+    if (economic.economic_health === 'crisis') {
+      c.push({
+        rank: 0,
+        title: 'Salud macro en crisis',
+        detail: `Health classifier=${economic.economic_health}. Alertas activas: ${economic.alerts.length}`,
+        source: 'World Bank · alerts synthesis',
+        severity: 'critical',
+        category: 'economy',
+      })
+    }
+  }
+
+  // ─── Sanctions ─────────────────────────────────────────────────
+  if (sanctions && sanctions.total_count > 0) {
+    const sev: ConcernSeverity = sanctions.total_count > 100 ? 'high'
+      : sanctions.total_count > 10 ? 'medium' : 'low'
+    const topProgs = Object.entries(sanctions.by_program)
+      .sort((a, b) => (b[1] as number) - (a[1] as number))
+      .slice(0, 3)
+      .map(([k, v]) => `${k} (${v})`)
+      .join(', ')
+    c.push({
+      rank: 0,
+      title: `${sanctions.total_count} entidades en listas de sanciones`,
+      detail: topProgs ? `Top programas: ${topProgs}` : 'OpenSanctions consolidado',
+      source: sanctions._source.name,
+      severity: sev,
+      category: 'sanctions',
+    })
+  }
+
+  // ─── Travel advisory ───────────────────────────────────────────
+  if (travel && travel.score >= 3) {
+    const sev: ConcernSeverity = travel.score >= 4 ? 'critical' : 'high'
+    c.push({
+      rank: 0,
+      title: `Travel Advisory ${travel.band}`,
+      detail: travel.message?.slice(0, 180) || `Score ${travel.score}/5`,
+      source: travel._source.name,
+      severity: sev,
+      category: 'security',
+    })
+  }
+
+  // ─── Humanitarian ───────────────────────────────────────────────
+  if (humanitarian && humanitarian.n_reports >= 20) {
+    c.push({
+      rank: 0,
+      title: `${humanitarian.n_reports} reports humanitarios activos`,
+      detail: 'OCHA ReliefWeb registra alta actividad humanitaria reciente',
+      source: humanitarian._source.name,
+      severity: humanitarian.n_reports >= 50 ? 'high' : 'medium',
+      category: 'humanitarian',
+    })
+  }
+
+  // ─── V-Dem / governance ────────────────────────────────────────
+  if (government && !government.head_of_state) {
+    c.push({
+      rank: 0,
+      title: 'Sin jefe de Estado claro',
+      detail: 'Wikidata no devuelve jefe de Estado activo — posible vacío de poder o transición',
+      source: 'Wikidata',
+      severity: 'medium',
+      category: 'governance',
+    })
+  }
+
+  // ─── Risk band ─────────────────────────────────────────────────
+  if (risk && (risk.band === 'CRITICO' || risk.band === 'ALTO')) {
+    c.push({
+      rank: 0,
+      title: `Riesgo país ${risk.band}`,
+      detail: `Score ${risk.score}/100 (baseline ${risk.baseline_risk} + uplift ${risk.uplift}) según motor multi-fuente Politeia`,
+      source: risk._source.name,
+      severity: risk.band === 'CRITICO' ? 'critical' : 'high',
+      category: 'security',
+    })
+  }
+
+  // ─── Ranking final por severidad ──────────────────────────────
+  c.sort((a, b) => SEV_WEIGHT[b.severity] - SEV_WEIGHT[a.severity])
+  for (let i = 0; i < c.length; i++) c[i].rank = i + 1
+
+  const bySeverity: Record<ConcernSeverity, number> = {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
+  }
+  const byCategory: Record<string, number> = {}
+  for (const x of c) {
+    bySeverity[x.severity]++
+    byCategory[x.category] = (byCategory[x.category] || 0) + 1
+  }
+
+  return {
+    total: c.length,
+    by_severity: bySeverity,
+    by_category: byCategory,
+    concerns: c.slice(0, 10),
+    _source: {
+      id: 'concerns_synthesis',
+      name: 'Síntesis Politeia · concerns derivados multi-fuente',
+      access_type: 'internal_derived',
+      source_url: '/api/geopolitica/country-profile/[iso3]',
+      what_it_measures: 'Top 10 preocupaciones para el país combinando conflicto UCDP + alertas económicas WB + sanciones + advisories + humanitario + risk score · ranking por severity weight',
+      confidence: 'medium',
+    },
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
 // MAIN handler
 // ────────────────────────────────────────────────────────────────────
 
@@ -697,6 +897,18 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
     buildEconomic(iso3),
   ])
 
+  // FIX-B1: Síntesis derivada multi-fuente · Top concerns (siempre poblada)
+  const concerns = buildConcerns(
+    conflict,
+    economic,
+    sanctions,
+    travel,
+    humanitarian,
+    risk,
+    government,
+    countryName,
+  )
+
   const layers_available = [
     identity && 'identity',
     government && 'government',
@@ -708,6 +920,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
     travel && 'travel',
     risk && 'risk',
     economic && 'economic',
+    concerns.total > 0 && 'concerns',
   ].filter(Boolean)
 
   return NextResponse.json({
@@ -725,6 +938,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
       travel,
       risk,
       economic,
+      concerns,
     },
     layers_available,
     layers_count: layers_available.length,

@@ -107,6 +107,23 @@ interface EconomicLayer {
   _source: SourceMeta
 }
 
+type ConcernSeverity = 'low' | 'medium' | 'high' | 'critical'
+interface Concern {
+  rank: number
+  title: string
+  detail: string
+  source: string
+  severity: ConcernSeverity
+  category: 'conflict' | 'economy' | 'governance' | 'sanctions' | 'humanitarian' | 'security'
+}
+interface ConcernsLayer {
+  total: number
+  by_severity: Record<ConcernSeverity, number>
+  by_category: Record<string, number>
+  concerns: Concern[]
+  _source: SourceMeta
+}
+
 interface SeismicLayer {
   events_30d: number
   max_magnitude: number | null
@@ -176,6 +193,7 @@ interface CountryProfile {
     travel: TravelLayer | null
     risk: RiskLayer | null
     economic?: EconomicLayer | null
+    concerns?: ConcernsLayer | null
   }
   layers_available: string[]
   layers_count: number
@@ -249,6 +267,7 @@ export default function PaisPage() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
               gap: 18,
             }}>
+              <ConcernsBlock layer={data.layers.concerns ?? null} />
               <IdentityBlock layer={data.layers.identity} />
               <GovernmentBlock layer={data.layers.government} />
               <EconomicBlock layer={data.layers.economic ?? null} />
@@ -431,6 +450,81 @@ function GovernmentBlock({ layer }: { layer: GovernmentLayer | null }) {
           <SourceFooter source={layer._source} />
         </>
       )}
+    </BlockShell>
+  )
+}
+
+function ConcernsBlock({ layer }: { layer: ConcernsLayer | null }) {
+  if (!layer || layer.total === 0) {
+    return (
+      <BlockShell
+        title="Top concerns · síntesis multi-fuente"
+        accent="#dc2626"
+        emoji="⊞"
+        emptyMessage="No hay señales críticas para este país en este momento (todas las capas devuelven valores normales)"
+      >
+        {null}
+      </BlockShell>
+    )
+  }
+  const SEV_COLORS: Record<ConcernSeverity, { bg: string; fg: string; border: string }> = {
+    critical: { bg: '#fef2f2', fg: '#7f1d1d', border: '#dc2626' },
+    high: { bg: '#fff7ed', fg: '#9a3412', border: '#ea580c' },
+    medium: { bg: '#fefce8', fg: '#854d0e', border: '#ca8a04' },
+    low: { bg: '#f0fdf4', fg: '#166534', border: '#16a34a' },
+  }
+  const CAT_ICONS: Record<string, string> = {
+    conflict: '⊞',
+    economy: '⊟',
+    governance: '⊞',
+    sanctions: '⊟',
+    humanitarian: '◐',
+    security: '✦',
+  }
+  return (
+    <BlockShell title="Top concerns · síntesis multi-fuente" accent="#dc2626" emoji="⊞" emptyMessage={null}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+        {(['critical', 'high', 'medium', 'low'] as ConcernSeverity[]).map((s) => (
+          layer.by_severity[s] > 0 && (
+            <span key={s} style={{
+              fontSize: 10, fontWeight: 700,
+              padding: '3px 8px', borderRadius: 4,
+              background: SEV_COLORS[s].bg, color: SEV_COLORS[s].fg,
+              border: `1px solid ${SEV_COLORS[s].border}`,
+              textTransform: 'uppercase', letterSpacing: 0.3,
+            }}>
+              {s} · {layer.by_severity[s]}
+            </span>
+          )
+        ))}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {layer.concerns.map((c) => (
+          <div key={c.rank} style={{
+            background: SEV_COLORS[c.severity].bg,
+            borderLeft: `3px solid ${SEV_COLORS[c.severity].border}`,
+            padding: '8px 10px', borderRadius: 4,
+            fontSize: 11,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 3 }}>
+              <span style={{
+                fontFamily: 'ui-monospace, monospace', fontSize: 9, fontWeight: 700,
+                color: SEV_COLORS[c.severity].fg, opacity: 0.7,
+              }}>#{c.rank}</span>
+              <span style={{ fontWeight: 700, color: SEV_COLORS[c.severity].fg, flex: 1 }}>
+                {CAT_ICONS[c.category] ?? '·'} {c.title}
+              </span>
+            </div>
+            <p style={{ margin: 0, fontSize: 10, color: SEV_COLORS[c.severity].fg, opacity: 0.85, lineHeight: 1.4 }}>
+              {c.detail}
+            </p>
+            <p style={{ margin: '2px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>
+              {c.source} · {c.category}
+            </p>
+          </div>
+        ))}
+      </div>
+      <SourceFooter source={layer._source} />
     </BlockShell>
   )
 }
