@@ -7,6 +7,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
+import { DOSIERES_RESUMEN } from '@/data/dosieres-fixture'
 import { IBEX35_RESUMEN } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
 import { PODER_RESUMEN } from '@/data/poder-fixture'
@@ -192,15 +193,19 @@ export default function DosieresPage() {
     { refreshInterval: 60_000 },
   )
 
-  // Fuente backend (políticos del fixture original) + seeds locales
   const apiDosieres: DossierResumen[] = Array.isArray(data) ? data : []
-  // IBEX35_RESUMEN y DIPUTACIONES_RESUMEN tienen mismo shape que DossierResumen
-  const dosieres = useMemo(() => [
-    ...apiDosieres,
-    ...IBEX35_RESUMEN,
-    ...DIPUTACIONES_RESUMEN,
-    ...PODER_RESUMEN,
-  ], [apiDosieres])
+  // UNIFICACIÓN · todas las personas en un único sitio, autosuficiente sin backend:
+  // políticos (fixture) + IBEX 35 + Diputaciones + Poder no-electo, deduplicado por
+  // slug. Si el backend responde, sus datos (apiDosieres) prevalecen sobre el fixture.
+  const dosieres = useMemo(() => {
+    const bySlug = new Map<string, DossierResumen>()
+    for (const d of DOSIERES_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of IBEX35_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of DIPUTACIONES_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of PODER_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of apiDosieres) bySlug.set(d.slug, d)
+    return [...bySlug.values()]
+  }, [apiDosieres])
 
   // Enriquecer cada dossier con tipo + subcat inferidos (memoizado).
   // Todos los slugs van a /dosieres/[slug] · esa página tiene fallback
@@ -501,8 +506,8 @@ export default function DosieresPage() {
         )}
 
  <p style={{ marginTop: 30, textAlign: 'center', fontSize: 11, color: '#86868b' }}>
-          Backend: <code>/api/dosieres</code> · {updatedAt ? `actualizado ${new Date(updatedAt).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}` : 'cargando...'}
-          {' · '}<span style={{ color: '#525258' }}>{IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder (seed local)</span>
+          {dosieres.length} personas en un único sitio
+          {' · '}<span style={{ color: '#525258' }}>{DOSIERES_RESUMEN.length} políticos + {IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder no-electo</span>
  </p>
  </main>
  </div>
