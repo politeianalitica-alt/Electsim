@@ -16,6 +16,8 @@ import { buildGdeltDocUrl, fetchGdeltJson, normalizeGdeltDate } from '@/lib/gdel
 import { COUNTRY_COORDS, isoToName } from '@/lib/geopolitica/country-coords'
 import { getVdemEntry } from '@/lib/geopolitica/vdem-data'
 import { getSipriEntry } from '@/lib/geopolitica/sipri-data'
+// FIX-B3 · UCDP seed fallback para top_themes cuando GDELT 429s
+import { getUcdpConflictByIso } from '@/lib/geopolitica/ucdp-active-conflicts'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -182,9 +184,24 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
     if (sc) sourceCountryCount.set(sc, (sourceCountryCount.get(sc) || 0) + 1)
   }
 
-  const topThemes = [...themeCount.entries()]
+  let topThemes = [...themeCount.entries()]
     .sort((a, b) => b[1] - a[1]).slice(0, 8)
     .map(([theme, count]) => ({ theme, count }))
+
+  // FIX-B3 · Si GDELT no devolvió themes (429 o sin cobertura para país),
+  // usar seed UCDP estructural top 30 como fallback con counts derivados
+  // de intensity_baseline. Esto evita "Top themes GKG: no disponible".
+  if (topThemes.length === 0) {
+    const ucdpSeed = getUcdpConflictByIso(iso3)
+    if (ucdpSeed) {
+      // Themes del seed con count proporcional al intensity_baseline
+      const proxyCount = ucdpSeed.intensity_baseline * 10  // 10..50
+      topThemes = ucdpSeed.themes.slice(0, 5).map((theme) => ({
+        theme,
+        count: proxyCount,
+      }))
+    }
+  }
   const bySource = [...sourceCount.entries()]
     .sort((a, b) => b[1].count - a[1].count).slice(0, 10)
     .map(([domain, v]) => ({
