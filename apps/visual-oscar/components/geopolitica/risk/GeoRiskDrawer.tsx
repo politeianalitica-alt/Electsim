@@ -386,38 +386,85 @@ function SubRegimen({ c }: { c: Country }) {
   )
 }
 
-function SubBriefing({ c, ews }: { c: Country; ews: EwsResp['ews'] | null }) {
-  // Briefing heurístico generado a partir de los datos · sin GROQ por ahora
-  const lines: string[] = []
-  lines.push(`**Estado actual.** ${c.name_es} presenta un IRPC de ${c.irpc} (${c.risk_level}).`)
-  if (c.raw.polyarchy !== null) {
-    lines.push(`V-Dem polyarchy ${c.raw.polyarchy.toFixed(2)} ${c.raw.polyarchy_trend ? `· trend 5y: ${c.raw.polyarchy_trend}` : ''}.`)
-  }
-  if (c.raw.gdelt_articles_30d !== undefined) {
-    lines.push(`GDELT registra ${c.raw.gdelt_articles_30d} artículos WAR_CONFLICT últimos 30d con tono medio ${c.raw.gdelt_tone_value?.toFixed(2) ?? 'n/d'}.`)
-  }
-  if (ews?.ports.available && ews.ports.deviation_avg !== null) {
-    lines.push(`Actividad portuaria con desviación media ${ews.ports.deviation_avg > 0 ? '+' : ''}${ews.ports.deviation_avg.toFixed(1)}% vs histórico.`)
-  }
-  if (ews?.displacement.available && ews.displacement.refugees_originated && ews.displacement.refugees_originated > 100_000) {
-    lines.push(`UNHCR contabiliza ${fmtNum(ews.displacement.refugees_originated)} refugiados originados.`)
+function SubBriefing({ c, ews: _ews }: { c: Country; ews: EwsResp['ews'] | null }) {
+  // Sprint G17 item 7 · Briefing IA-generado con cascade Gemini → Groq
+  // Reemplaza el stub heurístico anterior. El usuario pidió "el briefing
+  // funcione con gemini y de información de por qué esa cifra de riesgo".
+  const [briefing, setBriefing] = useState<string | null>(null)
+  const [meta, setMeta] = useState<{ provider?: string; model?: string; warning?: string }>({})
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    setLoading(true)
+    setBriefing(null)
+    setError(null)
+    fetch(`/api/geopolitica/risk-briefing/${c.iso3}`, { cache: 'force-cache' })
+      .then((r) => r.json())
+      .then((j) => {
+        if (!alive) return
+        if (j.ok && typeof j.briefing === 'string') {
+          setBriefing(j.briefing)
+          setMeta({ provider: j.provider, model: j.model, warning: j.warning })
+        } else {
+          setError('Briefing no disponible · fallback no devolvió texto.')
+        }
+      })
+      .catch(() => alive && setError('Network error al solicitar briefing IA.'))
+      .finally(() => alive && setLoading(false))
+    return () => { alive = false }
+  }, [c.iso3])
+
+  if (loading) {
+    return (
+      <div style={{ background: '#f8fafc', border: '1px solid #f1f5f9', borderRadius: 8, padding: '14px 16px' }}>
+        <p style={{ margin: 0, fontSize: 11, color: '#64748b' }}>
+          Generando briefing IA para {c.name_es}… <span style={{ fontStyle: 'italic' }}>cadena Gemini → Groq → heurístico</span>
+        </p>
+      </div>
+    )
   }
 
-  lines.push('')
-  lines.push(`**Qué vigilar.** ${c.alerta_ews ? 'Alerta EWS activa por incremento violencia 7d ·' : 'Sin EWS activa ·'} ${ews?.alerts_active || 0} bloques de señal en estado de alerta.`)
+  if (error || !briefing) {
+    return (
+      <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '14px 16px' }}>
+        <p style={{ margin: 0, fontSize: 11, color: '#9a3412' }}>
+          {error ?? 'Briefing no disponible.'}
+        </p>
+      </div>
+    )
+  }
 
-  lines.push('')
-  lines.push(`**Implicaciones España.** Exposición comercial y empresarial pendiente de Sub-tab C3.`)
+  // Render markdown ligero: **negrita** + saltos de línea
+  const blocks = briefing.split(/\n{2,}/).map((b, i) => {
+    const segments = b.split(/(\*\*[^*]+\*\*)/g).map((seg, j) => {
+      if (seg.startsWith('**') && seg.endsWith('**')) {
+        return <strong key={j} style={{ color: '#0f172a' }}>{seg.slice(2, -2)}</strong>
+      }
+      return <span key={j}>{seg}</span>
+    })
+    return (
+      <p key={i} style={{ margin: '0 0 10px', fontSize: 12, color: '#0f172a', lineHeight: 1.65 }}>
+        {segments}
+      </p>
+    )
+  })
 
   return (
     <div>
-      <div style={{ background: '#f8fafc', border: '1px solid #f1f5f9', borderRadius: 8, padding: '14px 16px' }}>
-        <p style={{ margin: 0, fontSize: 12, color: '#0f172a', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
-          {lines.join('\n').replace(/\*\*(.*?)\*\*/g, (m, t) => t)}
-        </p>
+      <div style={{
+        background: '#fff', border: '1px solid #e0f2fe',
+        borderLeft: '3px solid #0891b2', borderRadius: 8,
+        padding: '14px 16px',
+      }}>
+        {blocks}
       </div>
       <p style={{ marginTop: 8, fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>
-        Briefing heurístico generado del agregado de fuentes · briefing GROQ refinado vendrá cuando se cablee el LLM router.
+        Generado por IA · {meta.provider === 'heuristic-fallback'
+          ? `fallback heurístico${meta.warning ? ` (${meta.warning.slice(0, 80)})` : ''}`
+          : `${meta.provider ?? 'cascade'} · modelo ${meta.model ?? '?'}`} ·
+        Datos de país-profile (11 capas: Wikidata + V-Dem + SIPRI + GDELT + UCDP + World Bank + OpenSanctions + ReliefWeb + Travel + concerns sintéticos).
       </p>
     </div>
   )

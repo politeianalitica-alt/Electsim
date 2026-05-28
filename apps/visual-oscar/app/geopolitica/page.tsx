@@ -701,6 +701,14 @@ export default function GeopoliticaPage() {
             mapa global IRPC + KPIs + drawer ficha completa.
             Sub-tab 1 Señales EWS (5 bloques) + Régimen + Briefing funcionales.
             Sub-tabs 3/4/5 (Economía, Seguridad, Exposición España) → C3. */}
+        {/* TAB 2 — Riesgo País · CONSOLIDADO Sprint G17 (items 6+7+8+9):
+            - 1 solo mapa (World Risk Heatmap choropleth, más visual)
+            - KPIs ejecutivos arriba
+            - Click en país → drawer rico de 6 sub-tabs (Señales · Régimen ·
+              Economía · Seguridad · Exposición España · Briefing Gemini)
+            - Eliminados: GeoRiskMap (duplicado IRPC) · scattergeo Plot
+              (tercer mapa) · cards DAFO inline (movidos a sub-tab del drawer)
+              · Resumen ejecutivo (información duplicada del Briefing). */}
         {tab === 2 && (
           <div style={{ marginBottom: 18 }}>
             <div style={{
@@ -708,335 +716,26 @@ export default function GeopoliticaPage() {
               borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
             }}>
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
-                Riesgo País · IRPC compuesto + ficha analítica
+                Riesgo País · World Risk Heatmap + ficha analítica
               </h2>
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#bae6fd', lineHeight: 1.5 }}>
                 <strong>¿Es seguro/rentable operar, invertir o relacionarse con este país?</strong>{' '}
-                Mapa mundial coroplético con IRPC (V-Dem 25% + GDELT violencia 25% + tono 20% +
-                estrés soberano 15% + PortWatch 15%). Click en cualquier país abre ficha analítica
-                con 6 sub-tabs: Señales EWS · Régimen · Economía · Seguridad · Exposición España · Briefing.
-                ACLED no disponible · sustituido por GDELT events.
+                Choropleth global con risk score baseline curado + uplift por eventos GDELT últimos 30d.
+                Click en cualquier país abre ficha analítica con 6 sub-tabs (Señales EWS · Régimen ·
+                Economía · Seguridad · Exposición España · Briefing IA).
               </p>
             </div>
             <div style={{ marginBottom: 14 }}>
               <GeoRiskKpis />
             </div>
+            {/* G17 · ÚNICO mapa: World Risk Heatmap (choropleth) ·
+                click en país → drawer en lugar de drill page completo */}
             <div style={{ marginBottom: 14 }}>
-              <GeoRiskMap onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
+              <GeoRiskHeatmap onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
             </div>
             <GeoRiskDrawer iso3={riskDrawerIso} onClose={() => setRiskDrawerIso(null)} />
           </div>
         )}
-
-        {/* Vista legacy Tab 2 · sistema de teatros + DAFO + riesgo cards */}
-        {tab === 2 && (() => {
-          // 3 modos de orden:
-          //  - importancia: por interes_espana DESC (default, ya en riesgoSorted)
-          //  - riesgo:      por score DESC (urgencia geopolítica pura)
-          //  - continente:  agrupado por continente, dentro por interes_espana DESC
-          const teatroImportancia = riesgoSorted
-          const teatroRiesgo = [...riesgo].sort((a, b) => b.score - a.score)
-          const teatroBuckets = new Map<string, RiesgoItem[]>()
-          for (const r of riesgo) {
-            const cont = continentFromIso(r.iso)
-            const cur = teatroBuckets.get(cont) || []
-            cur.push(r)
-            teatroBuckets.set(cont, cur)
-          }
-          for (const [k, arr] of Array.from(teatroBuckets.entries())) {
-            arr.sort((a, b) => b.interes_espana - a.interes_espana || b.score - a.score)
-            teatroBuckets.set(k, arr)
-          }
-          const teatroContinents = CONTINENT_ORDER.filter((c) => teatroBuckets.has(c))
-
-          // Render reutilizable de tarjeta de país (riesgo)
-          const renderRiesgoCard = (r: RiesgoItem) => {
-            const sevColor = r.score >= 8 ? '#c42c2c' : r.score >= 6 ? '#b25000' : r.score >= 4 ? '#EAB308' : '#2d8a39'
-            const sevLabel = r.score >= 8 ? 'ALTO' : r.score >= 6 ? 'MEDIO-ALTO' : r.score >= 4 ? 'MEDIO' : 'BAJO'
-            const catC = catColor(r.categoria)
-            const hasDafo = !!COUNTRY_DAFO[r.pais]
-            return (
-              <button
-                key={r.iso}
-                onClick={() => setDafoOpen({ pais: r.pais, iso: r.iso, extra: { score: r.score, categoria: r.categoria } })}
-                title={hasDafo ? `Ver DAFO de ${r.pais} sobre la relación con España` : 'Más detalles'}
-                className="geo-riesgo-card"
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
-              >
-                <span className="geo-riesgo-card-accent" style={{ background: catC }}/>
-                {hasDafo && (
-                  <span className="geo-riesgo-dafo-tag" style={{ color: catC, background: `${catC}14` }}>DAFO →</span>
-                )}
-
-                <div className="geo-riesgo-head">
-                  <CountryBadge iso={r.iso} size={44} color={catC}/>
-                  <div className="geo-riesgo-head-body">
-                    <div className="geo-riesgo-pais">{r.pais}</div>
-                    <span className="geo-riesgo-cat-chip" style={{ background: `${catC}14`, color: catC }}>{r.categoria}</span>
-                  </div>
-                </div>
-
-                <div className="geo-riesgo-score-row">
-                  <div className="geo-riesgo-score-ring" style={{
-                    background: `conic-gradient(${sevColor} ${r.score * 36}deg, #f5f5f7 0)`,
-                  }}>
-                    <div className="geo-riesgo-score-inner">
-                      <span className="geo-riesgo-score-value" style={{ color: sevColor }}>{r.score.toFixed(1)}</span>
-                      <span className="geo-riesgo-score-unit">/10</span>
-                    </div>
-                  </div>
-                  <div className="geo-riesgo-score-meta">
-                    <div className="geo-riesgo-score-label">Riesgo geopolítico</div>
-                    <div className="geo-riesgo-score-sev" style={{ color: sevColor }}>{sevLabel}</div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="geo-riesgo-interes-row">
-                    <span className="geo-riesgo-interes-label">Interés España</span>
-                    <span className="geo-riesgo-interes-value">{r.interes_espana.toFixed(1)}</span>
-                  </div>
-                  <div className="geo-riesgo-bar-track">
-                    <div className="geo-riesgo-bar-fill geo-riesgo-bar-fill--interes" style={{
-                      width: `${(r.interes_espana / 10) * 100}%`,
-                    }}/>
-                  </div>
-                </div>
-              </button>
-            )
-          }
-
-          return (
-          <div>
-            {/* Sprint G5 · World Risk Heatmap (Plotly choropleth · click → drill país) */}
-            <div style={{ marginBottom: 18 }}>
-              <GeoRiskHeatmap />
-            </div>
-
-            <div className="geo-map-container">
-              <Plot
-                data={[{
-                  type: 'scattergeo',
-                  lat: riesgoSorted.map((r) => r.lat),
-                  lon: riesgoSorted.map((r) => r.lon),
-                  text: riesgoSorted.map((r) => `${r.pais}<br>Score: ${r.score}<br>Interés ES: ${r.interes_espana}`),
-                  marker: {
-                    size: riesgoSorted.map((r) => r.score * 3),
-                    color: riesgoSorted.map((r) => r.score),
-                    colorscale: [
-                      [0, '#2d8a39'],
-                      [0.5, '#b25000'],
-                      [1, '#c42c2c'],
-                    ],
-                    showscale: false,
-                    opacity: 0.8,
-                    line: { width: 1, color: '#fff' },
-                  },
-                  hovertemplate: '%{text}<extra></extra>',
-                }]}
-                layout={geoLayout as object}
-                config={{ displayModeBar: false, responsive: true }}
-                className="geo-plot"
-              />
-            </div>
-
-            {/* ───── RESUMEN EJECUTIVO ─────
-                4 módulos compactos que asoman información de las
-                otras pestañas (Alertas, OSINT, Impacto, Presencia)
-                + CTA para Análisis Politeia. Cada item enlaza a la
-                noticia o salta al tab correspondiente. */}
-            <section className="geo-resumen-section">
-              <div className="geo-resumen-header-row">
-                <h2 className="geo-resumen-h2">Resumen ejecutivo</h2>
-                <span className="geo-resumen-h2-sub">· lo más relevante de cada módulo</span>
-              </div>
-
-              <div className="geo-resumen-list">
-                {/* MÓDULO 1 — Alertas críticas (TAB 2) */}
-                <article className="geo-resumen-box geo-resumen-box--alertas">
-                  <header className="geo-resumen-box-header">
-                    <div className="geo-resumen-box-header-left">
-                      <span className="geo-resumen-titulo geo-resumen-titulo--alertas">Alertas activas</span>
-                      <span className="geo-resumen-badge geo-resumen-badge--alertas">{alertas.length}</span>
-                    </div>
-                    <button onClick={() => setTab(2)} className="geo-resumen-link geo-resumen-link--alertas">Ver todas →</button>
-                  </header>
-                  <div className="geo-resumen-items">
-                    {alertas.length === 0 && <div className="geo-resumen-empty">Sin alertas activas en este momento</div>}
-                    {alertas.slice(0, 3).map((a) => {
-                      const m = NIVEL_META[(['CRITICO', 'ALTO', 'MEDIO'].includes(a.nivel) ? a.nivel : 'BAJO') as NivelGeo]
-                      return (
-                        <a key={a.id} href={a.url || '#'}
-                          target={a.url ? '_blank' : undefined}
-                          rel="noopener noreferrer"
-                          onClick={a.url ? undefined : (e) => { e.preventDefault(); setTab(2) }}
-                          className="geo-resumen-item">
-                          <span className="geo-resumen-chip" style={{ background: m.color }}>{m.label}</span>
-                          <span className="geo-resumen-item-title">{a.titulo}</span>
-                          {a.url && <span className="geo-resumen-arrow">↗</span>}
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-
-                {/* MÓDULO 2 — OSINT recientes (TAB 1) */}
-                <article className="geo-resumen-box geo-resumen-box--osint">
-                  <header className="geo-resumen-box-header">
-                    <div className="geo-resumen-box-header-left">
-                      <span className="geo-resumen-titulo geo-resumen-titulo--osint">OSINT recientes</span>
-                      <span className="geo-resumen-badge geo-resumen-badge--osint">{osint.length}</span>
-                    </div>
-                    <button onClick={() => setTab(1)} className="geo-resumen-link geo-resumen-link--osint">Ver todas →</button>
-                  </header>
-                  <div className="geo-resumen-items">
-                    {osint.length === 0 && <div className="geo-resumen-empty">Sin señales recientes</div>}
-                    {[...osint].sort((a, b) => b.urgencia - a.urgencia).slice(0, 3).map((o) => {
-                      const cc = catColor(o.categoria)
-                      return (
-                        <a key={o.id} href={o.url || '#'}
-                          target={o.url ? '_blank' : undefined}
-                          rel="noopener noreferrer"
-                          onClick={o.url ? undefined : (e) => { e.preventDefault(); setTab(1) }}
-                          className="geo-resumen-item">
-                          <span className="geo-resumen-chip" style={{ background: cc }}>{o.categoria.replace('_', ' ').toUpperCase()}</span>
-                          <span className="geo-resumen-item-title">{o.titulo}</span>
-                          {o.url && <span className="geo-resumen-arrow">↗</span>}
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-
-                {/* MÓDULO 3 — Impacto España (TAB 3) */}
-                <article className="geo-resumen-box geo-resumen-box--impacto">
-                  <header className="geo-resumen-box-header">
-                    <div className="geo-resumen-box-header-left">
-                      <span className="geo-resumen-titulo geo-resumen-titulo--impacto">Impacto en España</span>
-                      <span className="geo-resumen-badge geo-resumen-badge--impacto">{impactos.length}</span>
-                    </div>
-                    <button onClick={() => setTab(3)} className="geo-resumen-link geo-resumen-link--impacto">Ver todos →</button>
-                  </header>
-                  <div className="geo-resumen-items">
-                    {impactos.length === 0 && <div className="geo-resumen-empty">Sin impactos detectados</div>}
-                    {impactosSorted.slice(0, 3).map((imp) => {
-                      const m = dimMeta(imp.dimension)
-                      return (
-                        <a key={imp.id} href={imp.url || '#'}
-                          target={imp.url ? '_blank' : undefined}
-                          rel="noopener noreferrer"
-                          onClick={imp.url ? undefined : (e) => { e.preventDefault(); setTab(3) }}
-                          className="geo-resumen-item">
-                          <span className="geo-resumen-chip" style={{ background: m.color }}>{m.label}</span>
-                          <span className="geo-resumen-item-title">{imp.titulo}</span>
-                          <span className="geo-resumen-sev" style={{ color: m.color }}>{imp.severidad}/5</span>
-                        </a>
-                      )
-                    })}
-                  </div>
-                </article>
-
-                {/* MÓDULO 4 — Top Presencia España (TAB 4) */}
-                <article className="geo-resumen-box geo-resumen-box--presencia">
-                  <header className="geo-resumen-box-header">
-                    <div className="geo-resumen-box-header-left">
-                      <span className="geo-resumen-titulo geo-resumen-titulo--presencia">Top presencia española</span>
-                      <span className="geo-resumen-badge geo-resumen-badge--presencia">{presencia.length} países</span>
-                    </div>
-                    <button onClick={() => setTab(4)} className="geo-resumen-link geo-resumen-link--presencia">Ver todos →</button>
-                  </header>
-                  <div className="geo-resumen-items">
-                    {presencia.length === 0 && <div className="geo-resumen-empty">Sin datos de presencia</div>}
-                    {[...presencia].sort((x, y) => y.intensidad - x.intensidad).slice(0, 4).map((p) => {
-                      const iso = p.iso || isoFromPais(p.pais)
-                      const cc = catColor(p.categoria)
-                      return (
-                        <button key={p.pais}
-                          onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
-                          className="geo-resumen-item geo-resumen-item--btn">
-                          <CountryBadge iso={iso} size={22} color={cc}/>
-                          <span className="geo-resumen-item-title geo-resumen-item-title--bold">{p.pais}</span>
-                          <div className="geo-resumen-presencia-track">
-                            <div className="geo-resumen-presencia-fill" style={{ width: `${p.intensidad}%`, background: cc }}/>
-                          </div>
-                          <span className="geo-resumen-presencia-num" style={{ color: cc }}>{p.intensidad}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-                </article>
-              </div>
-
-              {/* Banner Análisis Politeia (TAB 5) */}
-              <button onClick={() => setTab(5)} className="geo-banner-politeia">
-                <div className="geo-banner-politeia-left">
-                  <div className="geo-banner-politeia-eyebrow">Análisis Politeia · Geopolítico</div>
-                  <div className="geo-banner-politeia-title">
-                    Genera un briefing estratégico con los datos en vivo de todos los módulos
-                  </div>
-                </div>
-                <span className="geo-banner-politeia-cta">Generar análisis →</span>
-              </button>
-            </section>
-
-            {/* Selector de orden */}
-            <div className="geo-order-row">
-              <span className="geo-order-label">Ordenar por:</span>
-              <div className="geo-order-tabs">
-                {[
-                  { v: 'importancia', l: 'Importancia para España' },
-                  { v: 'continente',  l: 'Por continente' },
-                  { v: 'riesgo',      l: 'Riesgo geopolítico' },
-                ].map((o) => {
-                  const active = teatroOrden === o.v
-                  return (
-                    <button key={o.v} onClick={() => setTeatroOrden(o.v as typeof teatroOrden)}
-                      className={`geo-order-btn ${active ? 'geo-order-btn--active' : ''}`}>{o.l}</button>
-                  )
-                })}
-              </div>
-              <span className="geo-order-count">· {riesgo.length} países en seguimiento</span>
-            </div>
-
-            {/* Vista 1: lista plana (importancia o riesgo) */}
-            {teatroOrden !== 'continente' && (
-              <div className="geo-card-grid">
-                {(teatroOrden === 'riesgo' ? teatroRiesgo : teatroImportancia).map(renderRiesgoCard)}
-              </div>
-            )}
-
-            {/* Vista 2: agrupado por continente */}
-            {teatroOrden === 'continente' && (
-              <div className="geo-continent-list">
-                {teatroContinents.map((cont) => {
-                  const cc = CONTINENT_COLOR[cont] || '#9CA3AF'
-                  const items = teatroBuckets.get(cont) || []
-                  return (
-                    <section key={cont}>
-                      <div className="geo-continent-header" style={{
-                        background: `${cc}10`, borderLeft: `3px solid ${cc}`,
-                      }}>
-                        <span className="geo-continent-name" style={{ color: cc }}>{cont}</span>
-                        <span className="geo-continent-meta">{items.length} países</span>
-                      </div>
-                      <div className="geo-card-grid">
-                        {items.map(renderRiesgoCard)}
-                      </div>
-                    </section>
-                  )
-                })}
-              </div>
-            )}
-
-            {/* Sprint G6 · Capa 5 · Travel Advisories oficiales + ReliefWeb humanitario */}
-            <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
-              <GeoTravelAdvisories />
-              <GeoReliefWebPanel defaultCountry="UKR" />
-            </div>
-          </div>
-          )
-        })()}
 
         {/* TAB 3 — Riesgo militar, defensa & alianzas (NATO + España Defensa · Capa 3) */}
         {/* TAB 3 — Militar y Alianzas · vista estratégica + commodities + feed señales

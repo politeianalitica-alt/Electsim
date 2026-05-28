@@ -19,6 +19,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ISO3_TO_NUM3 } from '@/lib/geopolitica/iso3-to-num3'
 
+interface HeatmapProps {
+  /** Callback opcional al click en país. Si no se proporciona, drillea a /geopolitica/pais/[iso3]. */
+  onCountryClick?: (iso3: string) => void
+}
+
 interface Country {
   iso3: string
   name: string
@@ -122,7 +127,7 @@ function layerColor(layer: LayerDef, c: Country | null): string {
   return scoreToColor(n)
 }
 
-export function GeoRiskHeatmap() {
+export function GeoRiskHeatmap({ onCountryClick }: HeatmapProps = {}) {
   const router = useRouter()
   const [data, setData] = useState<HeatmapResp | null>(null)
   const [loading, setLoading] = useState(true)
@@ -246,7 +251,9 @@ export function GeoRiskHeatmap() {
                           }}
                           onMouseLeave={() => setHover(null)}
                           onClick={() => {
-                            if (c) router.push(`/geopolitica/pais/${c.iso3}`)
+                            if (!c) return
+                            if (onCountryClick) onCountryClick(c.iso3)
+                            else router.push(`/geopolitica/pais/${c.iso3}`)
                           }}
                         />
                       )
