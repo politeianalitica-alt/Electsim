@@ -26,15 +26,14 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import requests
-from lxml import html as LH
+from lxml import html as lxml_html
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "diputaciones" / "composicion_wikipedia.json"
@@ -45,7 +44,9 @@ HEADERS = {"User-Agent": UA, "Accept-Language": "es,en;q=0.5"}
 API_BASE = "https://es.wikipedia.org/w/api.php"
 SUMMARY_BASE = "https://es.wikipedia.org/api/rest_v1/page/summary/"
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-7s %(message)s", datefmt="%H:%M:%S")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s %(levelname)-7s %(message)s", datefmt="%H:%M:%S"
+)
 log = logging.getLogger("scrape_wikipedia")
 
 
@@ -158,7 +159,9 @@ def extract_composicion(doc) -> list[dict[str, str]]:
     out = []
     for tbl in doc.xpath("//table[contains(@class,'wikitable')]"):
         text = tbl.text_content().lower()
-        if not any(kw in text for kw in ("partido", "grupo", "escaños", "diputados", "composición")):
+        if not any(
+            kw in text for kw in ("partido", "grupo", "escaños", "diputados", "composición")
+        ):
             continue
         headers = [th.text_content().strip() for th in tbl.xpath(".//tr/th")]
         if not headers:
@@ -177,7 +180,7 @@ def scrape_one(slug: str, title: str) -> dict[str, Any]:
     result: dict[str, Any] = {
         "slug": slug,
         "wikipedia_title": title,
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
         "source": "wikipedia_es",
     }
     # 1) Summary (rest API · rápido)
@@ -195,7 +198,7 @@ def scrape_one(slug: str, title: str) -> dict[str, Any]:
     try:
         html_text = fetch_parsed_html(title)
         if html_text:
-            doc = LH.fromstring(html_text)
+            doc = lxml_html.fromstring(html_text)
             result["infobox"] = extract_infobox(doc)
             result["composicion_raw"] = extract_composicion(doc)
             result["scrape_ok"] = True
@@ -215,8 +218,9 @@ def main() -> int:
     parser.add_argument("--only", help="CSV de slugs a scrapear")
     parser.add_argument("--all", action="store_true", help="Las 41")
     parser.add_argument("--out", default=str(OUT))
-    parser.add_argument("--throttle", type=float, default=1.0,
-                        help="Segundos entre requests (default 1.0)")
+    parser.add_argument(
+        "--throttle", type=float, default=1.0, help="Segundos entre requests (default 1.0)"
+    )
     args = parser.parse_args()
 
     if args.only:

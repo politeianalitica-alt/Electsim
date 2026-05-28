@@ -77,9 +77,7 @@ def main() -> int:
         action="store_true",
         help=f"Borra aristas con source='{SOURCE_TAG}' antes de insertar",
     )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="No escribe a la BD, solo cuenta"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="No escribe a la BD, solo cuenta")
     args = parser.parse_args()
 
     url = os.environ.get("DATABASE_URL")
@@ -98,24 +96,20 @@ def main() -> int:
 
     # Conjunto de sources presentes en el JSON · clave para --refresh
     # genérico (sirve a IBEX35, diputaciones u otras fuentes futuras).
-    sources_en_json = {
-        e.get("source") or SOURCE_TAG for e in edges
-    }
+    sources_en_json = {e.get("source") or SOURCE_TAG for e in edges}
     log.info("Sources detectados en JSON: %s", sorted(sources_en_json))
 
     engine = create_engine(url, future=True)
     with engine.begin() as conn:
         if args.refresh and not args.dry_run:
             n = conn.execute(
-                text(
-                    "DELETE FROM brain_actor_graph_edges "
-                    "WHERE source = ANY(:sources)"
-                ),
+                text("DELETE FROM brain_actor_graph_edges " "WHERE source = ANY(:sources)"),
                 {"sources": list(sources_en_json)},
             ).rowcount
             log.info(
                 "Borradas %d aristas previas con source ∈ %s",
-                n, sorted(sources_en_json),
+                n,
+                sorted(sources_en_json),
             )
 
         inserted = 0

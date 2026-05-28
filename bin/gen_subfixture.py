@@ -69,8 +69,22 @@ SOURCES = {
 def detect_partido(tags: list[str]) -> str | None:
     """Extrae el partido del array de tags si está identificable."""
     siglas = {
-        "pp", "psoe", "psc", "psdeg", "pnv", "junts", "erc", "vox", "sumar",
-        "bng", "bildu", "cup", "upn", "cs", "podemos", "pdecat",
+        "pp",
+        "psoe",
+        "psc",
+        "psdeg",
+        "pnv",
+        "junts",
+        "erc",
+        "vox",
+        "sumar",
+        "bng",
+        "bildu",
+        "cup",
+        "upn",
+        "cs",
+        "podemos",
+        "pdecat",
     }
     for t in tags or []:
         if t.lower() in siglas:
@@ -86,26 +100,30 @@ def to_dossier_completo(d: dict, prefix: str, idx: int, now_iso: str) -> dict:
         ap_id = f"{base_id}-ap-{ap_i:02d}"
         items_out = []
         for it_i, it in enumerate(ap.get("items") or []):
-            items_out.append({
-                "id": f"{ap_id}-it-{it_i:02d}",
-                "apartado_id": ap_id,
-                "tipo": it.get("tipo") or "dato",
-                "titulo": it.get("titulo"),
-                "contenido": it.get("contenido") or "",
-                "fecha": it.get("fecha"),
-                "fuente_url": it.get("fuente_url"),
-                "fuente_titulo": it.get("fuente_titulo"),
-                "tags": it.get("tags") or [],
-                "orden": it.get("orden", it_i),
-            })
-        apartados_out.append({
-            "id": ap_id,
-            "tipo": ap.get("tipo"),
-            "titulo": ap.get("titulo"),
-            "resumen": ap.get("resumen"),
-            "orden": ap.get("orden", ap_i),
-            "items": items_out,
-        })
+            items_out.append(
+                {
+                    "id": f"{ap_id}-it-{it_i:02d}",
+                    "apartado_id": ap_id,
+                    "tipo": it.get("tipo") or "dato",
+                    "titulo": it.get("titulo"),
+                    "contenido": it.get("contenido") or "",
+                    "fecha": it.get("fecha"),
+                    "fuente_url": it.get("fuente_url"),
+                    "fuente_titulo": it.get("fuente_titulo"),
+                    "tags": it.get("tags") or [],
+                    "orden": it.get("orden", it_i),
+                }
+            )
+        apartados_out.append(
+            {
+                "id": ap_id,
+                "tipo": ap.get("tipo"),
+                "titulo": ap.get("titulo"),
+                "resumen": ap.get("resumen"),
+                "orden": ap.get("orden", ap_i),
+                "items": items_out,
+            }
+        )
 
     return {
         "id": base_id,
@@ -147,8 +165,7 @@ def emit_ts(source: str) -> Path:
     all_entries = list(by_slug.values())
 
     dossieres = [
-        to_dossier_completo(d, cfg["id_prefix"], i + 1, now_iso)
-        for i, d in enumerate(all_entries)
+        to_dossier_completo(d, cfg["id_prefix"], i + 1, now_iso) for i, d in enumerate(all_entries)
     ]
 
     lines = []
@@ -159,11 +176,15 @@ def emit_ts(source: str) -> Path:
     lines.append("  DossierResumen,")
     lines.append("} from './dosieres-fixture'")
     lines.append("")
-    lines.append(f"export const {cfg['fixture_name']}: DossierCompleto[] = "
-                 + serialize_ts(dossieres, indent=2))
+    lines.append(
+        f"export const {cfg['fixture_name']}: DossierCompleto[] = "
+        + serialize_ts(dossieres, indent=2)
+    )
     lines.append("")
-    lines.append(f"export const {cfg['resumen_name']}: DossierResumen[] = "
-                 f"{cfg['fixture_name']}.map(d => ({{")
+    lines.append(
+        f"export const {cfg['resumen_name']}: DossierResumen[] = "
+        f"{cfg['fixture_name']}.map(d => ({{"
+    )
     lines.append("  id: d.id,")
     lines.append("  slug: d.slug,")
     lines.append("  nombre_completo: d.nombre_completo,")
@@ -177,8 +198,10 @@ def emit_ts(source: str) -> Path:
     lines.append("  updated_at: d.updated_at,")
     lines.append("}))")
     lines.append("")
-    lines.append(f"export function get{cfg['id_prefix'].upper()}BySlug"
-                 f"(slug: string): DossierCompleto | null {{")
+    lines.append(
+        f"export function get{cfg['id_prefix'].upper()}BySlug"
+        f"(slug: string): DossierCompleto | null {{"
+    )
     lines.append(f"  return {cfg['fixture_name']}.find(d => d.slug === slug) ?? null")
     lines.append("}")
     lines.append("")
@@ -192,9 +215,7 @@ def emit_ts(source: str) -> Path:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--source", choices=list(SOURCES.keys()) + ["all"], default="all"
-    )
+    parser.add_argument("--source", choices=[*list(SOURCES.keys()), "all"], default="all")
     args = parser.parse_args()
     sources = list(SOURCES.keys()) if args.source == "all" else [args.source]
     for s in sources:

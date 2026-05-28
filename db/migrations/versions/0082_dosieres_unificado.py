@@ -45,12 +45,12 @@ RLS habilitada con política tenant_isolation_dosieres_unificado.
 Revision ID: 0082_dosieres_unificado
 Revises:    0081_dosieres_personas
 """
+
 from __future__ import annotations
 
 import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
-
 
 revision = "0082_dosieres_unificado"
 down_revision = "0081_dosieres_personas"
@@ -62,12 +62,12 @@ depends_on = None
 # permitir extensión futura sin migración (los tipos crecen con el dominio:
 # politico, territorio, actor, issue, medio, organizacion, evento…).
 TIPOS_DOSSIER = (
-    "politico",       # persona política (líder, ministro, diputado, presidente CCAA…)
-    "territorio",     # municipio o CCAA
-    "actor",          # organización, grupo de interés, lobby, asociación
-    "issue",          # tema o asunto político (vivienda, energía, etc.)
-    "medio",          # medio de comunicación
-    "evento",         # evento concreto (elección, juicio, manifestación)
+    "politico",  # persona política (líder, ministro, diputado, presidente CCAA…)
+    "territorio",  # municipio o CCAA
+    "actor",  # organización, grupo de interés, lobby, asociación
+    "issue",  # tema o asunto político (vivienda, energía, etc.)
+    "medio",  # medio de comunicación
+    "evento",  # evento concreto (elección, juicio, manifestación)
 )
 
 
@@ -182,9 +182,7 @@ def upgrade() -> None:
             nullable=False,
         ),
         # ─── Uniqueness ───────────────────────────────────────────────
-        sa.UniqueConstraint(
-            "tenant_id", "tipo", "slug", name="uq_dosieres_unif_tenant_tipo_slug"
-        ),
+        sa.UniqueConstraint("tenant_id", "tipo", "slug", name="uq_dosieres_unif_tenant_tipo_slug"),
     )
 
     # ─── Índices ──────────────────────────────────────────────────────
@@ -206,9 +204,7 @@ def upgrade() -> None:
         "CREATE INDEX idx_dosieres_unif_contenido ON dosieres_unificado "
         "USING GIN (contenido jsonb_path_ops)"
     )
-    op.execute(
-        "CREATE INDEX idx_dosieres_unif_tags ON dosieres_unificado USING GIN (tags)"
-    )
+    op.execute("CREATE INDEX idx_dosieres_unif_tags ON dosieres_unificado USING GIN (tags)")
 
     # ─── RLS ──────────────────────────────────────────────────────────
     op.execute("ALTER TABLE dosieres_unificado ENABLE ROW LEVEL SECURITY")
@@ -228,10 +224,7 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    op.execute(
-        "DROP POLICY IF EXISTS tenant_isolation_dosieres_unificado "
-        "ON dosieres_unificado"
-    )
+    op.execute("DROP POLICY IF EXISTS tenant_isolation_dosieres_unificado " "ON dosieres_unificado")
     op.execute("DROP INDEX IF EXISTS idx_dosieres_unif_tags")
     op.execute("DROP INDEX IF EXISTS idx_dosieres_unif_contenido")
     op.drop_index("idx_dosieres_unif_nombre_trgm", table_name="dosieres_unificado")

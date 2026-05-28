@@ -30,12 +30,12 @@ import logging
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import requests
-from lxml import html as LH
+from lxml import html as lxml_html
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "ibex35" / "consejos_wikipedia.json"
@@ -101,8 +101,7 @@ def fetch_summary(title: str) -> dict[str, Any] | None:
 
 
 def fetch_parsed_html(title: str) -> str | None:
-    params = {"action": "parse", "page": title, "format": "json",
-              "prop": "text", "redirects": 1}
+    params = {"action": "parse", "page": title, "format": "json", "prop": "text", "redirects": 1}
     r = requests.get(API_BASE, params=params, headers=HEADERS, timeout=20)
     r.raise_for_status()
     j = r.json()
@@ -134,23 +133,31 @@ def extract_consejeros(doc) -> list[dict[str, str]]:
     # 1) Tablas con headers que mencionen consejo/consejero
     for tbl in doc.xpath("//table[contains(@class,'wikitable')]"):
         text = tbl.text_content().lower()
-        if not any(kw in text for kw in (
-            "consejero", "consejera", "consejo de administración",
-            "miembros del consejo", "presidente", "director general",
-            "ceo", "vicepresidente",
-        )):
+        if not any(
+            kw in text
+            for kw in (
+                "consejero",
+                "consejera",
+                "consejo de administración",
+                "miembros del consejo",
+                "presidente",
+                "director general",
+                "ceo",
+                "vicepresidente",
+            )
+        ):
             continue
         headers = [h.text_content().strip() for h in tbl.xpath(".//tr/th")]
         # tomar filas de td
         for row in tbl.xpath(".//tr"):
             cells = [c.text_content().strip() for c in row.xpath("./td")]
-            if len(cells) >= 2 and any(
-                re.search(r"[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+", c) for c in cells
-            ):
-                out.append({
-                    "raw": " | ".join(cells),
-                    "headers": " | ".join(headers) if headers else None,
-                })
+            if len(cells) >= 2 and any(re.search(r"[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+", c) for c in cells):
+                out.append(
+                    {
+                        "raw": " | ".join(cells),
+                        "headers": " | ".join(headers) if headers else None,
+                    }
+                )
         if out:
             break
     # 2) Listas <ul> después de un h2/h3 que diga "Consejo"
@@ -176,7 +183,7 @@ def scrape_one(slug: str, title: str) -> dict[str, Any]:
     result: dict[str, Any] = {
         "slug": slug,
         "wikipedia_title": title,
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
         "source": "wikipedia_es",
     }
     try:
@@ -191,7 +198,7 @@ def scrape_one(slug: str, title: str) -> dict[str, Any]:
     try:
         html_text = fetch_parsed_html(title)
         if html_text:
-            doc = LH.fromstring(html_text)
+            doc = lxml_html.fromstring(html_text)
             result["infobox"] = extract_infobox(doc)
             result["consejeros_raw"] = extract_consejeros(doc)
             result["scrape_ok"] = True
@@ -223,8 +230,7 @@ def main() -> int:
         parser.error("Indica --sample N | --only csv | --all")
         return 2
 
-    log.info("Scrapeando %d empresas IBEX 35 (throttle %.1fs)",
-             len(targets), args.throttle)
+    log.info("Scrapeando %d empresas IBEX 35 (throttle %.1fs)", len(targets), args.throttle)
     results = []
     for i, (slug, title) in enumerate(targets.items(), 1):
         log.info("[%d/%d] %s → %s", i, len(targets), slug, title)
@@ -244,8 +250,7 @@ def main() -> int:
     log.info("Volcadas %d entradas en %s", len(results), out_path)
     log.info("  scrape_ok:           %d / %d", n_ok, len(results))
     log.info("  con infobox:         %d", n_infobox)
-    log.info("  con consejeros:      %d empresas (%d items total)",
-             n_consejeros, total_consejeros)
+    log.info("  con consejeros:      %d empresas (%d items total)", n_consejeros, total_consejeros)
     return 0
 
 

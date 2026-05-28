@@ -61,8 +61,9 @@ import os
 import re
 import sys
 import unicodedata
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Connection, Engine
@@ -76,7 +77,7 @@ logging.basicConfig(
 log = logging.getLogger("migrate_dossieres")
 
 # ─── Constantes ───────────────────────────────────────────────────────
-DEFAULT_FIXTURE_JSON = "/tmp/dosieres-fixture.json"
+DEFAULT_FIXTURE_JSON = "/tmp/dosieres-fixture.json"  # noqa: S108  # ruta convenida con extract_dosieres_fixture.cjs
 REPO_ROOT = Path(__file__).resolve().parent.parent
 IBEX35_EMPRESAS_JSON = REPO_ROOT / "data" / "ibex35" / "empresas.json"
 IBEX35_DIRECTIVOS_JSON = REPO_ROOT / "data" / "ibex35" / "directivos.json"
@@ -247,9 +248,7 @@ def upsert_many(
 
 
 # ─── Loaders por fuente ───────────────────────────────────────────────
-def load_brain_actor_dossiers(
-    conn: Connection, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_brain_actor_dossiers(conn: Connection, tenant_id: str) -> Iterable[dict[str, Any]]:
     rows = conn.execute(
         text(
             "SELECT actor_name, depth, content_json, confidence, completeness "
@@ -278,9 +277,7 @@ def load_brain_actor_dossiers(
         )
 
 
-def load_brain_issue_dossiers(
-    conn: Connection, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_brain_issue_dossiers(conn: Connection, tenant_id: str) -> Iterable[dict[str, Any]]:
     rows = conn.execute(
         text(
             "SELECT issue_name, depth, content_json, confidence, completeness "
@@ -309,9 +306,7 @@ def load_brain_issue_dossiers(
         )
 
 
-def load_brain_fichas_territoriales(
-    conn: Connection, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_brain_fichas_territoriales(conn: Connection, tenant_id: str) -> Iterable[dict[str, Any]]:
     rows = conn.execute(
         text(
             "SELECT id, tipo, nombre, ccaa, content_json, completeness, "
@@ -345,9 +340,7 @@ def load_brain_fichas_territoriales(
         )
 
 
-def load_brain_fichas_politicos(
-    conn: Connection, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_brain_fichas_politicos(conn: Connection, tenant_id: str) -> Iterable[dict[str, Any]]:
     rows = conn.execute(
         text(
             "SELECT id, qid, nombre, partido, cargo_actual, content_json, "
@@ -420,9 +413,7 @@ def _apartados_from_normalized(
     return out
 
 
-def load_dosieres_normalized(
-    conn: Connection, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_dosieres_normalized(conn: Connection, tenant_id: str) -> Iterable[dict[str, Any]]:
     """Carga desde dosieres + dossier_apartados + dossier_items."""
     dosieres = conn.execute(
         text(
@@ -511,11 +502,7 @@ def _load_dossier_json(
 
     for d in data:
         # ── Slug + nombre (compatibilidad con ambos shapes) ───────────
-        nombre = (
-            d.get("nombre")
-            or d.get("nombre_completo")
-            or ""
-        )
+        nombre = d.get("nombre") or d.get("nombre_completo") or ""
         slug = d.get("slug") or slugify(nombre)
         if not slug or not nombre:
             continue
@@ -575,9 +562,7 @@ def _load_dossier_json(
 
 def load_fixture_json(path: Path, tenant_id: str) -> Iterable[dict[str, Any]]:
     """Wrapper retrocompatible: fixture TS hardcoded → tipo=politico."""
-    return _load_dossier_json(
-        path, tenant_id, default_tipo=TIPO_POLITICO, origen="fixture_ts"
-    )
+    return _load_dossier_json(path, tenant_id, default_tipo=TIPO_POLITICO, origen="fixture_ts")
 
 
 def load_ibex35_empresas(path: Path, tenant_id: str) -> Iterable[dict[str, Any]]:
@@ -619,9 +604,7 @@ def load_ibex35_conexos(path: Path, tenant_id: str) -> Iterable[dict[str, Any]]:
     )
 
 
-def load_diputaciones_instituciones(
-    path: Path, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_diputaciones_instituciones(path: Path, tenant_id: str) -> Iterable[dict[str, Any]]:
     """38 Diputaciones Provinciales + 3 Diputaciones Forales (Álava,
     Bizkaia, Gipuzkoa). Dossieres a nivel institucional (composición,
     competencias, sede, alianzas políticas, vínculos con Junta/Xunta).
@@ -634,9 +617,7 @@ def load_diputaciones_instituciones(
     )
 
 
-def load_diputaciones_presidentes(
-    path: Path, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_diputaciones_presidentes(path: Path, tenant_id: str) -> Iterable[dict[str, Any]]:
     """Los 41 presidentes (38 Diputaciones + 3 Diputados Generales forales).
     Cada uno con tipo=politico y partido en metadata.
     """
@@ -648,9 +629,7 @@ def load_diputaciones_presidentes(
     )
 
 
-def load_diputaciones_complementos(
-    path: Path, tenant_id: str
-) -> Iterable[dict[str, Any]]:
+def load_diputaciones_complementos(path: Path, tenant_id: str) -> Iterable[dict[str, Any]]:
     """Actores complementarios referenciados por las aristas del grafo
     de Diputaciones: partidos (ERC, Junts, PSdeG), políticos puente
     (Moreno Bonilla, Manuel Baltar) y otras figuras necesarias para
@@ -688,12 +667,9 @@ LOAD_ORDER = [
     ("ibex35_empresas", "ibex35", load_ibex35_empresas, "ibex35e"),
     ("ibex35_directivos", "ibex35", load_ibex35_directivos, "ibex35d"),
     ("ibex35_conexos", "ibex35", load_ibex35_conexos, "ibex35c"),
-    ("diputaciones_instituciones", "diputaciones",
-        load_diputaciones_instituciones, "dipinst"),
-    ("diputaciones_presidentes", "diputaciones",
-        load_diputaciones_presidentes, "dippres"),
-    ("diputaciones_complementos", "diputaciones",
-        load_diputaciones_complementos, "dipcomp"),
+    ("diputaciones_instituciones", "diputaciones", load_diputaciones_instituciones, "dipinst"),
+    ("diputaciones_presidentes", "diputaciones", load_diputaciones_presidentes, "dippres"),
+    ("diputaciones_complementos", "diputaciones", load_diputaciones_complementos, "dipcomp"),
     ("fixture_ts", "fixture", load_fixture_json, "fixture"),
     ("dosieres", "dosieres", load_dosieres_normalized, "conn"),
 ]
@@ -781,7 +757,7 @@ def main() -> int:
                 )
                 total_ins += n_ins
                 total_upd += n_upd
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 log.exception("  ✗ %s falló: %s", label, exc)
                 if not args.dry_run:
                     raise

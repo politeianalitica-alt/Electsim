@@ -29,6 +29,17 @@ markers = [
 target-version = "py311"
 line-length = 100
 src = ["apps", "packages", "observability", "config", "tests"]
+# Excluir directorios que no son código fuente del proyecto:
+# - .agent/ contiene skills externas (ui-ux-pro-max, etc.) con su propio estilo
+# - node_modules/ y .next/ son artefactos de Next.js
+# - .venv/ es el entorno virtual local
+extend-exclude = [
+    ".agent",
+    ".venv",
+    "node_modules",
+    ".next",
+    "**/.next/**",
+]
 
 [tool.ruff.lint]
 select = [
