@@ -46,7 +46,7 @@ export default function Ibex35DetailPage() {
       <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
         <AppHeader />
         <main style={{ maxWidth: 900, margin: '40px auto', padding: '0 28px' }}>
-          <Link href="/ibex35" style={{ color: '#0071e3', textDecoration: 'none', fontSize: 13 }}>⟵ Volver al listado IBEX 35</Link>
+          <Link href="/dosieres" style={{ color: '#0071e3', textDecoration: 'none', fontSize: 13 }}>⟵ Volver a Personas</Link>
           <h1 style={{ marginTop: 16 }}>Dossier no encontrado</h1>
           <p style={{ color: '#6e6e73' }}>No hay ningún dossier con el slug <code>{slug}</code>.</p>
         </main>
@@ -62,8 +62,8 @@ export default function Ibex35DetailPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
       <AppHeader />
       <main style={{ maxWidth: 1100, margin: '0 auto', padding: '24px 28px 64px' }}>
-        <Link href="/ibex35" style={{ color: '#0071e3', textDecoration: 'none', fontSize: 13, display: 'inline-block', marginBottom: 18 }}>
-          ⟵ Volver a IBEX 35
+        <Link href="/dosieres" style={{ color: '#0071e3', textDecoration: 'none', fontSize: 13, display: 'inline-block', marginBottom: 18 }}>
+          ⟵ Volver a Personas
         </Link>
 
         {/* Hero */}

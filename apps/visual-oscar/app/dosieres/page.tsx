@@ -241,7 +241,7 @@ export default function DosieresPage() {
  </span>
  <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginTop: 4 }}>
  <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 38, fontWeight: 700, letterSpacing: '-0.028em', margin: 0, color: '#1d1d1f' }}>
-              Dosieres
+              Personas
  </h1>
  <span style={{
               fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700,
@@ -250,7 +250,7 @@ export default function DosieresPage() {
  <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'}/>
  </div>
  <p style={{ fontSize: 14, color: '#6e6e73', margin: '8px 0 0', maxWidth: 720, lineHeight: 1.55 }}>
-            Fichas de personas políticas con perfil, relaciones valoradas (+10 / −10) y patrimonio declarado.
+            Fichas de actores políticos, empresariales, mediáticos e institucionales con perfil, trayectoria, posiciones, redes valoradas (+10 / −10) y patrimonio. Filtra por tipo y partido/empresa.
  </p>
  </header>
 
