@@ -290,6 +290,88 @@ LEADERS: dict[str, list[tuple[str, str, int, str]]] = {
             +6,
             "Liderazgo regional post-García.",
         ),
+        (
+            "rita-maestre-fernandez",
+            "Concejala y portavoz de Más Madrid en el Ayuntamiento de Madrid",
+            +6,
+            "Cara visible del partido a nivel municipal.",
+        ),
+    ],
+    "UPN": [
+        (
+            "javier-esparza-abaurrea",
+            "Presidente de UPN",
+            +8,
+            "Liderazgo orgánico del regionalismo navarro de centro-derecha.",
+        ),
+        (
+            "cristina-ibarrola-guillen",
+            "Alcaldesa de Pamplona",
+            +7,
+            "Máximo cargo institucional del partido.",
+        ),
+    ],
+    "Compromís": [
+        (
+            "joan-baldovi-roda",
+            "Síndic de Compromís en les Corts Valencianes",
+            +8,
+            "Liderazgo institucional del partido y portavoz parlamentario.",
+        ),
+        (
+            "agueda-mico-mico",
+            "Coordinadora general de Compromís",
+            +7,
+            "Liderazgo orgánico interno.",
+        ),
+        (
+            "monica-oltra-jarque",
+            "Ex vicepresidenta de la Generalitat Valenciana",
+            +5,
+            "Referente histórica del partido (cargo previo).",
+        ),
+    ],
+    "IU": [
+        (
+            "antonio-maillo-canada",
+            "Coordinador federal de IU",
+            +8,
+            "Liderazgo orgánico de Izquierda Unida.",
+        ),
+        (
+            "sira-rego-gonzalez",
+            "Ministra de Juventud e Infancia (cuota IU en Sumar)",
+            +7,
+            "Cuadro ministerial de IU dentro del Gobierno.",
+        ),
+        (
+            "yolanda-diaz-perez",
+            "Líder de Sumar",
+            +5,
+            "Coalición de la cual IU forma parte; relación de socio.",
+        ),
+    ],
+    "PRC": [
+        (
+            "miguel-angel-revilla-roiz",
+            "Líder histórico del PRC",
+            +8,
+            "Figura fundacional y referente del regionalismo cántabro.",
+        ),
+        (
+            "pablo-zuloaga-martinez",
+            "Cargo orgánico relevante del regionalismo cántabro",
+            +6,
+            "Cuadro regional del partido.",
+        ),
+    ],
+    "UPL": [
+        (
+            "luis-mariano-santos-reyero",
+            "Líder de la UPL en las Cortes de Castilla y León",
+            +8,
+            "Liderazgo institucional del leonesismo.",
+        ),
     ],
 }
 
@@ -457,23 +539,146 @@ RIVALS: dict[str, list[tuple[str, str, int, str]]] = {
         ),
         ("alberto-nunez-feijoo", "Líder del PP", -7, "Bloque opuesto."),
     ],
+    "UPN": [
+        (
+            "pedro-sanchez-perez-castejon",
+            "Presidente del Gobierno (PSOE)",
+            -6,
+            "Adversario en la oposición navarra; UPN rechaza los pactos PSN con EH Bildu.",
+        ),
+        (
+            "arnaldo-otegi-mondragon",
+            "Coordinador general de EH Bildu",
+            -8,
+            "Polo opuesto a la concepción regionalista española de Navarra.",
+        ),
+        (
+            "santiago-cervera-soto",
+            "Diputado del PSN en el Parlamento de Navarra",
+            -6,
+            "Rival institucional en la Comunidad Foral.",
+        ),
+    ],
+    "Compromís": [
+        (
+            "carlos-mazon-guixot",
+            "President de la Generalitat Valenciana (PP)",
+            -8,
+            "Adversario directo en las Corts Valencianes, especialmente tras la DANA de octubre 2024.",
+        ),
+        (
+            "santiago-abascal-conde",
+            "Líder de Vox",
+            -8,
+            "Polo ideológico opuesto en la política valenciana.",
+        ),
+        ("alberto-nunez-feijoo", "Líder del PP", -6, "Bloque opuesto al ecosocialismo valenciano."),
+    ],
+    "IU": [
+        ("alberto-nunez-feijoo", "Líder del PP", -7, "Adversario ideológico habitual."),
+        ("santiago-abascal-conde", "Líder de Vox", -8, "Polo opuesto absoluto."),
+        (
+            "isabel-diaz-ayuso",
+            "Presidenta de la Comunidad de Madrid",
+            -7,
+            "Adversaria personalizada de la izquierda alternativa.",
+        ),
+    ],
+    "PRC": [
+        (
+            "alberto-nunez-feijoo",
+            "Líder del PP",
+            -5,
+            "Adversario habitual del PRC en el centro-derecha cántabro.",
+        ),
+        (
+            "santiago-abascal-conde",
+            "Líder de Vox",
+            -7,
+            "Polo opuesto al regionalismo centrista cántabro.",
+        ),
+        (
+            "maria-jose-saenz-de-buruaga",
+            "Presidenta de Cantabria (PP)",
+            -7,
+            "Adversaria directa que sustituyó al PRC en la presidencia regional en 2023.",
+        ),
+    ],
+    "UPL": [
+        (
+            "alfonso-fernandez-manueco",
+            "Presidente de la Junta de Castilla y León (PP)",
+            -6,
+            "Adversario habitual del leonesismo en CyL.",
+        ),
+        (
+            "alberto-nunez-feijoo",
+            "Líder del PP",
+            -5,
+            "Bloque del que la UPL se aleja por defender la creación de una CCAA leonesa.",
+        ),
+        (
+            "santiago-abascal-conde",
+            "Líder de Vox",
+            -7,
+            "Vox como adversario ideológico y bloqueo institucional de la autonomía leonesa.",
+        ),
+    ],
 }
 
 # Familias de partidos que comparten líderes (PSOE-A, PSC, PSDEG…
-# todos heredan los líderes federales del PSOE).
+# todos heredan los líderes federales del PSOE). Incluye TODAS las
+# variantes que aparecen en el fixture con sufijos territoriales.
 PARTY_ALIASES: dict[str, str] = {
+    # ─── Variantes federales / regionales del PSOE ────────────────
     "PSOE-A": "PSOE",
     "PSC": "PSOE",
     "PSC-CP": "PSOE",
+    "PSC-UNITS-CP": "PSOE",
     "PSDEG": "PSOE",
     "PSDEG-PSOE": "PSOE",
+    "PSdeG-PSOE": "PSOE",
     "PSE-EE": "PSOE",
     "PSE-EE-PSOE": "PSOE",
+    "PSE-EE (PSOE)": "PSOE",
     "PSN": "PSOE",
     "PSN-PSOE": "PSOE",
     "FSA-PSOE": "PSOE",
+    # ─── Vox / Sumar mayúsculas ───────────────────────────────────
     "SUMAR": "Sumar",
     "Vox": "VOX",
+    # ─── BNG variantes ────────────────────────────────────────────
+    "B.N.G.": "BNG",
+    # ─── Más Madrid variantes (incluye literal con escape Unicode) ─
+    "Más Madrid": "Más Madrid",
+    "M\\u00e1s Madrid": "Más Madrid",
+    "MM-VQ": "Más Madrid",
+    # ─── Compromís variantes ──────────────────────────────────────
+    "Compromís": "Compromís",
+    "Comprom\\u00eds": "Compromís",
+    # ─── ERC variantes con coalición ──────────────────────────────
+    "ERC - AM": "ERC",
+    # ─── Junts variantes ──────────────────────────────────────────
+    "Junts X CAT - C": "Junts",
+    "JUNTS X CAT - C": "Junts",
+    # ─── EH Bildu variantes ───────────────────────────────────────
+    "EH BILDU": "EH Bildu",
+    # ─── PNV variantes ────────────────────────────────────────────
+    "EAJ-PNV": "PNV",
+    # ─── UPN ──────────────────────────────────────────────────────
+    "UNION DEL PUEBLO NAVARRO": "UPN",
+    # ─── Coalición Canaria variantes ──────────────────────────────
+    "CCA": "CC",
+    "CC-PNC": "CC",
+    "CCa-PNC-NC": "CC",
+    "Coalición Canaria": "CC",
+    # ─── IU variantes ─────────────────────────────────────────────
+    "I.U.": "IU",
+    "Izquierda Unida": "IU",
+    # ─── PRC ──────────────────────────────────────────────────────
+    "PRC": "PRC",
+    # ─── UPL ──────────────────────────────────────────────────────
+    "UPL": "UPL",
 }
 
 
@@ -491,9 +696,11 @@ def parse_fixture(src: str) -> list[dict]:
     )
     for m in pattern.finditer(src):
         slug, nombre, cargo, partido = m.groups()
-        # Decodificar escapes Unicode (á → á)
+        # Decodificar escapes Unicode (á → á) en nombre, cargo Y partido
         nombre = nombre.encode("utf-8").decode("unicode_escape", errors="ignore")
         cargo = (cargo or "").encode("utf-8").decode("unicode_escape", errors="ignore")
+        if partido:
+            partido = partido.encode("utf-8").decode("unicode_escape", errors="ignore")
         # Detectar si tiene apartado redes: busca en el chunk hasta el
         # siguiente dossier top-level. Los IDs top-level matchean
         # `id: 'fxt-NNN',` (sólo dígitos tras fxt-) — los nested son
@@ -628,6 +835,11 @@ def build_overlay(dossieres: list[dict]) -> dict:
             n_no_partido += 1
             continue
         if cp not in by_party:
+            # Partido minoritario / agrupación local sin tabla
+            # canónica de líderes. Fallback al genérico para que al
+            # menos tenga una relación institucional (Sánchez +0)
+            # en vez de quedar sin apartado redes.
+            apply_to[d["slug"]] = "_generic"
             n_unknown_party += 1
             continue
         apply_to[d["slug"]] = cp

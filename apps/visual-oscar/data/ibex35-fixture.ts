@@ -77,6 +77,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0001-ap-00-it-03",
+            "apartado_id": "ibx-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -313,8 +327,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0002",
@@ -382,6 +396,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "filiales"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0002-ap-00-it-03",
+            "apartado_id": "ibx-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -637,8 +665,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0003",
@@ -692,6 +720,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0003-ap-00-it-02",
+            "apartado_id": "ibx-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -948,8 +990,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0004",
@@ -1003,6 +1045,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0004-ap-00-it-02",
+            "apartado_id": "ibx-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1228,8 +1284,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0005",
@@ -1283,6 +1339,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0005-ap-00-it-02",
+            "apartado_id": "ibx-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1514,8 +1584,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0006",
@@ -1569,6 +1639,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0006-ap-00-it-02",
+            "apartado_id": "ibx-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1830,8 +1914,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0007",
@@ -1885,6 +1969,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0007-ap-00-it-02",
+            "apartado_id": "ibx-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2127,8 +2225,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0008",
@@ -2183,6 +2281,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0008-ap-00-it-02",
+            "apartado_id": "ibx-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2398,8 +2510,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0009",
@@ -2453,6 +2565,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0009-ap-00-it-02",
+            "apartado_id": "ibx-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2680,8 +2806,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0010",
@@ -2735,6 +2861,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0010-ap-00-it-02",
+            "apartado_id": "ibx-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2963,8 +3103,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0011",
@@ -3019,6 +3159,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0011-ap-00-it-02",
+            "apartado_id": "ibx-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -3266,8 +3420,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0012",
@@ -3321,6 +3475,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0012-ap-00-it-02",
+            "apartado_id": "ibx-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -3499,8 +3667,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0013",
@@ -3554,6 +3722,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0013-ap-00-it-02",
+            "apartado_id": "ibx-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -3747,8 +3929,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0014",
@@ -3802,6 +3984,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0014-ap-00-it-02",
+            "apartado_id": "ibx-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -4046,8 +4242,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0015",
@@ -4101,6 +4297,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0015-ap-00-it-02",
+            "apartado_id": "ibx-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -4343,8 +4553,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0016",
@@ -4398,6 +4608,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0016-ap-00-it-02",
+            "apartado_id": "ibx-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -4590,8 +4814,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0017",
@@ -4645,6 +4869,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0017-ap-00-it-02",
+            "apartado_id": "ibx-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -4844,8 +5082,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0018",
@@ -4900,6 +5138,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0018-ap-00-it-02",
+            "apartado_id": "ibx-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5129,8 +5381,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0019",
@@ -5184,6 +5436,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0019-ap-00-it-02",
+            "apartado_id": "ibx-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5403,8 +5669,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0020",
@@ -5458,6 +5724,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0020-ap-00-it-02",
+            "apartado_id": "ibx-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5655,8 +5935,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0021",
@@ -5710,6 +5990,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0021-ap-00-it-02",
+            "apartado_id": "ibx-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5898,8 +6192,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0022",
@@ -5953,6 +6247,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0022-ap-00-it-02",
+            "apartado_id": "ibx-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -6140,8 +6448,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0023",
@@ -6195,6 +6503,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0023-ap-00-it-02",
+            "apartado_id": "ibx-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -6365,8 +6687,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0024",
@@ -6420,6 +6742,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0024-ap-00-it-02",
+            "apartado_id": "ibx-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -6563,8 +6899,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0025",
@@ -6618,6 +6954,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0025-ap-00-it-02",
+            "apartado_id": "ibx-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -6777,8 +7127,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0026",
@@ -6832,6 +7182,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0026-ap-00-it-02",
+            "apartado_id": "ibx-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -7045,8 +7409,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0027",
@@ -7100,6 +7464,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0027-ap-00-it-02",
+            "apartado_id": "ibx-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -7329,8 +7707,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0028",
@@ -7384,6 +7762,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0028-ap-00-it-02",
+            "apartado_id": "ibx-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -7629,8 +8021,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0029",
@@ -7684,6 +8076,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0029-ap-00-it-02",
+            "apartado_id": "ibx-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -7829,8 +8235,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0030",
@@ -7884,6 +8290,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0030-ap-00-it-02",
+            "apartado_id": "ibx-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8043,8 +8463,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0031",
@@ -8098,6 +8518,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0031-ap-00-it-02",
+            "apartado_id": "ibx-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8315,8 +8749,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0032",
@@ -8370,6 +8804,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0032-ap-00-it-02",
+            "apartado_id": "ibx-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8515,8 +8963,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0033",
@@ -8570,6 +9018,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0033-ap-00-it-02",
+            "apartado_id": "ibx-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8795,8 +9257,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0034",
@@ -8850,6 +9312,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0034-ap-00-it-02",
+            "apartado_id": "ibx-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -9009,8 +9485,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0035",
@@ -9064,6 +9540,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "dimensión"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0035-ap-00-it-02",
+            "apartado_id": "ibx-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Como cotizada en el IBEX 35, está sujeta a la Ley de Sociedades de Capital, el Código de Buen Gobierno de la CNMV y los requisitos de transparencia del MiFID II. Reporta trimestralmente a CNMV; su informe anual de gobierno corporativo (IAGC) detalla composición del consejo, categorías de consejeros, remuneraciones y operaciones vinculadas. El consejo de administración aprueba la estrategia, el plan de inversiones y los nombramientos ejecutivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno-corporativo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -9234,8 +9724,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0036",
@@ -9273,6 +9763,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0036-ap-00-it-01",
+            "apartado_id": "ibx-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9424,8 +9928,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0037",
@@ -9462,6 +9966,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0037-ap-00-it-01",
+            "apartado_id": "ibx-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9621,8 +10139,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0038",
@@ -9659,6 +10177,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0038-ap-00-it-01",
+            "apartado_id": "ibx-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9900,8 +10432,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0039",
@@ -9938,6 +10470,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0039-ap-00-it-01",
+            "apartado_id": "ibx-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10177,8 +10723,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0040",
@@ -10215,6 +10761,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0040-ap-00-it-01",
+            "apartado_id": "ibx-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10419,8 +10979,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0041",
@@ -10457,6 +11017,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0041-ap-00-it-01",
+            "apartado_id": "ibx-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10692,8 +11266,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0042",
@@ -10730,6 +11304,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0042-ap-00-it-01",
+            "apartado_id": "ibx-0042-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10923,8 +11511,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0043",
@@ -10961,6 +11549,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0043-ap-00-it-01",
+            "apartado_id": "ibx-0043-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -11171,8 +11773,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0044",
@@ -11209,6 +11811,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0044-ap-00-it-01",
+            "apartado_id": "ibx-0044-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -11320,8 +11936,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0045",
@@ -11358,6 +11974,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0045-ap-00-it-01",
+            "apartado_id": "ibx-0045-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -11580,8 +12210,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0046",
@@ -11618,6 +12248,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0046-ap-00-it-01",
+            "apartado_id": "ibx-0046-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -11789,8 +12433,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0047",
@@ -11828,6 +12472,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0047-ap-00-it-01",
+            "apartado_id": "ibx-0047-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -12037,8 +12695,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0048",
@@ -12077,6 +12735,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0048-ap-00-it-01",
+            "apartado_id": "ibx-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -12230,8 +12902,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0049",
@@ -12282,6 +12954,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "formacion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0049-ap-00-it-02",
+            "apartado_id": "ibx-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -12499,8 +13185,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0050",
@@ -12538,6 +13224,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0050-ap-00-it-01",
+            "apartado_id": "ibx-0050-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -12680,8 +13380,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0051",
@@ -12718,6 +13418,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0051-ap-00-it-01",
+            "apartado_id": "ibx-0051-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -12909,8 +13623,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0052",
@@ -12947,6 +13661,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0052-ap-00-it-01",
+            "apartado_id": "ibx-0052-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -13169,8 +13897,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0053",
@@ -13207,6 +13935,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0053-ap-00-it-01",
+            "apartado_id": "ibx-0053-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -13411,8 +14153,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0054",
@@ -13449,6 +14191,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0054-ap-00-it-01",
+            "apartado_id": "ibx-0054-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -13723,8 +14479,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0055",
@@ -13762,6 +14518,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0055-ap-00-it-01",
+            "apartado_id": "ibx-0055-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -14020,8 +14790,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0056",
@@ -14058,6 +14828,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0056-ap-00-it-01",
+            "apartado_id": "ibx-0056-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -14232,8 +15016,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0057",
@@ -14270,6 +15054,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0057-ap-00-it-01",
+            "apartado_id": "ibx-0057-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -14520,8 +15318,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0058",
@@ -14558,6 +15356,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0058-ap-00-it-01",
+            "apartado_id": "ibx-0058-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -14753,8 +15565,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0059",
@@ -14792,6 +15604,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0059-ap-00-it-01",
+            "apartado_id": "ibx-0059-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -14956,8 +15782,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0060",
@@ -14995,6 +15821,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0060-ap-00-it-01",
+            "apartado_id": "ibx-0060-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -15155,8 +15995,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0061",
@@ -15193,6 +16033,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0061-ap-00-it-01",
+            "apartado_id": "ibx-0061-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -15368,8 +16222,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0062",
@@ -15406,6 +16260,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0062-ap-00-it-01",
+            "apartado_id": "ibx-0062-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -15623,8 +16491,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0063",
@@ -15662,6 +16530,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0063-ap-00-it-01",
+            "apartado_id": "ibx-0063-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -15792,8 +16674,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0064",
@@ -15844,6 +16726,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "formacion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0064-ap-00-it-02",
+            "apartado_id": "ibx-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -15978,8 +16874,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0065",
@@ -16017,6 +16913,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0065-ap-00-it-01",
+            "apartado_id": "ibx-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -16137,8 +17047,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0066",
@@ -16175,6 +17085,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0066-ap-00-it-01",
+            "apartado_id": "ibx-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -16316,8 +17240,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0067",
@@ -16368,6 +17292,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "formacion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0067-ap-00-it-02",
+            "apartado_id": "ibx-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -16505,8 +17443,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0068",
@@ -16543,6 +17481,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0068-ap-00-it-01",
+            "apartado_id": "ibx-0068-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -16712,8 +17664,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0069",
@@ -16765,6 +17717,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "familia"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0069-ap-00-it-02",
+            "apartado_id": "ibx-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -16880,8 +17846,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0070",
@@ -16918,6 +17884,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0070-ap-00-it-01",
+            "apartado_id": "ibx-0070-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -17152,8 +18132,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0071",
@@ -17190,6 +18170,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0071-ap-00-it-01",
+            "apartado_id": "ibx-0071-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -17453,8 +18447,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0072",
@@ -17492,6 +18486,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0072-ap-00-it-01",
+            "apartado_id": "ibx-0072-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -17750,8 +18758,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0073",
@@ -17789,6 +18797,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0073-ap-00-it-01",
+            "apartado_id": "ibx-0073-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -18013,8 +19035,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0074",
@@ -18052,6 +19074,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0074-ap-00-it-01",
+            "apartado_id": "ibx-0074-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -18214,8 +19250,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0075",
@@ -18252,6 +19288,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0075-ap-00-it-01",
+            "apartado_id": "ibx-0075-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -18390,8 +19440,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0076",
@@ -18429,6 +19479,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0076-ap-00-it-01",
+            "apartado_id": "ibx-0076-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -18594,8 +19658,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0077",
@@ -18631,6 +19695,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0077-ap-00-it-01",
+            "apartado_id": "ibx-0077-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -18780,8 +19858,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0078",
@@ -18818,6 +19896,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0078-ap-00-it-01",
+            "apartado_id": "ibx-0078-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -18984,8 +20076,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0079",
@@ -19021,6 +20113,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0079-ap-00-it-01",
+            "apartado_id": "ibx-0079-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -19235,8 +20341,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0080",
@@ -19271,6 +20377,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0080-ap-00-it-01",
+            "apartado_id": "ibx-0080-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -19399,8 +20519,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0081",
@@ -19436,6 +20556,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0081-ap-00-it-01",
+            "apartado_id": "ibx-0081-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perfil-ejecutivo"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -19559,8 +20693,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0082",
@@ -19831,8 +20965,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0083",
@@ -20066,8 +21200,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0084",
@@ -20273,8 +21407,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0085",
@@ -20428,8 +21562,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0086",
@@ -20650,8 +21784,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0087",
@@ -20854,8 +21988,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0088",
@@ -21034,8 +22168,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0089",
@@ -21172,8 +22306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0090",
@@ -21335,8 +22469,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0091",
@@ -21507,8 +22641,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0092",
@@ -21743,8 +22877,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0093",
@@ -21893,8 +23027,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0094",
@@ -22047,8 +23181,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0095",
@@ -22187,8 +23321,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0096",
@@ -22365,8 +23499,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0097",
@@ -22555,8 +23689,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0098",
@@ -22657,8 +23791,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0099",
@@ -22796,8 +23930,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0100",
@@ -22944,8 +24078,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0101",
@@ -23085,8 +24219,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0102",
@@ -23220,8 +24354,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0103",
@@ -23353,8 +24487,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0104",
@@ -23510,8 +24644,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0105",
@@ -23637,8 +24771,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0106",
@@ -23821,8 +24955,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0107",
@@ -24003,8 +25137,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0108",
@@ -24132,8 +25266,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0109",
@@ -24264,8 +25398,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0110",
@@ -24376,8 +25510,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0111",
@@ -24472,8 +25606,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0112",
@@ -24581,8 +25715,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0113",
@@ -24677,8 +25811,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0114",
@@ -24757,8 +25891,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0115",
@@ -24835,8 +25969,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0116",
@@ -25016,8 +26150,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0117",
@@ -25113,8 +26247,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0118",
@@ -25193,8 +26327,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0119",
@@ -25305,8 +26439,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0120",
@@ -25423,8 +26557,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0121",
@@ -25552,8 +26686,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0122",
@@ -25685,8 +26819,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0123",
@@ -25834,8 +26968,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0124",
@@ -25974,8 +27108,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0125",
@@ -26113,8 +27247,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0126",
@@ -26224,8 +27358,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0127",
@@ -26373,8 +27507,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0128",
@@ -26499,8 +27633,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0129",
@@ -26595,8 +27729,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0130",
@@ -26722,8 +27856,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0131",
@@ -26839,8 +27973,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0132",
@@ -26971,8 +28105,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0133",
@@ -27115,8 +28249,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0134",
@@ -27215,8 +28349,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0135",
@@ -27311,8 +28445,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0136",
@@ -27423,8 +28557,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0137",
@@ -27541,8 +28675,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0138",
@@ -27638,8 +28772,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0139",
@@ -27735,8 +28869,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0140",
@@ -27847,8 +28981,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0141",
@@ -27960,8 +29094,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0142",
@@ -28058,8 +29192,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0143",
@@ -28156,8 +29290,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0144",
@@ -28254,8 +29388,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   },
   {
     "id": "ibx-0145",
@@ -28373,8 +29507,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.923564Z",
-    "updated_at": "2026-05-28T13:35:10.923564Z"
+    "created_at": "2026-05-28T14:30:45.475367Z",
+    "updated_at": "2026-05-28T14:30:45.475367Z"
   }
 ]
 

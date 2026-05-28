@@ -60,6 +60,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "javier-aureliano-garcia"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0001-ap-00-it-02",
+            "apartado_id": "dip-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0001-ap-00-it-03",
+            "apartado_id": "dip-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -197,8 +225,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0002",
@@ -249,6 +277,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "almudena-martinez"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0002-ap-00-it-02",
+            "apartado_id": "dip-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0002-ap-00-it-03",
+            "apartado_id": "dip-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -358,8 +414,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0003",
@@ -409,6 +465,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0003-ap-00-it-02",
+            "apartado_id": "dip-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0003-ap-00-it-03",
+            "apartado_id": "dip-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -496,8 +580,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0004",
@@ -545,6 +629,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "dip-0004-ap-00-it-02",
+            "apartado_id": "dip-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0004-ap-00-it-03",
+            "apartado_id": "dip-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -611,8 +723,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0005",
@@ -662,6 +774,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0005-ap-00-it-02",
+            "apartado_id": "dip-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0005-ap-00-it-03",
+            "apartado_id": "dip-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -727,8 +867,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0006",
@@ -779,6 +919,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "francisco-reyes"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0006-ap-00-it-02",
+            "apartado_id": "dip-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0006-ap-00-it-03",
+            "apartado_id": "dip-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -888,8 +1056,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0007",
@@ -940,6 +1108,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "salado"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0007-ap-00-it-02",
+            "apartado_id": "dip-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0007-ap-00-it-03",
+            "apartado_id": "dip-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1030,8 +1226,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0008",
@@ -1082,6 +1278,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "javier-fernandez"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0008-ap-00-it-02",
+            "apartado_id": "dip-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0008-ap-00-it-03",
+            "apartado_id": "dip-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1168,8 +1392,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0009",
@@ -1219,6 +1443,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0009-ap-00-it-02",
+            "apartado_id": "dip-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0009-ap-00-it-03",
+            "apartado_id": "dip-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1284,8 +1536,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0010",
@@ -1335,6 +1587,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0010-ap-00-it-02",
+            "apartado_id": "dip-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0010-ap-00-it-03",
+            "apartado_id": "dip-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1424,8 +1704,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0011",
@@ -1476,6 +1756,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "sanchez-quero"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0011-ap-00-it-02",
+            "apartado_id": "dip-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0011-ap-00-it-03",
+            "apartado_id": "dip-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1563,8 +1871,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0012",
@@ -1614,6 +1922,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0012-ap-00-it-02",
+            "apartado_id": "dip-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0012-ap-00-it-03",
+            "apartado_id": "dip-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1679,8 +2015,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0013",
@@ -1730,6 +2066,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0013-ap-00-it-02",
+            "apartado_id": "dip-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0013-ap-00-it-03",
+            "apartado_id": "dip-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1780,8 +2144,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0014",
@@ -1832,6 +2196,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "upl"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0014-ap-00-it-02",
+            "apartado_id": "dip-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0014-ap-00-it-03",
+            "apartado_id": "dip-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1897,8 +2289,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0015",
@@ -1948,6 +2340,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0015-ap-00-it-02",
+            "apartado_id": "dip-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0015-ap-00-it-03",
+            "apartado_id": "dip-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1998,8 +2418,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0016",
@@ -2049,6 +2469,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0016-ap-00-it-02",
+            "apartado_id": "dip-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0016-ap-00-it-03",
+            "apartado_id": "dip-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2115,8 +2563,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0017",
@@ -2166,6 +2614,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0017-ap-00-it-02",
+            "apartado_id": "dip-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0017-ap-00-it-03",
+            "apartado_id": "dip-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2216,8 +2692,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0018",
@@ -2267,6 +2743,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0018-ap-00-it-02",
+            "apartado_id": "dip-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0018-ap-00-it-03",
+            "apartado_id": "dip-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2356,8 +2860,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0019",
@@ -2407,6 +2911,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0019-ap-00-it-02",
+            "apartado_id": "dip-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0019-ap-00-it-03",
+            "apartado_id": "dip-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2457,8 +2989,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0020",
@@ -2508,6 +3040,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0020-ap-00-it-02",
+            "apartado_id": "dip-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0020-ap-00-it-03",
+            "apartado_id": "dip-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2573,8 +3133,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0021",
@@ -2625,6 +3185,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "cabanero"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0021-ap-00-it-02",
+            "apartado_id": "dip-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0021-ap-00-it-03",
+            "apartado_id": "dip-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2676,8 +3264,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0022",
@@ -2727,6 +3315,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0022-ap-00-it-02",
+            "apartado_id": "dip-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0022-ap-00-it-03",
+            "apartado_id": "dip-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2778,8 +3394,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0023",
@@ -2829,6 +3445,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "psoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0023-ap-00-it-02",
+            "apartado_id": "dip-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0023-ap-00-it-03",
+            "apartado_id": "dip-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2894,8 +3538,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0024",
@@ -2945,6 +3589,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "psoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0024-ap-00-it-02",
+            "apartado_id": "dip-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0024-ap-00-it-03",
+            "apartado_id": "dip-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2995,8 +3667,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0025",
@@ -3046,6 +3718,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0025-ap-00-it-02",
+            "apartado_id": "dip-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0025-ap-00-it-03",
+            "apartado_id": "dip-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3097,8 +3797,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0026",
@@ -3149,6 +3849,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "moret"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0026-ap-00-it-02",
+            "apartado_id": "dip-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0026-ap-00-it-03",
+            "apartado_id": "dip-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3276,8 +4004,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0027",
@@ -3328,6 +4056,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "noguer"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0027-ap-00-it-02",
+            "apartado_id": "dip-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0027-ap-00-it-03",
+            "apartado_id": "dip-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3394,8 +4150,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0028",
@@ -3445,6 +4201,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "erc"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0028-ap-00-it-02",
+            "apartado_id": "dip-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0028-ap-00-it-03",
+            "apartado_id": "dip-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3495,8 +4279,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0029",
@@ -3546,6 +4330,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "erc"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0029-ap-00-it-02",
+            "apartado_id": "dip-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0029-ap-00-it-03",
+            "apartado_id": "dip-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3612,8 +4424,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0030",
@@ -3664,6 +4476,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "benidorm"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0030-ap-00-it-02",
+            "apartado_id": "dip-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0030-ap-00-it-03",
+            "apartado_id": "dip-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3729,8 +4569,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0031",
@@ -3780,6 +4620,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0031-ap-00-it-02",
+            "apartado_id": "dip-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0031-ap-00-it-03",
+            "apartado_id": "dip-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3845,8 +4713,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0032",
@@ -3896,6 +4764,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0032-ap-00-it-02",
+            "apartado_id": "dip-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0032-ap-00-it-03",
+            "apartado_id": "dip-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3970,8 +4866,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0033",
@@ -4022,6 +4918,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "gallardo"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0033-ap-00-it-02",
+            "apartado_id": "dip-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0033-ap-00-it-03",
+            "apartado_id": "dip-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4088,8 +5012,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0034",
@@ -4139,6 +5063,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "psoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0034-ap-00-it-02",
+            "apartado_id": "dip-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0034-ap-00-it-03",
+            "apartado_id": "dip-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4189,8 +5141,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0035",
@@ -4241,6 +5193,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "formoso"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0035-ap-00-it-02",
+            "apartado_id": "dip-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0035-ap-00-it-03",
+            "apartado_id": "dip-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4308,8 +5288,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0036",
@@ -4360,6 +5340,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "tome"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0036-ap-00-it-02",
+            "apartado_id": "dip-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0036-ap-00-it-03",
+            "apartado_id": "dip-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4426,8 +5434,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0037",
@@ -4477,6 +5485,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0037-ap-00-it-02",
+            "apartado_id": "dip-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0037-ap-00-it-03",
+            "apartado_id": "dip-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4588,8 +5624,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0038",
@@ -4639,6 +5675,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0038-ap-00-it-02",
+            "apartado_id": "dip-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0038-ap-00-it-03",
+            "apartado_id": "dip-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4704,8 +5768,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0039",
@@ -4757,6 +5821,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "gonzalez"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0039-ap-00-it-02",
+            "apartado_id": "dip-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0039-ap-00-it-03",
+            "apartado_id": "dip-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4860,8 +5952,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0040",
@@ -4913,6 +6005,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "etxanobe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0040-ap-00-it-02",
+            "apartado_id": "dip-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0040-ap-00-it-03",
+            "apartado_id": "dip-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -5022,8 +6142,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0041",
@@ -5075,6 +6195,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "mendoza"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0041-ap-00-it-02",
+            "apartado_id": "dip-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0041-ap-00-it-03",
+            "apartado_id": "dip-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -5141,8 +6289,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0042",
@@ -5178,6 +6326,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0042-ap-00-it-01",
+            "apartado_id": "dip-0042-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5288,8 +6450,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0043",
@@ -5325,6 +6487,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0043-ap-00-it-01",
+            "apartado_id": "dip-0043-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5424,8 +6600,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0044",
@@ -5461,6 +6637,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0044-ap-00-it-01",
+            "apartado_id": "dip-0044-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5544,8 +6734,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0045",
@@ -5581,6 +6771,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0045-ap-00-it-01",
+            "apartado_id": "dip-0045-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5651,8 +6855,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0046",
@@ -5688,6 +6892,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0046-ap-00-it-01",
+            "apartado_id": "dip-0046-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5758,8 +6976,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0047",
@@ -5795,6 +7013,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0047-ap-00-it-01",
+            "apartado_id": "dip-0047-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5927,8 +7159,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0048",
@@ -5964,6 +7196,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0048-ap-00-it-01",
+            "apartado_id": "dip-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6062,8 +7308,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0049",
@@ -6099,6 +7345,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0049-ap-00-it-01",
+            "apartado_id": "dip-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6185,8 +7445,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0050",
@@ -6222,6 +7482,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0050-ap-00-it-01",
+            "apartado_id": "dip-0050-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6305,8 +7579,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0051",
@@ -6342,6 +7616,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0051-ap-00-it-01",
+            "apartado_id": "dip-0051-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6441,8 +7729,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0052",
@@ -6478,6 +7766,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0052-ap-00-it-01",
+            "apartado_id": "dip-0052-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6573,8 +7875,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0053",
@@ -6610,6 +7912,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0053-ap-00-it-01",
+            "apartado_id": "dip-0053-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6681,8 +7997,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0054",
@@ -6718,6 +8034,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0054-ap-00-it-01",
+            "apartado_id": "dip-0054-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6805,8 +8135,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0055",
@@ -6842,6 +8172,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0055-ap-00-it-01",
+            "apartado_id": "dip-0055-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6929,8 +8273,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0056",
@@ -6966,6 +8310,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0056-ap-00-it-01",
+            "apartado_id": "dip-0056-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7049,8 +8407,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0057",
@@ -7086,6 +8444,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0057-ap-00-it-01",
+            "apartado_id": "dip-0057-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7173,8 +8545,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0058",
@@ -7210,6 +8582,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0058-ap-00-it-01",
+            "apartado_id": "dip-0058-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7281,8 +8667,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0059",
@@ -7318,6 +8704,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0059-ap-00-it-01",
+            "apartado_id": "dip-0059-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7404,8 +8804,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0060",
@@ -7441,6 +8841,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0060-ap-00-it-01",
+            "apartado_id": "dip-0060-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7511,8 +8925,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0061",
@@ -7548,6 +8962,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0061-ap-00-it-01",
+            "apartado_id": "dip-0061-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7619,8 +9047,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0062",
@@ -7656,6 +9084,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0062-ap-00-it-01",
+            "apartado_id": "dip-0062-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7727,8 +9169,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0063",
@@ -7764,6 +9206,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0063-ap-00-it-01",
+            "apartado_id": "dip-0063-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7835,8 +9291,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0064",
@@ -7872,6 +9328,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0064-ap-00-it-01",
+            "apartado_id": "dip-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7943,8 +9413,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0065",
@@ -7980,6 +9450,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0065-ap-00-it-01",
+            "apartado_id": "dip-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8051,8 +9535,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0066",
@@ -8088,6 +9572,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0066-ap-00-it-01",
+            "apartado_id": "dip-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8159,8 +9657,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0067",
@@ -8197,6 +9695,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0067-ap-00-it-01",
+            "apartado_id": "dip-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8312,8 +9824,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0068",
@@ -8350,6 +9862,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0068-ap-00-it-01",
+            "apartado_id": "dip-0068-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8432,8 +9958,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0069",
@@ -8470,6 +9996,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0069-ap-00-it-01",
+            "apartado_id": "dip-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8540,8 +10080,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0070",
@@ -8578,6 +10118,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0070-ap-00-it-01",
+            "apartado_id": "dip-0070-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8649,8 +10203,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0071",
@@ -8688,6 +10242,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0071-ap-00-it-01",
+            "apartado_id": "dip-0071-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8811,8 +10379,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0072",
@@ -8849,6 +10417,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0072-ap-00-it-01",
+            "apartado_id": "dip-0072-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8935,8 +10517,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0073",
@@ -8973,6 +10555,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0073-ap-00-it-01",
+            "apartado_id": "dip-0073-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9080,8 +10676,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0074",
@@ -9118,6 +10714,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0074-ap-00-it-01",
+            "apartado_id": "dip-0074-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9252,8 +10862,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0075",
@@ -9290,6 +10900,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0075-ap-00-it-01",
+            "apartado_id": "dip-0075-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9360,8 +10984,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0076",
@@ -9398,6 +11022,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0076-ap-00-it-01",
+            "apartado_id": "dip-0076-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9521,8 +11159,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0077",
@@ -9559,6 +11197,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0077-ap-00-it-01",
+            "apartado_id": "dip-0077-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9642,8 +11294,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0078",
@@ -9680,6 +11332,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0078-ap-00-it-01",
+            "apartado_id": "dip-0078-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9766,8 +11432,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0079",
@@ -9804,6 +11470,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0079-ap-00-it-01",
+            "apartado_id": "dip-0079-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9892,8 +11572,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0080",
@@ -9931,6 +11611,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0080-ap-00-it-01",
+            "apartado_id": "dip-0080-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10068,8 +11762,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0081",
@@ -10107,6 +11801,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0081-ap-00-it-01",
+            "apartado_id": "dip-0081-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10228,8 +11936,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0082",
@@ -10267,6 +11975,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0082-ap-00-it-01",
+            "apartado_id": "dip-0082-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10382,8 +12104,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0083",
@@ -10574,8 +12296,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0084",
@@ -10747,8 +12469,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0085",
@@ -10900,8 +12622,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0086",
@@ -11053,8 +12775,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   },
   {
     "id": "dip-0087",
@@ -11193,8 +12915,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T13:35:10.934989Z",
-    "updated_at": "2026-05-28T13:35:10.934989Z"
+    "created_at": "2026-05-28T14:30:45.487448Z",
+    "updated_at": "2026-05-28T14:30:45.487448Z"
   }
 ]
 
