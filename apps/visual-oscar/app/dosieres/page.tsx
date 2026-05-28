@@ -319,6 +319,18 @@ export default function DosieresPage() {
             }}
           />
           <button
+            onClick={() => router.push('/dosieres/importar')}
+            style={{
+              background: '#fff', border: '1px solid #ECECEF', color: '#1d1d1f',
+              padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+              cursor: 'pointer', fontFamily: 'inherit',
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+            }}
+            title="Pegar un CSV para crear varios dossieres a la vez"
+          >
+            Importar CSV
+          </button>
+          <button
             onClick={() => router.push('/dosieres/nuevo')}
             style={{
               background: '#0071e3', border: 'none', color: '#fff',
