@@ -183,9 +183,19 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
  <AppHeader/>
  <main style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 24px 80px' }}>
 
-        {/* Breadcrumb · sutil */}
- <nav style={{ marginBottom: 16, fontSize: 12, color: '#86868b' }}>
+        {/* Breadcrumb · sutil + acción "Editar" */}
+ <nav style={{ marginBottom: 16, fontSize: 12, color: '#86868b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <Link href="/dosieres" style={{ color: '#86868b', textDecoration: 'none' }}>← Todos los dosieres</Link>
+ <Link
+   href={`/dosieres/nuevo?import=${dossier.slug}`}
+   style={{
+     color: '#0071e3', textDecoration: 'none', fontSize: 11.5, fontWeight: 600,
+     padding: '4px 10px', border: '1px solid #d2e3fb', borderRadius: 6,
+   }}
+   title="Abre el formulario precargado con los datos de este dossier"
+ >
+   Editar / clonar
+ </Link>
  </nav>
 
         {/* ═══ HERO grande con foto + nombre + partido prominente ═══ */}

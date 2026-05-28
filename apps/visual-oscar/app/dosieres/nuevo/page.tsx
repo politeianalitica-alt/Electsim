@@ -1,9 +1,12 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
+import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
+import REDES_OVERLAY from '@/data/redes-overlay.json'
 
 // ── Tipos · espejo del shape del fixture (DossierCompleto) ───────────────
 type TipoApartado = 'identidad' | 'trayectoria' | 'posiciones' | 'redes' | 'declaraciones' | 'controversias' | 'evidencia'
@@ -112,6 +115,8 @@ function notaLabel(n: number): string {
 // ── Page ─────────────────────────────────────────────────────────────────
 export default function NuevoDossierPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const importSlug = searchParams?.get('import') || null
 
   useEffect(() => {
     if (!isAuthenticated()) router.push('/login')
@@ -138,6 +143,169 @@ export default function NuevoDossierPage() {
   // UI: preview, copy, save
   const [preview, setPreview] = useState(false)
   const [savedMsg, setSavedMsg] = useState('')
+  // Borradores guardados en localStorage (refresh al guardar / eliminar)
+  const [borradoresRefresh, setBorradoresRefresh] = useState(0)
+
+  // ── Edición · si llega ?import=slug, precargar datos del fixture local ─
+  useEffect(() => {
+    if (!importSlug) return
+    const fixtureDossier = (IBEX35_FIXTURE as any[]).find(d => d.slug === importSlug)
+      || (DIPUTACIONES_FIXTURE as any[]).find(d => d.slug === importSlug)
+    if (!fixtureDossier) return
+
+    setNombre(fixtureDossier.nombre_completo || '')
+    setSlug(fixtureDossier.slug || '')
+    setSlugAutogen(false)
+    setAlias(fixtureDossier.alias || '')
+    setCargo(fixtureDossier.cargo_actual || '')
+    setPartido(fixtureDossier.partido || '')
+    setBioCorta(fixtureDossier.bio_corta || '')
+    setFotoUrl(fixtureDossier.foto_url || '')
+    setFuentePrincipal(fixtureDossier.fuente_principal || '')
+    setTagsInput((fixtureDossier.tags || []).join(', '))
+    // Convertir apartados del fixture a FormApartado
+    const aps: FormApartado[] = (fixtureDossier.apartados || []).map((ap: any) => ({
+      tipo: ap.tipo,
+      items: (ap.items || []).map((it: any) => {
+        // Extraer nota del contenido si existe (formato Feijóo)
+        const matchNota = (it.contenido || '').match(/\(nota\s*([+\-]?\d+)\/10\)/)
+        return {
+          uid: uid(),
+          tipo: it.tipo || 'dato',
+          titulo: it.titulo || '',
+          contenido: it.contenido || '',
+          fecha: it.fecha || '',
+          fuente_url: it.fuente_url || '',
+          fuente_titulo: it.fuente_titulo || '',
+          tags: it.tags || [],
+          nota: matchNota ? parseInt(matchNota[1], 10) : null,
+        }
+      }),
+    }))
+    if (aps.length > 0) {
+      setApartados(aps)
+      setApartadoActivo(aps[0].tipo)
+    }
+  }, [importSlug])
+
+  // ── Plantilla de partido · aplica overlay redes ───────────────────────
+  const aplicarPlantillaPartido = () => {
+    if (!partido) return
+    const ov = REDES_OVERLAY as {
+      by_party: Record<string, { titulo: string; contenido: string; tags: string[]; slug_ref: string | null }[]>;
+      generic: { titulo: string; contenido: string; tags: string[]; slug_ref: string | null }[];
+    }
+    const items = ov.by_party[partido] ?? ov.generic
+    if (!items || items.length === 0) {
+      setSavedMsg(`No hay plantilla canónica para "${partido}".`)
+      setTimeout(() => setSavedMsg(''), 2500)
+      return
+    }
+    // Convertir cada item del overlay a FormItem con su nota detectada
+    const formItems: FormItem[] = items.map(it => {
+      const matchNota = it.contenido.match(/\(nota\s*([+\-]?\d+)\/10\)/)
+      return {
+        uid: uid(),
+        tipo: 'contacto',
+        titulo: it.titulo,
+        contenido: it.contenido,
+        fecha: '',
+        fuente_url: '',
+        fuente_titulo: '',
+        tags: it.tags || [],
+        nota: matchNota ? parseInt(matchNota[1], 10) : null,
+      }
+    })
+    setApartados(prev => {
+      const existing = prev.find(a => a.tipo === 'redes')
+      if (existing) {
+        // Fusionar evitando duplicados por título
+        const existingTitles = new Set(existing.items.map(i => i.titulo))
+        const merged = [...existing.items, ...formItems.filter(i => !existingTitles.has(i.titulo))]
+        return prev.map(a => a.tipo === 'redes' ? { ...a, items: merged } : a)
+      }
+      return [...prev, { tipo: 'redes', items: formItems }]
+    })
+    setApartadoActivo('redes')
+    setSavedMsg(`Aplicada plantilla "${partido}": ${formItems.length} contactos canónicos.`)
+    setTimeout(() => setSavedMsg(''), 3500)
+  }
+
+  // ── Borradores en localStorage ─────────────────────────────────────────
+  type Borrador = { key: string; nombre: string; slug: string; updated: string; cargo: string }
+  const borradores: Borrador[] = useMemo(() => {
+    if (typeof window === 'undefined') return []
+    const out: Borrador[] = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)
+      if (!k || !k.startsWith('dossier-borrador-')) continue
+      try {
+        const raw = localStorage.getItem(k)
+        if (!raw) continue
+        const obj = JSON.parse(raw)
+        out.push({
+          key: k,
+          nombre: obj.nombre || '(sin nombre)',
+          slug: obj.slug || '(sin slug)',
+          cargo: obj.cargo || '',
+          updated: '',
+        })
+      } catch { /* ignore */ }
+    }
+    return out.sort((a, b) => a.nombre.localeCompare(b.nombre))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [borradoresRefresh])
+
+  const cargarBorrador = (key: string) => {
+    try {
+      const raw = localStorage.getItem(key)
+      if (!raw) return
+      const obj = JSON.parse(raw)
+      setNombre(obj.nombre || '')
+      setSlug(obj.slug || '')
+      setSlugAutogen(false)
+      setAlias(obj.alias || '')
+      setCargo(obj.cargo || '')
+      setPartido(obj.partido || '')
+      setBioCorta(obj.bio_corta || '')
+      setFotoUrl(obj.foto_url || '')
+      setFuentePrincipal(obj.fuente_principal || '')
+      setTagsInput((obj.tags || []).join(', '))
+      const aps: FormApartado[] = (obj.apartados || []).map((ap: any) => ({
+        tipo: ap.tipo,
+        items: (ap.items || []).map((it: any) => {
+          const matchNota = (it.contenido || '').match(/\(nota\s*([+\-]?\d+)\/10\)/)
+          return {
+            uid: uid(),
+            tipo: it.tipo || 'dato',
+            titulo: it.titulo || '',
+            contenido: it.contenido || '',
+            fecha: it.fecha || '',
+            fuente_url: it.fuente_url || '',
+            fuente_titulo: it.fuente_titulo || '',
+            tags: it.tags || [],
+            nota: matchNota ? parseInt(matchNota[1], 10) : null,
+          }
+        }),
+      }))
+      if (aps.length > 0) {
+        setApartados(aps)
+        setApartadoActivo(aps[0].tipo)
+      }
+      setSavedMsg(`Borrador "${obj.nombre}" cargado.`)
+      setTimeout(() => setSavedMsg(''), 2500)
+    } catch {
+      setSavedMsg('No se pudo cargar el borrador.')
+      setTimeout(() => setSavedMsg(''), 2500)
+    }
+  }
+  const eliminarBorrador = (key: string) => {
+    if (!confirm(`Eliminar borrador "${key.replace('dossier-borrador-', '')}"?`)) return
+    localStorage.removeItem(key)
+    setBorradoresRefresh(r => r + 1)
+    setSavedMsg('Borrador eliminado.')
+    setTimeout(() => setSavedMsg(''), 2500)
+  }
 
   // Slug derivado del nombre si está en modo auto
   useEffect(() => {
@@ -260,6 +428,7 @@ export default function NuevoDossierPage() {
     try {
       const key = `dossier-borrador-${slug || 'sin-slug'}`
       localStorage.setItem(key, JSON.stringify(dossierJSON))
+      setBorradoresRefresh(r => r + 1)
       setSavedMsg(`Borrador guardado: ${key}`)
       setTimeout(() => setSavedMsg(''), 2400)
     } catch {
@@ -280,16 +449,48 @@ export default function NuevoDossierPage() {
         {/* Hero */}
         <header style={{ marginBottom: 22 }}>
           <span style={{ fontSize: 10, color: '#86868b', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
-            Crear nuevo dossier
+            {importSlug ? 'Editar dossier' : 'Crear nuevo dossier'}
           </span>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700, letterSpacing: '-0.025em', margin: '4px 0 6px', color: '#1d1d1f' }}>
             {nombre || 'Nuevo dossier'}
           </h1>
           <p style={{ fontSize: 13, color: '#6e6e73', margin: 0, maxWidth: 720, lineHeight: 1.5 }}>
-            Rellena los datos básicos y añade items en los apartados que apliquen.
-            El JSON resultante se puede copiar, descargar o guardar como borrador local.
+            {importSlug
+              ? <>Precargado desde <code style={{ background: '#F4F4F6', padding: '1px 6px', borderRadius: 3 }}>{importSlug}</code>. Los cambios no afectan al original hasta que pegues el JSON resultante en su archivo de origen.</>
+              : <>Rellena los datos básicos y añade items en los apartados que apliquen. El JSON resultante se puede copiar, descargar o guardar como borrador local.</>
+            }
           </p>
         </header>
+
+        {/* ═══ Borradores guardados ═══ */}
+        {borradores.length > 0 && (
+          <Section title={`Borradores guardados (${borradores.length})`}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {borradores.map(b => (
+                <div key={b.key} style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '8px 12px', background: '#FBFBFD', borderRadius: 8,
+                  border: '1px solid #ECECEF',
+                }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>{b.nombre}</div>
+                    <div style={{ fontSize: 11, color: '#86868b' }}>
+                      <code>{b.slug}</code>{b.cargo ? ` · ${b.cargo}` : ''}
+                    </div>
+                  </div>
+                  <button type="button" onClick={() => cargarBorrador(b.key)} style={{ ...btnSecondaryStyle(), padding: '6px 12px', fontSize: 12 }}>
+                    Cargar
+                  </button>
+                  <button type="button" onClick={() => eliminarBorrador(b.key)} style={{
+                    ...btnSecondaryStyle(), padding: '6px 12px', fontSize: 12, color: '#DC2626', borderColor: '#FCDADA',
+                  }}>
+                    Eliminar
+                  </button>
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
 
         {/* ═══ Datos básicos ═══ */}
         <Section title="Datos básicos">
@@ -343,15 +544,31 @@ export default function NuevoDossierPage() {
                 style={inputStyle()}
               />
             </Field>
-            <Field label="Partido / vinculación">
-              <select
-                value={partido}
-                onChange={e => setPartido(e.target.value)}
-                style={inputStyle()}
-              >
-                <option value="">— elegir —</option>
-                {PARTIDOS_OPCIONES.map(p => <option key={p} value={p}>{p}</option>)}
-              </select>
+            <Field label="Partido / vinculación" hint={partido ? `Pulsa "Aplicar plantilla" para autocompletar el apartado "Quién está cerca" con los líderes/rivales canónicos del ${partido}.` : undefined}>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <select
+                  value={partido}
+                  onChange={e => setPartido(e.target.value)}
+                  style={{ ...inputStyle(), flex: 1 }}
+                >
+                  <option value="">— elegir —</option>
+                  {PARTIDOS_OPCIONES.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+                <button
+                  type="button"
+                  onClick={aplicarPlantillaPartido}
+                  disabled={!partido}
+                  style={{
+                    ...btnSecondaryStyle(),
+                    opacity: !partido ? 0.4 : 1,
+                    cursor: !partido ? 'not-allowed' : 'pointer',
+                    padding: '8px 12px', fontSize: 12, whiteSpace: 'nowrap',
+                  }}
+                  title="Autocompleta el apartado de redes con los líderes/rivales del partido"
+                >
+                  Aplicar plantilla
+                </button>
+              </div>
             </Field>
           </Grid2>
 
