@@ -11,7 +11,7 @@
  * Click país → callback drawer (reusa riskDrawerIso).
  */
 import { useEffect, useState } from 'react'
-import { projectEquirect } from '@/lib/geopolitica/country-coords'
+import { WorldMapBase } from '@/components/geopolitica/WorldMapBase'
 
 interface CountryPresence {
   iso3: string; name_es: string; iso2: string
@@ -131,52 +131,66 @@ export function SpainPresenceMap({ onCountryClick }: Props) {
 
       {!loading && data?.ok && (
         <>
-          <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} style={{
-            display: 'block', background: '#fafaf9', borderRadius: 8,
-          }}>
-            {[0, 90, 180, 270, 360].map((x) => (
-              <line key={x} x1={(x / 360) * W} y1={0} x2={(x / 360) * W} y2={H} stroke="#cbd5e1" strokeWidth={0.3} />
-            ))}
-            <line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke="#94a3b8" strokeWidth={0.5} />
-            {/* España marcada */}
-            {data.countries.find((c) => c.iso3 === 'ESP') && (() => {
-              const esp = data.countries.find((c) => c.iso3 === 'ESP')!
-              const { x, y } = projectEquirect(esp.lat, esp.lon, W, H)
-              return <circle cx={x} cy={y} r={8} fill="#dc2626" stroke="#fff" strokeWidth={2} />
-            })()}
+          {/* G20 item 17 · WorldMapBase con contorno de países + overlay España + países presencia */}
+          <WorldMapBase
+            width={W}
+            height={H}
+            bgColor="#fafaf9"
+            countryFill="#e7e5e4"
+            countryStroke="#a8a29e"
+            countryStrokeWidth={0.3}
+          >
+            {(project) => (
+              <>
+                {/* España marcada en rojo grande con halo */}
+                {data.countries.find((c) => c.iso3 === 'ESP') && (() => {
+                  const esp = data.countries.find((c) => c.iso3 === 'ESP')!
+                  const { x, y } = project(esp.lat, esp.lon)
+                  return (
+                    <g>
+                      <circle cx={x} cy={y} r={12} fill="none" stroke="#dc2626" strokeWidth={1.2} opacity={0.4}>
+                        <animate attributeName="r" values="10;16;10" dur="2.5s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" repeatCount="indefinite" />
+                      </circle>
+                      <circle cx={x} cy={y} r={8} fill="#dc2626" stroke="#fff" strokeWidth={2} />
+                    </g>
+                  )
+                })()}
 
-            {data.countries.map((c) => {
-              if (c.iso3 === 'ESP') return null
-              const { x, y } = projectEquirect(c.lat, c.lon, W, H)
-              let fill = '#e2e8f0'
-              let r = 3
-              if (dim === 'economica') {
-                fill = colorEconomica(c.presence.economica_score)
-                r = c.presence.economica_score !== null ? 3 + Math.log10((c.presence.economica_score || 0) + 1) * 2 : 3
-              } else if (dim === 'corporativa') {
-                fill = colorCorporativa(c.presence.corporativa_count)
-                r = 3 + c.presence.corporativa_count * 0.5
-              } else if (dim === 'diplomatica') {
-                const ds = diploScore(c.presence.diplomatica)
-                fill = colorDiplomatica(ds)
-                r = 3 + ds * 0.2
-              } else {
-                fill = colorExports(c.presence.exports_2024_eur_bn)
-                r = c.presence.exports_2024_eur_bn ? 3 + Math.log10((c.presence.exports_2024_eur_bn || 0) + 1) * 3 : 3
-              }
-              return (
-                <circle key={c.iso3}
-                  cx={x} cy={y} r={r}
-                  fill={fill} opacity={0.85}
-                  stroke="#fff" strokeWidth={0.5}
-                  onMouseEnter={() => setHover(c)}
-                  onMouseLeave={() => setHover(null)}
-                  onClick={() => onCountryClick?.(c.iso3)}
-                  style={{ cursor: 'pointer' }}
-                />
-              )
-            })}
-          </svg>
+                {data.countries.map((c) => {
+                  if (c.iso3 === 'ESP') return null
+                  const { x, y } = project(c.lat, c.lon)
+                  let fill = '#e2e8f0'
+                  let r = 3
+                  if (dim === 'economica') {
+                    fill = colorEconomica(c.presence.economica_score)
+                    r = c.presence.economica_score !== null ? 3 + Math.log10((c.presence.economica_score || 0) + 1) * 2 : 3
+                  } else if (dim === 'corporativa') {
+                    fill = colorCorporativa(c.presence.corporativa_count)
+                    r = 3 + c.presence.corporativa_count * 0.5
+                  } else if (dim === 'diplomatica') {
+                    const ds = diploScore(c.presence.diplomatica)
+                    fill = colorDiplomatica(ds)
+                    r = 3 + ds * 0.2
+                  } else {
+                    fill = colorExports(c.presence.exports_2024_eur_bn)
+                    r = c.presence.exports_2024_eur_bn ? 3 + Math.log10((c.presence.exports_2024_eur_bn || 0) + 1) * 3 : 3
+                  }
+                  return (
+                    <circle key={c.iso3}
+                      cx={x} cy={y} r={r}
+                      fill={fill} opacity={0.9}
+                      stroke="#fff" strokeWidth={0.8}
+                      onMouseEnter={() => setHover(c)}
+                      onMouseLeave={() => setHover(null)}
+                      onClick={() => onCountryClick?.(c.iso3)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  )
+                })}
+              </>
+            )}
+          </WorldMapBase>
 
           <div style={{ display: 'flex', gap: 12, marginTop: 8, fontSize: 9, color: '#475569', flexWrap: 'wrap' }}>
             <span style={{ fontWeight: 600, color: '#0f172a' }}>España (rojo) + dimensión {dim.toUpperCase()}</span>

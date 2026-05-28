@@ -74,6 +74,7 @@ import { SpainPresenceMap } from '@/components/geopolitica/espana/SpainPresenceM
 import { SpainKpis } from '@/components/geopolitica/espana/SpainKpis'
 import { ComercioPanel } from '@/components/geopolitica/espana/ComercioPanel'
 import { InversionPanel } from '@/components/geopolitica/espana/InversionPanel'
+import { ActivosRiesgoPanel } from '@/components/geopolitica/espana/ActivosRiesgoPanel'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1069,6 +1070,13 @@ export default function GeopoliticaPage() {
               <InversionPanel />
             </div>
 
+            {/* G20 item 20 · NUEVA feature mayor: Activos españoles en riesgo
+                exterior · cruza catálogo IBEX/PERE/MAEC/Cervantes/AECID/CESCE
+                con IRC compuesto + UCDP/PRIO en tiempo real. */}
+            <div style={{ marginBottom: 14 }}>
+              <ActivosRiesgoPanel onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
+            </div>
+
             <details style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '12px 16px' }}>
               <summary style={{ cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#475569' }}>
                 Vista legacy · Spain Watchlist + Spain Official (clic para abrir)
@@ -1085,266 +1093,6 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 5a — Impacto España (riesgos importados por dimensión) */}
-        {tab === 5 && (() => {
-          const dimsList = ['seguridad', 'economica', 'energetica', 'diplomatica', 'social'] as const
-          const impactosFiltered = impactoDim === 'all'
-            ? impactosSorted
-            : impactosSorted.filter((i) => i.dimension === impactoDim)
-          return (
-          <div>
-            {/* Contadores clicables por dimensión = selector de tipos de noticia */}
-            <div className="geo-impacto-pills">
-              {/* Pill "Todos" */}
-              <button
-                onClick={() => setImpactoDim('all')}
-                className="geo-impacto-pill"
-                style={{
-                  background: impactoDim === 'all' ? '#1d1d1f' : '#fff',
-                  border: `1px solid ${impactoDim === 'all' ? '#1d1d1f' : '#ECECEF'}`,
-                  color: impactoDim === 'all' ? '#fff' : '#1d1d1f',
-                }}
-              >
-                <span className="geo-impacto-pill-dot" style={{
-                  background: impactoDim === 'all' ? '#fff' : '#1d1d1f',
-                }}/>
-                <div className="geo-impacto-pill-count">{impactosSorted.length}</div>
-                <div className="geo-impacto-pill-label geo-impacto-pill-label--todos">Todos</div>
-              </button>
-              {/* Pills por dimensión */}
-              {dimsList.map((dim) => {
-                const m = dimMeta(dim)
-                const cnt = impactosSorted.filter((i) => i.dimension === dim).length
-                const active = impactoDim === dim
-                return (
-                  <button
-                    key={dim}
-                    onClick={() => setImpactoDim(active ? 'all' : dim)}
-                    className="geo-impacto-pill"
-                    style={{
-                      background: active ? m.color : m.bg,
-                      border: `1px solid ${active ? m.color : m.ring}`,
-                      cursor: cnt > 0 ? 'pointer' : 'not-allowed',
-                      opacity: cnt === 0 ? 0.4 : 1,
-                    }}
-                    disabled={cnt === 0}
-                  >
-                    <span className="geo-impacto-pill-dot" style={{
-                      background: active ? '#fff' : m.color,
-                    }}/>
-                    <div className="geo-impacto-pill-count" style={{ color: active ? '#fff' : m.color }}>{cnt}</div>
-                    <div className="geo-impacto-pill-label" style={{
-                      color: active ? '#fff' : 'inherit',
-                      opacity: active ? 0.95 : 0.7,
-                    }}>{m.label}</div>
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Indicador de filtro activo */}
-            {impactoDim !== 'all' && (
-              <div className="geo-impacto-filter-bar">
-                <span>Filtrando por <strong style={{ color: dimMeta(impactoDim).color }}>{dimMeta(impactoDim).label}</strong></span>
-                <span className="geo-impacto-filter-bar-meta">· {impactosFiltered.length} de {impactosSorted.length}</span>
-                <button onClick={() => setImpactoDim('all')} className="geo-impacto-clear-btn">Quitar filtro ×</button>
-              </div>
-            )}
-
-            {/* Lista de impactos: estilo Alertas con barra lateral por dimensión */}
-            <div className="geo-list">
-              {impactosFiltered.length === 0 && (
-                <div className="geo-list-empty">
-                  {impactoDim === 'all' ? 'Sin impactos registrados' : `Sin impactos registrados en sector ${dimMeta(impactoDim).label}`}
-                </div>
-              )}
-              {impactosFiltered.map((imp) => {
-                const m = dimMeta(imp.dimension)
-                const hLabel = imp.horizonte === 'corto' ? 'CORTO PLAZO' : imp.horizonte === 'medio' ? 'MEDIO PLAZO' : 'LARGO PLAZO'
-                return (
-                  <article key={imp.id}
-                    className="geo-alert-card geo-alert-card--impacto"
-                    style={{
-                      background: m.bg, border: `1px solid ${m.ring}`,
-                    }}>
-                    <div className="geo-alert-bar" style={{ background: m.color }}/>
-                    <div className="geo-alert-meta">
-                      <span className="geo-alert-urg-badge" style={{ background: m.color }}>
-                        {m.label}
-                      </span>
-                      <span className="geo-alert-horizonte-label">{hLabel}</span>
-                      {/* Severidad como barras horizontales (5 niveles) */}
-                      <div className="geo-alert-sev-bars">
-                        {[1, 2, 3, 4, 5].map((n) => (
-                          <span key={n} className="geo-alert-sev-cell" style={{
-                            background: n <= imp.severidad ? m.color : 'rgba(0,0,0,0.10)',
-                          }}/>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="geo-alert-body">
-                      <h3 className="geo-alert-title">{imp.titulo}</h3>
-                      <p className="geo-alert-desc">{imp.descripcion}</p>
-                      <div className="geo-alert-foot-row">
-                        <span className="geo-alert-sector-label">Severidad {imp.severidad}/5 · Origen:</span>
-                        {imp.paises_origen.slice(0, 4).map((p) => (
-                          <span key={p} className="geo-alert-pais-chip">{p}</span>
-                        ))}
-                      </div>
-                    </div>
-                    {imp.url ? (
-                      <a href={imp.url} target="_blank" rel="noopener noreferrer" className="geo-alert-cta" style={{ color: m.color }}>Leer noticia ↗</a>
-                    ) : (
-                      <span className="geo-alert-cta--noop">—</span>
-                    )}
-                  </article>
-                )
-              })}
-            </div>
-          </div>
-        )})()}
-
-        {/* TAB 5b — Presencia Española (intereses + DAFO) */}
-        {tab === 5 && (() => {
-          // Tres modos de orden:
-          //  - importancia: por interes_espana (dataset riesgo) — el por defecto
-          //  - presencia:   por intensidad (huella diplomática/empresarial)
-          //  - continente:  agrupado por continente, dentro alfabético
-          const presenciaPresencia = [...presencia].sort((a, b) => b.intensidad - a.intensidad)
-          const presenciaImportancia = presenciaSorted
-          // Construir grupos por continente
-          const continentBuckets = new Map<string, PresenciaItem[]>()
-          for (const p of presencia) {
-            const iso = p.iso || isoFromPais(p.pais)
-            const cont = continentFromIso(iso)
-            const cur = continentBuckets.get(cont) || []
-            cur.push(p)
-            continentBuckets.set(cont, cur)
-          }
-          // Ordenar países dentro de cada continente por intensidad desc
-          for (const [k, arr] of Array.from(continentBuckets.entries())) {
-            arr.sort((a, b) => b.intensidad - a.intensidad)
-            continentBuckets.set(k, arr)
-          }
-          const continentList = CONTINENT_ORDER.filter((c) => continentBuckets.has(c))
-
-          // Componente reutilizable de tarjeta de país (inline para acceder a setDafoOpen)
-          const renderCard = (p: PresenciaItem) => {
-            const iso = p.iso || isoFromPais(p.pais)
-            const catC = catColor(p.categoria)
-            const dafo = COUNTRY_DAFO[p.pais]
-            const hasDafo = !!dafo
-            return (
-              <button
-                key={p.pais}
-                onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
-                title={hasDafo ? `Ver DAFO completo de ${p.pais}` : 'Más detalles'}
-                className="geo-riesgo-card"
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
-              >
-                <span className="geo-riesgo-card-accent" style={{ background: catC }}/>
-                {hasDafo && (
-                  <span className="geo-riesgo-dafo-tag" style={{ color: catC, background: `${catC}14` }}>DAFO →</span>
-                )}
-
-                <div className="geo-riesgo-head geo-riesgo-head--tight">
-                  <CountryBadge iso={iso} size={44} color={catC}/>
-                  <div className="geo-riesgo-head-body">
-                    <div className="geo-riesgo-pais">{p.pais}</div>
-                    <span className="geo-riesgo-cat-chip" style={{ background: `${catC}14`, color: catC }}>{p.categoria}</span>
-                  </div>
-                </div>
-
-                {dafo ? (
-                  <div className="geo-presencia-card-dafo">
-                    <span className="geo-presencia-card-dafo-em">{dafo.resumen}</span>
-                  </div>
-                ) : (
-                  <div className="geo-presencia-card-dafo geo-presencia-card-dafo--none">
-                    DAFO no disponible aún para este país
-                  </div>
-                )}
-
-                <div>
-                  <div className="geo-riesgo-interes-row">
-                    <span className="geo-presencia-card-presencia-label">Presencia España</span>
-                    <span className="geo-presencia-card-presencia-value" style={{ color: catC }}>{p.intensidad}/100</span>
-                  </div>
-                  <div className="geo-riesgo-bar-track">
-                    <div className="geo-riesgo-bar-fill" style={{
-                      width: `${p.intensidad}%`,
-                      background: catC,
-                    }}/>
-                  </div>
-                </div>
-              </button>
-            )
-          }
-
-          return (
-          <div>
-            {/* Mapa arriba (mantiene contexto visual) */}
-            <div className="geo-map-container">
-              <Plot
-                data={presenciaTraces as object[]}
-                layout={{ ...geoLayout, height: 360 } as object}
-                config={{ displayModeBar: false, responsive: true }}
-                className="geo-plot"
-              />
-            </div>
-
-            {/* Selector de orden */}
-            <div className="geo-order-row">
-              <span className="geo-order-label">Ordenar por:</span>
-              <div className="geo-order-tabs">
-                {[
-                  { v: 'importancia', l: 'Importancia para España' },
-                  { v: 'continente',  l: 'Por continente' },
-                  { v: 'presencia',   l: 'Presencia España' },
-                ].map((o) => {
-                  const active = presenciaOrden === o.v
-                  return (
-                    <button key={o.v} onClick={() => setPresenciaOrden(o.v as typeof presenciaOrden)}
-                      className={`geo-order-btn ${active ? 'geo-order-btn--active' : ''}`}>{o.l}</button>
-                  )
-                })}
-              </div>
-              <span className="geo-order-count">· {presencia.length} países en seguimiento</span>
-            </div>
-
-            {/* Vista 1: lista plana (importancia o presencia) */}
-            {presenciaOrden !== 'continente' && (
-              <div className="geo-card-grid">
-                {(presenciaOrden === 'presencia' ? presenciaPresencia : presenciaImportancia).map(renderCard)}
-              </div>
-            )}
-
-            {/* Vista 2: agrupado por continente con headers */}
-            {presenciaOrden === 'continente' && (
-              <div className="geo-continent-list">
-                {continentList.map((cont) => {
-                  const cc = CONTINENT_COLOR[cont] || '#9CA3AF'
-                  const items = continentBuckets.get(cont) || []
-                  return (
-                    <section key={cont}>
-                      <div className="geo-continent-header" style={{
-                        background: `${cc}10`, borderLeft: `3px solid ${cc}`,
-                      }}>
-                        <span className="geo-continent-name" style={{ color: cc }}>{cont}</span>
-                        <span className="geo-continent-meta">{items.length} países</span>
-                      </div>
-                      <div className="geo-card-grid">
-                        {items.map(renderCard)}
-                      </div>
-                    </section>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-          )
-        })()}
 
         {/* TAB 6b — Análisis IA (escenarios + clock + graph + analog + briefing IA) */}
         {tab === 6 && (
