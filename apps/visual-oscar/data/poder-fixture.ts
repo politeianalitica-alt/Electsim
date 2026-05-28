@@ -1,8 +1,12 @@
 // AUTO-GENERADO desde data/poder/*.json · ver bin/gen_subfixture.py
-// Mapa de poder NO-electo: medios (directores, tertulianos),
-// poder judicial (TS/CGPJ, TC, Fiscalía), reguladores (BdE, CNMC),
-// grandes empresarios no-IBEX (Roig, Ortega Mera, Escotet),
-// sindicatos (CCOO, UGT), Casa Real e Iglesia.
+// Mapa de poder NO-electo (2 lotes):
+//   · figuras_clave.json   · medios, poder judicial (TS/CGPJ, TC, Fiscalía),
+//     reguladores (BdE, CNMC), empresarios no-IBEX (Roig, Ortega Mera,
+//     Escotet), sindicatos (CCOO, UGT), Casa Real e Iglesia.
+//   · figuras_clave_2.json · expresidentes (Aznar, Zapatero, F. González,
+//     Rajoy), think tanks (FAES, R.I. Elcano), Pablo Iglesias, Borrell,
+//     Calviño/BEI, prensa (Pedro J., Herrera, Cebrián), Tezanos/CIS,
+//     Gabilondo, empresarios (Koplowitz, Lao, Mango), RTVE, Von der Leyen.
 // Re-generar: python3 bin/gen_subfixture.py --source poder
 
 import type {
@@ -212,8 +216,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0002",
@@ -411,8 +415,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0003",
@@ -587,8 +591,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0004",
@@ -740,8 +744,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0005",
@@ -879,8 +883,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0006",
@@ -1023,8 +1027,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0007",
@@ -1132,8 +1136,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0008",
@@ -1220,8 +1224,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0009",
@@ -1368,8 +1372,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0010",
@@ -1527,8 +1531,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0011",
@@ -1691,8 +1695,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0012",
@@ -1818,8 +1822,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0013",
@@ -2006,8 +2010,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0014",
@@ -2131,8 +2135,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0015",
@@ -2308,8 +2312,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0016",
@@ -2429,8 +2433,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0017",
@@ -2533,8 +2537,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0018",
@@ -2675,8 +2679,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0019",
@@ -2778,8 +2782,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0020",
@@ -2914,8 +2918,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0021",
@@ -3039,8 +3043,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0022",
@@ -3214,8 +3218,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0023",
@@ -3316,8 +3320,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0024",
@@ -3471,8 +3475,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0025",
@@ -3598,8 +3602,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   },
   {
     "id": "pod-0026",
@@ -3718,8 +3722,2545 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T18:49:55.170071Z",
-    "updated_at": "2026-05-28T18:49:55.170071Z"
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0027",
+    "slug": "jose-maria-aznar",
+    "nombre_completo": "José María Aznar López",
+    "alias": "Aznar",
+    "cargo_actual": "Expresidente del Gobierno · presidente de FAES",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente del Gobierno de España (1996-2004) por el PP. Hoy preside la Fundación FAES, el principal think tank de la derecha española, y mantiene una influencia notable en el ala más conservadora y atlantista del PP.",
+    "tags": [
+      "ex-politico",
+      "expresidente",
+      "pp",
+      "think-tank",
+      "faes"
+    ],
+    "fuente_principal": "https://fundacionfaes.org",
+    "apartados": [
+      {
+        "id": "pod-0027-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0027-ap-00-it-00",
+            "apartado_id": "pod-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1953. Inspector de Hacienda. Presidente del Gobierno entre 1996 y 2004 (dos legislaturas, la segunda con mayoría absoluta).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0027-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0027-ap-01-it-00",
+            "apartado_id": "pod-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente del Gobierno",
+            "contenido": "Gobierna 1996-2004. Entrada en el euro, crecimiento económico, apoyo a la guerra de Irak (Foto de las Azores, 2003).",
+            "fecha": "1996-05-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0027-ap-01-it-01",
+            "apartado_id": "pod-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "FAES",
+            "contenido": "Tras dejar la política activa, preside FAES, think tank de referencia del liberal-conservadurismo español.",
+            "fecha": "2004-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0027-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0027-ap-02-it-00",
+            "apartado_id": "pod-0027-ap-02",
+            "tipo": "dato",
+            "titulo": "Línea ideológica",
+            "contenido": "Atlantista, liberal en lo económico, firme contra el nacionalismo y el sanchismo. Crítico tanto con Sánchez como, en ocasiones, con la moderación de Feijóo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "atlantismo",
+              "liberalismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0027-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0027-ap-03-it-00",
+            "apartado_id": "pod-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Partido Popular",
+            "contenido": "**Su partido** (nota +6/10) — Sigue siendo referente del ala dura; tensiones con la dirección de Feijóo por la moderación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0027-ap-03-it-01",
+            "apartado_id": "pod-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +3/10) — Apoyo crítico: empuja al PP hacia posiciones más duras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "feijoo",
+              "nota-+3",
+              "neutral"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0027-ap-03-it-02",
+            "apartado_id": "pod-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de Madrid** (nota +6/10) — Afinidad con el ala más combativa que representa Ayuso.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ayuso",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "pod-0027-ap-03-it-03",
+            "apartado_id": "pod-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Mariano Rajoy",
+            "contenido": "**Sucesor en el PP** (nota +2/10) — Relación fría tras años de distancia política.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rajoy",
+              "nota-+2",
+              "neutral"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "pod-0027-ap-03-it-04",
+            "apartado_id": "pod-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -8/10) — Adversario frontal; FAES es usina de crítica al Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota--8",
+              "conflicto"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "pod-0027-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0027-ap-04-it-00",
+            "apartado_id": "pod-0027-ap-04",
+            "tipo": "documento",
+            "titulo": "FAES",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://fundacionfaes.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0028",
+    "slug": "jose-luis-rodriguez-zapatero",
+    "nombre_completo": "José Luis Rodríguez Zapatero",
+    "alias": "Zapatero",
+    "cargo_actual": "Expresidente del Gobierno (PSOE)",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Presidente del Gobierno de España (2004-2011) por el PSOE. Impulsó derechos civiles (matrimonio igualitario, ley de dependencia) y afrontó la crisis financiera. Hoy figura influyente del PSOE, mediador internacional (Venezuela) y defensor de la política de Sánchez.",
+    "tags": [
+      "ex-politico",
+      "expresidente",
+      "psoe"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero",
+    "apartados": [
+      {
+        "id": "pod-0028-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0028-ap-00-it-00",
+            "apartado_id": "pod-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Valladolid, 1960, criado en León. Presidente del Gobierno 2004-2011. Referente del ala social del PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0028-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0028-ap-01-it-00",
+            "apartado_id": "pod-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Gobierno",
+            "contenido": "2004-2011: matrimonio igualitario, ley de dependencia, retirada de Irak, y gestión de la crisis financiera (recortes de 2010).",
+            "fecha": "2004-04-17",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0028-ap-01-it-01",
+            "apartado_id": "pod-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Mediación en Venezuela",
+            "contenido": "Mediador internacional en Venezuela, papel controvertido por su cercanía al chavismo.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "venezuela"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0028-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0028-ap-02-it-00",
+            "apartado_id": "pod-0028-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +7/10) — Apoyo público y referente de la estrategia de coalición.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0028-ap-02-it-01",
+            "apartado_id": "pod-0028-ap-02",
+            "tipo": "contacto",
+            "titulo": "Felipe González",
+            "contenido": "**Expresidente PSOE** (nota -4/10) — Relación fría: González critica el rumbo del PSOE de Sánchez, Zapatero lo respalda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "felipe-gonzalez",
+              "nota--4",
+              "tension"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0028-ap-02-it-02",
+            "apartado_id": "pod-0028-ap-02",
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Su partido** (nota +6/10) — Figura del ala izquierda; respalda los pactos con la mayoría plurinacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0028-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0028-ap-03-it-00",
+            "apartado_id": "pod-0028-ap-03",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Luis_Rodr%C3%ADguez_Zapatero",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0029",
+    "slug": "felipe-gonzalez",
+    "nombre_completo": "Felipe González Márquez",
+    "alias": "Felipe González",
+    "cargo_actual": "Expresidente del Gobierno (PSOE)",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Presidente del Gobierno de España (1982-1996), el más longevo de la democracia. Figura histórica del PSOE que pilotó la entrada en la CEE y la OTAN y la modernización del país. Hoy voz crítica con la deriva del PSOE de Sánchez y sus pactos con el independentismo.",
+    "tags": [
+      "ex-politico",
+      "expresidente",
+      "psoe",
+      "historico"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Felipe_Gonz%C3%A1lez",
+    "apartados": [
+      {
+        "id": "pod-0029-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0029-ap-00-it-00",
+            "apartado_id": "pod-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Sevilla, 1942. Abogado laboralista. Secretario general del PSOE (1974-1997) y presidente del Gobierno durante 14 años (1982-1996).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0029-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0029-ap-01-it-00",
+            "apartado_id": "pod-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Gobierno",
+            "contenido": "1982-1996: entrada en la CEE (1986), referéndum OTAN, modernización de infraestructuras (AVE, autovías). Etapa final marcada por los casos GAL y Filesa.",
+            "fecha": "1982-12-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0029-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0029-ap-02-it-00",
+            "apartado_id": "pod-0029-ap-02",
+            "tipo": "dato",
+            "titulo": "Crítica a Sánchez",
+            "contenido": "Voz pública crítica con la amnistía y los pactos con Junts y EH Bildu. Encarna el 'sector crítico' histórico del PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "critico-sanchez"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0029-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0029-ap-03-it-00",
+            "apartado_id": "pod-0029-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -5/10) — Crítico abierto con la amnistía y la estrategia de coalición.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota--5",
+              "tension"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0029-ap-03-it-01",
+            "apartado_id": "pod-0029-ap-03",
+            "tipo": "contacto",
+            "titulo": "Zapatero",
+            "contenido": "**Expresidente PSOE** (nota -4/10) — Polos opuestos sobre el rumbo del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "zapatero",
+              "nota--4",
+              "tension"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0029-ap-03-it-02",
+            "apartado_id": "pod-0029-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alfonso Guerra",
+            "contenido": "**Histórico del PSOE** (nota +5/10) — Compañero de la etapa de gobierno; ambos críticos con el actual PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "guerra",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0029-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0029-ap-04-it-00",
+            "apartado_id": "pod-0029-ap-04",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Felipe_Gonz%C3%A1lez",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0030",
+    "slug": "mariano-rajoy",
+    "nombre_completo": "Mariano Rajoy Brey",
+    "alias": "Rajoy",
+    "cargo_actual": "Expresidente del Gobierno (PP)",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente del Gobierno de España (2011-2018) por el PP. Gestionó el rescate financiero, la crisis del procés catalán (artículo 155) y fue desalojado del poder por la primera moción de censura exitosa de la democracia, tras la sentencia del caso Gürtel.",
+    "tags": [
+      "ex-politico",
+      "expresidente",
+      "pp"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Mariano_Rajoy",
+    "apartados": [
+      {
+        "id": "pod-0030-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0030-ap-00-it-00",
+            "apartado_id": "pod-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Santiago de Compostela, 1955. Registrador de la propiedad. Presidente del Gobierno 2011-2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0030-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0030-ap-01-it-00",
+            "apartado_id": "pod-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Gobierno",
+            "contenido": "2011-2018: ajuste fiscal, rescate bancario, recuperación económica, aplicación del 155 en Cataluña (2017).",
+            "fecha": "2011-12-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0030-ap-01-it-01",
+            "apartado_id": "pod-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Moción de censura",
+            "contenido": "Desalojado del poder por la moción de censura de Pedro Sánchez en junio 2018, tras la sentencia de Gürtel.",
+            "fecha": "2018-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mocion-censura"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0030-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0030-ap-02-it-00",
+            "apartado_id": "pod-0030-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Feijóo fue su apuesta en Galicia; relación de mentor-discípulo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "feijoo",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0030-ap-02-it-01",
+            "apartado_id": "pod-0030-ap-02",
+            "tipo": "contacto",
+            "titulo": "José María Aznar",
+            "contenido": "**Predecesor en el PP** (nota +2/10) — Relación fría; Aznar criticó su gestión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aznar",
+              "nota-+2",
+              "neutral"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0030-ap-02-it-02",
+            "apartado_id": "pod-0030-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Quien le desalojó** (nota -6/10) — La moción de censura de 2018 marca la relación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota--6",
+              "tension"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0030-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0030-ap-03-it-00",
+            "apartado_id": "pod-0030-ap-03",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mariano_Rajoy",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0031",
+    "slug": "pablo-iglesias-turrion",
+    "nombre_completo": "Pablo Iglesias Turrión",
+    "alias": "Pablo Iglesias",
+    "cargo_actual": "Exvicepresidente del Gobierno · fundador de Podemos",
+    "partido": "PODEMOS",
+    "foto_url": null,
+    "bio_corta": "Politólogo. Fundador y exsecretario general de Podemos, exvicepresidente segundo del Gobierno (2020-2021). Tras dejar la política activa dirige el medio Canal Red y mantiene influencia en el espacio a la izquierda del PSOE.",
+    "tags": [
+      "ex-politico",
+      "podemos",
+      "medio",
+      "izquierda"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Pablo_Iglesias_Turri%C3%B3n",
+    "apartados": [
+      {
+        "id": "pod-0031-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0031-ap-00-it-00",
+            "apartado_id": "pod-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1978. Profesor de Ciencia Política. Fundó Podemos en 2014 tras el 15-M. Hoy comunicador (Canal Red) y referente ideológico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0031-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0031-ap-01-it-00",
+            "apartado_id": "pod-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación de Podemos",
+            "contenido": "Funda Podemos en 2014; irrupción en el Congreso en 2015-2016.",
+            "fecha": "2014-01-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0031-ap-01-it-01",
+            "apartado_id": "pod-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Vicepresidente",
+            "contenido": "Vicepresidente segundo del Gobierno de coalición 2020-2021. Dejó el cargo tras las elecciones de Madrid de 2021.",
+            "fecha": "2020-01-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0031-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0031-ap-02-it-00",
+            "apartado_id": "pod-0031-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ione Belarra",
+            "contenido": "**Secretaria general de Podemos** (nota +8/10) — Su sucesora y aliada en la línea dura de Podemos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "belarra",
+              "nota-+8",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0031-ap-02-it-01",
+            "apartado_id": "pod-0031-ap-02",
+            "tipo": "contacto",
+            "titulo": "Irene Montero",
+            "contenido": "**Dirigente de Podemos, su pareja** (nota +9/10) — Vínculo personal y político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "montero",
+              "nota-+9",
+              "alianza-fuerte"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0031-ap-02-it-02",
+            "apartado_id": "pod-0031-ap-02",
+            "tipo": "contacto",
+            "titulo": "Yolanda Díaz",
+            "contenido": "**Líder de Sumar** (nota -6/10) — Ruptura amarga: Podemos se siente desplazado por Sumar.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "yolanda-diaz",
+              "nota--6",
+              "tension"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "pod-0031-ap-02-it-03",
+            "apartado_id": "pod-0031-ap-02",
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de Madrid** (nota -8/10) — Su derrota en Madrid 2021 ('o ellos o nosotros') precipitó su salida.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ayuso",
+              "nota--8",
+              "conflicto"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0031-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0031-ap-03-it-00",
+            "apartado_id": "pod-0031-ap-03",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Pablo_Iglesias_Turri%C3%B3n",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0032",
+    "slug": "josep-borrell",
+    "nombre_completo": "Josep Borrell Fontelles",
+    "alias": "Borrell",
+    "cargo_actual": "Ex Alto Representante de la UE para Asuntos Exteriores",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Político e ingeniero del PSOE/PSC. Alto Representante de la Unión Europea para Asuntos Exteriores y Política de Seguridad (2019-2024), la voz de la diplomacia europea. Ex ministro, ex presidente del Parlamento Europeo y ex presidente del Congreso.",
+    "tags": [
+      "ex-politico",
+      "psoe",
+      "union-europea",
+      "diplomacia"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Josep_Borrell",
+    "apartados": [
+      {
+        "id": "pod-0032-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0032-ap-00-it-00",
+            "apartado_id": "pod-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Pobla de Segur (Lleida), 1947. Ingeniero aeronáutico y economista. Larga carrera nacional y europea en el PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0032-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0032-ap-01-it-00",
+            "apartado_id": "pod-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Alto Representante UE",
+            "contenido": "Jefe de la diplomacia europea 2019-2024 (Comisión Von der Leyen I): guerra de Ucrania, Oriente Medio, relación con China.",
+            "fecha": "2019-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0032-ap-01-it-01",
+            "apartado_id": "pod-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro de Exteriores",
+            "contenido": "Ministro de Asuntos Exteriores con Pedro Sánchez (2018-2019) antes de saltar a la UE.",
+            "fecha": "2018-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0032-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0032-ap-02-it-00",
+            "apartado_id": "pod-0032-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +6/10) — Lo impulsó como Alto Representante; alineamiento en política exterior.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0032-ap-02-it-01",
+            "apartado_id": "pod-0032-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ursula von der Leyen",
+            "contenido": "**Presidenta de la Comisión Europea** (nota +4/10) — Tándem institucional en la Comisión I.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "von-der-leyen",
+              "nota-+4",
+              "alianza-debil"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0032-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0032-ap-03-it-00",
+            "apartado_id": "pod-0032-ap-03",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Josep_Borrell",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0033",
+    "slug": "nadia-calvino",
+    "nombre_completo": "Nadia Calviño Santamaría",
+    "alias": "Calviño",
+    "cargo_actual": "Presidenta del Banco Europeo de Inversiones (BEI)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista y alta funcionaria. Presidenta del Banco Europeo de Inversiones (BEI) desde 2024. Anteriormente vicepresidenta primera del Gobierno y ministra de Economía (2018-2023), arquitecta de la política económica de Sánchez y de la gestión de los fondos europeos.",
+    "tags": [
+      "ex-politico",
+      "economia",
+      "union-europea",
+      "bei"
+    ],
+    "fuente_principal": "https://www.eib.org",
+    "apartados": [
+      {
+        "id": "pod-0033-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0033-ap-00-it-00",
+            "apartado_id": "pod-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en A Coruña, 1968. Economista y abogada. Alta funcionaria de la Comisión Europea antes de su etapa ministerial. Perfil técnico-independiente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0033-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0033-ap-01-it-00",
+            "apartado_id": "pod-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Vicepresidenta económica",
+            "contenido": "Ministra de Economía y vicepresidenta del Gobierno 2018-2023; gestión de la pandemia y los fondos Next Generation.",
+            "fecha": "2018-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0033-ap-01-it-01",
+            "apartado_id": "pod-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta del BEI",
+            "contenido": "Asume la presidencia del Banco Europeo de Inversiones en 2024.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0033-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0033-ap-02-it-00",
+            "apartado_id": "pod-0033-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +6/10) — Su ministra de Economía estrella; impulsó su candidatura al BEI.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0033-ap-02-it-01",
+            "apartado_id": "pod-0033-ap-02",
+            "tipo": "contacto",
+            "titulo": "Carlos Cuerpo",
+            "contenido": "**Ministro de Economía** (nota +5/10) — Su sucesor en la cartera económica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cuerpo",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0033-ap-02-it-02",
+            "apartado_id": "pod-0033-ap-02",
+            "tipo": "contacto",
+            "titulo": "José Luis Escrivá",
+            "contenido": "**Gobernador del Banco de España** (nota +3/10) — Compañeros del área económica del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "escriva",
+              "nota-+3",
+              "neutral"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0033-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0033-ap-03-it-00",
+            "apartado_id": "pod-0033-ap-03",
+            "tipo": "documento",
+            "titulo": "BEI",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.eib.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0034",
+    "slug": "faes",
+    "nombre_completo": "Fundación para el Análisis y los Estudios Sociales (FAES)",
+    "alias": "FAES",
+    "cargo_actual": "Think tank liberal-conservador",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Principal think tank de la derecha española, presidido por José María Aznar. Produce análisis, publicaciones y foros que marcan la agenda intelectual del liberal-conservadurismo y del atlantismo en España.",
+    "tags": [
+      "think-tank",
+      "pp",
+      "liberalismo",
+      "lobby"
+    ],
+    "fuente_principal": "https://fundacionfaes.org",
+    "apartados": [
+      {
+        "id": "pod-0034-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0034-ap-00-it-00",
+            "apartado_id": "pod-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "FAES, think tank fundado en 1989 y refundado en 2002 bajo Aznar. Sede en Madrid. Vinculada históricamente al PP.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0034-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0034-ap-01-it-00",
+            "apartado_id": "pod-0034-ap-01",
+            "tipo": "contacto",
+            "titulo": "José María Aznar",
+            "contenido": "**Presidente de FAES** (nota +9/10) — Eje y figura de la fundación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aznar",
+              "nota-+9",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0034-ap-01-it-01",
+            "apartado_id": "pod-0034-ap-01",
+            "tipo": "contacto",
+            "titulo": "Partido Popular",
+            "contenido": "**Partido afín** (nota +6/10) — Usina ideológica del ala liberal-conservadora.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "pod-0034-ap-01-it-02",
+            "apartado_id": "pod-0034-ap-01",
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "**Think tank liberal afín** (nota +5/10) — Ecosistema liberal compartido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "frdelpino",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "pod-0034-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0034-ap-02-it-00",
+            "apartado_id": "pod-0034-ap-02",
+            "tipo": "documento",
+            "titulo": "FAES",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://fundacionfaes.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0035",
+    "slug": "real-instituto-elcano",
+    "nombre_completo": "Real Instituto Elcano",
+    "alias": "Instituto Elcano",
+    "cargo_actual": "Think tank de estudios internacionales y estratégicos",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Principal think tank español de relaciones internacionales y estudios estratégicos. Think tank de referencia para la política exterior, con patronato que reúne a grandes empresas (IBEX), exministros y la Casa Real como presidencia de honor.",
+    "tags": [
+      "think-tank",
+      "geopolitica",
+      "relaciones-internacionales"
+    ],
+    "fuente_principal": "https://www.realinstitutoelcano.org",
+    "apartados": [
+      {
+        "id": "pod-0035-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0035-ap-00-it-00",
+            "apartado_id": "pod-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundado en 2001. Think tank independiente de estudios internacionales. Su patronato reúne a grandes empresas españolas y exaltos cargos. Presidencia de honor de la Casa Real.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0035-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0035-ap-01-it-00",
+            "apartado_id": "pod-0035-ap-01",
+            "tipo": "contacto",
+            "titulo": "Grandes empresas IBEX",
+            "contenido": "**Patronos corporativos** (nota +6/10) — Santander, Telefónica, Iberdrola y otras financian y orientan el instituto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ibex35",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0035-ap-01-it-01",
+            "apartado_id": "pod-0035-ap-01",
+            "tipo": "contacto",
+            "titulo": "Ministerio de Exteriores",
+            "contenido": "**Interlocución institucional** (nota +5/10) — Referencia para la política exterior española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "exteriores",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0035-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0035-ap-02-it-00",
+            "apartado_id": "pod-0035-ap-02",
+            "tipo": "documento",
+            "titulo": "Real Instituto Elcano",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.realinstitutoelcano.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0036",
+    "slug": "pedro-jose-ramirez",
+    "nombre_completo": "Pedro José Ramírez Codina",
+    "alias": "Pedro J. Ramírez",
+    "cargo_actual": "Director de El Español",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista. Fundador y director de El Español (2015) y figura legendaria del periodismo español: dirigió Diario 16 y fundó El Mundo, que dirigió 25 años. Estilo combativo y de investigación; marcó hitos como el caso GAL o los GAL.",
+    "tags": [
+      "medio",
+      "periodista",
+      "digital",
+      "prensa"
+    ],
+    "fuente_principal": "https://www.elespanol.com",
+    "apartados": [
+      {
+        "id": "pod-0036-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0036-ap-00-it-00",
+            "apartado_id": "pod-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Logroño, 1952. Periodista. Una de las figuras más influyentes y longevas del periodismo español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0036-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0036-ap-01-it-00",
+            "apartado_id": "pod-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Diario 16 y El Mundo",
+            "contenido": "Director de Diario 16 (caso GAL) y fundador-director de El Mundo (1989-2014).",
+            "fecha": "1989-10-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0036-ap-01-it-01",
+            "apartado_id": "pod-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "El Español",
+            "contenido": "Funda El Español en 2015 tras su salida de El Mundo.",
+            "fecha": "2015-10-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0036-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0036-ap-02-it-00",
+            "apartado_id": "pod-0036-ap-02",
+            "tipo": "contacto",
+            "titulo": "Eduardo Inda",
+            "contenido": "**Director de OKDiario** (nota +4/10) — Antiguo subordinado en El Mundo; espacio editorial próximo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "inda",
+              "nota-+4",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0036-ap-02-it-01",
+            "apartado_id": "pod-0036-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -6/10) — El Español mantiene una línea crítica con el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota--6",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0036-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0036-ap-03-it-00",
+            "apartado_id": "pod-0036-ap-03",
+            "tipo": "documento",
+            "titulo": "El Español",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.elespanol.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0037",
+    "slug": "carlos-herrera",
+    "nombre_completo": "Carlos Herrera Crusset",
+    "alias": "Carlos Herrera",
+    "cargo_actual": "Director y presentador de Herrera en COPE",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista y comunicador. Dirige y presenta Herrera en COPE, el matinal de radio líder de audiencia. Una de las voces más influyentes del periodismo radiofónico, de tendencia conservadora.",
+    "tags": [
+      "medio",
+      "periodista",
+      "radio",
+      "cope",
+      "conservador"
+    ],
+    "fuente_principal": "https://www.cope.es",
+    "apartados": [
+      {
+        "id": "pod-0037-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0037-ap-00-it-00",
+            "apartado_id": "pod-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1957. Comunicador veterano. Herrera en COPE lidera la audiencia matinal radiofónica en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0037-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0037-ap-01-it-00",
+            "apartado_id": "pod-0037-ap-01",
+            "tipo": "contacto",
+            "titulo": "COPE / Conferencia Episcopal",
+            "contenido": "**Cadena propiedad de la Iglesia** (nota +6/10) — COPE pertenece a la Conferencia Episcopal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cope",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0037-ap-01-it-01",
+            "apartado_id": "pod-0037-ap-01",
+            "tipo": "contacto",
+            "titulo": "Carlos Alsina",
+            "contenido": "**Onda Cero** (nota -3/10) — Competidor directo por el liderazgo de la mañana radiofónica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "alsina",
+              "nota--3",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0037-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0037-ap-02-it-00",
+            "apartado_id": "pod-0037-ap-02",
+            "tipo": "documento",
+            "titulo": "COPE",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.cope.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0038",
+    "slug": "jose-felix-tezanos",
+    "nombre_completo": "José Félix Tezanos Tortajada",
+    "alias": "Tezanos",
+    "cargo_actual": "Presidente del CIS",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Sociólogo. Presidente del Centro de Investigaciones Sociológicas (CIS) desde 2018. Figura controvertida por la cercanía de sus encuestas al PSOE y los debates metodológicos sobre el organismo público demoscópico.",
+    "tags": [
+      "institucional",
+      "cis",
+      "demoscopia",
+      "psoe"
+    ],
+    "fuente_principal": "https://www.cis.es",
+    "apartados": [
+      {
+        "id": "pod-0038-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0038-ap-00-it-00",
+            "apartado_id": "pod-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Santander, 1946. Catedrático de Sociología. Histórico militante del PSOE. Preside el CIS desde 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0038-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0038-ap-01-it-00",
+            "apartado_id": "pod-0038-ap-01",
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Su partido** (nota +6/10) — Militante histórico; sus encuestas suelen favorecer al PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0038-ap-01-it-01",
+            "apartado_id": "pod-0038-ap-01",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +5/10) — El CIS bajo su dirección publica estimaciones favorables al Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0038-ap-02",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "pod-0038-ap-02-it-00",
+            "apartado_id": "pod-0038-ap-02",
+            "tipo": "evento",
+            "titulo": "Polémica metodológica",
+            "contenido": "Su cocina demoscópica y sus estimaciones, sistemáticamente favorables al PSOE, han sido cuestionadas por la oposición y parte del sector demoscópico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "metodologia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0038-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0038-ap-03-it-00",
+            "apartado_id": "pod-0038-ap-03",
+            "tipo": "documento",
+            "titulo": "CIS",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.cis.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0039",
+    "slug": "angel-gabilondo",
+    "nombre_completo": "Ángel Gabilondo Pujol",
+    "alias": "Gabilondo",
+    "cargo_actual": "Defensor del Pueblo",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Filósofo y político. Defensor del Pueblo desde 2021. Ex ministro de Educación con Zapatero y excandidato del PSOE a la Comunidad de Madrid. Voz institucional de garantía de derechos ante la administración.",
+    "tags": [
+      "institucional",
+      "defensor-pueblo",
+      "ex-politico",
+      "psoe"
+    ],
+    "fuente_principal": "https://www.defensordelpueblo.es",
+    "apartados": [
+      {
+        "id": "pod-0039-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0039-ap-00-it-00",
+            "apartado_id": "pod-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en San Sebastián, 1949. Catedrático de Filosofía y ex rector de la UAM. Ministro de Educación (2009-2011) y candidato del PSOE en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0039-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0039-ap-01-it-00",
+            "apartado_id": "pod-0039-ap-01",
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Partido de procedencia** (nota +5/10) — Su nombramiento como Defensor fue criticado por la oposición por afinidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0039-ap-01-it-01",
+            "apartado_id": "pod-0039-ap-01",
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de Madrid** (nota -4/10) — Le derrotó en las elecciones madrileñas de 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ayuso",
+              "nota--4",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0039-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0039-ap-02-it-00",
+            "apartado_id": "pod-0039-ap-02",
+            "tipo": "documento",
+            "titulo": "Defensor del Pueblo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.defensordelpueblo.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0040",
+    "slug": "juan-luis-cebrian",
+    "nombre_completo": "Juan Luis Cebrián Echarri",
+    "alias": "Cebrián",
+    "cargo_actual": "Periodista · cofundador y expresidente de PRISA",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista. Director fundador de El País (1976) y figura histórica del Grupo PRISA, que presidió durante décadas. Uno de los grandes poderes mediáticos de la democracia, hoy con influencia menguante tras su salida de PRISA.",
+    "tags": [
+      "medio",
+      "periodista",
+      "prisa",
+      "historico"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Juan_Luis_Cebri%C3%A1n",
+    "apartados": [
+      {
+        "id": "pod-0040-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0040-ap-00-it-00",
+            "apartado_id": "pod-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1944. Director fundador de El País (1976-1988) y luego consejero delegado y presidente de PRISA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0040-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0040-ap-01-it-00",
+            "apartado_id": "pod-0040-ap-01",
+            "tipo": "contacto",
+            "titulo": "Grupo PRISA",
+            "contenido": "**Grupo que presidió** (nota +3/10) — Figura histórica; perdió poder tras la reestructuración del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "prisa",
+              "nota-+3",
+              "neutral"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0040-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0040-ap-02-it-00",
+            "apartado_id": "pod-0040-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Juan_Luis_Cebri%C3%A1n",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0041",
+    "slug": "alicia-koplowitz",
+    "nombre_completo": "Alicia Koplowitz Romero de Juseu",
+    "alias": "Alicia Koplowitz",
+    "cargo_actual": "Inversora · marquesa de Bellavista",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Inversora y filántropa. Una de las mayores fortunas femeninas de España, gestiona su patrimonio vía Omega Capital con inversiones en cotizadas, arte e inmobiliario. Ex copropietaria de la constructora FCC.",
+    "tags": [
+      "empresa",
+      "inversora",
+      "no-ibex"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Alicia_Koplowitz",
+    "apartados": [
+      {
+        "id": "pod-0041-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0041-ap-00-it-00",
+            "apartado_id": "pod-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Madrid, 1952. Inversora vía Omega Capital. Coleccionista de arte de prestigio internacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0041-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0041-ap-01-it-00",
+            "apartado_id": "pod-0041-ap-01",
+            "tipo": "contacto",
+            "titulo": "Omega Capital",
+            "contenido": "**Su family office** (nota +9/10) — Vehículo de inversión en cotizadas, hedge funds e inmobiliario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "omega",
+              "nota-+9",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0041-ap-01-it-01",
+            "apartado_id": "pod-0041-ap-01",
+            "tipo": "contacto",
+            "titulo": "Esther Koplowitz",
+            "contenido": "**Hermana (FCC)** (nota +2/10) — Repartieron el imperio Koplowitz; relación distante.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nota-+2",
+              "neutral"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0041-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0041-ap-02-it-00",
+            "apartado_id": "pod-0041-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Alicia_Koplowitz",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0042",
+    "slug": "manuel-lao",
+    "nombre_completo": "Manuel Lao Hernández",
+    "alias": "Manuel Lao",
+    "cargo_actual": "Fundador de Cirsa · inversor",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario. Fundador del grupo de juego Cirsa, que vendió a Blackstone en 2018 por ~2.000 M€. Hoy gestiona su fortuna vía Nortia Capital, con participaciones en cotizadas españolas.",
+    "tags": [
+      "empresa",
+      "inversor",
+      "no-ibex",
+      "juego"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Manuel_Lao_Hern%C3%A1ndez",
+    "apartados": [
+      {
+        "id": "pod-0042-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0042-ap-00-it-00",
+            "apartado_id": "pod-0042-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Almería, 1944. Fundó Cirsa (juego y apuestas). Tras venderla a Blackstone, invierte vía Nortia Capital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0042-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0042-ap-01-it-00",
+            "apartado_id": "pod-0042-ap-01",
+            "tipo": "contacto",
+            "titulo": "Nortia Capital",
+            "contenido": "**Su family office** (nota +9/10) — Inversiones en cotizadas (Almirall, Logista, etc.).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nortia",
+              "nota-+9",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0042-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0042-ap-02-it-00",
+            "apartado_id": "pod-0042-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Manuel_Lao_Hern%C3%A1ndez",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0043",
+    "slug": "familia-andic",
+    "nombre_completo": "Familia Andic (Mango)",
+    "alias": "Familia Andic",
+    "cargo_actual": "Propietaria de Mango",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia catalana de origen turco propietaria de Mango, segunda mayor textil española tras Inditex. Tras el fallecimiento del fundador Isak Andic en diciembre de 2024, el control pasa a su hijo Jonathan Andic y al CEO Toni Ruiz.",
+    "tags": [
+      "empresa",
+      "textil",
+      "no-ibex",
+      "familia",
+      "cataluna"
+    ],
+    "fuente_principal": "https://www.mango.com",
+    "apartados": [
+      {
+        "id": "pod-0043-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0043-ap-00-it-00",
+            "apartado_id": "pod-0043-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Mango, fundada en 1984 por Isak Andic en Barcelona. Segunda textil española. Capital 100% familiar (no cotiza).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0043-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0043-ap-01-it-00",
+            "apartado_id": "pod-0043-ap-01",
+            "tipo": "evento",
+            "titulo": "Fallecimiento del fundador",
+            "contenido": "Isak Andic, fundador, falleció en un accidente de montaña en diciembre de 2024. Sucesión hacia su hijo Jonathan.",
+            "fecha": "2024-12-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sucesion"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0043-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0043-ap-02-it-00",
+            "apartado_id": "pod-0043-ap-02",
+            "tipo": "contacto",
+            "titulo": "Toni Ruiz",
+            "contenido": "**CEO de Mango** (nota +7/10) — Gestiona la compañía y la transición tras la muerte del fundador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "toni-ruiz",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0043-ap-02-it-01",
+            "apartado_id": "pod-0043-ap-02",
+            "tipo": "contacto",
+            "titulo": "Inditex",
+            "contenido": "**Competidor textil** (nota -3/10) — Rival directo en el sector moda español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "inditex",
+              "nota--3",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0043-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0043-ap-03-it-00",
+            "apartado_id": "pod-0043-ap-03",
+            "tipo": "documento",
+            "titulo": "Mango",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.mango.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0044",
+    "slug": "jose-pablo-lopez",
+    "nombre_completo": "José Pablo López Sánchez",
+    "alias": "José Pablo López",
+    "cargo_actual": "Presidente de RTVE",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Gestor audiovisual. Presidente de la Corporación RTVE desde 2024. Dirige la radiotelevisión pública española, cuya independencia y modelo de gobernanza es objeto de permanente disputa política.",
+    "tags": [
+      "medio",
+      "television",
+      "rtve",
+      "publico"
+    ],
+    "fuente_principal": "https://www.rtve.es",
+    "apartados": [
+      {
+        "id": "pod-0044-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0044-ap-00-it-00",
+            "apartado_id": "pod-0044-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Gestor con trayectoria en RTVE y en Telemadrid. Presidente de RTVE tras la renovación del consaejo de administración en 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0044-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0044-ap-01-it-00",
+            "apartado_id": "pod-0044-ap-01",
+            "tipo": "contacto",
+            "titulo": "Gobierno / Parlamento",
+            "contenido": "**Quien elige el consejo de RTVE** (nota +3/10) — La presidencia se decide por mayoría parlamentaria; tensión sobre la independencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nota-+3",
+              "neutral"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0044-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0044-ap-02-it-00",
+            "apartado_id": "pod-0044-ap-02",
+            "tipo": "documento",
+            "titulo": "RTVE",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.rtve.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0045",
+    "slug": "alfonso-guerra",
+    "nombre_completo": "Alfonso Guerra González",
+    "alias": "Alfonso Guerra",
+    "cargo_actual": "Exvicepresidente del Gobierno (PSOE) · histórico",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Político histórico del PSOE. Vicepresidente del Gobierno con Felipe González (1982-1991) y artífice de la organización del partido. Hoy voz crítica con la deriva del PSOE de Sánchez, especialmente con la amnistía.",
+    "tags": [
+      "ex-politico",
+      "psoe",
+      "historico"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Alfonso_Guerra",
+    "apartados": [
+      {
+        "id": "pod-0045-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0045-ap-00-it-00",
+            "apartado_id": "pod-0045-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Sevilla, 1940. Arquitecto del PSOE moderno junto a Felipe González. Vicepresidente del Gobierno 1982-1991.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0045-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0045-ap-01-it-00",
+            "apartado_id": "pod-0045-ap-01",
+            "tipo": "contacto",
+            "titulo": "Felipe González",
+            "contenido": "**Expresidente, su compañero** (nota +6/10) — Tándem histórico del PSOE; ambos críticos con Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "felipe-gonzalez",
+              "nota-+6",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0045-ap-01-it-01",
+            "apartado_id": "pod-0045-ap-01",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -6/10) — Crítico contundente con la amnistía y los pactos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota--6",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0045-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0045-ap-02-it-00",
+            "apartado_id": "pod-0045-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Alfonso_Guerra",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
+  },
+  {
+    "id": "pod-0046",
+    "slug": "ursula-von-der-leyen",
+    "nombre_completo": "Ursula von der Leyen",
+    "alias": "Von der Leyen",
+    "cargo_actual": "Presidenta de la Comisión Europea",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Política alemana del PPE. Presidenta de la Comisión Europea desde 2019, reelegida en 2024. Máxima autoridad ejecutiva de la UE; sus decisiones sobre fondos, regulación y geopolítica condicionan directamente a España.",
+    "tags": [
+      "union-europea",
+      "comision-europea",
+      "ppe",
+      "internacional"
+    ],
+    "fuente_principal": "https://commission.europa.eu",
+    "apartados": [
+      {
+        "id": "pod-0046-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0046-ap-00-it-00",
+            "apartado_id": "pod-0046-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Bruselas, 1958. Médico y política alemana (CDU/PPE). Presidenta de la Comisión Europea desde 2019.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0046-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0046-ap-01-it-00",
+            "apartado_id": "pod-0046-ap-01",
+            "tipo": "contacto",
+            "titulo": "Teresa Ribera",
+            "contenido": "**Vicepresidenta ejecutiva de la Comisión** (nota +5/10) — Comisaria española clave en su segundo mandato.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ribera",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0046-ap-01-it-01",
+            "apartado_id": "pod-0046-ap-01",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno de España** (nota +3/10) — Interlocución en el Consejo Europeo; alineamientos variables.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "nota-+3",
+              "neutral"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "pod-0046-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "pod-0046-ap-02-it-00",
+            "apartado_id": "pod-0046-ap-02",
+            "tipo": "documento",
+            "titulo": "Comisión Europea",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://commission.europa.eu",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:04:02.576186Z",
+    "updated_at": "2026-05-28T19:04:02.576186Z"
   }
 ]
 

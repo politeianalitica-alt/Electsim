@@ -66,6 +66,7 @@ SOURCES = {
     "poder": {
         "files": [
             REPO / "data" / "poder" / "figuras_clave.json",
+            REPO / "data" / "poder" / "figuras_clave_2.json",
         ],
         "out": VISUAL / "poder-fixture.ts",
         "fixture_name": "PODER_FIXTURE",
@@ -73,10 +74,14 @@ SOURCES = {
         "id_prefix": "pod",
         "header": (
             "// AUTO-GENERADO desde data/poder/*.json · ver bin/gen_subfixture.py\n"
-            "// Mapa de poder NO-electo: medios (directores, tertulianos),\n"
-            "// poder judicial (TS/CGPJ, TC, Fiscalía), reguladores (BdE, CNMC),\n"
-            "// grandes empresarios no-IBEX (Roig, Ortega Mera, Escotet),\n"
-            "// sindicatos (CCOO, UGT), Casa Real e Iglesia.\n"
+            "// Mapa de poder NO-electo (2 lotes):\n"
+            "//   · figuras_clave.json   · medios, poder judicial (TS/CGPJ, TC, Fiscalía),\n"
+            "//     reguladores (BdE, CNMC), empresarios no-IBEX (Roig, Ortega Mera,\n"
+            "//     Escotet), sindicatos (CCOO, UGT), Casa Real e Iglesia.\n"
+            "//   · figuras_clave_2.json · expresidentes (Aznar, Zapatero, F. González,\n"
+            "//     Rajoy), think tanks (FAES, R.I. Elcano), Pablo Iglesias, Borrell,\n"
+            "//     Calviño/BEI, prensa (Pedro J., Herrera, Cebrián), Tezanos/CIS,\n"
+            "//     Gabilondo, empresarios (Koplowitz, Lao, Mango), RTVE, Von der Leyen.\n"
             "// Re-generar: python3 bin/gen_subfixture.py --source poder\n"
         ),
     },
