@@ -63,6 +63,23 @@ SOURCES = {
             "// Re-generar: python3 bin/gen_subfixture.py --source diputaciones\n"
         ),
     },
+    "poder": {
+        "files": [
+            REPO / "data" / "poder" / "figuras_clave.json",
+        ],
+        "out": VISUAL / "poder-fixture.ts",
+        "fixture_name": "PODER_FIXTURE",
+        "resumen_name": "PODER_RESUMEN",
+        "id_prefix": "pod",
+        "header": (
+            "// AUTO-GENERADO desde data/poder/*.json · ver bin/gen_subfixture.py\n"
+            "// Mapa de poder NO-electo: medios (directores, tertulianos),\n"
+            "// poder judicial (TS/CGPJ, TC, Fiscalía), reguladores (BdE, CNMC),\n"
+            "// grandes empresarios no-IBEX (Roig, Ortega Mera, Escotet),\n"
+            "// sindicatos (CCOO, UGT), Casa Real e Iglesia.\n"
+            "// Re-generar: python3 bin/gen_subfixture.py --source poder\n"
+        ),
+    },
 }
 
 

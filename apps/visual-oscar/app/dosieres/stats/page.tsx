@@ -8,6 +8,7 @@ import { useApi } from '@/lib/useApi'
 import Skeleton from '@/components/Skeleton'
 import { IBEX35_FIXTURE, IBEX35_RESUMEN } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_FIXTURE, DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
+import { PODER_FIXTURE, PODER_RESUMEN } from '@/data/poder-fixture'
 import type { DossierResumen } from '@/data/dosieres-fixture'
 
 // Colores partido (alineados con el resto)
@@ -47,12 +48,13 @@ export default function StatsPage() {
   const apiDosieres: DossierResumen[] = Array.isArray(data) ? data : []
 
   // Unión de las 3 fuentes
-  const all = useMemo(() => [...apiDosieres, ...IBEX35_RESUMEN, ...DIPUTACIONES_RESUMEN], [apiDosieres])
+  const all = useMemo(() => [...apiDosieres, ...IBEX35_RESUMEN, ...DIPUTACIONES_RESUMEN, ...PODER_RESUMEN], [apiDosieres])
 
   // KPI 1 · totales por fuente
   const totalAPI = apiDosieres.length
   const totalIBEX = IBEX35_RESUMEN.length
   const totalDIP = DIPUTACIONES_RESUMEN.length
+  const totalPODER = PODER_RESUMEN.length
   const total = all.length
 
   // KPI 2 · distribución por partido (top 12)
@@ -97,7 +99,7 @@ export default function StatsPage() {
 
   // KPI 5 · top 10 con más relaciones (redes) — solo en seeds locales (tienen apartados completos)
   const topRedes = useMemo(() => {
-    const all_full = [...IBEX35_FIXTURE, ...DIPUTACIONES_FIXTURE]
+    const all_full = [...IBEX35_FIXTURE, ...DIPUTACIONES_FIXTURE, ...PODER_FIXTURE]
     const con_redes = all_full.map(d => {
       const redes = d.apartados.find(a => a.tipo === 'redes')
       return { slug: d.slug, nombre: d.nombre_completo, n: redes?.items.length || 0 }
@@ -107,7 +109,7 @@ export default function StatsPage() {
 
   // KPI 6 · top controversias (mismo: solo seeds)
   const topControversias = useMemo(() => {
-    const all_full = [...IBEX35_FIXTURE, ...DIPUTACIONES_FIXTURE]
+    const all_full = [...IBEX35_FIXTURE, ...DIPUTACIONES_FIXTURE, ...PODER_FIXTURE]
     const con_contro = all_full.map(d => {
       const c = d.apartados.find(a => a.tipo === 'controversias')
       return { slug: d.slug, nombre: d.nombre_completo, n: c?.items.length || 0 }
@@ -136,19 +138,20 @@ export default function StatsPage() {
             Stats
           </h1>
           <p style={{ fontSize: 13, color: '#6e6e73', margin: 0, maxWidth: 720, lineHeight: 1.5 }}>
-            Panorama del dataset combinando las 3 fuentes (políticos del backend +
-            IBEX 35 + Diputaciones). Composición por partido, densidad de apartados,
-            top conectados y top controversias.
+            Panorama del dataset combinando las 4 fuentes (políticos del backend +
+            IBEX 35 + Diputaciones + mapa de poder no-electo). Composición por partido,
+            densidad de apartados, top conectados y top controversias.
           </p>
         </header>
 
         {/* ═══ Big KPIs ═══ */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12, marginBottom: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 18 }}>
           <KpiCard label="Total dossieres" value={loading ? '…' : total} color="#1F4E8C" />
           <KpiCard label="Backend (políticos)" value={loading ? '…' : totalAPI} color="#7C3AED" />
           <KpiCard label="IBEX 35" value={totalIBEX} color="#B45309" />
           <KpiCard label="Diputaciones" value={totalDIP} color="#0F766E" />
-          <KpiCard label="Partidos representados" value={porPartido.length} color="#0EA5E9" />
+          <KpiCard label="Poder no-electo" value={totalPODER} color="#4338CA" />
+          <KpiCard label="Partidos" value={porPartido.length} color="#0EA5E9" />
         </div>
 
         {/* ═══ Distribución por partido ═══ */}

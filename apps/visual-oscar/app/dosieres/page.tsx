@@ -9,6 +9,7 @@ import EmptyState from '@/components/EmptyState'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import { IBEX35_RESUMEN } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
+import { PODER_RESUMEN } from '@/data/poder-fixture'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -45,7 +46,8 @@ const PARTIDO_COLOR: Record<string, string> = {
 // ── Clasificación por tipo de perfil ─────────────────────────────────────────
 type TipoPerfil =
   | 'politico' | 'empresario' | 'asesor' | 'mediatico'
-  | 'lobbista' | 'casa-real' | 'sindicalista' | 'caso' | 'otro'
+  | 'lobbista' | 'judicial' | 'institucional' | 'casa-real'
+  | 'sindicalista' | 'caso' | 'otro'
 
 const TIPO_LABEL: Record<TipoPerfil, string> = {
   'politico': 'Políticos',
@@ -53,6 +55,8 @@ const TIPO_LABEL: Record<TipoPerfil, string> = {
   'asesor': 'Asesores',
   'mediatico': 'Mediáticos',
   'lobbista': 'Lobby / Patronales',
+  'judicial': 'Poder judicial',
+  'institucional': 'Reguladores / Estado',
   'casa-real': 'Casa Real',
   'sindicalista': 'Sindicatos',
   'caso': 'Casos judiciales',
@@ -65,6 +69,8 @@ const TIPO_COLOR: Record<TipoPerfil, string> = {
   'asesor': '#7A2980',
   'mediatico': '#0EA5E9',
   'lobbista': '#0F766E',
+  'judicial': '#4338CA',
+  'institucional': '#0D9488',
   'casa-real': '#9F1239',
   'sindicalista': '#16A34A',
   'caso': '#991B1B',
@@ -74,18 +80,31 @@ const TIPO_COLOR: Record<TipoPerfil, string> = {
 // Inferir el tipo de perfil de un dossier basándose en sus tags + partido.
 function inferirTipo(d: { tags?: string[]; partido?: string | null }): TipoPerfil {
   const tags = (d.tags || []).map(t => t.toLowerCase())
-  if (tags.some(t => t.startsWith('judicial') || t === 'macrocausa' || t.startsWith('caso-'))) return 'caso'
+  // Casos judiciales (issue): macrocausa o slug caso-* — antes que personas
+  if (tags.includes('macrocausa') || tags.some(t => t.startsWith('caso-'))) return 'caso'
+  // Personas del poder judicial (jueces, fiscales, magistrados)
+  if (
+    tags.includes('poder-judicial') || tags.includes('fiscalia') ||
+    tags.includes('tribunal-constitucional') || tags.includes('juez-instruccion') ||
+    tags.includes('ts') || tags.includes('cgpj') || tags.includes('judicial')
+  ) return 'judicial'
   if (tags.includes('casa-real') || tags.includes('monarquia')) return 'casa-real'
   if (tags.includes('sindical') || tags.includes('sindicato')) return 'sindicalista'
   if (tags.includes('patronal') || tags.includes('lobby') || tags.includes('think-tank')) return 'lobbista'
   if (tags.includes('medio') || tags.includes('periodista') || tags.includes('tertuliano')) return 'mediatico'
-  if (tags.includes('asesor') || tags.includes('consultor')) return 'asesor'
+  if (tags.includes('asesor') || tags.includes('consultor') || tags.includes('comunicacion')) return 'asesor'
+  // Reguladores / instituciones del Estado / Iglesia
+  if (
+    tags.includes('regulador') || tags.includes('banco-de-espana') || tags.includes('cnmc') ||
+    tags.includes('iglesia') || tags.includes('religion') ||
+    tags.includes('congreso') || tags.includes('senado') || tags.includes('institucion')
+  ) return 'institucional'
   if (
     tags.includes('empresa') || tags.includes('ibex35') ||
-    tags.includes('directivo') || tags.includes('ceo') ||
+    tags.includes('directivo') || tags.includes('ceo') || tags.includes('empresario') ||
     tags.includes('fundador') || tags.includes('accionista-control') ||
     tags.includes('holding-familiar') || tags.includes('fondo') ||
-    tags.includes('fondo-soberano') || tags.some(t => t.startsWith('familia'))
+    tags.includes('fondo-soberano') || tags.includes('inversora') || tags.some(t => t.startsWith('familia'))
   ) return 'empresario'
   if (d.partido) return 'politico'
   if (tags.includes('politico') || tags.some(t =>
@@ -168,6 +187,7 @@ export default function DosieresPage() {
     ...apiDosieres,
     ...IBEX35_RESUMEN,
     ...DIPUTACIONES_RESUMEN,
+    ...PODER_RESUMEN,
   ], [apiDosieres])
 
   // Enriquecer cada dossier con tipo + subcat inferidos (memoizado).
@@ -470,7 +490,7 @@ export default function DosieresPage() {
 
  <p style={{ marginTop: 30, textAlign: 'center', fontSize: 11, color: '#86868b' }}>
           Backend: <code>/api/dosieres</code> · {updatedAt ? `actualizado ${new Date(updatedAt).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}` : 'cargando...'}
-          {' · '}<span style={{ color: '#525258' }}>{IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones (seed local)</span>
+          {' · '}<span style={{ color: '#525258' }}>{IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder (seed local)</span>
  </p>
  </main>
  </div>

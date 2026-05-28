@@ -12,6 +12,7 @@ import { findDossier } from '@/lib/dosieres-link'
 // el backend; se mergean en cliente · misma estética que el resto).
 import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
+import { PODER_FIXTURE } from '@/data/poder-fixture'
 // Overlay de relaciones políticas estructurales (Fase B). Aplica a los
 // ~2.500 dossieres del fixture sin apartado redes propio.
 import REDES_OVERLAY from '@/data/redes-overlay.json'
@@ -110,6 +111,7 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
   const localDossier = !apiDossier
     ? (IBEX35_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
       ?? (DIPUTACIONES_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? (PODER_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
       ?? null
     : null
 
