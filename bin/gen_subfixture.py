@@ -63,6 +63,25 @@ SOURCES = {
             "// Re-generar: python3 bin/gen_subfixture.py --source diputaciones\n"
         ),
     },
+    "congreso": {
+        "files": [
+            REPO / "data" / "congreso" / "diputados.json",
+        ],
+        "out": VISUAL / "congreso-fixture.ts",
+        "fixture_name": "CONGRESO_FIXTURE",
+        "resumen_name": "CONGRESO_RESUMEN",
+        "id_prefix": "cong",
+        "header": (
+            "// AUTO-GENERADO desde data/congreso/diputados.json · ver bin/gen_congreso.py\n"
+            "// Los ~350 diputados EN ACTIVO del Congreso (XV Legislatura) con datos\n"
+            "// OFICIALES y abiertos del Congreso: biografía de la ficha oficial,\n"
+            "// circunscripción, grupo, fechas y declaración de intereses económicos\n"
+            "// (actividades, fundaciones, donaciones) con su fecha de registro.\n"
+            "// La declaración de bienes y rentas se referencia con fecha + enlace oficial\n"
+            "// (los importes los publica el Congreso en el BOCG · no se inventan cifras).\n"
+            "// Re-generar: python3 bin/gen_congreso.py && python3 bin/gen_subfixture.py --source congreso\n"
+        ),
+    },
     "poder": {
         "files": [
             REPO / "data" / "poder" / "figuras_clave.json",

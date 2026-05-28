@@ -11,6 +11,7 @@ import { findDossier } from '@/lib/dosieres-link'
 // Fixtures locales para los seeds IBEX 35 + Diputaciones (no están en
 // el backend; se mergean en cliente · misma estética que el resto).
 import { getDossierBySlug } from '@/data/dosieres-fixture'
+import { getCONGBySlug } from '@/data/congreso-fixture'
 import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
 import { PODER_FIXTURE } from '@/data/poder-fixture'
@@ -113,6 +114,7 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
     ? (IBEX35_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
       ?? (DIPUTACIONES_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
       ?? (PODER_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? (getCONGBySlug(params.slug) as DossierCompleto | null)
       ?? (getDossierBySlug(params.slug) as DossierCompleto | null)
       ?? null
     : null

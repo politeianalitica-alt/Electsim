@@ -5,6 +5,7 @@ import {
   DOSIERES_RESUMEN,
   getDossierBySlug,
 } from '@/data/dosieres-fixture'
+import { getCONGBySlug } from '@/data/congreso-fixture'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -69,8 +70,8 @@ export async function GET(req: NextRequest, { params }: { params: { path?: strin
     // Devolver array DIRECTO · no envolver con withMeta (rompe arrays)
     return NextResponse.json(filtered)
   }
-  // Detalle por slug
-  const dossier = getDossierBySlug(subpath)
+  // Detalle por slug · diputado oficial (Congreso) prevalece sobre la ficha genérica
+  const dossier = getCONGBySlug(subpath) ?? getDossierBySlug(subpath)
   if (!dossier) {
     return NextResponse.json(
       withMeta({ error: 'not_found', slug: subpath }, 'mock', {

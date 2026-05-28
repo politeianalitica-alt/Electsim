@@ -8,6 +8,7 @@ import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import { DOSIERES_RESUMEN } from '@/data/dosieres-fixture'
+import { CONGRESO_RESUMEN } from '@/data/congreso-fixture'
 import { IBEX35_RESUMEN } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
 import { PODER_RESUMEN } from '@/data/poder-fixture'
@@ -200,10 +201,12 @@ export default function DosieresPage() {
   const dosieres = useMemo(() => {
     const bySlug = new Map<string, DossierResumen>()
     for (const d of DOSIERES_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of apiDosieres) bySlug.set(d.slug, d) // backend (si vive) sobre fixture genérico
+    // Fuentes curadas prevalecen sobre la ficha genérica (mismo slug):
+    for (const d of CONGRESO_RESUMEN) bySlug.set(d.slug, d) // diputados con datos oficiales
     for (const d of IBEX35_RESUMEN) bySlug.set(d.slug, d)
     for (const d of DIPUTACIONES_RESUMEN) bySlug.set(d.slug, d)
     for (const d of PODER_RESUMEN) bySlug.set(d.slug, d)
-    for (const d of apiDosieres) bySlug.set(d.slug, d)
     return [...bySlug.values()]
   }, [apiDosieres])
 
