@@ -76,6 +76,14 @@
             "titulo": "Sucesión",
             "contenido": "En abril de 2022 Marta Ortega, hija del fundador, asume la presidencia no ejecutiva. Óscar García Maceiras es nombrado CEO.",
             "fecha": "2022-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -98,6 +106,15 @@
             "contenido": "Tributa principalmente en España. La compañía suele defender públicamente su contribución fiscal en el país tras polémicas sobre estructura holandesa de royalties resueltas con Hacienda.",
             "tags": [
               "fiscalidad"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -271,6 +288,14 @@
             "titulo": "Expansión internacional",
             "contenido": "Adquisición de ScottishPower (2007) y Energy East/Avangrid (2008-2015) consolidan el carácter global. Liderazgo en eólica offshore.",
             "fecha": "2007-04-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -293,6 +318,15 @@
             "tags": [
               "fiscalidad",
               "politica"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -473,6 +507,14 @@
             "titulo": "Compra de Banco Popular",
             "contenido": "El 7 de junio de 2017 Santander adquiere Banco Popular por 1€ tras resolución de la JUR (Mecanismo Único de Resolución), evitando rescate público.",
             "fecha": "2017-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -495,6 +537,15 @@
             "contenido": "Apuesta por la plataforma OnePay/Openbank y la transformación a banco digital con servicios pan-europeos. Marca PagoNxt para pagos B2B.",
             "tags": [
               "digital"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -676,6 +727,14 @@
               "fusiones",
               "sabadell"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -697,6 +756,15 @@
             "contenido": "Posición pública contraria al gravamen extraordinario de 2022, con recurso judicial.",
             "tags": [
               "fiscalidad"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -851,6 +919,14 @@
             "titulo": "Fusión Bankia",
             "contenido": "Marzo 2021 se consuma la fusión por absorción de Bankia, con Goirigolzarri (ex presidente de Bankia) asumiendo la presidencia de CaixaBank y Gonzalo Gortázar continuando como CEO.",
             "fecha": "2021-03-26"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -872,6 +948,15 @@
             "contenido": "Mantiene apuesta por red física como diferencial competitivo en España (mayor red del país) frente a competidores 100% digitales.",
             "tags": [
               "estrategia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -1061,6 +1146,14 @@
               "politica",
               "sepi"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -1083,6 +1176,15 @@
             "contenido": "Plan de apagado total del cobre completado en abril 2024 en España, primer país europeo en culminarlo.",
             "tags": [
               "red-fija"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -1257,6 +1359,14 @@
             "tags": [
               "transicion"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -1279,6 +1389,15 @@
             "contenido": "Apuesta corporativa por combustibles renovables (HVO, e-fuels) frente a la electrificación total del transporte. Choque con políticas UE/Gobierno.",
             "tags": [
               "biocombustibles"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -1440,6 +1559,14 @@
             "titulo": "Adquisición Luton",
             "contenido": "Aena Internacional gestiona el aeropuerto de Londres-Luton tras adquirir el 51% en 2013.",
             "fecha": "2013-11-27"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -1463,6 +1590,15 @@
             "tags": [
               "elprat",
               "politica"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -1628,6 +1764,14 @@
             "tags": [
               "transicion"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -1649,6 +1793,15 @@
             "contenido": "Defensa pública del modelo marginalista. Bogas ha mostrado posiciones más conciliadoras con el Gobierno que Sánchez Galán (Iberdrola).",
             "tags": [
               "mercado"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -1808,6 +1961,14 @@
             "titulo": "Rebranding Naturgy",
             "contenido": "En junio 2018 Gas Natural Fenosa pasa a llamarse Naturgy, con renovación del consejo y Reynés como presidente ejecutivo.",
             "fecha": "2018-06-26"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -1832,6 +1993,15 @@
             "tags": [
               "geminis",
               "escision"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -2001,6 +2171,14 @@
             "tags": [
               "nasdaq"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -2023,6 +2201,15 @@
             "contenido": "Modelo de negocio centrado en concesiones de larga duración (40-99 años) en autopistas, sin riesgo de tráfico en muchos casos (peajes en sombra).",
             "tags": [
               "modelo-negocio"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -2187,6 +2374,14 @@
             "titulo": "Impacto pandemia",
             "contenido": "Caída de ingresos del 60% en 2020. Recuperación gradual hasta superar niveles 2019 en 2023.",
             "fecha": "2020-04-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -2200,6 +2395,15 @@
             "contenido": "Amadeus se posiciona como infraestructura crítica europea frente a Sabre (EE.UU.) y Travelport. Lobby europeo en regulación de PNR y datos.",
             "tags": [
               "soberania"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -2347,6 +2551,14 @@
             "titulo": "Cambio estratégico",
             "contenido": "Tras subida de tipos y desaceleración M&A, en 2023 entra Marco Patuano (ex Telecom Italia, propuesto por GIC y Edizione) como CEO. Pivot a desinversiones y desapalancamiento.",
             "fecha": "2023-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -2360,6 +2572,15 @@
             "contenido": "Defensa del modelo TowerCo independiente frente a la concentración de redes en operadores. Lobby ante reguladores europeos.",
             "tags": [
               "modelo"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -2510,6 +2731,14 @@
             "tags": [
               "iberdrola"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -2523,6 +2752,15 @@
             "contenido": "ACS pivota progresivamente hacia concesiones (autopistas, energía, infra social) en EE.UU. y Australia, reduciendo peso de obra pública española.",
             "tags": [
               "estrategia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -2713,6 +2951,14 @@
               "opa",
               "bbva"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -2736,6 +2982,15 @@
             "tags": [
               "pymes",
               "concentracion"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -2895,6 +3150,14 @@
             "titulo": "Relevo en CEO",
             "contenido": "Tras 18 años como CEO, María Dolores Dancausa pasa a la presidencia (cargo no ejecutivo) en 2024. Gloria Ortiz asume el CEO.",
             "fecha": "2024-03-21"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -2908,6 +3171,15 @@
             "contenido": "Bankinter se benefició especialmente del ciclo de subidas BCE 2022-2023, máximos históricos de RoE.",
             "tags": [
               "tipos"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -3054,6 +3326,14 @@
             "tags": [
               "usa"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -3067,6 +3347,15 @@
             "contenido": "Compromisos de no aseguramiento de nuevos proyectos de carbón a partir de 2030. Apuesta por seguros climáticos.",
             "tags": [
               "esg"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -3232,6 +3521,14 @@
               "psoe",
               "politica"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -3253,6 +3550,15 @@
             "contenido": "Redeia tiene rol clave en planificación de la red para integración masiva de renovables y H2.",
             "tags": [
               "transicion"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -3412,6 +3718,14 @@
               "geopolitica",
               "ucrania"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -3434,6 +3748,15 @@
             "contenido": "Crítica con la rebaja de retribución que la CNMC y los Marcos Regulatorios 2021-2026 han aplicado al transporte.",
             "tags": [
               "regulacion"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -3590,6 +3913,14 @@
             "tags": [
               "acciona-energia"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -3604,6 +3935,15 @@
             "tags": [
               "esg",
               "verde"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -3747,6 +4087,14 @@
             "titulo": "OPV",
             "contenido": "Julio 2021. Una de las mayores OPVs verdes europeas del año.",
             "fecha": "2021-07-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -3760,6 +4108,15 @@
             "contenido": "Único actor del IBEX cuya generación es exclusivamente renovable. Discurso ESG fuerte.",
             "tags": [
               "esg"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -3909,6 +4266,14 @@
             "titulo": "OPV",
             "contenido": "Logista vuelve a cotizar en 2014 tras la operación de Imperial Brands.",
             "fecha": "2014-07-14"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -3922,6 +4287,15 @@
             "contenido": "Logista no fabrica tabaco pero distribuye. Posicionada en el lobby sobre impuestos especiales al tabaco.",
             "tags": [
               "fiscalidad"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -4079,6 +4453,14 @@
             "tags": [
               "bbva"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -4093,6 +4475,15 @@
             "tags": [
               "socimi",
               "fiscalidad"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -4221,6 +4612,14 @@
             "titulo": "Reestructuración 2014",
             "contenido": "Tras quita de >2.000 M€ y ampliación capital, Villar Mir/Grupo Marán salen y entran Qatar Investment Authority y otros como referencia.",
             "fecha": "2014-06-09"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -4234,6 +4633,15 @@
             "contenido": "Apuesta exclusiva por oficinas prime (Grade A) en CBD. No diversifica a logística ni retail.",
             "tags": [
               "estrategia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -4356,6 +4764,14 @@
             "titulo": "Fusión Arcelor-Mittal",
             "contenido": "En 2006 Lakshmi Mittal lanzó OPA hostil sobre Arcelor (que incluía Aceralia España). Operación cerrada con creación de ArcelorMittal.",
             "fecha": "2006-06-25"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -4370,6 +4786,15 @@
             "tags": [
               "descarbonizacion",
               "perte"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -4516,6 +4941,14 @@
             "tags": [
               "air-europa"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -4538,6 +4971,15 @@
             "contenido": "Compromiso con uso de combustibles sostenibles (SAF). Inversión en producción propia (proyecto Velocys).",
             "tags": [
               "saf"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -4697,6 +5139,14 @@
               "brookfield",
               "opa"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -4711,6 +5161,15 @@
             "tags": [
               "plasma",
               "ue"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -4892,6 +5351,14 @@
             "tags": [
               "escribano"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -4915,6 +5382,15 @@
             "tags": [
               "fcas",
               "eurofighter"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -5063,6 +5539,14 @@
             "titulo": "Compra Haynes",
             "contenido": "En 2024 Acerinox compra Haynes International (aleaciones de alta especialidad) por ~800 M$.",
             "fecha": "2024-02-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -5076,6 +5560,15 @@
             "contenido": "Cierre de la planta de Malasia (Bahru) en 2022 por inviabilidad. Choque sindical.",
             "tags": [
               "malasia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -5214,6 +5707,14 @@
             "tags": [
               "panama"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -5227,6 +5728,15 @@
             "contenido": "Pivote estratégico a concesiones internacionales (Chile, Colombia, Italia, Irlanda) con flujos predecibles.",
             "tags": [
               "concesiones"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -5348,6 +5858,14 @@
             "titulo": "Fusión Zodiac",
             "contenido": "Fluidra y Zodiac (Rhône Capital) se fusionan en 2018, creando líder global.",
             "fecha": "2018-07-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -5369,6 +5887,15 @@
             "contenido": "Estrategia de expansión USA vía Zodiac Pool Systems (50% del negocio post-fusión).",
             "tags": [
               "usa"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -5531,6 +6058,14 @@
               "moderna",
               "covid"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -5545,6 +6080,15 @@
             "tags": [
               "cdmo",
               "granada"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -5677,6 +6221,14 @@
             "titulo": "Burbuja renovables 2020-2021",
             "contenido": "Cotización multiplicó por 10 en 2020. Cayó 75% entre 2021 y 2024 con la subida de tipos.",
             "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -5698,6 +6250,15 @@
             "contenido": "Cartera ~9 GW en distintos estados de desarrollo. Plan ambicioso de monetización.",
             "tags": [
               "cartera"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -5856,6 +6417,14 @@
               "gobernanza",
               "medel"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -5869,6 +6438,15 @@
             "contenido": "Modelo de banca regional con fuerte arraigo Andalucía-Asturias. Defensa de presencia rural.",
             "tags": [
               "regional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]
@@ -6001,6 +6579,14 @@
             "tags": [
               "opv"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "tags": [
+              "pertenencia-ibex35"
+            ]
           }
         ]
       },
@@ -6014,6 +6600,15 @@
             "contenido": "Apuesta por moda alta y perfumería selectiva. Modelo de marcas mantenidas (no dilución).",
             "tags": [
               "luxury"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
             ]
           }
         ]

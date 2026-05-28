@@ -60,6 +60,15 @@
             "titulo": "Mayoría PP",
             "contenido": "PP recuperó la presidencia tras las municipales 2019 y consolidada en 2023. Antes de 2019 estuvo en manos del PSOE.",
             "fecha": "2019-07-04"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -79,6 +88,15 @@
             "tags": [
               "agua",
               "agricultura"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -191,6 +209,15 @@
             "titulo": "Alternancia 2023",
             "contenido": "PP gana la presidencia en 2023 tras 8 años de PSOE. Refleja la ola PP-Vox en Andalucía.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -204,6 +231,15 @@
             "contenido": "Áreas con peso: turismo (Cádiz capital, Costa Luz), gestión agua, carreteras, política social.",
             "tags": [
               "competencias"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -306,6 +342,15 @@
             "titulo": "Cambio 2023",
             "contenido": "PP retoma la diputación tras 8 años de PSOE.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -343,6 +388,23 @@
             "tipo": "documento",
             "titulo": "Diputación de Córdoba",
             "fuente_url": "https://www.dipucordoba.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -397,6 +459,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -430,6 +509,23 @@
             "tipo": "documento",
             "titulo": "Diputación de Granada",
             "fuente_url": "https://www.dipgra.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -487,6 +583,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -519,6 +632,23 @@
             "tipo": "documento",
             "titulo": "Diputación de Huelva",
             "fuente_url": "https://www.diphuelva.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -585,6 +715,15 @@
             "titulo": "Resistencia PSOE",
             "contenido": "Jaén y Sevilla resistieron la ola PP 2023 en Andalucía. Reyes referente PSOE provincial.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -598,6 +737,15 @@
             "contenido": "Lobby permanente del olivar y aceite de oliva. Jaén capital mundial del aceite.",
             "tags": [
               "olivar"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -693,6 +841,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "posiciones",
         "orden": 2,
         "items": [
@@ -703,6 +868,15 @@
             "tags": [
               "turismo",
               "tech"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -807,6 +981,15 @@
             "titulo": "PSOE retiene Sevilla",
             "continuo": "Sevilla y Jaén las dos diputaciones andaluzas mantenidas por PSOE en 2023.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -843,6 +1026,23 @@
             "tipo": "documento",
             "titulo": "Diputación de Sevilla",
             "fuente_url": "https://www.dipusevilla.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -900,6 +1100,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -932,6 +1149,23 @@
             "tipo": "documento",
             "titulo": "DPHuesca",
             "fuente_url": "https://www.dphuesca.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -989,6 +1223,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "posiciones",
         "orden": 2,
         "items": [
@@ -998,6 +1249,15 @@
             "contenido": "Contexto político marcado por Teruel Existe (España Vaciada). Diputación frente al partido provincial.",
             "tags": [
               "teruel-existe"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -1102,6 +1362,15 @@
             "titulo": "PSOE retiene Zaragoza",
             "contenido": "Una de las pocas diputaciones aragonesas mantenidas PSOE en 2023.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -1139,6 +1408,23 @@
             "tipo": "documento",
             "titulo": "DPZ",
             "fuente_url": "https://www.dpz.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1196,6 +1482,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1228,6 +1531,23 @@
             "tipo": "documento",
             "titulo": "Diputación de Ávila",
             "fuente_url": "https://www.diputacionavila.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1285,6 +1605,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1308,6 +1645,23 @@
             "tipo": "documento",
             "titulo": "Diputación de Burgos",
             "fuente_url": "https://www.diputaciondeburgos.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1366,6 +1720,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1398,6 +1769,23 @@
             "tipo": "documento",
             "titulo": "DipuLeón",
             "fuente_url": "https://www.dipuleon.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1455,6 +1843,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1478,6 +1883,23 @@
             "tipo": "documento",
             "titulo": "DipuPalencia",
             "fuente_url": "https://www.diputaciondepalencia.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1535,6 +1957,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1568,6 +2007,23 @@
             "tipo": "documento",
             "titulo": "DipuSalamanca",
             "fuente_url": "https://www.lasalina.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1625,6 +2081,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1648,6 +2121,23 @@
             "tipo": "documento",
             "titulo": "DipuSegovia",
             "fuente_url": "https://www.dipsegovia.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1705,6 +2195,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "posiciones",
         "orden": 2,
         "items": [
@@ -1714,6 +2221,15 @@
             "contenido": "Soria ¡Ya! (parte de la España Vaciada) presencia clave.",
             "tags": [
               "espana-vaciada"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -1809,6 +2325,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1832,6 +2365,23 @@
             "tipo": "documento",
             "titulo": "DipuValladolid",
             "fuente_url": "https://www.diputaciondevalladolid.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1889,6 +2439,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -1921,6 +2488,23 @@
             "tipo": "documento",
             "titulo": "DipuZamora",
             "fuente_url": "https://www.diputaciondezamora.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -1979,6 +2563,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2003,6 +2604,23 @@
             "tipo": "documento",
             "titulo": "DipuAlba",
             "fuente_url": "https://www.dipualba.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2060,6 +2678,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2084,6 +2719,23 @@
             "tipo": "documento",
             "titulo": "DipuCR",
             "fuente_url": "https://www.dipucr.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2141,6 +2793,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2173,6 +2842,23 @@
             "tipo": "documento",
             "titulo": "DipuCuenca",
             "fuente_url": "https://www.dipucuenca.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2230,6 +2916,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2253,6 +2956,23 @@
             "tipo": "documento",
             "titulo": "DipuGuada",
             "fuente_url": "https://www.dguadalajara.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2310,6 +3030,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2334,6 +3071,23 @@
             "tipo": "documento",
             "titulo": "DipuToledo",
             "fuente_url": "https://www.diputoledo.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2400,6 +3154,15 @@
             "titulo": "Alianza PSC-ERC",
             "contenido": "Pacto PSC con ERC tras municipales 2023. PSC presidencia.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -2413,6 +3176,15 @@
             "contenido": "Diputación con mayor capacidad económica y servicios técnicos a municipios; modelo de referencia europeo.",
             "tags": [
               "modelo-diba"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -2520,6 +3292,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2553,6 +3342,23 @@
             "tipo": "documento",
             "titulo": "DDGI",
             "fuente_url": "https://www.ddgi.cat"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2610,6 +3416,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2633,6 +3456,23 @@
             "tipo": "documento",
             "titulo": "DipuLleida",
             "fuente_url": "https://www.diputaciolleida.cat"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2690,6 +3530,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2723,6 +3580,23 @@
             "tipo": "documento",
             "titulo": "Dipta",
             "fuente_url": "https://www.dipta.cat"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2781,6 +3655,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2813,6 +3704,23 @@
             "tipo": "documento",
             "titulo": "DipuAlicante",
             "fuente_url": "https://www.diputacionalicante.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2870,6 +3778,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -2902,6 +3827,23 @@
             "tipo": "documento",
             "titulo": "DipCas",
             "fuente_url": "https://www.dipcas.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -2970,6 +3912,15 @@
             "tags": [
               "dana"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -2998,6 +3949,23 @@
             "tipo": "documento",
             "titulo": "Dival",
             "fuente_url": "https://www.dival.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3056,6 +4024,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -3089,6 +4074,23 @@
             "tipo": "documento",
             "titulo": "Diputación Badajoz",
             "fuente_url": "https://www.dip-badajoz.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3146,6 +4148,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -3169,6 +4188,23 @@
             "tipo": "documento",
             "titulo": "Diputación Cáceres",
             "fuente_url": "https://www.dip-caceres.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3227,6 +4263,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -3261,6 +4314,23 @@
             "tipo": "documento",
             "titulo": "Deputación Coruña",
             "fuente_url": "https://www.dacoruna.gal"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3319,6 +4389,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -3352,6 +4439,23 @@
             "tipo": "documento",
             "titulo": "Deputación Lugo",
             "fuente_url": "https://www.deputacionlugo.gal"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3420,6 +4524,15 @@
             "tags": [
               "baltar"
             ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -3470,6 +4583,23 @@
             "tipo": "documento",
             "titulo": "Deputación Ourense",
             "fuente_url": "https://www.depourense.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3527,6 +4657,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -3559,6 +4706,23 @@
             "tipo": "documento",
             "titulo": "Deputación Pontevedra",
             "fuente_url": "https://www.depo.gal"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }
@@ -3618,6 +4782,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "posiciones",
         "orden": 2,
         "items": [
@@ -3635,6 +4816,15 @@
             "contenido": "Polo industrial automoción (Mercedes Vitoria, Michelin).",
             "tags": [
               "industria"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -3740,6 +4930,15 @@
             "titulo": "Relevo Rementeria → Etxanobe",
             "contenido": "Etxanobe sucede a Rementeria (PNV) tras municipales 2023.",
             "fecha": "2023-07-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
           }
         ]
       },
@@ -3753,6 +4952,15 @@
             "contenido": "Eje Bilbao, Mercabilbao, Petronor (Repsol), polo siderúrgico tradicional.",
             "tags": [
               "industria"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
             ]
           }
         ]
@@ -3849,6 +5057,23 @@
         ]
       },
       {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "tags": [
+              "historia-institucional"
+            ],
+            "fecha": "1812-03-19"
+          }
+        ]
+      },
+      {
         "tipo": "redes",
         "orden": 3,
         "items": [
@@ -3882,6 +5107,23 @@
             "tipo": "documento",
             "titulo": "Gipuzkoa",
             "fuente_url": "https://www.gipuzkoa.eus"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ]
           }
         ]
       }

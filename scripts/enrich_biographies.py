@@ -129,6 +129,140 @@ PERFIL_DIRECTIVO_IBEX = {
     "tags": ["perfil-ejecutivo"],
 }
 
+# ─── Items adicionales: trayectoria histórica + posiciones ─────────────
+
+HITO_DIPUTACION = {
+    "tipo": "evento",
+    "titulo": "Origen y marco legal",
+    "contenido": (
+        "Las diputaciones provinciales tienen su origen en la "
+        "Constitución de Cádiz de 1812 y se consolidan tras la Ley "
+        "Provincial de 1845. El marco actual lo fija la Ley 7/1985 "
+        "Reguladora de las Bases del Régimen Local (LBRL), modificada "
+        "por la Ley 27/2013 de Racionalización y Sostenibilidad de la "
+        "Administración Local (LRSAL). En las CCAA uniprovinciales "
+        "(Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la "
+        "diputación está integrada en la propia comunidad autónoma. "
+        "En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, "
+        "Gipuzkoa) con régimen propio del Concierto Económico."
+    ),
+    "tags": ["historia-institucional"],
+    "fecha": "1812-03-19",
+}
+
+POSICION_DIPUTACION = {
+    "tipo": "dato",
+    "titulo": "Debate sobre el modelo provincial",
+    "contenido": (
+        "Las diputaciones provinciales son objeto de debate político "
+        "recurrente: desde Podemos, Sumar y partes de ERC y Junts se "
+        "ha defendido su supresión como nivel administrativo redundante "
+        "que generaría ahorros. Desde PP, PSOE y partidos territoriales "
+        "se defienden como prestadoras de servicios irrenunciables a "
+        "los municipios pequeños y como motor del desarrollo rural. La "
+        "Ley 27/2013 (LRSAL) reforzó sus competencias para municipios "
+        "<20.000 hab. y limitó su capacidad de gasto."
+    ),
+    "tags": ["debate-supresion", "modelo-territorial"],
+}
+
+POSICION_PRESIDENTE_PP = {
+    "tipo": "dato",
+    "titulo": "Posicionamiento típico del partido (PP)",
+    "contenido": (
+        "Los presidentes de diputación del PP suelen defender el modelo "
+        "provincial actual, las bajadas fiscales locales, la libertad "
+        "de gestión presupuestaria y la cooperación con las CCAA del "
+        "mismo signo. En contextos PP-Vox, gestionan los pactos en "
+        "ayuntamientos clave de la provincia. Críticos habituales con "
+        "el Gobierno central PSOE-Sumar y con la financiación municipal "
+        "del modelo de bilateralidad catalán."
+    ),
+    "tags": ["posicion-pp"],
+}
+
+POSICION_PRESIDENTE_PSOE = {
+    "tipo": "dato",
+    "titulo": "Posicionamiento típico del partido (PSOE)",
+    "contenido": (
+        "Los presidentes de diputación del PSOE suelen alinearse con "
+        "la agenda del Gobierno central (transición ecológica, "
+        "vivienda, derechos sociales) y reforzar la cooperación con "
+        "ayuntamientos PSOE de la provincia. Apoyan los Planes "
+        "Provinciales como herramienta redistributiva hacia municipios "
+        "pequeños y suelen ser críticos con la Junta autonómica cuando "
+        "ésta es del PP. Defensores de la solidaridad interterritorial."
+    ),
+    "tags": ["posicion-psoe"],
+}
+
+HITO_EMPRESA_IBEX = {
+    "tipo": "evento",
+    "titulo": "Pertenencia al IBEX 35",
+    "contenido": (
+        "Cotiza en el IBEX 35, el índice bursátil de referencia de la "
+        "Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores "
+        "empresas españolas por capitalización ajustada al free float, "
+        "revisadas semestralmente por el Comité Asesor Técnico (CAT) "
+        "de BME (marzo y septiembre). La permanencia en el índice "
+        "implica obligaciones reforzadas de reporting, atrae a fondos "
+        "indexados (BlackRock iShares MSCI Spain, etc.) y condiciona "
+        "el coste de capital de la compañía."
+    ),
+    "tags": ["pertenencia-ibex35"],
+}
+
+POSICION_EMPRESA_IBEX = {
+    "tipo": "dato",
+    "titulo": "Marco fiscal y regulatorio",
+    "contenido": (
+        "Como gran corporación española, está sujeta al impuesto de "
+        "sociedades estándar (25%), al gravamen extraordinario "
+        "temporal aprobado en 2022 si pertenece a banca o energía, "
+        "y a las directivas europeas de su sector (Banca: CRR3/CRD6 y "
+        "MiFID II; Energía: paquete Fit-for-55; Telecos: European "
+        "Electronic Communications Code; etc.). Reporta CSRD/ESRS "
+        "(sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto "
+        "mínimo global del 15%) desde 2024."
+    ),
+    "tags": ["marco-fiscal", "regulacion-sectorial"],
+}
+
+POSICION_DIRECTIVO_IBEX = {
+    "tipo": "dato",
+    "titulo": "Marco de gobernanza ejecutiva",
+    "contenido": (
+        "La retribución de los consejeros ejecutivos se vota "
+        "anualmente en la Junta de Accionistas (informe vinculante "
+        "cada tres años, consultivo los otros años). Los principios "
+        "del Código de Buen Gobierno de la CNMV exigen separación "
+        "entre Presidente y CEO (o consejero coordinador independiente "
+        "si coinciden), comisiones de Auditoría y de Nombramientos / "
+        "Retribuciones con mayoría de independientes, y rotación del "
+        "auditor cada 10 años. Las decisiones estratégicas pasan por "
+        "el Consejo, con voto del directivo si es consejero ejecutivo."
+    ),
+    "tags": ["gobernanza-ejecutiva"],
+}
+
+
+def detectar_partido_presidente(d: dict) -> str | None:
+    """Heurística: si el dossier de presidente menciona PP/PSOE en cargo
+    o tags, devuelve el partido para escoger la posición canónica."""
+    blob = (d.get("cargo") or "") + " " + " ".join(d.get("tags") or [])
+    blob = blob.lower()
+    if "pp" in blob.split() or "popular" in blob:
+        return "PP"
+    if (
+        "psoe" in blob.split()
+        or "psc" in blob.split()
+        or "psdeg" in blob.split()
+        or "psoe-a" in blob
+    ):
+        return "PSOE"
+    # También partido directo si está expuesto
+    return d.get("partido")
+
 
 def find_apartado(d: dict, tipo: str) -> dict | None:
     for a in d.get("apartados") or []:
@@ -164,18 +298,28 @@ def enrich_diputacion(d: dict) -> int:
     n = 0
     n += add_item_if_missing(d, "identidad", COMPETENCIAS_DIPUTACION)
     n += add_item_if_missing(d, "identidad", PRESUPUESTO_DIPUTACION)
+    n += add_item_if_missing(d, "trayectoria", HITO_DIPUTACION)
+    n += add_item_if_missing(d, "posiciones", POSICION_DIPUTACION)
     return n
 
 
 def enrich_presidente_diputacion(d: dict) -> int:
     n = 0
     n += add_item_if_missing(d, "identidad", PERFIL_PRESIDENTE_DIPUTACION)
+    # Postura típica según el partido del presidente
+    pdo = detectar_partido_presidente(d)
+    if pdo == "PP":
+        n += add_item_if_missing(d, "posiciones", POSICION_PRESIDENTE_PP)
+    elif pdo == "PSOE":
+        n += add_item_if_missing(d, "posiciones", POSICION_PRESIDENTE_PSOE)
     return n
 
 
 def enrich_empresa_ibex(d: dict) -> int:
     n = 0
     n += add_item_if_missing(d, "identidad", GOB_CORP_EMPRESA_IBEX)
+    n += add_item_if_missing(d, "trayectoria", HITO_EMPRESA_IBEX)
+    n += add_item_if_missing(d, "posiciones", POSICION_EMPRESA_IBEX)
     return n
 
 
@@ -183,9 +327,10 @@ def enrich_directivo_ibex(d: dict) -> int:
     n = 0
     # Solo si el dossier tiene <=2 items de identidad (es corto)
     ap_id = find_apartado(d, "identidad")
-    if ap_id and len(ap_id["items"]) >= 3:
-        return 0
-    n += add_item_if_missing(d, "identidad", PERFIL_DIRECTIVO_IBEX)
+    if not ap_id or len(ap_id["items"]) < 3:
+        n += add_item_if_missing(d, "identidad", PERFIL_DIRECTIVO_IBEX)
+    # Las posiciones canónicas se añaden a todos
+    n += add_item_if_missing(d, "posiciones", POSICION_DIRECTIVO_IBEX)
     return n
 
 

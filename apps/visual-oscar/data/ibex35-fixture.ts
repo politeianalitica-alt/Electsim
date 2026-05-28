@@ -136,6 +136,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0001-ap-01-it-03",
+            "apartado_id": "ibx-0001-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -174,6 +188,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "fiscalidad"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0001-ap-02-it-02",
+            "apartado_id": "ibx-0001-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -327,8 +356,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0002",
@@ -455,6 +484,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0002-ap-01-it-03",
+            "apartado_id": "ibx-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -493,6 +536,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "politica"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0002-ap-02-it-02",
+            "apartado_id": "ibx-0002-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -665,8 +723,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0003",
@@ -781,6 +839,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0003-ap-01-it-03",
+            "apartado_id": "ibx-0003-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -819,6 +891,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "digital"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0003-ap-02-it-02",
+            "apartado_id": "ibx-0003-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -990,8 +1077,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0004",
@@ -1107,6 +1194,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "sabadell"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0004-ap-01-it-03",
+            "apartado_id": "ibx-0004-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1144,6 +1245,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "fiscalidad"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0004-ap-02-it-02",
+            "apartado_id": "ibx-0004-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1284,8 +1400,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0005",
@@ -1388,6 +1504,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0005-ap-01-it-02",
+            "apartado_id": "ibx-0005-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1425,6 +1555,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "estrategia"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0005-ap-02-it-02",
+            "apartado_id": "ibx-0005-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1584,8 +1729,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0006",
@@ -1721,6 +1866,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "sepi"
             ],
             "orden": 3
+          },
+          {
+            "id": "ibx-0006-ap-01-it-04",
+            "apartado_id": "ibx-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 4
           }
         ]
       },
@@ -1759,6 +1918,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "red-fija"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0006-ap-02-it-02",
+            "apartado_id": "ibx-0006-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -1914,8 +2088,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0007",
@@ -2033,6 +2207,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "transicion"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0007-ap-01-it-03",
+            "apartado_id": "ibx-0007-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2071,6 +2259,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "biocombustibles"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0007-ap-02-it-02",
+            "apartado_id": "ibx-0007-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2225,8 +2428,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0008",
@@ -2328,6 +2531,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0008-ap-01-it-02",
+            "apartado_id": "ibx-0008-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2367,6 +2584,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "politica"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0008-ap-02-it-02",
+            "apartado_id": "ibx-0008-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2510,8 +2742,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0009",
@@ -2628,6 +2860,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "transicion"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0009-ap-01-it-03",
+            "apartado_id": "ibx-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2665,6 +2911,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "mercado"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0009-ap-02-it-02",
+            "apartado_id": "ibx-0009-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -2806,8 +3067,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0010",
@@ -2920,6 +3181,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0010-ap-01-it-03",
+            "apartado_id": "ibx-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -2960,6 +3235,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "escision"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0010-ap-02-it-02",
+            "apartado_id": "ibx-0010-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -3103,8 +3393,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0011",
@@ -3223,6 +3513,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "nasdaq"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0011-ap-01-it-03",
+            "apartado_id": "ibx-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3261,6 +3565,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "modelo-negocio"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0011-ap-02-it-02",
+            "apartado_id": "ibx-0011-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -3420,8 +3739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0012",
@@ -3522,6 +3841,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0012-ap-01-it-02",
+            "apartado_id": "ibx-0012-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -3545,6 +3878,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "soberania"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0012-ap-02-it-01",
+            "apartado_id": "ibx-0012-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -3667,8 +4015,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0013",
@@ -3783,6 +4131,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0013-ap-01-it-03",
+            "apartado_id": "ibx-0013-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3806,6 +4168,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "modelo"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0013-ap-02-it-01",
+            "apartado_id": "ibx-0013-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -3929,8 +4306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0014",
@@ -4047,6 +4424,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "iberdrola"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0014-ap-01-it-03",
+            "apartado_id": "ibx-0014-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4070,6 +4461,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "estrategia"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0014-ap-02-it-01",
+            "apartado_id": "ibx-0014-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4242,8 +4648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0015",
@@ -4373,6 +4779,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "bbva"
             ],
             "orden": 3
+          },
+          {
+            "id": "ibx-0015-ap-01-it-04",
+            "apartado_id": "ibx-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 4
           }
         ]
       },
@@ -4412,6 +4832,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "concentracion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0015-ap-02-it-02",
+            "apartado_id": "ibx-0015-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -4553,8 +4988,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0016",
@@ -4667,6 +5102,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0016-ap-01-it-03",
+            "apartado_id": "ibx-0016-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4690,6 +5139,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "tipos"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0016-ap-02-it-01",
+            "apartado_id": "ibx-0016-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4814,8 +5278,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0017",
@@ -4920,6 +5384,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "usa"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0017-ap-01-it-02",
+            "apartado_id": "ibx-0017-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -4943,6 +5421,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "esg"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0017-ap-02-it-01",
+            "apartado_id": "ibx-0017-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5082,8 +5575,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0018",
@@ -5203,6 +5696,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "politica"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0018-ap-01-it-03",
+            "apartado_id": "ibx-0018-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -5240,6 +5747,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "transicion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0018-ap-02-it-02",
+            "apartado_id": "ibx-0018-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5381,8 +5903,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0019",
@@ -5489,6 +6011,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "ucrania"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0019-ap-01-it-02",
+            "apartado_id": "ibx-0019-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5527,6 +6063,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "regulacion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0019-ap-02-it-02",
+            "apartado_id": "ibx-0019-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5669,8 +6220,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0020",
@@ -5773,6 +6324,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "acciona-energia"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0020-ap-01-it-02",
+            "apartado_id": "ibx-0020-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -5797,6 +6362,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "verde"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0020-ap-02-it-01",
+            "apartado_id": "ibx-0020-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5935,8 +6515,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0021",
@@ -6025,6 +6605,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0021-ap-01-it-01",
+            "apartado_id": "ibx-0021-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6048,6 +6642,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "esg"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0021-ap-02-it-01",
+            "apartado_id": "ibx-0021-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6192,8 +6801,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0022",
@@ -6282,6 +6891,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0022-ap-01-it-01",
+            "apartado_id": "ibx-0022-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6305,6 +6928,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "fiscalidad"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0022-ap-02-it-01",
+            "apartado_id": "ibx-0022-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6448,8 +7086,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0023",
@@ -6552,6 +7190,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "bbva"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0023-ap-01-it-02",
+            "apartado_id": "ibx-0023-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -6576,6 +7228,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "fiscalidad"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0023-ap-02-it-01",
+            "apartado_id": "ibx-0023-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6687,8 +7354,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0024",
@@ -6777,6 +7444,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0024-ap-01-it-01",
+            "apartado_id": "ibx-0024-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6800,6 +7481,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "estrategia"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0024-ap-02-it-01",
+            "apartado_id": "ibx-0024-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6899,8 +7595,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0025",
@@ -6989,6 +7685,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0025-ap-01-it-01",
+            "apartado_id": "ibx-0025-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7013,6 +7723,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "perte"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0025-ap-02-it-01",
+            "apartado_id": "ibx-0025-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7127,8 +7852,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0026",
@@ -7243,6 +7968,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "air-europa"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0026-ap-01-it-03",
+            "apartado_id": "ibx-0026-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -7281,6 +8020,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "saf"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0026-ap-02-it-02",
+            "apartado_id": "ibx-0026-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -7409,8 +8163,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0027",
@@ -7529,6 +8283,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "opa"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0027-ap-01-it-03",
+            "apartado_id": "ibx-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -7553,6 +8321,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "ue"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0027-ap-02-it-01",
+            "apartado_id": "ibx-0027-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7707,8 +8490,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0028",
@@ -7840,6 +8623,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "escribano"
             ],
             "orden": 3
+          },
+          {
+            "id": "ibx-0028-ap-01-it-04",
+            "apartado_id": "ibx-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 4
           }
         ]
       },
@@ -7879,6 +8676,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "eurofighter"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0028-ap-02-it-02",
+            "apartado_id": "ibx-0028-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8021,8 +8833,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0029",
@@ -8111,6 +8923,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0029-ap-01-it-01",
+            "apartado_id": "ibx-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8134,6 +8960,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "malasia"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0029-ap-02-it-01",
+            "apartado_id": "ibx-0029-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8235,8 +9076,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0030",
@@ -8342,6 +9183,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "panama"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0030-ap-01-it-02",
+            "apartado_id": "ibx-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8365,6 +9220,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "concesiones"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0030-ap-02-it-01",
+            "apartado_id": "ibx-0030-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8463,8 +9333,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0031",
@@ -8553,6 +9423,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0031-ap-01-it-01",
+            "apartado_id": "ibx-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8590,6 +9474,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "usa"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0031-ap-02-it-02",
+            "apartado_id": "ibx-0031-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -8749,8 +9648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0032",
@@ -8842,6 +9741,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "covid"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0032-ap-01-it-01",
+            "apartado_id": "ibx-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8866,6 +9779,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "granada"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0032-ap-02-it-01",
+            "apartado_id": "ibx-0032-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8963,8 +9891,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0033",
@@ -9077,6 +10005,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0033-ap-01-it-03",
+            "apartado_id": "ibx-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -9114,6 +10056,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "cartera"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0033-ap-02-it-02",
+            "apartado_id": "ibx-0033-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -9257,8 +10214,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0034",
@@ -9362,6 +10319,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "medel"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0034-ap-01-it-02",
+            "apartado_id": "ibx-0034-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -9385,6 +10356,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "regional"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0034-ap-02-it-01",
+            "apartado_id": "ibx-0034-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9485,8 +10471,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0035",
@@ -9589,6 +10575,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "opv"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0035-ap-01-it-02",
+            "apartado_id": "ibx-0035-ap-01",
+            "tipo": "evento",
+            "titulo": "Pertenencia al IBEX 35",
+            "contenido": "Cotiza en el IBEX 35, el índice bursátil de referencia de la Bolsa de Madrid (BME). El IBEX 35 lo componen las 35 mayores empresas españolas por capitalización ajustada al free float, revisadas semestralmente por el Comité Asesor Técnico (CAT) de BME (marzo y septiembre). La permanencia en el índice implica obligaciones reforzadas de reporting, atrae a fondos indexados (BlackRock iShares MSCI Spain, etc.) y condiciona el coste de capital de la compañía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pertenencia-ibex35"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -9612,6 +10612,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "luxury"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0035-ap-02-it-01",
+            "apartado_id": "ibx-0035-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco fiscal y regulatorio",
+            "contenido": "Como gran corporación española, está sujeta al impuesto de sociedades estándar (25%), al gravamen extraordinario temporal aprobado en 2022 si pertenece a banca o energía, y a las directivas europeas de su sector (Banca: CRR3/CRD6 y MiFID II; Energía: paquete Fit-for-55; Telecos: European Electronic Communications Code; etc.). Reporta CSRD/ESRS (sostenibilidad) desde 2024 y aplica la Pillar Two (impuesto mínimo global del 15%) desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marco-fiscal",
+              "regulacion-sectorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9724,8 +10739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0036",
@@ -9926,10 +10941,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0036-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0036-ap-05-it-00",
+            "apartado_id": "ibx-0036-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0037",
@@ -10137,10 +11175,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0037-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0037-ap-05-it-00",
+            "apartado_id": "ibx-0037-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0038",
@@ -10286,6 +11347,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "ceoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0038-ap-02-it-02",
+            "apartado_id": "ibx-0038-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -10432,8 +11507,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0039",
@@ -10579,6 +11654,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "diversidad"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0039-ap-02-it-02",
+            "apartado_id": "ibx-0039-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -10723,8 +11812,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0040",
@@ -10881,6 +11970,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "emergentes"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0040-ap-02-it-02",
+            "apartado_id": "ibx-0040-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -10979,8 +12082,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0041",
@@ -11139,6 +12242,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "crypto"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0041-ap-02-it-02",
+            "apartado_id": "ibx-0041-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -11266,8 +12383,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0042",
@@ -11412,6 +12529,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "garanti"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0042-ap-02-it-02",
+            "apartado_id": "ibx-0042-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -11511,8 +12642,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0043",
@@ -11645,6 +12776,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "cec"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0043-ap-02-it-02",
+            "apartado_id": "ibx-0043-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -11773,8 +12918,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0044",
@@ -11934,10 +13079,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0044-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0044-ap-04-it-00",
+            "apartado_id": "ibx-0044-ap-04",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0045",
@@ -12081,6 +13249,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "soberania"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0045-ap-02-it-01",
+            "apartado_id": "ibx-0045-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -12210,8 +13392,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0046",
@@ -12431,10 +13613,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0046-ap-06",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0046-ap-06-it-00",
+            "apartado_id": "ibx-0046-ap-06",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0047",
@@ -12569,6 +13774,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "biocombustibles"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0047-ap-02-it-02",
+            "apartado_id": "ibx-0047-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -12695,8 +13914,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0048",
@@ -12900,10 +14119,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0048-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0048-ap-05-it-00",
+            "apartado_id": "ibx-0048-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0049",
@@ -13064,6 +14306,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "transicion-justa"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0049-ap-02-it-03",
+            "apartado_id": "ibx-0049-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -13185,8 +14441,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0050",
@@ -13378,10 +14634,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0050-ap-06",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0050-ap-06-it-00",
+            "apartado_id": "ibx-0050-ap-06",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0051",
@@ -13476,6 +14755,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "liberal"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0051-ap-02-it-01",
+            "apartado_id": "ibx-0051-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -13623,8 +14916,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0052",
@@ -13770,6 +15063,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "paisesbajos"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0052-ap-02-it-02",
+            "apartado_id": "ibx-0052-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -13897,8 +15204,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0053",
@@ -14055,6 +15362,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "ia"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0053-ap-02-it-02",
+            "apartado_id": "ibx-0053-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -14153,8 +15474,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0054",
@@ -14312,6 +15633,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "modelo-negocio"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0054-ap-02-it-02",
+            "apartado_id": "ibx-0054-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -14479,8 +15814,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0055",
@@ -14627,6 +15962,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "fcbarcelona"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0055-ap-02-it-02",
+            "apartado_id": "ibx-0055-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -14790,8 +16139,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0056",
@@ -14887,6 +16236,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "pymes"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0056-ap-02-it-01",
+            "apartado_id": "ibx-0056-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -15016,8 +16379,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0057",
@@ -15175,6 +16538,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "digital"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0057-ap-02-it-02",
+            "apartado_id": "ibx-0057-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -15318,8 +16695,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0058",
@@ -15452,6 +16829,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "impuesto"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0058-ap-02-it-02",
+            "apartado_id": "ibx-0058-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -15565,8 +16956,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0059",
@@ -15700,6 +17091,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "esg"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0059-ap-02-it-02",
+            "apartado_id": "ibx-0059-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -15782,8 +17187,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0060",
@@ -15993,10 +17398,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0060-ap-06",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0060-ap-06-it-00",
+            "apartado_id": "ibx-0060-ap-06",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0061",
@@ -16117,6 +17545,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "geopolitica"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0061-ap-02-it-02",
+            "apartado_id": "ibx-0061-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -16222,8 +17664,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0062",
@@ -16372,6 +17814,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "regulacion"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0062-ap-02-it-02",
+            "apartado_id": "ibx-0062-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -16491,8 +17947,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0063",
@@ -16588,6 +18044,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "esg"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0063-ap-02-it-01",
+            "apartado_id": "ibx-0063-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -16674,8 +18144,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0064",
@@ -16808,6 +18278,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "esg"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0064-ap-02-it-01",
+            "apartado_id": "ibx-0064-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -16874,8 +18358,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0065",
@@ -17045,10 +18529,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0065-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0065-ap-05-it-00",
+            "apartado_id": "ibx-0065-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0066",
@@ -17238,10 +18745,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0066-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0066-ap-04-it-00",
+            "apartado_id": "ibx-0066-ap-04",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0067",
@@ -17362,6 +18892,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "estrategia"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0067-ap-02-it-01",
+            "apartado_id": "ibx-0067-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -17443,8 +18987,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0068",
@@ -17564,6 +19108,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "h2"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0068-ap-02-it-01",
+            "apartado_id": "ibx-0068-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -17664,8 +19222,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0069",
@@ -17844,10 +19402,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0069-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0069-ap-04-it-00",
+            "apartado_id": "ibx-0069-ap-04",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0070",
@@ -18018,6 +19599,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "air-europa"
             ],
             "orden": 2
+          },
+          {
+            "id": "ibx-0070-ap-02-it-03",
+            "apartado_id": "ibx-0070-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -18132,8 +19727,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0071",
@@ -18279,6 +19874,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "ue"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0071-ap-02-it-02",
+            "apartado_id": "ibx-0071-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -18447,8 +20056,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0072",
@@ -18587,6 +20196,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "industria"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0072-ap-02-it-02",
+            "apartado_id": "ibx-0072-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -18758,8 +20381,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0073",
@@ -18894,6 +20517,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "repsol"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0073-ap-02-it-02",
+            "apartado_id": "ibx-0073-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -19035,8 +20672,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0074",
@@ -19168,6 +20805,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "lujo"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0074-ap-02-it-01",
+            "apartado_id": "ibx-0074-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -19250,8 +20901,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0075",
@@ -19438,10 +21089,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0075-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0075-ap-04-it-00",
+            "apartado_id": "ibx-0075-ap-04",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0076",
@@ -19656,10 +21330,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0076-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0076-ap-05-it-00",
+            "apartado_id": "ibx-0076-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0077",
@@ -19856,10 +21553,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0077-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0077-ap-05-it-00",
+            "apartado_id": "ibx-0077-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0078",
@@ -20074,10 +21794,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0078-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0078-ap-04-it-00",
+            "apartado_id": "ibx-0078-ap-04",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0079",
@@ -20339,10 +22082,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0079-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0079-ap-05-it-00",
+            "apartado_id": "ibx-0079-ap-05",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0080",
@@ -20517,10 +22283,33 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0080-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "ibx-0080-ap-04-it-00",
+            "apartado_id": "ibx-0080-ap-04",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0081",
@@ -20627,6 +22416,20 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "gobierno-sanchez"
             ],
             "orden": 0
+          },
+          {
+            "id": "ibx-0081-ap-02-it-01",
+            "apartado_id": "ibx-0081-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza-ejecutiva"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -20693,8 +22496,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0082",
@@ -20965,8 +22768,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0083",
@@ -21200,8 +23003,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0084",
@@ -21407,8 +23210,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0085",
@@ -21562,8 +23365,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0086",
@@ -21784,8 +23587,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0087",
@@ -21988,8 +23791,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0088",
@@ -22168,8 +23971,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0089",
@@ -22306,8 +24109,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0090",
@@ -22469,8 +24272,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0091",
@@ -22641,8 +24444,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0092",
@@ -22877,8 +24680,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0093",
@@ -23027,8 +24830,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0094",
@@ -23181,8 +24984,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0095",
@@ -23321,8 +25124,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0096",
@@ -23499,8 +25302,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0097",
@@ -23689,8 +25492,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0098",
@@ -23791,8 +25594,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0099",
@@ -23930,8 +25733,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0100",
@@ -24078,8 +25881,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0101",
@@ -24219,8 +26022,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0102",
@@ -24354,8 +26157,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0103",
@@ -24487,8 +26290,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0104",
@@ -24644,8 +26447,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0105",
@@ -24771,8 +26574,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0106",
@@ -24955,8 +26758,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0107",
@@ -25137,8 +26940,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0108",
@@ -25266,8 +27069,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0109",
@@ -25398,8 +27201,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0110",
@@ -25510,8 +27313,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0111",
@@ -25606,8 +27409,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0112",
@@ -25715,8 +27518,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0113",
@@ -25811,8 +27614,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0114",
@@ -25891,8 +27694,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0115",
@@ -25969,8 +27772,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0116",
@@ -26150,8 +27953,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0117",
@@ -26247,8 +28050,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0118",
@@ -26327,8 +28130,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0119",
@@ -26439,8 +28242,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0120",
@@ -26557,8 +28360,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0121",
@@ -26686,8 +28489,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0122",
@@ -26819,8 +28622,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0123",
@@ -26968,8 +28771,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0124",
@@ -27108,8 +28911,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0125",
@@ -27247,8 +29050,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0126",
@@ -27358,8 +29161,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0127",
@@ -27507,8 +29310,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0128",
@@ -27633,8 +29436,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0129",
@@ -27729,8 +29532,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0130",
@@ -27856,8 +29659,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0131",
@@ -27973,8 +29776,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0132",
@@ -28105,8 +29908,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0133",
@@ -28249,8 +30052,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0134",
@@ -28349,8 +30152,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0135",
@@ -28445,8 +30248,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0136",
@@ -28557,8 +30360,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0137",
@@ -28675,8 +30478,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0138",
@@ -28772,8 +30575,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0139",
@@ -28869,8 +30672,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0140",
@@ -28981,8 +30784,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0141",
@@ -29094,8 +30897,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0142",
@@ -29192,8 +30995,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0143",
@@ -29290,8 +31093,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0144",
@@ -29388,8 +31191,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   },
   {
     "id": "ibx-0145",
@@ -29507,8 +31310,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:30:45.475367Z",
-    "updated_at": "2026-05-28T14:30:45.475367Z"
+    "created_at": "2026-05-28T14:34:35.739651Z",
+    "updated_at": "2026-05-28T14:34:35.739651Z"
   }
 ]
 

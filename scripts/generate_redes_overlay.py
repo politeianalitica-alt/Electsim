@@ -679,6 +679,30 @@ PARTY_ALIASES: dict[str, str] = {
     "PRC": "PRC",
     # ─── UPL ──────────────────────────────────────────────────────
     "UPL": "UPL",
+    # ─── Variantes territoriales adicionales del PSOE ─────────────
+    "PSIB-PSOE": "PSOE",
+    "FSA-PSOE": "PSOE",
+    # ─── Comuns / Catalunya en Comú / Barcelona en Comú → Sumar ───
+    "Comuns": "Sumar",
+    "BARCELONA EN COMÚ - C": "Sumar",
+    "Catalunya en Comú": "Sumar",
+    # ─── Confluencias autonómicas de Sumar / IU ───────────────────
+    "Unidas por Extremadura": "IU",
+    "ACORD PER GUANYAR": "Sumar",
+    "CON ANDALUCÍA": "Sumar",
+    "Más País": "Más Madrid",
+    # ─── Junts / Trias plataforma municipal ───────────────────────
+    "TRIASXBCN-CM": "Junts",
+    "JxCAT": "Junts",
+    "Junts X Catalunya": "Junts",
+    # ─── ERC coalición catalana republicana ───────────────────────
+    "GGI-AMUNT": "ERC",
+    # ─── PNV-afines: Geroa Bai como aliado navarro moderado ──────
+    "Geroa Bai": "PNV",
+    # ─── España Vaciada: Teruel/Soria Existe → tratamos como regional
+    "EXISTE": "PRC",
+    "TERUEL EXISTE": "PRC",
+    "SORIA YA": "PRC",
 }
 
 
