@@ -48,6 +48,10 @@ import { GeoIRCKpis } from '@/components/geopolitica/GeoIRCKpis'
 import { GeoSignalFeed } from '@/components/geopolitica/GeoSignalFeed'
 import { GeoTrendingTemas } from '@/components/geopolitica/GeoTrendingTemas'
 import { GeoCountryDrawer } from '@/components/geopolitica/GeoCountryDrawer'
+// Sprint GEO-RADAR C3 · Tab Conflictos y Violencia Política
+import { GeoConflictsMap } from '@/components/geopolitica/GeoConflictsMap'
+import { GeoConflictsTable } from '@/components/geopolitica/GeoConflictsTable'
+import { GeoConflictDrawer } from '@/components/geopolitica/GeoConflictDrawer'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -368,8 +372,10 @@ export default function GeopoliticaPage() {
   const setTab = (i: number) => setTabSlug((GEO_TABS[i] ?? 'radar') as GeoTabSlug)
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
-  // Sprint GEO-RADAR C2 · drawer país (compartido entre tab radar y conflictos)
+  // Sprint GEO-RADAR C2 · drawer país (Tab Radar)
   const [radarDrawerIso, setRadarDrawerIso] = useState<string | null>(null)
+  // Sprint GEO-RADAR C3 · drawer conflicto (Tab Conflictos)
+  const [conflictDrawerIso, setConflictDrawerIso] = useState<string | null>(null)
   // Filtro de dimensión/sector para TAB 3 Impacto España
   const [impactoDim, setImpactoDim] = useState<string>('all')
   // Orden de TAB 0 Teatro Global
@@ -614,26 +620,65 @@ export default function GeopoliticaPage() {
         {/* TAB 1 — Conflictos, violencia política & protestas · UCDP + GDELT + ReliefWeb */}
         {tab === 1 && (
           <div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
-                <strong style={{ color: '#0f172a' }}>Capa 2 · evento duro verificable.</strong>{' '}
-                Combinación de UCDP (Uppsala · conflicto armado anual, serie larga 1946-actual,
-                con intensidad estructural) + GDELT (saliencia mediática 24h-30d) + ReliefWeb
-                (humanitario) + Country Timeline cronológico multi-source por país.
+            {/* ───── Sprint GEO-RADAR C3 · zoom operacional ─────
+                Mapa heatmap + tabla 20 conflictos + drawer 5 sub-tabs.
+                Sustituye ACLED con UCDP estructural + GDELT táctico + SIPRI militar.
+                Drawer detalle: Resumen · Timeline · Cobertura · Impacto · Actores. */}
+            <div style={{
+              background: 'linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)',
+              borderRadius: 14, padding: '14px 18px', marginBottom: 16, color: '#fff',
+            }}>
+              <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
+                Conflictos y Violencia Política · zoom operacional
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fecaca', lineHeight: 1.5 }}>
+                Mapa de conflictos activos por intensidad mediática + tabla con tendencia + drawer detalle
+                en 5 sub-tabs (resumen · timeline · cobertura mediática · impacto económico SIPRI · actores corporativos).
+                Fuentes: GDELT WAR_CONFLICT events · SIPRI Milex 2024 · V-Dem democracia. ACLED no disponible.
               </p>
             </div>
-            {/* 1 · Contexto España · señal táctica 30d (UCDP+GDELT+RSS) */}
-            <div style={{ marginBottom: 18 }}>
-              <AcledSpainContext days={30} />
+
+            {/* Mapa heatmap conflictos */}
+            <div style={{ marginBottom: 14 }}>
+              <GeoConflictsMap onConflictClick={(iso3) => setConflictDrawerIso(iso3)} />
             </div>
-            {/* 2 · UCDP · estructural histórico · contexto multi-año */}
-            <div style={{ marginBottom: 18 }}>
-              <GeoUcdpPanel country="Ukraine" />
+
+            {/* Tabla de conflictos */}
+            <div style={{ marginBottom: 14 }}>
+              <GeoConflictsTable
+                onConflictClick={(iso3) => setConflictDrawerIso(iso3)}
+                highlightIso3={conflictDrawerIso}
+              />
             </div>
-            {/* 3 · Country Timeline · cronología multi-source · default Ucrania */}
-            <div style={{ marginBottom: 18 }}>
-              <GeoCountryTimeline iso="UKR" />
-            </div>
+
+            {/* Drawer compartido */}
+            <GeoConflictDrawer iso3={conflictDrawerIso} onClose={() => setConflictDrawerIso(null)} />
+
+            {/* ───── Vista legacy · UCDP + ACLED España + Timeline Ucrania ─────
+                Mantenido por compatibilidad. */}
+            <details style={{
+              background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
+              padding: '12px 16px', marginBottom: 16,
+            }}>
+              <summary style={{ cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                Vista legacy · contexto España + UCDP estructural + timeline Ucrania (clic para abrir)
+              </summary>
+              <div style={{ marginTop: 14 }}>
+                <p style={{ margin: '0 0 12px', fontSize: 11, color: '#64748b', lineHeight: 1.5 }}>
+                  Vista anterior conservada. UCDP (Uppsala · conflicto armado anual serie larga 1946-actual) +
+                  GDELT táctico + ReliefWeb humanitario + Country Timeline cronológico multi-source.
+                </p>
+                <div style={{ marginBottom: 18 }}>
+                  <AcledSpainContext days={30} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoUcdpPanel country="Ukraine" />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoCountryTimeline iso="UKR" />
+                </div>
+              </div>
+            </details>
           </div>
         )}
 
