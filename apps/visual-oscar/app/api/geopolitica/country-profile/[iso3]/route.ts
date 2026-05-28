@@ -40,6 +40,10 @@ import {
   normalizeGdeltDate,
   clampGdeltTone,
 } from '@/lib/gdelt/build-query'
+import {
+  getUcdpConflictByIso,
+  type UcdpActiveConflict,
+} from '@/lib/geopolitica/ucdp-active-conflicts'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -269,28 +273,64 @@ interface ConflictLayer {
   _source: SourceMeta
 }
 
-async function buildConflict(req: NextRequest, countryName: string): Promise<ConflictLayer | null> {
+/** Construye ConflictLayer a partir del seed UCDP estructural (FIX-A3) */
+function buildConflictFromSeed(iso3: string, seed: UcdpActiveConflict): ConflictLayer {
+  return {
+    n_conflicts: 1,
+    max_intensity_level: seed.intensity_baseline,
+    years_covered: `${seed.start_year}-actual`,
+    interpretation: seed.notes,
+    recent: [
+      {
+        name: seed.conflict_label,
+        side_a: seed.actors[0] ?? 'Gobierno',
+        side_b: seed.actors.slice(1).join(' / ') || 'Insurgencia',
+        year: new Date().getFullYear(),
+        intensity_level: seed.intensity_baseline,
+      },
+    ],
+    _source: {
+      id: 'ucdp-seed',
+      name: 'UCDP/PRIO + IISS Armed Conflict Survey 2024 (curado top 30)',
+      access_type: 'curated',
+      source_url: 'https://ucdp.uu.se/',
+      what_it_measures: `Conflicto activo · tipo ${seed.conflict_type} · ~${seed.fatalities_year_est.toLocaleString('es-ES')} muertes/año estimadas · actores principales`,
+      confidence: 'high',
+    },
+  }
+}
+
+async function buildConflict(req: NextRequest, countryName: string, iso3?: string): Promise<ConflictLayer | null> {
   const origin = req.nextUrl.origin
   const data: any = await safeJson(
     `${origin}/api/geopolitica/ucdp?country=${encodeURIComponent(countryName)}`,
     10_000,
   )
-  if (!data || data.n_conflicts === undefined) return null
-  return {
-    n_conflicts: data.n_conflicts || 0,
-    max_intensity_level: data.max_intensity_level || 0,
-    years_covered: data.years_covered || '',
-    interpretation: data.interpretation || '',
-    recent: Array.isArray(data.recent) ? data.recent.slice(0, 5) : [],
-    _source: {
-      id: 'ucdp',
-      name: 'UCDP · Uppsala Conflict Data Program',
-      access_type: 'requires_token',
-      source_url: 'https://ucdp.uu.se/apidocs/',
-      what_it_measures: 'Conflictos armados anuales con intensidad (25-999 muertes batalla · 1000+ guerra) · serie 1946-actual',
-      confidence: 'high',
-    },
+  // Caso 1: API live devolvió datos → usar live
+  if (data && data.n_conflicts !== undefined) {
+    return {
+      n_conflicts: data.n_conflicts || 0,
+      max_intensity_level: data.max_intensity_level || 0,
+      years_covered: data.years_covered || '',
+      interpretation: data.interpretation || '',
+      recent: Array.isArray(data.recent) ? data.recent.slice(0, 5) : [],
+      _source: {
+        id: 'ucdp',
+        name: 'UCDP · Uppsala Conflict Data Program',
+        access_type: 'requires_token',
+        source_url: 'https://ucdp.uu.se/apidocs/',
+        what_it_measures: 'Conflictos armados anuales con intensidad (25-999 muertes batalla · 1000+ guerra) · serie 1946-actual',
+        confidence: 'high',
+      },
+    }
   }
+  // Caso 2: API live falló pero país está en seed UCDP top 30 → usar seed
+  if (iso3) {
+    const seed = getUcdpConflictByIso(iso3)
+    if (seed) return buildConflictFromSeed(iso3, seed)
+  }
+  // Caso 3: ni API ni seed → null
+  return null
 }
 
 // ────────────────────────────────────────────────────────────────────
@@ -523,7 +563,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
   const [government, seismic, conflict, humanitarian, narrative, sanctions, travel, risk] = await Promise.all([
     buildGovernment(iso3),
     buildSeismic(latlng),
-    buildConflict(req, countryName),
+    buildConflict(req, countryName, iso3),
     buildHumanitarian(req, countryName),
     buildNarrative(countryName),
     buildSanctions(req, iso3),
