@@ -21,7 +21,16 @@ interface IRCResponse {
     iso3: string; irc: number; risk_level: string
     raw: { polyarchy_trend?: string; gdelt_tone_value?: number; gdelt_articles_48h?: number }
   }>
-  summary: { critical_risk_count: number; high_risk_count: number; avg_global_tone: number | null; total_countries: number }
+  summary: {
+    critical_risk_count: number
+    high_risk_count: number
+    avg_global_tone: number | null
+    total_countries: number
+    total_conflict_articles_48h?: number
+    countries_with_gdelt_signal?: number
+    gdelt_available?: boolean
+  }
+  _meta?: { capa_gdelt_status?: string }
 }
 
 interface TrendingResponse {
@@ -57,10 +66,19 @@ export function GeoIRCKpis({ onFilterClick }: Props) {
   const democraciasRegresion = irc?.countries.filter(
     (c) => c.raw.polyarchy_trend === 'regresion' || c.raw.polyarchy_trend === 'regresion_severa'
   ).length ?? 0
-  const conflictArticles24h = trending?.topics.find((t) => t.theme === 'WAR_CONFLICT')?.article_count
-    ?? trending?.topics.filter((t) => ['WAR_CONFLICT', 'KILL', 'TERROR'].includes(t.theme))
+  // Cobertura conflictos · 1º trending-temas, 2º fallback al sample del IRC
+  const conflictFromTrending = trending?.topics.find((t) => t.theme === 'WAR_CONFLICT')?.article_count
+    ?? trending?.topics
+      .filter((t) => ['WAR_CONFLICT', 'KILL', 'TERROR'].includes(t.theme))
       .reduce((s, t) => s + t.article_count, 0)
     ?? 0
+  const conflictArticles24h = conflictFromTrending > 0
+    ? conflictFromTrending
+    : (irc?.summary.total_conflict_articles_48h ?? 0)
+  const conflictArticlesWindow = conflictFromTrending > 0 ? '24h' : '48h'
+
+  // Estado GDELT (afecta tono global · si rate-limited mostramos badge)
+  const gdeltRateLimited = irc?.summary.gdelt_available === false
 
   const tone = irc?.summary.avg_global_tone
   const toneColor = tone === null || tone === undefined ? '#64748b'
@@ -81,7 +99,11 @@ export function GeoIRCKpis({ onFilterClick }: Props) {
       <Kpi
         label="Tono global GDELT"
         value={tone !== null && tone !== undefined ? tone.toFixed(2) : '—'}
-        sub="media 48h · -10 negativo · +10 positivo"
+        sub={
+          gdeltRateLimited
+            ? 'GDELT rate-limited · estructural V-Dem+SIPRI'
+            : `media ${irc?.summary.countries_with_gdelt_signal ?? 0} países · -10 hostil · +10 positivo`
+        }
         accent={toneColor}
       />
       <Kpi
@@ -99,9 +121,13 @@ export function GeoIRCKpis({ onFilterClick }: Props) {
         onClick={() => onFilterClick?.('critico')}
       />
       <Kpi
-        label="Cobertura conflictos 24h"
+        label={`Cobertura conflictos ${conflictArticlesWindow}`}
         value={String(conflictArticles24h)}
-        sub="artículos themes WAR/KILL/TERROR"
+        sub={
+          conflictArticles24h === 0
+            ? 'GDELT sin datos · revisar capa táctica'
+            : 'artículos themes WAR/KILL/TERROR/PROTEST'
+        }
         accent="#0891b2"
         onClick={() => onFilterClick?.('cobertura')}
       />

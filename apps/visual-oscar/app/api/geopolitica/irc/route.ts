@@ -86,64 +86,100 @@ function computeIRC(c: CountryIRC['components']): number {
   return sumWeights === 0 ? 50 : Math.round(sumValues / sumWeights)
 }
 
-/**
- * Obtiene tono GDELT por país usando endpoint timelinetone agregado.
- * 1 sola llamada cubre todos los países top en un timeline.
- * Devuelve Map<iso2, tone>.
- */
-async function fetchGdeltTonesByCountry(): Promise<Map<string, number>> {
-  const result = new Map<string, number>()
-  // Query genérica: noticias mundiales últimas 48h, agrupadas por sourcecountry
-  const url = buildGdeltDocUrl({
-    query: '*',
-    timespan: '48h',
-    mode: 'timelinesourcecountry',
-    maxrecords: 100,
-  })
-  const json = await fetchGdeltJson<any>(url, { timeoutMs: 9000, maxRetries: 1 })
-  if (!json?.timeline) return result
-  // timeline structure varies · ignoring detail safely
-  return result
+interface GdeltAggregate {
+  tones: Map<string, { sum: number; n: number }>   // iso2 → tone medio (todas las noticias)
+  volumes: Map<string, number>                     // iso2 → artículos conflict (48h)
 }
 
 /**
- * Cuenta artículos sobre conflicto/violencia por país últimas 48h.
- * Hace 1 query GDELT con theme WAR_CONFLICT y agrupa por sourcecountry.
+ * Obtiene tono medio + volumen de conflictos por país en UNA SOLA pasada.
+ *
+ * Estrategia: una única query GDELT DOC artlist con maxrecords=250 que
+ * captura una muestra global de noticias internacionales. Por cada artículo
+ * agregamos:
+ *   - sourcecountry + tone → tones aggregator (todas las noticias)
+ *   - sourcecountry + theme contiene WAR_CONFLICT → volumes counter
+ *
+ * Esto sustituye al planteamiento anterior de 2 queries paralelas (una
+ * para timelinesourcecountry que no parseaba bien y otra para
+ * conflict artlist). Con 1 query reducimos rate-limit risk de Vercel a
+ * GDELT a la mitad y obtenemos datos reales en lugar de timeline vacío.
+ *
+ * Fallback: si la query falla devolvemos maps vacíos · IRC se calcula
+ * con V-Dem + SIPRI solo (los componentes GDELT serán null y se
+ * redistribuye el peso).
  */
-async function fetchConflictVolumeByCountry(): Promise<Map<string, number>> {
-  const result = new Map<string, number>()
+async function fetchGdeltAggregate(): Promise<GdeltAggregate> {
+  const tones = new Map<string, { sum: number; n: number }>()
+  const volumes = new Map<string, number>()
+
+  // Query amplia: noticias globales 48h, ordenadas por tono más negativo
+  // (mejor cobertura de temas críticos vs feed generalista)
   const url = buildGdeltDocUrl({
     query: '*',
-    theme: 'WAR_CONFLICT',
     timespan: '48h',
     mode: 'artlist',
     maxrecords: 250,
+    sort: 'tonedesc',  // priorizar tono extremo (positivo o negativo)
   })
-  const json = await fetchGdeltJson<any>(url, { timeoutMs: 9000, maxRetries: 1 })
-  if (!json?.articles) return result
-  for (const a of json.articles) {
-    const iso2 = (a.sourcecountry || '').toUpperCase()
-    if (!iso2) continue
-    result.set(iso2, (result.get(iso2) || 0) + 1)
+
+  try {
+    const json = await fetchGdeltJson<{
+      articles?: Array<{
+        sourcecountry?: string
+        tone?: number
+        themes?: string
+      }>
+    }>(url, { timeoutMs: 9000, maxRetries: 1 })
+    if (!json?.articles) return { tones, volumes }
+
+    for (const a of json.articles) {
+      const iso2 = (a.sourcecountry || '').toUpperCase()
+      if (!iso2) continue
+
+      // Acumular tono solo si es número válido
+      if (typeof a.tone === 'number' && !isNaN(a.tone)) {
+        const cur = tones.get(iso2) ?? { sum: 0, n: 0 }
+        cur.sum += a.tone
+        cur.n += 1
+        tones.set(iso2, cur)
+      }
+
+      // Contar artículos con tema WAR_CONFLICT/KILL/INSURGENCY
+      const themes = (a.themes || '').toUpperCase()
+      if (
+        themes.includes('WAR_CONFLICT') ||
+        themes.includes('KILL') ||
+        themes.includes('INSURGENCY') ||
+        themes.includes('TERROR_ATTACK') ||
+        themes.includes('PROTEST')
+      ) {
+        volumes.set(iso2, (volumes.get(iso2) || 0) + 1)
+      }
+    }
+  } catch {
+    // GDELT fallido · devolver maps vacíos · IRC usa solo V-Dem+SIPRI
   }
-  return result
+  return { tones, volumes }
 }
 
 export async function GET() {
   const startedAt = new Date().toISOString()
 
-  // Cargar señales GDELT en paralelo (1-2 reqs total · cache CDN ayuda)
-  const [tonesByISO2, volumesByISO2] = await Promise.all([
-    fetchGdeltTonesByCountry().catch(() => new Map<string, number>()),
-    fetchConflictVolumeByCountry().catch(() => new Map<string, number>()),
-  ])
+  // 1 SOLA query GDELT que devuelve tones y volumes por país (FIX-A4)
+  // (antes: 2 queries y la de tone retornaba siempre vacía por bug parsing)
+  const { tones: tonesByISO2, volumes: volumesByISO2 } = await fetchGdeltAggregate()
+  const gdeltAvailable = tonesByISO2.size > 0 || volumesByISO2.size > 0
 
   // Calcular IRC para cada país del catálogo
   const countries: CountryIRC[] = []
   for (const [iso3, coord] of Object.entries(COUNTRY_COORDS)) {
     const vdem = getVdemEntry(iso3)
     const sipri = getSipriEntry(iso3)
-    const tone = tonesByISO2.get(coord.iso2) ?? null
+    const toneEntry = tonesByISO2.get(coord.iso2)
+    const tone = toneEntry && toneEntry.n > 0
+      ? Math.round((toneEntry.sum / toneEntry.n) * 100) / 100
+      : null
     const volume = volumesByISO2.get(coord.iso2) ?? null
 
     const components = {
@@ -180,6 +216,12 @@ export async function GET() {
     ? Math.round((globalTone.reduce((s, t) => s + t, 0) / globalTone.length) * 100) / 100
     : null
 
+  // Total artículos conflict últimas 48h (suma absoluta)
+  const totalConflictArticles48h = Array.from(volumesByISO2.values()).reduce(
+    (s, n) => s + n,
+    0,
+  )
+
   return NextResponse.json({
     ok: true,
     countries,
@@ -188,20 +230,25 @@ export async function GET() {
       critical_risk_count: criticalCount,
       high_risk_count: highCount,
       avg_global_tone: avgGlobalTone,
+      total_conflict_articles_48h: totalConflictArticles48h,
+      countries_with_gdelt_signal: tonesByISO2.size,
       vdem_coverage: VDEM_COUNTRIES_COUNT,
       sipri_coverage: SIPRI_COUNTRIES_COUNT,
+      gdelt_available: gdeltAvailable,
     },
     fetched_at: startedAt,
     _meta: {
       sources: [
         { name: 'V-Dem Institute v15 (2024)', url: 'https://v-dem.net/data/', weight_pct: 40, role: 'riesgo autocrático' },
         { name: 'SIPRI Military Expenditure 2024', url: 'https://www.sipri.org/databases/milex', weight_pct: 15, role: 'militarización' },
-        { name: 'GDELT GKG · tono', url: 'https://api.gdeltproject.org/api/v2/doc/doc', weight_pct: 30, role: 'tono mediático 48h' },
-        { name: 'GDELT artículos WAR_CONFLICT', url: 'https://api.gdeltproject.org/', weight_pct: 15, role: 'volumen conflictos' },
+        { name: 'GDELT DOC v2 (artlist 250 sample 48h)', url: 'https://api.gdeltproject.org/api/v2/doc/doc', weight_pct: 30, role: 'tono mediático 48h · 1 query agregada' },
+        { name: 'GDELT artículos WAR_CONFLICT/KILL/PROTEST', url: 'https://api.gdeltproject.org/', weight_pct: 15, role: 'volumen conflictos · derivado del mismo sample' },
       ],
       cache_ttl_seconds: 1800,
-      methodology: 'IRC = ponderado ignorando nulls · escala 0-100 · niveles: <35 bajo, 35-55 moderado, 55-75 alto, ≥75 crítico',
+      methodology: 'IRC = ponderado ignorando nulls · escala 0-100 · niveles: <35 bajo, 35-55 moderado, 55-75 alto, ≥75 crítico · 1 query GDELT con sample 250 artículos sort=tonedesc cubre tone+volume',
       note: 'ACLED no disponible (acceso denegado mayo 2026) · sustituido por V-Dem + GDELT + SIPRI con UCDP en endpoints específicos',
+      version: 'FIX-A4 · 1 query GDELT agregada (tone+volume) · pre: 2 queries con bug parsing en timelinesourcecountry',
+      capa_gdelt_status: gdeltAvailable ? 'ok' : 'rate-limited',
     },
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=7200' },
