@@ -1,0 +1,5265 @@
+[
+  {
+    "slug": "sepi",
+    "tipo": "actor",
+    "nombre": "Sociedad Estatal de Participaciones Industriales",
+    "alias": "SEPI",
+    "cargo": "Holding empresarial del Estado español",
+    "bio_corta": "Brazo accionarial del Estado en empresas estratégicas. Adscrita al Ministerio de Hacienda. Accionista de Indra, Telefónica, Redeia, Enagás, Aena (vía Enaire), Hispasat. Presidida por Belén Gualda desde marzo 2022.",
+    "fuente_principal": "https://www.sepi.es",
+    "tags": [
+      "holding-estatal",
+      "ministerio:hacienda",
+      "accionista-control"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Sociedad Estatal de Participaciones Industriales (SEPI), creada en 1995 como sucesora del INI (Instituto Nacional de Industria) y del Patrimonio del Estado. Sede en Madrid."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Adscripción",
+            "contenido": "Adscrita al Ministerio de Hacienda. Su presidente/a es designado/a por Consejo de Ministros."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Origen INI",
+            "contenido": "Hereda en 1995 el legado del INI (creado en 1941). Privatizaciones masivas 1996-2004 bajo Aznar (Telefónica, Endesa, Repsol, Argentaria, Tabacalera, Indra…).",
+            "fecha": "1995-08-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fondo SEPI rescates Covid",
+            "contenido": "Crea el Fondo de Apoyo a la Solvencia con 10.000 M€ (RDL 25/2020). Rescates a Air Europa, Duro Felguera, Plus Ultra, Tubos Reunidos, etc. Plus Ultra muy polémico.",
+            "fecha": "2020-07-03",
+            "tags": [
+              "plus-ultra",
+              "controversia"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Entrada en Telefónica",
+            "contenido": "En 2024 toma ~10% de Telefónica como contrapeso a STC.",
+            "fecha": "2024-05-31"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Soberanía estratégica",
+            "contenido": "Bajo el Gobierno Sánchez, posicionamiento explícito a favor de defender empresas críticas (defensa, telecos, energía) frente a inversores extranjeros mediante toma de participaciones."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera de participadas",
+            "contenido": "Indra (28%), Telefónica (~10%), Redeia (20%), Enagás (~5%), Hispasat (vía Redeia), Aena (51% vía Enaire), Navantia (100%), Hunosa, Tragsa, Correos, Mercasa, EFE…",
+            "tags": [
+              "cartera"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Belén Gualda (presidenta)",
+            "contenido": "Ingeniera. Presidenta de SEPI desde marzo 2022. Sustituyó a Vicente Fernández Guerrero.",
+            "tags": [
+              "presidenta"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ministerio Hacienda - María Jesús Montero",
+            "contenido": "Tutela política. Montero vicepresidenta primera y ministra Hacienda.",
+            "tags": [
+              "politica",
+              "montero"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre Telefónica",
+            "contenido": "\"La entrada en Telefónica responde al carácter estratégico de la compañía\", comunicado oficial mayo 2024.",
+            "fecha": "2024-05-31"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Rescate Plus Ultra",
+            "contenido": "Préstamo participativo de 53 M€ a Plus Ultra (aerolínea con accionistas vinculados al chavismo). Investigación judicial archivada parcialmente, polémica política prolongada.",
+            "fecha": "2021-03-09",
+            "tags": [
+              "plus-ultra",
+              "judicial"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida abrupta consejeros Indra 2022",
+            "contenido": "SEPI impulsó la destitución de 4 consejeros independientes de Indra. CNMV expedientó.",
+            "fecha": "2022-06-23",
+            "tags": [
+              "indra"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web SEPI",
+            "fuente_url": "https://www.sepi.es"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "Cartera de empresas",
+            "fuente_url": "https://www.sepi.es/es/empresas-participadas"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ceoe",
+    "tipo": "actor",
+    "nombre": "Confederación Española de Organizaciones Empresariales",
+    "alias": "CEOE",
+    "cargo": "Patronal de las grandes empresas españolas",
+    "bio_corta": "Patronal española fundada en 1977. Representa a las grandes empresas, también a Cepyme y a casi 2 millones de empresas en total. Presidente: Antonio Garamendi desde 2018.",
+    "fuente_principal": "https://www.ceoe.es",
+    "tags": [
+      "patronal",
+      "dialogo-social"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CEOE, fundada en junio de 1977 en plena Transición. Sede en Madrid (calle Diego de León)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Membresía",
+            "contenido": "Representa ~2.500 organizaciones empresariales sectoriales y territoriales. Vía Cepyme integra a las pymes."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Presidencias destacadas",
+            "contenido": "Carlos Ferrer Salat (1977-84), José María Cuevas (1984-2007), Gerardo Díaz Ferrán (2007-2010), Juan Rosell (2010-2018), Antonio Garamendi (2018-presente).",
+            "tags": [
+              "historia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Crítica al Gobierno Sánchez",
+            "contenido": "Posición pública crítica con reformas laborales, fiscalidad extraordinaria, SMI por encima del 60% del salario medio, ley vivienda.",
+            "tags": [
+              "politica",
+              "sanchez"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Diálogo social",
+            "contenido": "Mesa tripartita con CCOO, UGT y Ministerio de Trabajo (Yolanda Díaz).",
+            "tags": [
+              "dialogo-social"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Grandes IBEX 35",
+            "contenido": "Vinculaciones con presidentes de Santander (Botín), Iberdrola (Sánchez Galán), ACS (Florentino), Inditex (anteriormente Pablo Isla como vicepresidente).",
+            "tags": [
+              "ibex35"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cepyme",
+            "contenido": "Confederación de pequeñas y medianas empresas, parte del Consejo Permanente de CEOE.",
+            "tags": [
+              "cepyme"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "BusinessEurope",
+            "contenido": "Patronal europea, CEOE como miembro fundador.",
+            "tags": [
+              "europa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Garamendi 2024",
+            "contenido": "\"La reducción de jornada por imposición destruye empleo\", declaración pública 2024.",
+            "fecha": "2024-02-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Díaz Ferrán condenado",
+            "contenido": "El ex presidente Gerardo Díaz Ferrán (2007-2010) fue condenado en 2018 a 5 años por concurso fraudulento. Daño reputacional histórico.",
+            "fecha": "2018-12-12",
+            "tags": [
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web CEOE",
+            "fuente_url": "https://www.ceoe.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "aeb",
+    "tipo": "actor",
+    "nombre": "Asociación Española de Banca",
+    "alias": "AEB",
+    "cargo": "Patronal de la banca privada española",
+    "bio_corta": "Patronal de la banca privada (no de antiguas cajas). Representa a Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, etc. Presidente: Alejandra Kindelán desde 2022 (primera mujer).",
+    "fuente_principal": "https://www.aebanca.es",
+    "tags": [
+      "patronal",
+      "banca"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Asociación Española de Banca (AEB), fundada en 1977. Sede en Madrid."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Kindelán al frente",
+            "contenido": "Alejandra Kindelán (ex Santander) preside la AEB desde 2022, primera mujer en el cargo.",
+            "fecha": "2022-02-08"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición frontal contra el gravamen extraordinario. Coordinación de los recursos judiciales del sector.",
+            "tags": [
+              "impuesto"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto extraordinario",
+            "contenido": "Coordinación del recurso judicial sectorial contra el gravamen.",
+            "tags": [
+              "impuesto"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "Posición neutral institucional, ambos miembros.",
+            "tags": [
+              "opa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "CECA",
+            "contenido": "AEB y CECA (cajas) son las dos patronales bancarias españolas, con coordinación creciente desde la crisis 2008-2012.",
+            "tags": [
+              "ceca"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Miembros",
+            "contenido": "Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, Bank of America España, Citi, JP Morgan.",
+            "tags": [
+              "miembros"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "European Banking Federation (EBF)",
+            "contenido": "Patronal europea. AEB miembro fundador.",
+            "tags": [
+              "ebf",
+              "europa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alejandra Kindelán",
+            "contenido": "Presidenta desde 2022.",
+            "tags": [
+              "kindelan"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "AEB",
+            "fuente_url": "https://www.aebanca.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "aelec",
+    "tipo": "actor",
+    "nombre": "Asociación de Empresas de Energía Eléctrica",
+    "alias": "AELEC",
+    "cargo": "Patronal eléctrica española",
+    "bio_corta": "Patronal de las eléctricas (antiguamente UNESA). Representa a Iberdrola, Endesa y EDP España (no a Naturgy, que opera vía Sedigás). Dirige el lobby eléctrico ante Gobierno y CNMC.",
+    "fuente_principal": "https://aelec.es",
+    "tags": [
+      "patronal",
+      "electricas"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "AELEC, sucesora de UNESA. Sede en Madrid."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Refundación UNESA → AELEC",
+            "contenido": "UNESA se reestructuró como AELEC en 2018 con foco en transición energética.",
+            "fecha": "2018-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Miembros",
+            "contenido": "Iberdrola, Endesa, EDP España. Naturgy fuera (opera vía Sedigás).",
+            "tags": [
+              "miembros"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Lobby Gobierno",
+            "contenido": "Interlocución con Ministerio de Transición Ecológica (Aagesen tras salto de Teresa Ribera a UE) y CNMC.",
+            "tags": [
+              "lobby"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Marina Serrano (presidenta)",
+            "contenido": "Presidenta de AELEC desde 2018.",
+            "tags": [
+              "serrano"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sánchez Galán / Bogas",
+            "contenido": "Voces más fuertes del sector representado.",
+            "tags": [
+              "iberdrola",
+              "endesa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "AELEC",
+            "fuente_url": "https://aelec.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cnmv",
+    "tipo": "actor",
+    "nombre": "Comisión Nacional del Mercado de Valores",
+    "alias": "CNMV",
+    "cargo": "Regulador de los mercados de valores españoles",
+    "bio_corta": "Regulador independiente de los mercados de valores. Supervisa a CNMV, BME, IBEX 35, OPVs, OPAs. Presidente: Carlos San Basilio desde 2024 (sustituye a Rodrigo Buenaventura).",
+    "fuente_principal": "https://www.cnmv.es",
+    "tags": [
+      "regulador",
+      "mercados-valores"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CNMV, creada en 1988 (Ley 24/1988 del Mercado de Valores). Sede en Madrid y oficina en Barcelona."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Presidencias recientes",
+            "contenido": "Sebastián Albella (2016-2020), Rodrigo Buenaventura (2020-2024), Carlos San Basilio (2024-)."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "Autorizó el folleto de la OPA en diciembre 2024.",
+            "tags": [
+              "opa"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Caso Grifols",
+            "contenido": "Expediente abierto 2024 sobre relación Grifols-Scranton tras Gotham.",
+            "tags": [
+              "grifols"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "Autorización CNMV requisito clave de la OPA. Diciembre 2024 CNMV autorizó el folleto.",
+            "tags": [
+              "bbva-sabadell"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Grifols",
+            "contenido": "Expediente abierto en 2024 por relación Grifols-Scranton tras Gotham.",
+            "tags": [
+              "grifols"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Indra",
+            "contenido": "Amonestó en 2022 por la destitución de consejeros independientes.",
+            "tags": [
+              "indra"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Carlos San Basilio",
+            "contenido": "Presidente desde 2024.",
+            "tags": [
+              "san-basilio"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "ESMA",
+            "contenido": "Reguladora europea. CNMV miembro de la junta.",
+            "tags": [
+              "esma"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Banco de España",
+            "contenido": "Coordinación regulatoria.",
+            "tags": [
+              "bde"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "fuente_url": "https://www.cnmv.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "casa-real",
+    "tipo": "actor",
+    "nombre": "Casa de Su Majestad el Rey",
+    "alias": "Casa Real",
+    "cargo": "Casa Real española",
+    "bio_corta": "Institución que asiste al Rey en sus funciones. Felipe VI desde 2014. Sede en Zarzuela (Madrid). Jefe de la Casa: Camilo Villarino desde 2023.",
+    "fuente_principal": "https://www.casareal.es",
+    "tags": [
+      "monarquia",
+      "institucion"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Casa de S.M. el Rey, asiste a Felipe VI (rey desde junio 2014, abdicación de Juan Carlos I)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abdicación",
+            "contenido": "Juan Carlos I abdica el 2 junio 2014.",
+            "fecha": "2014-06-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida emérito a Abu Dabi",
+            "contenido": "Juan Carlos I se traslada a Abu Dabi en agosto 2020 tras investigaciones judiciales abiertas en Suiza/España.",
+            "fecha": "2020-08-03",
+            "tags": [
+              "emerito"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Neutralidad institucional",
+            "contenido": "Doctrina pública de neutralidad política. Articulación con presidentes del Gobierno (PP y PSOE).",
+            "tags": [
+              "neutralidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment empresarial",
+            "contenido": "Vínculos institucionales con presidentes de Santander, Iberdrola, CaixaBank y otros.",
+            "tags": [
+              "empresariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Felipe VI",
+            "contenido": "Jefe de Estado desde junio 2014.",
+            "tags": [
+              "felipe-vi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Letizia Ortiz",
+            "contenido": "Reina consorte. Activa en programas Casa Real.",
+            "tags": [
+              "letizia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Carlos I emérito",
+            "contenido": "Reside en Abu Dabi desde agosto 2020.",
+            "tags": [
+              "emerito"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Camilo Villarino",
+            "contenido": "Jefe de la Casa desde 2023 (releva a Jaime Alfonsín).",
+            "tags": [
+              "villarino"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Casa Real",
+            "fuente_url": "https://www.casareal.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "psoe",
+    "tipo": "actor",
+    "nombre": "Partido Socialista Obrero Español",
+    "alias": "PSOE",
+    "cargo": "Partido político · centroizquierda",
+    "bio_corta": "Partido fundado en 1879 por Pablo Iglesias Posse. En el Gobierno desde junio 2018 con Pedro Sánchez como secretario general y presidente del Gobierno.",
+    "fuente_principal": "https://www.psoe.es",
+    "tags": [
+      "partido",
+      "centroizquierda",
+      "gobierno"
+    ],
+    "confidence": 0.95,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PSOE, fundado en 1879. Sede Ferraz, Madrid."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Liderazgos recientes",
+            "contenido": "Felipe González (1974-97), Joaquín Almunia (97-00), Zapatero (00-12), Rubalcaba (12-14), Sánchez (14-presente, con interrupción 2016-17).",
+            "tags": [
+              "historia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Agenda 2026",
+            "contenido": "Subida SMI, vivienda, fiscalidad progresiva, alianzas Sumar/ERC/PNV/Bildu/Junts.",
+            "tags": [
+              "agenda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "Secretario general y presidente del Gobierno.",
+            "tags": [
+              "sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PSC",
+            "contenido": "Federación catalana hermana.",
+            "tags": [
+              "psc"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cuadros en consejos IBEX",
+            "contenido": "Beatriz Corredor (Redeia), Maurici Lucena (Aena, PSC), Marc Murtra (Telefónica, próximo a PSC).",
+            "tags": [
+              "puertas-giratorias"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia PSOE socios",
+            "contenido": "Sumar, ERC, EH Bildu, PNV, BNG, Junts.",
+            "tags": [
+              "socios"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "PSOE",
+            "fuente_url": "https://www.psoe.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "psc",
+    "tipo": "actor",
+    "nombre": "Partido dels Socialistes de Catalunya",
+    "alias": "PSC",
+    "cargo": "Partido político · federación catalana del PSOE",
+    "bio_corta": "Federación catalana del PSOE. Salvador Illa primer secretario y president de la Generalitat desde agosto 2024.",
+    "fuente_principal": "https://www.socialistes.cat",
+    "tags": [
+      "partido",
+      "cataluna",
+      "psoe-familia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PSC, fundado 1978 (fusión PSC-Reagrupament, PSC-Congrès, Federació Catalana del PSOE)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Illa president",
+            "contenido": "Salvador Illa investido president de la Generalitat en agosto 2024 tras elecciones de mayo y pacto con ERC.",
+            "fecha": "2024-08-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cuadros en IBEX",
+            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena).",
+            "tags": [
+              "ibex35"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cuadros en empresas",
+            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena), José Montilla (consejos varios).",
+            "tags": [
+              "ibex35"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE federal",
+            "contenido": "Federación catalana hermana. Pacto de soberanía dual.",
+            "tags": [
+              "psoe"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "PSC",
+            "fuente_url": "https://www.socialistes.cat"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pp",
+    "tipo": "actor",
+    "nombre": "Partido Popular",
+    "alias": "PP",
+    "cargo": "Partido político · centroderecha",
+    "bio_corta": "Partido refundado en 1989 desde Alianza Popular (1976). En la oposición desde junio 2018. Presidente Alberto Núñez Feijóo desde abril 2022.",
+    "fuente_principal": "https://www.pp.es",
+    "tags": [
+      "partido",
+      "centroderecha",
+      "oposicion"
+    ],
+    "confidence": 0.93,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PP, sede en Génova, Madrid. Líderes: Fraga, Aznar, Rajoy, Casado, Feijóo."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Liderazgos",
+            "contenido": "Fraga (1989-90), Aznar (90-04), Rajoy (04-18), Casado (18-22), Feijóo (22-presente).",
+            "tags": [
+              "historia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Política económica",
+            "contenido": "Defensa de bajadas fiscales, liberalización de mercado de trabajo, oposición al impuesto bancario.",
+            "tags": [
+              "economia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Núñez Feijóo",
+            "contenido": "Presidente desde abril 2022.",
+            "tags": [
+              "feijoo"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cuadros pasados en empresa",
+            "contenido": "Manuel Pizarro (Santander), Rodrigo Rato (ex Bankia/FMI).",
+            "tags": [
+              "puertas-giratorias"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Comunidad Madrid - Ayuso",
+            "contenido": "Bastión del PP. Diálogo con establishment empresarial (Florentino, Del Pino, Botín).",
+            "tags": [
+              "ayuso"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "PP",
+            "fuente_url": "https://www.pp.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pnv",
+    "tipo": "actor",
+    "nombre": "Partido Nacionalista Vasco / Euzko Alderdi Jeltzalea",
+    "alias": "PNV / EAJ",
+    "cargo": "Partido político · nacionalismo vasco democristiano",
+    "bio_corta": "Partido fundado en 1895 por Sabino Arana. Lehendakari Imanol Pradales desde junio 2024 (sustituye a Iñigo Urkullu). Presidente del EBB: Andoni Ortuzar.",
+    "fuente_principal": "https://www.eaj-pnv.eus",
+    "tags": [
+      "partido",
+      "euskadi",
+      "nacionalismo"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PNV/EAJ. Sede en Sabin Etxea (Bilbao). Fundado 1895."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Estatus vasco",
+            "contenido": "Defensa del Concierto Económico y del autogobierno vasco. Pactos puntuales con PSOE y PP a cambio de cuota fiscal.",
+            "tags": [
+              "concierto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "Lehendakari desde junio 2024.",
+            "tags": [
+              "pradales"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Andoni Ortuzar",
+            "contenido": "Presidente del EBB del PNV.",
+            "tags": [
+              "ortuzar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Josu Jon Imaz",
+            "contenido": "Ex presidente del EBB (2004-2007), hoy CEO de Repsol.",
+            "tags": [
+              "imaz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Aitor Esteban",
+            "contenido": "Portavoz histórico en el Congreso, clave en pactos con Sánchez.",
+            "tags": [
+              "congreso"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Empresariado vasco",
+            "contenido": "Vínculos con Confebask, BBK, Kutxabank, Iberdrola (Sánchez Galán).",
+            "tags": [
+              "empresariado"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "PNV",
+            "fuente_url": "https://www.eaj-pnv.eus"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "teresa-ribera",
+    "tipo": "politico",
+    "nombre": "Teresa Ribera Rodríguez",
+    "alias": "Teresa Ribera",
+    "cargo": "Vicepresidenta ejecutiva de la Comisión Europea (Transición Limpia, Competencia)",
+    "bio_corta": "Política PSOE. Ex vicepresidenta tercera del Gobierno y ministra para la Transición Ecológica (2018-2024). Vicepresidenta ejecutiva de la Comisión Europea desde diciembre 2024.",
+    "fuente_principal": "https://commission.europa.eu",
+    "tags": [
+      "politico",
+      "psoe",
+      "comision-europea",
+      "transicion-ecologica"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.75,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Madrid, 1969. Licenciada en Derecho (Universidad Complutense). Cuerpo Superior de Administradores Civiles del Estado."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Secretaria Cambio Climático",
+            "contenido": "Secretaria de Estado de Cambio Climático con Zapatero (2008-2011).",
+            "fecha": "2008-04-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Directora IDDRI",
+            "contenido": "Directora del Institut du Développement Durable et des Relations Internationales (París) 2014-2018.",
+            "fecha": "2014-03-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ministra Transición",
+            "contenido": "Ministra de Transición Ecológica 2018-2024. Vicepresidenta tercera 2020-2023, segunda 2023-2024.",
+            "fecha": "2018-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Comisión Europea",
+            "contenido": "Vicepresidenta ejecutiva en la Comisión von der Leyen II desde diciembre 2024.",
+            "fecha": "2024-12-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Climática",
+            "contenido": "Una de las voces más reconocidas internacionalmente en política climática. Defensora del Net Zero 2050 europeo.",
+            "tags": [
+              "clima"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Tope al gas",
+            "contenido": "Co-diseñadora de la 'excepción ibérica' al precio del gas (2022) con Portugal.",
+            "tags": [
+              "mibel",
+              "tope-gas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "Una de las ministras de mayor confianza del presidente.",
+            "tags": [
+              "sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tensión con eléctricas",
+            "contenido": "Pulso público con Iberdrola (Sánchez Galán) y Repsol (Imaz) por impuesto extraordinario y modelo de mercado.",
+            "tags": [
+              "iberdrola",
+              "repsol"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sara Aagesen",
+            "contenido": "Su sucesora como ministra Transición Ecológica tras salto a UE.",
+            "tags": [
+              "sucesora"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "COP28",
+            "contenido": "\"El fin de los combustibles fósiles es una decisión técnica y política inaplazable\", Dubai 2023.",
+            "fecha": "2023-12-12"
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Comisión Europea",
+            "fuente_url": "https://commission.europa.eu/about/organisation/college-commissioners/teresa-ribera_es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "joan-laporta",
+    "tipo": "politico",
+    "nombre": "Joan Laporta Estruch",
+    "alias": "Joan Laporta",
+    "cargo": "Presidente del FC Barcelona",
+    "bio_corta": "Abogado y dirigente deportivo catalán. Presidente del FC Barcelona en dos etapas (2003-2010 y 2021-presente). Independentista. Diputado en el Parlament por Solidaritat Catalana (2010-2012).",
+    "fuente_principal": "https://www.fcbarcelona.es",
+    "tags": [
+      "dirigente-deportivo",
+      "fc-barcelona",
+      "cataluna",
+      "independentista"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1962. Licenciado en Derecho (UB)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Primera presidencia",
+            "contenido": "Presidente FC Barcelona 2003-2010 (era Ronaldinho-Messi-Guardiola).",
+            "fecha": "2003-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Solidaritat Catalana",
+            "contenido": "Diputado del Parlament por Solidaritat (independentista) 2010-2012.",
+            "fecha": "2010-11-28"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Segunda presidencia",
+            "contenido": "Vuelve a presidir Barça en marzo 2021.",
+            "fecha": "2021-03-07"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Florentino Pérez",
+            "contenido": "Aliado inesperado en la Superliga europea (2021-presente).",
+            "tags": [
+              "superliga",
+              "florentino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Independentismo",
+            "contenido": "Posición pro-independencia consistente. Cordialidad con ERC y JxCat.",
+            "tags": [
+              "independentismo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "FC Barcelona",
+            "fuente_url": "https://www.fcbarcelona.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pontegadea",
+    "tipo": "actor",
+    "nombre": "Pontegadea Inversiones S.L.",
+    "alias": "Pontegadea",
+    "cargo": "Holding patrimonial de Amancio Ortega",
+    "bio_corta": "Vehículo de inversión personal de Amancio Ortega. Mayor inmobiliaria privada de España y una de las mayores del mundo. Controla 59% de Inditex y cartera inmobiliaria con edificios icónicos.",
+    "fuente_principal": "https://www.pontegadea.com",
+    "tags": [
+      "holding-familiar",
+      "ortega",
+      "inmobiliario",
+      "accionista-control:inditex"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Pontegadea Inversiones S.L., sede en A Coruña. Vehículo patrimonial de Amancio Ortega."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diversificación inmobiliaria",
+            "contenido": "Desde la OPV de Inditex (2001), Pontegadea reinvirtió dividendos en inmobiliario prime en Madrid, Barcelona, Londres, NY, Miami, París.",
+            "fecha": "2001-05-23"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Inditex",
+            "contenido": "~59% del capital. Mayor activo individual.",
+            "tags": [
+              "inditex"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera inmobiliaria",
+            "contenido": "Torre Picasso (Madrid), Castellana 81, Hotel Marqués de Riscal, Edificio Cepsa, Trump Tower (Manhattan), edificios en Nueva York/Londres/París.",
+            "tags": [
+              "inmobiliario"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Inversiones recientes",
+            "contenido": "Diversificación reciente a energías renovables (Repsol JV, Acciona Energía indirectamente) e infraestructura.",
+            "tags": [
+              "energia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sandra Ortega",
+            "contenido": "Hermana de Amancio (heredera de Rosalía Mera) tiene su propio vehículo: Rosp Corunna. No es Pontegadea.",
+            "tags": [
+              "familia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Pontegadea",
+            "fuente_url": "https://www.pontegadea.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "criteria-caixa",
+    "tipo": "actor",
+    "nombre": "CriteriaCaixa S.A.U.",
+    "alias": "Criteria",
+    "cargo": "Holding industrial de la Fundación La Caixa",
+    "bio_corta": "Vehículo industrial 100% de la Fundación La Caixa. Accionista de control de CaixaBank, Naturgy, Telefónica, Cellnex y otros. Presidente: Isidre Fainé.",
+    "fuente_principal": "https://www.criteria.com",
+    "tags": [
+      "holding",
+      "caixa",
+      "accionista-control:multiple"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CriteriaCaixa S.A.U., holding industrial. 100% Fundación La Caixa. Sede en Barcelona."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Desbancarización",
+            "contenido": "En 2014 la Fundación La Caixa se reorganiza: Criteria recibe la participación industrial, separada del banco.",
+            "fecha": "2014-06-29"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera",
+            "contenido": "CaixaBank ~32%, Naturgy ~26%, Telefónica ~2,7%, Cellnex ~5%, Saba (aparcamientos), inmobiliario y participaciones internacionales.",
+            "tags": [
+              "cartera"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé",
+            "contenido": "Presidente. Toma de decisiones estratégicas.",
+            "tags": [
+              "faine"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ángel Simón",
+            "contenido": "CEO desde marzo 2024 (anteriormente CEO de Agbar).",
+            "tags": [
+              "simon"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Criteria",
+            "fuente_url": "https://www.criteria.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cartival",
+    "tipo": "actor",
+    "nombre": "Cartival S.A.",
+    "alias": "Cartival",
+    "cargo": "Vehículo patrimonial de la rama Botín-Rivero",
+    "bio_corta": "Sociedad patrimonial controlada por Jaime Botín-Sanz de Sautuola (hermano del fallecido Emilio Botín). Mayor accionista de Bankinter (~22%).",
+    "fuente_principal": "https://www.bankinter.com",
+    "tags": [
+      "holding-familiar",
+      "botin",
+      "accionista-control:bankinter"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Cartival S.A., vehículo de la rama Botín-Rivero, particularmente Jaime Botín."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Vehículo Jaime Botín",
+            "contenido": "Sociedad patrimonial articulada por Jaime Botín tras la separación operativa de la rama O'Shea (Santander).",
+            "fecha": "1992-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Bankinter",
+            "contenido": "~22% del capital, accionista de referencia.",
+            "tags": [
+              "bankinter"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Jaime Botín",
+            "contenido": "Beneficiario último.",
+            "tags": [
+              "jaime-botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Guerrero (presidente Bankinter)",
+            "contenido": "Interlocutor permanente como presidente del consejo de Bankinter.",
+            "tags": [
+              "bankinter",
+              "guerrero"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Botín-Rivero",
+            "contenido": "Beneficiarios últimos.",
+            "tags": [
+              "botin-rivero"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Picasso (Jaime Botín)",
+            "contenido": "Condena penal del beneficiario último por contrabando del cuadro Cabeza de mujer joven.",
+            "fecha": "2020-01-16",
+            "tags": [
+              "picasso"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CNMV"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "scranton-enterprises",
+    "tipo": "actor",
+    "nombre": "Scranton Enterprises B.V.",
+    "alias": "Scranton",
+    "cargo": "Vehículo familiar Grifols (Países Bajos)",
+    "bio_corta": "Sociedad holandesa de la familia Grifols. Adquirió en 2018 los activos Biotest US e Haema vendidos por Grifols, generando posteriormente la polémica destapada por Gotham City (2024).",
+    "fuente_principal": "https://www.grifols.com",
+    "tags": [
+      "holding-familiar",
+      "grifols",
+      "paises-bajos"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Scranton Enterprises B.V., sociedad neerlandesa. Beneficiarios miembros de la familia Grifols y entorno."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Compra Biotest/Haema",
+            "contenido": "En 2018 Scranton compra a Grifols los activos Biotest US e Haema (Alemania) por 538 M$. Polémico: Grifols mantuvo gestión y consolidación contable.",
+            "fecha": "2018-08-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ataque Gotham",
+            "contenido": "En enero 2024 Gotham City Research publica informe atacando la doble consolidación y el control efectivo. Grifols perdió >40% en bolsa.",
+            "fecha": "2024-01-09",
+            "tags": [
+              "gotham"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Grifols",
+            "contenido": "Beneficiarios últimos: ramas de la familia con participación.",
+            "tags": [
+              "familia-grifols"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Grifols S.A.",
+            "contenido": "Vínculo operativo permanente: compró activos a Grifols en 2018 (Biotest US, Haema).",
+            "tags": [
+              "grifols"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gotham City Research",
+            "contenido": "Identificó la relación en informe enero 2024 como problema contable.",
+            "tags": [
+              "gotham"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "CNMV",
+            "contenido": "Expediente abierto desde 2024.",
+            "tags": [
+              "cnmv"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Investigación CNMV",
+            "contenido": "CNMV abrió expediente en 2024 sobre la relación Grifols-Scranton.",
+            "tags": [
+              "cnmv"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Informes anuales Grifols",
+            "fuente_url": "https://www.grifols.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alba-march",
+    "tipo": "actor",
+    "nombre": "Corporación Financiera Alba S.A.",
+    "alias": "Alba (March)",
+    "cargo": "Holding patrimonial de la familia March",
+    "bio_corta": "Vehículo de la familia March. Cotizada en bolsa. Accionista de Acerinox, Naturgy, ACS, Indra, Ebro Foods, CIE Automotive y otros.",
+    "fuente_principal": "https://www.corporacionalba.es",
+    "tags": [
+      "holding-familiar",
+      "march",
+      "cotizada"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Corporación Financiera Alba S.A., con sede en Madrid. Vehículo de la familia March (descendientes de Juan March Ordinas)."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera",
+            "contenido": "Acerinox ~19%, ACS ~13%, Naturgy ~5%, Ebro Foods ~14%, CIE Automotive ~11%, Indra ~6%.",
+            "tags": [
+              "cartera"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia March",
+            "contenido": "Carlos y Juan March controlan. Asset manager histórico (Banca March).",
+            "tags": [
+              "march"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Corporación Alba",
+            "fuente_url": "https://www.corporacionalba.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fundacion-la-caixa",
+    "tipo": "actor",
+    "nombre": "Fundación Bancaria La Caixa",
+    "alias": "Fundación La Caixa",
+    "cargo": "Mayor fundación filantrópica privada de España",
+    "bio_corta": "Una de las mayores fundaciones del mundo por presupuesto (~600 M€/año). Heredera del 100% de La Caixa tras la desbancarización (2014). Patronato presidido por Isidre Fainé.",
+    "fuente_principal": "https://fundacionlacaixa.org",
+    "tags": [
+      "fundacion",
+      "caixa",
+      "filantropia"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Bancaria La Caixa, sede en Barcelona (CosmoCaixa, CaixaForum). Presupuesto anual ~600 M€."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "CriteriaCaixa",
+            "contenido": "Controla 100% de Criteria (que tiene la cartera industrial).",
+            "tags": [
+              "criteria"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "CaixaBank",
+            "contenido": "Vía Criteria, ~32% de CaixaBank.",
+            "tags": [
+              "caixabank"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé",
+            "contenido": "Presidente del patronato.",
+            "tags": [
+              "faine"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Áreas de acción",
+            "contenido": "Programas sociales, investigación biomédica (IRB Barcelona), cultura (CaixaForum), educación, becas."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fundación",
+            "fuente_url": "https://fundacionlacaixa.org"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fundacion-mapfre",
+    "tipo": "actor",
+    "nombre": "Fundación Mapfre",
+    "alias": "Fundación Mapfre",
+    "cargo": "Fundación filantrópica y accionista de control de Mapfre",
+    "bio_corta": "Fundación que controla el 70% de Mapfre S.A. Brazo cultural con sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga Nogués).",
+    "fuente_principal": "https://www.fundacionmapfre.org",
+    "tags": [
+      "fundacion",
+      "mapfre",
+      "accionista-control"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Mapfre, accionista de control histórico de Mapfre S.A."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Mapfre S.A.",
+            "contenido": "~70% del capital.",
+            "tags": [
+              "mapfre"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Antonio Huertas",
+            "contenido": "Presidente de Mapfre.",
+            "tags": [
+              "huertas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Patronato",
+            "contenido": "Patronato presidido por Antonio Huertas, presidente de Mapfre.",
+            "tags": [
+              "huertas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Programas culturales",
+            "contenido": "Sala Recoletos (Madrid), Casa Garriga Nogués (Barcelona). Exposiciones y premios.",
+            "tags": [
+              "cultura"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Programas sociales LatAm",
+            "contenido": "Programas en países Mapfre (Brasil, México, Perú, Colombia).",
+            "tags": [
+              "latam"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fundación Mapfre",
+            "fuente_url": "https://www.fundacionmapfre.org"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fundacion-unicaja",
+    "tipo": "actor",
+    "nombre": "Fundación Bancaria Unicaja",
+    "alias": "Fundación Unicaja",
+    "cargo": "Accionista de control de Unicaja Banco",
+    "bio_corta": "Fundación bancaria malagueña heredera de Unicaja. Accionista del 30% de Unicaja Banco. Patronazgo histórico de Braulio Medel; relevado en 2024 tras crisis con CNMV.",
+    "fuente_principal": "https://fundacionunicaja.com",
+    "tags": [
+      "fundacion",
+      "unicaja",
+      "accionista-control"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Unicaja, sede en Málaga."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis Medel",
+            "contenido": "En 2023-2024 CNMV cuestionó el control efectivo de la Fundación sobre Unicaja. Relevo de Braulio Medel.",
+            "fecha": "2023-09-15",
+            "tags": [
+              "medel",
+              "crisis"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Unicaja Banco",
+            "contenido": "~30%.",
+            "tags": [
+              "unicaja"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Patronato post-Medel",
+            "contenido": "Tras la crisis 2023-2024, renovación del patronato con perfiles independientes.",
+            "tags": [
+              "medel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bipartidismo andaluz",
+            "contenido": "Histórica relación con PSOE-A y PP-A. Caja con perfil político.",
+            "tags": [
+              "andalucia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fundación",
+            "fuente_url": "https://fundacionunicaja.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fundacion-rafael-del-pino",
+    "tipo": "actor",
+    "nombre": "Fundación Rafael del Pino",
+    "alias": "Fundación Rafael del Pino",
+    "cargo": "Fundación liberal patrocinada por la familia Del Pino",
+    "bio_corta": "Una de las principales fundaciones de pensamiento liberal en España. Patrocinada por la familia Del Pino (Ferrovial). Patrocina foros (Madrid Forum), cátedras y becas.",
+    "fuente_principal": "https://www.frdelpino.es",
+    "tags": [
+      "fundacion",
+      "del-pino",
+      "liberalismo",
+      "think-tank"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Rafael del Pino, sede en Madrid (calle Rafael Calvo). Acoge foros con economistas y políticos liberales."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Rafael del Pino",
+            "contenido": "Presidente.",
+            "tags": [
+              "del-pino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ideología",
+            "contenido": "Plataforma de promoción del pensamiento liberal en España. Vínculos con Mont Pelerin Society y FAES.",
+            "tags": [
+              "liberalismo"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Madrid Forum",
+            "contenido": "Foro anual con economistas y políticos liberales (LLM, exministros, académicos).",
+            "tags": [
+              "madrid-forum"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FAES / Mont Pelerin Society",
+            "contenido": "Vínculos con think tanks liberales nacionales e internacionales.",
+            "tags": [
+              "faes",
+              "mps"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fundación",
+            "fuente_url": "https://www.frdelpino.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fundacion-botin",
+    "tipo": "actor",
+    "nombre": "Fundación Marcelino Botín",
+    "alias": "Fundación Botín",
+    "cargo": "Fundación filantrópica de la familia Botín",
+    "bio_corta": "Fundación cultural y científica de la familia Botín. Sede principal en Santander (Centro Botín, diseñado por Renzo Piano, 2017). Patronazgo de Ana Botín.",
+    "fuente_principal": "https://www.fundacionbotin.org",
+    "tags": [
+      "fundacion",
+      "botin",
+      "cultura"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Marcelino Botín, fundada 1964. Centro Botín en Santander (2017)."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Botín",
+            "contenido": "Patronazgo familiar. Ana Botín presidenta.",
+            "tags": [
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ana Botín",
+            "contenido": "Presidenta del patronato. Continuidad familiar.",
+            "tags": [
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Programa Talento Solidario y Ciencia",
+            "contenido": "Becas en programas científicos (CSIC), arte y emprendimiento social.",
+            "tags": [
+              "programas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Renzo Piano - Centro Botín",
+            "contenido": "Centro Botín en Santander (2017) diseñado por Renzo Piano.",
+            "tags": [
+              "centro-botin"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fundación Botín",
+            "fuente_url": "https://www.fundacionbotin.org"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "real-madrid",
+    "tipo": "actor",
+    "nombre": "Real Madrid Club de Fútbol",
+    "alias": "Real Madrid",
+    "cargo": "Club de fútbol",
+    "bio_corta": "Club de fútbol con mayor palmarés europeo. Presidido por Florentino Pérez. Estatuto de club deportivo (socios, no S.A.D.).",
+    "fuente_principal": "https://www.realmadrid.com",
+    "tags": [
+      "club-deportivo",
+      "florentino"
+    ],
+    "confidence": 0.95,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Real Madrid CF, fundado 1902. Estadio Santiago Bernabéu (Madrid). ~95.000 socios."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Superliga",
+            "contenido": "Impulsor del proyecto Superliga europea desde abril 2021.",
+            "tags": [
+              "superliga"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Florentino Pérez",
+            "contenido": "Presidente desde 2009 (segunda etapa).",
+            "tags": [
+              "florentino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Superliga",
+            "contenido": "Impulsor con FC Barcelona del proyecto Superliga europea desde 2021.",
+            "tags": [
+              "superliga"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Joan Laporta / FC Barcelona",
+            "contenido": "Aliado en la Superliga. Eje Madrid-Barcelona inusual.",
+            "tags": [
+              "laporta",
+              "fcbarcelona"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "UEFA - conflicto",
+            "contenido": "Pulso público con la UEFA (Aleksander Čeferin) por la Superliga.",
+            "tags": [
+              "uefa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Real Madrid",
+            "fuente_url": "https://www.realmadrid.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jaime-botin",
+    "tipo": "actor",
+    "nombre": "Jaime Botín-Sanz de Sautuola y García de los Ríos",
+    "alias": "Jaime Botín",
+    "cargo": "Empresario · accionista de control de Bankinter vía Cartival",
+    "bio_corta": "Banquero. Hermano del fallecido Emilio Botín. Vinculado históricamente a Bankinter vía Cartival (~22%). Condenado en 2020 por contrabando del cuadro 'Cabeza de mujer joven' de Picasso.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Jaime_Bot%C3%ADn",
+    "tags": [
+      "botin",
+      "bankinter",
+      "condenado"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Santander, 1936. Hermano del Emilio Botín II (padre de Ana Botín)."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cartival / Bankinter",
+            "contenido": "Beneficiario último de Cartival, ~22% Bankinter.",
+            "tags": [
+              "bankinter",
+              "cartival"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Botín",
+            "contenido": "Rama Botín-Rivero, separada institucionalmente de la rama Botín-O'Shea (Ana Botín).",
+            "tags": [
+              "familia-botin"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Picasso",
+            "contenido": "Condenado por la AN en enero 2020 a 18 meses (luego reducida) por intentar sacar de España el cuadro 'Cabeza de mujer joven' (Picasso, 1906) en su yate.",
+            "fecha": "2020-01-16",
+            "tags": [
+              "judicial",
+              "picasso"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Sentencia AN 2020",
+            "fuente_url": "https://www.audienciananacional.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "villarejo",
+    "tipo": "issue",
+    "nombre": "Caso Villarejo (Operación Tándem)",
+    "alias": "Caso Villarejo",
+    "cargo": "Macrocausa Audiencia Nacional · espionaje y corrupción",
+    "bio_corta": "Macrocausa abierta en la AN tras la detención en 2017 del comisario José Manuel Villarejo. Pieza Tándem investiga su red de espionaje y corrupción para empresas (BBVA, Iberdrola, Repsol) y particulares. Más de 30 piezas.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Caso_Villarejo",
+    "tags": [
+      "judicial",
+      "macrocausa",
+      "audiencia-nacional",
+      "espionaje"
+    ],
+    "confidence": 0.95,
+    "completeness": 0.8,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Diligencias previas 96/2017 del Juzgado Central 6 de la AN. Magistrado instructor: Manuel García-Castellón."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Detención Villarejo",
+            "contenido": "José Manuel Villarejo Pérez detenido el 3 noviembre 2017 junto con su mujer y hijo.",
+            "fecha": "2017-11-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Imputación BBVA-FG",
+            "contenido": "Imputación a Francisco González (ex presidente BBVA) en julio 2020 por la pieza Tándem-BBVA.",
+            "fecha": "2020-07-29",
+            "tags": [
+              "bbva"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Imputación Iberdrola",
+            "contenido": "Iberdrola y Sánchez Galán imputados en diciembre 2022 por la pieza Tándem-Iberdrola.",
+            "fecha": "2022-12-09",
+            "tags": [
+              "iberdrola"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sentencia parcial 2024",
+            "contenido": "Sentencias parciales sobre piezas menores. Las piezas BBVA e Iberdrola siguen en instrucción.",
+            "fecha": "2024-12-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Procesados (jurídicos)",
+            "contenido": "BBVA, Iberdrola (personas jurídicas). Repsol investigada.",
+            "tags": [
+              "bbva",
+              "iberdrola",
+              "repsol"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Imputados destacados",
+            "contenido": "Francisco González (ex pte BBVA), Ignacio Sánchez Galán (Iberdrola), ex directivos varios.",
+            "tags": [
+              "fg",
+              "galan"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Víctimas de espionaje",
+            "contenido": "Sacyr/Luis del Rivero, Florentino Pérez/ACS, exministros, juezas/jueces, periodistas.",
+            "tags": [
+              "victimas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Resumen",
+            "fuente_url": "https://es.wikipedia.org/wiki/Caso_Villarejo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "caso-tarjetas-black",
+    "tipo": "issue",
+    "nombre": "Caso Tarjetas Black",
+    "alias": "Tarjetas Black",
+    "cargo": "Causa judicial · uso indebido de tarjetas opacas Caja Madrid/Bankia",
+    "bio_corta": "Causa por uso indebido de tarjetas de empresa por consejeros y directivos de Caja Madrid/Bankia entre 1988 y 2012, sin declarar a Hacienda. Sentencia AN 2017, confirmada por TS 2018. 65 condenados.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Caso_de_las_tarjetas_black",
+    "tags": [
+      "judicial",
+      "bankia",
+      "caja-madrid"
+    ],
+    "confidence": 0.95,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Pieza separada del caso Bankia. Sentencia AN 23 febrero 2017. Confirmada por el TS en 2018."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sentencia AN",
+            "contenido": "23 febrero 2017. Condenados 65 ex consejeros y ex directivos de Caja Madrid/Bankia.",
+            "fecha": "2017-02-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "TS confirma",
+            "contenido": "Sala Penal del TS confirmó condenas en octubre 2018.",
+            "fecha": "2018-10-03"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Condenados destacados",
+            "contenido": "Rodrigo Rato (4,5 años), Miguel Blesa (6 años), Ildefonso Sánchez Barcoj, etc.",
+            "tags": [
+              "rato",
+              "blesa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rodrigo Rato",
+            "contenido": "Condenado a 4,5 años (TS 2018).",
+            "tags": [
+              "rato"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Miguel Blesa",
+            "contenido": "Condenado a 6 años. Suicidio en 2017 antes de ingreso en prisión.",
+            "tags": [
+              "blesa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "65 condenados",
+            "contenido": "Ex consejeros y directivos de Caja Madrid y Bankia (sindicatos, PSOE, PP, IU).",
+            "tags": [
+              "condenados"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bankia/CaixaBank",
+            "contenido": "Heredero institucional. Bankia indemnizada por sus responsables.",
+            "tags": [
+              "bankia",
+              "caixabank"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Sentencia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Caso_de_las_tarjetas_black"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "caso-picasso",
+    "tipo": "issue",
+    "nombre": "Caso Picasso (Jaime Botín)",
+    "alias": "Caso Picasso",
+    "cargo": "Causa judicial · contrabando bienes culturales",
+    "bio_corta": "Causa por contrabando de bienes culturales contra Jaime Botín. Intentó sacar de España en su yate el cuadro 'Cabeza de mujer joven' (Picasso, 1906). Condenado AN en 2020.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Jaime_Bot%C3%ADn",
+    "tags": [
+      "judicial",
+      "botin",
+      "patrimonio-cultural"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Intervención Aduanas",
+            "contenido": "Aduanas francesas interceptan el cuadro en Córcega (julio 2015) en el yate de Jaime Botín. Cuadro tasado en 25 M€.",
+            "fecha": "2015-07-31"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sentencia AN",
+            "contenido": "Jaime Botín condenado a 18 meses de cárcel (no entró), 91,7 M€ de multa y comiso del cuadro para el Estado.",
+            "fecha": "2020-01-16"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Jaime Botín",
+            "contenido": "Condenado AN 2020 (18 meses + 91 M€ multa + comiso cuadro).",
+            "tags": [
+              "jaime-botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cabeza de mujer joven (Picasso)",
+            "contenido": "Cuadro decomisado por el Estado español tasado en 25 M€.",
+            "tags": [
+              "picasso"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Aduanas francesas",
+            "contenido": "Interceptaron el yate en Córcega (julio 2015) detectando el cuadro.",
+            "tags": [
+              "aduanas",
+              "francia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Jaime_Bot%C3%ADn"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-botin",
+    "tipo": "actor",
+    "nombre": "Familia Botín",
+    "alias": "Familia Botín",
+    "cargo": "Saga banquera cántabra",
+    "bio_corta": "Familia banquera. Tres generaciones al frente del Santander desde 1950. Ana Botín actual presidenta. Rama colateral Botín-Rivero (Jaime Botín, Bankinter).",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Familia_Bot%C3%ADn",
+    "tags": [
+      "familia",
+      "botin",
+      "banca"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Saga",
+            "contenido": "Saga banquera. Emilio Botín-Sanz de Sautuola y López (1903-93), Emilio Botín-Sanz de Sautuola y García de los Ríos (1934-2014), Ana Patricia Botín-Sanz de Sautuola O'Shea (1960-)."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Ramas",
+            "contenido": "Rama Botín-O'Shea (Santander, Ana Botín). Rama Botín-Rivero (Bankinter, Jaime Botín)."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rama Botín-O'Shea (Santander)",
+            "contenido": "Ana Patricia (presidenta Santander), Javier (consejero familiar), Carmen, Paloma. Madre Carmen O'Shea Soriano.",
+            "tags": [
+              "santander"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rama Botín-Rivero (Bankinter)",
+            "contenido": "Jaime Botín (Bankinter vía Cartival, condenado Picasso). Sobrinos vinculados a Bankinter.",
+            "tags": [
+              "bankinter",
+              "cartival"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Botín / Centro Botín",
+            "contenido": "Plataforma filantrópica y cultural.",
+            "tags": [
+              "fundacion-botin"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Familia_Bot%C3%ADn"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-del-pino",
+    "tipo": "actor",
+    "nombre": "Familia Del Pino",
+    "alias": "Familia Del Pino",
+    "cargo": "Familia controladora de Ferrovial",
+    "bio_corta": "Familia madrileña controladora de Ferrovial (~33%). Rafael del Pino y Moreno (fundador, 1920-2008); sucesión por sus hijos Rafael, María, Joaquín, Leopoldo y Fernando. Una de las grandes fortunas de España.",
+    "fuente_principal": "https://www.ferrovial.com",
+    "tags": [
+      "familia",
+      "del-pino",
+      "ferrovial"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Hijos",
+            "contenido": "Rafael (presidente Ferrovial), María, Joaquín, Leopoldo, Fernando. Todos accionistas."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ferrovial (~33%)",
+            "contenido": "Accionista de control vía sociedades patrimoniales.",
+            "tags": [
+              "ferrovial"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rafael, María, Joaquín, Leopoldo, Fernando",
+            "contenido": "Hermanos accionistas. Rafael presidente, María consejera, otros con vehículos propios.",
+            "tags": [
+              "hermanos"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "Plataforma liberal en España.",
+            "tags": [
+              "fundacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Ferrovial",
+            "fuente_url": "https://www.ferrovial.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-entrecanales",
+    "tipo": "actor",
+    "nombre": "Familia Entrecanales-Domecq",
+    "alias": "Familia Entrecanales",
+    "cargo": "Familia controladora de Acciona",
+    "bio_corta": "Familia madrileña-jerezana controladora de Acciona (~55% vía sociedades patrimoniales). Tres generaciones desde el fundador José Entrecanales y Azcárate.",
+    "fuente_principal": "https://www.acciona.com",
+    "tags": [
+      "familia",
+      "entrecanales",
+      "acciona"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cabeza visible",
+            "contenido": "José Manuel Entrecanales Domecq, presidente de Acciona."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Acciona (~55%)",
+            "contenido": "Control vía vehículos Tussen de Grachten, Wit Europese, otros.",
+            "tags": [
+              "acciona"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "José Manuel y Juan Ignacio Entrecanales Domecq",
+            "contenido": "Hermanos cabeza visible.",
+            "tags": [
+              "hermanos"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Acciona",
+            "fuente_url": "https://www.acciona.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-grifols",
+    "tipo": "actor",
+    "nombre": "Familia Grifols",
+    "alias": "Familia Grifols",
+    "cargo": "Familia controladora de Grifols",
+    "bio_corta": "Familia catalana controladora de Grifols (~30%) vía Scranton y otros vehículos. Tres generaciones desde Josep Antoni Grifols. Tensión interna 2024-2025 por crisis Gotham y OPA Brookfield fallida.",
+    "fuente_principal": "https://www.grifols.com",
+    "tags": [
+      "familia",
+      "grifols"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Vehículos",
+            "contenido": "Scranton Enterprises (B.V.), Deria, Ralledor."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Generación actual",
+            "contenido": "Víctor Grifols Roura (ex CEO), Raimon Grifols Roura (vicepresidente). Hijos: Víctor Jr, Raimon Jr, etc. en consejos.",
+            "tags": [
+              "familia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Vehículos B.V.",
+            "contenido": "Scranton Enterprises B.V., Deria S.A., Ralledor Holding.",
+            "tags": [
+              "vehiculos"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Brookfield (relación)",
+            "contenido": "Negoció OPA conjunta 2024 (fallida noviembre).",
+            "tags": [
+              "brookfield"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Grifols",
+            "fuente_url": "https://www.grifols.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-lopez-belmonte",
+    "tipo": "actor",
+    "nombre": "Familia López-Belmonte",
+    "alias": "Familia López-Belmonte",
+    "cargo": "Familia controladora de Rovi",
+    "bio_corta": "Familia madrileña controladora de Rovi (~64% vía Norbel Inversiones). Tres generaciones desde Juan López-Belmonte Encina (fundador, 1946).",
+    "fuente_principal": "https://www.rovi.es",
+    "tags": [
+      "familia",
+      "lopez-belmonte",
+      "rovi"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Vehículo",
+            "contenido": "Norbel Inversiones S.L."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Norbel Inversiones",
+            "contenido": "Vehículo familiar, ~64% Rovi.",
+            "tags": [
+              "norbel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tres generaciones",
+            "contenido": "Juan López-Belmonte Encina (fundador 1946), Juan López-Belmonte López (presidente), Juan López-Belmonte White (CEO).",
+            "tags": [
+              "generaciones"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Rovi",
+            "fuente_url": "https://www.rovi.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-mittal",
+    "tipo": "actor",
+    "nombre": "Familia Mittal",
+    "alias": "Familia Mittal",
+    "cargo": "Familia controladora de ArcelorMittal",
+    "bio_corta": "Familia india controladora de ArcelorMittal (~37%). Lakshmi Mittal (patriarca, presidente) y su hijo Aditya Mittal (CEO).",
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "tags": [
+      "familia",
+      "mittal"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Núcleo",
+            "contenido": "Lakshmi (P), Aditya (CEO), Vanisha (consejera)."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Aperam / Mittal Steel legacy",
+            "contenido": "Familia controladora indirecta de Aperam (spin-off inox).",
+            "tags": [
+              "aperam"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "ArcelorMittal",
+            "fuente_url": "https://corporate.arcelormittal.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "familia-puig",
+    "tipo": "actor",
+    "nombre": "Familia Puig",
+    "alias": "Familia Puig",
+    "cargo": "Familia controladora de Puig Brands",
+    "bio_corta": "Familia catalana controladora de Puig Brands (~70% post-OPV). Cuarta generación desde Antonio Puig Castelló. Marc Puig presidente actual.",
+    "fuente_principal": "https://www.puig.com",
+    "tags": [
+      "familia",
+      "puig"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cúpula",
+            "contenido": "Marc Puig (P), Manuel Puig (VP)."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Acciones tipo A doble voto",
+            "contenido": "Mantienen control post-OPV vía estructura accionarial dual.",
+            "tags": [
+              "dual"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Puig",
+            "fuente_url": "https://www.puig.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "enel",
+    "tipo": "actor",
+    "nombre": "Enel S.p.A.",
+    "alias": "Enel",
+    "cargo": "Multinacional eléctrica italiana",
+    "bio_corta": "Mayor utility italiana. Controlada por el Tesoro italiano (~24%). Accionista mayoritario de Endesa (70%). Sede en Roma.",
+    "fuente_principal": "https://www.enel.com",
+    "tags": [
+      "empresa-extranjera",
+      "italia",
+      "accionista-control:endesa"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA Endesa",
+            "contenido": "Tomó el control de Endesa en 2007 con Acciona (luego solo en 2009).",
+            "fecha": "2009-02-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Era Cattaneo",
+            "contenido": "Flavio Cattaneo CEO desde mayo 2023 sustituyendo a Francesco Starace.",
+            "fecha": "2023-05-16"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Pivot a Italia bajo Meloni",
+            "contenido": "Reordenación de inversiones priorizando Italia y Iberia, desinversiones en LatAm marginal.",
+            "tags": [
+              "estrategia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Endesa",
+            "contenido": "70,1% del capital, decisiones estratégicas integradas."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tesoro italiano",
+            "contenido": "~24%, accionista de referencia."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Endesa (70,1%)",
+            "contenido": "Filial española cotizada.",
+            "tags": [
+              "endesa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Enel Green Power",
+            "contenido": "Filial de renovables global.",
+            "tags": [
+              "egp"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Flavio Cattaneo (CEO)",
+            "contenido": "CEO con perfil más cercano al Gobierno Meloni.",
+            "tags": [
+              "cattaneo",
+              "meloni"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Enel",
+            "fuente_url": "https://www.enel.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "imperial-brands",
+    "tipo": "actor",
+    "nombre": "Imperial Brands plc",
+    "alias": "Imperial Brands",
+    "cargo": "Tabacalera británica",
+    "bio_corta": "Tabacalera británica con sede en Bristol. Marcas: Davidoff, Gauloises, Winston, JPS. Accionista de control de Logista (~50,01%).",
+    "fuente_principal": "https://www.imperialbrandsplc.com",
+    "tags": [
+      "empresa-extranjera",
+      "uk",
+      "tabaco",
+      "accionista-control:logista"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Logista",
+            "contenido": "~50,01% del capital."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Logista (50,01%)",
+            "contenido": "Accionista de control. Decisiones operativas Logista pasan por Bristol.",
+            "tags": [
+              "logista"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Stéphan Vermut (CEO Imperial)",
+            "contenido": "CEO desde 2020.",
+            "tags": [
+              "vermut"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Imperial Brands",
+            "fuente_url": "https://www.imperialbrandsplc.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "qatar-investment-authority",
+    "tipo": "actor",
+    "nombre": "Qatar Investment Authority",
+    "alias": "QIA",
+    "cargo": "Fondo soberano de Qatar",
+    "bio_corta": "Fondo soberano de Qatar (~500.000 M$ activos). Accionista relevante de Iberdrola (~8%), Colonial (~19%), El Corte Inglés (no cotizada), y otros.",
+    "fuente_principal": "https://www.qia.qa",
+    "tags": [
+      "fondo-soberano",
+      "qatar",
+      "accionista"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera España",
+            "contenido": "Iberdrola, Colonial, El Corte Inglés (10%), Banco Santander Brasil."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Al Thani",
+            "contenido": "Controlado por el Estado de Qatar (Tamim bin Hamad Al Thani).",
+            "tags": [
+              "al-thani"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "QIA",
+            "fuente_url": "https://www.qia.qa"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "qatar-airways",
+    "tipo": "actor",
+    "nombre": "Qatar Airways Group",
+    "alias": "Qatar Airways",
+    "cargo": "Aerolínea catarí",
+    "bio_corta": "Aerolínea estatal de Qatar. Mayor accionista de IAG (~25%, límite UE). Socio fundador de oneworld.",
+    "fuente_principal": "https://www.qatarairways.com",
+    "tags": [
+      "empresa-extranjera",
+      "qatar",
+      "aerolinea",
+      "accionista-control:iag"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "IAG",
+            "contenido": "~25% del capital."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "IAG (~25%)",
+            "contenido": "Mayor accionista. Akbar Al Baker (ex CEO) y luego Badr Mohammed Al Meer (CEO).",
+            "tags": [
+              "iag"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "oneworld",
+            "contenido": "Alianza estratégica con IAG en oneworld.",
+            "tags": [
+              "oneworld"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Estado de Qatar",
+            "contenido": "Aerolínea estatal.",
+            "tags": [
+              "qatar"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Qatar Airways",
+            "fuente_url": "https://www.qatarairways.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "stc-saudi-telecom",
+    "tipo": "actor",
+    "nombre": "Saudi Telecom Company",
+    "alias": "STC Group",
+    "cargo": "Operador telecos de Arabia Saudí",
+    "bio_corta": "Operador estatal de telecomunicaciones de Arabia Saudí. Controlado por el PIF (fondo soberano saudí). Adquirió ~9,9% de Telefónica en 2023.",
+    "fuente_principal": "https://www.stc.com.sa",
+    "tags": [
+      "empresa-extranjera",
+      "arabia-saudi",
+      "telecos",
+      "accionista:telefonica"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Entrada Telefónica",
+            "contenido": "Compra ~9,9% en septiembre 2023. Operación que motivó respuesta del Gobierno español vía SEPI.",
+            "fecha": "2023-09-05"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PIF",
+            "contenido": "Controlada por Public Investment Fund."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Telefónica (~9,9%)",
+            "contenido": "Compra septiembre 2023. Operación que motivó respuesta SEPI.",
+            "tags": [
+              "telefonica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PIF (fondo soberano saudí)",
+            "contenido": "Controlado por el Public Investment Fund de Arabia Saudí.",
+            "tags": [
+              "pif"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "STC",
+            "fuente_url": "https://www.stc.com.sa"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gotham-city",
+    "tipo": "actor",
+    "nombre": "Gotham City Research LLC",
+    "alias": "Gotham City",
+    "cargo": "Firma bajista (short-selling activista)",
+    "bio_corta": "Firma neoyorquina especializada en research bajista. Fundada por Daniel Yu. Famosa por destapar fraudes contables (Gowex 2014, Grifols 2024).",
+    "fuente_principal": "https://www.gothamcityresearch.com",
+    "tags": [
+      "bajista",
+      "short-selling",
+      "ee-uu"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Gowex",
+            "contenido": "Su informe de julio 2014 destapó el fraude de Gowex (Jenaro García).",
+            "fecha": "2014-07-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Caso Grifols",
+            "contenido": "Informe enero 2024 sobre la relación Grifols-Scranton. Acción cayó >40%.",
+            "fecha": "2024-01-09"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Daniel Yu (fundador)",
+            "contenido": "Analista bajista neoyorquino, fundador.",
+            "tags": [
+              "yu"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "General Industrial Partners (con quien co-publican)",
+            "contenido": "Co-publicó análisis Grifols con General Industrial Partners (UK).",
+            "tags": [
+              "gip-uk"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Casos",
+            "contenido": "Gowex (2014, suicidio empresa), Quindell (2014), Aerojet, Grifols (2024).",
+            "tags": [
+              "historial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Gotham",
+            "fuente_url": "https://www.gothamcityresearch.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gic-singapur",
+    "tipo": "actor",
+    "nombre": "GIC Private Limited",
+    "alias": "GIC",
+    "cargo": "Fondo soberano de Singapur",
+    "bio_corta": "Fondo soberano de Singapur. ~770.000 M$ activos. Accionista relevante de Cellnex (~7%) y otras infraestructuras europeas.",
+    "fuente_principal": "https://www.gic.com.sg",
+    "tags": [
+      "fondo-soberano",
+      "singapur"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Infraestructura europea",
+            "contenido": "GIC concentra capital paciente en infraestructuras europeas (torres, redes, autopistas).",
+            "tags": [
+              "infraestructura"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cellnex",
+            "contenido": "~7%."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cellnex (~7%)",
+            "contenido": "Accionista relevante. Apoyo al cambio de CEO 2023.",
+            "tags": [
+              "cellnex"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Estado Singapur",
+            "contenido": "Fondo soberano del Estado de Singapur.",
+            "tags": [
+              "singapur"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Lim Chow Kiat (CEO)",
+            "contenido": "CEO de GIC desde 2017.",
+            "tags": [
+              "lim"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "GIC",
+            "fuente_url": "https://www.gic.com.sg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "edizione-benetton",
+    "tipo": "actor",
+    "nombre": "Edizione S.p.A.",
+    "alias": "Edizione (Benetton)",
+    "cargo": "Holding patrimonial familia Benetton",
+    "bio_corta": "Holding italiano de la familia Benetton (Treviso). Antiguo accionista de Atlantia/Autostrade. Accionista de Cellnex vía ConnecT (~9%).",
+    "fuente_principal": "https://www.edizione.com",
+    "tags": [
+      "holding-familiar",
+      "italia",
+      "benetton"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cellnex",
+            "contenido": "~9% vía ConnecT."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Benetton",
+            "contenido": "Cuatro hermanos fundadores (Luciano, Giuliana, Gilberto, Carlo) y herederos (Alessandro Benetton presidente).",
+            "tags": [
+              "benetton"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cellnex (~9%)",
+            "contenido": "Via vehículo ConnecT.",
+            "tags": [
+              "cellnex"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Atlantia legacy",
+            "contenido": "Antiguo accionista de Atlantia (Autostrade per l'Italia) - vendida en 2022 tras tragedia Genova.",
+            "tags": [
+              "atlantia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mundys (Aeroporti Roma, Telepass)",
+            "contenido": "Tras venta Atlantia, Edizione retiene parte vía Mundys.",
+            "tags": [
+              "mundys"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Tragedia Puente Morandi (2018)",
+            "contenido": "Colapso del puente de Génova (gestionado por Autostrade per l'Italia, controlada por Atlantia/Edizione) provocó 43 muertes. Salida ordenada de Atlantia.",
+            "fecha": "2018-08-14",
+            "tags": [
+              "morandi"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Edizione",
+            "fuente_url": "https://www.edizione.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ifm-investors",
+    "tipo": "actor",
+    "nombre": "IFM Investors",
+    "alias": "IFM",
+    "cargo": "Gestor australiano de fondos de pensiones",
+    "bio_corta": "Gestor australiano de fondos de pensiones. ~217.000 M$ en gestión. Accionista de Naturgy (~15%) tras OPA parcial 2021.",
+    "fuente_principal": "https://www.ifminvestors.com",
+    "tags": [
+      "fondo",
+      "australia",
+      "accionista:naturgy"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA parcial Naturgy",
+            "contenido": "Lanzó OPA en 2021. El Gobierno autorizó con condiciones.",
+            "fecha": "2021-08-10"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Capital paciente",
+            "contenido": "Inversor de largo plazo (>10 años), perfil distinto de private equity tradicional.",
+            "tags": [
+              "estrategia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Naturgy (~15%)",
+            "contenido": "Tras OPA parcial 2021, autorizada con condiciones por Gobierno español.",
+            "tags": [
+              "naturgy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fondos de pensiones australianos",
+            "contenido": "Propiedad de fondos de pensiones australianos (industria superannuation).",
+            "tags": [
+              "australia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "David Neal (CEO)",
+            "contenido": "CEO de IFM Investors desde 2019.",
+            "tags": [
+              "neal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "IFM",
+            "fuente_url": "https://www.ifminvestors.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cvc-capital",
+    "tipo": "actor",
+    "nombre": "CVC Capital Partners",
+    "alias": "CVC",
+    "cargo": "Gestor europeo de private equity",
+    "bio_corta": "Gestor europeo de private equity. ~186.000 M€ en gestión. Accionista de Naturgy (~20%) desde 2018.",
+    "fuente_principal": "https://www.cvc.com",
+    "tags": [
+      "private-equity",
+      "reino-unido",
+      "accionista:naturgy"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Naturgy",
+            "contenido": "~20%."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Naturgy (~20%)",
+            "contenido": "Desde 2018 vía Rioja Bidco.",
+            "tags": [
+              "naturgy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Universidad Pública",
+            "contenido": "Inversor en distintos sectores: fútbol (LaLiga - Operación Boost en 2021), Tendam, Vitalia, Naturgy.",
+            "tags": [
+              "cartera-espana"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "LaLiga - Operación Boost",
+            "contenido": "Inversor estratégico de LaLiga desde 2021 (operación rechazada inicialmente por Real Madrid y FC Barcelona).",
+            "tags": [
+              "laliga"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tendam, Vitalia, Universidad Europea",
+            "contenido": "Cartera España diversificada: retail, residencias mayores, educación.",
+            "tags": [
+              "cartera-espana"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Salida a bolsa 2024",
+            "contenido": "CVC se listó en Ámsterdam en abril 2024.",
+            "tags": [
+              "opv"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CVC",
+            "fuente_url": "https://www.cvc.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gip",
+    "tipo": "actor",
+    "nombre": "Global Infrastructure Partners",
+    "alias": "GIP",
+    "cargo": "Gestor de fondos de infraestructura (BlackRock)",
+    "bio_corta": "Mayor gestor independiente de fondos de infraestructura del mundo. Adquirido por BlackRock en 2024. Accionista de Naturgy (~20%).",
+    "fuente_principal": "https://www.global-infra.com",
+    "tags": [
+      "fondo-infraestructura",
+      "ee-uu",
+      "accionista:naturgy"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "BlackRock",
+            "contenido": "Adquirido por BlackRock en 2024 por 12.500 M$.",
+            "tags": [
+              "blackrock"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Naturgy (~20%)",
+            "contenido": "Accionista desde 2018.",
+            "tags": [
+              "naturgy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Adebayo Ogunlesi (cofundador)",
+            "contenido": "Cofundador y CEO de GIP. Ahora vicepresidente BlackRock.",
+            "tags": [
+              "ogunlesi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera global",
+            "contenido": "Gatwick (UK), Edinburgh Airport, Suez Water (Norteamérica), Italo (Italia).",
+            "tags": [
+              "cartera"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "GIP",
+            "fuente_url": "https://www.global-infra.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "nippon-steel",
+    "tipo": "actor",
+    "nombre": "Nippon Steel Corporation",
+    "alias": "Nippon Steel",
+    "cargo": "Siderúrgica japonesa",
+    "bio_corta": "Mayor siderúrgica japonesa. Accionista relevante de Acerinox (~19%). En 2024-2025 intentó OPA fallida sobre US Steel.",
+    "fuente_principal": "https://www.nipponsteel.com",
+    "tags": [
+      "empresa-extranjera",
+      "japon",
+      "siderurgia",
+      "accionista:acerinox"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Descarbonización siderurgia",
+            "contenido": "Apuesta por DRI con H2 y captura de CO2.",
+            "tags": [
+              "descarbonizacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Acerinox",
+            "contenido": "~19%."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Acerinox (~19%)",
+            "contenido": "Accionista histórico.",
+            "tags": [
+              "acerinox"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "US Steel - OPA fallida",
+            "contenido": "OPA 14.900 M$ sobre US Steel bloqueada por Biden enero 2025, revisada bajo Trump.",
+            "tags": [
+              "us-steel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Eiji Hashimoto (CEO)",
+            "contenido": "CEO de Nippon Steel desde 2024.",
+            "tags": [
+              "hashimoto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tata Steel UK / Europa",
+            "contenido": "Joint venture Tata-Nippon en Países Bajos. Salida ordenada UK.",
+            "tags": [
+              "tata"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Nippon Steel",
+            "fuente_url": "https://www.nipponsteel.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "sonatrach",
+    "tipo": "actor",
+    "nombre": "Sonatrach",
+    "alias": "Sonatrach",
+    "cargo": "Petrolera estatal argelina",
+    "bio_corta": "Petrolera y gasista estatal de Argelia. Proveedor histórico de gas a España vía Medgaz (socio de Naturgy). Pieza clave de la geopolítica energética hispano-argelina.",
+    "fuente_principal": "https://sonatrach.com",
+    "tags": [
+      "empresa-extranjera",
+      "argelia",
+      "gas",
+      "socio:naturgy"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Naturgy / Medgaz",
+            "contenido": "Socio en Medgaz (gasoducto)."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Crisis Sáhara 2022",
+            "contenido": "Suspensión parcial de contratos tras viraje español sobre el Sáhara Occidental."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Naturgy",
+            "contenido": "Socio en Medgaz (gasoducto Argelia-Almería).",
+            "tags": [
+              "naturgy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cepsa",
+            "contenido": "Cepsa históricamente vinculada (Sonatrach fue accionista).",
+            "tags": [
+              "cepsa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno argelino",
+            "contenido": "Empresa estatal. Relación geopolítica directa con Madrid.",
+            "tags": [
+              "argelia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Sonatrach",
+            "fuente_url": "https://sonatrach.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "moderna",
+    "tipo": "actor",
+    "nombre": "Moderna Inc.",
+    "alias": "Moderna",
+    "cargo": "Biotech estadounidense (mRNA)",
+    "bio_corta": "Biotech estadounidense pionera de las vacunas mRNA contra Covid. Sede en Cambridge (Massachusetts). Partner de Rovi para fabricación europea.",
+    "fuente_principal": "https://www.modernatx.com",
+    "tags": [
+      "empresa-extranjera",
+      "ee-uu",
+      "biotech",
+      "socio:rovi"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Rovi",
+            "contenido": "Fabricación europea de mRNA-1273."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rovi (España)",
+            "contenido": "Partner industrial para fill-and-finish europeo de mRNA-1273.",
+            "tags": [
+              "rovi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Stéphane Bancel (CEO)",
+            "contenido": "CEO francés desde 2011.",
+            "tags": [
+              "bancel"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Moderna",
+            "fuente_url": "https://www.modernatx.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "liberty-global",
+    "tipo": "actor",
+    "nombre": "Liberty Global plc",
+    "alias": "Liberty Global",
+    "cargo": "Conglomerado de telecomunicaciones (John Malone)",
+    "bio_corta": "Conglomerado de telecomunicaciones y cable. Sede legal Reino Unido. Socio 50/50 de Telefónica en Virgin Media O2 (Reino Unido).",
+    "fuente_principal": "https://www.libertyglobal.com",
+    "tags": [
+      "empresa-extranjera",
+      "uk",
+      "telecos",
+      "socio:telefonica"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "VMO2",
+            "contenido": "50% de Virgin Media O2."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Telefónica - VMO2",
+            "contenido": "Joint venture 50/50 desde junio 2021.",
+            "tags": [
+              "telefonica",
+              "vmo2"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "John Malone",
+            "contenido": "Magnate del cable y telecos. Mayor accionista.",
+            "tags": [
+              "malone"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mike Fries (CEO)",
+            "contenido": "CEO de Liberty Global desde 2005.",
+            "tags": [
+              "fries"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera europea",
+            "contenido": "VMO2 (UK), Sunrise (Suiza, escindida 2024), Telenet (Bélgica), UPC (Polonia, Eslovaquia).",
+            "tags": [
+              "cartera"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Liberty Global",
+            "fuente_url": "https://www.libertyglobal.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "brookfield",
+    "tipo": "actor",
+    "nombre": "Brookfield Corporation",
+    "alias": "Brookfield",
+    "cargo": "Gestor canadiense de activos alternativos",
+    "bio_corta": "Gestor canadiense de activos alternativos (~900.000 M$). Intentó OPA conjunta con familia Grifols sobre Grifols S.A. en 2024 (fallida).",
+    "fuente_principal": "https://www.brookfield.com",
+    "tags": [
+      "fondo",
+      "canada"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA fallida Grifols",
+            "contenido": "Negociación con familia Grifols entre julio y noviembre 2024 sin acuerdo en precio.",
+            "fecha": "2024-11-26"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Grifols (OPA fallida)",
+            "contenido": "Negoció con familia OPA de exclusión 2024, retirada noviembre 2024.",
+            "tags": [
+              "grifols"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bruce Flatt (CEO)",
+            "contenido": "CEO de Brookfield desde 2002.",
+            "tags": [
+              "flatt"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cartera infraestructura España",
+            "contenido": "Saeta Yield (eolica, vendida), X-Elio, Cupa Pizarras.",
+            "tags": [
+              "cartera"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Brookfield",
+            "fuente_url": "https://www.brookfield.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "banco-popular",
+    "tipo": "actor",
+    "nombre": "Banco Popular Español S.A.",
+    "alias": "Banco Popular",
+    "cargo": "Banco español (defunto, integrado en Santander)",
+    "bio_corta": "Histórico banco español (1926-2017). Resuelto por la JUR el 7 junio 2017 y vendido por 1€ a Banco Santander, sin coste para el contribuyente.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Banco_Popular_Espa%C3%B1ol",
+    "tags": [
+      "banco-defunto",
+      "resolucion",
+      "santander"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Resolución JUR",
+            "contenido": "Primera y única resolución bancaria de la JUR en España. Accionistas y bonistas subordinados a 0.",
+            "fecha": "2017-06-07"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Santander",
+            "contenido": "Lo absorbió tras resolución."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Santander (absorbente)",
+            "contenido": "Adquirió por 1€ tras resolución JUR junio 2017.",
+            "tags": [
+              "santander"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ángel Ron",
+            "contenido": "Presidente saliente al inicio de la crisis (sucesivo de Emilio Saracho).",
+            "tags": [
+              "ron"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Demandas accionistas",
+            "contenido": "Cientos de demandas pendientes resueltas a favor de la legalidad de la resolución (TG UE 2022).",
+            "tags": [
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Banco_Popular_Espa%C3%B1ol"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bankia",
+    "tipo": "actor",
+    "nombre": "Bankia S.A.",
+    "alias": "Bankia",
+    "cargo": "Banco español (defunto, integrado en CaixaBank)",
+    "bio_corta": "Banco español resultante de la fusión 2010 de 7 cajas (Caja Madrid, Bancaja, etc.). Nacionalizado en 2012. Fusionado con CaixaBank en marzo 2021.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Bankia",
+    "tags": [
+      "banco-defunto",
+      "caixabank",
+      "nacionalizado"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Nacionalización",
+            "contenido": "Mayo 2012: rescate público de Bankia (~22.000 M€).",
+            "fecha": "2012-05-09"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fusión CaixaBank",
+            "contenido": "Marzo 2021.",
+            "fecha": "2021-03-26"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "CaixaBank (absorbente)",
+            "contenido": "Fusión por absorción marzo 2021.",
+            "tags": [
+              "caixabank"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FROB - rescate",
+            "contenido": "Rescate ~22.000 M€ mayo 2012.",
+            "tags": [
+              "frob"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rato → Goirigolzarri",
+            "contenido": "Rato dimite y es sustituido por Goirigolzarri.",
+            "tags": [
+              "rato",
+              "goirigolzarri"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Tarjetas Black",
+            "contenido": "Caja Madrid/Bankia: causa por uso de tarjetas opacas. Sentencias 2017-2018.",
+            "tags": [
+              "tarjetas-black"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Bankia"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "liberbank",
+    "tipo": "actor",
+    "nombre": "Liberbank S.A.",
+    "alias": "Liberbank",
+    "cargo": "Banco español (defunto, integrado en Unicaja)",
+    "bio_corta": "Banco español resultante de la fusión 2011 de Cajastur, Caja de Extremadura y Caja Cantabria. Fusionado con Unicaja en 2021.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Liberbank",
+    "tags": [
+      "banco-defunto",
+      "unicaja"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fusión Unicaja",
+            "contenido": "Marzo 2021.",
+            "fecha": "2021-03-30"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Unicaja (absorbente)",
+            "contenido": "Fusión por absorción marzo 2021.",
+            "tags": [
+              "unicaja"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cajastur, Caja Cantabria, Caja Extremadura",
+            "contenido": "Tres cajas integradas en 2011 que formaron Liberbank.",
+            "tags": [
+              "cajas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Liberbank"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "santander-uk",
+    "tipo": "actor",
+    "nombre": "Santander UK plc",
+    "alias": "Santander UK",
+    "cargo": "Filial británica de Santander",
+    "bio_corta": "Filial británica de Banco Santander con sede en Londres. Heredera de Abbey National (2004), Alliance & Leicester (2008) y Bradford & Bingley (2008).",
+    "fuente_principal": "https://www.santander.co.uk",
+    "tags": [
+      "filial",
+      "santander",
+      "uk"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Banco Santander (matriz)",
+            "contenido": "100% Santander. Sede Londres.",
+            "tags": [
+              "matriz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Abbey, A&L, B&B legacy",
+            "contenido": "Heredera de Abbey National (2004), Alliance & Leicester (2008), Bradford & Bingley (2008).",
+            "tags": [
+              "historia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mercado UK",
+            "contenido": "Compite con HSBC UK, Barclays, Lloyds, NatWest.",
+            "tags": [
+              "competencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Santander UK",
+            "fuente_url": "https://www.santander.co.uk"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "garanti",
+    "tipo": "actor",
+    "nombre": "Garanti BBVA",
+    "alias": "Garanti",
+    "cargo": "Filial turca de BBVA",
+    "bio_corta": "Banco turco controlado por BBVA (~86%). Origen Doğuş Holding. Mayor incertidumbre por hiperinflación lira turca y NIIF 29.",
+    "fuente_principal": "https://www.garantibbva.com.tr",
+    "tags": [
+      "filial",
+      "bbva",
+      "turquia"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Doğuş",
+            "contenido": "Familia Şahenk, accionista histórico."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "BBVA (matriz)",
+            "contenido": "~86% BBVA. Sede Estambul.",
+            "tags": [
+              "matriz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Sahenk (Doğuş)",
+            "contenido": "Accionista histórico minoritario.",
+            "tags": [
+              "dogus"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hiperinflación Turquía",
+            "contenido": "Aplicación NIIF 29 afecta la consolidación contable desde 2022.",
+            "tags": [
+              "niif-29"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Garanti",
+            "fuente_url": "https://www.garantibbva.com.tr"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "tsb",
+    "tipo": "actor",
+    "nombre": "TSB Bank plc",
+    "alias": "TSB",
+    "cargo": "Filial británica de Banco Sabadell",
+    "bio_corta": "Banco británico (Trustee Savings Bank). Filial de Sabadell desde 2015. ~5 millones de clientes. Pieza clave del debate sobre la OPA BBVA-Sabadell.",
+    "fuente_principal": "https://www.tsb.co.uk",
+    "tags": [
+      "filial",
+      "sabadell",
+      "uk"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis 2018",
+            "contenido": "Migración tecnológica fallida, multas FCA.",
+            "fecha": "2018-04-22"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Banco Sabadell (matriz)",
+            "contenido": "100% Sabadell desde 2015. Sede Edimburgo.",
+            "tags": [
+              "matriz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "OPA BBVA - factor TSB",
+            "contenido": "TSB es elemento clave del debate sobre la OPA hostil de BBVA sobre Sabadell (riesgo de desinversión).",
+            "tags": [
+              "opa-bbva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FCA (regulador UK)",
+            "contenido": "Tutela regulatoria.",
+            "tags": [
+              "fca"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "TSB",
+            "fuente_url": "https://www.tsb.co.uk"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "scottishpower",
+    "tipo": "actor",
+    "nombre": "ScottishPower Ltd.",
+    "alias": "ScottishPower",
+    "cargo": "Filial británica de Iberdrola",
+    "bio_corta": "Utility eléctrica con sede en Glasgow. 100% Iberdrola desde 2007. Una de las grandes seis (Big Six) del retail eléctrico británico.",
+    "fuente_principal": "https://www.scottishpower.com",
+    "tags": [
+      "filial",
+      "iberdrola",
+      "uk"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Iberdrola (matriz)",
+            "contenido": "100% Iberdrola desde 2007. Sede Glasgow.",
+            "tags": [
+              "matriz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ofgem (regulador UK)",
+            "contenido": "Tutela regulatoria.",
+            "tags": [
+              "ofgem"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Big Six UK",
+            "contenido": "Una de las grandes seis utilities británicas (con Centrica, EDF, E.ON, OVO/SSE, Octopus).",
+            "tags": [
+              "big-six"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "ScottishPower",
+            "fuente_url": "https://www.scottishpower.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "avangrid",
+    "tipo": "actor",
+    "nombre": "Avangrid Inc.",
+    "alias": "Avangrid",
+    "cargo": "Filial estadounidense de Iberdrola",
+    "bio_corta": "Utility eléctrica con sede en Orange (Connecticut). ~82% Iberdrola. Cotiza en NYSE.",
+    "fuente_principal": "https://www.avangrid.com",
+    "tags": [
+      "filial",
+      "iberdrola",
+      "ee-uu"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Iberdrola (matriz)",
+            "contenido": "~82% Iberdrola. Cotiza NYSE.",
+            "tags": [
+              "matriz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mercado EE.UU.",
+            "contenido": "Operaciones en Nueva York, Maine, Connecticut, Massachusetts, etc.",
+            "tags": [
+              "ee-uu"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Conflicto PNM Resources",
+            "contenido": "OPA fallida sobre PNM Resources (Nuevo México) bloqueada por reguladores 2023.",
+            "tags": [
+              "pnm"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Avangrid",
+            "fuente_url": "https://www.avangrid.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "hochtief",
+    "tipo": "actor",
+    "nombre": "Hochtief AG",
+    "alias": "Hochtief",
+    "cargo": "Filial alemana de ACS",
+    "bio_corta": "Constructora alemana. ~80% propiedad de ACS desde 2011. Cotiza en Frankfurt. A su vez controla Cimic (Australia) y Turner (EE.UU.).",
+    "fuente_principal": "https://www.hochtief.com",
+    "tags": [
+      "filial",
+      "acs",
+      "alemania"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "ACS (matriz)",
+            "contenido": "~80% ACS desde 2011.",
+            "tags": [
+              "acs"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cimic (Australia)",
+            "contenido": "Filial australiana controlada por Hochtief.",
+            "tags": [
+              "cimic"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Turner (USA)",
+            "contenido": "Filial estadounidense.",
+            "tags": [
+              "turner"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Florentino Pérez",
+            "contenido": "Decisiones estratégicas.",
+            "tags": [
+              "florentino"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Hochtief",
+            "fuente_url": "https://www.hochtief.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "iberia",
+    "tipo": "actor",
+    "nombre": "Iberia Líneas Aéreas de España S.A.",
+    "alias": "Iberia",
+    "cargo": "Filial española de IAG",
+    "bio_corta": "Aerolínea de bandera española. 100% IAG desde 2011. Hub principal Madrid-Barajas. CEO Marco Sansavini.",
+    "fuente_principal": "https://www.iberia.com",
+    "tags": [
+      "filial",
+      "iag",
+      "aerolinea"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "100% IAG desde 2011.",
+            "tags": [
+              "iag"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hub Madrid-Barajas",
+            "contenido": "Operativa en T4 (Aena). Eje LatAm.",
+            "tags": [
+              "barajas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Marco Sansavini (CEO)",
+            "contenido": "CEO desde 2024.",
+            "tags": [
+              "sansavini"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "oneworld",
+            "contenido": "Alianza estratégica.",
+            "tags": [
+              "oneworld"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Iberia",
+            "fuente_url": "https://www.iberia.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "british-airways",
+    "tipo": "actor",
+    "nombre": "British Airways plc",
+    "alias": "British Airways",
+    "cargo": "Filial británica de IAG",
+    "bio_corta": "Aerolínea de bandera del Reino Unido. 100% IAG desde 2011. Hub Heathrow.",
+    "fuente_principal": "https://www.britishairways.com",
+    "tags": [
+      "filial",
+      "iag",
+      "uk",
+      "aerolinea"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "100% IAG desde 2011.",
+            "tags": [
+              "iag"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hub Heathrow",
+            "contenido": "Mayor cuota en Heathrow (~50% slots).",
+            "tags": [
+              "heathrow"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sean Doyle (CEO)",
+            "contenido": "CEO desde 2020.",
+            "tags": [
+              "doyle"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "British Airways",
+            "fuente_url": "https://www.britishairways.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "vueling",
+    "tipo": "actor",
+    "nombre": "Vueling Airlines S.A.",
+    "alias": "Vueling",
+    "cargo": "Filial española low-cost de IAG",
+    "bio_corta": "Aerolínea low-cost con base en Barcelona-El Prat. ~100% IAG. CEO Carolina Martinoli.",
+    "fuente_principal": "https://www.vueling.com",
+    "tags": [
+      "filial",
+      "iag",
+      "aerolinea",
+      "low-cost"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "~100% IAG.",
+            "tags": [
+              "iag"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hub Barcelona-El Prat",
+            "contenido": "Mayor low-cost desde El Prat. Competidor de Ryanair y easyJet.",
+            "tags": [
+              "elprat"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Carolina Martinoli (CEO)",
+            "contenido": "CEO desde 2024.",
+            "tags": [
+              "martinoli"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Vueling",
+            "fuente_url": "https://www.vueling.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "aer-lingus",
+    "tipo": "actor",
+    "nombre": "Aer Lingus Group",
+    "alias": "Aer Lingus",
+    "cargo": "Filial irlandesa de IAG",
+    "bio_corta": "Aerolínea de bandera irlandesa. 100% IAG desde 2015. Hub Dublín. Acceso clave a EE.UU.",
+    "fuente_principal": "https://www.aerlingus.com",
+    "tags": [
+      "filial",
+      "iag",
+      "aerolinea",
+      "irlanda"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "100% IAG desde 2015.",
+            "tags": [
+              "iag"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hub Dublín",
+            "contenido": "Slots clave para Norteamérica.",
+            "tags": [
+              "dublin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Lynne Embleton (CEO)",
+            "contenido": "CEO desde 2021.",
+            "tags": [
+              "embleton"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Aer Lingus",
+            "fuente_url": "https://www.aerlingus.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "virgin-media-o2",
+    "tipo": "actor",
+    "nombre": "Virgin Media O2",
+    "alias": "VMO2",
+    "cargo": "Joint venture telecos UK (Telefónica 50% / Liberty Global 50%)",
+    "bio_corta": "Operador UK de telecos y cable. Joint venture 50/50 de Telefónica y Liberty Global desde 2021.",
+    "fuente_principal": "https://www.virginmediao2.co.uk",
+    "tags": [
+      "joint-venture",
+      "telecos",
+      "uk",
+      "telefonica",
+      "liberty-global"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Cierre JV",
+            "contenido": "Operación cerrada en junio 2021.",
+            "fecha": "2021-06-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Telefónica (50%)",
+            "contenido": "Joint venture 50/50.",
+            "tags": [
+              "telefonica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Liberty Global (50%)",
+            "contenido": "Otro socio 50%.",
+            "tags": [
+              "liberty-global"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mercado UK telecos",
+            "contenido": "Compite con BT/EE, Vodafone UK, Three UK.",
+            "tags": [
+              "uk"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "VMO2",
+            "fuente_url": "https://www.virginmediao2.co.uk"
+          }
+        ]
+      }
+    ]
+  }
+]

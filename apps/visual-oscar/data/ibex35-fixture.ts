@@ -1,0 +1,27577 @@
+// AUTO-GENERADO desde data/ibex35/*.json · ver bin/gen_subfixture.py
+// Fuentes:
+//   · empresas.json       · 35 empresas del IBEX 35
+//   · directivos.json     · 46 CEOs / Presidentes / figuras puente
+//   · conexos.json        · 64 entidades del grafo (familias, fundaciones, fondos…)
+// Re-generar: python3 bin/gen_subfixture.py --source ibex35
+
+import type {
+  DossierCompleto,
+  DossierResumen,
+} from './dosieres-fixture'
+
+export const IBEX35_FIXTURE: DossierCompleto[] = [
+  {
+    "id": "ibx-0001",
+    "slug": "inditex",
+    "nombre_completo": "Industria de Diseño Textil S.A.",
+    "alias": "Inditex",
+    "cargo_actual": "Empresa IBEX 35 · textil / retail",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor grupo textil del mundo por capitalización. Propietario de Zara, Pull&Bear, Massimo Dutti, Bershka, Stradivarius, Oysho, Zara Home y Lefties. Sede en Arteixo (A Coruña). Fundado por Amancio Ortega en 1985.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:retail-textil",
+      "ticker:ITX",
+      "sede:galicia"
+    ],
+    "fuente_principal": "https://www.inditex.com",
+    "apartados": [
+      {
+        "id": "ibx-0001-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0001-ap-00-it-00",
+            "apartado_id": "ibx-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Industria de Diseño Textil S.A., constituida en 1985 con sede en Arteixo (A Coruña). Cotiza en IBEX 35 desde 2001. Capitalización entre las mayores del índice.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0001-ap-00-it-01",
+            "apartado_id": "ibx-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Marcas",
+            "contenido": "Opera ocho enseñas: Zara (buque insignia), Pull&Bear, Massimo Dutti, Bershka, Stradivarius, Oysho, Zara Home y Lefties.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "marcas"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0001-ap-00-it-02",
+            "apartado_id": "ibx-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Más de 5.500 tiendas en ~95 países. Plantilla superior a 165.000 empleados. Ventas anuales por encima de 35.000 M€ (ejercicio 2023).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0001-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0001-ap-01-it-00",
+            "apartado_id": "ibx-0001-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación",
+            "contenido": "Amancio Ortega abre la primera tienda Zara en A Coruña en 1975. Inditex se constituye como grupo en 1985.",
+            "fecha": "1985-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0001-ap-01-it-01",
+            "apartado_id": "ibx-0001-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "Inditex sale a cotización en mayo de 2001. Amancio Ortega mantiene la mayoría del capital a través de Pontegadea.",
+            "fecha": "2001-05-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0001-ap-01-it-02",
+            "apartado_id": "ibx-0001-ap-01",
+            "tipo": "evento",
+            "titulo": "Sucesión",
+            "contenido": "En abril de 2022 Marta Ortega, hija del fundador, asume la presidencia no ejecutiva. Óscar García Maceiras es nombrado CEO.",
+            "fecha": "2022-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0001-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0001-ap-02-it-00",
+            "apartado_id": "ibx-0001-ap-02",
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromiso público con neutralidad climática 2040 y uso 100% de materiales más sostenibles a 2030. Programa Join Life como etiqueta de prendas con estándares ESG.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg",
+              "sostenibilidad"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0001-ap-02-it-01",
+            "apartado_id": "ibx-0001-ap-02",
+            "tipo": "dato",
+            "titulo": "Fiscalidad",
+            "contenido": "Tributa principalmente en España. La compañía suele defender públicamente su contribución fiscal en el país tras polémicas sobre estructura holandesa de royalties resueltas con Hacienda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0001-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0001-ap-03-it-00",
+            "apartado_id": "ibx-0001-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Pontegadea",
+            "contenido": "Pontegadea Inversiones (vehículo de Amancio Ortega) controla ~59% de Inditex. Pontegadea es además uno de los mayores caseros institucionales de España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "pontegadea"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0001-ap-03-it-01",
+            "apartado_id": "ibx-0001-ap-03",
+            "tipo": "contacto",
+            "titulo": "Cadena de suministro",
+            "contenido": "Red de ~1.800 proveedores y ~8.500 fábricas auditadas, con foco en proximidad (España, Portugal, Marruecos, Turquía). Esta proximidad es clave en su modelo just-in-time.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "proveedores"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0001-ap-03-it-02",
+            "apartado_id": "ibx-0001-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nexo con Gobierno",
+            "contenido": "Inditex y Pontegadea han mantenido históricamente relación cordial con todos los Gobiernos. Pablo Isla (ex CEO) ocupó la vicepresidencia primera de CEOE entre 2014 y 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "ceoe"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0001-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0001-ap-04-it-00",
+            "apartado_id": "ibx-0001-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Marta Ortega sobre relevo",
+            "contenido": "\"Mi compromiso es preservar lo que mi padre construyó y dejarlo en mejor estado para la siguiente generación\", carta a empleados en su toma de posesión.",
+            "fecha": "2022-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0001-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0001-ap-05-it-00",
+            "apartado_id": "ibx-0001-ap-05",
+            "tipo": "evento",
+            "titulo": "Auditoría laboral en Bangladesh y Pakistán",
+            "contenido": "Tras el colapso del Rana Plaza (2013), Inditex firmó el Accord on Fire and Building Safety y reforzó auditorías. Posteriormente ha enfrentado denuncias puntuales sobre condiciones en proveedores indirectos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "laboral"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0001-ap-05-it-01",
+            "apartado_id": "ibx-0001-ap-05",
+            "tipo": "evento",
+            "titulo": "Estructura fiscal en Países Bajos",
+            "contenido": "En 2016 el Greens/EFA del Parlamento Europeo publicó un informe señalando ahorro fiscal vía filial holandesa por royalties de marca. Inditex reestructuró posteriormente para tributar mayoritariamente en España.",
+            "fecha": "2016-12-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0001-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0001-ap-06-it-00",
+            "apartado_id": "ibx-0001-ap-06",
+            "tipo": "documento",
+            "titulo": "Memoria anual",
+            "contenido": "Memoria anual y informe integrado en inditex.com/es/inversores",
+            "fecha": null,
+            "fuente_url": "https://www.inditex.com/itxcomweb/es/inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0001-ap-06-it-01",
+            "apartado_id": "ibx-0001-ap-06",
+            "tipo": "documento",
+            "titulo": "Hechos relevantes CNMV",
+            "contenido": "Comunicaciones a CNMV bajo el ISIN ES0148396007 / ticker ITX",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A15075062",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0002",
+    "slug": "iberdrola",
+    "nombre_completo": "Iberdrola S.A.",
+    "alias": "Iberdrola",
+    "cargo_actual": "Empresa IBEX 35 · utility eléctrica",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor utility eléctrica española y una de las mayores del mundo por valor en bolsa. Líder global en renovables. Sede social en Bilbao. Presidida desde 2006 por Ignacio Sánchez Galán.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-electrica",
+      "ticker:IBE",
+      "sede:paisvasco"
+    ],
+    "fuente_principal": "https://www.iberdrola.com",
+    "apartados": [
+      {
+        "id": "ibx-0002-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0002-ap-00-it-00",
+            "apartado_id": "ibx-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Iberdrola S.A., con sede en Bilbao y origen en la fusión de 1992 entre Hidroeléctrica Española e Iberduero. Presente en 11 países.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0002-ap-00-it-01",
+            "apartado_id": "ibx-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Capacidad instalada superior a 80 GW (60% renovable). ~42.000 empleados. EBITDA ~14.000 M€ (2023).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0002-ap-00-it-02",
+            "apartado_id": "ibx-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Filiales clave",
+            "contenido": "Iberdrola España, ScottishPower (UK), Avangrid (EE.UU., con NYSE), Neoenergia (Brasil), Iberdrola México.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filiales"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0002-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0002-ap-01-it-00",
+            "apartado_id": "ibx-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Constitución",
+            "contenido": "Iberdrola nace en 1992 de la fusión de Hidroeléctrica Española (Hidrola) e Iberduero.",
+            "fecha": "1992-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0002-ap-01-it-01",
+            "apartado_id": "ibx-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Llegada de Sánchez Galán",
+            "contenido": "Ignacio Sánchez Galán entra como consejero delegado en 2001 y asume la presidencia en 2006.",
+            "fecha": "2006-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0002-ap-01-it-02",
+            "apartado_id": "ibx-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Expansión internacional",
+            "contenido": "Adquisición de ScottishPower (2007) y Energy East/Avangrid (2008-2015) consolidan el carácter global. Liderazgo en eólica offshore.",
+            "fecha": "2007-04-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0002-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0002-ap-02-it-00",
+            "apartado_id": "ibx-0002-ap-02",
+            "tipo": "dato",
+            "titulo": "Transición energética",
+            "contenido": "Posicionamiento corporativo agresivo a favor de la descarbonización, electrificación masiva y precios marginalistas en el pool eléctrico. Defensa pública de mantener el sistema marginalista frente a propuestas de desacoplamiento.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion-verde"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0002-ap-02-it-01",
+            "apartado_id": "ibx-0002-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a las energéticas",
+            "contenido": "Posicionamiento contrario al gravamen extraordinario impuesto por el Gobierno en 2022. Iberdrola anunció condicionar inversiones en España al marco fiscal y judicializó el impuesto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0002-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0002-ap-03-it-00",
+            "apartado_id": "ibx-0002-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Capital muy disperso. Mayores accionistas conocidos: Qatar Investment Authority (~8%), Norges Bank (~3-4%), BlackRock (~5%), Kutxabank (~1%). No hay un accionista de control.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0002-ap-03-it-01",
+            "apartado_id": "ibx-0002-ap-03",
+            "tipo": "contacto",
+            "titulo": "Choque con el Gobierno (Sánchez)",
+            "contenido": "Relación tensa con el Gobierno de Pedro Sánchez en 2021-2024 por el tope al gas, el recorte a beneficios caídos del cielo y el impuesto extraordinario. Sánchez Galán ha sido voz crítica pública.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0002-ap-03-it-02",
+            "apartado_id": "ibx-0002-ap-03",
+            "tipo": "contacto",
+            "titulo": "CEOE",
+            "contenido": "Histórica presencia en órganos de la CEOE. Sánchez Galán ha sido vocal y miembro destacado del comité ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ceoe"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0002-ap-03-it-03",
+            "apartado_id": "ibx-0002-ap-03",
+            "tipo": "contacto",
+            "titulo": "Investigación judicial Villarejo",
+            "contenido": "Iberdrola está procesada en el caso Villarejo (pieza Tándem) por presunto encargo de espionaje a rivales y directivos entre 2004-2017. Sánchez Galán fue imputado en 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "villarejo"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0002-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0002-ap-04-it-00",
+            "apartado_id": "ibx-0002-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sánchez Galán sobre impuesto",
+            "contenido": "\"El impuesto frena la inversión en renovables en España\", declaraciones recurrentes en juntas de accionistas 2023-2024.",
+            "fecha": "2023-04-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0002-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0002-ap-05-it-00",
+            "apartado_id": "ibx-0002-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Villarejo - pieza Iberdrola",
+            "contenido": "Audiencia Nacional investiga contratos por más de 1 M€ entre Iberdrola y el comisario Villarejo entre 2004 y 2017 para espiar a rivales (incluido Florentino Pérez en relación con la guerra ACS-Iberdrola). Procesados directivos y la propia Iberdrola como persona jurídica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "villarejo"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0002-ap-05-it-01",
+            "apartado_id": "ibx-0002-ap-05",
+            "tipo": "evento",
+            "titulo": "Manipulación precios pool (2013-2014)",
+            "contenido": "CNMC sancionó a Iberdrola con 25 M€ por manipulación de precios mediante hidráulica en diciembre 2013. Confirmado por TS en 2020.",
+            "fecha": "2015-11-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmc",
+              "sancion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0002-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0002-ap-06-it-00",
+            "apartado_id": "ibx-0002-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.iberdrola.com/accionistas-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.iberdrola.com/accionistas-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0002-ap-06-it-01",
+            "apartado_id": "ibx-0002-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV - hechos relevantes",
+            "contenido": "ISIN ES0144580Y14 / ticker IBE",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A48010615",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0003",
+    "slug": "banco-santander",
+    "nombre_completo": "Banco Santander S.A.",
+    "alias": "Santander",
+    "cargo_actual": "Empresa IBEX 35 · banca",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor banco español por capitalización y activos. Grupo cotizado con presencia clave en España, Reino Unido, EE.UU., Brasil, México y Polonia. Presidido por Ana Botín desde 2014.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:SAN",
+      "sede:cantabria"
+    ],
+    "fuente_principal": "https://www.santander.com",
+    "apartados": [
+      {
+        "id": "ibx-0003-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0003-ap-00-it-00",
+            "apartado_id": "ibx-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Banco Santander S.A., fundado en 1857 en Santander. Sede social en Santander y operativa centralizada en Boadilla del Monte (Madrid).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0003-ap-00-it-01",
+            "apartado_id": "ibx-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~165 millones de clientes en 9 mercados core. Activos totales >1,8 billones €. Plantilla ~210.000 empleados. Beneficio atribuido ~11.000 M€ (2023).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0003-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0003-ap-01-it-00",
+            "apartado_id": "ibx-0003-ap-01",
+            "tipo": "evento",
+            "titulo": "Saga Botín",
+            "contenido": "Tercera generación al frente del banco: Emilio Botín-Sanz de Sautuola y López (1950-86), Emilio Botín-Sanz de Sautuola y García de los Ríos (1986-2014), Ana Botín-Sanz de Sautuola O'Shea (2014-presente).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "saga"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0003-ap-01-it-01",
+            "apartado_id": "ibx-0003-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión con BCH",
+            "contenido": "En 1999 Santander adquiere Banco Central Hispano (fusión inicial pacto Botín-Amusategui) para constituir BSCH.",
+            "fecha": "1999-01-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0003-ap-01-it-02",
+            "apartado_id": "ibx-0003-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra de Banco Popular",
+            "contenido": "El 7 de junio de 2017 Santander adquiere Banco Popular por 1€ tras resolución de la JUR (Mecanismo Único de Resolución), evitando rescate público.",
+            "fecha": "2017-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0003-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0003-ap-02-it-00",
+            "apartado_id": "ibx-0003-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición contraria al impuesto extraordinario a la banca aprobado en 2022. Anunció recursos judiciales y proyecciones de reducción de crédito.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0003-ap-02-it-01",
+            "apartado_id": "ibx-0003-ap-02",
+            "tipo": "dato",
+            "titulo": "Digitalización",
+            "contenido": "Apuesta por la plataforma OnePay/Openbank y la transformación a banco digital con servicios pan-europeos. Marca PagoNxt para pagos B2B.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "digital"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0003-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0003-ap-03-it-00",
+            "apartado_id": "ibx-0003-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Capital muy disperso, sin accionista de control. Familia Botín mantiene ~0,5%. Mayores institucionales: BlackRock, Vanguard, State Street.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0003-ap-03-it-01",
+            "apartado_id": "ibx-0003-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Botín",
+            "contenido": "Brazo filantrópico de la familia con sede en Santander, foco en arte, ciencia y educación. Patronazgo de Ana Botín.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia",
+              "familia-botin"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0003-ap-03-it-02",
+            "apartado_id": "ibx-0003-ap-03",
+            "tipo": "contacto",
+            "titulo": "AEB y CEOE",
+            "contenido": "Asociación Española de Banca dominada históricamente por Santander. Presidente de AEB es José María Roldán (ex Banco de España).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aeb",
+              "ceoe"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0003-ap-03-it-03",
+            "apartado_id": "ibx-0003-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nexo político",
+            "contenido": "Botín familia ha mantenido relación cordial con sucesivos Gobiernos PSOE y PP. Reuniones puntuales con Sánchez en La Moncloa documentadas en agendas oficiales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0003-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0003-ap-04-it-00",
+            "apartado_id": "ibx-0003-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Ana Botín sobre impuestazo",
+            "contenido": "\"Un impuesto que solo se aplica a la banca y a empresas concretas no es la solución\", Davos 2023.",
+            "fecha": "2023-01-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0003-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0003-ap-05-it-00",
+            "apartado_id": "ibx-0003-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Banco Popular",
+            "contenido": "Cientos de demandas de accionistas y bonistas del Popular tras la resolución 2017. Tribunal General UE confirmó la legalidad de la resolución en 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0003-ap-05-it-01",
+            "apartado_id": "ibx-0003-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Orcel",
+            "contenido": "En 2019 Santander revocó el nombramiento de Andrea Orcel como CEO. Orcel ganó la demanda parcialmente en primera instancia, reducida en apelación. Caso emblemático sobre fichajes ejecutivos.",
+            "fecha": "2019-01-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "fichajes"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0003-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0003-ap-06-it-00",
+            "apartado_id": "ibx-0003-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.santander.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.santander.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0003-ap-06-it-01",
+            "apartado_id": "ibx-0003-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113900J37 / ticker SAN",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A39000013",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0004",
+    "slug": "bbva",
+    "nombre_completo": "Banco Bilbao Vizcaya Argentaria S.A.",
+    "alias": "BBVA",
+    "cargo_actual": "Empresa IBEX 35 · banca",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Segundo banco español por activos. Origen en la fusión BBV+Argentaria (1999). Sede social en Bilbao. Liderazgo en banca digital. Presidente Carlos Torres Vila desde 2018.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:BBVA",
+      "sede:paisvasco"
+    ],
+    "fuente_principal": "https://www.bbva.com",
+    "apartados": [
+      {
+        "id": "ibx-0004-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0004-ap-00-it-00",
+            "apartado_id": "ibx-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "BBVA S.A., sede en Bilbao. Origen 1999 con la fusión BBV (1988, Banco Bilbao + Banco de Vizcaya) y Argentaria (Banco Exterior + Caja Postal + Argentaria).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0004-ap-00-it-01",
+            "apartado_id": "ibx-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~70 millones de clientes. Activos ~775.000 M€. Plantilla ~120.000. Mercados core: España, México, Turquía (Garanti), América del Sur, EE.UU. (vendió franquicia retail USA a PNC en 2021).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0004-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0004-ap-01-it-00",
+            "apartado_id": "ibx-0004-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión BBV-Argentaria",
+            "contenido": "BBVA se constituye en octubre de 1999 mediante OPA recíproca BBV-Argentaria.",
+            "fecha": "1999-10-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0004-ap-01-it-01",
+            "apartado_id": "ibx-0004-ap-01",
+            "tipo": "evento",
+            "titulo": "Venta franquicia USA",
+            "contenido": "En noviembre de 2020 BBVA acuerda vender BBVA USA a PNC por 9.700 M$. Operación cerrada en junio 2021.",
+            "fecha": "2020-11-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0004-ap-01-it-02",
+            "apartado_id": "ibx-0004-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA hostil sobre Sabadell",
+            "contenido": "En mayo de 2024 BBVA lanzó OPA hostil sobre Banco Sabadell tras rechazar el consejo del Sabadell la fusión amistosa. Operación que requiere autorizaciones de BdE, CNMV, CNMC, Gobierno y JFSA-PRA-BoE para Reino Unido (TSB).",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fusiones",
+              "sabadell"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0004-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0004-ap-02-it-00",
+            "apartado_id": "ibx-0004-ap-02",
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromiso 300.000 M€ en financiación sostenible 2018-2025 (revisado al alza). Apoyo a Net Zero Banking Alliance.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0004-ap-02-it-01",
+            "apartado_id": "ibx-0004-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición pública contraria al gravamen extraordinario de 2022, con recurso judicial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0004-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0004-ap-03-it-00",
+            "apartado_id": "ibx-0004-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Sin accionista de control. Mayores: BlackRock ~5%, Vanguard ~3%, Norges Bank ~3%. Free float muy elevado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0004-ap-03-it-01",
+            "apartado_id": "ibx-0004-ap-03",
+            "tipo": "contacto",
+            "titulo": "OPA Sabadell · Gobierno",
+            "contenido": "La OPA enfrenta resistencia política. El Gobierno (Pedro Sánchez, Carlos Cuerpo en Economía) ha manifestado dudas sobre la concentración bancaria y la salida de TSB del perímetro UK.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sabadell",
+              "gobierno"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0004-ap-03-it-02",
+            "apartado_id": "ibx-0004-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo - pieza BBVA",
+            "contenido": "Audiencia Nacional investiga contratos del BBVA con Villarejo entre 2004-2017 (caso Tándem, pieza BBVA), originalmente para espiar a Sacyr y a directivos en torno a la OPA Sacyr-Repsol de 2004. Francisco González (ex presidente) imputado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "villarejo"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0004-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0004-ap-04-it-00",
+            "apartado_id": "ibx-0004-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Torres Vila sobre OPA Sabadell",
+            "contenido": "\"La operación crea un campeón europeo con beneficios para clientes y accionistas\", presentación a inversores mayo 2024.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0004-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0004-ap-05-it-00",
+            "apartado_id": "ibx-0004-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Villarejo - BBVA",
+            "contenido": "Procesados ex altos cargos y BBVA como persona jurídica. Imputación a Francisco González decretada en 2020.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0004-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0004-ap-06-it-00",
+            "apartado_id": "ibx-0004-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.bbva.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.bbva.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0004-ap-06-it-01",
+            "apartado_id": "ibx-0004-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113211835 / ticker BBVA",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A48265169",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0005",
+    "slug": "caixabank",
+    "nombre_completo": "CaixaBank S.A.",
+    "alias": "CaixaBank",
+    "cargo_actual": "Empresa IBEX 35 · banca",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Tercer banco español por activos tras la fusión con Bankia (2021). Origen en La Caixa (Barcelona). Sede social en Valencia desde 2017. Presidente José Ignacio Goirigolzarri.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:CABK",
+      "sede:valencia"
+    ],
+    "fuente_principal": "https://www.caixabank.com",
+    "apartados": [
+      {
+        "id": "ibx-0005-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0005-ap-00-it-00",
+            "apartado_id": "ibx-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CaixaBank S.A., sede social en Valencia (trasladada en octubre 2017 desde Barcelona) y sede operativa principal en Barcelona y Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0005-ap-00-it-01",
+            "apartado_id": "ibx-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~20 millones de clientes en España y Portugal. Activos ~610.000 M€. Plantilla ~45.000. Mayor red de oficinas de España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0005-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0005-ap-01-it-00",
+            "apartado_id": "ibx-0005-ap-01",
+            "tipo": "evento",
+            "titulo": "Traslado sede",
+            "contenido": "El 6 de octubre de 2017, en plena crisis del procés, CaixaBank traslada su sede social de Barcelona a Valencia.",
+            "fecha": "2017-10-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "procés"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0005-ap-01-it-01",
+            "apartado_id": "ibx-0005-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión Bankia",
+            "contenido": "Marzo 2021 se consuma la fusión por absorción de Bankia, con Goirigolzarri (ex presidente de Bankia) asumiendo la presidencia de CaixaBank y Gonzalo Gortázar continuando como CEO.",
+            "fecha": "2021-03-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0005-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0005-ap-02-it-00",
+            "apartado_id": "ibx-0005-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición contraria al gravamen extraordinario 2022, recurrido judicialmente como el resto del sector.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0005-ap-02-it-01",
+            "apartado_id": "ibx-0005-ap-02",
+            "tipo": "dato",
+            "titulo": "Banca minorista vs digital",
+            "contenido": "Mantiene apuesta por red física como diferencial competitivo en España (mayor red del país) frente a competidores 100% digitales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0005-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0005-ap-03-it-00",
+            "apartado_id": "ibx-0005-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista principal: Fundación La Caixa",
+            "contenido": "CriteriaCaixa (vehículo de la Fundación La Caixa) controla ~32% de CaixaBank. Es accionista de referencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "criteria",
+              "la-caixa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0005-ap-03-it-01",
+            "apartado_id": "ibx-0005-ap-03",
+            "tipo": "contacto",
+            "titulo": "FROB / Estado",
+            "contenido": "El Estado (FROB) heredó ~16% del capital tras la fusión con Bankia. Plan de desinversión gradual; participación en 2024 ~17,9%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "estado",
+              "frob"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0005-ap-03-it-02",
+            "apartado_id": "ibx-0005-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación La Caixa",
+            "contenido": "La Fundación La Caixa es uno de los mayores patrocinadores filantrópicos de Europa. Isidre Fainé preside Fundación y CriteriaCaixa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0005-ap-03-it-03",
+            "apartado_id": "ibx-0005-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nexo político",
+            "contenido": "Goirigolzarri tiene buena interlocución bipartidista (gestionó la nacionalización de Bankia bajo Rajoy y la fusión con CaixaBank bajo Sánchez).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0005-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0005-ap-04-it-00",
+            "apartado_id": "ibx-0005-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Goirigolzarri sobre fusión",
+            "contenido": "\"Creamos el banco líder en España con escala para competir en Europa\", junta de accionistas marzo 2021.",
+            "fecha": "2021-03-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0005-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0005-ap-05-it-00",
+            "apartado_id": "ibx-0005-ap-05",
+            "tipo": "evento",
+            "titulo": "Tarjetas black Bankia",
+            "contenido": "Heredado tras la fusión: ex consejeros de Caja Madrid/Bankia condenados por uso indebido de tarjetas opacas (sentencia AN 2017, TS 2018). Bankia como persona jurídica indemnizada por sus responsables.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "heredado"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0005-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0005-ap-06-it-00",
+            "apartado_id": "ibx-0005-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.caixabank.com/inversores",
+            "fecha": null,
+            "fuente_url": "https://www.caixabank.com/inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0005-ap-06-it-01",
+            "apartado_id": "ibx-0005-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0140609019 / ticker CABK",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08663619",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0006",
+    "slug": "telefonica",
+    "nombre_completo": "Telefónica S.A.",
+    "alias": "Telefónica",
+    "cargo_actual": "Empresa IBEX 35 · telecomunicaciones",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Operador histórico de telecomunicaciones español. Presencia en España, Brasil, Reino Unido (joint venture con Liberty), Alemania y resto Hispam. Presidente Marc Murtra desde enero 2025; previamente José María Álvarez-Pallete (2016-2025).",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:telecomunicaciones",
+      "ticker:TEF",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.telefonica.com",
+    "apartados": [
+      {
+        "id": "ibx-0006-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0006-ap-00-it-00",
+            "apartado_id": "ibx-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Telefónica S.A., fundada en 1924. Privatizada en sucesivas fases entre 1995 y 1999. Sede en Distrito Telefónica (Madrid).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0006-ap-00-it-01",
+            "apartado_id": "ibx-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~390 millones de accesos. Ingresos ~40.000 M€. Plantilla ~104.000. Marcas Movistar, O2, Vivo, Tu.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0006-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0006-ap-01-it-00",
+            "apartado_id": "ibx-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Privatización",
+            "contenido": "OPV inicial 1995. Privatización completa 1997-1999 bajo Aznar; Juan Villalonga preside 1996-2000.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "privatizacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0006-ap-01-it-01",
+            "apartado_id": "ibx-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Era Alierta",
+            "contenido": "César Alierta presidente 2000-2016. Crecimiento internacional en Hispam y Reino Unido (O2, 2005).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "alierta"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0006-ap-01-it-02",
+            "apartado_id": "ibx-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Entrada SEPI / STC",
+            "contenido": "En 2023 Saudi Telecom Company (STC) compra ~9,9% del capital. El Gobierno autoriza a la SEPI a tomar hasta 10% como contrapeso, materializado en 2024. Telefónica recupera carácter parcialmente estatal.",
+            "fecha": "2023-09-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sepi",
+              "stc",
+              "gobierno"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0006-ap-01-it-03",
+            "apartado_id": "ibx-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Cambio de presidente",
+            "contenido": "En enero de 2025 Marc Murtra (ex Indra) sustituye a José María Álvarez-Pallete tras presión política del Gobierno (accionista vía SEPI).",
+            "fecha": "2025-01-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sepi"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0006-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0006-ap-02-it-00",
+            "apartado_id": "ibx-0006-ap-02",
+            "tipo": "dato",
+            "titulo": "Soberanía digital",
+            "contenido": "Telefónica defiende la 'fair share' (pago de plataformas OTT a operadores por uso intensivo de red) y la consolidación europea del sector.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fair-share",
+              "ue"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0006-ap-02-it-01",
+            "apartado_id": "ibx-0006-ap-02",
+            "tipo": "dato",
+            "titulo": "Cierre red de cobre",
+            "contenido": "Plan de apagado total del cobre completado en abril 2024 en España, primer país europeo en culminarlo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "red-fija"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0006-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0006-ap-03-it-00",
+            "apartado_id": "ibx-0006-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "STC ~9,9%, SEPI ~10%, BBVA ~4,8%, CriteriaCaixa ~2,7%. Capital semi-controlado tras entrada SEPI 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "sepi",
+              "stc"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0006-ap-03-it-01",
+            "apartado_id": "ibx-0006-ap-03",
+            "tipo": "contacto",
+            "titulo": "Telefónica - Gobierno Sánchez",
+            "contenido": "Entrada de SEPI ordenada por el Gobierno con voluntad explícita de proteger el carácter estratégico nacional. Refleja prioridad geopolítica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0006-ap-03-it-02",
+            "apartado_id": "ibx-0006-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Telefónica",
+            "contenido": "Brazo de RSC con foco en educación digital y empleabilidad joven. Patronato encabezado por el presidente de Telefónica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0006-ap-03-it-03",
+            "apartado_id": "ibx-0006-ap-03",
+            "tipo": "contacto",
+            "titulo": "Joint venture VMO2 (UK)",
+            "contenido": "Virgin Media O2 es joint venture al 50% con Liberty Global en Reino Unido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "joint-venture"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0006-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0006-ap-04-it-00",
+            "apartado_id": "ibx-0006-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Murtra inaugural",
+            "contenido": "\"Telefónica tiene que volver a ser ofensiva en Europa\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0006-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0006-ap-05-it-00",
+            "apartado_id": "ibx-0006-ap-05",
+            "tipo": "evento",
+            "titulo": "ERE 2021",
+            "contenido": "Plan de salidas voluntarias de ~2.700 empleados en España; concertado con sindicatos, sin gran conflicto laboral.",
+            "fecha": "2021-06-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "laboral"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0006-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0006-ap-06-it-00",
+            "apartado_id": "ibx-0006-ap-06",
+            "tipo": "documento",
+            "titulo": "Web accionistas",
+            "contenido": "https://www.telefonica.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.telefonica.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0006-ap-06-it-01",
+            "apartado_id": "ibx-0006-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0178430E18 / ticker TEF",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28015865",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0007",
+    "slug": "repsol",
+    "nombre_completo": "Repsol S.A.",
+    "alias": "Repsol",
+    "cargo_actual": "Empresa IBEX 35 · energía integrada",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor compañía energética integrada española (upstream + refino + marketing). Sede en Madrid. Presidente y CEO Josu Jon Imaz desde 2014. Estrategia de transición a multienergía con renovables y biocarburantes.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:energia-oil-gas",
+      "ticker:REP",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.repsol.com",
+    "apartados": [
+      {
+        "id": "ibx-0007-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0007-ap-00-it-00",
+            "apartado_id": "ibx-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Repsol S.A., constituida en 1987 como holding INH-CAMPSA. Privatizada 1989-1997. Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0007-ap-00-it-01",
+            "apartado_id": "ibx-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "5 refinerías en España + 1 Perú. Red ~4.700 estaciones de servicio. Plantilla ~24.000. Ingresos ~60.000 M€.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0007-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0007-ap-01-it-00",
+            "apartado_id": "ibx-0007-ap-01",
+            "tipo": "evento",
+            "titulo": "Expropiación YPF",
+            "contenido": "En abril 2012 el Gobierno argentino (Cristina Fernández) expropia 51% de YPF, filial argentina de Repsol. Repsol cobra compensación de 5.000 M$ en 2014.",
+            "fecha": "2012-04-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ypf",
+              "argentina"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0007-ap-01-it-01",
+            "apartado_id": "ibx-0007-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Talisman",
+            "contenido": "Repsol adquiere la canadiense Talisman Energy en 2015 por 13.000 M$, expansión upstream.",
+            "fecha": "2015-05-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0007-ap-01-it-02",
+            "apartado_id": "ibx-0007-ap-01",
+            "tipo": "evento",
+            "titulo": "Plan Estratégico 2024-2027",
+            "contenido": "Anuncia inversiones 16.000-19.000 M€ con peso creciente de bajas emisiones. Objetivo neutralidad 2050.",
+            "fecha": "2024-02-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0007-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0007-ap-02-it-00",
+            "apartado_id": "ibx-0007-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a las energéticas",
+            "contenido": "Posición pública muy crítica con el gravamen extraordinario aprobado en 2022. Imaz ha amenazado con redirigir inversiones a otros países.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0007-ap-02-it-01",
+            "apartado_id": "ibx-0007-ap-02",
+            "tipo": "dato",
+            "titulo": "Biocombustibles",
+            "contenido": "Apuesta corporativa por combustibles renovables (HVO, e-fuels) frente a la electrificación total del transporte. Choque con políticas UE/Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "biocombustibles"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0007-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0007-ap-03-it-00",
+            "apartado_id": "ibx-0007-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Sacyr ~9%, BlackRock ~3%, Amundi ~3%. Capital muy disperso. Mexicanos Pemex desinvirtieron tras 2014.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "sacyr"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0007-ap-03-it-01",
+            "apartado_id": "ibx-0007-ap-03",
+            "tipo": "contacto",
+            "titulo": "Choque con Gobierno Sánchez",
+            "contenido": "Imaz ha sido voz crítica del Gobierno por el impuesto. En 2024 anunció pausa de inversiones en hidrógeno verde en España condicionada al marco fiscal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0007-ap-03-it-02",
+            "apartado_id": "ibx-0007-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Repsol",
+            "contenido": "Brazo filantrópico con foco en cultura, educación, transición energética.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0007-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0007-ap-04-it-00",
+            "apartado_id": "ibx-0007-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Imaz sobre el impuesto",
+            "contenido": "\"El impuesto extraordinario es confiscatorio y discriminatorio. Repasaremos cada euro de inversión en España\", entrevista 2024.",
+            "fecha": "2024-02-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0007-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0007-ap-05-it-00",
+            "apartado_id": "ibx-0007-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Villarejo (cliente)",
+            "contenido": "Repsol contrató servicios de Villarejo en 2011-2012 en torno a una guerra societaria con Sacyr (en el contexto de la batalla por el control de Repsol). Procesados directivos en pieza específica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "villarejo"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0007-ap-05-it-01",
+            "apartado_id": "ibx-0007-ap-05",
+            "tipo": "evento",
+            "titulo": "Vertido Mar Menor (Peñíscola, La Plata)",
+            "contenido": "Repsol asumió responsabilidad y pagó 36 M$ por el derrame del oleoducto La Pampilla en Perú en enero 2022.",
+            "fecha": "2022-01-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medioambiente",
+              "peru"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0007-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0007-ap-06-it-00",
+            "apartado_id": "ibx-0007-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.repsol.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.repsol.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0007-ap-06-it-01",
+            "apartado_id": "ibx-0007-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0173516115 / ticker REP",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A78374725",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0008",
+    "slug": "aena",
+    "nombre_completo": "Aena S.M.E. S.A.",
+    "alias": "Aena",
+    "cargo_actual": "Empresa IBEX 35 · infraestructuras aeroportuarias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor gestor aeroportuario del mundo por pasajeros. Estado español (Enaire) mantiene el 51%. Sede en Madrid. Presidente Maurici Lucena (PSC) desde 2018, renovado en 2023.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:infraestructuras",
+      "ticker:AENA",
+      "sede:madrid",
+      "control-estatal"
+    ],
+    "fuente_principal": "https://www.aena.es",
+    "apartados": [
+      {
+        "id": "ibx-0008-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0008-ap-00-it-00",
+            "apartado_id": "ibx-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Aena S.M.E. S.A., sociedad mercantil estatal cotizada. Gestiona 46 aeropuertos y 2 helipuertos en España + 17 internacionales (incluye London Luton).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0008-ap-00-it-01",
+            "apartado_id": "ibx-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~283 millones de pasajeros en aeropuertos españoles 2023. Ingresos ~4.700 M€. Plantilla ~8.500.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0008-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0008-ap-01-it-00",
+            "apartado_id": "ibx-0008-ap-01",
+            "tipo": "evento",
+            "titulo": "OPV",
+            "contenido": "Aena sale a bolsa en febrero 2015 bajo el Gobierno de Mariano Rajoy, OPV valorada 4.300 M€. Estado mantiene 51%.",
+            "fecha": "2015-02-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0008-ap-01-it-01",
+            "apartado_id": "ibx-0008-ap-01",
+            "tipo": "evento",
+            "titulo": "Adquisición Luton",
+            "contenido": "Aena Internacional gestiona el aeropuerto de Londres-Luton tras adquirir el 51% en 2013.",
+            "fecha": "2013-11-27",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0008-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0008-ap-02-it-00",
+            "apartado_id": "ibx-0008-ap-02",
+            "tipo": "dato",
+            "titulo": "Tarifas aeroportuarias",
+            "contenido": "Aena defiende incrementos de DORA (Documento de Regulación Aeroportuaria) para financiar inversiones, especialmente ampliación T4 Barajas y T1 El Prat. Choque público con aerolíneas (Ryanair, IAG).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dora",
+              "aerolineas"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0008-ap-02-it-01",
+            "apartado_id": "ibx-0008-ap-02",
+            "tipo": "dato",
+            "titulo": "Ampliación El Prat",
+            "contenido": "Planes de ampliación (3.000 M€) bloqueados desde 2021 por desencuentro con la Generalitat (PSC-ERC) por impacto en La Ricarda. Aena revivió debate en 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "elprat",
+              "politica"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0008-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0008-ap-03-it-00",
+            "apartado_id": "ibx-0008-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Enaire / Estado",
+            "contenido": "Enaire (sociedad estatal dependiente del Ministerio de Transportes) controla 51%. Aena es de facto una empresa pública cotizada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estado",
+              "enaire"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0008-ap-03-it-01",
+            "apartado_id": "ibx-0008-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nexo PSC / PSOE",
+            "contenido": "Lucena (presidente) procede del PSC. Fue secretario de Estado de Comercio en el primer Gobierno Sánchez (2018) antes de saltar a Aena. Su nombramiento es político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "psc",
+              "psoe"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0008-ap-03-it-02",
+            "apartado_id": "ibx-0008-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ministerio Transportes",
+            "contenido": "Tutela directa del Ministerio de Transportes y Movilidad Sostenible (Óscar Puente desde diciembre 2023).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ministerio",
+              "puente"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0008-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0008-ap-04-it-00",
+            "apartado_id": "ibx-0008-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Lucena sobre tarifas",
+            "contenido": "\"Hay que recuperar inversión pendiente. Las tarifas españolas son de las más bajas de Europa\", JGA 2023.",
+            "fecha": "2023-04-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0008-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0008-ap-05-it-00",
+            "apartado_id": "ibx-0008-ap-05",
+            "tipo": "evento",
+            "titulo": "Conflicto El Prat",
+            "contenido": "Bloqueo histórico de la ampliación del aeropuerto de Barcelona-El Prat por impacto en zona protegida La Ricarda. Pulso público Aena-Generalitat-Comisión Europea.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "medioambiente"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0008-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0008-ap-06-it-00",
+            "apartado_id": "ibx-0008-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.aena.es/es/accionistas-e-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.aena.es/es/accionistas-e-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0008-ap-06-it-01",
+            "apartado_id": "ibx-0008-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0105046009 / ticker AENA",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A86212420",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0009",
+    "slug": "endesa",
+    "nombre_completo": "Endesa S.A.",
+    "alias": "Endesa",
+    "cargo_actual": "Empresa IBEX 35 · utility eléctrica",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor eléctrica de España por número de clientes. Filial controlada al 70% por Enel (Italia, controlada a su vez por el Tesoro italiano). Sede en Madrid. Presidente José Bogas (CEO).",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-electrica",
+      "ticker:ELE",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.endesa.com",
+    "apartados": [
+      {
+        "id": "ibx-0009-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0009-ap-00-it-00",
+            "apartado_id": "ibx-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Endesa S.A. constituida en 1944 como Empresa Nacional de Electricidad. Privatizada 1988-1998. OPA exitosa de Enel sobre Endesa cerrada en 2007.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0009-ap-00-it-01",
+            "apartado_id": "ibx-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~10 millones de clientes en España y Portugal. Capacidad instalada ~22 GW. Plantilla ~9.300. Líder en distribución eléctrica peninsular sur y este.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0009-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0009-ap-01-it-00",
+            "apartado_id": "ibx-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Privatización",
+            "contenido": "Sucesivas OPVs entre 1988 y 1998 bajo Gobiernos PSOE y PP.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "privatizacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0009-ap-01-it-01",
+            "apartado_id": "ibx-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA Enel",
+            "contenido": "Tras OPAs competidoras de Gas Natural y E.ON, finalmente Enel (con Acciona) toma el control en 2007. Acciona vende en 2009.",
+            "fecha": "2009-02-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0009-ap-01-it-02",
+            "apartado_id": "ibx-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Cierre carbón",
+            "contenido": "Cierre de las centrales térmicas de carbón completado en 2021 (Compostilla, Andorra, As Pontes parcial). Hito de descarbonización.",
+            "fecha": "2021-12-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0009-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0009-ap-02-it-00",
+            "apartado_id": "ibx-0009-ap-02",
+            "tipo": "dato",
+            "titulo": "Transición justa",
+            "contenido": "Endesa lidera mesas de transición justa en comarcas afectadas por cierres (Teruel, Bierzo, Galicia interior).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion-justa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0009-ap-02-it-01",
+            "apartado_id": "ibx-0009-ap-02",
+            "tipo": "dato",
+            "titulo": "Mercado eléctrico",
+            "contenido": "Defensa pública del modelo marginalista. Bogas ha mostrado posiciones más conciliadoras con el Gobierno que Sánchez Galán (Iberdrola).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mercado"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0009-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0009-ap-03-it-00",
+            "apartado_id": "ibx-0009-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Enel (Italia)",
+            "contenido": "Enel controla 70,1% de Endesa. Decisiones estratégicas integradas con el grupo italiano.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "enel"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0009-ap-03-it-01",
+            "apartado_id": "ibx-0009-ap-03",
+            "tipo": "contacto",
+            "titulo": "Enel - Gobierno italiano",
+            "contenido": "Enel está controlada en último término por el Tesoro italiano (~24%). Las decisiones sobre Endesa tienen componente geopolítico Italia-España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "geopolitica"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0009-ap-03-it-02",
+            "apartado_id": "ibx-0009-ap-03",
+            "tipo": "contacto",
+            "titulo": "AELEC",
+            "contenido": "Endesa, junto con Iberdrola y EDP, forma la patronal AELEC (antes UNESA).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "patronal"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0009-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0009-ap-04-it-00",
+            "apartado_id": "ibx-0009-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Bogas sobre nuclear",
+            "contenido": "\"El calendario de cierre nuclear pactado en 2019 debe revisarse a la luz de la realidad del sistema\", JGA 2024.",
+            "fecha": "2024-04-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nuclear"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0009-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0009-ap-05-it-00",
+            "apartado_id": "ibx-0009-ap-05",
+            "tipo": "evento",
+            "titulo": "Sanción CNMC manipulación 2013",
+            "contenido": "Endesa fue sancionada en bloque con otras eléctricas por la CNMC por el episodio de diciembre 2013.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmc"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0009-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0009-ap-06-it-00",
+            "apartado_id": "ibx-0009-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.endesa.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.endesa.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0009-ap-06-it-01",
+            "apartado_id": "ibx-0009-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0130670112 / ticker ELE",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28023430",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0010",
+    "slug": "naturgy",
+    "nombre_completo": "Naturgy Energy Group S.A.",
+    "alias": "Naturgy",
+    "cargo_actual": "Empresa IBEX 35 · utility gas y electricidad",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Antiguo Gas Natural Fenosa. Líder en distribución y comercialización de gas en España. Sede en Madrid. Presidente Francisco Reynés desde 2018. Estructura accionarial muy concentrada.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-gas",
+      "ticker:NTGY",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.naturgy.com",
+    "apartados": [
+      {
+        "id": "ibx-0010-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0010-ap-00-it-00",
+            "apartado_id": "ibx-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Naturgy Energy Group S.A. (rebautizada en 2018 desde Gas Natural Fenosa). Origen en Gas Natural SDG (Catalana de Gas) más Unión Fenosa (adquirida 2009).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0010-ap-00-it-01",
+            "apartado_id": "ibx-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~18 millones de clientes en 11 países. Mayor distribuidor de gas en España. Plantilla ~7.300.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0010-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0010-ap-01-it-00",
+            "apartado_id": "ibx-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA fallida sobre Endesa",
+            "contenido": "En 2005-2006 Gas Natural lanzó OPA hostil sobre Endesa, contestada por E.ON y finalmente perdida ante Enel-Acciona.",
+            "fecha": "2005-09-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0010-ap-01-it-01",
+            "apartado_id": "ibx-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Unión Fenosa",
+            "contenido": "Gas Natural adquiere Unión Fenosa en 2009 por 16.700 M€.",
+            "fecha": "2009-07-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0010-ap-01-it-02",
+            "apartado_id": "ibx-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "Rebranding Naturgy",
+            "contenido": "En junio 2018 Gas Natural Fenosa pasa a llamarse Naturgy, con renovación del consejo y Reynés como presidente ejecutivo.",
+            "fecha": "2018-06-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0010-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0010-ap-02-it-00",
+            "apartado_id": "ibx-0010-ap-02",
+            "tipo": "dato",
+            "titulo": "Crisis gas - Argelia",
+            "contenido": "Naturgy es históricamente el comprador clave de gas argelino vía Medgaz. La crisis Argelia-España (2022) por el viraje sobre Sáhara afectó suministros y precios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "argelia",
+              "sahara",
+              "medgaz"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0010-ap-02-it-01",
+            "apartado_id": "ibx-0010-ap-02",
+            "tipo": "dato",
+            "titulo": "Operación Géminis",
+            "contenido": "En 2022-2023 Reynés impulsó la 'Operación Géminis' para dividir Naturgy en dos empresas cotizadas (redes vs generación-comercialización). Plan retirado en 2023 por falta de respaldo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "geminis",
+              "escision"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0010-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0010-ap-03-it-00",
+            "apartado_id": "ibx-0010-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "CriteriaCaixa ~26%, fondos GIP ~20%, CVC ~20%, IFM (australiano) ~15%. Estructura muy concentrada y compleja.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "criteria",
+              "gip",
+              "cvc",
+              "ifm"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0010-ap-03-it-01",
+            "apartado_id": "ibx-0010-ap-03",
+            "tipo": "contacto",
+            "titulo": "OPA IFM 2021",
+            "contenido": "El fondo australiano IFM lanzó OPA parcial sobre Naturgy en 2021. El Gobierno de Sánchez aprobó la operación con condiciones especiales (mantenimiento de sede y empleo).",
+            "fecha": "2021-08-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "ifm"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0010-ap-03-it-02",
+            "apartado_id": "ibx-0010-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno argelino (Sonatrach)",
+            "contenido": "Sonatrach es socio en Medgaz y proveedor estratégico. Relación geopolítica directa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "argelia",
+              "sonatrach"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0010-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0010-ap-04-it-00",
+            "apartado_id": "ibx-0010-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Reynés sobre escisión",
+            "contenido": "\"Géminis es la mejor opción para crear valor; respetaremos la voluntad accionarial\", JGA 2023.",
+            "fecha": "2023-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0010-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0010-ap-05-it-00",
+            "apartado_id": "ibx-0010-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Pyrenees / Colombia",
+            "contenido": "Investigación judicial sobre comisiones a intermediarios en Colombia (Electricaribe) entre 2011-2016. Naturgy se desinvirtió de Electricaribe en 2017 tras intervención del Gobierno colombiano.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "colombia",
+              "electricaribe"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0010-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0010-ap-06-it-00",
+            "apartado_id": "ibx-0010-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.naturgy.com/inversores",
+            "fecha": null,
+            "fuente_url": "https://www.naturgy.com/inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0010-ap-06-it-01",
+            "apartado_id": "ibx-0010-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0116870314 / ticker NTGY",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08015497",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0011",
+    "slug": "ferrovial",
+    "nombre_completo": "Ferrovial SE",
+    "alias": "Ferrovial",
+    "cargo_actual": "Empresa IBEX 35 · construcción e infraestructuras",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Constructora y concesionaria global. Líder mundial en autopistas de peaje (407 ETR Canadá, Managed Lanes EE.UU.) y aeropuertos (Heathrow hasta 2024). Trasladó sede a Países Bajos en 2023. Fundador Rafael del Pino y Moreno; presidente Rafael del Pino y Calvo-Sotelo.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:construccion-infraestructuras",
+      "ticker:FER",
+      "sede:paisesbajos"
+    ],
+    "fuente_principal": "https://www.ferrovial.com",
+    "apartados": [
+      {
+        "id": "ibx-0011-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0011-ap-00-it-00",
+            "apartado_id": "ibx-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Ferrovial SE, sede traslocada a Ámsterdam en 2023 manteniendo cotización principal en BME y secundaria en Euronext Amsterdam (y desde 2024 Nasdaq).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional",
+              "traslado-sede"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0011-ap-00-it-01",
+            "apartado_id": "ibx-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~8.500 M€. Plantilla ~24.000. Operaciones en EE.UU., Canadá, Reino Unido, Polonia, Australia, España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0011-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0011-ap-01-it-00",
+            "apartado_id": "ibx-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Heathrow",
+            "contenido": "En 2006 consorcio liderado por Ferrovial compró BAA (Heathrow y otros aeropuertos UK) por 16.500 M€. Desinversión progresiva, salida final en 2024.",
+            "fecha": "2006-06-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0011-ap-01-it-01",
+            "apartado_id": "ibx-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Traslado de sede a Países Bajos",
+            "contenido": "Mayo 2023: traslado de sede a Ámsterdam aprobado por junta. Operación judicializada y muy politizada por el Gobierno de Sánchez, finalmente ejecutada.",
+            "fecha": "2023-06-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "politica"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0011-ap-01-it-02",
+            "apartado_id": "ibx-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a NASDAQ",
+            "contenido": "En mayo 2024 Ferrovial debutó en NASDAQ (símbolo FER), cumpliendo objetivo declarado del traslado.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nasdaq"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0011-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0011-ap-02-it-00",
+            "apartado_id": "ibx-0011-ap-02",
+            "tipo": "dato",
+            "titulo": "Crítica a la fiscalidad española",
+            "contenido": "La salida a Países Bajos fue justificada por la familia Del Pino como acceso a NASDAQ y mejor entorno fiscal. Posicionamiento crítico con el marco fiscal español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0011-ap-02-it-01",
+            "apartado_id": "ibx-0011-ap-02",
+            "tipo": "dato",
+            "titulo": "Concesionalismo",
+            "contenido": "Modelo de negocio centrado en concesiones de larga duración (40-99 años) en autopistas, sin riesgo de tráfico en muchos casos (peajes en sombra).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "modelo-negocio"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0011-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0011-ap-03-it-00",
+            "apartado_id": "ibx-0011-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Familia Del Pino",
+            "contenido": "La familia Del Pino (vehículo Rijn Capital/Karlovy + otros) controla ~33% del capital. Rafael del Pino y Calvo-Sotelo preside el consejo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "del-pino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0011-ap-03-it-01",
+            "apartado_id": "ibx-0011-ap-03",
+            "tipo": "contacto",
+            "titulo": "Choque con Gobierno Sánchez",
+            "contenido": "El traslado de sede 2023 generó choque público con el Gobierno (Pedro Sánchez, Yolanda Díaz, Nadia Calviño). Acusaciones cruzadas sobre lealtad al país e inseguridad jurídica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0011-ap-03-it-02",
+            "apartado_id": "ibx-0011-ap-03",
+            "tipo": "contacto",
+            "titulo": "PP / Ayuntamientos PP",
+            "contenido": "Mayor cuota de obra pública en gobiernos PP que en PSOE. Buena relación tradicional con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "pp",
+              "ayuso"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0011-ap-03-it-03",
+            "apartado_id": "ibx-0011-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "Una de las principales fundaciones liberales del país. Patrocinio de cátedras, foros (Madrid Forum), publicaciones en favor del libre mercado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia",
+              "liberalismo"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0011-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0011-ap-04-it-00",
+            "apartado_id": "ibx-0011-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Del Pino sobre el traslado",
+            "contenido": "\"La operación no tiene motivación fiscal sino estratégica de acceso a capital global y mercados anglosajones\", JGA 2023.",
+            "fecha": "2023-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0011-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0011-ap-05-it-00",
+            "apartado_id": "ibx-0011-ap-05",
+            "tipo": "evento",
+            "titulo": "Investigación sobreprecios autopistas radiales",
+            "contenido": "Ferrovial fue accionista de varias autopistas radiales rescatadas por el Estado (R-4, R-3/5). Multas, quitas y pleitos arbitrales en curso 2017-2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "autopistas",
+              "rescates"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0011-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0011-ap-06-it-00",
+            "apartado_id": "ibx-0011-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.ferrovial.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.ferrovial.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0011-ap-06-it-01",
+            "apartado_id": "ibx-0011-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN NL0015001FS8 / ticker FER",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0012",
+    "slug": "amadeus-it-group",
+    "nombre_completo": "Amadeus IT Group S.A.",
+    "alias": "Amadeus",
+    "cargo_actual": "Empresa IBEX 35 · tecnología viajes",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Proveedor global de tecnología para la industria de viajes (GDS, hoteles, aeropuertos). Sede operativa en Madrid y desarrollo en Niza/Madrid/Bangalore. CEO Luis Maroto desde 2011.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:tecnologia-viajes",
+      "ticker:AMS",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://amadeus.com",
+    "apartados": [
+      {
+        "id": "ibx-0012-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0012-ap-00-it-00",
+            "apartado_id": "ibx-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Amadeus IT Group S.A., fundada en 1987 por Air France, Iberia, Lufthansa y SAS como sistema de distribución global (GDS).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0012-ap-00-it-01",
+            "apartado_id": "ibx-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~16.000 empleados. Ingresos ~5.400 M€ (2023). Tres divisiones: Distribution (GDS), Air IT (Altea PSS) y Hospitality.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0012-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0012-ap-01-it-00",
+            "apartado_id": "ibx-0012-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "OPV 2010. Antes había sido excluida de cotización en 2005 por consorcio de capital riesgo (BC Partners, Cinven) tras compra a aerolíneas.",
+            "fecha": "2010-04-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0012-ap-01-it-01",
+            "apartado_id": "ibx-0012-ap-01",
+            "tipo": "evento",
+            "titulo": "Impacto pandemia",
+            "contenido": "Caída de ingresos del 60% en 2020. Recuperación gradual hasta superar niveles 2019 en 2023.",
+            "fecha": "2020-04-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0012-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0012-ap-02-it-00",
+            "apartado_id": "ibx-0012-ap-02",
+            "tipo": "dato",
+            "titulo": "Soberanía tecnológica",
+            "contenido": "Amadeus se posiciona como infraestructura crítica europea frente a Sabre (EE.UU.) y Travelport. Lobby europeo en regulación de PNR y datos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "soberania"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0012-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0012-ap-03-it-00",
+            "apartado_id": "ibx-0012-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Free float muy elevado. Mayor accionista BlackRock ~5%, Capital Research ~5%. Sin accionista de control.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0012-ap-03-it-01",
+            "apartado_id": "ibx-0012-ap-03",
+            "tipo": "contacto",
+            "titulo": "Clientes - aerolíneas",
+            "contenido": "Iberia, IAG, Lufthansa, Air France-KLM siguen siendo clientes principales (y antiguos socios fundadores).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "clientes"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0012-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0012-ap-04-it-00",
+            "apartado_id": "ibx-0012-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Maroto sobre IA",
+            "contenido": "\"La IA reordenará la industria de viajes; Amadeus invierte en agentic AI para reservas\", presentación 2024.",
+            "fecha": "2024-02-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0012-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0012-ap-05-it-00",
+            "apartado_id": "ibx-0012-ap-05",
+            "tipo": "evento",
+            "titulo": "Bajo perfil litigioso",
+            "contenido": "Sin controversias judiciales de relevancia pública en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0012-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0012-ap-06-it-00",
+            "apartado_id": "ibx-0012-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://corporate.amadeus.com/es/accionistas-inversores",
+            "fecha": null,
+            "fuente_url": "https://corporate.amadeus.com/es/accionistas-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0012-ap-06-it-01",
+            "apartado_id": "ibx-0012-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0109067019 / ticker AMS",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A84236934",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0013",
+    "slug": "cellnex-telecom",
+    "nombre_completo": "Cellnex Telecom S.A.",
+    "alias": "Cellnex",
+    "cargo_actual": "Empresa IBEX 35 · infraestructura telecomunicaciones (torres)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor operador independiente de torres de telecomunicaciones de Europa. Sede en Madrid. Origen en Abertis (escisión 2015). Presidente Bertrand Kan; CEO Marco Patuano.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:infraestructuras-telecom",
+      "ticker:CLNX",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.cellnextelecom.com",
+    "apartados": [
+      {
+        "id": "ibx-0013-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0013-ap-00-it-00",
+            "apartado_id": "ibx-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Cellnex Telecom S.A., escindida de Abertis y salida a bolsa en mayo 2015.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0013-ap-00-it-01",
+            "apartado_id": "ibx-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~110.000 emplazamientos en 12 países europeos. Ingresos ~4.000 M€. Plantilla ~3.500.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0013-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0013-ap-01-it-00",
+            "apartado_id": "ibx-0013-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "OPV mayo 2015 con Abertis como mayor accionista inicial.",
+            "fecha": "2015-05-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0013-ap-01-it-01",
+            "apartado_id": "ibx-0013-ap-01",
+            "tipo": "evento",
+            "titulo": "Era Tobías",
+            "contenido": "Tobías Martínez (CEO 2015-2023) protagonizó expansión paneuropea agresiva con M&A (Italia, Francia, UK, Polonia).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "expansion"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0013-ap-01-it-02",
+            "apartado_id": "ibx-0013-ap-01",
+            "tipo": "evento",
+            "titulo": "Cambio estratégico",
+            "contenido": "Tras subida de tipos y desaceleración M&A, en 2023 entra Marco Patuano (ex Telecom Italia, propuesto por GIC y Edizione) como CEO. Pivot a desinversiones y desapalancamiento.",
+            "fecha": "2023-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0013-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0013-ap-02-it-00",
+            "apartado_id": "ibx-0013-ap-02",
+            "tipo": "dato",
+            "titulo": "Modelo torres independiente",
+            "contenido": "Defensa del modelo TowerCo independiente frente a la concentración de redes en operadores. Lobby ante reguladores europeos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "modelo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0013-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0013-ap-03-it-00",
+            "apartado_id": "ibx-0013-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionistas",
+            "contenido": "GIC (Singapur) ~7%, ConnecT/Edizione (Benetton) ~9%, TCI Fund ~6%, BlackRock ~5%, Criteria ~5%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "gic",
+              "benetton",
+              "tci"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0013-ap-03-it-01",
+            "apartado_id": "ibx-0013-ap-03",
+            "tipo": "contacto",
+            "titulo": "Clientes operadores",
+            "contenido": "Telefónica, Bouygues, Iliad, MasOrange, Vodafone, Wind Tre, Three UK. Relación dual: clientes y fuentes de adquisición de torres.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "clientes"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0013-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0013-ap-04-it-00",
+            "apartado_id": "ibx-0013-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Patuano sobre desapalancamiento",
+            "contenido": "\"Cellnex tiene que pasar de fase de crecimiento M&A a fase de optimización de capital\", noviembre 2023.",
+            "fecha": "2023-11-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0013-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0013-ap-05-it-00",
+            "apartado_id": "ibx-0013-ap-05",
+            "tipo": "evento",
+            "titulo": "Caída de valoración 2022-2023",
+            "contenido": "Cellnex perdió >50% de valor entre 2021 y 2023 por subida de tipos. Crítica de minoritarios sobre apalancamiento.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bolsa"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0013-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0013-ap-06-it-00",
+            "apartado_id": "ibx-0013-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.cellnextelecom.com/es/inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.cellnextelecom.com/es/inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0013-ap-06-it-01",
+            "apartado_id": "ibx-0013-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0105066007 / ticker CLNX",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A64907306",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0014",
+    "slug": "acs",
+    "nombre_completo": "ACS, Actividades de Construcción y Servicios S.A.",
+    "alias": "ACS",
+    "cargo_actual": "Empresa IBEX 35 · construcción",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor constructora española y una de las mayores del mundo. Propietaria de Hochtief (Alemania), Cimic (Australia), Dragados (España), Turner (EE.UU.). Presidente y mayor accionista: Florentino Pérez.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:construccion",
+      "ticker:ACS",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.grupoacs.com",
+    "apartados": [
+      {
+        "id": "ibx-0014-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0014-ap-00-it-00",
+            "apartado_id": "ibx-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "ACS S.A., resultado de la fusión OCP-Ginés Navarro Construcciones (1997). Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0014-ap-00-it-01",
+            "apartado_id": "ibx-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~35.000 M€. Plantilla ~120.000. Mayor operador mundial de concesiones y construcción internacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0014-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0014-ap-01-it-00",
+            "apartado_id": "ibx-0014-ap-01",
+            "tipo": "evento",
+            "titulo": "Florentino al frente",
+            "contenido": "Florentino Pérez asume la presidencia ejecutiva en 1997 tras la fusión OCP-Ginés Navarro. Sigue al frente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "florentino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0014-ap-01-it-01",
+            "apartado_id": "ibx-0014-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Hochtief",
+            "contenido": "ACS toma el control de Hochtief en 2011 (compañía alemana, accionista de Cimic Australia y Turner USA).",
+            "fecha": "2011-09-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0014-ap-01-it-02",
+            "apartado_id": "ibx-0014-ap-01",
+            "tipo": "evento",
+            "titulo": "Batalla Iberdrola",
+            "contenido": "ACS fue accionista relevante de Iberdrola entre 2006 y 2017, llegando a >20%. Conflicto público entre Florentino Pérez y Sánchez Galán. ACS terminó vendiendo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iberdrola"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0014-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0014-ap-02-it-00",
+            "apartado_id": "ibx-0014-ap-02",
+            "tipo": "dato",
+            "titulo": "Concesionalismo internacional",
+            "contenido": "ACS pivota progresivamente hacia concesiones (autopistas, energía, infra social) en EE.UU. y Australia, reduciendo peso de obra pública española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0014-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0014-ap-03-it-00",
+            "apartado_id": "ibx-0014-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Florentino Pérez",
+            "contenido": "Florentino y su entorno controlan ~13%. Fundación Florentino Pérez y vehículos varios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "florentino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0014-ap-03-it-01",
+            "apartado_id": "ibx-0014-ap-03",
+            "tipo": "contacto",
+            "titulo": "Real Madrid",
+            "contenido": "Florentino Pérez es presidente del Real Madrid (1995-2006 y 2009-presente). El club da proyección política e internacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "real-madrid",
+              "florentino"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0014-ap-03-it-02",
+            "apartado_id": "ibx-0014-ap-03",
+            "tipo": "contacto",
+            "titulo": "Relación con Gobiernos",
+            "contenido": "Cordial con sucesivos Gobiernos PP y PSOE. Florentino ha sido figura de consenso en sectores económicos. Vínculos con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0014-ap-03-it-03",
+            "apartado_id": "ibx-0014-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo (víctima)",
+            "contenido": "ACS y Florentino aparecen como víctimas de los servicios de Villarejo contratados por Iberdrola y BBVA (espionaje a directivos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "villarejo"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0014-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0014-ap-04-it-00",
+            "apartado_id": "ibx-0014-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Florentino sobre infraestructuras",
+            "contenido": "\"España no puede permitirse renunciar a los grandes proyectos por discusiones políticas locales\", JGA 2023.",
+            "fecha": "2023-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0014-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0014-ap-05-it-00",
+            "apartado_id": "ibx-0014-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Lezo (Canal Isabel II)",
+            "contenido": "Investigación sobre adjudicaciones del Canal de Isabel II en Madrid. Aunque no ACS directamente imputada, sí afectó a ecosistema constructor.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "lezo"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0014-ap-05-it-01",
+            "apartado_id": "ibx-0014-ap-05",
+            "tipo": "evento",
+            "titulo": "Atrasos AVE Riad",
+            "contenido": "Consorcio liderado por Renfe-ACS-Talgo enfrentó atrasos y sobrecostes en la línea AVE Medina-La Meca. Reclamaciones cruzadas con SRO Arabia Saudí.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "proyectos-internacionales"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0014-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0014-ap-06-it-00",
+            "apartado_id": "ibx-0014-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.grupoacs.com/accionistas-e-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.grupoacs.com/accionistas-e-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0014-ap-06-it-01",
+            "apartado_id": "ibx-0014-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0167050915 / ticker ACS",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28004885",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0015",
+    "slug": "banco-sabadell",
+    "nombre_completo": "Banco de Sabadell S.A.",
+    "alias": "Sabadell",
+    "cargo_actual": "Empresa IBEX 35 · banca",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Cuarto banco español. Sede social en Alicante desde 2017. Propietario de TSB (Reino Unido). En 2024 objetivo de OPA hostil de BBVA. Presidente Josep Oliu; CEO César González-Bueno.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:SAB",
+      "sede:alicante"
+    ],
+    "fuente_principal": "https://www.grupbancsabadell.com",
+    "apartados": [
+      {
+        "id": "ibx-0015-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0015-ap-00-it-00",
+            "apartado_id": "ibx-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Banco de Sabadell S.A., fundado en 1881 en Sabadell. Sede social en Alicante desde octubre 2017.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0015-ap-00-it-01",
+            "apartado_id": "ibx-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~12 millones de clientes. Activos ~250.000 M€. Plantilla ~19.000. Filial TSB en UK con ~5 millones de clientes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0015-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0015-ap-01-it-00",
+            "apartado_id": "ibx-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra CAM",
+            "contenido": "Sabadell adquiere la nacionalizada CAM en 2011 por 1€ con EPA (esquema protección activos) del FROB.",
+            "fecha": "2011-12-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0015-ap-01-it-01",
+            "apartado_id": "ibx-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra TSB",
+            "contenido": "Sabadell compra TSB en Reino Unido a Lloyds en 2015 por 2.350 M€.",
+            "fecha": "2015-03-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0015-ap-01-it-02",
+            "apartado_id": "ibx-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Traslado de sede",
+            "contenido": "En el mismo día que CaixaBank (6 oct 2017), Sabadell traslada su sede de Cataluña a Alicante.",
+            "fecha": "2017-10-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "procés"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0015-ap-01-it-03",
+            "apartado_id": "ibx-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Negativa fusión BBVA / OPA hostil",
+            "contenido": "En mayo 2024 BBVA propone fusión amistosa; el consejo del Sabadell la rechaza. BBVA lanza OPA hostil. En curso a mayo 2026.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opa",
+              "bbva"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0015-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0015-ap-02-it-00",
+            "apartado_id": "ibx-0015-ap-02",
+            "tipo": "dato",
+            "titulo": "Defensa de independencia",
+            "contenido": "Oliu y el consejo defienden plan en solitario, mejor retribución al accionista y conservar TSB. Críticas a sinergias de BBVA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opa",
+              "bbva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0015-ap-02-it-01",
+            "apartado_id": "ibx-0015-ap-02",
+            "tipo": "dato",
+            "titulo": "Posición sobre concentración",
+            "contenido": "El Sabadell aporta a la prensa argumentos sobre los costes para PYMES de la concentración bancaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pymes",
+              "concentracion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0015-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0015-ap-03-it-00",
+            "apartado_id": "ibx-0015-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Disperso. BlackRock ~6%, Zurich ~5%, otros institucionales. Sin accionista de control. La OPA BBVA puede alterar este mapa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0015-ap-03-it-01",
+            "apartado_id": "ibx-0015-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - Postura crítica BBVA",
+            "contenido": "El Gobierno (Pedro Sánchez, Carlos Cuerpo) ha expresado dudas sobre la operación BBVA-Sabadell, condicionante último de la autorización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno",
+              "opa"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0015-ap-03-it-02",
+            "apartado_id": "ibx-0015-ap-03",
+            "tipo": "contacto",
+            "titulo": "Generalitat / catalanismo",
+            "contenido": "Aunque trasladó la sede, Sabadell mantiene fuerte vinculación con tejido empresarial catalán y PYMES catalanas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "cataluna"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0015-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0015-ap-04-it-00",
+            "apartado_id": "ibx-0015-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Oliu rechaza fusión",
+            "contenido": "\"La oferta de BBVA infravalora significativamente las perspectivas del Sabadell\", carta a accionistas mayo 2024.",
+            "fecha": "2024-05-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0015-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0015-ap-05-it-00",
+            "apartado_id": "ibx-0015-ap-05",
+            "tipo": "evento",
+            "titulo": "Crisis TSB 2018",
+            "contenido": "Migración tecnológica fallida en TSB en 2018 generó multas FCA y costes >300 M€. Provocó relevo del CEO de TSB.",
+            "fecha": "2018-04-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tsb"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0015-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0015-ap-06-it-00",
+            "apartado_id": "ibx-0015-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.grupbancsabadell.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.grupbancsabadell.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0015-ap-06-it-01",
+            "apartado_id": "ibx-0015-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113860A34 / ticker SAB",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08000143",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0016",
+    "slug": "bankinter",
+    "nombre_completo": "Bankinter S.A.",
+    "alias": "Bankinter",
+    "cargo_actual": "Empresa IBEX 35 · banca",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banco mediano español con foco en banca privada y empresas. Considerado el más eficiente del sector. Sede en Madrid. Presidenta Pedro Guerrero (no ejecutivo); CEO Gloria Ortiz Portero (2024-).",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:BKT",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.bankinter.com",
+    "apartados": [
+      {
+        "id": "ibx-0016-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0016-ap-00-it-00",
+            "apartado_id": "ibx-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Bankinter S.A., fundado en 1965 como Banco Intercontinental Español. Banca innovadora histórica (primer banco español con web, fundador de ING Direct vía partnerships).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0016-ap-00-it-01",
+            "apartado_id": "ibx-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Activos ~110.000 M€. Plantilla ~6.500. Negocios: banca comercial, banca privada (LineaDirecta hasta 2021 cuando se escindió), EVO Banco, Bankinter Portugal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0016-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0016-ap-01-it-00",
+            "apartado_id": "ibx-0016-ap-01",
+            "tipo": "evento",
+            "titulo": "Escisión Línea Directa",
+            "contenido": "En abril 2021 Bankinter escinde Línea Directa Aseguradora y la saca a bolsa.",
+            "fecha": "2021-04-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0016-ap-01-it-01",
+            "apartado_id": "ibx-0016-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra EVO Banco",
+            "contenido": "En 2018 adquiere EVO Banco a Apollo, reforzando capa digital.",
+            "fecha": "2018-09-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0016-ap-01-it-02",
+            "apartado_id": "ibx-0016-ap-01",
+            "tipo": "evento",
+            "titulo": "Relevo en CEO",
+            "contenido": "Tras 18 años como CEO, María Dolores Dancausa pasa a la presidencia (cargo no ejecutivo) en 2024. Gloria Ortiz asume el CEO.",
+            "fecha": "2024-03-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0016-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0016-ap-02-it-00",
+            "apartado_id": "ibx-0016-ap-02",
+            "tipo": "dato",
+            "titulo": "Tipos de interés",
+            "contenido": "Bankinter se benefició especialmente del ciclo de subidas BCE 2022-2023, máximos históricos de RoE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tipos"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0016-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0016-ap-03-it-00",
+            "apartado_id": "ibx-0016-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Cartival (familia Botín-Rivero) ~22%, Fernando Masaveu ~5%, Corp. Mp. Indus ~5%. Familia Botín-Rivero (rama Jaime Botín) es accionista de referencia histórico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "botin"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0016-ap-03-it-01",
+            "apartado_id": "ibx-0016-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Botín-Rivero",
+            "contenido": "Jaime Botín (hermano del fallecido Emilio Botín) y su entorno controlan vía Cartival. Jaime Botín condenado en 2020 por contrabando del Picasso.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin",
+              "judicial"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0016-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0016-ap-04-it-00",
+            "apartado_id": "ibx-0016-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Ortiz sobre rentabilidad",
+            "contenido": "\"Bankinter mantiene su modelo de banca rentable y bien capitalizada\", JGA 2024.",
+            "fecha": "2024-03-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0016-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0016-ap-05-it-00",
+            "apartado_id": "ibx-0016-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Picasso (Jaime Botín)",
+            "contenido": "Jaime Botín condenado en 2020 por la AN por contrabando al intentar sacar el cuadro 'Cabeza de mujer joven' de Picasso en yate. Imagen reputacional impacta tangencialmente al banco.",
+            "fecha": "2020-01-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0016-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0016-ap-06-it-00",
+            "apartado_id": "ibx-0016-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.bankinter.com/banca/accionistas-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.bankinter.com/banca/accionistas-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0016-ap-06-it-01",
+            "apartado_id": "ibx-0016-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113679I37 / ticker BKT",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28157360",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0017",
+    "slug": "mapfre",
+    "nombre_completo": "Mapfre S.A.",
+    "alias": "Mapfre",
+    "cargo_actual": "Empresa IBEX 35 · seguros",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor grupo asegurador español. Presencia en 40+ países, líder en Latinoamérica. Controlada por Fundación Mapfre (no cotiza). Presidente Antonio Huertas desde 2012.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:seguros",
+      "ticker:MAP",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.mapfre.com",
+    "apartados": [
+      {
+        "id": "ibx-0017-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0017-ap-00-it-00",
+            "apartado_id": "ibx-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Mapfre S.A., fundada en 1933 como Mutualidad de la Agrupación de Propietarios de Fincas Rústicas de España. Convertida en S.A. y cotizada desde 1971.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0017-ap-00-it-01",
+            "apartado_id": "ibx-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Primas emitidas ~24.000 M€. Plantilla ~31.000. Mercado clave España + Brasil + EE.UU. + México.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0017-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0017-ap-01-it-00",
+            "apartado_id": "ibx-0017-ap-01",
+            "tipo": "evento",
+            "titulo": "Era Huertas",
+            "contenido": "Antonio Huertas, presidente desde marzo 2012. Foco en eficiencia, retorno al accionista y desinversiones en mercados subóptimos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "huertas"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0017-ap-01-it-01",
+            "apartado_id": "ibx-0017-ap-01",
+            "tipo": "evento",
+            "titulo": "Crisis EE.UU.",
+            "contenido": "Mapfre USA tuvo problemas de combined ratio en 2018-2020; reestructuración con cierres en estados deficitarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "usa"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0017-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0017-ap-02-it-00",
+            "apartado_id": "ibx-0017-ap-02",
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromisos de no aseguramiento de nuevos proyectos de carbón a partir de 2030. Apuesta por seguros climáticos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0017-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0017-ap-03-it-00",
+            "apartado_id": "ibx-0017-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Fundación Mapfre",
+            "contenido": "Fundación Mapfre (no cotiza) controla ~70% del capital de Mapfre S.A. La fundación es uno de los mayores patrocinadores culturales del país (exposiciones, premios).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "fundacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0017-ap-03-it-01",
+            "apartado_id": "ibx-0017-ap-03",
+            "tipo": "contacto",
+            "titulo": "Filantropía cultural",
+            "contenido": "Fundación Mapfre opera sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga). Patrocina premios y proyectos sociales en LatAm.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0017-ap-03-it-02",
+            "apartado_id": "ibx-0017-ap-03",
+            "tipo": "contacto",
+            "titulo": "Bankia / CaixaBank",
+            "contenido": "Alianza estratégica de distribución con Bankia (heredada por CaixaBank tras fusión). Producto bancaseguro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixabank"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0017-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0017-ap-04-it-00",
+            "apartado_id": "ibx-0017-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Huertas sobre crecimiento",
+            "contenido": "\"Mapfre busca crecer en mercados rentables, no en presencia geográfica indiscriminada\", JGA 2024.",
+            "fecha": "2024-03-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0017-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0017-ap-05-it-00",
+            "apartado_id": "ibx-0017-ap-05",
+            "tipo": "evento",
+            "titulo": "Sin grandes controversias",
+            "contenido": "Mapfre tiene bajo perfil litigioso en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0017-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0017-ap-06-it-00",
+            "apartado_id": "ibx-0017-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.mapfre.com/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.mapfre.com/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0017-ap-06-it-01",
+            "apartado_id": "ibx-0017-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0124244E34 / ticker MAP",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08055741",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0018",
+    "slug": "redeia",
+    "nombre_completo": "Redeia Corporación S.A.",
+    "alias": "Redeia (Red Eléctrica)",
+    "cargo_actual": "Empresa IBEX 35 · operador del sistema eléctrico",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Operador del sistema eléctrico español (transporte de alta tensión, monopolio regulado). Sede en Alcobendas. SEPI mantiene 20%. Presidenta Beatriz Corredor (PSOE) desde 2020.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-redes",
+      "ticker:RED",
+      "sede:madrid",
+      "control-estatal"
+    ],
+    "fuente_principal": "https://www.redeia.com",
+    "apartados": [
+      {
+        "id": "ibx-0018-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0018-ap-00-it-00",
+            "apartado_id": "ibx-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Redeia Corporación S.A. (antes Red Eléctrica Corporación). Constituida en 1985 como operador único del sistema eléctrico. Privatización parcial 1999.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0018-ap-00-it-01",
+            "apartado_id": "ibx-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~45.000 km de red de transporte. Plantilla ~2.200. Filiales: Red Eléctrica (España), Hispasat (satélites, control SEPI), REN (Portugal participada), Reintel (fibra).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0018-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0018-ap-01-it-00",
+            "apartado_id": "ibx-0018-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "OPV julio 1999 bajo Gobierno Aznar.",
+            "fecha": "1999-07-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0018-ap-01-it-01",
+            "apartado_id": "ibx-0018-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Hispasat",
+            "contenido": "Redeia compra Hispasat a Abertis en 2019 por mandato del Gobierno (sensibilidad estratégica).",
+            "fecha": "2019-10-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "hispasat",
+              "gobierno"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0018-ap-01-it-02",
+            "apartado_id": "ibx-0018-ap-01",
+            "tipo": "evento",
+            "titulo": "Cambio presidencia",
+            "contenido": "Beatriz Corredor (ex ministra Vivienda PSOE, Zapatero) sustituye a Jordi Sevilla en febrero 2020.",
+            "fecha": "2020-02-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "politica"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0018-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0018-ap-02-it-00",
+            "apartado_id": "ibx-0018-ap-02",
+            "tipo": "dato",
+            "titulo": "Operador monopolio regulado",
+            "contenido": "Redeia es monopolio natural regulado por CNMC. Su negocio principal (transporte) tiene ingresos regulados ('valor neto de los activos × WACC').",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "regulacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0018-ap-02-it-01",
+            "apartado_id": "ibx-0018-ap-02",
+            "tipo": "dato",
+            "titulo": "Transición energética",
+            "contenido": "Redeia tiene rol clave en planificación de la red para integración masiva de renovables y H2.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0018-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0018-ap-03-it-00",
+            "apartado_id": "ibx-0018-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: SEPI",
+            "contenido": "SEPI (Estado) mantiene 20%. Es accionista de referencia (límite legal del 10% para resto inversores).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sepi",
+              "estado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0018-ap-03-it-01",
+            "apartado_id": "ibx-0018-ap-03",
+            "tipo": "contacto",
+            "titulo": "Limitación 10% otros",
+            "contenido": "Ley sector eléctrico (Ley 17/2007) limita a 5% participaciones individuales y 1% participaciones políticas (operadores).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "regulacion"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0018-ap-03-it-02",
+            "apartado_id": "ibx-0018-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nexo PSOE",
+            "contenido": "Corredor procede del PSOE (ex ministra). Su nombramiento es político. Refleja preferencia del Gobierno Sánchez por perfil afín en infraestructura crítica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "psoe",
+              "sanchez"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0018-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0018-ap-04-it-00",
+            "apartado_id": "ibx-0018-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Corredor sobre red",
+            "contenido": "\"La red eléctrica es el pilar de la transición\", JGA 2023.",
+            "fecha": "2023-04-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0018-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0018-ap-05-it-00",
+            "apartado_id": "ibx-0018-ap-05",
+            "tipo": "evento",
+            "titulo": "Nombramiento de Corredor",
+            "contenido": "Su nombramiento generó crítica del PP por entender que politizaba un cargo técnico. Corredor defendió experiencia gestora previa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0018-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0018-ap-06-it-00",
+            "apartado_id": "ibx-0018-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.redeia.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.redeia.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0018-ap-06-it-01",
+            "apartado_id": "ibx-0018-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0173093115 / ticker RED",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A78003662",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0019",
+    "slug": "enagas",
+    "nombre_completo": "Enagás S.A.",
+    "alias": "Enagás",
+    "cargo_actual": "Empresa IBEX 35 · operador del sistema gasista",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Operador técnico del sistema gasista español (transporte y almacenamiento, monopolio regulado). Sede en Madrid. SEPI mantiene 5%. Presidente Antonio Llardén; CEO Arturo Gonzalo Aizpiri.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-gas-infra",
+      "ticker:ENG",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.enagas.es",
+    "apartados": [
+      {
+        "id": "ibx-0019-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0019-ap-00-it-00",
+            "apartado_id": "ibx-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Enagás S.A., fundada en 1972 como sociedad pública. Privatizada 1994-2002. Operador certificado del sistema gasista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0019-ap-00-it-01",
+            "apartado_id": "ibx-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~12.000 km de gasoductos. 6 plantas de regasificación (mayor red regasificadora de Europa). Plantilla ~1.300.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0019-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0019-ap-01-it-00",
+            "apartado_id": "ibx-0019-ap-01",
+            "tipo": "evento",
+            "titulo": "Crisis Tallgrass",
+            "contenido": "Inversiones en EE.UU. (Tallgrass) generaron deterioros importantes 2019-2021. Llardén bajo crítica de minoritarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tallgrass",
+              "usa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0019-ap-01-it-01",
+            "apartado_id": "ibx-0019-ap-01",
+            "tipo": "evento",
+            "titulo": "Hub europeo gas",
+            "contenido": "Tras invasión rusa de Ucrania (2022), España y Enagás emergen como hub estratégico europeo (regasificación) ante caída de gas ruso.",
+            "fecha": "2022-03-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "geopolitica",
+              "ucrania"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0019-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0019-ap-02-it-00",
+            "apartado_id": "ibx-0019-ap-02",
+            "tipo": "dato",
+            "titulo": "Hidrógeno verde",
+            "contenido": "Enagás pivota a H2 verde: proyecto H2Med (gasoducto Iberia-Francia para hidrógeno) clave en agenda energética europea, con financiación PNIEC.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "h2med",
+              "hidrogeno"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0019-ap-02-it-01",
+            "apartado_id": "ibx-0019-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco regulatorio",
+            "contenido": "Crítica con la rebaja de retribución que la CNMC y los Marcos Regulatorios 2021-2026 han aplicado al transporte.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "regulacion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0019-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0019-ap-03-it-00",
+            "apartado_id": "ibx-0019-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "SEPI ~5%, BlackRock ~5%, Vanguard ~3%, Amancio Ortega vía Pontegadea ~5%, GIC ~5%. Muy disperso.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "sepi",
+              "pontegadea"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0019-ap-03-it-01",
+            "apartado_id": "ibx-0019-ap-03",
+            "tipo": "contacto",
+            "titulo": "H2Med - apoyo político",
+            "contenido": "H2Med (proyecto Iberia-Francia para H2) cuenta con apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa. Financiación CEF-Energy.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sanchez",
+              "macron",
+              "h2med"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0019-ap-03-it-02",
+            "apartado_id": "ibx-0019-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - Aizpiri",
+            "contenido": "Arturo Gonzalo Aizpiri (CEO) procede del entorno empresarial verde, encaje político con la agenda de transición ecológica del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sanchez"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0019-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0019-ap-04-it-00",
+            "apartado_id": "ibx-0019-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Llardén sobre regulación",
+            "contenido": "\"La retribución regulada actual no atrae inversión\", JGA 2024.",
+            "fecha": "2024-03-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0019-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0019-ap-05-it-00",
+            "apartado_id": "ibx-0019-ap-05",
+            "tipo": "evento",
+            "titulo": "Tallgrass impairment",
+            "contenido": "Deterioros por valor de >1.000 M€ en Tallgrass 2019-2021 cuestionaron la estrategia internacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tallgrass"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0019-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0019-ap-06-it-00",
+            "apartado_id": "ibx-0019-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.enagas.es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.enagas.es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0019-ap-06-it-01",
+            "apartado_id": "ibx-0019-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0130960018 / ticker ENG",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28294726",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0020",
+    "slug": "acciona",
+    "nombre_completo": "Acciona S.A.",
+    "alias": "Acciona",
+    "cargo_actual": "Empresa IBEX 35 · infraestructuras y servicios",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Conglomerado de infraestructuras, agua, servicios y renovables (vía Acciona Energía cotizada aparte). Sede en Alcobendas. Controlada por la familia Entrecanales. Presidente José Manuel Entrecanales.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:infraestructuras-renovables",
+      "ticker:ANA",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.acciona.com",
+    "apartados": [
+      {
+        "id": "ibx-0020-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0020-ap-00-it-00",
+            "apartado_id": "ibx-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Acciona S.A., raíces en Entrecanales y Távora (1931). Refundación Acciona en 1997 (fusión Entrecanales + Cubiertas y MZOV).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0020-ap-00-it-01",
+            "apartado_id": "ibx-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~17.000 M€. Plantilla ~50.000. Negocios: infraestructuras, agua (desalación líder global), servicios, renovables (vía Acciona Energía 83%), inmobiliaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0020-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0020-ap-01-it-00",
+            "apartado_id": "ibx-0020-ap-01",
+            "tipo": "evento",
+            "titulo": "Batalla Endesa con Enel",
+            "contenido": "Acciona y Enel se aliaron en 2007 para tomar Endesa. Acciona salió en 2009 vendiendo a Enel su 25% por 11.100 M€.",
+            "fecha": "2009-02-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0020-ap-01-it-01",
+            "apartado_id": "ibx-0020-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa de Acciona Energía",
+            "contenido": "Spin-off de Acciona Energía cotizando en bolsa desde julio 2021.",
+            "fecha": "2021-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "acciona-energia"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0020-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0020-ap-02-it-00",
+            "apartado_id": "ibx-0020-ap-02",
+            "tipo": "dato",
+            "titulo": "Transición y agua",
+            "contenido": "Entrecanales pionero defensor de renovables, agua y movilidad eléctrica. Posiciones públicas muy progresistas en ESG.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg",
+              "verde"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0020-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0020-ap-03-it-00",
+            "apartado_id": "ibx-0020-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Familia Entrecanales",
+            "contenido": "Familia Entrecanales-Domecq controla ~55% vía sociedades patrimoniales (Tussen de Grachten, etc.).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "entrecanales"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0020-ap-03-it-01",
+            "apartado_id": "ibx-0020-ap-03",
+            "tipo": "contacto",
+            "titulo": "Acciona Energía (ANE)",
+            "contenido": "Filial cotizada también IBEX 35. Acciona mantiene 83%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "acciona-energia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0020-ap-03-it-02",
+            "apartado_id": "ibx-0020-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nexo política exterior",
+            "contenido": "Acciona muy expuesta a grandes obras internacionales (Canal de Panamá, Sao Paulo Metro, Sídney Metro). Diplomacia económica activa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "internacional"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0020-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0020-ap-04-it-00",
+            "apartado_id": "ibx-0020-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Entrecanales sobre ESG",
+            "contenido": "\"La sostenibilidad no es opción, es la única estrategia viable de largo plazo\", JGA 2023.",
+            "fecha": "2023-06-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0020-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0020-ap-05-it-00",
+            "apartado_id": "ibx-0020-ap-05",
+            "tipo": "evento",
+            "titulo": "Sobrecostes ampliación Canal Panamá",
+            "contenido": "Acciona lideró consorcio GUPC en ampliación del Canal de Panamá. Atrasos y reclamaciones arbitrales por miles de M$ resueltos parcialmente en 2017-2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "panama",
+              "arbitrajes"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0020-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0020-ap-06-it-00",
+            "apartado_id": "ibx-0020-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.acciona.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.acciona.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0020-ap-06-it-01",
+            "apartado_id": "ibx-0020-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0125220311 / ticker ANA",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08001851",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0021",
+    "slug": "acciona-energia",
+    "nombre_completo": "Acciona Energía S.A.",
+    "alias": "Acciona Energía",
+    "cargo_actual": "Empresa IBEX 35 · renovables",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Filial cotizada de Acciona dedicada exclusivamente a generación renovable (eólica, solar). Sede Alcobendas. CEO Rafael Mateo.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:renovables",
+      "ticker:ANE",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.acciona-energia.com",
+    "apartados": [
+      {
+        "id": "ibx-0021-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0021-ap-00-it-00",
+            "apartado_id": "ibx-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Acciona Energía S.A., filial cotizada al 83% por Acciona S.A. Salida a bolsa julio 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0021-ap-00-it-01",
+            "apartado_id": "ibx-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~13 GW instalados en 16 países. Plantilla ~3.500. Renovables 100% (no carbón ni gas).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0021-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0021-ap-01-it-00",
+            "apartado_id": "ibx-0021-ap-01",
+            "tipo": "evento",
+            "titulo": "OPV",
+            "contenido": "Julio 2021. Una de las mayores OPVs verdes europeas del año.",
+            "fecha": "2021-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0021-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0021-ap-02-it-00",
+            "apartado_id": "ibx-0021-ap-02",
+            "tipo": "dato",
+            "titulo": "100% renovable",
+            "contenido": "Único actor del IBEX cuya generación es exclusivamente renovable. Discurso ESG fuerte.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0021-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0021-ap-03-it-00",
+            "apartado_id": "ibx-0021-ap-03",
+            "tipo": "contacto",
+            "titulo": "Matriz Acciona",
+            "contenido": "Acciona S.A. mantiene 83%. Gobernanza compartida (mismos consejeros familiares).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "matriz"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0021-ap-03-it-01",
+            "apartado_id": "ibx-0021-ap-03",
+            "tipo": "contacto",
+            "titulo": "José Manuel Entrecanales",
+            "contenido": "Presidente de Acciona Energía vía matriz.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "entrecanales"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0021-ap-03-it-02",
+            "apartado_id": "ibx-0021-ap-03",
+            "tipo": "contacto",
+            "titulo": "Rafael Mateo (CEO)",
+            "contenido": "CEO operativo desde OPV 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mateo"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0021-ap-03-it-03",
+            "apartado_id": "ibx-0021-ap-03",
+            "tipo": "contacto",
+            "titulo": "APPA Renovables",
+            "contenido": "Miembro de la patronal de renovables. Voz pública pro-PPA y subastas estables.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "appa"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0021-ap-03-it-04",
+            "apartado_id": "ibx-0021-ap-03",
+            "tipo": "contacto",
+            "titulo": "Mercados internacionales",
+            "contenido": "Operaciones en EE.UU., Australia, México, Chile, India. Diversificación geográfica como ventaja sobre puros-España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "internacional"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0021-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0021-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0021-ap-05-it-00",
+            "apartado_id": "ibx-0021-ap-05",
+            "tipo": "evento",
+            "titulo": "Caída bursátil 2022-2024",
+            "contenido": "Acciona Energía perdió >40% desde OPV por compresión múltiplos sectoriales y subida de tipos. Crítica de minoritarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bolsa"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0021-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0021-ap-06-it-00",
+            "apartado_id": "ibx-0021-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.acciona-energia.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.acciona-energia.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0022",
+    "slug": "logista",
+    "nombre_completo": "Compañía de Distribución Integral Logista Holdings S.A.",
+    "alias": "Logista",
+    "cargo_actual": "Empresa IBEX 35 · distribución (tabaco, paquetería)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor distribuidor de tabaco en España, Francia, Italia y Portugal. Diversificación a paquetería express. Controlada por Imperial Brands (~50%). Sede en Leganés.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:distribucion",
+      "ticker:LOG",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.logistaholdings.com",
+    "apartados": [
+      {
+        "id": "ibx-0022-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0022-ap-00-it-00",
+            "apartado_id": "ibx-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Logista Holdings S.A. Origen en Logista (Tabacalera/Altadis). Imperial Brands accionista de control.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0022-ap-00-it-01",
+            "apartado_id": "ibx-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~6.000 empleados. Plataformas logísticas en SW Europa. Reparto a >300.000 puntos de venta.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0022-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0022-ap-01-it-00",
+            "apartado_id": "ibx-0022-ap-01",
+            "tipo": "evento",
+            "titulo": "OPV",
+            "contenido": "Logista vuelve a cotizar en 2014 tras la operación de Imperial Brands.",
+            "fecha": "2014-07-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0022-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0022-ap-02-it-00",
+            "apartado_id": "ibx-0022-ap-02",
+            "tipo": "dato",
+            "titulo": "Fiscalidad tabaco",
+            "contenido": "Logista no fabrica tabaco pero distribuye. Posicionada en el lobby sobre impuestos especiales al tabaco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0022-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0022-ap-03-it-00",
+            "apartado_id": "ibx-0022-ap-03",
+            "tipo": "contacto",
+            "titulo": "Imperial Brands",
+            "contenido": "Imperial Brands plc (UK) mantiene ~50,01% del capital. Decisiones estratégicas se coordinan con Bristol.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "imperial"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0022-ap-03-it-01",
+            "apartado_id": "ibx-0022-ap-03",
+            "tipo": "contacto",
+            "titulo": "Estancos",
+            "contenido": "Red de ~50.000 puntos de venta (estancos y conveniencia) en sus mercados.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "red-distribucion"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0022-ap-03-it-02",
+            "apartado_id": "ibx-0022-ap-03",
+            "tipo": "contacto",
+            "titulo": "Logista Pharma",
+            "contenido": "Filial dedicada a logística farmacéutica de frío y especializada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pharma"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0022-ap-03-it-03",
+            "apartado_id": "ibx-0022-ap-03",
+            "tipo": "contacto",
+            "titulo": "Logista Parcel (Nacex, Seur Iberia, MRW)",
+            "contenido": "Crecimiento en paquetería B2C/B2B vía adquisiciones de empresas paqueteras españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "paqueteria"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0022-ap-03-it-04",
+            "apartado_id": "ibx-0022-ap-03",
+            "tipo": "contacto",
+            "titulo": "AEAT y Aduanas",
+            "contenido": "Interlocución regulatoria intensa por la fiscalidad del tabaco (Impuestos Especiales) y supervisión aduanera.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aeat"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0022-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0022-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0022-ap-05-it-00",
+            "apartado_id": "ibx-0022-ap-05",
+            "tipo": "evento",
+            "titulo": "Contrabando",
+            "contenido": "Logista no investigada directamente, pero distribución de tabaco siempre sensible a la lucha contra el mercado ilícito.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "contrabando"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0022-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0022-ap-06-it-00",
+            "apartado_id": "ibx-0022-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.logistaholdings.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.logistaholdings.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0023",
+    "slug": "merlin-properties",
+    "nombre_completo": "Merlin Properties SOCIMI S.A.",
+    "alias": "Merlin",
+    "cargo_actual": "Empresa IBEX 35 · inmobiliaria SOCIMI",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor SOCIMI española. Cartera de oficinas, logística, centros comerciales y data centers. Presidente Ismael Clemente.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:inmobiliario-socimi",
+      "ticker:MRL",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.merlinproperties.com",
+    "apartados": [
+      {
+        "id": "ibx-0023-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0023-ap-00-it-00",
+            "apartado_id": "ibx-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Merlin Properties SOCIMI S.A., constituida en 2014. SOCIMI cotizada en IBEX. Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0023-ap-00-it-01",
+            "apartado_id": "ibx-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "GAV ~11.000 M€. Oficinas (Madrid, BCN, Lisboa), logística Iberia, centros comerciales, data centers (BlackRock Ascendant partnership).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0023-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0023-ap-01-it-00",
+            "apartado_id": "ibx-0023-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación",
+            "contenido": "Ismael Clemente y Miguel Ollero fundan Merlin Properties en 2014 con respaldo financiero anglosajón.",
+            "fecha": "2014-06-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0023-ap-01-it-01",
+            "apartado_id": "ibx-0023-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Tree Inversiones",
+            "contenido": "En 2014 compra la cartera de oficinas BBVA en España (~880 sucursales). Operación estructurante.",
+            "fecha": "2014-06-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0023-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0023-ap-02-it-00",
+            "apartado_id": "ibx-0023-ap-02",
+            "tipo": "dato",
+            "titulo": "Régimen SOCIMI",
+            "contenido": "Defensa pública del régimen SOCIMI español contra propuestas de Unidas Podemos/Sumar de eliminarlo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "socimi",
+              "fiscalidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0023-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0023-ap-03-it-00",
+            "apartado_id": "ibx-0023-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Santander ~24%, BlackRock ~5%, Norges Bank ~3%, free float ~65%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "santander"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0023-ap-03-it-01",
+            "apartado_id": "ibx-0023-ap-03",
+            "tipo": "contacto",
+            "titulo": "Joint venture data centers",
+            "contenido": "Edge Conex (filial EQT) y Merlin acordaron pacto para data centers Madrid-Bilbao-Lisboa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "data-centers",
+              "eqt"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0023-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0023-ap-04-it-00",
+            "apartado_id": "ibx-0023-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Clemente sobre SOCIMI",
+            "contenido": "\"Eliminar el régimen SOCIMI dejaría a España al margen del REIT europeo y dañaría el crédito hipotecario\", carta accionistas 2023.",
+            "fecha": "2023-04-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0023-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0023-ap-05-it-00",
+            "apartado_id": "ibx-0023-ap-05",
+            "tipo": "evento",
+            "titulo": "Sin grandes controversias",
+            "contenido": "Merlin tiene bajo perfil litigioso público.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0023-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0023-ap-06-it-00",
+            "apartado_id": "ibx-0023-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.merlinproperties.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.merlinproperties.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0024",
+    "slug": "inmobiliaria-colonial",
+    "nombre_completo": "Inmobiliaria Colonial SOCIMI S.A.",
+    "alias": "Colonial",
+    "cargo_actual": "Empresa IBEX 35 · inmobiliaria SOCIMI prime offices",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "SOCIMI especializada en oficinas prime en Madrid, Barcelona y París (vía SFL). Sede en Barcelona. Presidente Juan José Brugera; CEO Pere Viñolas.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:inmobiliario-socimi",
+      "ticker:COL",
+      "sede:cataluna"
+    ],
+    "fuente_principal": "https://www.inmocolonial.com",
+    "apartados": [
+      {
+        "id": "ibx-0024-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0024-ap-00-it-00",
+            "apartado_id": "ibx-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Inmobiliaria Colonial, fundada en 1946. Reestructuración profunda 2008-2014 tras crisis. Sede en Barcelona; cotización IBEX 35 desde 2017.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0024-ap-00-it-01",
+            "apartado_id": "ibx-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "GAV ~11.700 M€. Oficinas prime en CBD Madrid (Paseo de Recoletos), Barcelona (Diagonal), París (SFL filial).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0024-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0024-ap-01-it-00",
+            "apartado_id": "ibx-0024-ap-01",
+            "tipo": "evento",
+            "titulo": "Reestructuración 2014",
+            "contenido": "Tras quita de >2.000 M€ y ampliación capital, Villar Mir/Grupo Marán salen y entran Qatar Investment Authority y otros como referencia.",
+            "fecha": "2014-06-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0024-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0024-ap-02-it-00",
+            "apartado_id": "ibx-0024-ap-02",
+            "tipo": "dato",
+            "titulo": "Oficinas prime",
+            "contenido": "Apuesta exclusiva por oficinas prime (Grade A) en CBD. No diversifica a logística ni retail.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0024-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0024-ap-03-it-00",
+            "apartado_id": "ibx-0024-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Qatar Investment Authority ~19%, Grupo Santo Domingo ~7%, Aguila LTD (Banco Santander) ~6%, Finaccess (familia mexicana Del Valle) ~16%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "qia",
+              "finaccess"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0024-ap-03-it-01",
+            "apartado_id": "ibx-0024-ap-03",
+            "tipo": "contacto",
+            "titulo": "SFL París",
+            "contenido": "Société Foncière Lyonnaise (SFL) es filial cotizada en París (~83%). Activos prime en CBD parisino.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sfl",
+              "francia"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0024-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0024-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0024-ap-05-it-00",
+            "apartado_id": "ibx-0024-ap-05",
+            "tipo": "evento",
+            "titulo": "Sin controversias relevantes",
+            "contenido": "Colonial ha tenido bajo perfil tras saneamiento.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0024-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0024-ap-06-it-00",
+            "apartado_id": "ibx-0024-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.inmocolonial.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.inmocolonial.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0025",
+    "slug": "arcelormittal",
+    "nombre_completo": "ArcelorMittal S.A.",
+    "alias": "ArcelorMittal",
+    "cargo_actual": "Empresa IBEX 35 · siderurgia",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor productor siderúrgico del mundo (no español aunque cotiza en BME). Sede en Luxemburgo. Cotizada en NYSE, Ámsterdam, París, BME, Luxemburgo. Familia Mittal controla ~37%.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:siderurgia",
+      "ticker:MTS",
+      "sede:luxemburgo"
+    ],
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "apartados": [
+      {
+        "id": "ibx-0025-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0025-ap-00-it-00",
+            "apartado_id": "ibx-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "ArcelorMittal S.A., sede en Luxemburgo. Cotiza en BME por presencia de ArcelorMittal España (ex Aceralia).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0025-ap-00-it-01",
+            "apartado_id": "ibx-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión España",
+            "contenido": "En España opera plantas en Asturias (Gijón, Avilés), País Vasco (Sestao), Bizkaia. ~10.000 empleados.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0025-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0025-ap-01-it-00",
+            "apartado_id": "ibx-0025-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión Arcelor-Mittal",
+            "contenido": "En 2006 Lakshmi Mittal lanzó OPA hostil sobre Arcelor (que incluía Aceralia España). Operación cerrada con creación de ArcelorMittal.",
+            "fecha": "2006-06-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0025-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0025-ap-02-it-00",
+            "apartado_id": "ibx-0025-ap-02",
+            "tipo": "dato",
+            "titulo": "Descarbonización siderurgia",
+            "contenido": "Inversiones en Sestao y Gijón para producción de acero verde con H2 y horno DRI. Plan condicional al apoyo público y al precio del H2.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "descarbonizacion",
+              "perte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0025-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0025-ap-03-it-00",
+            "apartado_id": "ibx-0025-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Mittal",
+            "contenido": "Lakshmi Mittal y familia controlan ~37%. Hijo Aditya Mittal es CEO desde 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mittal"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0025-ap-03-it-01",
+            "apartado_id": "ibx-0025-ap-03",
+            "tipo": "contacto",
+            "titulo": "PERTE - Gobierno Sánchez",
+            "contenido": "ArcelorMittal beneficiaria del PERTE de descarbonización industrial (>300 M€ ayudas para Sestao y Gijón).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perte",
+              "gobierno"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0025-ap-03-it-02",
+            "apartado_id": "ibx-0025-ap-03",
+            "tipo": "contacto",
+            "titulo": "Sindicatos",
+            "contenido": "Relación tensa con CCOO y UGT en Asturias por reestructuraciones y ERTEs periódicos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "laboral",
+              "asturias"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0025-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0025-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0025-ap-05-it-00",
+            "apartado_id": "ibx-0025-ap-05",
+            "tipo": "evento",
+            "titulo": "Multas Cártel acero",
+            "contenido": "Sancionada por CNMC en 2017 por participar en cártel del cable de acero pretensado (junto a otros).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmc",
+              "cartel"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0025-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0025-ap-06-it-00",
+            "apartado_id": "ibx-0025-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://corporate.arcelormittal.com/investors",
+            "fecha": null,
+            "fuente_url": "https://corporate.arcelormittal.com/investors",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0026",
+    "slug": "iag",
+    "nombre_completo": "International Consolidated Airlines Group S.A.",
+    "alias": "IAG",
+    "cargo_actual": "Empresa IBEX 35 · aerolíneas",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Holding aéreo dual UK-España resultante de la fusión British Airways + Iberia (2011). Incluye Vueling, Aer Lingus, Level. Sede social en Madrid; sede operativa en Londres. CEO Luis Gallego (ex Iberia).",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:aerolineas",
+      "ticker:IAG",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.iairgroup.com",
+    "apartados": [
+      {
+        "id": "ibx-0026-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0026-ap-00-it-00",
+            "apartado_id": "ibx-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "IAG S.A., constituida en enero 2011 con la fusión de British Airways e Iberia. Cotiza en BME y LSE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0026-ap-00-it-01",
+            "apartado_id": "ibx-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "5 aerolíneas. >130 millones de pasajeros (pre-Covid). Plantilla ~70.000. Ingresos ~30.000 M€.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0026-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0026-ap-01-it-00",
+            "apartado_id": "ibx-0026-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión BA-Iberia",
+            "contenido": "21 enero 2011 efectiva la fusión que crea IAG.",
+            "fecha": "2011-01-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0026-ap-01-it-01",
+            "apartado_id": "ibx-0026-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Aer Lingus",
+            "contenido": "2015 OPA exitosa sobre Aer Lingus por 1.500 M€.",
+            "fecha": "2015-08-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0026-ap-01-it-02",
+            "apartado_id": "ibx-0026-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA fallida Air Europa",
+            "contenido": "Tras dos intentos (2019, 2023), IAG abandonó en diciembre 2023 la compra de Air Europa por exigencias de remedies de la Comisión Europea.",
+            "fecha": "2023-12-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "air-europa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0026-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0026-ap-02-it-00",
+            "apartado_id": "ibx-0026-ap-02",
+            "tipo": "dato",
+            "titulo": "Hub Madrid - Barajas",
+            "contenido": "IAG ha sido clave en el debate sobre la ampliación de Madrid-Barajas como hub europeo-LatAm. Apoyo a inversiones T4.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "barajas",
+              "aena"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0026-ap-02-it-01",
+            "apartado_id": "ibx-0026-ap-02",
+            "tipo": "dato",
+            "titulo": "Sostenibilidad SAF",
+            "contenido": "Compromiso con uso de combustibles sostenibles (SAF). Inversión en producción propia (proyecto Velocys).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "saf"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0026-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0026-ap-03-it-00",
+            "apartado_id": "ibx-0026-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Qatar Airways ~25% (límite UE), Capital Research ~9%, BlackRock ~6%, Europacific ~3%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "qatar"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0026-ap-03-it-01",
+            "apartado_id": "ibx-0026-ap-03",
+            "tipo": "contacto",
+            "titulo": "Qatar Airways - alianza",
+            "contenido": "Qatar Airways es socio estratégico (oneworld) y mayor accionista. Influencia en gobierno corporativo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "qatar",
+              "oneworld"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0026-ap-03-it-02",
+            "apartado_id": "ibx-0026-ap-03",
+            "tipo": "contacto",
+            "titulo": "Hub Barajas - Aena",
+            "contenido": "IAG es el cliente principal de Aena en Madrid-Barajas (~50% de las operaciones). Tensiones por tarifas DORA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aena",
+              "barajas"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0026-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0026-ap-04-it-00",
+            "apartado_id": "ibx-0026-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Gallego sobre Air Europa",
+            "contenido": "\"La remedies exigidas por Bruselas hacían la operación inviable\", diciembre 2023.",
+            "fecha": "2023-12-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0026-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0026-ap-05-it-00",
+            "apartado_id": "ibx-0026-ap-05",
+            "tipo": "evento",
+            "titulo": "Sanción CNMV BA filtración",
+            "contenido": "En 2018 British Airways sufrió filtración masiva de datos de tarjetas. Multas ICO en UK y demandas colectivas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "data-breach"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0026-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0026-ap-06-it-00",
+            "apartado_id": "ibx-0026-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.iairgroup.com/es/accionistas-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.iairgroup.com/es/accionistas-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0027",
+    "slug": "grifols",
+    "nombre_completo": "Grifols S.A.",
+    "alias": "Grifols",
+    "cargo_actual": "Empresa IBEX 35 · hemoderivados",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Multinacional española líder mundial en hemoderivados y plasma humano. Sede en Sant Cugat del Vallès. Familia Grifols accionista de control. En 2024 tensión por intento de OPA de Brookfield.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:farma-hemoderivados",
+      "ticker:GRF",
+      "sede:cataluna"
+    ],
+    "fuente_principal": "https://www.grifols.com",
+    "apartados": [
+      {
+        "id": "ibx-0027-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0027-ap-00-it-00",
+            "apartado_id": "ibx-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Grifols S.A., fundada en 1940 por Josep Antoni Grifols. Sede en Sant Cugat del Vallès. Tres generaciones de la familia en la gestión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0027-ap-00-it-01",
+            "apartado_id": "ibx-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Mayor recolector mundial de plasma humano (~390 centros). Ingresos ~6.500 M€. Plantilla ~24.000.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0027-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0027-ap-01-it-00",
+            "apartado_id": "ibx-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Adquisición Talecris",
+            "contenido": "En 2011 Grifols compra Talecris (EE.UU.) por 4.000 M$ con financiación significativa, hito de internacionalización.",
+            "fecha": "2011-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0027-ap-01-it-01",
+            "apartado_id": "ibx-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Crisis Gotham City",
+            "contenido": "En enero 2024 el fondo bajista Gotham City Research publicó informe atacando la valoración de Grifols por su relación con Scranton (vehículo familiar). Acción cayó >40%.",
+            "fecha": "2024-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gotham",
+              "scranton"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0027-ap-01-it-02",
+            "apartado_id": "ibx-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA Brookfield - fallida",
+            "contenido": "En julio 2024 Brookfield y la familia Grifols anunciaron exploración de OPA de exclusión. Operación descartada en noviembre 2024 por no alcanzar precio acordado.",
+            "fecha": "2024-11-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brookfield",
+              "opa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0027-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0027-ap-02-it-00",
+            "apartado_id": "ibx-0027-ap-02",
+            "tipo": "dato",
+            "titulo": "Donación de plasma",
+            "contenido": "Grifols defiende mercado libre de plasma vs limitaciones de la directiva UE sobre sustancias humanas. Crítica corporativa al regulador europeo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "plasma",
+              "ue"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0027-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0027-ap-03-it-00",
+            "apartado_id": "ibx-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Grifols",
+            "contenido": "Familia Grifols controla ~30% vía vehículos (Scranton Enterprises B.V., entre otros).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "familia-grifols"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0027-ap-03-it-01",
+            "apartado_id": "ibx-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Scranton - controversia",
+            "contenido": "Scranton Enterprises es vehículo de la familia que adquirió activos vendidos por Grifols. Gotham cuestionó la doble contabilización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "scranton",
+              "gotham"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0027-ap-03-it-02",
+            "apartado_id": "ibx-0027-ap-03",
+            "tipo": "contacto",
+            "titulo": "Brookfield - relación",
+            "contenido": "Brookfield (Canadá) gestor de infra fue partner potencial 2024. Tras OPA fallida, relación distante.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brookfield"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0027-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0027-ap-04-it-00",
+            "apartado_id": "ibx-0027-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Familia tras Gotham",
+            "contenido": "\"Las acusaciones de Gotham son infundadas y persiguen un beneficio bursátil propio\", comunicado oficial enero 2024.",
+            "fecha": "2024-01-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0027-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0027-ap-05-it-00",
+            "apartado_id": "ibx-0027-ap-05",
+            "tipo": "evento",
+            "titulo": "Investigación CNMV",
+            "contenido": "CNMV abrió investigación sobre la relación Grifols-Scranton tras los informes de Gotham. Continúa abierta a 2025.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmv",
+              "scranton"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0027-ap-05-it-01",
+            "apartado_id": "ibx-0027-ap-05",
+            "tipo": "evento",
+            "titulo": "Demandas accionistas",
+            "contenido": "Acciones legales colectivas de minoritarios e institucionales en España y EE.UU.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0027-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0027-ap-06-it-00",
+            "apartado_id": "ibx-0027-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.grifols.com/es/web/international/financial-information",
+            "fecha": null,
+            "fuente_url": "https://www.grifols.com/es/web/international/financial-information",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0027-ap-06-it-01",
+            "apartado_id": "ibx-0027-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0171996087 / ticker GRF",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A58389123",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0028",
+    "slug": "indra",
+    "nombre_completo": "Indra Sistemas S.A.",
+    "alias": "Indra",
+    "cargo_actual": "Empresa IBEX 35 · tecnología y defensa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Tecnológica con foco en defensa, transporte (ATM, ferrocarril), elecciones y consultoría (Minsait). SEPI accionista de referencia. Sede en Alcobendas. Presidente Ángel Escribano desde enero 2025 (ex CEO Escribano M&E).",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:tecnologia-defensa",
+      "ticker:IDR",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.indracompany.com",
+    "apartados": [
+      {
+        "id": "ibx-0028-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0028-ap-00-it-00",
+            "apartado_id": "ibx-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Indra Sistemas S.A., origen INISEL (1985) más Ceselsa (1992). Privatizada 1999. SEPI mantiene 28%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0028-ap-00-it-01",
+            "apartado_id": "ibx-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~4.700 M€. Plantilla ~57.000. Divisiones: Defensa & Seguridad, Movilidad, Minsait (consultoría TI).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0028-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0028-ap-01-it-00",
+            "apartado_id": "ibx-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Privatización",
+            "contenido": "Indra sale a bolsa en 1999 bajo Aznar.",
+            "fecha": "1999-03-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0028-ap-01-it-01",
+            "apartado_id": "ibx-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Bronca consejo 2022",
+            "contenido": "En junta extraordinaria de 2022 SEPI y otros accionistas votan a favor de cesar a 4 consejeros independientes. Bronca con CNMV y gobiernos corporativos.",
+            "fecha": "2022-06-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza",
+              "cnmv"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0028-ap-01-it-02",
+            "apartado_id": "ibx-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Era Murtra",
+            "contenido": "Marc Murtra preside Indra desde 2021 hasta enero 2025, cuando salta a Telefónica. Pivot fuerte a defensa.",
+            "fecha": "2021-01-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "murtra"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0028-ap-01-it-03",
+            "apartado_id": "ibx-0028-ap-01",
+            "tipo": "evento",
+            "titulo": "Fichaje Escribano",
+            "contenido": "Tras salida Murtra, Ángel Escribano (cofundador Escribano M&E, accionista 8%) preside Indra desde enero 2025.",
+            "fecha": "2025-01-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "escribano"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0028-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0028-ap-02-it-00",
+            "apartado_id": "ibx-0028-ap-02",
+            "tipo": "dato",
+            "titulo": "Defensa europea",
+            "contenido": "Indra como campeón nacional de defensa (radares, simuladores, sensores). Beneficiaria del aumento del presupuesto de defensa OTAN/UE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "defensa",
+              "otan"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0028-ap-02-it-01",
+            "apartado_id": "ibx-0028-ap-02",
+            "tipo": "dato",
+            "titulo": "Eurofighter / FCAS",
+            "contenido": "Indra como partner industrial español en Eurofighter (Eurojet, Cassidian) y en el programa europeo FCAS (con Airbus, Dassault).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fcas",
+              "eurofighter"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0028-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0028-ap-03-it-00",
+            "apartado_id": "ibx-0028-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "SEPI ~28%, Amber Capital ~7,2% (Joseph Oughourlian), Escribano Mechanical & Engineering ~8%, SAPA Placencia ~7%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "sepi",
+              "amber",
+              "escribano"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0028-ap-03-it-01",
+            "apartado_id": "ibx-0028-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez",
+            "contenido": "Nombramiento de Murtra y luego Escribano refleja control directo del Gobierno vía SEPI. Defensa es área estratégica priorizada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sanchez",
+              "sepi"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0028-ap-03-it-02",
+            "apartado_id": "ibx-0028-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ministerio de Defensa - Margarita Robles",
+            "contenido": "Indra como suministrador clave del Ministerio. Reuniones recurrentes en programas (FCAS, NH90, Eurofighter).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mindef",
+              "robles"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0028-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0028-ap-04-it-00",
+            "apartado_id": "ibx-0028-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Escribano programa",
+            "contenido": "\"Indra debe consolidarse como campeón europeo de defensa\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0028-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0028-ap-05-it-00",
+            "apartado_id": "ibx-0028-ap-05",
+            "tipo": "evento",
+            "titulo": "Polémica destitución consejeros",
+            "contenido": "En 2022 la salida abrupta de 4 consejeros independientes por presión de SEPI generó investigación CNMV sobre gobierno corporativo. Saldo: amonestación pública a Indra.",
+            "fecha": "2022-06-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmv",
+              "gobernanza"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0028-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0028-ap-06-it-00",
+            "apartado_id": "ibx-0028-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.indracompany.com/es/accionistas-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.indracompany.com/es/accionistas-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0028-ap-06-it-01",
+            "apartado_id": "ibx-0028-ap-06",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0118594417 / ticker IDR",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28599033",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0029",
+    "slug": "acerinox",
+    "nombre_completo": "Acerinox S.A.",
+    "alias": "Acerinox",
+    "cargo_actual": "Empresa IBEX 35 · acero inoxidable",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Productor mundial de acero inoxidable. Sede en Madrid. Planta principal en Algeciras (Cádiz). Presidente Rafael Miranda; CEO Bernardo Velázquez.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:siderurgia-inox",
+      "ticker:ACX",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.acerinox.com",
+    "apartados": [
+      {
+        "id": "ibx-0029-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0029-ap-00-it-00",
+            "apartado_id": "ibx-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Acerinox S.A., fundada en 1970. Planta principal en Los Barrios-Algeciras. Plantas en EE.UU. (NAS), Sudáfrica (Columbus), Malasia (Bahru).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0029-ap-00-it-01",
+            "apartado_id": "ibx-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Capacidad ~3,5 Mt/año. Plantilla ~9.000.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0029-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0029-ap-01-it-00",
+            "apartado_id": "ibx-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Haynes",
+            "contenido": "En 2024 Acerinox compra Haynes International (aleaciones de alta especialidad) por ~800 M$.",
+            "fecha": "2024-02-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0029-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0029-ap-02-it-00",
+            "apartado_id": "ibx-0029-ap-02",
+            "tipo": "dato",
+            "titulo": "Cierre Bahru / Reestructuración",
+            "contenido": "Cierre de la planta de Malasia (Bahru) en 2022 por inviabilidad. Choque sindical.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "malasia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0029-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0029-ap-03-it-00",
+            "apartado_id": "ibx-0029-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Nippon Steel ~19%, Corporación Financiera Alba (March) ~19%, Casa Grande de Cartagena ~5%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "alba",
+              "march",
+              "nippon"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0029-ap-03-it-01",
+            "apartado_id": "ibx-0029-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia March",
+            "contenido": "Vía Corporación Financiera Alba (vehículo de la familia March), Acerinox tiene anclaje accionarial estable.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "march",
+              "alba"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0029-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0029-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0029-ap-05-it-00",
+            "apartado_id": "ibx-0029-ap-05",
+            "tipo": "evento",
+            "titulo": "Huelga Algeciras 2024",
+            "contenido": "Huelga en planta Algeciras durante meses 2024 por convenio colectivo. Negociación bajo mediación.",
+            "fecha": "2024-02-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "laboral",
+              "algeciras"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0029-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0029-ap-06-it-00",
+            "apartado_id": "ibx-0029-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.acerinox.com/es/accionistas-inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.acerinox.com/es/accionistas-inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0030",
+    "slug": "sacyr",
+    "nombre_completo": "Sacyr S.A.",
+    "alias": "Sacyr",
+    "cargo_actual": "Empresa IBEX 35 · construcción y concesiones",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Constructora y concesionaria. Histórico accionista de Repsol (~9%). Sede en Madrid. Presidente Manuel Manrique.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:construccion-concesiones",
+      "ticker:SCYR",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.sacyr.com",
+    "apartados": [
+      {
+        "id": "ibx-0030-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0030-ap-00-it-00",
+            "apartado_id": "ibx-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Sacyr S.A., constituida en 1986. Tras fusión con Vallehermoso (2003) llegó a ser SyV. Vallehermoso vendida en 2013.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0030-ap-00-it-01",
+            "apartado_id": "ibx-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~5.000 M€. Plantilla ~50.000. Foco en concesiones de infraestructura (autopistas, hospitales) y obra pública.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0030-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0030-ap-01-it-00",
+            "apartado_id": "ibx-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA fallida sobre Repsol",
+            "contenido": "En 2006 SyV (Luis del Rivero) lanzó proyecto de tomar control de Repsol; tensiones con BBVA y Pemex. Origen de la guerra de espionaje Villarejo posterior.",
+            "fecha": "2006-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "repsol",
+              "villarejo"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0030-ap-01-it-01",
+            "apartado_id": "ibx-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Ampliación Canal Panamá",
+            "contenido": "Lideró consorcio en ampliación del Canal de Panamá (con Impregilo, Jan de Nul). Atrasos y arbitrajes prolongados.",
+            "fecha": "2014-09-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "panama"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0030-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0030-ap-02-it-00",
+            "apartado_id": "ibx-0030-ap-02",
+            "tipo": "dato",
+            "titulo": "Concesionalismo",
+            "contenido": "Pivote estratégico a concesiones internacionales (Chile, Colombia, Italia, Irlanda) con flujos predecibles.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "concesiones"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0030-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0030-ap-03-it-00",
+            "apartado_id": "ibx-0030-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Disperso. Beta Asociados (Manrique y entorno) ~7%, Disa Corporación ~6%, Prilou (Jacobs) ~5%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "manrique"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0030-ap-03-it-01",
+            "apartado_id": "ibx-0030-ap-03",
+            "tipo": "contacto",
+            "titulo": "Participación Repsol",
+            "contenido": "Sacyr conserva ~9% de Repsol (a 2024) tras décadas como accionista. Tensiones intermitentes con el consejo de Repsol.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "repsol"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0030-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0030-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0030-ap-05-it-00",
+            "apartado_id": "ibx-0030-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Villarejo (víctima)",
+            "contenido": "Espionaje contratado por BBVA dirigido contra SyV y Luis del Rivero en torno a la OPA sobre Repsol.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo",
+              "judicial"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0030-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0030-ap-06-it-00",
+            "apartado_id": "ibx-0030-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.sacyr.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.sacyr.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0031",
+    "slug": "fluidra",
+    "nombre_completo": "Fluidra S.A.",
+    "alias": "Fluidra",
+    "cargo_actual": "Empresa IBEX 35 · equipamiento piscinas",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Líder mundial en equipamiento para piscinas y wellness. Sede en Sabadell. Fusión Fluidra-Zodiac (2018). Presidente Eloi Planes (familia fundadora).",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:equipamiento-piscinas",
+      "ticker:FDR",
+      "sede:cataluna"
+    ],
+    "fuente_principal": "https://www.fluidra.com",
+    "apartados": [
+      {
+        "id": "ibx-0031-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0031-ap-00-it-00",
+            "apartado_id": "ibx-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fluidra S.A., origen 1969 (familias Planes, Garrigós, Serra, Corbera). Fusión con Zodiac Pool Solutions (2018). Sede en Sabadell.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0031-ap-00-it-01",
+            "apartado_id": "ibx-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~2.000 M€. Plantilla ~7.000. Presencia en >47 países.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0031-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0031-ap-01-it-00",
+            "apartado_id": "ibx-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión Zodiac",
+            "contenido": "Fluidra y Zodiac (Rhône Capital) se fusionan en 2018, creando líder global.",
+            "fecha": "2018-07-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0031-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0031-ap-02-it-00",
+            "apartado_id": "ibx-0031-ap-02",
+            "tipo": "dato",
+            "titulo": "Energía y agua",
+            "contenido": "Posicionamiento corporativo a favor de la eficiencia energética en piscinas (bombas variables, climatización solar).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0031-ap-02-it-01",
+            "apartado_id": "ibx-0031-ap-02",
+            "tipo": "dato",
+            "titulo": "Mercado USA",
+            "contenido": "Estrategia de expansión USA vía Zodiac Pool Systems (50% del negocio post-fusión).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "usa"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0031-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0031-ap-03-it-00",
+            "apartado_id": "ibx-0031-ap-03",
+            "tipo": "contacto",
+            "titulo": "Accionistas familiares",
+            "contenido": "Familias fundadoras (Planes, Garrigós, Serra, Corbera) mantienen acuerdo de voto sobre ~36%. Rhône Capital salió tras 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "familias"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0031-ap-03-it-01",
+            "apartado_id": "ibx-0031-ap-03",
+            "tipo": "contacto",
+            "titulo": "Bruce Brooks (CEO)",
+            "contenido": "CEO de Fluidra desde 2018 (post-fusión Zodiac).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brooks"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0031-ap-03-it-02",
+            "apartado_id": "ibx-0031-ap-03",
+            "tipo": "contacto",
+            "titulo": "Eloi Planes (presidente)",
+            "contenido": "Tercera generación de la familia Planes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "planes"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0031-ap-03-it-03",
+            "apartado_id": "ibx-0031-ap-03",
+            "tipo": "contacto",
+            "titulo": "Acuerdo familias",
+            "contenido": "Planes, Garrigós, Serra, Corbera mantienen ~36% conjuntamente con acuerdo de voto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familias"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0031-ap-03-it-04",
+            "apartado_id": "ibx-0031-ap-03",
+            "tipo": "contacto",
+            "titulo": "Rhône Capital legacy",
+            "contenido": "Fondo Rhône (anterior dueño de Zodiac) salió tras la fusión 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rhone"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0031-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0031-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0031-ap-05-it-00",
+            "apartado_id": "ibx-0031-ap-05",
+            "tipo": "evento",
+            "titulo": "Bajo perfil",
+            "contenido": "Sin controversias relevantes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0031-ap-05-it-01",
+            "apartado_id": "ibx-0031-ap-05",
+            "tipo": "evento",
+            "titulo": "Caída pos-Covid",
+            "contenido": "Tras pico de demanda durante Covid, normalización 2023-2024 con caída de ventas y de cotización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bolsa"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0031-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0031-ap-06-it-00",
+            "apartado_id": "ibx-0031-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.fluidra.com/es/inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.fluidra.com/es/inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0032",
+    "slug": "rovi",
+    "nombre_completo": "Laboratorios Farmacéuticos Rovi S.A.",
+    "alias": "Rovi",
+    "cargo_actual": "Empresa IBEX 35 · farma",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Farmacéutica española. Líder en heparinas de bajo peso molecular. Fabricación a terceros (CDMO) — produjo la vacuna Moderna en Madrid durante la pandemia. Familia López-Belmonte controla. CEO Juan López-Belmonte.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:farma",
+      "ticker:ROVI",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.rovi.es",
+    "apartados": [
+      {
+        "id": "ibx-0032-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0032-ap-00-it-00",
+            "apartado_id": "ibx-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Laboratorios Farmacéuticos Rovi, fundada en 1946 por Juan López-Belmonte Encina. Sede en Madrid. Plantas en Madrid y Granada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0032-ap-00-it-01",
+            "apartado_id": "ibx-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~800 M€. Plantilla ~1.700. División CDMO crítica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0032-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0032-ap-01-it-00",
+            "apartado_id": "ibx-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Acuerdo Moderna",
+            "contenido": "En 2020 Rovi firma con Moderna producción de fill-and-finish de la vacuna mRNA-1273 en Madrid. Hito de visibilidad internacional.",
+            "fecha": "2020-07-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "moderna",
+              "covid"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0032-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0032-ap-02-it-00",
+            "apartado_id": "ibx-0032-ap-02",
+            "tipo": "dato",
+            "titulo": "CDMO crecimiento",
+            "contenido": "Apuesta estratégica por fabricación a terceros con expansión de capacidad en Granada (>500 M€ inversión 2022-2025).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cdmo",
+              "granada"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0032-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0032-ap-03-it-00",
+            "apartado_id": "ibx-0032-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia López-Belmonte",
+            "contenido": "Familia López-Belmonte controla ~64% vía Norbel Inversiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "lopez-belmonte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0032-ap-03-it-01",
+            "apartado_id": "ibx-0032-ap-03",
+            "tipo": "contacto",
+            "titulo": "Moderna",
+            "contenido": "Partnership estratégico con Moderna mantiene a Rovi entre fabricantes europeos de mRNA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "moderna"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0032-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0032-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0032-ap-05-it-00",
+            "apartado_id": "ibx-0032-ap-05",
+            "tipo": "evento",
+            "titulo": "Bajo perfil",
+            "contenido": "Sin controversias relevantes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0032-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0032-ap-06-it-00",
+            "apartado_id": "ibx-0032-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.rovi.es/inversores",
+            "fecha": null,
+            "fuente_url": "https://www.rovi.es/inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0033",
+    "slug": "solaria",
+    "nombre_completo": "Solaria Energía y Medio Ambiente S.A.",
+    "alias": "Solaria",
+    "cargo_actual": "Empresa IBEX 35 · renovables (solar)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Productora de energía solar fotovoltaica. Crecimiento agresivo en cartera de proyectos en España, Italia, Portugal. Presidente Enrique Díaz-Tejeiro.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:renovables-solar",
+      "ticker:SLR",
+      "sede:madrid"
+    ],
+    "fuente_principal": "https://www.solariaenergia.com",
+    "apartados": [
+      {
+        "id": "ibx-0033-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0033-ap-00-it-00",
+            "apartado_id": "ibx-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Solaria Energía y Medio Ambiente S.A., origen fabricación de paneles, pivot a productor de energía. Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0033-ap-00-it-01",
+            "apartado_id": "ibx-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~2 GW operativos + cartera ~9 GW en proyecto. Plantilla ~250.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0033-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0033-ap-01-it-00",
+            "apartado_id": "ibx-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Entrada IBEX 35",
+            "contenido": "Solaria entra en IBEX 35 en 2021 tras escalada bursátil durante el boom de renovables 2020-2021.",
+            "fecha": "2021-12-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0033-ap-01-it-01",
+            "apartado_id": "ibx-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Pivot a producción de energía",
+            "contenido": "Reorientación desde fabricación de paneles (sector que abandonó) a productor de energía solar fotovoltaica.",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0033-ap-01-it-02",
+            "apartado_id": "ibx-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Burbuja renovables 2020-2021",
+            "contenido": "Cotización multiplicó por 10 en 2020. Cayó 75% entre 2021 y 2024 con la subida de tipos.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0033-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0033-ap-02-it-00",
+            "apartado_id": "ibx-0033-ap-02",
+            "tipo": "dato",
+            "titulo": "PPA y marco regulatorio",
+            "contenido": "Defensa pública del modelo PPA y precios marginalistas estables como base para la financiación de nuevos proyectos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ppa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0033-ap-02-it-01",
+            "apartado_id": "ibx-0033-ap-02",
+            "tipo": "dato",
+            "titulo": "Cartera proyectos",
+            "contenido": "Cartera ~9 GW en distintos estados de desarrollo. Plan ambicioso de monetización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0033-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0033-ap-03-it-00",
+            "apartado_id": "ibx-0033-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Díaz-Tejeiro",
+            "contenido": "Familia Díaz-Tejeiro controla ~37% vía DTL (DTL Corporación).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0033-ap-03-it-01",
+            "apartado_id": "ibx-0033-ap-03",
+            "tipo": "contacto",
+            "titulo": "Enrique Díaz-Tejeiro (presidente)",
+            "contenido": "Familia controladora vía DTL Corporación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "diaz-tejeiro"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0033-ap-03-it-02",
+            "apartado_id": "ibx-0033-ap-03",
+            "tipo": "contacto",
+            "titulo": "DTL Corporación (~37%)",
+            "contenido": "Vehículo familiar.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dtl"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0033-ap-03-it-03",
+            "apartado_id": "ibx-0033-ap-03",
+            "tipo": "contacto",
+            "titulo": "MITECO y CNMC",
+            "contenido": "Interlocución regulatoria habitual en subastas PPA y conexiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "miteco"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0033-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0033-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0033-ap-05-it-00",
+            "apartado_id": "ibx-0033-ap-05",
+            "tipo": "evento",
+            "titulo": "Caída bursátil 2022-2024",
+            "contenido": "Pérdida superior al 70% desde máximos 2021, en línea con el sector. Crítica de analistas sobre ritmo de monetización de la cartera.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bolsa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0033-ap-05-it-01",
+            "apartado_id": "ibx-0033-ap-05",
+            "tipo": "evento",
+            "titulo": "Crítica analistas",
+            "contenido": "Críticas sobre el ritmo de monetización de la cartera. Cuestionamientos a la valoración. Posición bajista de varios short-sellers.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "analistas"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0033-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0033-ap-06-it-00",
+            "apartado_id": "ibx-0033-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.solariaenergia.com/es/inversores/",
+            "fecha": null,
+            "fuente_url": "https://www.solariaenergia.com/es/inversores/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0034",
+    "slug": "unicaja",
+    "nombre_completo": "Unicaja Banco S.A.",
+    "alias": "Unicaja",
+    "cargo_actual": "Empresa IBEX 35 · banca",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Quinto banco español por activos tras la fusión con Liberbank (2021). Sede en Málaga. Fundación Unicaja accionista de referencia. Presidente José Sevilla.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:UNI",
+      "sede:malaga"
+    ],
+    "fuente_principal": "https://www.unicajabanco.com",
+    "apartados": [
+      {
+        "id": "ibx-0034-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0034-ap-00-it-00",
+            "apartado_id": "ibx-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Unicaja Banco S.A., origen en la fusión 2010 de Unicaja+Caja Jaén y posterior incorporación de Caja España-Duero. Fusión con Liberbank en 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0034-ap-00-it-01",
+            "apartado_id": "ibx-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Activos ~95.000 M€. Plantilla ~6.500. Foco geográfico Andalucía, Asturias, Castilla y León.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0034-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0034-ap-01-it-00",
+            "apartado_id": "ibx-0034-ap-01",
+            "tipo": "evento",
+            "titulo": "Fusión Liberbank",
+            "contenido": "Marzo 2021 fusión por absorción de Liberbank.",
+            "fecha": "2021-03-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0034-ap-01-it-01",
+            "apartado_id": "ibx-0034-ap-01",
+            "tipo": "evento",
+            "titulo": "Crisis gobernanza 2023",
+            "contenido": "Bronca entre Fundación Unicaja (Braulio Medel) y consejo del banco (Sevilla) sobre influencia política y control. CNMV intervino.",
+            "fecha": "2023-09-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza",
+              "medel"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0034-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0034-ap-02-it-00",
+            "apartado_id": "ibx-0034-ap-02",
+            "tipo": "dato",
+            "titulo": "Banca regional",
+            "contenido": "Modelo de banca regional con fuerte arraigo Andalucía-Asturias. Defensa de presencia rural.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "regional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0034-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0034-ap-03-it-00",
+            "apartado_id": "ibx-0034-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Unicaja",
+            "contenido": "Fundación Unicaja controla ~30% del banco. Braulio Medel patrón durante décadas (relevado tras crisis 2023).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "fundacion",
+              "medel"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0034-ap-03-it-01",
+            "apartado_id": "ibx-0034-ap-03",
+            "tipo": "contacto",
+            "titulo": "Política regional",
+            "contenido": "Histórica relación con poderes andaluces (PSOE-A durante décadas, PP-A desde 2018). Caja con perfil político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "andalucia"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0034-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": []
+      },
+      {
+        "id": "ibx-0034-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0034-ap-05-it-00",
+            "apartado_id": "ibx-0034-ap-05",
+            "tipo": "evento",
+            "titulo": "Crisis Medel - CNMV",
+            "contenido": "En 2023 CNMV abrió expedientes por el control no comunicado de la Fundación sobre el banco y la guerra interna en el consejo. Saldo: relevo de Medel.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmv",
+              "medel"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0034-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0034-ap-06-it-00",
+            "apartado_id": "ibx-0034-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.unicajabanco.com/es/accionistas-e-inversores",
+            "fecha": null,
+            "fuente_url": "https://www.unicajabanco.com/es/accionistas-e-inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0035",
+    "slug": "puig",
+    "nombre_completo": "Puig Brands S.A.",
+    "alias": "Puig",
+    "cargo_actual": "Empresa IBEX 35 · perfumería y moda",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Multinacional de perfumes, moda y maquillaje. Propietaria de Paco Rabanne, Carolina Herrera, Jean Paul Gaultier, Nina Ricci, Charlotte Tilbury, Byredo. Sede Barcelona. Familia Puig controla. OPV mayo 2024.",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:perfumeria-moda",
+      "ticker:PUIG",
+      "sede:cataluna"
+    ],
+    "fuente_principal": "https://www.puig.com",
+    "apartados": [
+      {
+        "id": "ibx-0035-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0035-ap-00-it-00",
+            "apartado_id": "ibx-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Puig Brands S.A., fundada en 1914 por Antonio Puig Castelló. Tercera/cuarta generación. Sede en Torre Puig (Barcelona).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0035-ap-00-it-01",
+            "apartado_id": "ibx-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~4.300 M€. Plantilla ~12.000.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dimensión"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0035-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0035-ap-01-it-00",
+            "apartado_id": "ibx-0035-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Charlotte Tilbury y Byredo",
+            "contenido": "2020-2022 adquisiciones de marcas niche-luxury Charlotte Tilbury y Byredo, consolidando estrategia de marcas afluentes.",
+            "fecha": "2022-06-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0035-ap-01-it-01",
+            "apartado_id": "ibx-0035-ap-01",
+            "tipo": "evento",
+            "titulo": "OPV Puig",
+            "contenido": "3 mayo 2024 sale a bolsa, una de las mayores OPVs europeas del año (capitalización inicial ~14.000 M€).",
+            "fecha": "2024-05-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opv"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0035-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0035-ap-02-it-00",
+            "apartado_id": "ibx-0035-ap-02",
+            "tipo": "dato",
+            "titulo": "Posicionamiento luxury beauty",
+            "contenido": "Apuesta por moda alta y perfumería selectiva. Modelo de marcas mantenidas (no dilución).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "luxury"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0035-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0035-ap-03-it-00",
+            "apartado_id": "ibx-0035-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Puig",
+            "contenido": "Familia Puig mantiene ~70% del capital y mayoría de voto vía acciones tipo A (estructura dual).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionariado",
+              "familia-puig"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0035-ap-03-it-01",
+            "apartado_id": "ibx-0035-ap-03",
+            "tipo": "contacto",
+            "titulo": "Patrocinios",
+            "contenido": "Patrocinador FC Barcelona, varias pasarelas (NYFW, PFW).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fcbarcelona",
+              "moda"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0035-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0035-ap-04-it-00",
+            "apartado_id": "ibx-0035-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Marc Puig sobre OPV",
+            "contenido": "\"Salimos a bolsa para crecer manteniendo el control familiar y la cultura de marca\", roadshow 2024.",
+            "fecha": "2024-04-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0035-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0035-ap-05-it-00",
+            "apartado_id": "ibx-0035-ap-05",
+            "tipo": "evento",
+            "titulo": "Bajo perfil",
+            "contenido": "Sin controversias judiciales públicas relevantes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sin-controversias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0035-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0035-ap-06-it-00",
+            "apartado_id": "ibx-0035-ap-06",
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.puig.com/es/inversores",
+            "fecha": null,
+            "fuente_url": "https://www.puig.com/es/inversores",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0036",
+    "slug": "marta-ortega-perez",
+    "nombre_completo": "Marta Ortega Pérez",
+    "alias": "Marta Ortega",
+    "cargo_actual": "Presidenta no ejecutiva de Inditex",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Hija menor de Amancio Ortega y Flora Pérez. Tercera generación al frente de Inditex como presidenta no ejecutiva desde abril 2022.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:inditex",
+      "sector:retail-textil"
+    ],
+    "fuente_principal": "https://www.inditex.com",
+    "apartados": [
+      {
+        "id": "ibx-0036-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0036-ap-00-it-00",
+            "apartado_id": "ibx-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en A Coruña en 1984. Licenciada en European Business por la European Business School de Londres. Carrera dentro del grupo en Zara (Londres, Shanghai). Hija de Amancio Ortega.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0036-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0036-ap-01-it-00",
+            "apartado_id": "ibx-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Inicio en tienda",
+            "contenido": "Entró en Zara en 2007 como dependienta en Londres y Shanghai, según narrativa corporativa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0036-ap-01-it-01",
+            "apartado_id": "ibx-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Asesora de marca",
+            "contenido": "Asesora de moda y posicionamiento de Zara desde 2014 aproximadamente.",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0036-ap-01-it-02",
+            "apartado_id": "ibx-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta no ejecutiva",
+            "contenido": "Designada presidenta no ejecutiva de Inditex en abril de 2022, sustituyendo a Pablo Isla.",
+            "fecha": "2022-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0036-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0036-ap-02-it-00",
+            "apartado_id": "ibx-0036-ap-02",
+            "tipo": "contacto",
+            "titulo": "Familia Ortega / Pontegadea",
+            "contenido": "Familia con el mayor patrimonio de España. Pontegadea controla ~59% de Inditex.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pontegadea",
+              "ortega"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0036-ap-02-it-01",
+            "apartado_id": "ibx-0036-ap-02",
+            "tipo": "contacto",
+            "titulo": "Carlos Torretta",
+            "contenido": "Casada con Carlos Torretta (hijo de Roberto Torretta), exejecutivo de Inditex. Boda 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "torretta"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0036-ap-02-it-02",
+            "apartado_id": "ibx-0036-ap-02",
+            "tipo": "contacto",
+            "titulo": "Óscar García Maceiras",
+            "contenido": "Tándem ejecutivo con el CEO Óscar García Maceiras (designado el mismo día abril 2022).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "maceiras"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0036-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0036-ap-03-it-00",
+            "apartado_id": "ibx-0036-ap-03",
+            "tipo": "evento",
+            "titulo": "Crítica nepotismo",
+            "contenido": "Su nombramiento generó debate en prensa económica sobre la transición dinástica vs gobierno corporativo de empresa cotizada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0036-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0036-ap-04-it-00",
+            "apartado_id": "ibx-0036-ap-04",
+            "tipo": "documento",
+            "titulo": "Comunicado Inditex 30-nov-2021",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.inditex.com/itxcomweb/es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0037",
+    "slug": "oscar-garcia-maceiras",
+    "nombre_completo": "Óscar García Maceiras",
+    "alias": "García Maceiras",
+    "cargo_actual": "Consejero Delegado (CEO) de Inditex",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado del Estado en excedencia. CEO de Inditex desde abril 2022. Procede de Santander, Popular y previamente de la Abogacía del Estado.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:inditex"
+    ],
+    "fuente_principal": "https://www.inditex.com",
+    "apartados": [
+      {
+        "id": "ibx-0037-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0037-ap-00-it-00",
+            "apartado_id": "ibx-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en A Coruña en 1973. Abogado del Estado (opositó en 2003). Trayectoria mixta sector público-banca-cotizada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0037-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0037-ap-01-it-00",
+            "apartado_id": "ibx-0037-ap-01",
+            "tipo": "evento",
+            "titulo": "Abogado del Estado",
+            "contenido": "Cuerpo desde 2003. Asignaciones en Coruña y Madrid.",
+            "fecha": "2003-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0037-ap-01-it-01",
+            "apartado_id": "ibx-0037-ap-01",
+            "tipo": "evento",
+            "titulo": "Banco Popular",
+            "contenido": "Secretario del consejo y general counsel de Banco Popular entre 2014 y 2017 (hasta resolución).",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0037-ap-01-it-02",
+            "apartado_id": "ibx-0037-ap-01",
+            "tipo": "evento",
+            "titulo": "Santander",
+            "contenido": "Secretario general y del consejo de Banco Santander 2017-2021 tras la integración del Popular.",
+            "fecha": "2017-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0037-ap-01-it-03",
+            "apartado_id": "ibx-0037-ap-01",
+            "tipo": "evento",
+            "titulo": "Inditex",
+            "contenido": "Director general en marzo 2021 y CEO en abril 2022.",
+            "fecha": "2022-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0037-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0037-ap-02-it-00",
+            "apartado_id": "ibx-0037-ap-02",
+            "tipo": "contacto",
+            "titulo": "Familia Ortega",
+            "contenido": "Reporta directamente a Marta Ortega y al consejo dominado por Pontegadea.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ortega"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0037-ap-02-it-01",
+            "apartado_id": "ibx-0037-ap-02",
+            "tipo": "contacto",
+            "titulo": "Red Santander",
+            "contenido": "Mantiene relaciones por su paso en Santander con Ana Botín y Bravo (general counsel del Santander).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "santander",
+              "botin"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0037-ap-02-it-02",
+            "apartado_id": "ibx-0037-ap-02",
+            "tipo": "contacto",
+            "titulo": "Abogacía del Estado",
+            "contenido": "Vinculado al cuerpo de Abogados del Estado, red de influencia institucional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "abogacia-estado"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0037-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0037-ap-03-it-00",
+            "apartado_id": "ibx-0037-ap-03",
+            "tipo": "evento",
+            "titulo": "Sin controversias personales",
+            "contenido": "Perfil técnico sin litigios públicos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0037-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0037-ap-04-it-00",
+            "apartado_id": "ibx-0037-ap-04",
+            "tipo": "documento",
+            "titulo": "Comunicado Inditex 30-nov-2021",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.inditex.com/itxcomweb/es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0038",
+    "slug": "ignacio-sanchez-galan",
+    "nombre_completo": "José Ignacio Sánchez Galán",
+    "alias": "Sánchez Galán",
+    "cargo_actual": "Presidente ejecutivo de Iberdrola",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero industrial. Preside Iberdrola desde 2006. Una de las figuras empresariales más influyentes de España y voz clave del lobby de la transición energética.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:iberdrola"
+    ],
+    "fuente_principal": "https://www.iberdrola.com",
+    "apartados": [
+      {
+        "id": "ibx-0038-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0038-ap-00-it-00",
+            "apartado_id": "ibx-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Salamanca, 1950. Ingeniero industrial (ICAI) y MBA. Considerado el ejecutivo con la carrera más larga al frente de un IBEX 35.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0038-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0038-ap-01-it-00",
+            "apartado_id": "ibx-0038-ap-01",
+            "tipo": "evento",
+            "titulo": "Sogecable / Antibióticos",
+            "contenido": "Carrera previa en Sogecable y Antibióticos S.A.",
+            "fecha": "1980-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0038-ap-01-it-01",
+            "apartado_id": "ibx-0038-ap-01",
+            "tipo": "evento",
+            "titulo": "Airtel / Vodafone",
+            "contenido": "CEO de Airtel (predecesor de Vodafone España) entre 1995 y 2001.",
+            "fecha": "1995-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0038-ap-01-it-02",
+            "apartado_id": "ibx-0038-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO de Iberdrola",
+            "contenido": "Llega a Iberdrola como CEO en septiembre 2001.",
+            "fecha": "2001-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0038-ap-01-it-03",
+            "apartado_id": "ibx-0038-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente ejecutivo",
+            "contenido": "Asume la presidencia ejecutiva en junio 2006 (sustituyendo a Íñigo de Oriol).",
+            "fecha": "2006-06-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0038-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0038-ap-02-it-00",
+            "apartado_id": "ibx-0038-ap-02",
+            "tipo": "dato",
+            "titulo": "Lobby energético",
+            "contenido": "Voz pública muy activa en favor de la electrificación renovable y crítico con políticas que considera perjudiciales (impuesto extraordinario, tope al gas, recortes a renovables retroactivos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "lobby",
+              "energia"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0038-ap-02-it-01",
+            "apartado_id": "ibx-0038-ap-02",
+            "tipo": "dato",
+            "titulo": "Cargo en CEOE",
+            "contenido": "Miembro destacado del comité ejecutivo de la CEOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ceoe"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0038-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0038-ap-03-it-00",
+            "apartado_id": "ibx-0038-ap-03",
+            "tipo": "contacto",
+            "titulo": "Choque con Pedro Sánchez",
+            "contenido": "Una de las figuras empresariales más críticas con el Gobierno de Sánchez. Tensión sobre impuesto extraordinario, tope al gas, y políticas energéticas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0038-ap-03-it-01",
+            "apartado_id": "ibx-0038-ap-03",
+            "tipo": "contacto",
+            "titulo": "Conflicto histórico con Florentino Pérez",
+            "contenido": "Guerra societaria 2006-2017 cuando ACS tomó hasta 20% de Iberdrola. Episodio central del caso Villarejo (espionaje de Iberdrola a ACS).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "acs",
+              "florentino",
+              "villarejo"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0038-ap-03-it-02",
+            "apartado_id": "ibx-0038-ap-03",
+            "tipo": "contacto",
+            "titulo": "Eurelectric",
+            "contenido": "Vicepresidente y voz clave en Eurelectric (patronal europea de eléctricas).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "eurelectric"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0038-ap-03-it-03",
+            "apartado_id": "ibx-0038-ap-03",
+            "tipo": "contacto",
+            "titulo": "Casa Real / monarquía",
+            "contenido": "Buena interlocución institucional con la Casa Real, presencia en actos oficiales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "casa-real"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0038-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0038-ap-04-it-00",
+            "apartado_id": "ibx-0038-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre el impuesto",
+            "contenido": "\"El impuesto es confiscatorio y desincentiva la inversión renovable en España\", JGA 2023.",
+            "fecha": "2023-06-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0038-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0038-ap-05-it-00",
+            "apartado_id": "ibx-0038-ap-05",
+            "tipo": "evento",
+            "titulo": "Imputación caso Villarejo",
+            "contenido": "Imputado en 2022 por la AN en el caso Villarejo (pieza Iberdrola) por encargos a Villarejo entre 2004-2017. Iberdrola y Sánchez Galán procesados.",
+            "fecha": "2022-12-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "villarejo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0038-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0038-ap-06-it-00",
+            "apartado_id": "ibx-0038-ap-06",
+            "tipo": "documento",
+            "titulo": "Web corporativa",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.iberdrola.com/conocenos/equipo-directivo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0039",
+    "slug": "ana-botin",
+    "nombre_completo": "Ana Patricia Botín-Sanz de Sautuola O'Shea",
+    "alias": "Ana Botín",
+    "cargo_actual": "Presidenta ejecutiva de Banco Santander",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Tercera generación al frente de Banco Santander desde septiembre 2014. Banquera de carrera. Presidió Banesto y Santander UK antes del relevo tras la muerte de su padre Emilio Botín.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:banco-santander"
+    ],
+    "fuente_principal": "https://www.santander.com",
+    "apartados": [
+      {
+        "id": "ibx-0039-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0039-ap-00-it-00",
+            "apartado_id": "ibx-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Santander, 1960. Bryn Mawr College (EE.UU.). Carrera en JP Morgan antes de incorporarse a Santander.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0039-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0039-ap-01-it-00",
+            "apartado_id": "ibx-0039-ap-01",
+            "tipo": "evento",
+            "titulo": "JP Morgan",
+            "contenido": "Inició su carrera en JP Morgan en Nueva York (1981-1988).",
+            "fecha": "1981-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0039-ap-01-it-01",
+            "apartado_id": "ibx-0039-ap-01",
+            "tipo": "evento",
+            "titulo": "Banesto",
+            "contenido": "Presidenta de Banesto entre 2002 y 2010.",
+            "fecha": "2002-02-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0039-ap-01-it-02",
+            "apartado_id": "ibx-0039-ap-01",
+            "tipo": "evento",
+            "titulo": "Santander UK",
+            "contenido": "CEO de Santander UK entre 2010 y 2014.",
+            "fecha": "2010-12-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0039-ap-01-it-03",
+            "apartado_id": "ibx-0039-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta Santander",
+            "contenido": "Asume la presidencia ejecutiva el 10 sept 2014 tras la muerte de su padre Emilio Botín.",
+            "fecha": "2014-09-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0039-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0039-ap-02-it-00",
+            "apartado_id": "ibx-0039-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Voz pública contraria al gravamen extraordinario, defensora de la regulación bancaria UE armonizada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "impuesto",
+              "banca"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0039-ap-02-it-01",
+            "apartado_id": "ibx-0039-ap-02",
+            "tipo": "dato",
+            "titulo": "Diversidad",
+            "contenido": "Presencia activa en foros de mujeres líderes y diversidad ejecutiva.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "diversidad"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0039-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0039-ap-03-it-00",
+            "apartado_id": "ibx-0039-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Botín",
+            "contenido": "Saga banquera. Hermanos: Javier, Emilio (consejero del Santander), Carmen, Paloma.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-botin"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0039-ap-03-it-01",
+            "apartado_id": "ibx-0039-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Botín",
+            "contenido": "Patrona de la Fundación Botín (Santander), patronazgo cultural y científico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacion-botin"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0039-ap-03-it-02",
+            "apartado_id": "ibx-0039-ap-03",
+            "tipo": "contacto",
+            "titulo": "Davos / Bilderberg",
+            "contenido": "Participante habitual en Foro de Davos. Asistencias documentadas a Bilderberg (2014, 2019).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "davos",
+              "bilderberg"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0039-ap-03-it-03",
+            "apartado_id": "ibx-0039-ap-03",
+            "tipo": "contacto",
+            "titulo": "Reuniones con Sánchez",
+            "contenido": "Reuniones bilaterales documentadas en agenda oficial de Moncloa con Pedro Sánchez y Carlos Cuerpo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sanchez"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0039-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0039-ap-04-it-00",
+            "apartado_id": "ibx-0039-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Davos 2023",
+            "contenido": "\"Un impuesto que solo se aplica a la banca y a empresas concretas no es la solución\", Davos enero 2023.",
+            "fecha": "2023-01-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0039-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0039-ap-05-it-00",
+            "apartado_id": "ibx-0039-ap-05",
+            "tipo": "evento",
+            "titulo": "Caso Andrea Orcel",
+            "contenido": "Tribunal Mercantil 12 de Madrid condenó al Santander a indemnizar a Orcel por la retirada de oferta de CEO en 2018-2019 (51 M€ en primera instancia, revisado a la baja en apelación).",
+            "fecha": "2020-12-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "orcel"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0039-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0039-ap-06-it-00",
+            "apartado_id": "ibx-0039-ap-06",
+            "tipo": "documento",
+            "titulo": "Web corporativa Santander",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.santander.com/es/sobre-nosotros/gobierno-corporativo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0040",
+    "slug": "hector-grisi",
+    "nombre_completo": "Héctor Grisi Checa",
+    "alias": "Héctor Grisi",
+    "cargo_actual": "Consejero Delegado (CEO) de Banco Santander",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero mexicano. CEO del grupo Santander desde enero 2023. Previamente CEO de Santander México y Country Head North America.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:banco-santander"
+    ],
+    "fuente_principal": "https://www.santander.com",
+    "apartados": [
+      {
+        "id": "ibx-0040-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0040-ap-00-it-00",
+            "apartado_id": "ibx-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en México, 1965. Universidad Anáhuac. Carrera previa en Credit Suisse (México, NY).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0040-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0040-ap-01-it-00",
+            "apartado_id": "ibx-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "Credit Suisse",
+            "contenido": "Carrera en Credit Suisse en banca de inversión, 1997-2015.",
+            "fecha": "1997-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0040-ap-01-it-01",
+            "apartado_id": "ibx-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "Santander México",
+            "contenido": "CEO de Santander México 2015-2022.",
+            "fecha": "2015-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0040-ap-01-it-02",
+            "apartado_id": "ibx-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Grupo Santander",
+            "contenido": "Sucede a José Antonio Álvarez como CEO del grupo el 1 enero 2023.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0040-ap-01-it-03",
+            "apartado_id": "ibx-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "Credit Suisse México",
+            "contenido": "CEO de Credit Suisse México y Country Head North America entre 2010 y 2015.",
+            "fecha": "2010-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0040-ap-01-it-04",
+            "apartado_id": "ibx-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "Country Head North America",
+            "contenido": "Country Head North America de Santander 2019-2022, supervisando la venta de BBVA USA a PNC y la integración USA-México.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0040-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0040-ap-02-it-00",
+            "apartado_id": "ibx-0040-ap-02",
+            "tipo": "dato",
+            "titulo": "Banca digital",
+            "contenido": "Apuesta por la plataforma OnePay/Openbank como herramienta pan-europea. PagoNxt como spin-off de pagos B2B.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "digital"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0040-ap-02-it-01",
+            "apartado_id": "ibx-0040-ap-02",
+            "tipo": "dato",
+            "titulo": "Mercados emergentes",
+            "contenido": "Defensa del peso de Brasil (40% del beneficio) y México como núcleo del modelo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "emergentes"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0040-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0040-ap-03-it-00",
+            "apartado_id": "ibx-0040-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ana Botín",
+            "contenido": "Reporta a la presidenta. Tándem.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0040-ap-03-it-01",
+            "apartado_id": "ibx-0040-ap-03",
+            "tipo": "contacto",
+            "titulo": "Élite mexicana",
+            "contenido": "Vinculaciones con el ecosistema empresarial mexicano (Carlos Slim, etc.) durante etapa Santander México.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mexico"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0040-ap-03-it-02",
+            "apartado_id": "ibx-0040-ap-03",
+            "tipo": "contacto",
+            "titulo": "Élite empresarial mexicana",
+            "contenido": "Vinculaciones del paso por Santander México (Carlos Slim, FUNO, Inbursa) y Credit Suisse México (Larrea).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mexico"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0040-ap-03-it-03",
+            "apartado_id": "ibx-0040-ap-03",
+            "tipo": "contacto",
+            "titulo": "PNC Bank",
+            "contenido": "Interlocución de la venta de BBVA USA a PNC en 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnc"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0040-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0040-ap-04-it-00",
+            "apartado_id": "ibx-0040-ap-04",
+            "tipo": "documento",
+            "titulo": "Web corporativa",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.santander.com/es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0041",
+    "slug": "carlos-torres-vila",
+    "nombre_completo": "Carlos Torres Vila",
+    "alias": "Torres Vila",
+    "cargo_actual": "Presidente ejecutivo de BBVA",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero por el MIT. Preside BBVA desde diciembre 2018 (relevo de Francisco González). Apostó por la transformación digital y por la fusión con Sabadell en 2024.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:bbva"
+    ],
+    "fuente_principal": "https://www.bbva.com",
+    "apartados": [
+      {
+        "id": "ibx-0041-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0041-ap-00-it-00",
+            "apartado_id": "ibx-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Salamanca, 1966. Ingeniero eléctrico (MIT) y MBA por MIT Sloan. Trayectoria mixta consultoría-banca-tecnología.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0041-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0041-ap-01-it-00",
+            "apartado_id": "ibx-0041-ap-01",
+            "tipo": "evento",
+            "titulo": "McKinsey",
+            "contenido": "Consultor en McKinsey 1992-1996.",
+            "fecha": "1992-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0041-ap-01-it-01",
+            "apartado_id": "ibx-0041-ap-01",
+            "tipo": "evento",
+            "titulo": "Endesa",
+            "contenido": "Director general de Endesa entre 1996 y 2008 (M&A, estrategia).",
+            "fecha": "1996-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0041-ap-01-it-02",
+            "apartado_id": "ibx-0041-ap-01",
+            "tipo": "evento",
+            "titulo": "Goirigolzarri stint",
+            "contenido": "Director de Estrategia de Bancaja antes de pasar a BBVA.",
+            "fecha": "2008-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0041-ap-01-it-03",
+            "apartado_id": "ibx-0041-ap-01",
+            "tipo": "evento",
+            "titulo": "BBVA - banca digital",
+            "contenido": "Llega a BBVA en 2008. Responsable de banca digital, luego CEO en 2015.",
+            "fecha": "2015-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0041-ap-01-it-04",
+            "apartado_id": "ibx-0041-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente BBVA",
+            "contenido": "Asume la presidencia el 31 diciembre 2018 sustituyendo a Francisco González (relevo precipitado por escándalo Villarejo).",
+            "fecha": "2018-12-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0041-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0041-ap-02-it-00",
+            "apartado_id": "ibx-0041-ap-02",
+            "tipo": "dato",
+            "titulo": "Concentración bancaria",
+            "contenido": "Defensor público de la consolidación bancaria española como respuesta a la fragmentación europea. Argumento clave de la OPA Sabadell.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "consolidacion",
+              "sabadell"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0041-ap-02-it-01",
+            "apartado_id": "ibx-0041-ap-02",
+            "tipo": "dato",
+            "titulo": "Digital y crypto",
+            "contenido": "BBVA pionera en banca digital europea bajo su liderazgo. Custodia de criptoactivos en Suiza primero.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "digital",
+              "crypto"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0041-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0041-ap-03-it-00",
+            "apartado_id": "ibx-0041-ap-03",
+            "tipo": "contacto",
+            "titulo": "Onur Genç",
+            "contenido": "CEO del banco, tándem desde 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "genc"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0041-ap-03-it-01",
+            "apartado_id": "ibx-0041-ap-03",
+            "tipo": "contacto",
+            "titulo": "Garanti / Turquía",
+            "contenido": "BBVA controla Garanti BBVA en Turquía. Torres Vila gestiona relación con accionistas turcos y autoridades.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "garanti",
+              "turquia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0041-ap-03-it-02",
+            "apartado_id": "ibx-0041-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo - imputado",
+            "contenido": "Aunque sucedió a Francisco González (también imputado), Torres Vila ha sido investigado y luego sobreseído en relación con la pieza BBVA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0041-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0041-ap-04-it-00",
+            "apartado_id": "ibx-0041-ap-04",
+            "tipo": "declaracion",
+            "titulo": "OPA Sabadell",
+            "contenido": "\"Crearemos un banco más fuerte para clientes y accionistas\", presentación 9 mayo 2024.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0041-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0041-ap-05-it-00",
+            "apartado_id": "ibx-0041-ap-05",
+            "tipo": "evento",
+            "titulo": "Espionaje Villarejo",
+            "contenido": "Citado como investigado en la pieza BBVA. Sobreseído provisionalmente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0041-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0041-ap-06-it-00",
+            "apartado_id": "ibx-0041-ap-06",
+            "tipo": "documento",
+            "titulo": "BBVA equipo directivo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.bbva.com/es/sostenibilidad/equipo-directivo/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0042",
+    "slug": "onur-genc",
+    "nombre_completo": "Onur Genç",
+    "alias": "Genç",
+    "cargo_actual": "Consejero Delegado (CEO) de BBVA",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero turco. CEO del Grupo BBVA desde diciembre 2018. Previamente CEO de Garanti BBVA y de BBVA USA.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:bbva"
+    ],
+    "fuente_principal": "https://www.bbva.com",
+    "apartados": [
+      {
+        "id": "ibx-0042-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0042-ap-00-it-00",
+            "apartado_id": "ibx-0042-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Turquía, 1975. ITU Estambul y Carnegie Mellon (MBA).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0042-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0042-ap-01-it-00",
+            "apartado_id": "ibx-0042-ap-01",
+            "tipo": "evento",
+            "titulo": "Garanti BBVA",
+            "contenido": "CEO de Garanti BBVA (Turquía) 2015-2017.",
+            "fecha": "2015-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0042-ap-01-it-01",
+            "apartado_id": "ibx-0042-ap-01",
+            "tipo": "evento",
+            "titulo": "BBVA USA",
+            "contenido": "CEO de BBVA USA 2017-2018 (vendida a PNC en 2021).",
+            "fecha": "2017-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0042-ap-01-it-02",
+            "apartado_id": "ibx-0042-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO BBVA",
+            "contenido": "CEO del grupo desde diciembre 2018.",
+            "fecha": "2018-12-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0042-ap-01-it-03",
+            "apartado_id": "ibx-0042-ap-01",
+            "tipo": "evento",
+            "titulo": "McKinsey",
+            "contenido": "Consultor en McKinsey en Estambul y Nueva York antes de incorporarse a Garanti.",
+            "fecha": "2002-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0042-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0042-ap-02-it-00",
+            "apartado_id": "ibx-0042-ap-02",
+            "tipo": "dato",
+            "titulo": "OPA Sabadell",
+            "contenido": "Junto con Torres Vila, defensor público de la operación como creadora de un campeón europeo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sabadell"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0042-ap-02-it-01",
+            "apartado_id": "ibx-0042-ap-02",
+            "tipo": "dato",
+            "titulo": "Turquía hiperinflación",
+            "contenido": "Gestión del impacto de la NIIF 29 (hiperinflación) en la consolidación de Garanti BBVA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "garanti"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0042-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0042-ap-03-it-00",
+            "apartado_id": "ibx-0042-ap-03",
+            "tipo": "contacto",
+            "titulo": "Doğuş Holding",
+            "contenido": "Relación histórica con Doğuş Holding (familia Sahenk) en Garanti.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dogus",
+              "turquia"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0042-ap-03-it-01",
+            "apartado_id": "ibx-0042-ap-03",
+            "tipo": "contacto",
+            "titulo": "Doğuş Holding / Sahenk",
+            "contenido": "Relación con la familia Sahenk, accionista histórico de Garanti.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dogus"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0042-ap-03-it-02",
+            "apartado_id": "ibx-0042-ap-03",
+            "tipo": "contacto",
+            "titulo": "Garanti consejo",
+            "contenido": "Sigue como miembro influyente en el consejo de Garanti BBVA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "garanti"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0042-ap-03-it-03",
+            "apartado_id": "ibx-0042-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carlos Torres Vila",
+            "contenido": "Tándem ejecutivo BBVA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "torres-vila"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0042-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0042-ap-04-it-00",
+            "apartado_id": "ibx-0042-ap-04",
+            "tipo": "documento",
+            "titulo": "BBVA",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.bbva.com/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0043",
+    "slug": "jose-ignacio-goirigolzarri",
+    "nombre_completo": "José Ignacio Goirigolzarri Tellaeche",
+    "alias": "Goirigolzarri",
+    "cargo_actual": "Presidente no ejecutivo de CaixaBank",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero bilbaíno. Presidente de CaixaBank desde la fusión con Bankia (marzo 2021). Antes presidente de Bankia (nacionalizada en 2012). Ex CEO de BBVA.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:caixabank"
+    ],
+    "fuente_principal": "https://www.caixabank.com",
+    "apartados": [
+      {
+        "id": "ibx-0043-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0043-ap-00-it-00",
+            "apartado_id": "ibx-0043-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Bilbao, 1954. Licenciado en Económicas (Universidad de Deusto). Especializado en banca minorista y reestructuración.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0043-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0043-ap-01-it-00",
+            "apartado_id": "ibx-0043-ap-01",
+            "tipo": "evento",
+            "titulo": "BBV / BBVA",
+            "contenido": "Carrera en BBV y luego BBVA. Director general (1994), CEO entre 2001 y 2009. Salida tras conflicto con FG.",
+            "fecha": "2001-12-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0043-ap-01-it-01",
+            "apartado_id": "ibx-0043-ap-01",
+            "tipo": "evento",
+            "titulo": "Bankia",
+            "contenido": "Presidente de Bankia nacionalizada desde mayo 2012, gestionando la mayor reestructuración bancaria española.",
+            "fecha": "2012-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0043-ap-01-it-02",
+            "apartado_id": "ibx-0043-ap-01",
+            "tipo": "evento",
+            "titulo": "CaixaBank",
+            "contenido": "Presidente de CaixaBank desde marzo 2021 tras la fusión.",
+            "fecha": "2021-03-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0043-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0043-ap-02-it-00",
+            "apartado_id": "ibx-0043-ap-02",
+            "tipo": "dato",
+            "titulo": "Reestructuración bancaria",
+            "contenido": "Defensor del modelo de salvamento bancario español 2012 (FROB) como caso de éxito europeo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "frob"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0043-ap-02-it-01",
+            "apartado_id": "ibx-0043-ap-02",
+            "tipo": "dato",
+            "titulo": "Empleo y educación financiera",
+            "contenido": "Presidente del Consejo Empresarial para la Competitividad (CEC) y figura habitual en foros sobre educación financiera.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cec"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0043-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0043-ap-03-it-00",
+            "apartado_id": "ibx-0043-ap-03",
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé / La Caixa",
+            "contenido": "Interlocutor permanente con Isidre Fainé (Fundación La Caixa y CriteriaCaixa, accionista de control).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixa",
+              "faine"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0043-ap-03-it-01",
+            "apartado_id": "ibx-0043-ap-03",
+            "tipo": "contacto",
+            "titulo": "FROB / Estado",
+            "contenido": "Como presidente de Bankia y luego CaixaBank, interlocutor habitual con el FROB y los Ministerios de Economía sucesivos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "frob",
+              "estado"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0043-ap-03-it-02",
+            "apartado_id": "ibx-0043-ap-03",
+            "tipo": "contacto",
+            "titulo": "Reputación bipartidista",
+            "contenido": "Buena interlocución con Gobiernos PP (Rajoy, Montoro) y PSOE (Sánchez, Cuerpo, Calviño).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0043-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0043-ap-04-it-00",
+            "apartado_id": "ibx-0043-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre impuesto banca",
+            "contenido": "\"El impuesto no es una solución técnica sino política; lo recurriremos\", JGA 2023.",
+            "fecha": "2023-03-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0043-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0043-ap-05-it-00",
+            "apartado_id": "ibx-0043-ap-05",
+            "tipo": "evento",
+            "titulo": "Indemnización por salida de BBVA",
+            "contenido": "Recibió en 2009 al salir de BBVA una pensión vitalicia muy alta (~3 M€/año). Críticas mediáticas que él defendió como legalmente pactada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0043-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0043-ap-06-it-00",
+            "apartado_id": "ibx-0043-ap-06",
+            "tipo": "documento",
+            "titulo": "CaixaBank gobierno corporativo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.caixabank.com/es/conocenos/gobierno-corporativo.html",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0044",
+    "slug": "gonzalo-gortazar",
+    "nombre_completo": "Gonzalo Gortázar Rotaeche",
+    "alias": "Gortázar",
+    "cargo_actual": "Consejero Delegado (CEO) de CaixaBank",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado del Estado en excedencia. CEO de CaixaBank desde 2014. Trayectoria previa en banca de inversión (Bank of America, Morgan Stanley).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:caixabank"
+    ],
+    "fuente_principal": "https://www.caixabank.com",
+    "apartados": [
+      {
+        "id": "ibx-0044-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0044-ap-00-it-00",
+            "apartado_id": "ibx-0044-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en 1965. Derecho (ICADE), MBA INSEAD. Abogado del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0044-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0044-ap-01-it-00",
+            "apartado_id": "ibx-0044-ap-01",
+            "tipo": "evento",
+            "titulo": "Banca de inversión",
+            "contenido": "Bank of America y Morgan Stanley en M&A, 1990s-2000s.",
+            "fecha": "1993-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0044-ap-01-it-01",
+            "apartado_id": "ibx-0044-ap-01",
+            "tipo": "evento",
+            "titulo": "Criteria",
+            "contenido": "Director general financiero de Criteria CaixaCorp 2009-2014.",
+            "fecha": "2009-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0044-ap-01-it-02",
+            "apartado_id": "ibx-0044-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO CaixaBank",
+            "contenido": "CEO desde junio 2014, mantenido tras fusión con Bankia.",
+            "fecha": "2014-06-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0044-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0044-ap-02-it-00",
+            "apartado_id": "ibx-0044-ap-02",
+            "tipo": "contacto",
+            "titulo": "Tándem con Goirigolzarri",
+            "contenido": "Reporta al presidente desde 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0044-ap-02-it-01",
+            "apartado_id": "ibx-0044-ap-02",
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé",
+            "contenido": "Relación directa con el patrono de Criteria desde su etapa anterior.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "faine"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0044-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0044-ap-03-it-00",
+            "apartado_id": "ibx-0044-ap-03",
+            "tipo": "documento",
+            "titulo": "CaixaBank",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.caixabank.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0045",
+    "slug": "marc-murtra",
+    "nombre_completo": "Marc Murtra Millar",
+    "alias": "Marc Murtra",
+    "cargo_actual": "Presidente ejecutivo de Telefónica",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero industrial. Preside Telefónica desde enero 2025 tras dirigir Indra (2021-2025). Cercano al PSC/PSOE.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:telefonica"
+    ],
+    "fuente_principal": "https://www.telefonica.com",
+    "apartados": [
+      {
+        "id": "ibx-0045-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0045-ap-00-it-00",
+            "apartado_id": "ibx-0045-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1972. Ingeniero industrial (UPC) y MBA London Business School.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0045-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0045-ap-01-it-00",
+            "apartado_id": "ibx-0045-ap-01",
+            "tipo": "evento",
+            "titulo": "Lehman / consultoría",
+            "contenido": "Carrera previa en Lehman Brothers (banca de inversión) y Atrium Capital.",
+            "fecha": "1998-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0045-ap-01-it-01",
+            "apartado_id": "ibx-0045-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretario de Estado",
+            "contenido": "Secretario de Estado de Telecomunicaciones y Sociedad de la Información en el Gobierno Zapatero (2010-2011).",
+            "fecha": "2010-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0045-ap-01-it-02",
+            "apartado_id": "ibx-0045-ap-01",
+            "tipo": "evento",
+            "titulo": "SEPI / Hispasat",
+            "contenido": "Director de Empresas Industriales de la SEPI 2011-2012. Vinculado al ecosistema empresa pública.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0045-ap-01-it-03",
+            "apartado_id": "ibx-0045-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente Indra",
+            "contenido": "Presidente de Indra desde enero 2021. Pivot a defensa.",
+            "fecha": "2021-01-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0045-ap-01-it-04",
+            "apartado_id": "ibx-0045-ap-01",
+            "tipo": "evento",
+            "titulo": "Telefónica",
+            "contenido": "Presidente de Telefónica desde 18 enero 2025 (designado por consenso accionarial SEPI/STC/CriteriaCaixa).",
+            "fecha": "2025-01-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0045-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0045-ap-02-it-00",
+            "apartado_id": "ibx-0045-ap-02",
+            "tipo": "dato",
+            "titulo": "Soberanía digital",
+            "contenido": "Posición pública de fuerte defensa de Telefónica como infraestructura estratégica española. 'Fair share' (regulación contributiva OTT).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fair-share",
+              "soberania"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0045-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0045-ap-03-it-00",
+            "apartado_id": "ibx-0045-ap-03",
+            "tipo": "contacto",
+            "titulo": "PSOE / PSC",
+            "contenido": "Vinculado al ecosistema PSC (catalanismo socialista). Su nombramiento es político, vía SEPI.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "psoe",
+              "psc"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0045-ap-03-it-01",
+            "apartado_id": "ibx-0045-ap-03",
+            "tipo": "contacto",
+            "titulo": "SEPI",
+            "contenido": "SEPI lo impulsó a Indra (2021) y luego a Telefónica (2025). Confianza directa del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sepi",
+              "politica"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0045-ap-03-it-02",
+            "apartado_id": "ibx-0045-ap-03",
+            "tipo": "contacto",
+            "titulo": "STC (Saudi Telecom)",
+            "contenido": "Como presidente, gestor de la relación con el accionista saudí STC (~9,9%).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "stc",
+              "saudi"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0045-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0045-ap-04-it-00",
+            "apartado_id": "ibx-0045-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Inauguración",
+            "contenido": "\"Telefónica debe ser ofensiva y consolidar el sector europeo\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0045-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0045-ap-05-it-00",
+            "apartado_id": "ibx-0045-ap-05",
+            "tipo": "evento",
+            "titulo": "Crisis gobernanza Indra 2022",
+            "contenido": "En 2022 hubo crisis pública por la destitución abrupta de 4 consejeros independientes de Indra empujada por SEPI bajo su presidencia. CNMV amonestó.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "indra",
+              "cnmv"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0045-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0045-ap-06-it-00",
+            "apartado_id": "ibx-0045-ap-06",
+            "tipo": "documento",
+            "titulo": "Comunicado Telefónica",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.telefonica.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0046",
+    "slug": "antonio-brufau",
+    "nombre_completo": "Antonio Brufau Niubó",
+    "alias": "Brufau",
+    "cargo_actual": "Presidente no ejecutivo de Repsol",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista catalán. Presidente de Repsol desde 2004. Antes consejero delegado de La Caixa.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:repsol"
+    ],
+    "fuente_principal": "https://www.repsol.com",
+    "apartados": [
+      {
+        "id": "ibx-0046-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0046-ap-00-it-00",
+            "apartado_id": "ibx-0046-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Sariñena (Huesca) en 1948. Económicas (Universidad de Barcelona). Auditoría (Arthur Andersen).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0046-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0046-ap-01-it-00",
+            "apartado_id": "ibx-0046-ap-01",
+            "tipo": "evento",
+            "titulo": "Arthur Andersen",
+            "contenido": "Carrera en auditoría 1971-1988.",
+            "fecha": "1971-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0046-ap-01-it-01",
+            "apartado_id": "ibx-0046-ap-01",
+            "tipo": "evento",
+            "titulo": "La Caixa",
+            "contenido": "Director general de La Caixa 1988-2003.",
+            "fecha": "1988-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0046-ap-01-it-02",
+            "apartado_id": "ibx-0046-ap-01",
+            "tipo": "evento",
+            "titulo": "Gas Natural / Repsol",
+            "contenido": "Presidente de Gas Natural 1997-2004; presidente de Repsol desde 2004.",
+            "fecha": "2004-10-27",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0046-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0046-ap-02-it-00",
+            "apartado_id": "ibx-0046-ap-02",
+            "tipo": "contacto",
+            "titulo": "La Caixa / Fainé",
+            "contenido": "Mantiene vínculo histórico con la órbita La Caixa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "faine",
+              "caixa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0046-ap-02-it-01",
+            "apartado_id": "ibx-0046-ap-02",
+            "tipo": "contacto",
+            "titulo": "Crisis YPF",
+            "contenido": "Lideró la negociación de la compensación de Argentina por la expropiación de YPF (2012-2014).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ypf",
+              "argentina"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0046-ap-02-it-02",
+            "apartado_id": "ibx-0046-ap-02",
+            "tipo": "contacto",
+            "titulo": "Bilderberg",
+            "contenido": "Asistente habitual al grupo Bilderberg.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bilderberg"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0046-ap-03",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0046-ap-03-it-00",
+            "apartado_id": "ibx-0046-ap-03",
+            "tipo": "declaracion",
+            "titulo": "Sobre impuesto",
+            "contenido": "\"El impuesto extraordinario es discriminatorio y debe revertirse\", JGA 2024.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0046-ap-04",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0046-ap-04-it-00",
+            "apartado_id": "ibx-0046-ap-04",
+            "tipo": "evento",
+            "titulo": "Caso Villarejo",
+            "contenido": "Citado pero no imputado en la pieza Repsol del caso Villarejo (contratos 2011-2012).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0046-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0046-ap-05-it-00",
+            "apartado_id": "ibx-0046-ap-05",
+            "tipo": "documento",
+            "titulo": "Web Repsol",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.repsol.com/es/conocenos/equipo-directivo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0047",
+    "slug": "josu-jon-imaz",
+    "nombre_completo": "Josu Jon Imaz San Miguel",
+    "alias": "Imaz",
+    "cargo_actual": "Consejero Delegado (CEO) de Repsol",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Político vasco reconvertido en gestor. Ex presidente del PNV (2004-2007). CEO de Repsol desde abril 2014.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:repsol",
+      "ex-politico"
+    ],
+    "fuente_principal": "https://www.repsol.com",
+    "apartados": [
+      {
+        "id": "ibx-0047-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0047-ap-00-it-00",
+            "apartado_id": "ibx-0047-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Zumarraga (Gipuzkoa), 1963. Doctor en Química. Trayectoria política PNV-empresa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0047-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0047-ap-01-it-00",
+            "apartado_id": "ibx-0047-ap-01",
+            "tipo": "evento",
+            "titulo": "PNV",
+            "contenido": "Diputado en el Parlamento Vasco, consejero de Industria del Gobierno Vasco (1999-2001), portavoz EAJ-PNV.",
+            "fecha": "1999-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0047-ap-01-it-01",
+            "apartado_id": "ibx-0047-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente PNV",
+            "contenido": "Presidente del EBB del PNV entre 2004 y 2007 (relevo de Arzalluz, antes que Urkullu).",
+            "fecha": "2004-01-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0047-ap-01-it-02",
+            "apartado_id": "ibx-0047-ap-01",
+            "tipo": "evento",
+            "titulo": "Petronor / Repsol",
+            "contenido": "Presidente de Petronor (filial Repsol) desde 2008. Repsol como CEO desde 2014.",
+            "fecha": "2014-04-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0047-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0047-ap-02-it-00",
+            "apartado_id": "ibx-0047-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto extraordinario",
+            "contenido": "Voz pública muy crítica del impuesto. Amenazas explícitas de reasignar inversiones fuera de España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "impuesto",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0047-ap-02-it-01",
+            "apartado_id": "ibx-0047-ap-02",
+            "tipo": "dato",
+            "titulo": "Biocombustibles",
+            "contenido": "Defiende biocombustibles y e-fuels frente a la electrificación pura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "biocombustibles"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0047-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0047-ap-03-it-00",
+            "apartado_id": "ibx-0047-ap-03",
+            "tipo": "contacto",
+            "titulo": "PNV",
+            "contenido": "Vinculo histórico vivo con la dirección del PNV (Andoni Ortuzar, Aitor Esteban) por su pasado como presidente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0047-ap-03-it-01",
+            "apartado_id": "ibx-0047-ap-03",
+            "tipo": "contacto",
+            "titulo": "Lehendakaritza",
+            "contenido": "Buena relación con Lehendakaris (Urkullu y Pradales).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "euskadi"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0047-ap-03-it-02",
+            "apartado_id": "ibx-0047-ap-03",
+            "tipo": "contacto",
+            "titulo": "Sánchez Galán",
+            "contenido": "Coincidencia en lobby energético crítico con el Gobierno Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iberdrola",
+              "politica"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0047-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0047-ap-04-it-00",
+            "apartado_id": "ibx-0047-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Imaz sobre impuesto",
+            "contenido": "\"Cada euro de impuesto extraordinario es un euro menos para invertir aquí. Repensaremos cada inversión\", JGA 2024.",
+            "fecha": "2024-04-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0047-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0047-ap-05-it-00",
+            "apartado_id": "ibx-0047-ap-05",
+            "tipo": "evento",
+            "titulo": "Salto política-empresa",
+            "contenido": "Su transición del PNV a Repsol generó debate público sobre puertas giratorias políticas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "puertas-giratorias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0047-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0047-ap-06-it-00",
+            "apartado_id": "ibx-0047-ap-06",
+            "tipo": "documento",
+            "titulo": "Repsol",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.repsol.com/es/conocenos/equipo-directivo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0048",
+    "slug": "maurici-lucena",
+    "nombre_completo": "Maurici Lucena Betriu",
+    "alias": "Maurici Lucena",
+    "cargo_actual": "Presidente y CEO de Aena",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista catalán del PSC. Preside Aena desde 2018. Ex secretario de Estado de Comercio (2018).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:aena",
+      "ex-politico"
+    ],
+    "fuente_principal": "https://www.aena.es",
+    "apartados": [
+      {
+        "id": "ibx-0048-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0048-ap-00-it-00",
+            "apartado_id": "ibx-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1971. Economista. Doctor en Economía por la Universidad de Cambridge.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0048-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0048-ap-01-it-00",
+            "apartado_id": "ibx-0048-ap-01",
+            "tipo": "evento",
+            "titulo": "PSC / Generalitat",
+            "contenido": "Diputado del PSC en el Parlament. Director del CIDOB (think tank Barcelona).",
+            "fecha": "2007-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0048-ap-01-it-01",
+            "apartado_id": "ibx-0048-ap-01",
+            "tipo": "evento",
+            "titulo": "Sec. Estado Comercio",
+            "contenido": "Secretario de Estado de Comercio (2018) en el primer Gobierno Sánchez (Reyes Maroto).",
+            "fecha": "2018-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0048-ap-01-it-02",
+            "apartado_id": "ibx-0048-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidencia Aena",
+            "contenido": "Designado presidente de Aena en diciembre 2018.",
+            "fecha": "2018-12-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0048-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0048-ap-02-it-00",
+            "apartado_id": "ibx-0048-ap-02",
+            "tipo": "contacto",
+            "titulo": "PSC / PSOE",
+            "contenido": "Cercano al PSC. Nombramiento político por Gobierno Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psc",
+              "psoe",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0048-ap-02-it-01",
+            "apartado_id": "ibx-0048-ap-02",
+            "tipo": "contacto",
+            "titulo": "Min. Transportes (Óscar Puente)",
+            "contenido": "Interlocución con el ministro responsable.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mintranspor",
+              "puente"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0048-ap-02-it-02",
+            "apartado_id": "ibx-0048-ap-02",
+            "tipo": "contacto",
+            "titulo": "Generalitat",
+            "contenido": "Histórica tensión con el Govern catalán por la ampliación de El Prat (impacto La Ricarda).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "elprat",
+              "cataluna"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0048-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0048-ap-03-it-00",
+            "apartado_id": "ibx-0048-ap-03",
+            "tipo": "evento",
+            "titulo": "Nombramiento político",
+            "contenido": "PP y prensa conservadora cuestionaron el carácter político de su nombramiento al frente de Aena.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0048-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0048-ap-04-it-00",
+            "apartado_id": "ibx-0048-ap-04",
+            "tipo": "documento",
+            "titulo": "Aena",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.aena.es/es/corporativa/consejo-administracion.html",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0049",
+    "slug": "jose-bogas",
+    "nombre_completo": "José Damián Bogas Gálvez",
+    "alias": "Bogas",
+    "cargo_actual": "Consejero Delegado (CEO) de Endesa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero industrial. CEO de Endesa desde 2014. Trayectoria entera dentro del grupo Endesa-Enel.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:endesa"
+    ],
+    "fuente_principal": "https://www.endesa.com",
+    "apartados": [
+      {
+        "id": "ibx-0049-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0049-ap-00-it-00",
+            "apartado_id": "ibx-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero industrial. Toda la carrera en Endesa: redes, generación, comercialización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0049-ap-00-it-01",
+            "apartado_id": "ibx-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Ingeniero industrial por la ETSII. Toda su carrera en el grupo Endesa-Enel.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "formacion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0049-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0049-ap-01-it-00",
+            "apartado_id": "ibx-0049-ap-01",
+            "tipo": "evento",
+            "titulo": "Endesa carrera interna",
+            "contenido": "Director general de España y Portugal antes de ser CEO.",
+            "fecha": "2009-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0049-ap-01-it-01",
+            "apartado_id": "ibx-0049-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Endesa",
+            "contenido": "CEO desde octubre 2014.",
+            "fecha": "2014-10-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0049-ap-01-it-02",
+            "apartado_id": "ibx-0049-ap-01",
+            "tipo": "evento",
+            "titulo": "Generación, distribución, comercialización",
+            "contenido": "Carrera en distintas direcciones generales de Endesa (Generación, Distribución, Iberia).",
+            "fecha": "1995-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0049-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0049-ap-02-it-00",
+            "apartado_id": "ibx-0049-ap-02",
+            "tipo": "dato",
+            "titulo": "Nuclear",
+            "contenido": "Defensor de revisar el calendario de cierre nuclear pactado en 2019.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nuclear"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0049-ap-02-it-01",
+            "apartado_id": "ibx-0049-ap-02",
+            "tipo": "dato",
+            "titulo": "Calendario nuclear",
+            "contenido": "Reclamación pública de revisar el calendario de cierre nuclear (pacto 2019) por seguridad de suministro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nuclear"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0049-ap-02-it-02",
+            "apartado_id": "ibx-0049-ap-02",
+            "tipo": "dato",
+            "titulo": "Hidrógeno verde",
+            "contenido": "Inversiones en H2 en As Pontes y Compostilla (transición justa).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion-justa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0049-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0049-ap-03-it-00",
+            "apartado_id": "ibx-0049-ap-03",
+            "tipo": "contacto",
+            "titulo": "Enel / Italia",
+            "contenido": "Reporta a Enel (Italia, controlada por Tesoro italiano).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "enel"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0049-ap-03-it-01",
+            "apartado_id": "ibx-0049-ap-03",
+            "tipo": "contacto",
+            "titulo": "AELEC",
+            "contenido": "Voz destacada de AELEC (patronal eléctricas).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aelec"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0049-ap-03-it-02",
+            "apartado_id": "ibx-0049-ap-03",
+            "tipo": "contacto",
+            "titulo": "Sindicatos cierres térmicos",
+            "contenido": "Diálogo CCOO/UGT en cierres de Compostilla, Andorra (Teruel) y As Pontes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sindicatos",
+              "transicion-justa"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0049-ap-03-it-03",
+            "apartado_id": "ibx-0049-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno - tutela MITECO",
+            "contenido": "Interlocución con el MITECO sobre transición y precios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "miteco"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0049-ap-04",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0049-ap-04-it-00",
+            "apartado_id": "ibx-0049-ap-04",
+            "tipo": "evento",
+            "titulo": "Cierres térmicos",
+            "contenido": "Cierre de centrales de carbón completado en 2021. Impacto territorial en Teruel, El Bierzo, A Coruña. Comités de transición justa.",
+            "fecha": "2021-12-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "carbon"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0049-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0049-ap-05-it-00",
+            "apartado_id": "ibx-0049-ap-05",
+            "tipo": "documento",
+            "titulo": "Endesa",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.endesa.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0050",
+    "slug": "francisco-reynes",
+    "nombre_completo": "Francisco Reynés Massanet",
+    "alias": "Reynés",
+    "cargo_actual": "Presidente y CEO de Naturgy",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero industrial mallorquín. Preside Naturgy (ex Gas Natural Fenosa) desde febrero 2018. Antes CEO de Abertis.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:naturgy"
+    ],
+    "fuente_principal": "https://www.naturgy.com",
+    "apartados": [
+      {
+        "id": "ibx-0050-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0050-ap-00-it-00",
+            "apartado_id": "ibx-0050-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Palma de Mallorca, 1963. Ingeniero industrial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0050-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0050-ap-01-it-00",
+            "apartado_id": "ibx-0050-ap-01",
+            "tipo": "evento",
+            "titulo": "Abertis",
+            "contenido": "CEO de Abertis (concesionaria) entre 2010 y 2017.",
+            "fecha": "2010-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0050-ap-01-it-01",
+            "apartado_id": "ibx-0050-ap-01",
+            "tipo": "evento",
+            "titulo": "Naturgy",
+            "contenido": "Presidente y CEO de Naturgy desde febrero 2018.",
+            "fecha": "2018-02-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0050-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0050-ap-02-it-00",
+            "apartado_id": "ibx-0050-ap-02",
+            "tipo": "contacto",
+            "titulo": "CriteriaCaixa / Isidre Fainé",
+            "contenido": "Apoyo accionarial clave; CriteriaCaixa es el mayor accionista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixa",
+              "faine"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0050-ap-02-it-01",
+            "apartado_id": "ibx-0050-ap-02",
+            "tipo": "contacto",
+            "titulo": "Fondos GIP/CVC/IFM",
+            "contenido": "Diálogo con fondos accionistas (GIP, CVC, IFM).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fondos"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0050-ap-03",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0050-ap-03-it-00",
+            "apartado_id": "ibx-0050-ap-03",
+            "tipo": "declaracion",
+            "titulo": "Operación Géminis",
+            "contenido": "\"Géminis crea valor para todos los accionistas\", JGA 2023.",
+            "fecha": "2023-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0050-ap-04",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0050-ap-04-it-00",
+            "apartado_id": "ibx-0050-ap-04",
+            "tipo": "evento",
+            "titulo": "Operación Géminis cancelada",
+            "contenido": "Plan de escisión retirado en 2023 por falta de apoyo de los fondos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "geminis"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0050-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0050-ap-05-it-00",
+            "apartado_id": "ibx-0050-ap-05",
+            "tipo": "documento",
+            "titulo": "Naturgy",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.naturgy.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0051",
+    "slug": "rafael-del-pino-calvo-sotelo",
+    "nombre_completo": "Rafael del Pino y Calvo-Sotelo",
+    "alias": "Rafael del Pino",
+    "cargo_actual": "Presidente de Ferrovial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero. Preside Ferrovial desde 2000 (relevo de su padre Rafael del Pino y Moreno). Mayor accionista junto con sus hermanos.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:ferrovial"
+    ],
+    "fuente_principal": "https://www.ferrovial.com",
+    "apartados": [
+      {
+        "id": "ibx-0051-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0051-ap-00-it-00",
+            "apartado_id": "ibx-0051-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1958. Ingeniero de Caminos. MBA por MIT Sloan. Hijo del fundador Rafael del Pino y Moreno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0051-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0051-ap-01-it-00",
+            "apartado_id": "ibx-0051-ap-01",
+            "tipo": "evento",
+            "titulo": "Familia / cargos",
+            "contenido": "Carrera entera dentro de Ferrovial. Director general en los 90, vicepresidente y luego presidente desde 2000.",
+            "fecha": "2000-04-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0051-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0051-ap-02-it-00",
+            "apartado_id": "ibx-0051-ap-02",
+            "tipo": "dato",
+            "titulo": "Liberal económico",
+            "contenido": "Defensor del liberalismo económico vía la Fundación Rafael del Pino. Crítico con políticas redistributivas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "liberal"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0051-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0051-ap-03-it-00",
+            "apartado_id": "ibx-0051-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia del Pino",
+            "contenido": "Hermanos María, Joaquín, Leopoldo y Fernando del Pino, accionistas relevantes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-del-pino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0051-ap-03-it-01",
+            "apartado_id": "ibx-0051-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "Patrono de la Fundación, plataforma de pensamiento liberal en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacion",
+              "liberal"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0051-ap-03-it-02",
+            "apartado_id": "ibx-0051-ap-03",
+            "tipo": "contacto",
+            "titulo": "Choque con Sánchez 2023",
+            "contenido": "Pulso público con el Gobierno por el traslado de sede a Países Bajos. Acusaciones de deslealtad recíprocas con Yolanda Díaz, Sánchez, Calviño.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sanchez",
+              "gobierno"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0051-ap-03-it-03",
+            "apartado_id": "ibx-0051-ap-03",
+            "tipo": "contacto",
+            "titulo": "Comunidad de Madrid (Ayuso)",
+            "contenido": "Buena interlocución con Isabel Díaz Ayuso (PP). Asistencia a foros liberales conjuntos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "ayuso",
+              "madrid"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0051-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0051-ap-04-it-00",
+            "apartado_id": "ibx-0051-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre traslado de sede",
+            "contenido": "\"La decisión no es fiscal sino estratégica para acceder a capital global\", JGA Ferrovial 2023.",
+            "fecha": "2023-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0051-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0051-ap-05-it-00",
+            "apartado_id": "ibx-0051-ap-05",
+            "tipo": "evento",
+            "titulo": "Traslado a Países Bajos",
+            "contenido": "Operación criticada por Gobierno y sindicatos. Aprobada por junta a pesar de la presión política.",
+            "fecha": "2023-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sede"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0051-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0051-ap-06-it-00",
+            "apartado_id": "ibx-0051-ap-06",
+            "tipo": "documento",
+            "titulo": "Ferrovial",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.ferrovial.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0052",
+    "slug": "ignacio-madridejos",
+    "nombre_completo": "Ignacio Madridejos Fernández",
+    "alias": "Madridejos",
+    "cargo_actual": "CEO de Ferrovial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero de Caminos. CEO de Ferrovial desde octubre 2019. Previamente CEO de Cemex Europa, Cemex USA y carrera previa en Repsol.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:ferrovial"
+    ],
+    "fuente_principal": "https://www.ferrovial.com",
+    "apartados": [
+      {
+        "id": "ibx-0052-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0052-ap-00-it-00",
+            "apartado_id": "ibx-0052-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1965. Ingeniero de Caminos por la UPM y MBA por Stanford Graduate School of Business.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0052-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0052-ap-01-it-00",
+            "apartado_id": "ibx-0052-ap-01",
+            "tipo": "evento",
+            "titulo": "Repsol",
+            "contenido": "Inicios en Repsol en planificación estratégica.",
+            "fecha": "1989-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0052-ap-01-it-01",
+            "apartado_id": "ibx-0052-ap-01",
+            "tipo": "evento",
+            "titulo": "McKinsey",
+            "contenido": "Consultor en McKinsey & Co. en los 90s.",
+            "fecha": "1994-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0052-ap-01-it-02",
+            "apartado_id": "ibx-0052-ap-01",
+            "tipo": "evento",
+            "titulo": "Cemex",
+            "contenido": "Carrera completa en Cemex (México): director de planificación, director Cemex USA, CEO Cemex Europa.",
+            "fecha": "2002-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0052-ap-01-it-03",
+            "apartado_id": "ibx-0052-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Ferrovial",
+            "contenido": "CEO desde octubre 2019. Lideró operativamente la transición y traslado de sede a Países Bajos.",
+            "fecha": "2019-10-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0052-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0052-ap-02-it-00",
+            "apartado_id": "ibx-0052-ap-02",
+            "tipo": "dato",
+            "titulo": "Internacionalización",
+            "contenido": "Apuesta clara por EE.UU. (Managed Lanes en Texas y Carolina del Norte) y Canadá (407 ETR) como columna vertebral.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "internacional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0052-ap-02-it-01",
+            "apartado_id": "ibx-0052-ap-02",
+            "tipo": "dato",
+            "titulo": "Traslado de sede",
+            "contenido": "Defendió operativamente el cambio de sede a Ámsterdam en 2023 y la salida a NASDAQ en 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "nasdaq",
+              "paisesbajos"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0052-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0052-ap-03-it-00",
+            "apartado_id": "ibx-0052-ap-03",
+            "tipo": "contacto",
+            "titulo": "Rafael del Pino",
+            "contenido": "Tándem con el presidente. Madridejos como brazo ejecutivo de la familia accionista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "del-pino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0052-ap-03-it-01",
+            "apartado_id": "ibx-0052-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - tensión",
+            "contenido": "Co-protagonista del choque público de 2023 con Pedro Sánchez por el traslado a Países Bajos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0052-ap-03-it-02",
+            "apartado_id": "ibx-0052-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fondos infraestructura",
+            "contenido": "Interlocución con fondos de infraestructura (Macquarie, Brookfield) co-inversores en concesiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fondos"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0052-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0052-ap-04-it-00",
+            "apartado_id": "ibx-0052-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre NASDAQ",
+            "contenido": "\"Cotizar en NASDAQ nos da acceso al mayor pool de capital del mundo para concesiones\", presentación CMD 2024.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0052-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0052-ap-05-it-00",
+            "apartado_id": "ibx-0052-ap-05",
+            "tipo": "evento",
+            "titulo": "Traslado de sede",
+            "contenido": "Polémica política y mediática por el traslado de sede aprobado en junta abril 2023.",
+            "fecha": "2023-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sede"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0052-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0052-ap-06-it-00",
+            "apartado_id": "ibx-0052-ap-06",
+            "tipo": "documento",
+            "titulo": "Ferrovial",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.ferrovial.com/es/sobre-nosotros/equipo-directivo/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0053",
+    "slug": "luis-maroto",
+    "nombre_completo": "Luis Maroto Camino",
+    "alias": "Luis Maroto",
+    "cargo_actual": "CEO de Amadeus IT Group",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista. CEO de Amadeus desde enero 2011. Promovió la salida a bolsa (2010) y la consolidación tecnológica del grupo.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:amadeus-it-group"
+    ],
+    "fuente_principal": "https://amadeus.com",
+    "apartados": [
+      {
+        "id": "ibx-0053-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0053-ap-00-it-00",
+            "apartado_id": "ibx-0053-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1965. Económicas (Complutense) y MBA IE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0053-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0053-ap-01-it-00",
+            "apartado_id": "ibx-0053-ap-01",
+            "tipo": "evento",
+            "titulo": "Pepsico / consultoría",
+            "contenido": "Carrera previa en Pepsico y consultoría.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0053-ap-01-it-01",
+            "apartado_id": "ibx-0053-ap-01",
+            "tipo": "evento",
+            "titulo": "Amadeus carrera interna",
+            "contenido": "En Amadeus desde 2000, ascenso a CFO y luego CEO en 2011.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0053-ap-01-it-02",
+            "apartado_id": "ibx-0053-ap-01",
+            "tipo": "evento",
+            "titulo": "Llegada a Amadeus",
+            "contenido": "Entra en Amadeus en 1999. CFO y luego director general antes del salto a CEO.",
+            "fecha": "1999-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0053-ap-01-it-03",
+            "apartado_id": "ibx-0053-ap-01",
+            "tipo": "evento",
+            "titulo": "OPV 2010",
+            "contenido": "Lidera la salida a bolsa de Amadeus en 2010, tras el periodo de capital riesgo (BC Partners, Cinven).",
+            "fecha": "2010-04-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0053-ap-01-it-04",
+            "apartado_id": "ibx-0053-ap-01",
+            "tipo": "evento",
+            "titulo": "Pandemia Covid",
+            "contenido": "Gestionó la caída del 60% de ingresos en 2020 y la rápida recuperación 2022-2023 con planes de eficiencia y reducción de plantilla.",
+            "fecha": "2020-04-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0053-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0053-ap-02-it-00",
+            "apartado_id": "ibx-0053-ap-02",
+            "tipo": "dato",
+            "titulo": "Soberanía tecnológica europea",
+            "contenido": "Posicionamiento de Amadeus como infraestructura crítica europea de viajes frente a Sabre (EE.UU.) y Travelport.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "soberania"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0053-ap-02-it-01",
+            "apartado_id": "ibx-0053-ap-02",
+            "tipo": "dato",
+            "titulo": "Inteligencia artificial",
+            "contenido": "Apuesta corporativa por IA agéntica para reservas. Inversión en Cytric y Outpayce (pagos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ia"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0053-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0053-ap-03-it-00",
+            "apartado_id": "ibx-0053-ap-03",
+            "tipo": "contacto",
+            "titulo": "Aerolíneas",
+            "contenido": "Relación con CEOs de Iberia, IAG, Lufthansa, Air France-KLM.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aerolineas"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0053-ap-03-it-01",
+            "apartado_id": "ibx-0053-ap-03",
+            "tipo": "contacto",
+            "titulo": "Iberia / IAG",
+            "contenido": "Iberia accionista histórico fundador y cliente clave.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iag",
+              "iberia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0053-ap-03-it-02",
+            "apartado_id": "ibx-0053-ap-03",
+            "tipo": "contacto",
+            "titulo": "Lufthansa, Air France-KLM",
+            "contenido": "Antiguos accionistas fundadores y clientes principales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aerolineas"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0053-ap-03-it-03",
+            "apartado_id": "ibx-0053-ap-03",
+            "tipo": "contacto",
+            "titulo": "OTAs (Booking, Expedia)",
+            "contenido": "Relación dual: clientes y competidores en distribución.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "otas"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0053-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0053-ap-04-it-00",
+            "apartado_id": "ibx-0053-ap-04",
+            "tipo": "documento",
+            "titulo": "Amadeus",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://amadeus.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0054",
+    "slug": "marco-patuano",
+    "nombre_completo": "Marco Patuano",
+    "alias": "Patuano",
+    "cargo_actual": "CEO de Cellnex Telecom",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ejecutivo italiano. CEO de Cellnex desde junio 2023 con mandato explícito de desapalancar tras la fase Tobías Martínez. Antes CEO de Telecom Italia (2011-2016) y director general de Edizione (Benetton).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:cellnex-telecom"
+    ],
+    "fuente_principal": "https://www.cellnextelecom.com",
+    "apartados": [
+      {
+        "id": "ibx-0054-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0054-ap-00-it-00",
+            "apartado_id": "ibx-0054-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Italiano, nacido en 1964. Licenciado en Economía por la Università Bocconi de Milán. MBA en INSEAD (Fontainebleau).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0054-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0054-ap-01-it-00",
+            "apartado_id": "ibx-0054-ap-01",
+            "tipo": "evento",
+            "titulo": "Pirelli",
+            "contenido": "Inicios en Pirelli en los 90, en el conglomerado Tronchetti Provera.",
+            "fecha": "1990-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0054-ap-01-it-01",
+            "apartado_id": "ibx-0054-ap-01",
+            "tipo": "evento",
+            "titulo": "Telecom Italia",
+            "contenido": "Entra en Telecom Italia en 1995. CFO desde 2008, COO en 2010, CEO 2011-2016.",
+            "fecha": "2011-04-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0054-ap-01-it-02",
+            "apartado_id": "ibx-0054-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida TI por Vivendi",
+            "contenido": "Sale de Telecom Italia tras la toma de control de Vivendi (2015-2016).",
+            "fecha": "2016-03-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0054-ap-01-it-03",
+            "apartado_id": "ibx-0054-ap-01",
+            "tipo": "evento",
+            "titulo": "Edizione (Benetton)",
+            "contenido": "Director general de Edizione 2017-2020, holding industrial de los Benetton (Atlantia, Cellnex, Autogrill).",
+            "fecha": "2017-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0054-ap-01-it-04",
+            "apartado_id": "ibx-0054-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Cellnex",
+            "contenido": "Designado CEO en junio 2023 sustituyendo a Tobías Martínez. Mandato: desapalancar y consolidar tras la fase de M&A agresiva.",
+            "fecha": "2023-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0054-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0054-ap-02-it-00",
+            "apartado_id": "ibx-0054-ap-02",
+            "tipo": "dato",
+            "titulo": "Desapalancamiento",
+            "contenido": "Discurso público centrado en alcanzar grado de inversión (S&P BBB-) tras el ciclo de adquisiciones europeas. Objetivo deuda/EBITDA <6x.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia",
+              "apalancamiento"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0054-ap-02-it-01",
+            "apartado_id": "ibx-0054-ap-02",
+            "tipo": "dato",
+            "titulo": "Modelo TowerCo",
+            "contenido": "Defensa del modelo de torres independientes frente a la reintegración por operadores (caso a caso). Diálogo con reguladores europeos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "modelo-negocio"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0054-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0054-ap-03-it-00",
+            "apartado_id": "ibx-0054-ap-03",
+            "tipo": "contacto",
+            "titulo": "Benetton / Edizione (Alessandro Benetton)",
+            "contenido": "Su llegada a Cellnex fue impulsada por Edizione (Benetton) y GIC (Singapur), accionistas relevantes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "benetton",
+              "edizione"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0054-ap-03-it-01",
+            "apartado_id": "ibx-0054-ap-03",
+            "tipo": "contacto",
+            "titulo": "GIC / TCI Fund / BlackRock",
+            "contenido": "Interlocución con los grandes fondos institucionales accionistas de Cellnex.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fondos"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0054-ap-03-it-02",
+            "apartado_id": "ibx-0054-ap-03",
+            "tipo": "contacto",
+            "titulo": "Operadores europeos",
+            "contenido": "Relaciones con CEOs de Iliad/Free, Bouygues, Vodafone, Wind Tre y MasOrange como clientes y como potenciales compradores de carteras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "clientes"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0054-ap-03-it-03",
+            "apartado_id": "ibx-0054-ap-03",
+            "tipo": "contacto",
+            "titulo": "Vincent Bolloré",
+            "contenido": "Conflicto previo con Bolloré durante la transición Vivendi-Telecom Italia (2015-2016).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bollore"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0054-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0054-ap-04-it-00",
+            "apartado_id": "ibx-0054-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre desapalancamiento",
+            "contenido": "\"Cellnex tiene que pasar de fase de crecimiento M&A a fase de optimización de capital y retorno al accionista\", presentación a inversores noviembre 2023.",
+            "fecha": "2023-11-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0054-ap-04-it-01",
+            "apartado_id": "ibx-0054-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre Capital Markets Day 2024",
+            "contenido": "\"Recuperar el grado de inversión es prioridad absoluta antes de cualquier nueva expansión\", marzo 2024.",
+            "fecha": "2024-03-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0054-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0054-ap-05-it-00",
+            "apartado_id": "ibx-0054-ap-05",
+            "tipo": "evento",
+            "titulo": "Caída bursátil Cellnex",
+            "contenido": "Bajo su predecesor (Tobías Martínez) Cellnex perdió >50% entre 2021 y 2023. Patuano hereda recuperación pendiente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bolsa",
+              "desapalancamiento"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0054-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0054-ap-06-it-00",
+            "apartado_id": "ibx-0054-ap-06",
+            "tipo": "documento",
+            "titulo": "Cellnex equipo directivo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.cellnextelecom.com/es/sobre-cellnex/equipo-directivo/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0054-ap-06-it-01",
+            "apartado_id": "ibx-0054-ap-06",
+            "tipo": "documento",
+            "titulo": "CMD 2024 inversores",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.cellnextelecom.com/es/inversores/presentaciones/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0055",
+    "slug": "florentino-perez",
+    "nombre_completo": "Florentino Pérez Rodríguez",
+    "alias": "Florentino Pérez",
+    "cargo_actual": "Presidente y CEO de ACS",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero de Caminos. Presidente de ACS desde 1997. Presidente del Real Madrid (1995-2006 y 2009-presente). Una de las figuras más influyentes del establishment español.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:acs"
+    ],
+    "fuente_principal": "https://www.grupoacs.com",
+    "apartados": [
+      {
+        "id": "ibx-0055-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0055-ap-00-it-00",
+            "apartado_id": "ibx-0055-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1947. Ingeniero de Caminos. Carrera vinculada al PRD/UCD y al sector de infraestructuras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0055-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0055-ap-01-it-00",
+            "apartado_id": "ibx-0055-ap-01",
+            "tipo": "evento",
+            "titulo": "PRD-UCD",
+            "contenido": "Concejal del Ayuntamiento de Madrid (UCD, 1979-1983). Coqueteo con CDS y PSP.",
+            "fecha": "1979-04-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0055-ap-01-it-01",
+            "apartado_id": "ibx-0055-ap-01",
+            "tipo": "evento",
+            "titulo": "OCP",
+            "contenido": "Llega a OCP Construcciones en 1987 como consejero delegado.",
+            "fecha": "1987-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0055-ap-01-it-02",
+            "apartado_id": "ibx-0055-ap-01",
+            "tipo": "evento",
+            "titulo": "ACS",
+            "contenido": "Fusión OCP + Ginés Navarro Construcciones en 1997 crea ACS. Florentino preside.",
+            "fecha": "1997-12-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0055-ap-01-it-03",
+            "apartado_id": "ibx-0055-ap-01",
+            "tipo": "evento",
+            "titulo": "Real Madrid",
+            "contenido": "Presidente del Real Madrid 1995, 2000-2006 y 2009-presente.",
+            "fecha": "2000-07-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0055-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0055-ap-02-it-00",
+            "apartado_id": "ibx-0055-ap-02",
+            "tipo": "dato",
+            "titulo": "Concesionalismo",
+            "contenido": "Defensor del modelo de concesiones de infraestructura. Críticas a paralización de proyectos por motivos políticos locales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "concesiones"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0055-ap-02-it-01",
+            "apartado_id": "ibx-0055-ap-02",
+            "tipo": "dato",
+            "titulo": "Superliga",
+            "contenido": "Impulsor de la Superliga europea de fútbol (2021-presente), proyecto que enfrenta a UEFA y a gobiernos europeos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "superliga",
+              "fcbarcelona"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0055-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0055-ap-03-it-00",
+            "apartado_id": "ibx-0055-ap-03",
+            "tipo": "contacto",
+            "titulo": "Joan Laporta",
+            "contenido": "Aliado con el FC Barcelona (Joan Laporta) en la Superliga. Inusual eje Madrid-Barcelona.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "superliga",
+              "laporta"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0055-ap-03-it-01",
+            "apartado_id": "ibx-0055-ap-03",
+            "tipo": "contacto",
+            "titulo": "Conflicto Iberdrola",
+            "contenido": "Confrontación pública con Sánchez Galán por la batalla societaria 2006-2017 y posterior pieza del caso Villarejo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iberdrola",
+              "villarejo"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0055-ap-03-it-02",
+            "apartado_id": "ibx-0055-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo (víctima)",
+            "contenido": "Víctima del espionaje encargado por Iberdrola y BBVA contra ACS y su entorno entre 2004-2017.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo",
+              "judicial"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0055-ap-03-it-03",
+            "apartado_id": "ibx-0055-ap-03",
+            "tipo": "contacto",
+            "titulo": "Casa Real / Rey Juan Carlos",
+            "contenido": "Histórica relación con el Rey emérito. Florentino fue figura de consenso en los 90s-2000s.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "casa-real",
+              "juan-carlos"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0055-ap-03-it-04",
+            "apartado_id": "ibx-0055-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ayuso / Almeida",
+            "contenido": "Buena relación con la Comunidad de Madrid (Ayuso) y Ayuntamiento (Almeida). Cordialidad bipartidista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "ayuso"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0055-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0055-ap-04-it-00",
+            "apartado_id": "ibx-0055-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre Superliga",
+            "contenido": "\"El fútbol está en peligro si no se reforma el modelo de competición\", entrevista TVE marzo 2023.",
+            "fecha": "2023-03-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0055-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0055-ap-05-it-00",
+            "apartado_id": "ibx-0055-ap-05",
+            "tipo": "evento",
+            "titulo": "Audios Villarejo",
+            "contenido": "En 2021-2022 se publicaron audios atribuidos a Villarejo con conversaciones sobre Florentino. Florentino denunció y litigó. Audios cuestionados.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo",
+              "audios"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0055-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0055-ap-06-it-00",
+            "apartado_id": "ibx-0055-ap-06",
+            "tipo": "documento",
+            "titulo": "ACS",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.grupoacs.com/accionistas-e-inversores/gobierno-corporativo/composicion-del-consejo/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0056",
+    "slug": "josep-oliu",
+    "nombre_completo": "Josep Oliu Creus",
+    "alias": "Oliu",
+    "cargo_actual": "Presidente de Banco Sabadell",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista catalán. Preside Banco Sabadell desde 1999. Antes ocupó el cargo en plena expansión del banco. Figura central en la defensa frente a la OPA de BBVA (2024).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:banco-sabadell"
+    ],
+    "fuente_principal": "https://www.grupbancsabadell.com",
+    "apartados": [
+      {
+        "id": "ibx-0056-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0056-ap-00-it-00",
+            "apartado_id": "ibx-0056-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Sabadell, 1949. Económicas (UAB y Universidad de Minnesota).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0056-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0056-ap-01-it-00",
+            "apartado_id": "ibx-0056-ap-01",
+            "tipo": "evento",
+            "titulo": "Sabadell carrera entera",
+            "contenido": "Toda su carrera en Banco Sabadell. CEO en 1990, presidente desde 1999.",
+            "fecha": "1999-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0056-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0056-ap-02-it-00",
+            "apartado_id": "ibx-0056-ap-02",
+            "tipo": "dato",
+            "titulo": "Defensa concentración",
+            "contenido": "Argumenta contra concentración bancaria como negativa para PYMES.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "concentracion",
+              "pymes"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0056-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0056-ap-03-it-00",
+            "apartado_id": "ibx-0056-ap-03",
+            "tipo": "contacto",
+            "titulo": "Foment del Treball",
+            "contenido": "Vinculado al Foment del Treball Nacional (patronal catalana).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "foment",
+              "cataluna"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0056-ap-03-it-01",
+            "apartado_id": "ibx-0056-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - OPA",
+            "contenido": "Interlocución con el Gobierno español por la OPA BBVA, beneficiándose de la posición pública del Ejecutivo contraria a la operación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno",
+              "opa"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0056-ap-03-it-02",
+            "apartado_id": "ibx-0056-ap-03",
+            "tipo": "contacto",
+            "titulo": "Generalitat",
+            "contenido": "Histórica vinculación al tejido empresarial catalán y a la Generalitat (todos los Gobiernos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cataluna"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0056-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0056-ap-04-it-00",
+            "apartado_id": "ibx-0056-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Rechazo a OPA",
+            "contenido": "\"La oferta de BBVA destruye más valor del que crea\", carta a accionistas mayo 2024.",
+            "fecha": "2024-05-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0056-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0056-ap-05-it-00",
+            "apartado_id": "ibx-0056-ap-05",
+            "tipo": "evento",
+            "titulo": "Crisis TSB 2018",
+            "contenido": "Bajo su presidencia, crisis tecnológica de TSB con multas FCA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tsb"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0056-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0056-ap-06-it-00",
+            "apartado_id": "ibx-0056-ap-06",
+            "tipo": "documento",
+            "titulo": "Sabadell",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.grupbancsabadell.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0057",
+    "slug": "cesar-gonzalez-bueno",
+    "nombre_completo": "César González-Bueno Mayer",
+    "alias": "González-Bueno",
+    "cargo_actual": "CEO de Banco Sabadell",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero. CEO de Banco Sabadell desde marzo 2021. Antes fundador y CEO de ING Direct España (1999-2011) y CEO de Novagalicia/Abanca (2012-2014). Co-protagonista de la defensa frente a la OPA hostil de BBVA (2024-).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:banco-sabadell"
+    ],
+    "fuente_principal": "https://www.grupbancsabadell.com",
+    "apartados": [
+      {
+        "id": "ibx-0057-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0057-ap-00-it-00",
+            "apartado_id": "ibx-0057-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1960. Económicas (ICADE) y MBA por Harvard Business School.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0057-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0057-ap-01-it-00",
+            "apartado_id": "ibx-0057-ap-01",
+            "tipo": "evento",
+            "titulo": "McKinsey / Banesto",
+            "contenido": "Inicios en McKinsey y posteriormente Banesto en los 90s.",
+            "fecha": "1985-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0057-ap-01-it-01",
+            "apartado_id": "ibx-0057-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundador ING Direct España",
+            "contenido": "Funda ING Direct en España en 1999 (filial del grupo neerlandés ING). Pionero en banca digital. CEO hasta 2011.",
+            "fecha": "1999-05-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0057-ap-01-it-02",
+            "apartado_id": "ibx-0057-ap-01",
+            "tipo": "evento",
+            "titulo": "Novagalicia / Abanca",
+            "contenido": "CEO de Novagalicia Banco (luego Abanca) 2012-2014 durante la reestructuración tras la nacionalización.",
+            "fecha": "2012-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0057-ap-01-it-03",
+            "apartado_id": "ibx-0057-ap-01",
+            "tipo": "evento",
+            "titulo": "Mutua Madrileña",
+            "contenido": "CEO de Mutua Madrileña Automovilista 2015-2018.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0057-ap-01-it-04",
+            "apartado_id": "ibx-0057-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Sabadell",
+            "contenido": "CEO desde marzo 2021 tras la salida de Jaume Guardiola y la fusión fallida con BBVA de 2020.",
+            "fecha": "2021-03-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0057-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0057-ap-02-it-00",
+            "apartado_id": "ibx-0057-ap-02",
+            "tipo": "dato",
+            "titulo": "Defensa frente a OPA",
+            "contenido": "Tesis pública: el Sabadell crea más valor para PYMES y empleo manteniéndose independiente; las sinergias de BBVA destruyen empleo en Cataluña/Valencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opa",
+              "pymes"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0057-ap-02-it-01",
+            "apartado_id": "ibx-0057-ap-02",
+            "tipo": "dato",
+            "titulo": "Banca digital",
+            "contenido": "Apuesta por la transformación digital del Sabadell (proyecto Insight, app revisada).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "digital"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0057-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0057-ap-03-it-00",
+            "apartado_id": "ibx-0057-ap-03",
+            "tipo": "contacto",
+            "titulo": "Josep Oliu",
+            "contenido": "Tándem con el presidente desde 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "oliu"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0057-ap-03-it-01",
+            "apartado_id": "ibx-0057-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carlos Torres Vila",
+            "contenido": "Adversario directo en la OPA BBVA-Sabadell.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva",
+              "torres-vila"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0057-ap-03-it-02",
+            "apartado_id": "ibx-0057-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez",
+            "contenido": "Interlocución con Moncloa y Ministerio Economía (Cuerpo). Beneficia de la postura crítica del Gobierno con la OPA.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0057-ap-03-it-03",
+            "apartado_id": "ibx-0057-ap-03",
+            "tipo": "contacto",
+            "titulo": "Foment del Treball",
+            "contenido": "Vinculado al tejido empresarial catalán vía Sabadell.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cataluna"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0057-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0057-ap-04-it-00",
+            "apartado_id": "ibx-0057-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Rechazo OPA",
+            "contenido": "\"La oferta de BBVA infravalora el Sabadell. Crearemos valor en solitario\", JGA mayo 2024.",
+            "fecha": "2024-05-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0057-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0057-ap-05-it-00",
+            "apartado_id": "ibx-0057-ap-05",
+            "tipo": "evento",
+            "titulo": "OPA hostil BBVA en curso",
+            "contenido": "Defensa pública en mítines bancarios y prensa. Operación pendiente de autorizaciones (CNMC, CNMV, Gobierno, autoridades UK).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0057-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0057-ap-06-it-00",
+            "apartado_id": "ibx-0057-ap-06",
+            "tipo": "documento",
+            "titulo": "Sabadell equipo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.grupbancsabadell.com/es/conocenos/equipo-directivo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0058",
+    "slug": "maria-dolores-dancausa",
+    "nombre_completo": "María Dolores Dancausa Treviño",
+    "alias": "Dancausa",
+    "cargo_actual": "Vicepresidenta y consejera de Bankinter (ex CEO)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquera. CEO de Bankinter durante 18 años (2006-2024). Una de las CEO con más larga trayectoria del IBEX 35. Pasa a vicepresidenta no ejecutiva en 2024.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "vicepresidente",
+      "empresa:bankinter"
+    ],
+    "fuente_principal": "https://www.bankinter.com",
+    "apartados": [
+      {
+        "id": "ibx-0058-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0058-ap-00-it-00",
+            "apartado_id": "ibx-0058-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en San Sebastián, 1959. Derecho (Universidad de Navarra).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0058-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0058-ap-01-it-00",
+            "apartado_id": "ibx-0058-ap-01",
+            "tipo": "evento",
+            "titulo": "Bankinter / LDA",
+            "contenido": "Carrera en Bankinter; CEO de Línea Directa Aseguradora durante 13 años antes del salto al banco.",
+            "fecha": "1992-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0058-ap-01-it-01",
+            "apartado_id": "ibx-0058-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Bankinter",
+            "contenido": "CEO entre 2006 y 2024.",
+            "fecha": "2006-10-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0058-ap-01-it-02",
+            "apartado_id": "ibx-0058-ap-01",
+            "tipo": "evento",
+            "titulo": "Cambio a vicepresidencia",
+            "contenido": "En 2024 pasa a la vicepresidencia no ejecutiva del consejo; Gloria Ortiz asume el CEO.",
+            "fecha": "2024-03-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0058-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0058-ap-02-it-00",
+            "apartado_id": "ibx-0058-ap-02",
+            "tipo": "dato",
+            "titulo": "Modelo de banca rentable",
+            "contenido": "Bankinter como caso de RoE>15% mantenido por modelo de banca privada y empresas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0058-ap-02-it-01",
+            "apartado_id": "ibx-0058-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto banca",
+            "contenido": "Posición contraria al gravamen extraordinario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "impuesto"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0058-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0058-ap-03-it-00",
+            "apartado_id": "ibx-0058-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Botín-Rivero / Cartival",
+            "contenido": "Reportaba a Cartival (Jaime Botín y su entorno).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0058-ap-03-it-01",
+            "apartado_id": "ibx-0058-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Guerrero",
+            "contenido": "Tándem como presidente del consejo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "guerrero"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0058-ap-03-it-02",
+            "apartado_id": "ibx-0058-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gloria Ortiz Portero",
+            "contenido": "Sucesora como CEO desde marzo 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ortiz"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0058-ap-03-it-03",
+            "apartado_id": "ibx-0058-ap-03",
+            "tipo": "contacto",
+            "titulo": "Cartival / Jaime Botín",
+            "contenido": "Reportaba al accionista de control.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartival"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0058-ap-03-it-04",
+            "apartado_id": "ibx-0058-ap-03",
+            "tipo": "contacto",
+            "titulo": "Foro Diálogos para el Desarrollo",
+            "contenido": "Voz pública habitual en foros empresariales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "foros"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0058-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0058-ap-04-it-00",
+            "apartado_id": "ibx-0058-ap-04",
+            "tipo": "documento",
+            "titulo": "Bankinter",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.bankinter.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0059",
+    "slug": "antonio-huertas",
+    "nombre_completo": "Antonio Huertas Mejías",
+    "alias": "Huertas",
+    "cargo_actual": "Presidente y CEO de Mapfre",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado. Preside Mapfre desde marzo 2012. Carrera entera dentro del grupo Mapfre.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:mapfre"
+    ],
+    "fuente_principal": "https://www.mapfre.com",
+    "apartados": [
+      {
+        "id": "ibx-0059-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0059-ap-00-it-00",
+            "apartado_id": "ibx-0059-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Cáceres, 1964. Derecho (Salamanca). MBA EOI.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0059-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0059-ap-01-it-00",
+            "apartado_id": "ibx-0059-ap-01",
+            "tipo": "evento",
+            "titulo": "Mapfre carrera interna",
+            "contenido": "En Mapfre desde 1988. Diversos cargos directivos.",
+            "fecha": "1988-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0059-ap-01-it-01",
+            "apartado_id": "ibx-0059-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente",
+            "contenido": "Presidente desde marzo 2012.",
+            "fecha": "2012-03-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0059-ap-01-it-02",
+            "apartado_id": "ibx-0059-ap-01",
+            "tipo": "evento",
+            "titulo": "Cargos previos",
+            "contenido": "Director de Mapfre Caja Madrid Holding y director general adjunto de Mapfre antes de asumir la presidencia en 2012.",
+            "fecha": "2008-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0059-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0059-ap-02-it-00",
+            "apartado_id": "ibx-0059-ap-02",
+            "tipo": "dato",
+            "titulo": "Eficiencia y rentabilidad",
+            "contenido": "Foco en combined ratio, retorno al accionista y desinversiones en mercados deficitarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0059-ap-02-it-01",
+            "apartado_id": "ibx-0059-ap-02",
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromiso de no aseguramiento de carbón térmico desde 2030.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0059-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0059-ap-03-it-00",
+            "apartado_id": "ibx-0059-ap-03",
+            "tipo": "contacto",
+            "titulo": "Fundación Mapfre",
+            "contenido": "Accionista de control. Patronato.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacion-mapfre"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0059-ap-03-it-01",
+            "apartado_id": "ibx-0059-ap-03",
+            "tipo": "contacto",
+            "titulo": "CaixaBank - alianza bancaseguros",
+            "contenido": "Acuerdo de distribución bancaseguros heredado de Bankia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixabank"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0059-ap-03-it-02",
+            "apartado_id": "ibx-0059-ap-03",
+            "tipo": "contacto",
+            "titulo": "Unespa",
+            "contenido": "Patronal aseguradora; Huertas presidente entre 2017 y 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "unespa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0059-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0059-ap-04-it-00",
+            "apartado_id": "ibx-0059-ap-04",
+            "tipo": "documento",
+            "titulo": "Mapfre",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.mapfre.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0060",
+    "slug": "beatriz-corredor",
+    "nombre_completo": "Beatriz Corredor Sierra",
+    "alias": "Corredor",
+    "cargo_actual": "Presidenta de Redeia",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogada y ex política. Preside Redeia (Red Eléctrica) desde febrero 2020. Ex ministra de Vivienda con Zapatero (2008-2010).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:redeia",
+      "ex-politico"
+    ],
+    "fuente_principal": "https://www.redeia.com",
+    "apartados": [
+      {
+        "id": "ibx-0060-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0060-ap-00-it-00",
+            "apartado_id": "ibx-0060-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Madrid, 1968. Derecho (Complutense). Registradora de la Propiedad. Vinculada al PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0060-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0060-ap-01-it-00",
+            "apartado_id": "ibx-0060-ap-01",
+            "tipo": "evento",
+            "titulo": "PSOE / Vivienda",
+            "contenido": "Concejal Ayuntamiento Madrid (PSOE). Ministra de Vivienda 2008-2010 con Zapatero.",
+            "fecha": "2008-04-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0060-ap-01-it-01",
+            "apartado_id": "ibx-0060-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta Redeia",
+            "contenido": "Presidenta desde febrero 2020 designada por el primer Gobierno Sánchez.",
+            "fecha": "2020-02-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0060-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0060-ap-02-it-00",
+            "apartado_id": "ibx-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "PSOE / Zapatero / Sánchez",
+            "contenido": "Cercana al PSOE. Vinculada al ecosistema Zapatero y mantenida bajo Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0060-ap-02-it-01",
+            "apartado_id": "ibx-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "SEPI",
+            "contenido": "SEPI mantiene 20% de Redeia y propuso su nombramiento.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sepi"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0060-ap-02-it-02",
+            "apartado_id": "ibx-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ministerio Transición Ecológica",
+            "contenido": "Interlocución con Teresa Ribera durante años; con Aagesen después.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "miteco",
+              "ribera"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0060-ap-03",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0060-ap-03-it-00",
+            "apartado_id": "ibx-0060-ap-03",
+            "tipo": "declaracion",
+            "titulo": "Sobre la red",
+            "contenido": "\"La red eléctrica es el pilar invisible de la transición ecológica\", JGA 2023.",
+            "fecha": "2023-04-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0060-ap-04",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0060-ap-04-it-00",
+            "apartado_id": "ibx-0060-ap-04",
+            "tipo": "evento",
+            "titulo": "Nombramiento político",
+            "contenido": "PP cuestionó su nombramiento por carácter político en infraestructura crítica. Defendió experiencia gestora.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "pp"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0060-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0060-ap-05-it-00",
+            "apartado_id": "ibx-0060-ap-05",
+            "tipo": "documento",
+            "titulo": "Redeia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.redeia.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0061",
+    "slug": "antonio-llarden",
+    "nombre_completo": "Antonio Llardén Carratalá",
+    "alias": "Llardén",
+    "cargo_actual": "Presidente de Enagás",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero industrial catalán. Preside Enagás desde 2007. Promotor del proyecto H2Med.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:enagas"
+    ],
+    "fuente_principal": "https://www.enagas.es",
+    "apartados": [
+      {
+        "id": "ibx-0061-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0061-ap-00-it-00",
+            "apartado_id": "ibx-0061-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Tarrasa, 1952. Ingeniero industrial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0061-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0061-ap-01-it-00",
+            "apartado_id": "ibx-0061-ap-01",
+            "tipo": "evento",
+            "titulo": "Industria / Enagás",
+            "contenido": "Carrera en el sector industrial e Hidrocarburos. Presidente Enagás desde 2007.",
+            "fecha": "2007-05-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0061-ap-01-it-01",
+            "apartado_id": "ibx-0061-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria previa",
+            "contenido": "Director general en Catalana de Gas y luego Gas Natural antes de Enagás.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0061-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0061-ap-02-it-00",
+            "apartado_id": "ibx-0061-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco regulatorio",
+            "contenido": "Crítica con la rebaja de retribución regulada del transporte aplicada por la CNMC.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "regulacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0061-ap-02-it-01",
+            "apartado_id": "ibx-0061-ap-02",
+            "tipo": "dato",
+            "titulo": "Hub europeo gas",
+            "contenido": "Promoción de España como hub europeo de regasificación tras invasión Ucrania.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "geopolitica"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0061-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0061-ap-03-it-00",
+            "apartado_id": "ibx-0061-ap-03",
+            "tipo": "contacto",
+            "titulo": "H2Med - apoyo político",
+            "contenido": "Lobby del proyecto Iberia-Francia con Sánchez, Macron, Costa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "h2med",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0061-ap-03-it-01",
+            "apartado_id": "ibx-0061-ap-03",
+            "tipo": "contacto",
+            "titulo": "Arturo Gonzalo Aizpiri",
+            "contenido": "Tándem con el CEO.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aizpiri"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0061-ap-03-it-02",
+            "apartado_id": "ibx-0061-ap-03",
+            "tipo": "contacto",
+            "titulo": "Sedigás",
+            "contenido": "Patronal del gas, vínculos históricos como presidente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sedigas"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0061-ap-04",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0061-ap-04-it-00",
+            "apartado_id": "ibx-0061-ap-04",
+            "tipo": "evento",
+            "titulo": "Tallgrass impairments",
+            "contenido": "Deterioros >1.000 M€ en la inversión USA Tallgrass entre 2019-2021. Cuestionada estrategia internacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tallgrass"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0061-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0061-ap-05-it-00",
+            "apartado_id": "ibx-0061-ap-05",
+            "tipo": "documento",
+            "titulo": "Enagás",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.enagas.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0062",
+    "slug": "arturo-gonzalo-aizpiri",
+    "nombre_completo": "Arturo Gonzalo Aizpiri",
+    "alias": "Aizpiri",
+    "cargo_actual": "CEO de Enagás",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero de Minas. CEO de Enagás desde abril 2022. Carrera larga en Repsol especializado en sostenibilidad. Encaje político con la agenda de transición ecológica del Gobierno Sánchez.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:enagas"
+    ],
+    "fuente_principal": "https://www.enagas.es",
+    "apartados": [
+      {
+        "id": "ibx-0062-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0062-ap-00-it-00",
+            "apartado_id": "ibx-0062-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero de Minas (Universidad Politécnica de Madrid). Especialización en política energética y sostenibilidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0062-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0062-ap-01-it-00",
+            "apartado_id": "ibx-0062-ap-01",
+            "tipo": "evento",
+            "titulo": "Repsol carrera larga",
+            "contenido": "En Repsol desde los 90s. Director ejecutivo de Personas y Organización (RR.HH.) y de Climate Change, Innovation & Sustainability.",
+            "fecha": "1995-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0062-ap-01-it-01",
+            "apartado_id": "ibx-0062-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretario Estado MMA",
+            "contenido": "Secretario General para la Prevención de la Contaminación y el Cambio Climático con Cristina Narbona (PSOE) 2004-2008.",
+            "fecha": "2004-04-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "politica"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0062-ap-01-it-02",
+            "apartado_id": "ibx-0062-ap-01",
+            "tipo": "evento",
+            "titulo": "Vuelta Repsol",
+            "contenido": "Regreso a Repsol como director ejecutivo tras la etapa pública.",
+            "fecha": "2008-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0062-ap-01-it-03",
+            "apartado_id": "ibx-0062-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Enagás",
+            "contenido": "CEO desde abril 2022, sustituyendo a Marcelino Oreja.",
+            "fecha": "2022-04-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0062-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0062-ap-02-it-00",
+            "apartado_id": "ibx-0062-ap-02",
+            "tipo": "dato",
+            "titulo": "Hidrógeno verde / H2Med",
+            "contenido": "Voz pública líder del proyecto H2Med (corredor de hidrógeno verde Iberia-Francia). Lobby ante Bruselas (CEF-Energy).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "h2med",
+              "hidrogeno"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0062-ap-02-it-01",
+            "apartado_id": "ibx-0062-ap-02",
+            "tipo": "dato",
+            "titulo": "Marco retributivo",
+            "contenido": "Crítica con la rebaja de retribución regulada aplicada por la CNMC en los marcos 2021-2026.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "regulacion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0062-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0062-ap-03-it-00",
+            "apartado_id": "ibx-0062-ap-03",
+            "tipo": "contacto",
+            "titulo": "PSOE / Narbona",
+            "contenido": "Vínculo histórico con la rama medioambiental del PSOE (Cristina Narbona) desde su paso por el Ministerio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "narbona"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0062-ap-03-it-01",
+            "apartado_id": "ibx-0062-ap-03",
+            "tipo": "contacto",
+            "titulo": "Teresa Ribera / Aagesen",
+            "contenido": "Interlocutor con sucesivas ministras de Transición Ecológica para el proyecto H2Med.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "ribera"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0062-ap-03-it-02",
+            "apartado_id": "ibx-0062-ap-03",
+            "tipo": "contacto",
+            "titulo": "Macron - Costa",
+            "contenido": "H2Med tiene apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "ue"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0062-ap-03-it-03",
+            "apartado_id": "ibx-0062-ap-03",
+            "tipo": "contacto",
+            "titulo": "Imaz (Repsol)",
+            "contenido": "Ex compañero en Repsol durante años; relación profesional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "imaz"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0062-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0062-ap-04-it-00",
+            "apartado_id": "ibx-0062-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre H2Med",
+            "contenido": "\"H2Med es la columna vertebral de la economía del hidrógeno europea\", JGA 2024.",
+            "fecha": "2024-03-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0062-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0062-ap-05-it-00",
+            "apartado_id": "ibx-0062-ap-05",
+            "tipo": "documento",
+            "titulo": "Enagás equipo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.enagas.es/es/conoce-enagas/equipo-directivo/",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0063",
+    "slug": "jose-manuel-entrecanales",
+    "nombre_completo": "José Manuel Entrecanales Domecq",
+    "alias": "Entrecanales",
+    "cargo_actual": "Presidente y CEO de Acciona",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario madrileño. Preside Acciona desde 2004 (relevo de su padre José María). Una de las grandes fortunas familiares de España.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:acciona"
+    ],
+    "fuente_principal": "https://www.acciona.com",
+    "apartados": [
+      {
+        "id": "ibx-0063-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0063-ap-00-it-00",
+            "apartado_id": "ibx-0063-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1963. Económicas (Yale). MBA Columbia. Hijo de José María Entrecanales (fundador de Necso) y nieto del fundador de la saga.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0063-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0063-ap-01-it-00",
+            "apartado_id": "ibx-0063-ap-01",
+            "tipo": "evento",
+            "titulo": "Acciona desde 2004",
+            "contenido": "Presidente desde mayo 2004.",
+            "fecha": "2004-05-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0063-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0063-ap-02-it-00",
+            "apartado_id": "ibx-0063-ap-02",
+            "tipo": "dato",
+            "titulo": "Ecologismo empresarial",
+            "contenido": "Posiciones públicas pioneras a favor de las renovables, la economía circular y la lucha climática. Reconocimiento internacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0063-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0063-ap-03-it-00",
+            "apartado_id": "ibx-0063-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Entrecanales-Domecq",
+            "contenido": "Control familiar de ~55%. Hermanos y primos varios en consejos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-entrecanales"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0063-ap-03-it-01",
+            "apartado_id": "ibx-0063-ap-03",
+            "tipo": "contacto",
+            "titulo": "Foros internacionales",
+            "contenido": "Davos, UN Global Compact, WEF Climate.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "davos"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0063-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0063-ap-04-it-00",
+            "apartado_id": "ibx-0063-ap-04",
+            "tipo": "declaracion",
+            "titulo": "ESG",
+            "contenido": "\"La sostenibilidad no es opción sino la única estrategia viable\", JGA 2023.",
+            "fecha": "2023-06-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0063-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0063-ap-05-it-00",
+            "apartado_id": "ibx-0063-ap-05",
+            "tipo": "documento",
+            "titulo": "Acciona",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.acciona.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0064",
+    "slug": "rafael-mateo",
+    "nombre_completo": "Rafael Mateo Alcalá",
+    "alias": "Mateo",
+    "cargo_actual": "CEO de Acciona Energía",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero industrial. CEO de Acciona Energía desde la salida a bolsa (2021).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:acciona-energia"
+    ],
+    "fuente_principal": "https://www.acciona-energia.com",
+    "apartados": [
+      {
+        "id": "ibx-0064-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0064-ap-00-it-00",
+            "apartado_id": "ibx-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero industrial. Carrera en Endesa y Acciona Energía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0064-ap-00-it-01",
+            "apartado_id": "ibx-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Ingeniero industrial. Carrera en utilities y energías.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "formacion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0064-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0064-ap-01-it-00",
+            "apartado_id": "ibx-0064-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO desde OPV 2021",
+            "contenido": "",
+            "fecha": "2021-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0064-ap-01-it-01",
+            "apartado_id": "ibx-0064-ap-01",
+            "tipo": "evento",
+            "titulo": "Endesa / Enel Green Power",
+            "contenido": "Carrera previa en Endesa y en Enel Green Power LatAm.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0064-ap-01-it-02",
+            "apartado_id": "ibx-0064-ap-01",
+            "tipo": "evento",
+            "titulo": "Acciona Energía",
+            "contenido": "Lidera la salida a bolsa en julio 2021 como CEO de la filial cotizada.",
+            "fecha": "2021-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0064-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0064-ap-02-it-00",
+            "apartado_id": "ibx-0064-ap-02",
+            "tipo": "dato",
+            "titulo": "Modelo 100% renovable",
+            "contenido": "Defensa del modelo de generación 100% renovable como ventaja competitiva frente a utilities mixtas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esg"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0064-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0064-ap-03-it-00",
+            "apartado_id": "ibx-0064-ap-03",
+            "tipo": "contacto",
+            "titulo": "José Manuel Entrecanales",
+            "contenido": "Reporta al presidente de Acciona matriz (83% de Acciona Energía).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "entrecanales"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0064-ap-03-it-01",
+            "apartado_id": "ibx-0064-ap-03",
+            "tipo": "contacto",
+            "titulo": "APPA Renovables",
+            "contenido": "Miembro destacado de la patronal de renovables.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "appa"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0064-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0064-ap-04-it-00",
+            "apartado_id": "ibx-0064-ap-04",
+            "tipo": "documento",
+            "titulo": "Acciona Energía",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.acciona-energia.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0065",
+    "slug": "ismael-clemente",
+    "nombre_completo": "Ismael Clemente Orrego",
+    "alias": "Ismael Clemente",
+    "cargo_actual": "Presidente y CEO de Merlin Properties",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado del Estado y financiero. Cofundador y consejero delegado de Merlin Properties desde 2014.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:merlin-properties"
+    ],
+    "fuente_principal": "https://www.merlinproperties.com",
+    "apartados": [
+      {
+        "id": "ibx-0065-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0065-ap-00-it-00",
+            "apartado_id": "ibx-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido 1970. Abogado del Estado. Trayectoria en M&A inmobiliario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0065-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0065-ap-01-it-00",
+            "apartado_id": "ibx-0065-ap-01",
+            "tipo": "evento",
+            "titulo": "Abogado del Estado",
+            "contenido": "Cuerpo desde 1995.",
+            "fecha": "1995-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0065-ap-01-it-01",
+            "apartado_id": "ibx-0065-ap-01",
+            "tipo": "evento",
+            "titulo": "Merlin",
+            "contenido": "Cofundador de Merlin (con Miguel Ollero) y CEO desde 2014.",
+            "fecha": "2014-06-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0065-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0065-ap-02-it-00",
+            "apartado_id": "ibx-0065-ap-02",
+            "tipo": "contacto",
+            "titulo": "BBVA / Santander",
+            "contenido": "Conexiones por la compra de la cartera Tree (BBVA) y participación accionarial de Santander.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "santander",
+              "bbva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0065-ap-02-it-01",
+            "apartado_id": "ibx-0065-ap-02",
+            "tipo": "contacto",
+            "titulo": "Abogacía del Estado",
+            "contenido": "Vinculado a la red de Abogados del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "abogacia-estado"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0065-ap-03",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0065-ap-03-it-00",
+            "apartado_id": "ibx-0065-ap-03",
+            "tipo": "declaracion",
+            "titulo": "SOCIMI",
+            "contenido": "\"Eliminar SOCIMI dañaría a millones de propietarios indirectos\", carta accionistas 2023.",
+            "fecha": "2023-04-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0065-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0065-ap-04-it-00",
+            "apartado_id": "ibx-0065-ap-04",
+            "tipo": "documento",
+            "titulo": "Merlin",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.merlinproperties.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0066",
+    "slug": "juan-jose-brugera",
+    "nombre_completo": "Juan José Brugera Clavero",
+    "alias": "Brugera",
+    "cargo_actual": "Presidente de Inmobiliaria Colonial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario y banquero catalán. Preside Colonial desde 2008 tras la reestructuración. Ex Caja Catalunya, ex Círculo de Economía.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:inmobiliaria-colonial"
+    ],
+    "fuente_principal": "https://www.inmocolonial.com",
+    "apartados": [
+      {
+        "id": "ibx-0066-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0066-ap-00-it-00",
+            "apartado_id": "ibx-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1947. Económicas y empresariales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0066-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0066-ap-01-it-00",
+            "apartado_id": "ibx-0066-ap-01",
+            "tipo": "evento",
+            "titulo": "Círculo de Economía",
+            "contenido": "Presidente del Círculo de Economía (Cataluña).",
+            "fecha": "2003-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0066-ap-01-it-01",
+            "apartado_id": "ibx-0066-ap-01",
+            "tipo": "evento",
+            "titulo": "Colonial",
+            "contenido": "Presidente desde 2008.",
+            "fecha": "2008-12-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0066-ap-01-it-02",
+            "apartado_id": "ibx-0066-ap-01",
+            "tipo": "evento",
+            "titulo": "Mutua Madrileña",
+            "contenido": "Director general de Mutua Madrileña antes de Colonial.",
+            "fecha": "1998-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0066-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0066-ap-02-it-00",
+            "apartado_id": "ibx-0066-ap-02",
+            "tipo": "contacto",
+            "titulo": "Establishment catalán",
+            "contenido": "Conexiones con el establishment empresarial catalán histórico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cataluna"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0066-ap-02-it-01",
+            "apartado_id": "ibx-0066-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pere Viñolas",
+            "contenido": "Tándem con el CEO.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vinolas"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0066-ap-02-it-02",
+            "apartado_id": "ibx-0066-ap-02",
+            "tipo": "contacto",
+            "titulo": "QIA Qatar",
+            "contenido": "Interlocutor con QIA (~19% Colonial).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "qia"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0066-ap-02-it-03",
+            "apartado_id": "ibx-0066-ap-02",
+            "tipo": "contacto",
+            "titulo": "Establishment empresarial catalán",
+            "contenido": "Vínculos históricos con el Círculo de Economía y Foment.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cataluna"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0066-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0066-ap-03-it-00",
+            "apartado_id": "ibx-0066-ap-03",
+            "tipo": "documento",
+            "titulo": "Colonial",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.inmocolonial.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0067",
+    "slug": "pere-vinolas",
+    "nombre_completo": "Pere Viñolas Serra",
+    "alias": "Viñolas",
+    "cargo_actual": "CEO de Inmobiliaria Colonial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista catalán. CEO de Colonial desde 2008.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:inmobiliaria-colonial"
+    ],
+    "fuente_principal": "https://www.inmocolonial.com",
+    "apartados": [
+      {
+        "id": "ibx-0067-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0067-ap-00-it-00",
+            "apartado_id": "ibx-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista catalán. Trayectoria en Renta Corporación previa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0067-ap-00-it-01",
+            "apartado_id": "ibx-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Economista catalán. Carrera previa en Renta Corporación y banca de inversión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "formacion"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0067-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0067-ap-01-it-00",
+            "apartado_id": "ibx-0067-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Colonial",
+            "contenido": "CEO desde 2008.",
+            "fecha": "2008-12-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0067-ap-01-it-01",
+            "apartado_id": "ibx-0067-ap-01",
+            "tipo": "evento",
+            "titulo": "Renta Corporación",
+            "contenido": "Director general de Renta Corporación antes de Colonial.",
+            "fecha": "2002-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0067-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0067-ap-02-it-00",
+            "apartado_id": "ibx-0067-ap-02",
+            "tipo": "dato",
+            "titulo": "Oficinas prime",
+            "contenido": "Apuesta exclusiva por oficinas Grade A en CBD. No diversifica a logística ni residencial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0067-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0067-ap-03-it-00",
+            "apartado_id": "ibx-0067-ap-03",
+            "tipo": "contacto",
+            "titulo": "Juan José Brugera",
+            "contenido": "Tándem con el presidente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brugera"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0067-ap-03-it-01",
+            "apartado_id": "ibx-0067-ap-03",
+            "tipo": "contacto",
+            "titulo": "SFL París",
+            "contenido": "Gestiona la filial cotizada francesa (~83%).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sfl"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0067-ap-03-it-02",
+            "apartado_id": "ibx-0067-ap-03",
+            "tipo": "contacto",
+            "titulo": "QIA / Finaccess / Santo Domingo",
+            "contenido": "Interlocución con los principales accionistas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "accionistas"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0067-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0067-ap-04-it-00",
+            "apartado_id": "ibx-0067-ap-04",
+            "tipo": "documento",
+            "titulo": "Colonial",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.inmocolonial.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0068",
+    "slug": "lakshmi-mittal",
+    "nombre_completo": "Lakshmi Niwas Mittal",
+    "alias": "Lakshmi Mittal",
+    "cargo_actual": "Presidente de ArcelorMittal",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario indio. Preside ArcelorMittal desde la fusión Arcelor-Mittal (2006). Una de las mayores fortunas del mundo en su sector.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:arcelormittal"
+    ],
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "apartados": [
+      {
+        "id": "ibx-0068-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0068-ap-00-it-00",
+            "apartado_id": "ibx-0068-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Rajasthan, 1950. Construyó imperio siderúrgico desde Indonesia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0068-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0068-ap-01-it-00",
+            "apartado_id": "ibx-0068-ap-01",
+            "tipo": "evento",
+            "titulo": "OPA hostil Arcelor",
+            "contenido": "Lanzó OPA hostil sobre Arcelor (2006), cerrando la creación de ArcelorMittal.",
+            "fecha": "2006-06-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0068-ap-01-it-01",
+            "apartado_id": "ibx-0068-ap-01",
+            "tipo": "evento",
+            "titulo": "Construcción del imperio",
+            "contenido": "Mittal Steel construido en Indonesia, Trinidad, Kazajistán y Sudáfrica entre 1976 y 2005.",
+            "fecha": "1976-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0068-ap-01-it-02",
+            "apartado_id": "ibx-0068-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Mittal-Arcelor",
+            "contenido": "OPA hostil sobre Arcelor en 2006 culmina con la creación de ArcelorMittal.",
+            "fecha": "2006-06-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0068-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0068-ap-02-it-00",
+            "apartado_id": "ibx-0068-ap-02",
+            "tipo": "dato",
+            "titulo": "Descarbonización siderurgia",
+            "contenido": "Inversiones en acero verde (H2-DRI) en Sestao y Gijón condicionadas a apoyo público.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "perte",
+              "h2"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0068-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0068-ap-03-it-00",
+            "apartado_id": "ibx-0068-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Mittal",
+            "contenido": "Hijo Aditya Mittal es CEO. Otras posiciones familiares en consejos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mittal"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0068-ap-03-it-01",
+            "apartado_id": "ibx-0068-ap-03",
+            "tipo": "contacto",
+            "titulo": "Aditya Mittal",
+            "contenido": "Hijo y CEO desde 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-mittal"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0068-ap-03-it-02",
+            "apartado_id": "ibx-0068-ap-03",
+            "tipo": "contacto",
+            "titulo": "Filántropo y donante UK",
+            "contenido": "Donaciones documentadas a Partido Laborista UK (Blair, Brown). Polémicas Mittal-Romania (cartas Blair).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "uk",
+              "politica"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0068-ap-03-it-03",
+            "apartado_id": "ibx-0068-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno español",
+            "contenido": "Interlocución con MINCOTUR y Gobierno autonómico (Asturias, País Vasco) por inversiones en descarbonización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mincotur",
+              "asturias"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0068-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0068-ap-04-it-00",
+            "apartado_id": "ibx-0068-ap-04",
+            "tipo": "documento",
+            "titulo": "ArcelorMittal",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://corporate.arcelormittal.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0069",
+    "slug": "aditya-mittal",
+    "nombre_completo": "Aditya Mittal",
+    "alias": "Aditya Mittal",
+    "cargo_actual": "CEO de ArcelorMittal",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario. CEO de ArcelorMittal desde febrero 2021. Hijo de Lakshmi Mittal.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:arcelormittal"
+    ],
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "apartados": [
+      {
+        "id": "ibx-0069-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0069-ap-00-it-00",
+            "apartado_id": "ibx-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en India, 1976. Wharton. Sucede a su padre como CEO.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0069-ap-00-it-01",
+            "apartado_id": "ibx-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Estudios en Wharton (Pensilvania). Hijo de Lakshmi y Usha Mittal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "formacion",
+              "familia"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0069-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0069-ap-01-it-00",
+            "apartado_id": "ibx-0069-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO desde 2021",
+            "contenido": "",
+            "fecha": "2021-02-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0069-ap-01-it-01",
+            "apartado_id": "ibx-0069-ap-01",
+            "tipo": "evento",
+            "titulo": "Carrera ArcelorMittal",
+            "contenido": "Antes de CEO fue CFO (2008-2020) y Director Comercial.",
+            "fecha": "2008-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0069-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0069-ap-02-it-00",
+            "apartado_id": "ibx-0069-ap-02",
+            "tipo": "contacto",
+            "titulo": "Lakshmi Mittal",
+            "contenido": "Padre y presidente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-mittal"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0069-ap-02-it-01",
+            "apartado_id": "ibx-0069-ap-02",
+            "tipo": "contacto",
+            "titulo": "Aperam / Vanisha Mittal",
+            "contenido": "Hermana Vanisha en consejo de Aperam (spin-off acero inox de Mittal).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-mittal"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0069-ap-02-it-02",
+            "apartado_id": "ibx-0069-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gobierno español",
+            "contenido": "Interlocución con MINCOTUR por PERTE descarbonización (>300 M€ ayudas).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mincotur"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0069-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0069-ap-03-it-00",
+            "apartado_id": "ibx-0069-ap-03",
+            "tipo": "documento",
+            "titulo": "ArcelorMittal",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://corporate.arcelormittal.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0070",
+    "slug": "luis-gallego",
+    "nombre_completo": "Luis Gallego Martín",
+    "alias": "Luis Gallego",
+    "cargo_actual": "CEO de IAG",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero aeronáutico. CEO de IAG desde septiembre 2020. Antes CEO de Iberia.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:iag"
+    ],
+    "fuente_principal": "https://www.iairgroup.com",
+    "apartados": [
+      {
+        "id": "ibx-0070-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0070-ap-00-it-00",
+            "apartado_id": "ibx-0070-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1968. Ingeniero aeronáutico (UPM). MBA Pricewaterhouse.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0070-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0070-ap-01-it-00",
+            "apartado_id": "ibx-0070-ap-01",
+            "tipo": "evento",
+            "titulo": "Vueling",
+            "contenido": "CEO de Vueling 2009-2013.",
+            "fecha": "2009-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0070-ap-01-it-01",
+            "apartado_id": "ibx-0070-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Iberia",
+            "contenido": "CEO de Iberia 2013-2020.",
+            "fecha": "2013-03-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0070-ap-01-it-02",
+            "apartado_id": "ibx-0070-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO IAG",
+            "contenido": "CEO de IAG desde septiembre 2020.",
+            "fecha": "2020-09-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0070-ap-01-it-03",
+            "apartado_id": "ibx-0070-ap-01",
+            "tipo": "evento",
+            "titulo": "Clickair / Vueling",
+            "contenido": "CEO de Clickair (2006-2009), luego CEO de Vueling tras la fusión 2009-2013.",
+            "fecha": "2006-10-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0070-ap-01-it-04",
+            "apartado_id": "ibx-0070-ap-01",
+            "tipo": "evento",
+            "titulo": "Reestructuración Iberia",
+            "contenido": "Como CEO de Iberia (2013-2020), lideró un ERE histórico y la modernización de flota.",
+            "fecha": "2013-03-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0070-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0070-ap-02-it-00",
+            "apartado_id": "ibx-0070-ap-02",
+            "tipo": "dato",
+            "titulo": "Ampliación Barajas",
+            "contenido": "Defensa pública de la ampliación T4 Barajas como hub europeo-LatAm.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "barajas"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0070-ap-02-it-01",
+            "apartado_id": "ibx-0070-ap-02",
+            "tipo": "dato",
+            "titulo": "SAF (combustibles sostenibles)",
+            "contenido": "Apuesta por SAF e inversión en producción propia (Velocys, Cepsa).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "saf"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0070-ap-02-it-02",
+            "apartado_id": "ibx-0070-ap-02",
+            "tipo": "dato",
+            "titulo": "Air Europa",
+            "contenido": "Intentó dos veces (2019 y 2023) comprar Air Europa, retirada por exigencias de Bruselas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "air-europa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0070-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0070-ap-03-it-00",
+            "apartado_id": "ibx-0070-ap-03",
+            "tipo": "contacto",
+            "titulo": "Aena / Lucena",
+            "contenido": "Interlocución habitual por tarifas y ampliación Barajas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aena"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0070-ap-03-it-01",
+            "apartado_id": "ibx-0070-ap-03",
+            "tipo": "contacto",
+            "titulo": "Qatar Airways",
+            "contenido": "Mayor accionista de IAG (~25%).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "qatar"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0070-ap-03-it-02",
+            "apartado_id": "ibx-0070-ap-03",
+            "tipo": "contacto",
+            "titulo": "Javier Ferrán",
+            "contenido": "Presidente no ejecutivo de IAG. Tándem.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ferran"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0070-ap-03-it-03",
+            "apartado_id": "ibx-0070-ap-03",
+            "tipo": "contacto",
+            "titulo": "Qatar Airways / Akbar Al Baker",
+            "contenido": "Mayor accionista de IAG; interlocución estratégica con Doha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "qatar"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0070-ap-03-it-04",
+            "apartado_id": "ibx-0070-ap-03",
+            "tipo": "contacto",
+            "titulo": "Globalia / Hidalgo",
+            "contenido": "Interlocución con Juan José Hidalgo (Globalia/Air Europa) durante las negociaciones fallidas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "air-europa",
+              "hidalgo"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0070-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0070-ap-04-it-00",
+            "apartado_id": "ibx-0070-ap-04",
+            "tipo": "documento",
+            "titulo": "IAG",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.iairgroup.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0071",
+    "slug": "thomas-glanzmann",
+    "nombre_completo": "Thomas Glanzmann",
+    "alias": "Glanzmann",
+    "cargo_actual": "Presidente ejecutivo de Grifols",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ejecutivo suizo del sector farmacéutico. Presidente ejecutivo de Grifols desde febrero 2023 tras la salida de Steve Mayer. Carrera previa en Baxter, Cerimon Pharmaceuticals y Lundbeck.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:grifols"
+    ],
+    "fuente_principal": "https://www.grifols.com",
+    "apartados": [
+      {
+        "id": "ibx-0071-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0071-ap-00-it-00",
+            "apartado_id": "ibx-0071-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Suizo, nacido en 1959. Doctor en Farmacia y MBA. Trayectoria internacional en farma.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0071-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0071-ap-01-it-00",
+            "apartado_id": "ibx-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Baxter International",
+            "contenido": "Carrera larga en Baxter, llegó a vicepresidente senior. Vínculo con la división de plasma y hemoderivados (luego escindida como Baxalta).",
+            "fecha": "1988-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0071-ap-01-it-01",
+            "apartado_id": "ibx-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Cerimon / Lundbeck",
+            "contenido": "Posiciones ejecutivas en biotechs y farma especializada en los 2010s.",
+            "fecha": "2010-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0071-ap-01-it-02",
+            "apartado_id": "ibx-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Consejero Grifols",
+            "contenido": "Consejero independiente de Grifols desde 2017.",
+            "fecha": "2017-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0071-ap-01-it-03",
+            "apartado_id": "ibx-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente ejecutivo",
+            "contenido": "Presidente ejecutivo en febrero 2023 con mandato de profesionalizar la gestión tras el conflicto familiar y la presión de inversores.",
+            "fecha": "2023-02-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0071-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0071-ap-02-it-00",
+            "apartado_id": "ibx-0071-ap-02",
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Discurso público sobre la necesidad de separar gestión de propiedad y profesionalizar Grifols.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0071-ap-02-it-01",
+            "apartado_id": "ibx-0071-ap-02",
+            "tipo": "dato",
+            "titulo": "Plasma",
+            "contenido": "Defensa del modelo retribuido de donación de plasma frente a propuestas restrictivas UE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "plasma",
+              "ue"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0071-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0071-ap-03-it-00",
+            "apartado_id": "ibx-0071-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Grifols",
+            "contenido": "Tándem complicado con Raimon Grifols (vicepresidente) y los hijos de Víctor Grifols. Tensiones públicas durante la crisis Gotham y OPA Brookfield.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-grifols"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0071-ap-03-it-01",
+            "apartado_id": "ibx-0071-ap-03",
+            "tipo": "contacto",
+            "titulo": "Nacho Abia (CEO)",
+            "contenido": "Coordinación con Nacho Abia, CEO desde abril 2024 (procedente de Olympus).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "abia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0071-ap-03-it-02",
+            "apartado_id": "ibx-0071-ap-03",
+            "tipo": "contacto",
+            "titulo": "Brookfield",
+            "contenido": "Interlocutor de la negociación OPA con Brookfield 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brookfield"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0071-ap-03-it-03",
+            "apartado_id": "ibx-0071-ap-03",
+            "tipo": "contacto",
+            "titulo": "CNMV",
+            "contenido": "Interlocución crítica con CNMV sobre el expediente Scranton.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmv"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0071-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0071-ap-04-it-00",
+            "apartado_id": "ibx-0071-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Tras Gotham",
+            "contenido": "\"Las afirmaciones de Gotham son materialmente erróneas. Tenemos plena confianza en nuestra contabilidad\", carta a accionistas enero 2024.",
+            "fecha": "2024-01-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0071-ap-04-it-01",
+            "apartado_id": "ibx-0071-ap-04",
+            "tipo": "declaracion",
+            "titulo": "OPA Brookfield fallida",
+            "contenido": "\"Los accionistas merecen valor, y no a cualquier precio. Seguimos creando valor en solitario\", noviembre 2024.",
+            "fecha": "2024-11-27",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0071-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0071-ap-05-it-00",
+            "apartado_id": "ibx-0071-ap-05",
+            "tipo": "evento",
+            "titulo": "Crisis Gotham 2024",
+            "contenido": "Gestión de la crisis Gotham (acción cayó >40%). Investigación CNMV en curso.",
+            "fecha": "2024-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gotham"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0071-ap-05-it-01",
+            "apartado_id": "ibx-0071-ap-05",
+            "tipo": "evento",
+            "titulo": "OPA Brookfield fallida",
+            "contenido": "Brookfield retiró la oferta en noviembre 2024 por desacuerdo en precio con la familia.",
+            "fecha": "2024-11-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brookfield"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0071-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0071-ap-06-it-00",
+            "apartado_id": "ibx-0071-ap-06",
+            "tipo": "documento",
+            "titulo": "Grifols equipo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.grifols.com/es/web/international/about-grifols/leadership",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0072",
+    "slug": "angel-escribano",
+    "nombre_completo": "Ángel Escribano Ruiz",
+    "alias": "Escribano",
+    "cargo_actual": "Presidente de Indra",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario industrial. Cofundador con su hermano Javier de Escribano Mechanical & Engineering (defensa). Preside Indra desde enero 2025 tras la salida de Marc Murtra a Telefónica. Caso paradigmático de directivo de defensa nacional impulsado por la SEPI.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:indra",
+      "sector-defensa"
+    ],
+    "fuente_principal": "https://www.indracompany.com",
+    "apartados": [
+      {
+        "id": "ibx-0072-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0072-ap-00-it-00",
+            "apartado_id": "ibx-0072-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario español. Carrera entera en la empresa familiar Escribano M&E, especializada en electrónica de defensa, torres de tiro, sistemas de control y vehículos blindados.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0072-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0072-ap-01-it-00",
+            "apartado_id": "ibx-0072-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación Escribano M&E",
+            "contenido": "Fundada por los hermanos Ángel y Javier Escribano. Crecimiento como suministrador del Ministerio de Defensa y exportaciones internacionales.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0072-ap-01-it-01",
+            "apartado_id": "ibx-0072-ap-01",
+            "tipo": "evento",
+            "titulo": "Accionista Indra (8%)",
+            "contenido": "Escribano M&E comienza a tomar posiciones en Indra desde 2022. Llega al ~8% del capital.",
+            "fecha": "2022-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sepi",
+              "indra"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0072-ap-01-it-02",
+            "apartado_id": "ibx-0072-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente Indra",
+            "contenido": "Designado presidente el 22 enero 2025, en bloque accionarial con SEPI tras la salida de Marc Murtra (que saltó a Telefónica).",
+            "fecha": "2025-01-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0072-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0072-ap-02-it-00",
+            "apartado_id": "ibx-0072-ap-02",
+            "tipo": "dato",
+            "titulo": "Indra como campeón europeo de defensa",
+            "contenido": "Tesis pública: consolidar Indra como campeón europeo de defensa con peso en programas FCAS, Eurofighter, Eurodrone, ITS.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "defensa",
+              "europa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0072-ap-02-it-01",
+            "apartado_id": "ibx-0072-ap-02",
+            "tipo": "dato",
+            "titulo": "Industria nacional",
+            "contenido": "Defensa de la industria española como prioridad estratégica europea. Llamamientos al aumento de presupuesto OTAN 2%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "otan",
+              "industria"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0072-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0072-ap-03-it-00",
+            "apartado_id": "ibx-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "SEPI / Belén Gualda",
+            "contenido": "Su nombramiento fue empujado por SEPI (28% Indra) bajo Gobierno Sánchez. Coordinación constante.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sepi",
+              "politica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0072-ap-03-it-01",
+            "apartado_id": "ibx-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez / Margarita Robles",
+            "contenido": "Relación directa con Moncloa y MinDef como gestor del campeón nacional de defensa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez",
+              "robles"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0072-ap-03-it-02",
+            "apartado_id": "ibx-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "SAPA Placencia",
+            "contenido": "Otro grupo industrial defensa con presencia en Indra (~7%). Coordinación accionarial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sapa-placencia"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0072-ap-03-it-03",
+            "apartado_id": "ibx-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "Amber Capital (Oughourlian)",
+            "contenido": "Accionista relevante de Indra (~7%). Necesita diálogo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "amber"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0072-ap-03-it-04",
+            "apartado_id": "ibx-0072-ap-03",
+            "tipo": "contacto",
+            "titulo": "Hermano Javier Escribano",
+            "contenido": "Cofundador y co-accionista. Mantiene la operativa en Escribano M&E.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0072-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0072-ap-04-it-00",
+            "apartado_id": "ibx-0072-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Inaugural",
+            "contenido": "\"Indra debe consolidarse como campeón europeo de defensa\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0072-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0072-ap-05-it-00",
+            "apartado_id": "ibx-0072-ap-05",
+            "tipo": "evento",
+            "titulo": "Continuidad gobernanza Indra",
+            "contenido": "Hereda la herida abierta de la destitución de 2022 (CNMV amonestó). Reto: estabilizar consejo y minimizar conflictos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobernanza",
+              "indra"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0072-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0072-ap-06-it-00",
+            "apartado_id": "ibx-0072-ap-06",
+            "tipo": "documento",
+            "titulo": "Indra equipo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.indracompany.com/es/sobre-indra/consejo-administracion",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0072-ap-06-it-01",
+            "apartado_id": "ibx-0072-ap-06",
+            "tipo": "documento",
+            "titulo": "Escribano M&E",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://escribano.eu",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0073",
+    "slug": "manuel-manrique",
+    "nombre_completo": "Manuel Manrique Cecilia",
+    "alias": "Manrique",
+    "cargo_actual": "Presidente y CEO de Sacyr",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Ingeniero de Caminos. Preside Sacyr desde octubre 2011 tras la salida abrupta de Luis del Rivero (fundador histórico). Pivot a concesiones internacionales como columna del negocio.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:sacyr"
+    ],
+    "fuente_principal": "https://www.sacyr.com",
+    "apartados": [
+      {
+        "id": "ibx-0073-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0073-ap-00-it-00",
+            "apartado_id": "ibx-0073-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en 1949. Ingeniero de Caminos. Carrera entera en Sacyr/SyV.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0073-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0073-ap-01-it-00",
+            "apartado_id": "ibx-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "Sacyr carrera interna",
+            "contenido": "En Sacyr desde los 90s. Diferentes responsabilidades operativas y financieras.",
+            "fecha": "1996-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0073-ap-01-it-01",
+            "apartado_id": "ibx-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "Tras salida Del Rivero",
+            "contenido": "Asume la presidencia en octubre 2011 tras la dimisión forzada de Luis del Rivero (en el contexto de la deuda y el conflicto con Repsol).",
+            "fecha": "2011-10-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0073-ap-01-it-02",
+            "apartado_id": "ibx-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "Reestructuración financiera",
+            "contenido": "Lidera la reducción del apalancamiento y el saneamiento del balance 2012-2017.",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0073-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0073-ap-02-it-00",
+            "apartado_id": "ibx-0073-ap-02",
+            "tipo": "dato",
+            "titulo": "Pivot a concesiones",
+            "contenido": "Reorientación a concesiones internacionales (Chile, Colombia, Italia, Irlanda, Uruguay) con flujos predecibles. Reducir peso de la construcción cíclica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "concesiones",
+              "estrategia"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0073-ap-02-it-01",
+            "apartado_id": "ibx-0073-ap-02",
+            "tipo": "dato",
+            "titulo": "Repsol",
+            "contenido": "Conservación de la participación de Sacyr en Repsol (~9%) como activo estratégico. Defensa frente a presiones para vender.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "repsol"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0073-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0073-ap-03-it-00",
+            "apartado_id": "ibx-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "Disa Corporación",
+            "contenido": "Disa (familia Hernández, Canarias) es accionista relevante (~6%) y aliada estable.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "disa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0073-ap-03-it-01",
+            "apartado_id": "ibx-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "Beta Asociados",
+            "contenido": "Vehículo del propio Manrique y entorno, ~7% del capital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "beta"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0073-ap-03-it-02",
+            "apartado_id": "ibx-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo",
+            "contenido": "Sacyr como víctima del espionaje encargado por BBVA contra Luis del Rivero en torno a la OPA Repsol 2006. Vínculo procesal indirecto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarejo"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0073-ap-03-it-03",
+            "apartado_id": "ibx-0073-ap-03",
+            "tipo": "contacto",
+            "titulo": "Repsol consejo",
+            "contenido": "Sacyr mantiene consejero en Repsol vía Manrique.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "repsol"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0073-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0073-ap-04-it-00",
+            "apartado_id": "ibx-0073-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre concesiones",
+            "contenido": "\"Las concesiones internacionales son nuestro presente y futuro\", JGA 2024.",
+            "fecha": "2024-06-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0073-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0073-ap-05-it-00",
+            "apartado_id": "ibx-0073-ap-05",
+            "tipo": "evento",
+            "titulo": "Atrasos Canal Panamá",
+            "contenido": "Sacyr lideró el consorcio GUPC de la ampliación del Canal. Atrasos y arbitrajes prolongados 2014-2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "panama"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0073-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0073-ap-06-it-00",
+            "apartado_id": "ibx-0073-ap-06",
+            "tipo": "documento",
+            "titulo": "Sacyr equipo",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.sacyr.com/es/sobre-nosotros/equipo-directivo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0074",
+    "slug": "marc-puig",
+    "nombre_completo": "Marc Puig Guasch",
+    "alias": "Marc Puig",
+    "cargo_actual": "Presidente y CEO de Puig Brands",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario catalán. Tercera generación al frente de Puig. Lideró la OPV de mayo 2024.",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:puig"
+    ],
+    "fuente_principal": "https://www.puig.com",
+    "apartados": [
+      {
+        "id": "ibx-0074-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0074-ap-00-it-00",
+            "apartado_id": "ibx-0074-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1962. MBA Harvard. Nieto del fundador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0074-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0074-ap-01-it-00",
+            "apartado_id": "ibx-0074-ap-01",
+            "tipo": "evento",
+            "titulo": "Puig carrera interna",
+            "contenido": "En la empresa familiar desde 1990s. CEO desde 2007.",
+            "fecha": "2007-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0074-ap-01-it-01",
+            "apartado_id": "ibx-0074-ap-01",
+            "tipo": "evento",
+            "titulo": "OPV 2024",
+            "contenido": "Lideró la salida a bolsa en mayo 2024.",
+            "fecha": "2024-05-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0074-ap-01-it-02",
+            "apartado_id": "ibx-0074-ap-01",
+            "tipo": "evento",
+            "titulo": "Inicios en P&G",
+            "contenido": "Antes de incorporarse a la empresa familiar, carrera en Procter & Gamble en marketing.",
+            "fecha": "1988-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0074-ap-01-it-03",
+            "apartado_id": "ibx-0074-ap-01",
+            "tipo": "evento",
+            "titulo": "Adquisiciones nicho lujo",
+            "contenido": "Lidera la compra de Jean Paul Gaultier, Penhaligon's, L'Artisan Parfumeur, Charlotte Tilbury (2020) y Byredo (2022).",
+            "fecha": "2020-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0074-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0074-ap-02-it-00",
+            "apartado_id": "ibx-0074-ap-02",
+            "tipo": "dato",
+            "titulo": "Lujo y marca",
+            "contenido": "Tesis pública: priorizar marcas premium con storytelling fuerte por encima de productos commodity. Cita LVMH y Estée Lauder como referencias.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "lujo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0074-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0074-ap-03-it-00",
+            "apartado_id": "ibx-0074-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia Puig",
+            "contenido": "Hermano Manuel Puig (vicepresidente) y otros miembros familiares.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-puig"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0074-ap-03-it-01",
+            "apartado_id": "ibx-0074-ap-03",
+            "tipo": "contacto",
+            "titulo": "FC Barcelona",
+            "contenido": "Puig patrocinador FCB (camiseta entrenamiento). Vínculo con Joan Laporta.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fcbarcelona",
+              "laporta"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0074-ap-03-it-02",
+            "apartado_id": "ibx-0074-ap-03",
+            "tipo": "contacto",
+            "titulo": "Establishment catalán",
+            "contenido": "Vinculado al Círculo de Economía, Foment del Treball y al ecosistema empresarial catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cataluna"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0074-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0074-ap-04-it-00",
+            "apartado_id": "ibx-0074-ap-04",
+            "tipo": "documento",
+            "titulo": "Puig",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.puig.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0075",
+    "slug": "jose-sevilla",
+    "nombre_completo": "José Sevilla Álvarez",
+    "alias": "José Sevilla",
+    "cargo_actual": "Presidente de Unicaja Banco",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero. Preside Unicaja desde 2024 tras la salida de Manuel Azuaga por la crisis de gobernanza. Antes CEO de Bankia (2014-2021).",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:unicaja"
+    ],
+    "fuente_principal": "https://www.unicajabanco.com",
+    "apartados": [
+      {
+        "id": "ibx-0075-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0075-ap-00-it-00",
+            "apartado_id": "ibx-0075-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Económicas. Trayectoria larga en Bankia (vinculado al equipo Goirigolzarri).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0075-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0075-ap-01-it-00",
+            "apartado_id": "ibx-0075-ap-01",
+            "tipo": "evento",
+            "titulo": "CEO Bankia",
+            "contenido": "CEO de Bankia 2014-2021.",
+            "fecha": "2014-12-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0075-ap-01-it-01",
+            "apartado_id": "ibx-0075-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente Unicaja",
+            "contenido": "Presidente desde 2024.",
+            "fecha": "2024-03-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0075-ap-01-it-02",
+            "apartado_id": "ibx-0075-ap-01",
+            "tipo": "evento",
+            "titulo": "Banco de España / FROB",
+            "contenido": "Carrera en el Banco de España y servicio de inspección antes de la banca privada.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0075-ap-01-it-03",
+            "apartado_id": "ibx-0075-ap-01",
+            "tipo": "evento",
+            "titulo": "Equipo Goirigolzarri en BBVA",
+            "contenido": "Director general adjunto en BBVA bajo Goirigolzarri en los 2000s.",
+            "fecha": "2005-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0075-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0075-ap-02-it-00",
+            "apartado_id": "ibx-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "Equipo Goirigolzarri",
+            "contenido": "Vinculado al equipo histórico de Goirigolzarri en Bankia y luego CaixaBank.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "goirigolzarri"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0075-ap-02-it-01",
+            "apartado_id": "ibx-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "Fundación Unicaja",
+            "contenido": "Interlocutor con la Fundación tras la crisis Medel 2023-2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medel"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0075-ap-02-it-02",
+            "apartado_id": "ibx-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "Isidro Rubiales (CEO)",
+            "contenido": "Tándem ejecutivo en Unicaja.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rubiales"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0075-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0075-ap-03-it-00",
+            "apartado_id": "ibx-0075-ap-03",
+            "tipo": "documento",
+            "titulo": "Unicaja",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.unicajabanco.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0076",
+    "slug": "isidre-faine",
+    "nombre_completo": "Isidre Fainé Casas",
+    "alias": "Isidre Fainé",
+    "cargo_actual": "Presidente Fundación La Caixa / CriteriaCaixa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero catalán. Preside la Fundación La Caixa y CriteriaCaixa (accionista de referencia de CaixaBank, Naturgy, Telefónica). Ex presidente de CECA y CEOE.",
+    "tags": [
+      "accionista-control",
+      "presidente-fundacion",
+      "empresa:caixabank",
+      "empresa:naturgy",
+      "empresa:telefonica"
+    ],
+    "fuente_principal": "https://fundacionlacaixa.org",
+    "apartados": [
+      {
+        "id": "ibx-0076-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0076-ap-00-it-00",
+            "apartado_id": "ibx-0076-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Manresa, 1942. Económicas (Universidad de Barcelona).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0076-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0076-ap-01-it-00",
+            "apartado_id": "ibx-0076-ap-01",
+            "tipo": "evento",
+            "titulo": "La Caixa carrera entera",
+            "contenido": "En La Caixa desde 1982. Director general 1999, presidente 2007.",
+            "fecha": "2007-06-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0076-ap-01-it-01",
+            "apartado_id": "ibx-0076-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación / Criteria",
+            "contenido": "Tras desbancarización de La Caixa (2014), preside la Fundación y Criteria.",
+            "fecha": "2014-06-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0076-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0076-ap-02-it-00",
+            "apartado_id": "ibx-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Goirigolzarri (CaixaBank)",
+            "contenido": "Interlocutor habitual del presidente de CaixaBank.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0076-ap-02-it-01",
+            "apartado_id": "ibx-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Reynés (Naturgy)",
+            "contenido": "Naturgy participada por Criteria al 26%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "naturgy"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0076-ap-02-it-02",
+            "apartado_id": "ibx-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Murtra (Telefónica)",
+            "contenido": "Criteria es accionista de Telefónica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "telefonica"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0076-ap-02-it-03",
+            "apartado_id": "ibx-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Establishment catalán",
+            "contenido": "Una de las figuras centrales del catalanismo empresarial moderado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cataluna"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0076-ap-02-it-04",
+            "apartado_id": "ibx-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Casa Real",
+            "contenido": "Vinculado al rey emérito y al rey Felipe VI.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "casa-real"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0076-ap-03",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0076-ap-03-it-00",
+            "apartado_id": "ibx-0076-ap-03",
+            "tipo": "declaracion",
+            "titulo": "Sobre Cataluña",
+            "contenido": "\"Cataluña dentro de España es la mejor opción\", entrevista La Vanguardia 2017.",
+            "fecha": "2017-10-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0076-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0076-ap-04-it-00",
+            "apartado_id": "ibx-0076-ap-04",
+            "tipo": "documento",
+            "titulo": "Fundación La Caixa",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://fundacionlacaixa.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0077",
+    "slug": "amancio-ortega",
+    "nombre_completo": "Amancio Ortega Gaona",
+    "alias": "Amancio Ortega",
+    "cargo_actual": "Fundador de Inditex / Pontegadea",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario gallego. Fundador de Inditex (1975). Mayor fortuna de España. Control de Inditex (~59%) vía Pontegadea. No tiene cargo ejecutivo desde 2011.",
+    "tags": [
+      "accionista-control",
+      "fundador",
+      "empresa:inditex"
+    ],
+    "fuente_principal": "https://www.pontegadea.com",
+    "apartados": [
+      {
+        "id": "ibx-0077-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0077-ap-00-it-00",
+            "apartado_id": "ibx-0077-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Busdongo de Arbas (León), 1936. Sin formación universitaria. Comenzó como aprendiz en La Maja (camisería A Coruña).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0077-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0077-ap-01-it-00",
+            "apartado_id": "ibx-0077-ap-01",
+            "tipo": "evento",
+            "titulo": "Primera Zara",
+            "contenido": "Abre primera tienda Zara en A Coruña en 1975.",
+            "fecha": "1975-05-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0077-ap-01-it-01",
+            "apartado_id": "ibx-0077-ap-01",
+            "tipo": "evento",
+            "titulo": "Pontegadea",
+            "contenido": "Vehículo familiar Pontegadea, mayor inmobiliaria privada de España.",
+            "fecha": "2001-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0077-ap-01-it-02",
+            "apartado_id": "ibx-0077-ap-01",
+            "tipo": "evento",
+            "titulo": "Retirada cargo ejecutivo",
+            "contenido": "Cede presidencia a Pablo Isla en 2011.",
+            "fecha": "2011-07-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0077-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0077-ap-02-it-00",
+            "apartado_id": "ibx-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Familia Ortega",
+            "contenido": "Hijas Sandra Ortega Mera (fortuna heredada de su madre Rosalía Mera) y Marta Ortega Pérez (presidenta de Inditex).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ortega"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0077-ap-02-it-01",
+            "apartado_id": "ibx-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Patrimonio inmobiliario",
+            "contenido": "Pontegadea propietaria de edificios emblemáticos en Madrid (Castellana 81), Barcelona (Diagonal), Nueva York, Londres, Miami.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pontegadea",
+              "inmobiliario"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0077-ap-02-it-02",
+            "apartado_id": "ibx-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Donaciones a Sanidad",
+            "contenido": "Donaciones documentadas (>200 M€) a sanidad pública en Galicia. Reconocimiento bipartidista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "filantropia"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0077-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0077-ap-03-it-00",
+            "apartado_id": "ibx-0077-ap-03",
+            "tipo": "evento",
+            "titulo": "Estructura fiscal Países Bajos",
+            "contenido": "Antes de la reestructuración 2017, Inditex pagaba royalties de marca a filial holandesa, generando ahorro fiscal cuestionado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fiscalidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0077-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0077-ap-04-it-00",
+            "apartado_id": "ibx-0077-ap-04",
+            "tipo": "documento",
+            "titulo": "Pontegadea",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.pontegadea.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0078",
+    "slug": "manuel-pizarro",
+    "nombre_completo": "Manuel Pizarro Moreno",
+    "alias": "Pizarro",
+    "cargo_actual": "Vicepresidente del Consejo de Banco Santander",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado del Estado. Vicepresidente no ejecutivo de Banco Santander. Ex político (PP). Ex presidente de Endesa (2002-2007).",
+    "tags": [
+      "directivo",
+      "vicepresidente",
+      "empresa:banco-santander",
+      "ex-politico"
+    ],
+    "fuente_principal": "https://www.santander.com",
+    "apartados": [
+      {
+        "id": "ibx-0078-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0078-ap-00-it-00",
+            "apartado_id": "ibx-0078-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Teruel, 1953. Abogado del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0078-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0078-ap-01-it-00",
+            "apartado_id": "ibx-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Ibercaja / Endesa",
+            "contenido": "Presidente de Ibercaja 1988-2004. Presidente de Endesa 2002-2007.",
+            "fecha": "2002-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0078-ap-01-it-01",
+            "apartado_id": "ibx-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Diputado PP",
+            "contenido": "Diputado del PP (2008-2011). Cabeza de lista por Madrid en 2008.",
+            "fecha": "2008-03-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0078-ap-01-it-02",
+            "apartado_id": "ibx-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Santander",
+            "contenido": "Consejero externo del Santander.",
+            "fecha": "2017-04-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0078-ap-01-it-03",
+            "apartado_id": "ibx-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Ibercaja",
+            "contenido": "Presidente de Ibercaja entre 1988 y 2004.",
+            "fecha": "1988-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0078-ap-01-it-04",
+            "apartado_id": "ibx-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Endesa OPAs",
+            "contenido": "Como presidente de Endesa (2002-2007), pieza central en la batalla OPA Gas Natural-E.ON-Enel.",
+            "fecha": "2002-06-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0078-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0078-ap-02-it-00",
+            "apartado_id": "ibx-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "PP / Mariano Rajoy",
+            "contenido": "Vinculado al PP, fichado por Rajoy en 2007 como propuesta económica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "rajoy"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0078-ap-02-it-01",
+            "apartado_id": "ibx-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "Mariano Rajoy / PP",
+            "contenido": "Fichado por Rajoy como cabeza de lista PP Madrid en 2008.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rajoy",
+              "pp"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0078-ap-02-it-02",
+            "apartado_id": "ibx-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ana Botín",
+            "contenido": "Consejero externo del Santander desde 2017.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0078-ap-02-it-03",
+            "apartado_id": "ibx-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "Establishment financiero",
+            "contenido": "Vinculado a la red de banqueros y FAES.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "faes"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0078-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0078-ap-03-it-00",
+            "apartado_id": "ibx-0078-ap-03",
+            "tipo": "documento",
+            "titulo": "Santander",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.santander.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0079",
+    "slug": "rodrigo-rato",
+    "nombre_completo": "Rodrigo de Rato y Figaredo",
+    "alias": "Rato",
+    "cargo_actual": "Ex presidente Bankia · ex ministro / referencia política-empresa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Político y ejecutivo. Ex ministro de Economía PP (1996-2004), ex director gerente del FMI (2004-2007), ex presidente de Bankia (2010-2012). Condenado por tarjetas black y por fraude fiscal.",
+    "tags": [
+      "ex-politico",
+      "ex-presidente-bankia",
+      "condenado"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Rodrigo_Rato",
+    "apartados": [
+      {
+        "id": "ibx-0079-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0079-ap-00-it-00",
+            "apartado_id": "ibx-0079-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1949. Derecho. MBA Berkeley.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0079-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0079-ap-01-it-00",
+            "apartado_id": "ibx-0079-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro Economía PP",
+            "contenido": "Vicepresidente económico y ministro de Economía bajo Aznar (1996-2004).",
+            "fecha": "1996-05-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0079-ap-01-it-01",
+            "apartado_id": "ibx-0079-ap-01",
+            "tipo": "evento",
+            "titulo": "Director gerente FMI",
+            "contenido": "Director gerente del FMI 2004-2007.",
+            "fecha": "2004-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0079-ap-01-it-02",
+            "apartado_id": "ibx-0079-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente Bankia",
+            "contenido": "Preside Caja Madrid y luego Bankia 2010-2012. Salida tras nacionalización.",
+            "fecha": "2010-01-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0079-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0079-ap-02-it-00",
+            "apartado_id": "ibx-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "PP histórico",
+            "contenido": "Aznar, Rajoy, círculo del PP histórico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "aznar",
+              "rajoy"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0079-ap-02-it-01",
+            "apartado_id": "ibx-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "FMI / IMF",
+            "contenido": "Como Managing Director del FMI 2004-2007 conoció a líderes financieros globales (Trichet, Geithner, Lagarde).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fmi"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0079-ap-02-it-02",
+            "apartado_id": "ibx-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Aznar / Aznar José María",
+            "contenido": "Mano derecha económica de Aznar como vicepresidente económico y ministro de Economía (1996-2004).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aznar"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0079-ap-02-it-03",
+            "apartado_id": "ibx-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Caja Madrid / Bankia",
+            "contenido": "Presidente entre 2010-2012, en plena crisis. Salida tras nacionalización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bankia"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0079-ap-02-it-04",
+            "apartado_id": "ibx-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Miguel Blesa",
+            "contenido": "Predecesor en Caja Madrid. Coimputado en Tarjetas Black.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "blesa",
+              "tarjetas-black"
+            ],
+            "orden": 4
+          },
+          {
+            "id": "ibx-0079-ap-02-it-05",
+            "apartado_id": "ibx-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Tribunal Supremo / Audiencia Nacional",
+            "contenido": "Múltiples imputaciones y condenas firmes (tarjetas black 2017→2018; fraude fiscal 2024).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 5
+          }
+        ]
+      },
+      {
+        "id": "ibx-0079-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0079-ap-03-it-00",
+            "apartado_id": "ibx-0079-ap-03",
+            "tipo": "evento",
+            "titulo": "Tarjetas black",
+            "contenido": "Condenado por la AN en 2017 a 4,5 años de cárcel por uso indebido de tarjetas de Caja Madrid. TS confirmó 2018.",
+            "fecha": "2017-02-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "tarjetas-black"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0079-ap-03-it-01",
+            "apartado_id": "ibx-0079-ap-03",
+            "tipo": "evento",
+            "titulo": "Caso Rato (fraude fiscal)",
+            "contenido": "Condenado por fraude fiscal por la AN en febrero 2024 a 4 años y 9 meses de cárcel.",
+            "fecha": "2024-02-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "fraude"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0079-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0079-ap-04-it-00",
+            "apartado_id": "ibx-0079-ap-04",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Rodrigo_Rato",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0080",
+    "slug": "pablo-isla",
+    "nombre_completo": "Pablo Isla Álvarez de Tejera",
+    "alias": "Pablo Isla",
+    "cargo_actual": "Ex presidente Inditex · referencia empresarial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado del Estado. Presidente de Inditex (2011-2022). Vicepresidente primero de CEOE (2014-2022). Una de las figuras más respetadas del IBEX.",
+    "tags": [
+      "ex-presidente-inditex",
+      "ex-ceoe"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Pablo_Isla",
+    "apartados": [
+      {
+        "id": "ibx-0080-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0080-ap-00-it-00",
+            "apartado_id": "ibx-0080-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1964. Abogado del Estado. MBA IESE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0080-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0080-ap-01-it-00",
+            "apartado_id": "ibx-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "Altadis",
+            "contenido": "Co-presidente de Altadis (tabaco) 2000-2005.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0080-ap-01-it-01",
+            "apartado_id": "ibx-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "Inditex",
+            "contenido": "Vicepresidente Inditex 2005, presidente desde 2011.",
+            "fecha": "2011-07-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0080-ap-01-it-02",
+            "apartado_id": "ibx-0080-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida Inditex",
+            "contenido": "Cede la presidencia a Marta Ortega en abril 2022.",
+            "fecha": "2022-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0080-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0080-ap-02-it-00",
+            "apartado_id": "ibx-0080-ap-02",
+            "tipo": "contacto",
+            "titulo": "CEOE - Garamendi",
+            "contenido": "Vicepresidente primero de CEOE 2014-2022, antes con Rosell y luego con Garamendi.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ceoe",
+              "garamendi"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0080-ap-02-it-01",
+            "apartado_id": "ibx-0080-ap-02",
+            "tipo": "contacto",
+            "titulo": "Reconocimiento bipartidista",
+            "contenido": "Figura consensual entre PP y PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "consensual"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0080-ap-02-it-02",
+            "apartado_id": "ibx-0080-ap-02",
+            "tipo": "contacto",
+            "titulo": "Familia Ortega",
+            "contenido": "Tutelado por Pontegadea durante 11 años.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ortega"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0080-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0080-ap-03-it-00",
+            "apartado_id": "ibx-0080-ap-03",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Pablo_Isla",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0081",
+    "slug": "antonio-garamendi",
+    "nombre_completo": "Antonio Garamendi Lecanda",
+    "alias": "Garamendi",
+    "cargo_actual": "Presidente de CEOE",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario vasco. Presidente de la CEOE desde 2018 (renovado 2022). Voz pública del empresariado español frente al Gobierno Sánchez.",
+    "tags": [
+      "patronal",
+      "presidente",
+      "ceoe"
+    ],
+    "fuente_principal": "https://www.ceoe.es",
+    "apartados": [
+      {
+        "id": "ibx-0081-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0081-ap-00-it-00",
+            "apartado_id": "ibx-0081-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Getxo (Bizkaia), 1958. Empresario industrial (entornos siderúrgico y químico vasco).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0081-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0081-ap-01-it-00",
+            "apartado_id": "ibx-0081-ap-01",
+            "tipo": "evento",
+            "titulo": "Confebask / Cepyme",
+            "contenido": "Empresarial vasco. Presidente de Cepyme 2014-2018.",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0081-ap-01-it-01",
+            "apartado_id": "ibx-0081-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente CEOE",
+            "contenido": "Presidente desde noviembre 2018, sustituyendo a Juan Rosell.",
+            "fecha": "2018-11-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0081-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0081-ap-02-it-00",
+            "apartado_id": "ibx-0081-ap-02",
+            "tipo": "dato",
+            "titulo": "Crítico con Gobierno",
+            "contenido": "Posición crítica con el Gobierno Sánchez en fiscalidad, mercado de trabajo (reforma laboral 2021) y políticas energéticas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0081-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0081-ap-03-it-00",
+            "apartado_id": "ibx-0081-ap-03",
+            "tipo": "contacto",
+            "titulo": "Diálogo social",
+            "contenido": "Interlocución habitual con CCOO (Sordo) y UGT (Álvarez), Ministerio de Trabajo (Yolanda Díaz).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dialogo-social"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0081-ap-03-it-01",
+            "apartado_id": "ibx-0081-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ibex 35 grandes",
+            "contenido": "Vinculado a la mayoría de presidentes IBEX (Botín, Sánchez Galán, Florentino, Entrecanales).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ibex35"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0081-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0081-ap-04-it-00",
+            "apartado_id": "ibx-0081-ap-04",
+            "tipo": "documento",
+            "titulo": "CEOE",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.ceoe.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0082",
+    "slug": "sepi",
+    "nombre_completo": "Sociedad Estatal de Participaciones Industriales",
+    "alias": "SEPI",
+    "cargo_actual": "Holding empresarial del Estado español",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Brazo accionarial del Estado en empresas estratégicas. Adscrita al Ministerio de Hacienda. Accionista de Indra, Telefónica, Redeia, Enagás, Aena (vía Enaire), Hispasat. Presidida por Belén Gualda desde marzo 2022.",
+    "tags": [
+      "holding-estatal",
+      "ministerio:hacienda",
+      "accionista-control"
+    ],
+    "fuente_principal": "https://www.sepi.es",
+    "apartados": [
+      {
+        "id": "ibx-0082-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0082-ap-00-it-00",
+            "apartado_id": "ibx-0082-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Sociedad Estatal de Participaciones Industriales (SEPI), creada en 1995 como sucesora del INI (Instituto Nacional de Industria) y del Patrimonio del Estado. Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0082-ap-00-it-01",
+            "apartado_id": "ibx-0082-ap-00",
+            "tipo": "dato",
+            "titulo": "Adscripción",
+            "contenido": "Adscrita al Ministerio de Hacienda. Su presidente/a es designado/a por Consejo de Ministros.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0082-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0082-ap-01-it-00",
+            "apartado_id": "ibx-0082-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen INI",
+            "contenido": "Hereda en 1995 el legado del INI (creado en 1941). Privatizaciones masivas 1996-2004 bajo Aznar (Telefónica, Endesa, Repsol, Argentaria, Tabacalera, Indra…).",
+            "fecha": "1995-08-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0082-ap-01-it-01",
+            "apartado_id": "ibx-0082-ap-01",
+            "tipo": "evento",
+            "titulo": "Fondo SEPI rescates Covid",
+            "contenido": "Crea el Fondo de Apoyo a la Solvencia con 10.000 M€ (RDL 25/2020). Rescates a Air Europa, Duro Felguera, Plus Ultra, Tubos Reunidos, etc. Plus Ultra muy polémico.",
+            "fecha": "2020-07-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "plus-ultra",
+              "controversia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0082-ap-01-it-02",
+            "apartado_id": "ibx-0082-ap-01",
+            "tipo": "evento",
+            "titulo": "Entrada en Telefónica",
+            "contenido": "En 2024 toma ~10% de Telefónica como contrapeso a STC.",
+            "fecha": "2024-05-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0082-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0082-ap-02-it-00",
+            "apartado_id": "ibx-0082-ap-02",
+            "tipo": "dato",
+            "titulo": "Soberanía estratégica",
+            "contenido": "Bajo el Gobierno Sánchez, posicionamiento explícito a favor de defender empresas críticas (defensa, telecos, energía) frente a inversores extranjeros mediante toma de participaciones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0082-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0082-ap-03-it-00",
+            "apartado_id": "ibx-0082-ap-03",
+            "tipo": "contacto",
+            "titulo": "Cartera de participadas",
+            "contenido": "Indra (28%), Telefónica (~10%), Redeia (20%), Enagás (~5%), Hispasat (vía Redeia), Aena (51% vía Enaire), Navantia (100%), Hunosa, Tragsa, Correos, Mercasa, EFE…",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0082-ap-03-it-01",
+            "apartado_id": "ibx-0082-ap-03",
+            "tipo": "contacto",
+            "titulo": "Belén Gualda (presidenta)",
+            "contenido": "Ingeniera. Presidenta de SEPI desde marzo 2022. Sustituyó a Vicente Fernández Guerrero.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "presidenta"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0082-ap-03-it-02",
+            "apartado_id": "ibx-0082-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ministerio Hacienda - María Jesús Montero",
+            "contenido": "Tutela política. Montero vicepresidenta primera y ministra Hacienda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "montero"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0082-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0082-ap-04-it-00",
+            "apartado_id": "ibx-0082-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Sobre Telefónica",
+            "contenido": "\"La entrada en Telefónica responde al carácter estratégico de la compañía\", comunicado oficial mayo 2024.",
+            "fecha": "2024-05-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0082-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0082-ap-05-it-00",
+            "apartado_id": "ibx-0082-ap-05",
+            "tipo": "evento",
+            "titulo": "Rescate Plus Ultra",
+            "contenido": "Préstamo participativo de 53 M€ a Plus Ultra (aerolínea con accionistas vinculados al chavismo). Investigación judicial archivada parcialmente, polémica política prolongada.",
+            "fecha": "2021-03-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "plus-ultra",
+              "judicial"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0082-ap-05-it-01",
+            "apartado_id": "ibx-0082-ap-05",
+            "tipo": "evento",
+            "titulo": "Salida abrupta consejeros Indra 2022",
+            "contenido": "SEPI impulsó la destitución de 4 consejeros independientes de Indra. CNMV expedientó.",
+            "fecha": "2022-06-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "indra"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0082-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0082-ap-06-it-00",
+            "apartado_id": "ibx-0082-ap-06",
+            "tipo": "documento",
+            "titulo": "Web SEPI",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.sepi.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0082-ap-06-it-01",
+            "apartado_id": "ibx-0082-ap-06",
+            "tipo": "documento",
+            "titulo": "Cartera de empresas",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.sepi.es/es/empresas-participadas",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0083",
+    "slug": "ceoe",
+    "nombre_completo": "Confederación Española de Organizaciones Empresariales",
+    "alias": "CEOE",
+    "cargo_actual": "Patronal de las grandes empresas españolas",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Patronal española fundada en 1977. Representa a las grandes empresas, también a Cepyme y a casi 2 millones de empresas en total. Presidente: Antonio Garamendi desde 2018.",
+    "tags": [
+      "patronal",
+      "dialogo-social"
+    ],
+    "fuente_principal": "https://www.ceoe.es",
+    "apartados": [
+      {
+        "id": "ibx-0083-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0083-ap-00-it-00",
+            "apartado_id": "ibx-0083-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CEOE, fundada en junio de 1977 en plena Transición. Sede en Madrid (calle Diego de León).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0083-ap-00-it-01",
+            "apartado_id": "ibx-0083-ap-00",
+            "tipo": "dato",
+            "titulo": "Membresía",
+            "contenido": "Representa ~2.500 organizaciones empresariales sectoriales y territoriales. Vía Cepyme integra a las pymes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0083-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0083-ap-01-it-00",
+            "apartado_id": "ibx-0083-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidencias destacadas",
+            "contenido": "Carlos Ferrer Salat (1977-84), José María Cuevas (1984-2007), Gerardo Díaz Ferrán (2007-2010), Juan Rosell (2010-2018), Antonio Garamendi (2018-presente).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0083-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0083-ap-02-it-00",
+            "apartado_id": "ibx-0083-ap-02",
+            "tipo": "dato",
+            "titulo": "Crítica al Gobierno Sánchez",
+            "contenido": "Posición pública crítica con reformas laborales, fiscalidad extraordinaria, SMI por encima del 60% del salario medio, ley vivienda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "politica",
+              "sanchez"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0083-ap-02-it-01",
+            "apartado_id": "ibx-0083-ap-02",
+            "tipo": "dato",
+            "titulo": "Diálogo social",
+            "contenido": "Mesa tripartita con CCOO, UGT y Ministerio de Trabajo (Yolanda Díaz).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dialogo-social"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0083-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0083-ap-03-it-00",
+            "apartado_id": "ibx-0083-ap-03",
+            "tipo": "contacto",
+            "titulo": "Grandes IBEX 35",
+            "contenido": "Vinculaciones con presidentes de Santander (Botín), Iberdrola (Sánchez Galán), ACS (Florentino), Inditex (anteriormente Pablo Isla como vicepresidente).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ibex35"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0083-ap-03-it-01",
+            "apartado_id": "ibx-0083-ap-03",
+            "tipo": "contacto",
+            "titulo": "Cepyme",
+            "contenido": "Confederación de pequeñas y medianas empresas, parte del Consejo Permanente de CEOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cepyme"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0083-ap-03-it-02",
+            "apartado_id": "ibx-0083-ap-03",
+            "tipo": "contacto",
+            "titulo": "BusinessEurope",
+            "contenido": "Patronal europea, CEOE como miembro fundador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "europa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0083-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0083-ap-04-it-00",
+            "apartado_id": "ibx-0083-ap-04",
+            "tipo": "declaracion",
+            "titulo": "Garamendi 2024",
+            "contenido": "\"La reducción de jornada por imposición destruye empleo\", declaración pública 2024.",
+            "fecha": "2024-02-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0083-ap-05",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0083-ap-05-it-00",
+            "apartado_id": "ibx-0083-ap-05",
+            "tipo": "evento",
+            "titulo": "Díaz Ferrán condenado",
+            "contenido": "El ex presidente Gerardo Díaz Ferrán (2007-2010) fue condenado en 2018 a 5 años por concurso fraudulento. Daño reputacional histórico.",
+            "fecha": "2018-12-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0083-ap-06",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0083-ap-06-it-00",
+            "apartado_id": "ibx-0083-ap-06",
+            "tipo": "documento",
+            "titulo": "Web CEOE",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.ceoe.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0084",
+    "slug": "aeb",
+    "nombre_completo": "Asociación Española de Banca",
+    "alias": "AEB",
+    "cargo_actual": "Patronal de la banca privada española",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Patronal de la banca privada (no de antiguas cajas). Representa a Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, etc. Presidente: Alejandra Kindelán desde 2022 (primera mujer).",
+    "tags": [
+      "patronal",
+      "banca"
+    ],
+    "fuente_principal": "https://www.aebanca.es",
+    "apartados": [
+      {
+        "id": "ibx-0084-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0084-ap-00-it-00",
+            "apartado_id": "ibx-0084-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Asociación Española de Banca (AEB), fundada en 1977. Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0084-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0084-ap-01-it-00",
+            "apartado_id": "ibx-0084-ap-01",
+            "tipo": "evento",
+            "titulo": "Kindelán al frente",
+            "contenido": "Alejandra Kindelán (ex Santander) preside la AEB desde 2022, primera mujer en el cargo.",
+            "fecha": "2022-02-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0084-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0084-ap-02-it-00",
+            "apartado_id": "ibx-0084-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición frontal contra el gravamen extraordinario. Coordinación de los recursos judiciales del sector.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "impuesto"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0084-ap-02-it-01",
+            "apartado_id": "ibx-0084-ap-02",
+            "tipo": "dato",
+            "titulo": "Impuesto extraordinario",
+            "contenido": "Coordinación del recurso judicial sectorial contra el gravamen.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "impuesto"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0084-ap-02-it-02",
+            "apartado_id": "ibx-0084-ap-02",
+            "tipo": "dato",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "Posición neutral institucional, ambos miembros.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opa"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0084-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0084-ap-03-it-00",
+            "apartado_id": "ibx-0084-ap-03",
+            "tipo": "contacto",
+            "titulo": "CECA",
+            "contenido": "AEB y CECA (cajas) son las dos patronales bancarias españolas, con coordinación creciente desde la crisis 2008-2012.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ceca"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0084-ap-03-it-01",
+            "apartado_id": "ibx-0084-ap-03",
+            "tipo": "contacto",
+            "titulo": "Miembros",
+            "contenido": "Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, Bank of America España, Citi, JP Morgan.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "miembros"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0084-ap-03-it-02",
+            "apartado_id": "ibx-0084-ap-03",
+            "tipo": "contacto",
+            "titulo": "European Banking Federation (EBF)",
+            "contenido": "Patronal europea. AEB miembro fundador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ebf",
+              "europa"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0084-ap-03-it-03",
+            "apartado_id": "ibx-0084-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alejandra Kindelán",
+            "contenido": "Presidenta desde 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "kindelan"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0084-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0084-ap-04-it-00",
+            "apartado_id": "ibx-0084-ap-04",
+            "tipo": "documento",
+            "titulo": "AEB",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.aebanca.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0085",
+    "slug": "aelec",
+    "nombre_completo": "Asociación de Empresas de Energía Eléctrica",
+    "alias": "AELEC",
+    "cargo_actual": "Patronal eléctrica española",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Patronal de las eléctricas (antiguamente UNESA). Representa a Iberdrola, Endesa y EDP España (no a Naturgy, que opera vía Sedigás). Dirige el lobby eléctrico ante Gobierno y CNMC.",
+    "tags": [
+      "patronal",
+      "electricas"
+    ],
+    "fuente_principal": "https://aelec.es",
+    "apartados": [
+      {
+        "id": "ibx-0085-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0085-ap-00-it-00",
+            "apartado_id": "ibx-0085-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "AELEC, sucesora de UNESA. Sede en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0085-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0085-ap-01-it-00",
+            "apartado_id": "ibx-0085-ap-01",
+            "tipo": "evento",
+            "titulo": "Refundación UNESA → AELEC",
+            "contenido": "UNESA se reestructuró como AELEC en 2018 con foco en transición energética.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0085-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0085-ap-02-it-00",
+            "apartado_id": "ibx-0085-ap-02",
+            "tipo": "contacto",
+            "titulo": "Miembros",
+            "contenido": "Iberdrola, Endesa, EDP España. Naturgy fuera (opera vía Sedigás).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "miembros"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0085-ap-02-it-01",
+            "apartado_id": "ibx-0085-ap-02",
+            "tipo": "contacto",
+            "titulo": "Lobby Gobierno",
+            "contenido": "Interlocución con Ministerio de Transición Ecológica (Aagesen tras salto de Teresa Ribera a UE) y CNMC.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "lobby"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0085-ap-02-it-02",
+            "apartado_id": "ibx-0085-ap-02",
+            "tipo": "contacto",
+            "titulo": "Marina Serrano (presidenta)",
+            "contenido": "Presidenta de AELEC desde 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "serrano"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0085-ap-02-it-03",
+            "apartado_id": "ibx-0085-ap-02",
+            "tipo": "contacto",
+            "titulo": "Sánchez Galán / Bogas",
+            "contenido": "Voces más fuertes del sector representado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iberdrola",
+              "endesa"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0085-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0085-ap-03-it-00",
+            "apartado_id": "ibx-0085-ap-03",
+            "tipo": "documento",
+            "titulo": "AELEC",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://aelec.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0086",
+    "slug": "cnmv",
+    "nombre_completo": "Comisión Nacional del Mercado de Valores",
+    "alias": "CNMV",
+    "cargo_actual": "Regulador de los mercados de valores españoles",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Regulador independiente de los mercados de valores. Supervisa a CNMV, BME, IBEX 35, OPVs, OPAs. Presidente: Carlos San Basilio desde 2024 (sustituye a Rodrigo Buenaventura).",
+    "tags": [
+      "regulador",
+      "mercados-valores"
+    ],
+    "fuente_principal": "https://www.cnmv.es",
+    "apartados": [
+      {
+        "id": "ibx-0086-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0086-ap-00-it-00",
+            "apartado_id": "ibx-0086-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CNMV, creada en 1988 (Ley 24/1988 del Mercado de Valores). Sede en Madrid y oficina en Barcelona.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0086-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0086-ap-01-it-00",
+            "apartado_id": "ibx-0086-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidencias recientes",
+            "contenido": "Sebastián Albella (2016-2020), Rodrigo Buenaventura (2020-2024), Carlos San Basilio (2024-).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0086-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0086-ap-02-it-00",
+            "apartado_id": "ibx-0086-ap-02",
+            "tipo": "dato",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "Autorizó el folleto de la OPA en diciembre 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0086-ap-02-it-01",
+            "apartado_id": "ibx-0086-ap-02",
+            "tipo": "dato",
+            "titulo": "Caso Grifols",
+            "contenido": "Expediente abierto 2024 sobre relación Grifols-Scranton tras Gotham.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "grifols"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0086-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0086-ap-03-it-00",
+            "apartado_id": "ibx-0086-ap-03",
+            "tipo": "contacto",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "Autorización CNMV requisito clave de la OPA. Diciembre 2024 CNMV autorizó el folleto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva-sabadell"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0086-ap-03-it-01",
+            "apartado_id": "ibx-0086-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Grifols",
+            "contenido": "Expediente abierto en 2024 por relación Grifols-Scranton tras Gotham.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "grifols"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0086-ap-03-it-02",
+            "apartado_id": "ibx-0086-ap-03",
+            "tipo": "contacto",
+            "titulo": "Caso Indra",
+            "contenido": "Amonestó en 2022 por la destitución de consejeros independientes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "indra"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0086-ap-03-it-03",
+            "apartado_id": "ibx-0086-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carlos San Basilio",
+            "contenido": "Presidente desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "san-basilio"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0086-ap-03-it-04",
+            "apartado_id": "ibx-0086-ap-03",
+            "tipo": "contacto",
+            "titulo": "ESMA",
+            "contenido": "Reguladora europea. CNMV miembro de la junta.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "esma"
+            ],
+            "orden": 4
+          },
+          {
+            "id": "ibx-0086-ap-03-it-05",
+            "apartado_id": "ibx-0086-ap-03",
+            "tipo": "contacto",
+            "titulo": "Banco de España",
+            "contenido": "Coordinación regulatoria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bde"
+            ],
+            "orden": 5
+          }
+        ]
+      },
+      {
+        "id": "ibx-0086-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0086-ap-04-it-00",
+            "apartado_id": "ibx-0086-ap-04",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.cnmv.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0087",
+    "slug": "casa-real",
+    "nombre_completo": "Casa de Su Majestad el Rey",
+    "alias": "Casa Real",
+    "cargo_actual": "Casa Real española",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Institución que asiste al Rey en sus funciones. Felipe VI desde 2014. Sede en Zarzuela (Madrid). Jefe de la Casa: Camilo Villarino desde 2023.",
+    "tags": [
+      "monarquia",
+      "institucion"
+    ],
+    "fuente_principal": "https://www.casareal.es",
+    "apartados": [
+      {
+        "id": "ibx-0087-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0087-ap-00-it-00",
+            "apartado_id": "ibx-0087-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Casa de S.M. el Rey, asiste a Felipe VI (rey desde junio 2014, abdicación de Juan Carlos I).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0087-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0087-ap-01-it-00",
+            "apartado_id": "ibx-0087-ap-01",
+            "tipo": "evento",
+            "titulo": "Abdicación",
+            "contenido": "Juan Carlos I abdica el 2 junio 2014.",
+            "fecha": "2014-06-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0087-ap-01-it-01",
+            "apartado_id": "ibx-0087-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida emérito a Abu Dabi",
+            "contenido": "Juan Carlos I se traslada a Abu Dabi en agosto 2020 tras investigaciones judiciales abiertas en Suiza/España.",
+            "fecha": "2020-08-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "emerito"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0087-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0087-ap-02-it-00",
+            "apartado_id": "ibx-0087-ap-02",
+            "tipo": "dato",
+            "titulo": "Neutralidad institucional",
+            "contenido": "Doctrina pública de neutralidad política. Articulación con presidentes del Gobierno (PP y PSOE).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "neutralidad"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0087-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0087-ap-03-it-00",
+            "apartado_id": "ibx-0087-ap-03",
+            "tipo": "contacto",
+            "titulo": "Establishment empresarial",
+            "contenido": "Vínculos institucionales con presidentes de Santander, Iberdrola, CaixaBank y otros.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "empresariado"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0087-ap-03-it-01",
+            "apartado_id": "ibx-0087-ap-03",
+            "tipo": "contacto",
+            "titulo": "Felipe VI",
+            "contenido": "Jefe de Estado desde junio 2014.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "felipe-vi"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0087-ap-03-it-02",
+            "apartado_id": "ibx-0087-ap-03",
+            "tipo": "contacto",
+            "titulo": "Letizia Ortiz",
+            "contenido": "Reina consorte. Activa en programas Casa Real.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "letizia"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0087-ap-03-it-03",
+            "apartado_id": "ibx-0087-ap-03",
+            "tipo": "contacto",
+            "titulo": "Juan Carlos I emérito",
+            "contenido": "Reside en Abu Dabi desde agosto 2020.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "emerito"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0087-ap-03-it-04",
+            "apartado_id": "ibx-0087-ap-03",
+            "tipo": "contacto",
+            "titulo": "Camilo Villarino",
+            "contenido": "Jefe de la Casa desde 2023 (releva a Jaime Alfonsín).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "villarino"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0087-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0087-ap-04-it-00",
+            "apartado_id": "ibx-0087-ap-04",
+            "tipo": "documento",
+            "titulo": "Casa Real",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.casareal.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0088",
+    "slug": "psoe",
+    "nombre_completo": "Partido Socialista Obrero Español",
+    "alias": "PSOE",
+    "cargo_actual": "Partido político · centroizquierda",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Partido fundado en 1879 por Pablo Iglesias Posse. En el Gobierno desde junio 2018 con Pedro Sánchez como secretario general y presidente del Gobierno.",
+    "tags": [
+      "partido",
+      "centroizquierda",
+      "gobierno"
+    ],
+    "fuente_principal": "https://www.psoe.es",
+    "apartados": [
+      {
+        "id": "ibx-0088-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0088-ap-00-it-00",
+            "apartado_id": "ibx-0088-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PSOE, fundado en 1879. Sede Ferraz, Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0088-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0088-ap-01-it-00",
+            "apartado_id": "ibx-0088-ap-01",
+            "tipo": "evento",
+            "titulo": "Liderazgos recientes",
+            "contenido": "Felipe González (1974-97), Joaquín Almunia (97-00), Zapatero (00-12), Rubalcaba (12-14), Sánchez (14-presente, con interrupción 2016-17).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0088-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0088-ap-02-it-00",
+            "apartado_id": "ibx-0088-ap-02",
+            "tipo": "dato",
+            "titulo": "Agenda 2026",
+            "contenido": "Subida SMI, vivienda, fiscalidad progresiva, alianzas Sumar/ERC/PNV/Bildu/Junts.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "agenda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0088-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0088-ap-03-it-00",
+            "apartado_id": "ibx-0088-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "Secretario general y presidente del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0088-ap-03-it-01",
+            "apartado_id": "ibx-0088-ap-03",
+            "tipo": "contacto",
+            "titulo": "PSC",
+            "contenido": "Federación catalana hermana.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psc"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0088-ap-03-it-02",
+            "apartado_id": "ibx-0088-ap-03",
+            "tipo": "contacto",
+            "titulo": "Cuadros en consejos IBEX",
+            "contenido": "Beatriz Corredor (Redeia), Maurici Lucena (Aena, PSC), Marc Murtra (Telefónica, próximo a PSC).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "puertas-giratorias"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0088-ap-03-it-03",
+            "apartado_id": "ibx-0088-ap-03",
+            "tipo": "contacto",
+            "titulo": "Familia PSOE socios",
+            "contenido": "Sumar, ERC, EH Bildu, PNV, BNG, Junts.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "socios"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0088-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0088-ap-04-it-00",
+            "apartado_id": "ibx-0088-ap-04",
+            "tipo": "documento",
+            "titulo": "PSOE",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.psoe.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0089",
+    "slug": "psc",
+    "nombre_completo": "Partido dels Socialistes de Catalunya",
+    "alias": "PSC",
+    "cargo_actual": "Partido político · federación catalana del PSOE",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Federación catalana del PSOE. Salvador Illa primer secretario y president de la Generalitat desde agosto 2024.",
+    "tags": [
+      "partido",
+      "cataluna",
+      "psoe-familia"
+    ],
+    "fuente_principal": "https://www.socialistes.cat",
+    "apartados": [
+      {
+        "id": "ibx-0089-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0089-ap-00-it-00",
+            "apartado_id": "ibx-0089-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PSC, fundado 1978 (fusión PSC-Reagrupament, PSC-Congrès, Federació Catalana del PSOE).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0089-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0089-ap-01-it-00",
+            "apartado_id": "ibx-0089-ap-01",
+            "tipo": "evento",
+            "titulo": "Illa president",
+            "contenido": "Salvador Illa investido president de la Generalitat en agosto 2024 tras elecciones de mayo y pacto con ERC.",
+            "fecha": "2024-08-08",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0089-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0089-ap-02-it-00",
+            "apartado_id": "ibx-0089-ap-02",
+            "tipo": "contacto",
+            "titulo": "Cuadros en IBEX",
+            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ibex35"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0089-ap-02-it-01",
+            "apartado_id": "ibx-0089-ap-02",
+            "tipo": "contacto",
+            "titulo": "Cuadros en empresas",
+            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena), José Montilla (consejos varios).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ibex35"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0089-ap-02-it-02",
+            "apartado_id": "ibx-0089-ap-02",
+            "tipo": "contacto",
+            "titulo": "PSOE federal",
+            "contenido": "Federación catalana hermana. Pacto de soberanía dual.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0089-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0089-ap-03-it-00",
+            "apartado_id": "ibx-0089-ap-03",
+            "tipo": "documento",
+            "titulo": "PSC",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.socialistes.cat",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0090",
+    "slug": "pp",
+    "nombre_completo": "Partido Popular",
+    "alias": "PP",
+    "cargo_actual": "Partido político · centroderecha",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Partido refundado en 1989 desde Alianza Popular (1976). En la oposición desde junio 2018. Presidente Alberto Núñez Feijóo desde abril 2022.",
+    "tags": [
+      "partido",
+      "centroderecha",
+      "oposicion"
+    ],
+    "fuente_principal": "https://www.pp.es",
+    "apartados": [
+      {
+        "id": "ibx-0090-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0090-ap-00-it-00",
+            "apartado_id": "ibx-0090-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PP, sede en Génova, Madrid. Líderes: Fraga, Aznar, Rajoy, Casado, Feijóo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0090-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0090-ap-01-it-00",
+            "apartado_id": "ibx-0090-ap-01",
+            "tipo": "evento",
+            "titulo": "Liderazgos",
+            "contenido": "Fraga (1989-90), Aznar (90-04), Rajoy (04-18), Casado (18-22), Feijóo (22-presente).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0090-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0090-ap-02-it-00",
+            "apartado_id": "ibx-0090-ap-02",
+            "tipo": "dato",
+            "titulo": "Política económica",
+            "contenido": "Defensa de bajadas fiscales, liberalización de mercado de trabajo, oposición al impuesto bancario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "economia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0090-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0090-ap-03-it-00",
+            "apartado_id": "ibx-0090-ap-03",
+            "tipo": "contacto",
+            "titulo": "Núñez Feijóo",
+            "contenido": "Presidente desde abril 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "feijoo"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0090-ap-03-it-01",
+            "apartado_id": "ibx-0090-ap-03",
+            "tipo": "contacto",
+            "titulo": "Cuadros pasados en empresa",
+            "contenido": "Manuel Pizarro (Santander), Rodrigo Rato (ex Bankia/FMI).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "puertas-giratorias"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0090-ap-03-it-02",
+            "apartado_id": "ibx-0090-ap-03",
+            "tipo": "contacto",
+            "titulo": "Comunidad Madrid - Ayuso",
+            "contenido": "Bastión del PP. Diálogo con establishment empresarial (Florentino, Del Pino, Botín).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ayuso"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0090-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0090-ap-04-it-00",
+            "apartado_id": "ibx-0090-ap-04",
+            "tipo": "documento",
+            "titulo": "PP",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.pp.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0091",
+    "slug": "pnv",
+    "nombre_completo": "Partido Nacionalista Vasco / Euzko Alderdi Jeltzalea",
+    "alias": "PNV / EAJ",
+    "cargo_actual": "Partido político · nacionalismo vasco democristiano",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Partido fundado en 1895 por Sabino Arana. Lehendakari Imanol Pradales desde junio 2024 (sustituye a Iñigo Urkullu). Presidente del EBB: Andoni Ortuzar.",
+    "tags": [
+      "partido",
+      "euskadi",
+      "nacionalismo"
+    ],
+    "fuente_principal": "https://www.eaj-pnv.eus",
+    "apartados": [
+      {
+        "id": "ibx-0091-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0091-ap-00-it-00",
+            "apartado_id": "ibx-0091-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PNV/EAJ. Sede en Sabin Etxea (Bilbao). Fundado 1895.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0091-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0091-ap-01-it-00",
+            "apartado_id": "ibx-0091-ap-01",
+            "tipo": "dato",
+            "titulo": "Estatus vasco",
+            "contenido": "Defensa del Concierto Económico y del autogobierno vasco. Pactos puntuales con PSOE y PP a cambio de cuota fiscal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "concierto"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0091-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0091-ap-02-it-00",
+            "apartado_id": "ibx-0091-ap-02",
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "Lehendakari desde junio 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pradales"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0091-ap-02-it-01",
+            "apartado_id": "ibx-0091-ap-02",
+            "tipo": "contacto",
+            "titulo": "Andoni Ortuzar",
+            "contenido": "Presidente del EBB del PNV.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ortuzar"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0091-ap-02-it-02",
+            "apartado_id": "ibx-0091-ap-02",
+            "tipo": "contacto",
+            "titulo": "Josu Jon Imaz",
+            "contenido": "Ex presidente del EBB (2004-2007), hoy CEO de Repsol.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "imaz"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0091-ap-02-it-03",
+            "apartado_id": "ibx-0091-ap-02",
+            "tipo": "contacto",
+            "titulo": "Aitor Esteban",
+            "contenido": "Portavoz histórico en el Congreso, clave en pactos con Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "congreso"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0091-ap-02-it-04",
+            "apartado_id": "ibx-0091-ap-02",
+            "tipo": "contacto",
+            "titulo": "Empresariado vasco",
+            "contenido": "Vínculos con Confebask, BBK, Kutxabank, Iberdrola (Sánchez Galán).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "empresariado"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0091-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0091-ap-03-it-00",
+            "apartado_id": "ibx-0091-ap-03",
+            "tipo": "documento",
+            "titulo": "PNV",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.eaj-pnv.eus",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0092",
+    "slug": "teresa-ribera",
+    "nombre_completo": "Teresa Ribera Rodríguez",
+    "alias": "Teresa Ribera",
+    "cargo_actual": "Vicepresidenta ejecutiva de la Comisión Europea (Transición Limpia, Competencia)",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Política PSOE. Ex vicepresidenta tercera del Gobierno y ministra para la Transición Ecológica (2018-2024). Vicepresidenta ejecutiva de la Comisión Europea desde diciembre 2024.",
+    "tags": [
+      "politico",
+      "psoe",
+      "comision-europea",
+      "transicion-ecologica"
+    ],
+    "fuente_principal": "https://commission.europa.eu",
+    "apartados": [
+      {
+        "id": "ibx-0092-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0092-ap-00-it-00",
+            "apartado_id": "ibx-0092-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Madrid, 1969. Licenciada en Derecho (Universidad Complutense). Cuerpo Superior de Administradores Civiles del Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0092-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0092-ap-01-it-00",
+            "apartado_id": "ibx-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretaria Cambio Climático",
+            "contenido": "Secretaria de Estado de Cambio Climático con Zapatero (2008-2011).",
+            "fecha": "2008-04-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0092-ap-01-it-01",
+            "apartado_id": "ibx-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Directora IDDRI",
+            "contenido": "Directora del Institut du Développement Durable et des Relations Internationales (París) 2014-2018.",
+            "fecha": "2014-03-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0092-ap-01-it-02",
+            "apartado_id": "ibx-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministra Transición",
+            "contenido": "Ministra de Transición Ecológica 2018-2024. Vicepresidenta tercera 2020-2023, segunda 2023-2024.",
+            "fecha": "2018-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0092-ap-01-it-03",
+            "apartado_id": "ibx-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Comisión Europea",
+            "contenido": "Vicepresidenta ejecutiva en la Comisión von der Leyen II desde diciembre 2024.",
+            "fecha": "2024-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0092-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0092-ap-02-it-00",
+            "apartado_id": "ibx-0092-ap-02",
+            "tipo": "dato",
+            "titulo": "Climática",
+            "contenido": "Una de las voces más reconocidas internacionalmente en política climática. Defensora del Net Zero 2050 europeo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "clima"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0092-ap-02-it-01",
+            "apartado_id": "ibx-0092-ap-02",
+            "tipo": "dato",
+            "titulo": "Tope al gas",
+            "contenido": "Co-diseñadora de la 'excepción ibérica' al precio del gas (2022) con Portugal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mibel",
+              "tope-gas"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0092-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0092-ap-03-it-00",
+            "apartado_id": "ibx-0092-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "Una de las ministras de mayor confianza del presidente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sanchez"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0092-ap-03-it-01",
+            "apartado_id": "ibx-0092-ap-03",
+            "tipo": "contacto",
+            "titulo": "Tensión con eléctricas",
+            "contenido": "Pulso público con Iberdrola (Sánchez Galán) y Repsol (Imaz) por impuesto extraordinario y modelo de mercado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iberdrola",
+              "repsol"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0092-ap-03-it-02",
+            "apartado_id": "ibx-0092-ap-03",
+            "tipo": "contacto",
+            "titulo": "Sara Aagesen",
+            "contenido": "Su sucesora como ministra Transición Ecológica tras salto a UE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sucesora"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0092-ap-04",
+        "tipo": "declaraciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 4,
+        "items": [
+          {
+            "id": "ibx-0092-ap-04-it-00",
+            "apartado_id": "ibx-0092-ap-04",
+            "tipo": "declaracion",
+            "titulo": "COP28",
+            "contenido": "\"El fin de los combustibles fósiles es una decisión técnica y política inaplazable\", Dubai 2023.",
+            "fecha": "2023-12-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0092-ap-05",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0092-ap-05-it-00",
+            "apartado_id": "ibx-0092-ap-05",
+            "tipo": "documento",
+            "titulo": "Comisión Europea",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://commission.europa.eu/about/organisation/college-commissioners/teresa-ribera_es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0093",
+    "slug": "joan-laporta",
+    "nombre_completo": "Joan Laporta Estruch",
+    "alias": "Joan Laporta",
+    "cargo_actual": "Presidente del FC Barcelona",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Abogado y dirigente deportivo catalán. Presidente del FC Barcelona en dos etapas (2003-2010 y 2021-presente). Independentista. Diputado en el Parlament por Solidaritat Catalana (2010-2012).",
+    "tags": [
+      "dirigente-deportivo",
+      "fc-barcelona",
+      "cataluna",
+      "independentista"
+    ],
+    "fuente_principal": "https://www.fcbarcelona.es",
+    "apartados": [
+      {
+        "id": "ibx-0093-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0093-ap-00-it-00",
+            "apartado_id": "ibx-0093-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1962. Licenciado en Derecho (UB).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0093-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0093-ap-01-it-00",
+            "apartado_id": "ibx-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Primera presidencia",
+            "contenido": "Presidente FC Barcelona 2003-2010 (era Ronaldinho-Messi-Guardiola).",
+            "fecha": "2003-06-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0093-ap-01-it-01",
+            "apartado_id": "ibx-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Solidaritat Catalana",
+            "contenido": "Diputado del Parlament por Solidaritat (independentista) 2010-2012.",
+            "fecha": "2010-11-28",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0093-ap-01-it-02",
+            "apartado_id": "ibx-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Segunda presidencia",
+            "contenido": "Vuelve a presidir Barça en marzo 2021.",
+            "fecha": "2021-03-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0093-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0093-ap-02-it-00",
+            "apartado_id": "ibx-0093-ap-02",
+            "tipo": "contacto",
+            "titulo": "Florentino Pérez",
+            "contenido": "Aliado inesperado en la Superliga europea (2021-presente).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "superliga",
+              "florentino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0093-ap-02-it-01",
+            "apartado_id": "ibx-0093-ap-02",
+            "tipo": "contacto",
+            "titulo": "Independentismo",
+            "contenido": "Posición pro-independencia consistente. Cordialidad con ERC y JxCat.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "independentismo"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0093-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0093-ap-03-it-00",
+            "apartado_id": "ibx-0093-ap-03",
+            "tipo": "documento",
+            "titulo": "FC Barcelona",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.fcbarcelona.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0094",
+    "slug": "pontegadea",
+    "nombre_completo": "Pontegadea Inversiones S.L.",
+    "alias": "Pontegadea",
+    "cargo_actual": "Holding patrimonial de Amancio Ortega",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Vehículo de inversión personal de Amancio Ortega. Mayor inmobiliaria privada de España y una de las mayores del mundo. Controla 59% de Inditex y cartera inmobiliaria con edificios icónicos.",
+    "tags": [
+      "holding-familiar",
+      "ortega",
+      "inmobiliario",
+      "accionista-control:inditex"
+    ],
+    "fuente_principal": "https://www.pontegadea.com",
+    "apartados": [
+      {
+        "id": "ibx-0094-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0094-ap-00-it-00",
+            "apartado_id": "ibx-0094-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Pontegadea Inversiones S.L., sede en A Coruña. Vehículo patrimonial de Amancio Ortega.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0094-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0094-ap-01-it-00",
+            "apartado_id": "ibx-0094-ap-01",
+            "tipo": "evento",
+            "titulo": "Diversificación inmobiliaria",
+            "contenido": "Desde la OPV de Inditex (2001), Pontegadea reinvirtió dividendos en inmobiliario prime en Madrid, Barcelona, Londres, NY, Miami, París.",
+            "fecha": "2001-05-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0094-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0094-ap-02-it-00",
+            "apartado_id": "ibx-0094-ap-02",
+            "tipo": "contacto",
+            "titulo": "Inditex",
+            "contenido": "~59% del capital. Mayor activo individual.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "inditex"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0094-ap-02-it-01",
+            "apartado_id": "ibx-0094-ap-02",
+            "tipo": "contacto",
+            "titulo": "Cartera inmobiliaria",
+            "contenido": "Torre Picasso (Madrid), Castellana 81, Hotel Marqués de Riscal, Edificio Cepsa, Trump Tower (Manhattan), edificios en Nueva York/Londres/París.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "inmobiliario"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0094-ap-02-it-02",
+            "apartado_id": "ibx-0094-ap-02",
+            "tipo": "contacto",
+            "titulo": "Inversiones recientes",
+            "contenido": "Diversificación reciente a energías renovables (Repsol JV, Acciona Energía indirectamente) e infraestructura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "energia"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0094-ap-02-it-03",
+            "apartado_id": "ibx-0094-ap-02",
+            "tipo": "contacto",
+            "titulo": "Sandra Ortega",
+            "contenido": "Hermana de Amancio (heredera de Rosalía Mera) tiene su propio vehículo: Rosp Corunna. No es Pontegadea.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0094-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0094-ap-03-it-00",
+            "apartado_id": "ibx-0094-ap-03",
+            "tipo": "documento",
+            "titulo": "Pontegadea",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.pontegadea.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0095",
+    "slug": "criteria-caixa",
+    "nombre_completo": "CriteriaCaixa S.A.U.",
+    "alias": "Criteria",
+    "cargo_actual": "Holding industrial de la Fundación La Caixa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Vehículo industrial 100% de la Fundación La Caixa. Accionista de control de CaixaBank, Naturgy, Telefónica, Cellnex y otros. Presidente: Isidre Fainé.",
+    "tags": [
+      "holding",
+      "caixa",
+      "accionista-control:multiple"
+    ],
+    "fuente_principal": "https://www.criteria.com",
+    "apartados": [
+      {
+        "id": "ibx-0095-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0095-ap-00-it-00",
+            "apartado_id": "ibx-0095-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CriteriaCaixa S.A.U., holding industrial. 100% Fundación La Caixa. Sede en Barcelona.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0095-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0095-ap-01-it-00",
+            "apartado_id": "ibx-0095-ap-01",
+            "tipo": "evento",
+            "titulo": "Desbancarización",
+            "contenido": "En 2014 la Fundación La Caixa se reorganiza: Criteria recibe la participación industrial, separada del banco.",
+            "fecha": "2014-06-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0095-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0095-ap-02-it-00",
+            "apartado_id": "ibx-0095-ap-02",
+            "tipo": "contacto",
+            "titulo": "Cartera",
+            "contenido": "CaixaBank ~32%, Naturgy ~26%, Telefónica ~2,7%, Cellnex ~5%, Saba (aparcamientos), inmobiliario y participaciones internacionales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0095-ap-02-it-01",
+            "apartado_id": "ibx-0095-ap-02",
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé",
+            "contenido": "Presidente. Toma de decisiones estratégicas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "faine"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0095-ap-02-it-02",
+            "apartado_id": "ibx-0095-ap-02",
+            "tipo": "contacto",
+            "titulo": "Ángel Simón",
+            "contenido": "CEO desde marzo 2024 (anteriormente CEO de Agbar).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "simon"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0095-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0095-ap-03-it-00",
+            "apartado_id": "ibx-0095-ap-03",
+            "tipo": "documento",
+            "titulo": "Criteria",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.criteria.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0096",
+    "slug": "cartival",
+    "nombre_completo": "Cartival S.A.",
+    "alias": "Cartival",
+    "cargo_actual": "Vehículo patrimonial de la rama Botín-Rivero",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Sociedad patrimonial controlada por Jaime Botín-Sanz de Sautuola (hermano del fallecido Emilio Botín). Mayor accionista de Bankinter (~22%).",
+    "tags": [
+      "holding-familiar",
+      "botin",
+      "accionista-control:bankinter"
+    ],
+    "fuente_principal": "https://www.bankinter.com",
+    "apartados": [
+      {
+        "id": "ibx-0096-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0096-ap-00-it-00",
+            "apartado_id": "ibx-0096-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Cartival S.A., vehículo de la rama Botín-Rivero, particularmente Jaime Botín.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0096-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0096-ap-01-it-00",
+            "apartado_id": "ibx-0096-ap-01",
+            "tipo": "evento",
+            "titulo": "Vehículo Jaime Botín",
+            "contenido": "Sociedad patrimonial articulada por Jaime Botín tras la separación operativa de la rama O'Shea (Santander).",
+            "fecha": "1992-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0096-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0096-ap-02-it-00",
+            "apartado_id": "ibx-0096-ap-02",
+            "tipo": "contacto",
+            "titulo": "Bankinter",
+            "contenido": "~22% del capital, accionista de referencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bankinter"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0096-ap-02-it-01",
+            "apartado_id": "ibx-0096-ap-02",
+            "tipo": "contacto",
+            "titulo": "Jaime Botín",
+            "contenido": "Beneficiario último.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "jaime-botin"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0096-ap-02-it-02",
+            "apartado_id": "ibx-0096-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Guerrero (presidente Bankinter)",
+            "contenido": "Interlocutor permanente como presidente del consejo de Bankinter.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bankinter",
+              "guerrero"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0096-ap-02-it-03",
+            "apartado_id": "ibx-0096-ap-02",
+            "tipo": "contacto",
+            "titulo": "Familia Botín-Rivero",
+            "contenido": "Beneficiarios últimos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin-rivero"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0096-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0096-ap-03-it-00",
+            "apartado_id": "ibx-0096-ap-03",
+            "tipo": "evento",
+            "titulo": "Caso Picasso (Jaime Botín)",
+            "contenido": "Condena penal del beneficiario último por contrabando del cuadro Cabeza de mujer joven.",
+            "fecha": "2020-01-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "picasso"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0096-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0096-ap-04-it-00",
+            "apartado_id": "ibx-0096-ap-04",
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0097",
+    "slug": "scranton-enterprises",
+    "nombre_completo": "Scranton Enterprises B.V.",
+    "alias": "Scranton",
+    "cargo_actual": "Vehículo familiar Grifols (Países Bajos)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Sociedad holandesa de la familia Grifols. Adquirió en 2018 los activos Biotest US e Haema vendidos por Grifols, generando posteriormente la polémica destapada por Gotham City (2024).",
+    "tags": [
+      "holding-familiar",
+      "grifols",
+      "paises-bajos"
+    ],
+    "fuente_principal": "https://www.grifols.com",
+    "apartados": [
+      {
+        "id": "ibx-0097-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0097-ap-00-it-00",
+            "apartado_id": "ibx-0097-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Scranton Enterprises B.V., sociedad neerlandesa. Beneficiarios miembros de la familia Grifols y entorno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0097-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0097-ap-01-it-00",
+            "apartado_id": "ibx-0097-ap-01",
+            "tipo": "evento",
+            "titulo": "Compra Biotest/Haema",
+            "contenido": "En 2018 Scranton compra a Grifols los activos Biotest US e Haema (Alemania) por 538 M$. Polémico: Grifols mantuvo gestión y consolidación contable.",
+            "fecha": "2018-08-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0097-ap-01-it-01",
+            "apartado_id": "ibx-0097-ap-01",
+            "tipo": "evento",
+            "titulo": "Ataque Gotham",
+            "contenido": "En enero 2024 Gotham City Research publica informe atacando la doble consolidación y el control efectivo. Grifols perdió >40% en bolsa.",
+            "fecha": "2024-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gotham"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0097-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0097-ap-02-it-00",
+            "apartado_id": "ibx-0097-ap-02",
+            "tipo": "contacto",
+            "titulo": "Familia Grifols",
+            "contenido": "Beneficiarios últimos: ramas de la familia con participación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-grifols"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0097-ap-02-it-01",
+            "apartado_id": "ibx-0097-ap-02",
+            "tipo": "contacto",
+            "titulo": "Grifols S.A.",
+            "contenido": "Vínculo operativo permanente: compró activos a Grifols en 2018 (Biotest US, Haema).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "grifols"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0097-ap-02-it-02",
+            "apartado_id": "ibx-0097-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gotham City Research",
+            "contenido": "Identificó la relación en informe enero 2024 como problema contable.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gotham"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0097-ap-02-it-03",
+            "apartado_id": "ibx-0097-ap-02",
+            "tipo": "contacto",
+            "titulo": "CNMV",
+            "contenido": "Expediente abierto desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmv"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0097-ap-03",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0097-ap-03-it-00",
+            "apartado_id": "ibx-0097-ap-03",
+            "tipo": "evento",
+            "titulo": "Investigación CNMV",
+            "contenido": "CNMV abrió expediente en 2024 sobre la relación Grifols-Scranton.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cnmv"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0097-ap-04",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0097-ap-04-it-00",
+            "apartado_id": "ibx-0097-ap-04",
+            "tipo": "documento",
+            "titulo": "Informes anuales Grifols",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.grifols.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0098",
+    "slug": "alba-march",
+    "nombre_completo": "Corporación Financiera Alba S.A.",
+    "alias": "Alba (March)",
+    "cargo_actual": "Holding patrimonial de la familia March",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Vehículo de la familia March. Cotizada en bolsa. Accionista de Acerinox, Naturgy, ACS, Indra, Ebro Foods, CIE Automotive y otros.",
+    "tags": [
+      "holding-familiar",
+      "march",
+      "cotizada"
+    ],
+    "fuente_principal": "https://www.corporacionalba.es",
+    "apartados": [
+      {
+        "id": "ibx-0098-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0098-ap-00-it-00",
+            "apartado_id": "ibx-0098-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Corporación Financiera Alba S.A., con sede en Madrid. Vehículo de la familia March (descendientes de Juan March Ordinas).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0098-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0098-ap-01-it-00",
+            "apartado_id": "ibx-0098-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cartera",
+            "contenido": "Acerinox ~19%, ACS ~13%, Naturgy ~5%, Ebro Foods ~14%, CIE Automotive ~11%, Indra ~6%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0098-ap-01-it-01",
+            "apartado_id": "ibx-0098-ap-01",
+            "tipo": "contacto",
+            "titulo": "Familia March",
+            "contenido": "Carlos y Juan March controlan. Asset manager histórico (Banca March).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "march"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0098-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0098-ap-02-it-00",
+            "apartado_id": "ibx-0098-ap-02",
+            "tipo": "documento",
+            "titulo": "Corporación Alba",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.corporacionalba.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0099",
+    "slug": "fundacion-la-caixa",
+    "nombre_completo": "Fundación Bancaria La Caixa",
+    "alias": "Fundación La Caixa",
+    "cargo_actual": "Mayor fundación filantrópica privada de España",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Una de las mayores fundaciones del mundo por presupuesto (~600 M€/año). Heredera del 100% de La Caixa tras la desbancarización (2014). Patronato presidido por Isidre Fainé.",
+    "tags": [
+      "fundacion",
+      "caixa",
+      "filantropia"
+    ],
+    "fuente_principal": "https://fundacionlacaixa.org",
+    "apartados": [
+      {
+        "id": "ibx-0099-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0099-ap-00-it-00",
+            "apartado_id": "ibx-0099-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Bancaria La Caixa, sede en Barcelona (CosmoCaixa, CaixaForum). Presupuesto anual ~600 M€.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0099-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0099-ap-01-it-00",
+            "apartado_id": "ibx-0099-ap-01",
+            "tipo": "contacto",
+            "titulo": "CriteriaCaixa",
+            "contenido": "Controla 100% de Criteria (que tiene la cartera industrial).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "criteria"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0099-ap-01-it-01",
+            "apartado_id": "ibx-0099-ap-01",
+            "tipo": "contacto",
+            "titulo": "CaixaBank",
+            "contenido": "Vía Criteria, ~32% de CaixaBank.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixabank"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0099-ap-01-it-02",
+            "apartado_id": "ibx-0099-ap-01",
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé",
+            "contenido": "Presidente del patronato.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "faine"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0099-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0099-ap-02-it-00",
+            "apartado_id": "ibx-0099-ap-02",
+            "tipo": "dato",
+            "titulo": "Áreas de acción",
+            "contenido": "Programas sociales, investigación biomédica (IRB Barcelona), cultura (CaixaForum), educación, becas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0099-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0099-ap-03-it-00",
+            "apartado_id": "ibx-0099-ap-03",
+            "tipo": "documento",
+            "titulo": "Fundación",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://fundacionlacaixa.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0100",
+    "slug": "fundacion-mapfre",
+    "nombre_completo": "Fundación Mapfre",
+    "alias": "Fundación Mapfre",
+    "cargo_actual": "Fundación filantrópica y accionista de control de Mapfre",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fundación que controla el 70% de Mapfre S.A. Brazo cultural con sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga Nogués).",
+    "tags": [
+      "fundacion",
+      "mapfre",
+      "accionista-control"
+    ],
+    "fuente_principal": "https://www.fundacionmapfre.org",
+    "apartados": [
+      {
+        "id": "ibx-0100-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0100-ap-00-it-00",
+            "apartado_id": "ibx-0100-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Mapfre, accionista de control histórico de Mapfre S.A.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0100-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0100-ap-01-it-00",
+            "apartado_id": "ibx-0100-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mapfre S.A.",
+            "contenido": "~70% del capital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mapfre"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0100-ap-01-it-01",
+            "apartado_id": "ibx-0100-ap-01",
+            "tipo": "contacto",
+            "titulo": "Antonio Huertas",
+            "contenido": "Presidente de Mapfre.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "huertas"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0100-ap-01-it-02",
+            "apartado_id": "ibx-0100-ap-01",
+            "tipo": "contacto",
+            "titulo": "Patronato",
+            "contenido": "Patronato presidido por Antonio Huertas, presidente de Mapfre.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "huertas"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0100-ap-01-it-03",
+            "apartado_id": "ibx-0100-ap-01",
+            "tipo": "contacto",
+            "titulo": "Programas culturales",
+            "contenido": "Sala Recoletos (Madrid), Casa Garriga Nogués (Barcelona). Exposiciones y premios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cultura"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0100-ap-01-it-04",
+            "apartado_id": "ibx-0100-ap-01",
+            "tipo": "contacto",
+            "titulo": "Programas sociales LatAm",
+            "contenido": "Programas en países Mapfre (Brasil, México, Perú, Colombia).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "latam"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0100-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0100-ap-02-it-00",
+            "apartado_id": "ibx-0100-ap-02",
+            "tipo": "documento",
+            "titulo": "Fundación Mapfre",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.fundacionmapfre.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0101",
+    "slug": "fundacion-unicaja",
+    "nombre_completo": "Fundación Bancaria Unicaja",
+    "alias": "Fundación Unicaja",
+    "cargo_actual": "Accionista de control de Unicaja Banco",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fundación bancaria malagueña heredera de Unicaja. Accionista del 30% de Unicaja Banco. Patronazgo histórico de Braulio Medel; relevado en 2024 tras crisis con CNMV.",
+    "tags": [
+      "fundacion",
+      "unicaja",
+      "accionista-control"
+    ],
+    "fuente_principal": "https://fundacionunicaja.com",
+    "apartados": [
+      {
+        "id": "ibx-0101-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0101-ap-00-it-00",
+            "apartado_id": "ibx-0101-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Unicaja, sede en Málaga.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0101-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0101-ap-01-it-00",
+            "apartado_id": "ibx-0101-ap-01",
+            "tipo": "evento",
+            "titulo": "Crisis Medel",
+            "contenido": "En 2023-2024 CNMV cuestionó el control efectivo de la Fundación sobre Unicaja. Relevo de Braulio Medel.",
+            "fecha": "2023-09-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medel",
+              "crisis"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0101-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0101-ap-02-it-00",
+            "apartado_id": "ibx-0101-ap-02",
+            "tipo": "contacto",
+            "titulo": "Unicaja Banco",
+            "contenido": "~30%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "unicaja"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0101-ap-02-it-01",
+            "apartado_id": "ibx-0101-ap-02",
+            "tipo": "contacto",
+            "titulo": "Patronato post-Medel",
+            "contenido": "Tras la crisis 2023-2024, renovación del patronato con perfiles independientes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medel"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0101-ap-02-it-02",
+            "apartado_id": "ibx-0101-ap-02",
+            "tipo": "contacto",
+            "titulo": "Bipartidismo andaluz",
+            "contenido": "Histórica relación con PSOE-A y PP-A. Caja con perfil político.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "andalucia"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0101-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0101-ap-03-it-00",
+            "apartado_id": "ibx-0101-ap-03",
+            "tipo": "documento",
+            "titulo": "Fundación",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://fundacionunicaja.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0102",
+    "slug": "fundacion-rafael-del-pino",
+    "nombre_completo": "Fundación Rafael del Pino",
+    "alias": "Fundación Rafael del Pino",
+    "cargo_actual": "Fundación liberal patrocinada por la familia Del Pino",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Una de las principales fundaciones de pensamiento liberal en España. Patrocinada por la familia Del Pino (Ferrovial). Patrocina foros (Madrid Forum), cátedras y becas.",
+    "tags": [
+      "fundacion",
+      "del-pino",
+      "liberalismo",
+      "think-tank"
+    ],
+    "fuente_principal": "https://www.frdelpino.es",
+    "apartados": [
+      {
+        "id": "ibx-0102-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0102-ap-00-it-00",
+            "apartado_id": "ibx-0102-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Rafael del Pino, sede en Madrid (calle Rafael Calvo). Acoge foros con economistas y políticos liberales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0102-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0102-ap-01-it-00",
+            "apartado_id": "ibx-0102-ap-01",
+            "tipo": "contacto",
+            "titulo": "Rafael del Pino",
+            "contenido": "Presidente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "del-pino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0102-ap-01-it-01",
+            "apartado_id": "ibx-0102-ap-01",
+            "tipo": "contacto",
+            "titulo": "Ideología",
+            "contenido": "Plataforma de promoción del pensamiento liberal en España. Vínculos con Mont Pelerin Society y FAES.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "liberalismo"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0102-ap-01-it-02",
+            "apartado_id": "ibx-0102-ap-01",
+            "tipo": "contacto",
+            "titulo": "Madrid Forum",
+            "contenido": "Foro anual con economistas y políticos liberales (LLM, exministros, académicos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "madrid-forum"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0102-ap-01-it-03",
+            "apartado_id": "ibx-0102-ap-01",
+            "tipo": "contacto",
+            "titulo": "FAES / Mont Pelerin Society",
+            "contenido": "Vínculos con think tanks liberales nacionales e internacionales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "faes",
+              "mps"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0102-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0102-ap-02-it-00",
+            "apartado_id": "ibx-0102-ap-02",
+            "tipo": "documento",
+            "titulo": "Fundación",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.frdelpino.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0103",
+    "slug": "fundacion-botin",
+    "nombre_completo": "Fundación Marcelino Botín",
+    "alias": "Fundación Botín",
+    "cargo_actual": "Fundación filantrópica de la familia Botín",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fundación cultural y científica de la familia Botín. Sede principal en Santander (Centro Botín, diseñado por Renzo Piano, 2017). Patronazgo de Ana Botín.",
+    "tags": [
+      "fundacion",
+      "botin",
+      "cultura"
+    ],
+    "fuente_principal": "https://www.fundacionbotin.org",
+    "apartados": [
+      {
+        "id": "ibx-0103-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0103-ap-00-it-00",
+            "apartado_id": "ibx-0103-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fundación Marcelino Botín, fundada 1964. Centro Botín en Santander (2017).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0103-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0103-ap-01-it-00",
+            "apartado_id": "ibx-0103-ap-01",
+            "tipo": "contacto",
+            "titulo": "Familia Botín",
+            "contenido": "Patronazgo familiar. Ana Botín presidenta.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0103-ap-01-it-01",
+            "apartado_id": "ibx-0103-ap-01",
+            "tipo": "contacto",
+            "titulo": "Ana Botín",
+            "contenido": "Presidenta del patronato. Continuidad familiar.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "botin"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0103-ap-01-it-02",
+            "apartado_id": "ibx-0103-ap-01",
+            "tipo": "contacto",
+            "titulo": "Programa Talento Solidario y Ciencia",
+            "contenido": "Becas en programas científicos (CSIC), arte y emprendimiento social.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "programas"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0103-ap-01-it-03",
+            "apartado_id": "ibx-0103-ap-01",
+            "tipo": "contacto",
+            "titulo": "Renzo Piano - Centro Botín",
+            "contenido": "Centro Botín en Santander (2017) diseñado por Renzo Piano.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-botin"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0103-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0103-ap-02-it-00",
+            "apartado_id": "ibx-0103-ap-02",
+            "tipo": "documento",
+            "titulo": "Fundación Botín",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.fundacionbotin.org",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0104",
+    "slug": "real-madrid",
+    "nombre_completo": "Real Madrid Club de Fútbol",
+    "alias": "Real Madrid",
+    "cargo_actual": "Club de fútbol",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Club de fútbol con mayor palmarés europeo. Presidido por Florentino Pérez. Estatuto de club deportivo (socios, no S.A.D.).",
+    "tags": [
+      "club-deportivo",
+      "florentino"
+    ],
+    "fuente_principal": "https://www.realmadrid.com",
+    "apartados": [
+      {
+        "id": "ibx-0104-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0104-ap-00-it-00",
+            "apartado_id": "ibx-0104-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Real Madrid CF, fundado 1902. Estadio Santiago Bernabéu (Madrid). ~95.000 socios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0104-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0104-ap-01-it-00",
+            "apartado_id": "ibx-0104-ap-01",
+            "tipo": "dato",
+            "titulo": "Superliga",
+            "contenido": "Impulsor del proyecto Superliga europea desde abril 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "superliga"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0104-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0104-ap-02-it-00",
+            "apartado_id": "ibx-0104-ap-02",
+            "tipo": "contacto",
+            "titulo": "Florentino Pérez",
+            "contenido": "Presidente desde 2009 (segunda etapa).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "florentino"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0104-ap-02-it-01",
+            "apartado_id": "ibx-0104-ap-02",
+            "tipo": "contacto",
+            "titulo": "Superliga",
+            "contenido": "Impulsor con FC Barcelona del proyecto Superliga europea desde 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "superliga"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0104-ap-02-it-02",
+            "apartado_id": "ibx-0104-ap-02",
+            "tipo": "contacto",
+            "titulo": "Joan Laporta / FC Barcelona",
+            "contenido": "Aliado en la Superliga. Eje Madrid-Barcelona inusual.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "laporta",
+              "fcbarcelona"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0104-ap-02-it-03",
+            "apartado_id": "ibx-0104-ap-02",
+            "tipo": "contacto",
+            "titulo": "UEFA - conflicto",
+            "contenido": "Pulso público con la UEFA (Aleksander Čeferin) por la Superliga.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "uefa"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0104-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0104-ap-03-it-00",
+            "apartado_id": "ibx-0104-ap-03",
+            "tipo": "documento",
+            "titulo": "Real Madrid",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.realmadrid.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0105",
+    "slug": "jaime-botin",
+    "nombre_completo": "Jaime Botín-Sanz de Sautuola y García de los Ríos",
+    "alias": "Jaime Botín",
+    "cargo_actual": "Empresario · accionista de control de Bankinter vía Cartival",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banquero. Hermano del fallecido Emilio Botín. Vinculado históricamente a Bankinter vía Cartival (~22%). Condenado en 2020 por contrabando del cuadro 'Cabeza de mujer joven' de Picasso.",
+    "tags": [
+      "botin",
+      "bankinter",
+      "condenado"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Jaime_Bot%C3%ADn",
+    "apartados": [
+      {
+        "id": "ibx-0105-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0105-ap-00-it-00",
+            "apartado_id": "ibx-0105-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Santander, 1936. Hermano del Emilio Botín II (padre de Ana Botín).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0105-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0105-ap-01-it-00",
+            "apartado_id": "ibx-0105-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cartival / Bankinter",
+            "contenido": "Beneficiario último de Cartival, ~22% Bankinter.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bankinter",
+              "cartival"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0105-ap-01-it-01",
+            "apartado_id": "ibx-0105-ap-01",
+            "tipo": "contacto",
+            "titulo": "Familia Botín",
+            "contenido": "Rama Botín-Rivero, separada institucionalmente de la rama Botín-O'Shea (Ana Botín).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia-botin"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0105-ap-02",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0105-ap-02-it-00",
+            "apartado_id": "ibx-0105-ap-02",
+            "tipo": "evento",
+            "titulo": "Caso Picasso",
+            "contenido": "Condenado por la AN en enero 2020 a 18 meses (luego reducida) por intentar sacar de España el cuadro 'Cabeza de mujer joven' (Picasso, 1906) en su yate.",
+            "fecha": "2020-01-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial",
+              "picasso"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0105-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0105-ap-03-it-00",
+            "apartado_id": "ibx-0105-ap-03",
+            "tipo": "documento",
+            "titulo": "Sentencia AN 2020",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.audienciananacional.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0106",
+    "slug": "villarejo",
+    "nombre_completo": "Caso Villarejo (Operación Tándem)",
+    "alias": "Caso Villarejo",
+    "cargo_actual": "Macrocausa Audiencia Nacional · espionaje y corrupción",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Macrocausa abierta en la AN tras la detención en 2017 del comisario José Manuel Villarejo. Pieza Tándem investiga su red de espionaje y corrupción para empresas (BBVA, Iberdrola, Repsol) y particulares. Más de 30 piezas.",
+    "tags": [
+      "judicial",
+      "macrocausa",
+      "audiencia-nacional",
+      "espionaje"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Caso_Villarejo",
+    "apartados": [
+      {
+        "id": "ibx-0106-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0106-ap-00-it-00",
+            "apartado_id": "ibx-0106-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Diligencias previas 96/2017 del Juzgado Central 6 de la AN. Magistrado instructor: Manuel García-Castellón.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0106-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0106-ap-01-it-00",
+            "apartado_id": "ibx-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Detención Villarejo",
+            "contenido": "José Manuel Villarejo Pérez detenido el 3 noviembre 2017 junto con su mujer y hijo.",
+            "fecha": "2017-11-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0106-ap-01-it-01",
+            "apartado_id": "ibx-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Imputación BBVA-FG",
+            "contenido": "Imputación a Francisco González (ex presidente BBVA) en julio 2020 por la pieza Tándem-BBVA.",
+            "fecha": "2020-07-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0106-ap-01-it-02",
+            "apartado_id": "ibx-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Imputación Iberdrola",
+            "contenido": "Iberdrola y Sánchez Galán imputados en diciembre 2022 por la pieza Tándem-Iberdrola.",
+            "fecha": "2022-12-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iberdrola"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0106-ap-01-it-03",
+            "apartado_id": "ibx-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Sentencia parcial 2024",
+            "contenido": "Sentencias parciales sobre piezas menores. Las piezas BBVA e Iberdrola siguen en instrucción.",
+            "fecha": "2024-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0106-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0106-ap-02-it-00",
+            "apartado_id": "ibx-0106-ap-02",
+            "tipo": "contacto",
+            "titulo": "Procesados (jurídicos)",
+            "contenido": "BBVA, Iberdrola (personas jurídicas). Repsol investigada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bbva",
+              "iberdrola",
+              "repsol"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0106-ap-02-it-01",
+            "apartado_id": "ibx-0106-ap-02",
+            "tipo": "contacto",
+            "titulo": "Imputados destacados",
+            "contenido": "Francisco González (ex pte BBVA), Ignacio Sánchez Galán (Iberdrola), ex directivos varios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fg",
+              "galan"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0106-ap-02-it-02",
+            "apartado_id": "ibx-0106-ap-02",
+            "tipo": "contacto",
+            "titulo": "Víctimas de espionaje",
+            "contenido": "Sacyr/Luis del Rivero, Florentino Pérez/ACS, exministros, juezas/jueces, periodistas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "victimas"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0106-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0106-ap-03-it-00",
+            "apartado_id": "ibx-0106-ap-03",
+            "tipo": "documento",
+            "titulo": "Resumen",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Caso_Villarejo",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0107",
+    "slug": "caso-tarjetas-black",
+    "nombre_completo": "Caso Tarjetas Black",
+    "alias": "Tarjetas Black",
+    "cargo_actual": "Causa judicial · uso indebido de tarjetas opacas Caja Madrid/Bankia",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Causa por uso indebido de tarjetas de empresa por consejeros y directivos de Caja Madrid/Bankia entre 1988 y 2012, sin declarar a Hacienda. Sentencia AN 2017, confirmada por TS 2018. 65 condenados.",
+    "tags": [
+      "judicial",
+      "bankia",
+      "caja-madrid"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Caso_de_las_tarjetas_black",
+    "apartados": [
+      {
+        "id": "ibx-0107-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0107-ap-00-it-00",
+            "apartado_id": "ibx-0107-ap-00",
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Pieza separada del caso Bankia. Sentencia AN 23 febrero 2017. Confirmada por el TS en 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0107-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0107-ap-01-it-00",
+            "apartado_id": "ibx-0107-ap-01",
+            "tipo": "evento",
+            "titulo": "Sentencia AN",
+            "contenido": "23 febrero 2017. Condenados 65 ex consejeros y ex directivos de Caja Madrid/Bankia.",
+            "fecha": "2017-02-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0107-ap-01-it-01",
+            "apartado_id": "ibx-0107-ap-01",
+            "tipo": "evento",
+            "titulo": "TS confirma",
+            "contenido": "Sala Penal del TS confirmó condenas en octubre 2018.",
+            "fecha": "2018-10-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0107-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0107-ap-02-it-00",
+            "apartado_id": "ibx-0107-ap-02",
+            "tipo": "contacto",
+            "titulo": "Condenados destacados",
+            "contenido": "Rodrigo Rato (4,5 años), Miguel Blesa (6 años), Ildefonso Sánchez Barcoj, etc.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rato",
+              "blesa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0107-ap-02-it-01",
+            "apartado_id": "ibx-0107-ap-02",
+            "tipo": "contacto",
+            "titulo": "Rodrigo Rato",
+            "contenido": "Condenado a 4,5 años (TS 2018).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rato"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0107-ap-02-it-02",
+            "apartado_id": "ibx-0107-ap-02",
+            "tipo": "contacto",
+            "titulo": "Miguel Blesa",
+            "contenido": "Condenado a 6 años. Suicidio en 2017 antes de ingreso en prisión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "blesa"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0107-ap-02-it-03",
+            "apartado_id": "ibx-0107-ap-02",
+            "tipo": "contacto",
+            "titulo": "65 condenados",
+            "contenido": "Ex consejeros y directivos de Caja Madrid y Bankia (sindicatos, PSOE, PP, IU).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "condenados"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0107-ap-02-it-04",
+            "apartado_id": "ibx-0107-ap-02",
+            "tipo": "contacto",
+            "titulo": "Bankia/CaixaBank",
+            "contenido": "Heredero institucional. Bankia indemnizada por sus responsables.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bankia",
+              "caixabank"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0107-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0107-ap-03-it-00",
+            "apartado_id": "ibx-0107-ap-03",
+            "tipo": "documento",
+            "titulo": "Sentencia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Caso_de_las_tarjetas_black",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0108",
+    "slug": "caso-picasso",
+    "nombre_completo": "Caso Picasso (Jaime Botín)",
+    "alias": "Caso Picasso",
+    "cargo_actual": "Causa judicial · contrabando bienes culturales",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Causa por contrabando de bienes culturales contra Jaime Botín. Intentó sacar de España en su yate el cuadro 'Cabeza de mujer joven' (Picasso, 1906). Condenado AN en 2020.",
+    "tags": [
+      "judicial",
+      "botin",
+      "patrimonio-cultural"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Jaime_Bot%C3%ADn",
+    "apartados": [
+      {
+        "id": "ibx-0108-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0108-ap-00-it-00",
+            "apartado_id": "ibx-0108-ap-00",
+            "tipo": "evento",
+            "titulo": "Intervención Aduanas",
+            "contenido": "Aduanas francesas interceptan el cuadro en Córcega (julio 2015) en el yate de Jaime Botín. Cuadro tasado en 25 M€.",
+            "fecha": "2015-07-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0108-ap-00-it-01",
+            "apartado_id": "ibx-0108-ap-00",
+            "tipo": "evento",
+            "titulo": "Sentencia AN",
+            "contenido": "Jaime Botín condenado a 18 meses de cárcel (no entró), 91,7 M€ de multa y comiso del cuadro para el Estado.",
+            "fecha": "2020-01-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0108-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0108-ap-01-it-00",
+            "apartado_id": "ibx-0108-ap-01",
+            "tipo": "contacto",
+            "titulo": "Jaime Botín",
+            "contenido": "Condenado AN 2020 (18 meses + 91 M€ multa + comiso cuadro).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "jaime-botin"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0108-ap-01-it-01",
+            "apartado_id": "ibx-0108-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cabeza de mujer joven (Picasso)",
+            "contenido": "Cuadro decomisado por el Estado español tasado en 25 M€.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "picasso"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0108-ap-01-it-02",
+            "apartado_id": "ibx-0108-ap-01",
+            "tipo": "contacto",
+            "titulo": "Aduanas francesas",
+            "contenido": "Interceptaron el yate en Córcega (julio 2015) detectando el cuadro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aduanas",
+              "francia"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0108-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0108-ap-02-it-00",
+            "apartado_id": "ibx-0108-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jaime_Bot%C3%ADn",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0109",
+    "slug": "familia-botin",
+    "nombre_completo": "Familia Botín",
+    "alias": "Familia Botín",
+    "cargo_actual": "Saga banquera cántabra",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia banquera. Tres generaciones al frente del Santander desde 1950. Ana Botín actual presidenta. Rama colateral Botín-Rivero (Jaime Botín, Bankinter).",
+    "tags": [
+      "familia",
+      "botin",
+      "banca"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Familia_Bot%C3%ADn",
+    "apartados": [
+      {
+        "id": "ibx-0109-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "ibx-0109-ap-00-it-00",
+            "apartado_id": "ibx-0109-ap-00",
+            "tipo": "dato",
+            "titulo": "Saga",
+            "contenido": "Saga banquera. Emilio Botín-Sanz de Sautuola y López (1903-93), Emilio Botín-Sanz de Sautuola y García de los Ríos (1934-2014), Ana Patricia Botín-Sanz de Sautuola O'Shea (1960-).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0109-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0109-ap-01-it-00",
+            "apartado_id": "ibx-0109-ap-01",
+            "tipo": "contacto",
+            "titulo": "Ramas",
+            "contenido": "Rama Botín-O'Shea (Santander, Ana Botín). Rama Botín-Rivero (Bankinter, Jaime Botín).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0109-ap-01-it-01",
+            "apartado_id": "ibx-0109-ap-01",
+            "tipo": "contacto",
+            "titulo": "Rama Botín-O'Shea (Santander)",
+            "contenido": "Ana Patricia (presidenta Santander), Javier (consejero familiar), Carmen, Paloma. Madre Carmen O'Shea Soriano.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "santander"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0109-ap-01-it-02",
+            "apartado_id": "ibx-0109-ap-01",
+            "tipo": "contacto",
+            "titulo": "Rama Botín-Rivero (Bankinter)",
+            "contenido": "Jaime Botín (Bankinter vía Cartival, condenado Picasso). Sobrinos vinculados a Bankinter.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bankinter",
+              "cartival"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0109-ap-01-it-03",
+            "apartado_id": "ibx-0109-ap-01",
+            "tipo": "contacto",
+            "titulo": "Fundación Botín / Centro Botín",
+            "contenido": "Plataforma filantrópica y cultural.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacion-botin"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0109-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0109-ap-02-it-00",
+            "apartado_id": "ibx-0109-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Familia_Bot%C3%ADn",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0110",
+    "slug": "familia-del-pino",
+    "nombre_completo": "Familia Del Pino",
+    "alias": "Familia Del Pino",
+    "cargo_actual": "Familia controladora de Ferrovial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia madrileña controladora de Ferrovial (~33%). Rafael del Pino y Moreno (fundador, 1920-2008); sucesión por sus hijos Rafael, María, Joaquín, Leopoldo y Fernando. Una de las grandes fortunas de España.",
+    "tags": [
+      "familia",
+      "del-pino",
+      "ferrovial"
+    ],
+    "fuente_principal": "https://www.ferrovial.com",
+    "apartados": [
+      {
+        "id": "ibx-0110-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0110-ap-00-it-00",
+            "apartado_id": "ibx-0110-ap-00",
+            "tipo": "contacto",
+            "titulo": "Hijos",
+            "contenido": "Rafael (presidente Ferrovial), María, Joaquín, Leopoldo, Fernando. Todos accionistas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0110-ap-00-it-01",
+            "apartado_id": "ibx-0110-ap-00",
+            "tipo": "contacto",
+            "titulo": "Ferrovial (~33%)",
+            "contenido": "Accionista de control vía sociedades patrimoniales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ferrovial"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0110-ap-00-it-02",
+            "apartado_id": "ibx-0110-ap-00",
+            "tipo": "contacto",
+            "titulo": "Rafael, María, Joaquín, Leopoldo, Fernando",
+            "contenido": "Hermanos accionistas. Rafael presidente, María consejera, otros con vehículos propios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "hermanos"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0110-ap-00-it-03",
+            "apartado_id": "ibx-0110-ap-00",
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "Plataforma liberal en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fundacion"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0110-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0110-ap-01-it-00",
+            "apartado_id": "ibx-0110-ap-01",
+            "tipo": "documento",
+            "titulo": "Ferrovial",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.ferrovial.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0111",
+    "slug": "familia-entrecanales",
+    "nombre_completo": "Familia Entrecanales-Domecq",
+    "alias": "Familia Entrecanales",
+    "cargo_actual": "Familia controladora de Acciona",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia madrileña-jerezana controladora de Acciona (~55% vía sociedades patrimoniales). Tres generaciones desde el fundador José Entrecanales y Azcárate.",
+    "tags": [
+      "familia",
+      "entrecanales",
+      "acciona"
+    ],
+    "fuente_principal": "https://www.acciona.com",
+    "apartados": [
+      {
+        "id": "ibx-0111-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0111-ap-00-it-00",
+            "apartado_id": "ibx-0111-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cabeza visible",
+            "contenido": "José Manuel Entrecanales Domecq, presidente de Acciona.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0111-ap-00-it-01",
+            "apartado_id": "ibx-0111-ap-00",
+            "tipo": "contacto",
+            "titulo": "Acciona (~55%)",
+            "contenido": "Control vía vehículos Tussen de Grachten, Wit Europese, otros.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "acciona"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0111-ap-00-it-02",
+            "apartado_id": "ibx-0111-ap-00",
+            "tipo": "contacto",
+            "titulo": "José Manuel y Juan Ignacio Entrecanales Domecq",
+            "contenido": "Hermanos cabeza visible.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "hermanos"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0111-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0111-ap-01-it-00",
+            "apartado_id": "ibx-0111-ap-01",
+            "tipo": "documento",
+            "titulo": "Acciona",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.acciona.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0112",
+    "slug": "familia-grifols",
+    "nombre_completo": "Familia Grifols",
+    "alias": "Familia Grifols",
+    "cargo_actual": "Familia controladora de Grifols",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia catalana controladora de Grifols (~30%) vía Scranton y otros vehículos. Tres generaciones desde Josep Antoni Grifols. Tensión interna 2024-2025 por crisis Gotham y OPA Brookfield fallida.",
+    "tags": [
+      "familia",
+      "grifols"
+    ],
+    "fuente_principal": "https://www.grifols.com",
+    "apartados": [
+      {
+        "id": "ibx-0112-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0112-ap-00-it-00",
+            "apartado_id": "ibx-0112-ap-00",
+            "tipo": "contacto",
+            "titulo": "Vehículos",
+            "contenido": "Scranton Enterprises (B.V.), Deria, Ralledor.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0112-ap-00-it-01",
+            "apartado_id": "ibx-0112-ap-00",
+            "tipo": "contacto",
+            "titulo": "Generación actual",
+            "contenido": "Víctor Grifols Roura (ex CEO), Raimon Grifols Roura (vicepresidente). Hijos: Víctor Jr, Raimon Jr, etc. en consejos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "familia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0112-ap-00-it-02",
+            "apartado_id": "ibx-0112-ap-00",
+            "tipo": "contacto",
+            "titulo": "Vehículos B.V.",
+            "contenido": "Scranton Enterprises B.V., Deria S.A., Ralledor Holding.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vehiculos"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0112-ap-00-it-03",
+            "apartado_id": "ibx-0112-ap-00",
+            "tipo": "contacto",
+            "titulo": "Brookfield (relación)",
+            "contenido": "Negoció OPA conjunta 2024 (fallida noviembre).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "brookfield"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0112-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0112-ap-01-it-00",
+            "apartado_id": "ibx-0112-ap-01",
+            "tipo": "documento",
+            "titulo": "Grifols",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.grifols.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0113",
+    "slug": "familia-lopez-belmonte",
+    "nombre_completo": "Familia López-Belmonte",
+    "alias": "Familia López-Belmonte",
+    "cargo_actual": "Familia controladora de Rovi",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia madrileña controladora de Rovi (~64% vía Norbel Inversiones). Tres generaciones desde Juan López-Belmonte Encina (fundador, 1946).",
+    "tags": [
+      "familia",
+      "lopez-belmonte",
+      "rovi"
+    ],
+    "fuente_principal": "https://www.rovi.es",
+    "apartados": [
+      {
+        "id": "ibx-0113-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0113-ap-00-it-00",
+            "apartado_id": "ibx-0113-ap-00",
+            "tipo": "contacto",
+            "titulo": "Vehículo",
+            "contenido": "Norbel Inversiones S.L.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0113-ap-00-it-01",
+            "apartado_id": "ibx-0113-ap-00",
+            "tipo": "contacto",
+            "titulo": "Norbel Inversiones",
+            "contenido": "Vehículo familiar, ~64% Rovi.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "norbel"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0113-ap-00-it-02",
+            "apartado_id": "ibx-0113-ap-00",
+            "tipo": "contacto",
+            "titulo": "Tres generaciones",
+            "contenido": "Juan López-Belmonte Encina (fundador 1946), Juan López-Belmonte López (presidente), Juan López-Belmonte White (CEO).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "generaciones"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0113-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0113-ap-01-it-00",
+            "apartado_id": "ibx-0113-ap-01",
+            "tipo": "documento",
+            "titulo": "Rovi",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.rovi.es",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0114",
+    "slug": "familia-mittal",
+    "nombre_completo": "Familia Mittal",
+    "alias": "Familia Mittal",
+    "cargo_actual": "Familia controladora de ArcelorMittal",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia india controladora de ArcelorMittal (~37%). Lakshmi Mittal (patriarca, presidente) y su hijo Aditya Mittal (CEO).",
+    "tags": [
+      "familia",
+      "mittal"
+    ],
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "apartados": [
+      {
+        "id": "ibx-0114-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0114-ap-00-it-00",
+            "apartado_id": "ibx-0114-ap-00",
+            "tipo": "contacto",
+            "titulo": "Núcleo",
+            "contenido": "Lakshmi (P), Aditya (CEO), Vanisha (consejera).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0114-ap-00-it-01",
+            "apartado_id": "ibx-0114-ap-00",
+            "tipo": "contacto",
+            "titulo": "Aperam / Mittal Steel legacy",
+            "contenido": "Familia controladora indirecta de Aperam (spin-off inox).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "aperam"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0114-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0114-ap-01-it-00",
+            "apartado_id": "ibx-0114-ap-01",
+            "tipo": "documento",
+            "titulo": "ArcelorMittal",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://corporate.arcelormittal.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0115",
+    "slug": "familia-puig",
+    "nombre_completo": "Familia Puig",
+    "alias": "Familia Puig",
+    "cargo_actual": "Familia controladora de Puig Brands",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Familia catalana controladora de Puig Brands (~70% post-OPV). Cuarta generación desde Antonio Puig Castelló. Marc Puig presidente actual.",
+    "tags": [
+      "familia",
+      "puig"
+    ],
+    "fuente_principal": "https://www.puig.com",
+    "apartados": [
+      {
+        "id": "ibx-0115-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0115-ap-00-it-00",
+            "apartado_id": "ibx-0115-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cúpula",
+            "contenido": "Marc Puig (P), Manuel Puig (VP).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0115-ap-00-it-01",
+            "apartado_id": "ibx-0115-ap-00",
+            "tipo": "contacto",
+            "titulo": "Acciones tipo A doble voto",
+            "contenido": "Mantienen control post-OPV vía estructura accionarial dual.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dual"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0115-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0115-ap-01-it-00",
+            "apartado_id": "ibx-0115-ap-01",
+            "tipo": "documento",
+            "titulo": "Puig",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.puig.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0116",
+    "slug": "enel",
+    "nombre_completo": "Enel S.p.A.",
+    "alias": "Enel",
+    "cargo_actual": "Multinacional eléctrica italiana",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor utility italiana. Controlada por el Tesoro italiano (~24%). Accionista mayoritario de Endesa (70%). Sede en Roma.",
+    "tags": [
+      "empresa-extranjera",
+      "italia",
+      "accionista-control:endesa"
+    ],
+    "fuente_principal": "https://www.enel.com",
+    "apartados": [
+      {
+        "id": "ibx-0116-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0116-ap-00-it-00",
+            "apartado_id": "ibx-0116-ap-00",
+            "tipo": "evento",
+            "titulo": "OPA Endesa",
+            "contenido": "Tomó el control de Endesa en 2007 con Acciona (luego solo en 2009).",
+            "fecha": "2009-02-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0116-ap-00-it-01",
+            "apartado_id": "ibx-0116-ap-00",
+            "tipo": "evento",
+            "titulo": "Era Cattaneo",
+            "contenido": "Flavio Cattaneo CEO desde mayo 2023 sustituyendo a Francesco Starace.",
+            "fecha": "2023-05-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0116-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0116-ap-01-it-00",
+            "apartado_id": "ibx-0116-ap-01",
+            "tipo": "dato",
+            "titulo": "Pivot a Italia bajo Meloni",
+            "contenido": "Reordenación de inversiones priorizando Italia y Iberia, desinversiones en LatAm marginal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0116-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0116-ap-02-it-00",
+            "apartado_id": "ibx-0116-ap-02",
+            "tipo": "contacto",
+            "titulo": "Endesa",
+            "contenido": "70,1% del capital, decisiones estratégicas integradas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0116-ap-02-it-01",
+            "apartado_id": "ibx-0116-ap-02",
+            "tipo": "contacto",
+            "titulo": "Tesoro italiano",
+            "contenido": "~24%, accionista de referencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0116-ap-02-it-02",
+            "apartado_id": "ibx-0116-ap-02",
+            "tipo": "contacto",
+            "titulo": "Endesa (70,1%)",
+            "contenido": "Filial española cotizada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "endesa"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0116-ap-02-it-03",
+            "apartado_id": "ibx-0116-ap-02",
+            "tipo": "contacto",
+            "titulo": "Enel Green Power",
+            "contenido": "Filial de renovables global.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "egp"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0116-ap-02-it-04",
+            "apartado_id": "ibx-0116-ap-02",
+            "tipo": "contacto",
+            "titulo": "Flavio Cattaneo (CEO)",
+            "contenido": "CEO con perfil más cercano al Gobierno Meloni.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cattaneo",
+              "meloni"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0116-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0116-ap-03-it-00",
+            "apartado_id": "ibx-0116-ap-03",
+            "tipo": "documento",
+            "titulo": "Enel",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.enel.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0117",
+    "slug": "imperial-brands",
+    "nombre_completo": "Imperial Brands plc",
+    "alias": "Imperial Brands",
+    "cargo_actual": "Tabacalera británica",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Tabacalera británica con sede en Bristol. Marcas: Davidoff, Gauloises, Winston, JPS. Accionista de control de Logista (~50,01%).",
+    "tags": [
+      "empresa-extranjera",
+      "uk",
+      "tabaco",
+      "accionista-control:logista"
+    ],
+    "fuente_principal": "https://www.imperialbrandsplc.com",
+    "apartados": [
+      {
+        "id": "ibx-0117-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0117-ap-00-it-00",
+            "apartado_id": "ibx-0117-ap-00",
+            "tipo": "contacto",
+            "titulo": "Logista",
+            "contenido": "~50,01% del capital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0117-ap-00-it-01",
+            "apartado_id": "ibx-0117-ap-00",
+            "tipo": "contacto",
+            "titulo": "Logista (50,01%)",
+            "contenido": "Accionista de control. Decisiones operativas Logista pasan por Bristol.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "logista"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0117-ap-00-it-02",
+            "apartado_id": "ibx-0117-ap-00",
+            "tipo": "contacto",
+            "titulo": "Stéphan Vermut (CEO Imperial)",
+            "contenido": "CEO desde 2020.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vermut"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0117-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0117-ap-01-it-00",
+            "apartado_id": "ibx-0117-ap-01",
+            "tipo": "documento",
+            "titulo": "Imperial Brands",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.imperialbrandsplc.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0118",
+    "slug": "qatar-investment-authority",
+    "nombre_completo": "Qatar Investment Authority",
+    "alias": "QIA",
+    "cargo_actual": "Fondo soberano de Qatar",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fondo soberano de Qatar (~500.000 M$ activos). Accionista relevante de Iberdrola (~8%), Colonial (~19%), El Corte Inglés (no cotizada), y otros.",
+    "tags": [
+      "fondo-soberano",
+      "qatar",
+      "accionista"
+    ],
+    "fuente_principal": "https://www.qia.qa",
+    "apartados": [
+      {
+        "id": "ibx-0118-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0118-ap-00-it-00",
+            "apartado_id": "ibx-0118-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cartera España",
+            "contenido": "Iberdrola, Colonial, El Corte Inglés (10%), Banco Santander Brasil.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0118-ap-00-it-01",
+            "apartado_id": "ibx-0118-ap-00",
+            "tipo": "contacto",
+            "titulo": "Familia Al Thani",
+            "contenido": "Controlado por el Estado de Qatar (Tamim bin Hamad Al Thani).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "al-thani"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0118-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0118-ap-01-it-00",
+            "apartado_id": "ibx-0118-ap-01",
+            "tipo": "documento",
+            "titulo": "QIA",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.qia.qa",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0119",
+    "slug": "qatar-airways",
+    "nombre_completo": "Qatar Airways Group",
+    "alias": "Qatar Airways",
+    "cargo_actual": "Aerolínea catarí",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Aerolínea estatal de Qatar. Mayor accionista de IAG (~25%, límite UE). Socio fundador de oneworld.",
+    "tags": [
+      "empresa-extranjera",
+      "qatar",
+      "aerolinea",
+      "accionista-control:iag"
+    ],
+    "fuente_principal": "https://www.qatarairways.com",
+    "apartados": [
+      {
+        "id": "ibx-0119-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0119-ap-00-it-00",
+            "apartado_id": "ibx-0119-ap-00",
+            "tipo": "contacto",
+            "titulo": "IAG",
+            "contenido": "~25% del capital.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0119-ap-00-it-01",
+            "apartado_id": "ibx-0119-ap-00",
+            "tipo": "contacto",
+            "titulo": "IAG (~25%)",
+            "contenido": "Mayor accionista. Akbar Al Baker (ex CEO) y luego Badr Mohammed Al Meer (CEO).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iag"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0119-ap-00-it-02",
+            "apartado_id": "ibx-0119-ap-00",
+            "tipo": "contacto",
+            "titulo": "oneworld",
+            "contenido": "Alianza estratégica con IAG en oneworld.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "oneworld"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0119-ap-00-it-03",
+            "apartado_id": "ibx-0119-ap-00",
+            "tipo": "contacto",
+            "titulo": "Estado de Qatar",
+            "contenido": "Aerolínea estatal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "qatar"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0119-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0119-ap-01-it-00",
+            "apartado_id": "ibx-0119-ap-01",
+            "tipo": "documento",
+            "titulo": "Qatar Airways",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.qatarairways.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0120",
+    "slug": "stc-saudi-telecom",
+    "nombre_completo": "Saudi Telecom Company",
+    "alias": "STC Group",
+    "cargo_actual": "Operador telecos de Arabia Saudí",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Operador estatal de telecomunicaciones de Arabia Saudí. Controlado por el PIF (fondo soberano saudí). Adquirió ~9,9% de Telefónica en 2023.",
+    "tags": [
+      "empresa-extranjera",
+      "arabia-saudi",
+      "telecos",
+      "accionista:telefonica"
+    ],
+    "fuente_principal": "https://www.stc.com.sa",
+    "apartados": [
+      {
+        "id": "ibx-0120-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0120-ap-00-it-00",
+            "apartado_id": "ibx-0120-ap-00",
+            "tipo": "evento",
+            "titulo": "Entrada Telefónica",
+            "contenido": "Compra ~9,9% en septiembre 2023. Operación que motivó respuesta del Gobierno español vía SEPI.",
+            "fecha": "2023-09-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0120-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0120-ap-01-it-00",
+            "apartado_id": "ibx-0120-ap-01",
+            "tipo": "contacto",
+            "titulo": "PIF",
+            "contenido": "Controlada por Public Investment Fund.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0120-ap-01-it-01",
+            "apartado_id": "ibx-0120-ap-01",
+            "tipo": "contacto",
+            "titulo": "Telefónica (~9,9%)",
+            "contenido": "Compra septiembre 2023. Operación que motivó respuesta SEPI.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "telefonica"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0120-ap-01-it-02",
+            "apartado_id": "ibx-0120-ap-01",
+            "tipo": "contacto",
+            "titulo": "PIF (fondo soberano saudí)",
+            "contenido": "Controlado por el Public Investment Fund de Arabia Saudí.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pif"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0120-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0120-ap-02-it-00",
+            "apartado_id": "ibx-0120-ap-02",
+            "tipo": "documento",
+            "titulo": "STC",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.stc.com.sa",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0121",
+    "slug": "gotham-city",
+    "nombre_completo": "Gotham City Research LLC",
+    "alias": "Gotham City",
+    "cargo_actual": "Firma bajista (short-selling activista)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Firma neoyorquina especializada en research bajista. Fundada por Daniel Yu. Famosa por destapar fraudes contables (Gowex 2014, Grifols 2024).",
+    "tags": [
+      "bajista",
+      "short-selling",
+      "ee-uu"
+    ],
+    "fuente_principal": "https://www.gothamcityresearch.com",
+    "apartados": [
+      {
+        "id": "ibx-0121-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0121-ap-00-it-00",
+            "apartado_id": "ibx-0121-ap-00",
+            "tipo": "evento",
+            "titulo": "Caso Gowex",
+            "contenido": "Su informe de julio 2014 destapó el fraude de Gowex (Jenaro García).",
+            "fecha": "2014-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0121-ap-00-it-01",
+            "apartado_id": "ibx-0121-ap-00",
+            "tipo": "evento",
+            "titulo": "Caso Grifols",
+            "contenido": "Informe enero 2024 sobre la relación Grifols-Scranton. Acción cayó >40%.",
+            "fecha": "2024-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0121-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0121-ap-01-it-00",
+            "apartado_id": "ibx-0121-ap-01",
+            "tipo": "contacto",
+            "titulo": "Daniel Yu (fundador)",
+            "contenido": "Analista bajista neoyorquino, fundador.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "yu"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0121-ap-01-it-01",
+            "apartado_id": "ibx-0121-ap-01",
+            "tipo": "contacto",
+            "titulo": "General Industrial Partners (con quien co-publican)",
+            "contenido": "Co-publicó análisis Grifols con General Industrial Partners (UK).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gip-uk"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0121-ap-01-it-02",
+            "apartado_id": "ibx-0121-ap-01",
+            "tipo": "contacto",
+            "titulo": "Casos",
+            "contenido": "Gowex (2014, suicidio empresa), Quindell (2014), Aerojet, Grifols (2024).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historial"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0121-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0121-ap-02-it-00",
+            "apartado_id": "ibx-0121-ap-02",
+            "tipo": "documento",
+            "titulo": "Gotham",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.gothamcityresearch.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0122",
+    "slug": "gic-singapur",
+    "nombre_completo": "GIC Private Limited",
+    "alias": "GIC",
+    "cargo_actual": "Fondo soberano de Singapur",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Fondo soberano de Singapur. ~770.000 M$ activos. Accionista relevante de Cellnex (~7%) y otras infraestructuras europeas.",
+    "tags": [
+      "fondo-soberano",
+      "singapur"
+    ],
+    "fuente_principal": "https://www.gic.com.sg",
+    "apartados": [
+      {
+        "id": "ibx-0122-ap-00",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0122-ap-00-it-00",
+            "apartado_id": "ibx-0122-ap-00",
+            "tipo": "dato",
+            "titulo": "Infraestructura europea",
+            "contenido": "GIC concentra capital paciente en infraestructuras europeas (torres, redes, autopistas).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "infraestructura"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0122-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0122-ap-01-it-00",
+            "apartado_id": "ibx-0122-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cellnex",
+            "contenido": "~7%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0122-ap-01-it-01",
+            "apartado_id": "ibx-0122-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cellnex (~7%)",
+            "contenido": "Accionista relevante. Apoyo al cambio de CEO 2023.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cellnex"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0122-ap-01-it-02",
+            "apartado_id": "ibx-0122-ap-01",
+            "tipo": "contacto",
+            "titulo": "Estado Singapur",
+            "contenido": "Fondo soberano del Estado de Singapur.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "singapur"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0122-ap-01-it-03",
+            "apartado_id": "ibx-0122-ap-01",
+            "tipo": "contacto",
+            "titulo": "Lim Chow Kiat (CEO)",
+            "contenido": "CEO de GIC desde 2017.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "lim"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0122-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0122-ap-02-it-00",
+            "apartado_id": "ibx-0122-ap-02",
+            "tipo": "documento",
+            "titulo": "GIC",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.gic.com.sg",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0123",
+    "slug": "edizione-benetton",
+    "nombre_completo": "Edizione S.p.A.",
+    "alias": "Edizione (Benetton)",
+    "cargo_actual": "Holding patrimonial familia Benetton",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Holding italiano de la familia Benetton (Treviso). Antiguo accionista de Atlantia/Autostrade. Accionista de Cellnex vía ConnecT (~9%).",
+    "tags": [
+      "holding-familiar",
+      "italia",
+      "benetton"
+    ],
+    "fuente_principal": "https://www.edizione.com",
+    "apartados": [
+      {
+        "id": "ibx-0123-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0123-ap-00-it-00",
+            "apartado_id": "ibx-0123-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cellnex",
+            "contenido": "~9% vía ConnecT.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0123-ap-00-it-01",
+            "apartado_id": "ibx-0123-ap-00",
+            "tipo": "contacto",
+            "titulo": "Familia Benetton",
+            "contenido": "Cuatro hermanos fundadores (Luciano, Giuliana, Gilberto, Carlo) y herederos (Alessandro Benetton presidente).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "benetton"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0123-ap-00-it-02",
+            "apartado_id": "ibx-0123-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cellnex (~9%)",
+            "contenido": "Via vehículo ConnecT.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cellnex"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0123-ap-00-it-03",
+            "apartado_id": "ibx-0123-ap-00",
+            "tipo": "contacto",
+            "titulo": "Atlantia legacy",
+            "contenido": "Antiguo accionista de Atlantia (Autostrade per l'Italia) - vendida en 2022 tras tragedia Genova.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "atlantia"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0123-ap-00-it-04",
+            "apartado_id": "ibx-0123-ap-00",
+            "tipo": "contacto",
+            "titulo": "Mundys (Aeroporti Roma, Telepass)",
+            "contenido": "Tras venta Atlantia, Edizione retiene parte vía Mundys.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "mundys"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0123-ap-01",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "ibx-0123-ap-01-it-00",
+            "apartado_id": "ibx-0123-ap-01",
+            "tipo": "evento",
+            "titulo": "Tragedia Puente Morandi (2018)",
+            "contenido": "Colapso del puente de Génova (gestionado por Autostrade per l'Italia, controlada por Atlantia/Edizione) provocó 43 muertes. Salida ordenada de Atlantia.",
+            "fecha": "2018-08-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "morandi"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0123-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0123-ap-02-it-00",
+            "apartado_id": "ibx-0123-ap-02",
+            "tipo": "documento",
+            "titulo": "Edizione",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.edizione.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0124",
+    "slug": "ifm-investors",
+    "nombre_completo": "IFM Investors",
+    "alias": "IFM",
+    "cargo_actual": "Gestor australiano de fondos de pensiones",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Gestor australiano de fondos de pensiones. ~217.000 M$ en gestión. Accionista de Naturgy (~15%) tras OPA parcial 2021.",
+    "tags": [
+      "fondo",
+      "australia",
+      "accionista:naturgy"
+    ],
+    "fuente_principal": "https://www.ifminvestors.com",
+    "apartados": [
+      {
+        "id": "ibx-0124-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0124-ap-00-it-00",
+            "apartado_id": "ibx-0124-ap-00",
+            "tipo": "evento",
+            "titulo": "OPA parcial Naturgy",
+            "contenido": "Lanzó OPA en 2021. El Gobierno autorizó con condiciones.",
+            "fecha": "2021-08-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0124-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0124-ap-01-it-00",
+            "apartado_id": "ibx-0124-ap-01",
+            "tipo": "dato",
+            "titulo": "Capital paciente",
+            "contenido": "Inversor de largo plazo (>10 años), perfil distinto de private equity tradicional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "estrategia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0124-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0124-ap-02-it-00",
+            "apartado_id": "ibx-0124-ap-02",
+            "tipo": "contacto",
+            "titulo": "Naturgy (~15%)",
+            "contenido": "Tras OPA parcial 2021, autorizada con condiciones por Gobierno español.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "naturgy"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0124-ap-02-it-01",
+            "apartado_id": "ibx-0124-ap-02",
+            "tipo": "contacto",
+            "titulo": "Fondos de pensiones australianos",
+            "contenido": "Propiedad de fondos de pensiones australianos (industria superannuation).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "australia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0124-ap-02-it-02",
+            "apartado_id": "ibx-0124-ap-02",
+            "tipo": "contacto",
+            "titulo": "David Neal (CEO)",
+            "contenido": "CEO de IFM Investors desde 2019.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "neal"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0124-ap-03",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0124-ap-03-it-00",
+            "apartado_id": "ibx-0124-ap-03",
+            "tipo": "documento",
+            "titulo": "IFM",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.ifminvestors.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0125",
+    "slug": "cvc-capital",
+    "nombre_completo": "CVC Capital Partners",
+    "alias": "CVC",
+    "cargo_actual": "Gestor europeo de private equity",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Gestor europeo de private equity. ~186.000 M€ en gestión. Accionista de Naturgy (~20%) desde 2018.",
+    "tags": [
+      "private-equity",
+      "reino-unido",
+      "accionista:naturgy"
+    ],
+    "fuente_principal": "https://www.cvc.com",
+    "apartados": [
+      {
+        "id": "ibx-0125-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0125-ap-00-it-00",
+            "apartado_id": "ibx-0125-ap-00",
+            "tipo": "contacto",
+            "titulo": "Naturgy",
+            "contenido": "~20%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0125-ap-00-it-01",
+            "apartado_id": "ibx-0125-ap-00",
+            "tipo": "contacto",
+            "titulo": "Naturgy (~20%)",
+            "contenido": "Desde 2018 vía Rioja Bidco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "naturgy"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0125-ap-00-it-02",
+            "apartado_id": "ibx-0125-ap-00",
+            "tipo": "contacto",
+            "titulo": "Universidad Pública",
+            "contenido": "Inversor en distintos sectores: fútbol (LaLiga - Operación Boost en 2021), Tendam, Vitalia, Naturgy.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera-espana"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0125-ap-00-it-03",
+            "apartado_id": "ibx-0125-ap-00",
+            "tipo": "contacto",
+            "titulo": "LaLiga - Operación Boost",
+            "contenido": "Inversor estratégico de LaLiga desde 2021 (operación rechazada inicialmente por Real Madrid y FC Barcelona).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "laliga"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0125-ap-00-it-04",
+            "apartado_id": "ibx-0125-ap-00",
+            "tipo": "contacto",
+            "titulo": "Tendam, Vitalia, Universidad Europea",
+            "contenido": "Cartera España diversificada: retail, residencias mayores, educación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera-espana"
+            ],
+            "orden": 4
+          },
+          {
+            "id": "ibx-0125-ap-00-it-05",
+            "apartado_id": "ibx-0125-ap-00",
+            "tipo": "contacto",
+            "titulo": "Salida a bolsa 2024",
+            "contenido": "CVC se listó en Ámsterdam en abril 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opv"
+            ],
+            "orden": 5
+          }
+        ]
+      },
+      {
+        "id": "ibx-0125-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0125-ap-01-it-00",
+            "apartado_id": "ibx-0125-ap-01",
+            "tipo": "documento",
+            "titulo": "CVC",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.cvc.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0126",
+    "slug": "gip",
+    "nombre_completo": "Global Infrastructure Partners",
+    "alias": "GIP",
+    "cargo_actual": "Gestor de fondos de infraestructura (BlackRock)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor gestor independiente de fondos de infraestructura del mundo. Adquirido por BlackRock en 2024. Accionista de Naturgy (~20%).",
+    "tags": [
+      "fondo-infraestructura",
+      "ee-uu",
+      "accionista:naturgy"
+    ],
+    "fuente_principal": "https://www.global-infra.com",
+    "apartados": [
+      {
+        "id": "ibx-0126-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0126-ap-00-it-00",
+            "apartado_id": "ibx-0126-ap-00",
+            "tipo": "contacto",
+            "titulo": "BlackRock",
+            "contenido": "Adquirido por BlackRock en 2024 por 12.500 M$.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "blackrock"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0126-ap-00-it-01",
+            "apartado_id": "ibx-0126-ap-00",
+            "tipo": "contacto",
+            "titulo": "Naturgy (~20%)",
+            "contenido": "Accionista desde 2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "naturgy"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0126-ap-00-it-02",
+            "apartado_id": "ibx-0126-ap-00",
+            "tipo": "contacto",
+            "titulo": "Adebayo Ogunlesi (cofundador)",
+            "contenido": "Cofundador y CEO de GIP. Ahora vicepresidente BlackRock.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ogunlesi"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0126-ap-00-it-03",
+            "apartado_id": "ibx-0126-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cartera global",
+            "contenido": "Gatwick (UK), Edinburgh Airport, Suez Water (Norteamérica), Italo (Italia).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0126-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0126-ap-01-it-00",
+            "apartado_id": "ibx-0126-ap-01",
+            "tipo": "documento",
+            "titulo": "GIP",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.global-infra.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0127",
+    "slug": "nippon-steel",
+    "nombre_completo": "Nippon Steel Corporation",
+    "alias": "Nippon Steel",
+    "cargo_actual": "Siderúrgica japonesa",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Mayor siderúrgica japonesa. Accionista relevante de Acerinox (~19%). En 2024-2025 intentó OPA fallida sobre US Steel.",
+    "tags": [
+      "empresa-extranjera",
+      "japon",
+      "siderurgia",
+      "accionista:acerinox"
+    ],
+    "fuente_principal": "https://www.nipponsteel.com",
+    "apartados": [
+      {
+        "id": "ibx-0127-ap-00",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "ibx-0127-ap-00-it-00",
+            "apartado_id": "ibx-0127-ap-00",
+            "tipo": "dato",
+            "titulo": "Descarbonización siderurgia",
+            "contenido": "Apuesta por DRI con H2 y captura de CO2.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "descarbonizacion"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0127-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0127-ap-01-it-00",
+            "apartado_id": "ibx-0127-ap-01",
+            "tipo": "contacto",
+            "titulo": "Acerinox",
+            "contenido": "~19%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0127-ap-01-it-01",
+            "apartado_id": "ibx-0127-ap-01",
+            "tipo": "contacto",
+            "titulo": "Acerinox (~19%)",
+            "contenido": "Accionista histórico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "acerinox"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0127-ap-01-it-02",
+            "apartado_id": "ibx-0127-ap-01",
+            "tipo": "contacto",
+            "titulo": "US Steel - OPA fallida",
+            "contenido": "OPA 14.900 M$ sobre US Steel bloqueada por Biden enero 2025, revisada bajo Trump.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "us-steel"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0127-ap-01-it-03",
+            "apartado_id": "ibx-0127-ap-01",
+            "tipo": "contacto",
+            "titulo": "Eiji Hashimoto (CEO)",
+            "contenido": "CEO de Nippon Steel desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "hashimoto"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0127-ap-01-it-04",
+            "apartado_id": "ibx-0127-ap-01",
+            "tipo": "contacto",
+            "titulo": "Tata Steel UK / Europa",
+            "contenido": "Joint venture Tata-Nippon en Países Bajos. Salida ordenada UK.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tata"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0127-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0127-ap-02-it-00",
+            "apartado_id": "ibx-0127-ap-02",
+            "tipo": "documento",
+            "titulo": "Nippon Steel",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.nipponsteel.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0128",
+    "slug": "sonatrach",
+    "nombre_completo": "Sonatrach",
+    "alias": "Sonatrach",
+    "cargo_actual": "Petrolera estatal argelina",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Petrolera y gasista estatal de Argelia. Proveedor histórico de gas a España vía Medgaz (socio de Naturgy). Pieza clave de la geopolítica energética hispano-argelina.",
+    "tags": [
+      "empresa-extranjera",
+      "argelia",
+      "gas",
+      "socio:naturgy"
+    ],
+    "fuente_principal": "https://sonatrach.com",
+    "apartados": [
+      {
+        "id": "ibx-0128-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0128-ap-00-it-00",
+            "apartado_id": "ibx-0128-ap-00",
+            "tipo": "contacto",
+            "titulo": "Naturgy / Medgaz",
+            "contenido": "Socio en Medgaz (gasoducto).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0128-ap-00-it-01",
+            "apartado_id": "ibx-0128-ap-00",
+            "tipo": "contacto",
+            "titulo": "Crisis Sáhara 2022",
+            "contenido": "Suspensión parcial de contratos tras viraje español sobre el Sáhara Occidental.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0128-ap-00-it-02",
+            "apartado_id": "ibx-0128-ap-00",
+            "tipo": "contacto",
+            "titulo": "Naturgy",
+            "contenido": "Socio en Medgaz (gasoducto Argelia-Almería).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "naturgy"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0128-ap-00-it-03",
+            "apartado_id": "ibx-0128-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cepsa",
+            "contenido": "Cepsa históricamente vinculada (Sonatrach fue accionista).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cepsa"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0128-ap-00-it-04",
+            "apartado_id": "ibx-0128-ap-00",
+            "tipo": "contacto",
+            "titulo": "Gobierno argelino",
+            "contenido": "Empresa estatal. Relación geopolítica directa con Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "argelia"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0128-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0128-ap-01-it-00",
+            "apartado_id": "ibx-0128-ap-01",
+            "tipo": "documento",
+            "titulo": "Sonatrach",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://sonatrach.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0129",
+    "slug": "moderna",
+    "nombre_completo": "Moderna Inc.",
+    "alias": "Moderna",
+    "cargo_actual": "Biotech estadounidense (mRNA)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Biotech estadounidense pionera de las vacunas mRNA contra Covid. Sede en Cambridge (Massachusetts). Partner de Rovi para fabricación europea.",
+    "tags": [
+      "empresa-extranjera",
+      "ee-uu",
+      "biotech",
+      "socio:rovi"
+    ],
+    "fuente_principal": "https://www.modernatx.com",
+    "apartados": [
+      {
+        "id": "ibx-0129-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0129-ap-00-it-00",
+            "apartado_id": "ibx-0129-ap-00",
+            "tipo": "contacto",
+            "titulo": "Rovi",
+            "contenido": "Fabricación europea de mRNA-1273.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0129-ap-00-it-01",
+            "apartado_id": "ibx-0129-ap-00",
+            "tipo": "contacto",
+            "titulo": "Rovi (España)",
+            "contenido": "Partner industrial para fill-and-finish europeo de mRNA-1273.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rovi"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0129-ap-00-it-02",
+            "apartado_id": "ibx-0129-ap-00",
+            "tipo": "contacto",
+            "titulo": "Stéphane Bancel (CEO)",
+            "contenido": "CEO francés desde 2011.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bancel"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0129-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0129-ap-01-it-00",
+            "apartado_id": "ibx-0129-ap-01",
+            "tipo": "documento",
+            "titulo": "Moderna",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.modernatx.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0130",
+    "slug": "liberty-global",
+    "nombre_completo": "Liberty Global plc",
+    "alias": "Liberty Global",
+    "cargo_actual": "Conglomerado de telecomunicaciones (John Malone)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Conglomerado de telecomunicaciones y cable. Sede legal Reino Unido. Socio 50/50 de Telefónica en Virgin Media O2 (Reino Unido).",
+    "tags": [
+      "empresa-extranjera",
+      "uk",
+      "telecos",
+      "socio:telefonica"
+    ],
+    "fuente_principal": "https://www.libertyglobal.com",
+    "apartados": [
+      {
+        "id": "ibx-0130-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0130-ap-00-it-00",
+            "apartado_id": "ibx-0130-ap-00",
+            "tipo": "contacto",
+            "titulo": "VMO2",
+            "contenido": "50% de Virgin Media O2.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0130-ap-00-it-01",
+            "apartado_id": "ibx-0130-ap-00",
+            "tipo": "contacto",
+            "titulo": "Telefónica - VMO2",
+            "contenido": "Joint venture 50/50 desde junio 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "telefonica",
+              "vmo2"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0130-ap-00-it-02",
+            "apartado_id": "ibx-0130-ap-00",
+            "tipo": "contacto",
+            "titulo": "John Malone",
+            "contenido": "Magnate del cable y telecos. Mayor accionista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "malone"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0130-ap-00-it-03",
+            "apartado_id": "ibx-0130-ap-00",
+            "tipo": "contacto",
+            "titulo": "Mike Fries (CEO)",
+            "contenido": "CEO de Liberty Global desde 2005.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fries"
+            ],
+            "orden": 3
+          },
+          {
+            "id": "ibx-0130-ap-00-it-04",
+            "apartado_id": "ibx-0130-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cartera europea",
+            "contenido": "VMO2 (UK), Sunrise (Suiza, escindida 2024), Telenet (Bélgica), UPC (Polonia, Eslovaquia).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 4
+          }
+        ]
+      },
+      {
+        "id": "ibx-0130-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0130-ap-01-it-00",
+            "apartado_id": "ibx-0130-ap-01",
+            "tipo": "documento",
+            "titulo": "Liberty Global",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.libertyglobal.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0131",
+    "slug": "brookfield",
+    "nombre_completo": "Brookfield Corporation",
+    "alias": "Brookfield",
+    "cargo_actual": "Gestor canadiense de activos alternativos",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Gestor canadiense de activos alternativos (~900.000 M$). Intentó OPA conjunta con familia Grifols sobre Grifols S.A. en 2024 (fallida).",
+    "tags": [
+      "fondo",
+      "canada"
+    ],
+    "fuente_principal": "https://www.brookfield.com",
+    "apartados": [
+      {
+        "id": "ibx-0131-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0131-ap-00-it-00",
+            "apartado_id": "ibx-0131-ap-00",
+            "tipo": "evento",
+            "titulo": "OPA fallida Grifols",
+            "contenido": "Negociación con familia Grifols entre julio y noviembre 2024 sin acuerdo en precio.",
+            "fecha": "2024-11-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0131-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0131-ap-01-it-00",
+            "apartado_id": "ibx-0131-ap-01",
+            "tipo": "contacto",
+            "titulo": "Grifols (OPA fallida)",
+            "contenido": "Negoció con familia OPA de exclusión 2024, retirada noviembre 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "grifols"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0131-ap-01-it-01",
+            "apartado_id": "ibx-0131-ap-01",
+            "tipo": "contacto",
+            "titulo": "Bruce Flatt (CEO)",
+            "contenido": "CEO de Brookfield desde 2002.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "flatt"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0131-ap-01-it-02",
+            "apartado_id": "ibx-0131-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cartera infraestructura España",
+            "contenido": "Saeta Yield (eolica, vendida), X-Elio, Cupa Pizarras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cartera"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0131-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0131-ap-02-it-00",
+            "apartado_id": "ibx-0131-ap-02",
+            "tipo": "documento",
+            "titulo": "Brookfield",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.brookfield.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0132",
+    "slug": "banco-popular",
+    "nombre_completo": "Banco Popular Español S.A.",
+    "alias": "Banco Popular",
+    "cargo_actual": "Banco español (defunto, integrado en Santander)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Histórico banco español (1926-2017). Resuelto por la JUR el 7 junio 2017 y vendido por 1€ a Banco Santander, sin coste para el contribuyente.",
+    "tags": [
+      "banco-defunto",
+      "resolucion",
+      "santander"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Banco_Popular_Espa%C3%B1ol",
+    "apartados": [
+      {
+        "id": "ibx-0132-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0132-ap-00-it-00",
+            "apartado_id": "ibx-0132-ap-00",
+            "tipo": "evento",
+            "titulo": "Resolución JUR",
+            "contenido": "Primera y única resolución bancaria de la JUR en España. Accionistas y bonistas subordinados a 0.",
+            "fecha": "2017-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0132-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0132-ap-01-it-00",
+            "apartado_id": "ibx-0132-ap-01",
+            "tipo": "contacto",
+            "titulo": "Santander",
+            "contenido": "Lo absorbió tras resolución.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0132-ap-01-it-01",
+            "apartado_id": "ibx-0132-ap-01",
+            "tipo": "contacto",
+            "titulo": "Santander (absorbente)",
+            "contenido": "Adquirió por 1€ tras resolución JUR junio 2017.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "santander"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0132-ap-01-it-02",
+            "apartado_id": "ibx-0132-ap-01",
+            "tipo": "contacto",
+            "titulo": "Ángel Ron",
+            "contenido": "Presidente saliente al inicio de la crisis (sucesivo de Emilio Saracho).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ron"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0132-ap-01-it-03",
+            "apartado_id": "ibx-0132-ap-01",
+            "tipo": "contacto",
+            "titulo": "Demandas accionistas",
+            "contenido": "Cientos de demandas pendientes resueltas a favor de la legalidad de la resolución (TG UE 2022).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicial"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0132-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0132-ap-02-it-00",
+            "apartado_id": "ibx-0132-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Banco_Popular_Espa%C3%B1ol",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0133",
+    "slug": "bankia",
+    "nombre_completo": "Bankia S.A.",
+    "alias": "Bankia",
+    "cargo_actual": "Banco español (defunto, integrado en CaixaBank)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banco español resultante de la fusión 2010 de 7 cajas (Caja Madrid, Bancaja, etc.). Nacionalizado en 2012. Fusionado con CaixaBank en marzo 2021.",
+    "tags": [
+      "banco-defunto",
+      "caixabank",
+      "nacionalizado"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Bankia",
+    "apartados": [
+      {
+        "id": "ibx-0133-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0133-ap-00-it-00",
+            "apartado_id": "ibx-0133-ap-00",
+            "tipo": "evento",
+            "titulo": "Nacionalización",
+            "contenido": "Mayo 2012: rescate público de Bankia (~22.000 M€).",
+            "fecha": "2012-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0133-ap-00-it-01",
+            "apartado_id": "ibx-0133-ap-00",
+            "tipo": "evento",
+            "titulo": "Fusión CaixaBank",
+            "contenido": "Marzo 2021.",
+            "fecha": "2021-03-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0133-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0133-ap-01-it-00",
+            "apartado_id": "ibx-0133-ap-01",
+            "tipo": "contacto",
+            "titulo": "CaixaBank (absorbente)",
+            "contenido": "Fusión por absorción marzo 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "caixabank"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0133-ap-01-it-01",
+            "apartado_id": "ibx-0133-ap-01",
+            "tipo": "contacto",
+            "titulo": "FROB - rescate",
+            "contenido": "Rescate ~22.000 M€ mayo 2012.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "frob"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0133-ap-01-it-02",
+            "apartado_id": "ibx-0133-ap-01",
+            "tipo": "contacto",
+            "titulo": "Rato → Goirigolzarri",
+            "contenido": "Rato dimite y es sustituido por Goirigolzarri.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "rato",
+              "goirigolzarri"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0133-ap-01-it-03",
+            "apartado_id": "ibx-0133-ap-01",
+            "tipo": "contacto",
+            "titulo": "Caso Tarjetas Black",
+            "contenido": "Caja Madrid/Bankia: causa por uso de tarjetas opacas. Sentencias 2017-2018.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "tarjetas-black"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0133-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0133-ap-02-it-00",
+            "apartado_id": "ibx-0133-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Bankia",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0134",
+    "slug": "liberbank",
+    "nombre_completo": "Liberbank S.A.",
+    "alias": "Liberbank",
+    "cargo_actual": "Banco español (defunto, integrado en Unicaja)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banco español resultante de la fusión 2011 de Cajastur, Caja de Extremadura y Caja Cantabria. Fusionado con Unicaja en 2021.",
+    "tags": [
+      "banco-defunto",
+      "unicaja"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Liberbank",
+    "apartados": [
+      {
+        "id": "ibx-0134-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0134-ap-00-it-00",
+            "apartado_id": "ibx-0134-ap-00",
+            "tipo": "evento",
+            "titulo": "Fusión Unicaja",
+            "contenido": "Marzo 2021.",
+            "fecha": "2021-03-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0134-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0134-ap-01-it-00",
+            "apartado_id": "ibx-0134-ap-01",
+            "tipo": "contacto",
+            "titulo": "Unicaja (absorbente)",
+            "contenido": "Fusión por absorción marzo 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "unicaja"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0134-ap-01-it-01",
+            "apartado_id": "ibx-0134-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cajastur, Caja Cantabria, Caja Extremadura",
+            "contenido": "Tres cajas integradas en 2011 que formaron Liberbank.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cajas"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "ibx-0134-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0134-ap-02-it-00",
+            "apartado_id": "ibx-0134-ap-02",
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Liberbank",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0135",
+    "slug": "santander-uk",
+    "nombre_completo": "Santander UK plc",
+    "alias": "Santander UK",
+    "cargo_actual": "Filial británica de Santander",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Filial británica de Banco Santander con sede en Londres. Heredera de Abbey National (2004), Alliance & Leicester (2008) y Bradford & Bingley (2008).",
+    "tags": [
+      "filial",
+      "santander",
+      "uk"
+    ],
+    "fuente_principal": "https://www.santander.co.uk",
+    "apartados": [
+      {
+        "id": "ibx-0135-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0135-ap-00-it-00",
+            "apartado_id": "ibx-0135-ap-00",
+            "tipo": "contacto",
+            "titulo": "Banco Santander (matriz)",
+            "contenido": "100% Santander. Sede Londres.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "matriz"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0135-ap-00-it-01",
+            "apartado_id": "ibx-0135-ap-00",
+            "tipo": "contacto",
+            "titulo": "Abbey, A&L, B&B legacy",
+            "contenido": "Heredera de Abbey National (2004), Alliance & Leicester (2008), Bradford & Bingley (2008).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0135-ap-00-it-02",
+            "apartado_id": "ibx-0135-ap-00",
+            "tipo": "contacto",
+            "titulo": "Mercado UK",
+            "contenido": "Compite con HSBC UK, Barclays, Lloyds, NatWest.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencia"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0135-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0135-ap-01-it-00",
+            "apartado_id": "ibx-0135-ap-01",
+            "tipo": "documento",
+            "titulo": "Santander UK",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.santander.co.uk",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0136",
+    "slug": "garanti",
+    "nombre_completo": "Garanti BBVA",
+    "alias": "Garanti",
+    "cargo_actual": "Filial turca de BBVA",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banco turco controlado por BBVA (~86%). Origen Doğuş Holding. Mayor incertidumbre por hiperinflación lira turca y NIIF 29.",
+    "tags": [
+      "filial",
+      "bbva",
+      "turquia"
+    ],
+    "fuente_principal": "https://www.garantibbva.com.tr",
+    "apartados": [
+      {
+        "id": "ibx-0136-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0136-ap-00-it-00",
+            "apartado_id": "ibx-0136-ap-00",
+            "tipo": "contacto",
+            "titulo": "Doğuş",
+            "contenido": "Familia Şahenk, accionista histórico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0136-ap-00-it-01",
+            "apartado_id": "ibx-0136-ap-00",
+            "tipo": "contacto",
+            "titulo": "BBVA (matriz)",
+            "contenido": "~86% BBVA. Sede Estambul.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "matriz"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0136-ap-00-it-02",
+            "apartado_id": "ibx-0136-ap-00",
+            "tipo": "contacto",
+            "titulo": "Familia Sahenk (Doğuş)",
+            "contenido": "Accionista histórico minoritario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dogus"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0136-ap-00-it-03",
+            "apartado_id": "ibx-0136-ap-00",
+            "tipo": "contacto",
+            "titulo": "Hiperinflación Turquía",
+            "contenido": "Aplicación NIIF 29 afecta la consolidación contable desde 2022.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "niif-29"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0136-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0136-ap-01-it-00",
+            "apartado_id": "ibx-0136-ap-01",
+            "tipo": "documento",
+            "titulo": "Garanti",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.garantibbva.com.tr",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0137",
+    "slug": "tsb",
+    "nombre_completo": "TSB Bank plc",
+    "alias": "TSB",
+    "cargo_actual": "Filial británica de Banco Sabadell",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Banco británico (Trustee Savings Bank). Filial de Sabadell desde 2015. ~5 millones de clientes. Pieza clave del debate sobre la OPA BBVA-Sabadell.",
+    "tags": [
+      "filial",
+      "sabadell",
+      "uk"
+    ],
+    "fuente_principal": "https://www.tsb.co.uk",
+    "apartados": [
+      {
+        "id": "ibx-0137-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0137-ap-00-it-00",
+            "apartado_id": "ibx-0137-ap-00",
+            "tipo": "evento",
+            "titulo": "Crisis 2018",
+            "contenido": "Migración tecnológica fallida, multas FCA.",
+            "fecha": "2018-04-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0137-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0137-ap-01-it-00",
+            "apartado_id": "ibx-0137-ap-01",
+            "tipo": "contacto",
+            "titulo": "Banco Sabadell (matriz)",
+            "contenido": "100% Sabadell desde 2015. Sede Edimburgo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "matriz"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0137-ap-01-it-01",
+            "apartado_id": "ibx-0137-ap-01",
+            "tipo": "contacto",
+            "titulo": "OPA BBVA - factor TSB",
+            "contenido": "TSB es elemento clave del debate sobre la OPA hostil de BBVA sobre Sabadell (riesgo de desinversión).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "opa-bbva"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0137-ap-01-it-02",
+            "apartado_id": "ibx-0137-ap-01",
+            "tipo": "contacto",
+            "titulo": "FCA (regulador UK)",
+            "contenido": "Tutela regulatoria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fca"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0137-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0137-ap-02-it-00",
+            "apartado_id": "ibx-0137-ap-02",
+            "tipo": "documento",
+            "titulo": "TSB",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.tsb.co.uk",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0138",
+    "slug": "scottishpower",
+    "nombre_completo": "ScottishPower Ltd.",
+    "alias": "ScottishPower",
+    "cargo_actual": "Filial británica de Iberdrola",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Utility eléctrica con sede en Glasgow. 100% Iberdrola desde 2007. Una de las grandes seis (Big Six) del retail eléctrico británico.",
+    "tags": [
+      "filial",
+      "iberdrola",
+      "uk"
+    ],
+    "fuente_principal": "https://www.scottishpower.com",
+    "apartados": [
+      {
+        "id": "ibx-0138-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0138-ap-00-it-00",
+            "apartado_id": "ibx-0138-ap-00",
+            "tipo": "contacto",
+            "titulo": "Iberdrola (matriz)",
+            "contenido": "100% Iberdrola desde 2007. Sede Glasgow.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "matriz"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0138-ap-00-it-01",
+            "apartado_id": "ibx-0138-ap-00",
+            "tipo": "contacto",
+            "titulo": "Ofgem (regulador UK)",
+            "contenido": "Tutela regulatoria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ofgem"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0138-ap-00-it-02",
+            "apartado_id": "ibx-0138-ap-00",
+            "tipo": "contacto",
+            "titulo": "Big Six UK",
+            "contenido": "Una de las grandes seis utilities británicas (con Centrica, EDF, E.ON, OVO/SSE, Octopus).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "big-six"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0138-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0138-ap-01-it-00",
+            "apartado_id": "ibx-0138-ap-01",
+            "tipo": "documento",
+            "titulo": "ScottishPower",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.scottishpower.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0139",
+    "slug": "avangrid",
+    "nombre_completo": "Avangrid Inc.",
+    "alias": "Avangrid",
+    "cargo_actual": "Filial estadounidense de Iberdrola",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Utility eléctrica con sede en Orange (Connecticut). ~82% Iberdrola. Cotiza en NYSE.",
+    "tags": [
+      "filial",
+      "iberdrola",
+      "ee-uu"
+    ],
+    "fuente_principal": "https://www.avangrid.com",
+    "apartados": [
+      {
+        "id": "ibx-0139-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0139-ap-00-it-00",
+            "apartado_id": "ibx-0139-ap-00",
+            "tipo": "contacto",
+            "titulo": "Iberdrola (matriz)",
+            "contenido": "~82% Iberdrola. Cotiza NYSE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "matriz"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0139-ap-00-it-01",
+            "apartado_id": "ibx-0139-ap-00",
+            "tipo": "contacto",
+            "titulo": "Mercado EE.UU.",
+            "contenido": "Operaciones en Nueva York, Maine, Connecticut, Massachusetts, etc.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "ee-uu"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0139-ap-00-it-02",
+            "apartado_id": "ibx-0139-ap-00",
+            "tipo": "contacto",
+            "titulo": "Conflicto PNM Resources",
+            "contenido": "OPA fallida sobre PNM Resources (Nuevo México) bloqueada por reguladores 2023.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnm"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0139-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0139-ap-01-it-00",
+            "apartado_id": "ibx-0139-ap-01",
+            "tipo": "documento",
+            "titulo": "Avangrid",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.avangrid.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0140",
+    "slug": "hochtief",
+    "nombre_completo": "Hochtief AG",
+    "alias": "Hochtief",
+    "cargo_actual": "Filial alemana de ACS",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Constructora alemana. ~80% propiedad de ACS desde 2011. Cotiza en Frankfurt. A su vez controla Cimic (Australia) y Turner (EE.UU.).",
+    "tags": [
+      "filial",
+      "acs",
+      "alemania"
+    ],
+    "fuente_principal": "https://www.hochtief.com",
+    "apartados": [
+      {
+        "id": "ibx-0140-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0140-ap-00-it-00",
+            "apartado_id": "ibx-0140-ap-00",
+            "tipo": "contacto",
+            "titulo": "ACS (matriz)",
+            "contenido": "~80% ACS desde 2011.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "acs"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0140-ap-00-it-01",
+            "apartado_id": "ibx-0140-ap-00",
+            "tipo": "contacto",
+            "titulo": "Cimic (Australia)",
+            "contenido": "Filial australiana controlada por Hochtief.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "cimic"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0140-ap-00-it-02",
+            "apartado_id": "ibx-0140-ap-00",
+            "tipo": "contacto",
+            "titulo": "Turner (USA)",
+            "contenido": "Filial estadounidense.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "turner"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0140-ap-00-it-03",
+            "apartado_id": "ibx-0140-ap-00",
+            "tipo": "contacto",
+            "titulo": "Florentino Pérez",
+            "contenido": "Decisiones estratégicas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "florentino"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0140-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0140-ap-01-it-00",
+            "apartado_id": "ibx-0140-ap-01",
+            "tipo": "documento",
+            "titulo": "Hochtief",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.hochtief.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0141",
+    "slug": "iberia",
+    "nombre_completo": "Iberia Líneas Aéreas de España S.A.",
+    "alias": "Iberia",
+    "cargo_actual": "Filial española de IAG",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Aerolínea de bandera española. 100% IAG desde 2011. Hub principal Madrid-Barajas. CEO Marco Sansavini.",
+    "tags": [
+      "filial",
+      "iag",
+      "aerolinea"
+    ],
+    "fuente_principal": "https://www.iberia.com",
+    "apartados": [
+      {
+        "id": "ibx-0141-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0141-ap-00-it-00",
+            "apartado_id": "ibx-0141-ap-00",
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "100% IAG desde 2011.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iag"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0141-ap-00-it-01",
+            "apartado_id": "ibx-0141-ap-00",
+            "tipo": "contacto",
+            "titulo": "Hub Madrid-Barajas",
+            "contenido": "Operativa en T4 (Aena). Eje LatAm.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "barajas"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0141-ap-00-it-02",
+            "apartado_id": "ibx-0141-ap-00",
+            "tipo": "contacto",
+            "titulo": "Marco Sansavini (CEO)",
+            "contenido": "CEO desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sansavini"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0141-ap-00-it-03",
+            "apartado_id": "ibx-0141-ap-00",
+            "tipo": "contacto",
+            "titulo": "oneworld",
+            "contenido": "Alianza estratégica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "oneworld"
+            ],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "ibx-0141-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0141-ap-01-it-00",
+            "apartado_id": "ibx-0141-ap-01",
+            "tipo": "documento",
+            "titulo": "Iberia",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.iberia.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0142",
+    "slug": "british-airways",
+    "nombre_completo": "British Airways plc",
+    "alias": "British Airways",
+    "cargo_actual": "Filial británica de IAG",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Aerolínea de bandera del Reino Unido. 100% IAG desde 2011. Hub Heathrow.",
+    "tags": [
+      "filial",
+      "iag",
+      "uk",
+      "aerolinea"
+    ],
+    "fuente_principal": "https://www.britishairways.com",
+    "apartados": [
+      {
+        "id": "ibx-0142-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0142-ap-00-it-00",
+            "apartado_id": "ibx-0142-ap-00",
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "100% IAG desde 2011.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iag"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0142-ap-00-it-01",
+            "apartado_id": "ibx-0142-ap-00",
+            "tipo": "contacto",
+            "titulo": "Hub Heathrow",
+            "contenido": "Mayor cuota en Heathrow (~50% slots).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "heathrow"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0142-ap-00-it-02",
+            "apartado_id": "ibx-0142-ap-00",
+            "tipo": "contacto",
+            "titulo": "Sean Doyle (CEO)",
+            "contenido": "CEO desde 2020.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "doyle"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0142-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0142-ap-01-it-00",
+            "apartado_id": "ibx-0142-ap-01",
+            "tipo": "documento",
+            "titulo": "British Airways",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.britishairways.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0143",
+    "slug": "vueling",
+    "nombre_completo": "Vueling Airlines S.A.",
+    "alias": "Vueling",
+    "cargo_actual": "Filial española low-cost de IAG",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Aerolínea low-cost con base en Barcelona-El Prat. ~100% IAG. CEO Carolina Martinoli.",
+    "tags": [
+      "filial",
+      "iag",
+      "aerolinea",
+      "low-cost"
+    ],
+    "fuente_principal": "https://www.vueling.com",
+    "apartados": [
+      {
+        "id": "ibx-0143-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0143-ap-00-it-00",
+            "apartado_id": "ibx-0143-ap-00",
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "~100% IAG.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iag"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0143-ap-00-it-01",
+            "apartado_id": "ibx-0143-ap-00",
+            "tipo": "contacto",
+            "titulo": "Hub Barcelona-El Prat",
+            "contenido": "Mayor low-cost desde El Prat. Competidor de Ryanair y easyJet.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "elprat"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0143-ap-00-it-02",
+            "apartado_id": "ibx-0143-ap-00",
+            "tipo": "contacto",
+            "titulo": "Carolina Martinoli (CEO)",
+            "contenido": "CEO desde 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "martinoli"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0143-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0143-ap-01-it-00",
+            "apartado_id": "ibx-0143-ap-01",
+            "tipo": "documento",
+            "titulo": "Vueling",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.vueling.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0144",
+    "slug": "aer-lingus",
+    "nombre_completo": "Aer Lingus Group",
+    "alias": "Aer Lingus",
+    "cargo_actual": "Filial irlandesa de IAG",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Aerolínea de bandera irlandesa. 100% IAG desde 2015. Hub Dublín. Acceso clave a EE.UU.",
+    "tags": [
+      "filial",
+      "iag",
+      "aerolinea",
+      "irlanda"
+    ],
+    "fuente_principal": "https://www.aerlingus.com",
+    "apartados": [
+      {
+        "id": "ibx-0144-ap-00",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0144-ap-00-it-00",
+            "apartado_id": "ibx-0144-ap-00",
+            "tipo": "contacto",
+            "titulo": "IAG (matriz)",
+            "contenido": "100% IAG desde 2015.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "iag"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0144-ap-00-it-01",
+            "apartado_id": "ibx-0144-ap-00",
+            "tipo": "contacto",
+            "titulo": "Hub Dublín",
+            "contenido": "Slots clave para Norteamérica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "dublin"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0144-ap-00-it-02",
+            "apartado_id": "ibx-0144-ap-00",
+            "tipo": "contacto",
+            "titulo": "Lynne Embleton (CEO)",
+            "contenido": "CEO desde 2021.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "embleton"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0144-ap-01",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0144-ap-01-it-00",
+            "apartado_id": "ibx-0144-ap-01",
+            "tipo": "documento",
+            "titulo": "Aer Lingus",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.aerlingus.com",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  },
+  {
+    "id": "ibx-0145",
+    "slug": "virgin-media-o2",
+    "nombre_completo": "Virgin Media O2",
+    "alias": "VMO2",
+    "cargo_actual": "Joint venture telecos UK (Telefónica 50% / Liberty Global 50%)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Operador UK de telecos y cable. Joint venture 50/50 de Telefónica y Liberty Global desde 2021.",
+    "tags": [
+      "joint-venture",
+      "telecos",
+      "uk",
+      "telefonica",
+      "liberty-global"
+    ],
+    "fuente_principal": "https://www.virginmediao2.co.uk",
+    "apartados": [
+      {
+        "id": "ibx-0145-ap-00",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0145-ap-00-it-00",
+            "apartado_id": "ibx-0145-ap-00",
+            "tipo": "evento",
+            "titulo": "Cierre JV",
+            "contenido": "Operación cerrada en junio 2021.",
+            "fecha": "2021-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "ibx-0145-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "ibx-0145-ap-01-it-00",
+            "apartado_id": "ibx-0145-ap-01",
+            "tipo": "contacto",
+            "titulo": "Telefónica (50%)",
+            "contenido": "Joint venture 50/50.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "telefonica"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0145-ap-01-it-01",
+            "apartado_id": "ibx-0145-ap-01",
+            "tipo": "contacto",
+            "titulo": "Liberty Global (50%)",
+            "contenido": "Otro socio 50%.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "liberty-global"
+            ],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0145-ap-01-it-02",
+            "apartado_id": "ibx-0145-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mercado UK telecos",
+            "contenido": "Compite con BT/EE, Vodafone UK, Three UK.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "uk"
+            ],
+            "orden": 2
+          }
+        ]
+      },
+      {
+        "id": "ibx-0145-ap-02",
+        "tipo": "evidencia",
+        "titulo": null,
+        "resumen": null,
+        "orden": 6,
+        "items": [
+          {
+            "id": "ibx-0145-ap-02-it-00",
+            "apartado_id": "ibx-0145-ap-02",
+            "tipo": "documento",
+            "titulo": "VMO2",
+            "contenido": "",
+            "fecha": null,
+            "fuente_url": "https://www.virginmediao2.co.uk",
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T10:25:05.025209Z",
+    "updated_at": "2026-05-28T10:25:05.025209Z"
+  }
+]
+
+export const IBEX35_RESUMEN: DossierResumen[] = IBEX35_FIXTURE.map(d => ({
+  id: d.id,
+  slug: d.slug,
+  nombre_completo: d.nombre_completo,
+  alias: d.alias,
+  cargo_actual: d.cargo_actual,
+  partido: d.partido,
+  foto_url: d.foto_url,
+  bio_corta: d.bio_corta,
+  tags: d.tags,
+  n_apartados: d.apartados.length,
+  updated_at: d.updated_at,
+}))
+
+export function getIBXBySlug(slug: string): DossierCompleto | null {
+  return IBEX35_FIXTURE.find(d => d.slug === slug) ?? null
+}

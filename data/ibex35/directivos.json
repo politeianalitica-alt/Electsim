@@ -1,0 +1,6054 @@
+[
+  {
+    "slug": "marta-ortega-perez",
+    "tipo": "actor",
+    "nombre": "Marta Ortega Pérez",
+    "alias": "Marta Ortega",
+    "cargo": "Presidenta no ejecutiva de Inditex",
+    "bio_corta": "Hija menor de Amancio Ortega y Flora Pérez. Tercera generación al frente de Inditex como presidenta no ejecutiva desde abril 2022.",
+    "fuente_principal": "https://www.inditex.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:inditex",
+      "sector:retail-textil"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en A Coruña en 1984. Licenciada en European Business por la European Business School de Londres. Carrera dentro del grupo en Zara (Londres, Shanghai). Hija de Amancio Ortega."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Inicio en tienda",
+            "contenido": "Entró en Zara en 2007 como dependienta en Londres y Shanghai, según narrativa corporativa."
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Asesora de marca",
+            "contenido": "Asesora de moda y posicionamiento de Zara desde 2014 aproximadamente.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta no ejecutiva",
+            "contenido": "Designada presidenta no ejecutiva de Inditex en abril de 2022, sustituyendo a Pablo Isla.",
+            "fecha": "2022-04-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Ortega / Pontegadea",
+            "contenido": "Familia con el mayor patrimonio de España. Pontegadea controla ~59% de Inditex.",
+            "tags": [
+              "pontegadea",
+              "ortega"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Carlos Torretta",
+            "contenido": "Casada con Carlos Torretta (hijo de Roberto Torretta), exejecutivo de Inditex. Boda 2022.",
+            "tags": [
+              "torretta"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Óscar García Maceiras",
+            "contenido": "Tándem ejecutivo con el CEO Óscar García Maceiras (designado el mismo día abril 2022).",
+            "tags": [
+              "maceiras"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crítica nepotismo",
+            "contenido": "Su nombramiento generó debate en prensa económica sobre la transición dinástica vs gobierno corporativo de empresa cotizada.",
+            "tags": [
+              "gobernanza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Comunicado Inditex 30-nov-2021",
+            "fuente_url": "https://www.inditex.com/itxcomweb/es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "oscar-garcia-maceiras",
+    "tipo": "actor",
+    "nombre": "Óscar García Maceiras",
+    "alias": "García Maceiras",
+    "cargo": "Consejero Delegado (CEO) de Inditex",
+    "bio_corta": "Abogado del Estado en excedencia. CEO de Inditex desde abril 2022. Procede de Santander, Popular y previamente de la Abogacía del Estado.",
+    "fuente_principal": "https://www.inditex.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:inditex"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en A Coruña en 1973. Abogado del Estado (opositó en 2003). Trayectoria mixta sector público-banca-cotizada."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abogado del Estado",
+            "contenido": "Cuerpo desde 2003. Asignaciones en Coruña y Madrid.",
+            "fecha": "2003-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Banco Popular",
+            "contenido": "Secretario del consejo y general counsel de Banco Popular entre 2014 y 2017 (hasta resolución).",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Santander",
+            "contenido": "Secretario general y del consejo de Banco Santander 2017-2021 tras la integración del Popular.",
+            "fecha": "2017-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inditex",
+            "contenido": "Director general en marzo 2021 y CEO en abril 2022.",
+            "fecha": "2022-04-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Ortega",
+            "contenido": "Reporta directamente a Marta Ortega y al consejo dominado por Pontegadea.",
+            "tags": [
+              "ortega"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Red Santander",
+            "contenido": "Mantiene relaciones por su paso en Santander con Ana Botín y Bravo (general counsel del Santander).",
+            "tags": [
+              "santander",
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Abogacía del Estado",
+            "contenido": "Vinculado al cuerpo de Abogados del Estado, red de influencia institucional.",
+            "tags": [
+              "abogacia-estado"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sin controversias personales",
+            "contenido": "Perfil técnico sin litigios públicos."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Comunicado Inditex 30-nov-2021",
+            "fuente_url": "https://www.inditex.com/itxcomweb/es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ignacio-sanchez-galan",
+    "tipo": "actor",
+    "nombre": "José Ignacio Sánchez Galán",
+    "alias": "Sánchez Galán",
+    "cargo": "Presidente ejecutivo de Iberdrola",
+    "bio_corta": "Ingeniero industrial. Preside Iberdrola desde 2006. Una de las figuras empresariales más influyentes de España y voz clave del lobby de la transición energética.",
+    "fuente_principal": "https://www.iberdrola.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:iberdrola"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.8,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Salamanca, 1950. Ingeniero industrial (ICAI) y MBA. Considerado el ejecutivo con la carrera más larga al frente de un IBEX 35."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sogecable / Antibióticos",
+            "contenido": "Carrera previa en Sogecable y Antibióticos S.A.",
+            "fecha": "1980-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Airtel / Vodafone",
+            "contenido": "CEO de Airtel (predecesor de Vodafone España) entre 1995 y 2001.",
+            "fecha": "1995-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO de Iberdrola",
+            "contenido": "Llega a Iberdrola como CEO en septiembre 2001.",
+            "fecha": "2001-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente ejecutivo",
+            "contenido": "Asume la presidencia ejecutiva en junio 2006 (sustituyendo a Íñigo de Oriol).",
+            "fecha": "2006-06-21"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Lobby energético",
+            "contenido": "Voz pública muy activa en favor de la electrificación renovable y crítico con políticas que considera perjudiciales (impuesto extraordinario, tope al gas, recortes a renovables retroactivos).",
+            "tags": [
+              "lobby",
+              "energia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Cargo en CEOE",
+            "contenido": "Miembro destacado del comité ejecutivo de la CEOE.",
+            "tags": [
+              "ceoe"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Choque con Pedro Sánchez",
+            "contenido": "Una de las figuras empresariales más críticas con el Gobierno de Sánchez. Tensión sobre impuesto extraordinario, tope al gas, y políticas energéticas.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Conflicto histórico con Florentino Pérez",
+            "contenido": "Guerra societaria 2006-2017 cuando ACS tomó hasta 20% de Iberdrola. Episodio central del caso Villarejo (espionaje de Iberdrola a ACS).",
+            "tags": [
+              "acs",
+              "florentino",
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Eurelectric",
+            "contenido": "Vicepresidente y voz clave en Eurelectric (patronal europea de eléctricas).",
+            "tags": [
+              "eurelectric"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Casa Real / monarquía",
+            "contenido": "Buena interlocución institucional con la Casa Real, presencia en actos oficiales.",
+            "tags": [
+              "casa-real"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre el impuesto",
+            "contenido": "\"El impuesto es confiscatorio y desincentiva la inversión renovable en España\", JGA 2023.",
+            "fecha": "2023-06-21"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Imputación caso Villarejo",
+            "contenido": "Imputado en 2022 por la AN en el caso Villarejo (pieza Iberdrola) por encargos a Villarejo entre 2004-2017. Iberdrola y Sánchez Galán procesados.",
+            "fecha": "2022-12-09",
+            "tags": [
+              "judicial",
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web corporativa",
+            "fuente_url": "https://www.iberdrola.com/conocenos/equipo-directivo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ana-botin",
+    "tipo": "actor",
+    "nombre": "Ana Patricia Botín-Sanz de Sautuola O'Shea",
+    "alias": "Ana Botín",
+    "cargo": "Presidenta ejecutiva de Banco Santander",
+    "bio_corta": "Tercera generación al frente de Banco Santander desde septiembre 2014. Banquera de carrera. Presidió Banesto y Santander UK antes del relevo tras la muerte de su padre Emilio Botín.",
+    "fuente_principal": "https://www.santander.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:banco-santander"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.82,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Santander, 1960. Bryn Mawr College (EE.UU.). Carrera en JP Morgan antes de incorporarse a Santander."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "JP Morgan",
+            "contenido": "Inició su carrera en JP Morgan en Nueva York (1981-1988).",
+            "fecha": "1981-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Banesto",
+            "contenido": "Presidenta de Banesto entre 2002 y 2010.",
+            "fecha": "2002-02-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Santander UK",
+            "contenido": "CEO de Santander UK entre 2010 y 2014.",
+            "fecha": "2010-12-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta Santander",
+            "contenido": "Asume la presidencia ejecutiva el 10 sept 2014 tras la muerte de su padre Emilio Botín.",
+            "fecha": "2014-09-10"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Voz pública contraria al gravamen extraordinario, defensora de la regulación bancaria UE armonizada.",
+            "tags": [
+              "impuesto",
+              "banca"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Diversidad",
+            "contenido": "Presencia activa en foros de mujeres líderes y diversidad ejecutiva.",
+            "tags": [
+              "diversidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Botín",
+            "contenido": "Saga banquera. Hermanos: Javier, Emilio (consejero del Santander), Carmen, Paloma.",
+            "tags": [
+              "familia-botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Botín",
+            "contenido": "Patrona de la Fundación Botín (Santander), patronazgo cultural y científico.",
+            "tags": [
+              "fundacion-botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Davos / Bilderberg",
+            "contenido": "Participante habitual en Foro de Davos. Asistencias documentadas a Bilderberg (2014, 2019).",
+            "tags": [
+              "davos",
+              "bilderberg"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Reuniones con Sánchez",
+            "contenido": "Reuniones bilaterales documentadas en agenda oficial de Moncloa con Pedro Sánchez y Carlos Cuerpo.",
+            "tags": [
+              "politica",
+              "sanchez"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Davos 2023",
+            "contenido": "\"Un impuesto que solo se aplica a la banca y a empresas concretas no es la solución\", Davos enero 2023.",
+            "fecha": "2023-01-18"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Andrea Orcel",
+            "contenido": "Tribunal Mercantil 12 de Madrid condenó al Santander a indemnizar a Orcel por la retirada de oferta de CEO en 2018-2019 (51 M€ en primera instancia, revisado a la baja en apelación).",
+            "fecha": "2020-12-09",
+            "tags": [
+              "judicial",
+              "orcel"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web corporativa Santander",
+            "fuente_url": "https://www.santander.com/es/sobre-nosotros/gobierno-corporativo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "hector-grisi",
+    "tipo": "actor",
+    "nombre": "Héctor Grisi Checa",
+    "alias": "Héctor Grisi",
+    "cargo": "Consejero Delegado (CEO) de Banco Santander",
+    "bio_corta": "Banquero mexicano. CEO del grupo Santander desde enero 2023. Previamente CEO de Santander México y Country Head North America.",
+    "fuente_principal": "https://www.santander.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:banco-santander"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en México, 1965. Universidad Anáhuac. Carrera previa en Credit Suisse (México, NY)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Credit Suisse",
+            "contenido": "Carrera en Credit Suisse en banca de inversión, 1997-2015.",
+            "fecha": "1997-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Santander México",
+            "contenido": "CEO de Santander México 2015-2022.",
+            "fecha": "2015-12-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Grupo Santander",
+            "contenido": "Sucede a José Antonio Álvarez como CEO del grupo el 1 enero 2023.",
+            "fecha": "2023-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Credit Suisse México",
+            "contenido": "CEO de Credit Suisse México y Country Head North America entre 2010 y 2015.",
+            "fecha": "2010-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Country Head North America",
+            "contenido": "Country Head North America de Santander 2019-2022, supervisando la venta de BBVA USA a PNC y la integración USA-México.",
+            "fecha": "2019-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Banca digital",
+            "contenido": "Apuesta por la plataforma OnePay/Openbank como herramienta pan-europea. PagoNxt como spin-off de pagos B2B.",
+            "tags": [
+              "digital"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Mercados emergentes",
+            "contenido": "Defensa del peso de Brasil (40% del beneficio) y México como núcleo del modelo.",
+            "tags": [
+              "emergentes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Ana Botín",
+            "contenido": "Reporta a la presidenta. Tándem.",
+            "tags": [
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Élite mexicana",
+            "contenido": "Vinculaciones con el ecosistema empresarial mexicano (Carlos Slim, etc.) durante etapa Santander México.",
+            "tags": [
+              "mexico"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Élite empresarial mexicana",
+            "contenido": "Vinculaciones del paso por Santander México (Carlos Slim, FUNO, Inbursa) y Credit Suisse México (Larrea).",
+            "tags": [
+              "mexico"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PNC Bank",
+            "contenido": "Interlocución de la venta de BBVA USA a PNC en 2021.",
+            "tags": [
+              "pnc"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web corporativa",
+            "fuente_url": "https://www.santander.com/es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carlos-torres-vila",
+    "tipo": "actor",
+    "nombre": "Carlos Torres Vila",
+    "alias": "Torres Vila",
+    "cargo": "Presidente ejecutivo de BBVA",
+    "bio_corta": "Ingeniero por el MIT. Preside BBVA desde diciembre 2018 (relevo de Francisco González). Apostó por la transformación digital y por la fusión con Sabadell en 2024.",
+    "fuente_principal": "https://www.bbva.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:bbva"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Salamanca, 1966. Ingeniero eléctrico (MIT) y MBA por MIT Sloan. Trayectoria mixta consultoría-banca-tecnología."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "McKinsey",
+            "contenido": "Consultor en McKinsey 1992-1996.",
+            "fecha": "1992-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Endesa",
+            "contenido": "Director general de Endesa entre 1996 y 2008 (M&A, estrategia).",
+            "fecha": "1996-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Goirigolzarri stint",
+            "contenido": "Director de Estrategia de Bancaja antes de pasar a BBVA.",
+            "fecha": "2008-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "BBVA - banca digital",
+            "contenido": "Llega a BBVA en 2008. Responsable de banca digital, luego CEO en 2015.",
+            "fecha": "2015-05-04"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente BBVA",
+            "contenido": "Asume la presidencia el 31 diciembre 2018 sustituyendo a Francisco González (relevo precipitado por escándalo Villarejo).",
+            "fecha": "2018-12-31"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Concentración bancaria",
+            "contenido": "Defensor público de la consolidación bancaria española como respuesta a la fragmentación europea. Argumento clave de la OPA Sabadell.",
+            "tags": [
+              "consolidacion",
+              "sabadell"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Digital y crypto",
+            "contenido": "BBVA pionera en banca digital europea bajo su liderazgo. Custodia de criptoactivos en Suiza primero.",
+            "tags": [
+              "digital",
+              "crypto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Onur Genç",
+            "contenido": "CEO del banco, tándem desde 2018.",
+            "tags": [
+              "genc"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Garanti / Turquía",
+            "contenido": "BBVA controla Garanti BBVA en Turquía. Torres Vila gestiona relación con accionistas turcos y autoridades.",
+            "tags": [
+              "garanti",
+              "turquia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo - imputado",
+            "contenido": "Aunque sucedió a Francisco González (también imputado), Torres Vila ha sido investigado y luego sobreseído en relación con la pieza BBVA.",
+            "tags": [
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "OPA Sabadell",
+            "contenido": "\"Crearemos un banco más fuerte para clientes y accionistas\", presentación 9 mayo 2024.",
+            "fecha": "2024-05-09"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Espionaje Villarejo",
+            "contenido": "Citado como investigado en la pieza BBVA. Sobreseído provisionalmente.",
+            "tags": [
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "BBVA equipo directivo",
+            "fuente_url": "https://www.bbva.com/es/sostenibilidad/equipo-directivo/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "onur-genc",
+    "tipo": "actor",
+    "nombre": "Onur Genç",
+    "alias": "Genç",
+    "cargo": "Consejero Delegado (CEO) de BBVA",
+    "bio_corta": "Banquero turco. CEO del Grupo BBVA desde diciembre 2018. Previamente CEO de Garanti BBVA y de BBVA USA.",
+    "fuente_principal": "https://www.bbva.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:bbva"
+    ],
+    "confidence": 0.83,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Turquía, 1975. ITU Estambul y Carnegie Mellon (MBA)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Garanti BBVA",
+            "contenido": "CEO de Garanti BBVA (Turquía) 2015-2017.",
+            "fecha": "2015-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "BBVA USA",
+            "contenido": "CEO de BBVA USA 2017-2018 (vendida a PNC en 2021).",
+            "fecha": "2017-12-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO BBVA",
+            "contenido": "CEO del grupo desde diciembre 2018.",
+            "fecha": "2018-12-21"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "McKinsey",
+            "contenido": "Consultor en McKinsey en Estambul y Nueva York antes de incorporarse a Garanti.",
+            "fecha": "2002-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "OPA Sabadell",
+            "contenido": "Junto con Torres Vila, defensor público de la operación como creadora de un campeón europeo.",
+            "tags": [
+              "sabadell"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Turquía hiperinflación",
+            "contenido": "Gestión del impacto de la NIIF 29 (hiperinflación) en la consolidación de Garanti BBVA.",
+            "tags": [
+              "garanti"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Doğuş Holding",
+            "contenido": "Relación histórica con Doğuş Holding (familia Sahenk) en Garanti.",
+            "tags": [
+              "dogus",
+              "turquia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Doğuş Holding / Sahenk",
+            "contenido": "Relación con la familia Sahenk, accionista histórico de Garanti.",
+            "tags": [
+              "dogus"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Garanti consejo",
+            "contenido": "Sigue como miembro influyente en el consejo de Garanti BBVA.",
+            "tags": [
+              "garanti"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Carlos Torres Vila",
+            "contenido": "Tándem ejecutivo BBVA.",
+            "tags": [
+              "torres-vila"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "BBVA",
+            "fuente_url": "https://www.bbva.com/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-ignacio-goirigolzarri",
+    "tipo": "actor",
+    "nombre": "José Ignacio Goirigolzarri Tellaeche",
+    "alias": "Goirigolzarri",
+    "cargo": "Presidente no ejecutivo de CaixaBank",
+    "bio_corta": "Banquero bilbaíno. Presidente de CaixaBank desde la fusión con Bankia (marzo 2021). Antes presidente de Bankia (nacionalizada en 2012). Ex CEO de BBVA.",
+    "fuente_principal": "https://www.caixabank.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:caixabank"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Bilbao, 1954. Licenciado en Económicas (Universidad de Deusto). Especializado en banca minorista y reestructuración."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "BBV / BBVA",
+            "contenido": "Carrera en BBV y luego BBVA. Director general (1994), CEO entre 2001 y 2009. Salida tras conflicto con FG.",
+            "fecha": "2001-12-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Bankia",
+            "contenido": "Presidente de Bankia nacionalizada desde mayo 2012, gestionando la mayor reestructuración bancaria española.",
+            "fecha": "2012-05-09"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CaixaBank",
+            "contenido": "Presidente de CaixaBank desde marzo 2021 tras la fusión.",
+            "fecha": "2021-03-26"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Reestructuración bancaria",
+            "contenido": "Defensor del modelo de salvamento bancario español 2012 (FROB) como caso de éxito europeo.",
+            "tags": [
+              "frob"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Empleo y educación financiera",
+            "contenido": "Presidente del Consejo Empresarial para la Competitividad (CEC) y figura habitual en foros sobre educación financiera.",
+            "tags": [
+              "cec"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé / La Caixa",
+            "contenido": "Interlocutor permanente con Isidre Fainé (Fundación La Caixa y CriteriaCaixa, accionista de control).",
+            "tags": [
+              "caixa",
+              "faine"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FROB / Estado",
+            "contenido": "Como presidente de Bankia y luego CaixaBank, interlocutor habitual con el FROB y los Ministerios de Economía sucesivos.",
+            "tags": [
+              "frob",
+              "estado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Reputación bipartidista",
+            "contenido": "Buena interlocución con Gobiernos PP (Rajoy, Montoro) y PSOE (Sánchez, Cuerpo, Calviño).",
+            "tags": [
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre impuesto banca",
+            "contenido": "\"El impuesto no es una solución técnica sino política; lo recurriremos\", JGA 2023.",
+            "fecha": "2023-03-31"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Indemnización por salida de BBVA",
+            "contenido": "Recibió en 2009 al salir de BBVA una pensión vitalicia muy alta (~3 M€/año). Críticas mediáticas que él defendió como legalmente pactada.",
+            "tags": [
+              "bbva"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CaixaBank gobierno corporativo",
+            "fuente_url": "https://www.caixabank.com/es/conocenos/gobierno-corporativo.html"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gonzalo-gortazar",
+    "tipo": "actor",
+    "nombre": "Gonzalo Gortázar Rotaeche",
+    "alias": "Gortázar",
+    "cargo": "Consejero Delegado (CEO) de CaixaBank",
+    "bio_corta": "Abogado del Estado en excedencia. CEO de CaixaBank desde 2014. Trayectoria previa en banca de inversión (Bank of America, Morgan Stanley).",
+    "fuente_principal": "https://www.caixabank.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:caixabank"
+    ],
+    "confidence": 0.83,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en 1965. Derecho (ICADE), MBA INSEAD. Abogado del Estado."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Banca de inversión",
+            "contenido": "Bank of America y Morgan Stanley en M&A, 1990s-2000s.",
+            "fecha": "1993-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Criteria",
+            "contenido": "Director general financiero de Criteria CaixaCorp 2009-2014.",
+            "fecha": "2009-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO CaixaBank",
+            "contenido": "CEO desde junio 2014, mantenido tras fusión con Bankia.",
+            "fecha": "2014-06-30"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Tándem con Goirigolzarri",
+            "contenido": "Reporta al presidente desde 2021.",
+            "tags": [
+              "caixa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isidre Fainé",
+            "contenido": "Relación directa con el patrono de Criteria desde su etapa anterior.",
+            "tags": [
+              "faine"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CaixaBank",
+            "fuente_url": "https://www.caixabank.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "marc-murtra",
+    "tipo": "actor",
+    "nombre": "Marc Murtra Millar",
+    "alias": "Marc Murtra",
+    "cargo": "Presidente ejecutivo de Telefónica",
+    "bio_corta": "Ingeniero industrial. Preside Telefónica desde enero 2025 tras dirigir Indra (2021-2025). Cercano al PSC/PSOE.",
+    "fuente_principal": "https://www.telefonica.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:telefonica"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1972. Ingeniero industrial (UPC) y MBA London Business School."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Lehman / consultoría",
+            "contenido": "Carrera previa en Lehman Brothers (banca de inversión) y Atrium Capital.",
+            "fecha": "1998-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Secretario de Estado",
+            "contenido": "Secretario de Estado de Telecomunicaciones y Sociedad de la Información en el Gobierno Zapatero (2010-2011).",
+            "fecha": "2010-12-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "SEPI / Hispasat",
+            "contenido": "Director de Empresas Industriales de la SEPI 2011-2012. Vinculado al ecosistema empresa pública.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente Indra",
+            "contenido": "Presidente de Indra desde enero 2021. Pivot a defensa.",
+            "fecha": "2021-01-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Telefónica",
+            "contenido": "Presidente de Telefónica desde 18 enero 2025 (designado por consenso accionarial SEPI/STC/CriteriaCaixa).",
+            "fecha": "2025-01-18"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Soberanía digital",
+            "contenido": "Posición pública de fuerte defensa de Telefónica como infraestructura estratégica española. 'Fair share' (regulación contributiva OTT).",
+            "tags": [
+              "fair-share",
+              "soberania"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE / PSC",
+            "contenido": "Vinculado al ecosistema PSC (catalanismo socialista). Su nombramiento es político, vía SEPI.",
+            "tags": [
+              "politica",
+              "psoe",
+              "psc"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "SEPI",
+            "contenido": "SEPI lo impulsó a Indra (2021) y luego a Telefónica (2025). Confianza directa del Gobierno.",
+            "tags": [
+              "sepi",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "STC (Saudi Telecom)",
+            "contenido": "Como presidente, gestor de la relación con el accionista saudí STC (~9,9%).",
+            "tags": [
+              "stc",
+              "saudi"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Inauguración",
+            "contenido": "\"Telefónica debe ser ofensiva y consolidar el sector europeo\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-18"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis gobernanza Indra 2022",
+            "contenido": "En 2022 hubo crisis pública por la destitución abrupta de 4 consejeros independientes de Indra empujada por SEPI bajo su presidencia. CNMV amonestó.",
+            "tags": [
+              "indra",
+              "cnmv"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Comunicado Telefónica",
+            "fuente_url": "https://www.telefonica.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-brufau",
+    "tipo": "actor",
+    "nombre": "Antonio Brufau Niubó",
+    "alias": "Brufau",
+    "cargo": "Presidente no ejecutivo de Repsol",
+    "bio_corta": "Economista catalán. Presidente de Repsol desde 2004. Antes consejero delegado de La Caixa.",
+    "fuente_principal": "https://www.repsol.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:repsol"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Sariñena (Huesca) en 1948. Económicas (Universidad de Barcelona). Auditoría (Arthur Andersen)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Arthur Andersen",
+            "contenido": "Carrera en auditoría 1971-1988.",
+            "fecha": "1971-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La Caixa",
+            "contenido": "Director general de La Caixa 1988-2003.",
+            "fecha": "1988-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gas Natural / Repsol",
+            "contenido": "Presidente de Gas Natural 1997-2004; presidente de Repsol desde 2004.",
+            "fecha": "2004-10-27"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "La Caixa / Fainé",
+            "contenido": "Mantiene vínculo histórico con la órbita La Caixa.",
+            "tags": [
+              "faine",
+              "caixa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Crisis YPF",
+            "contenido": "Lideró la negociación de la compensación de Argentina por la expropiación de YPF (2012-2014).",
+            "tags": [
+              "ypf",
+              "argentina"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bilderberg",
+            "contenido": "Asistente habitual al grupo Bilderberg.",
+            "tags": [
+              "bilderberg"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre impuesto",
+            "contenido": "\"El impuesto extraordinario es discriminatorio y debe revertirse\", JGA 2024.",
+            "fecha": "2024-05-09"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Villarejo",
+            "contenido": "Citado pero no imputado en la pieza Repsol del caso Villarejo (contratos 2011-2012).",
+            "tags": [
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web Repsol",
+            "fuente_url": "https://www.repsol.com/es/conocenos/equipo-directivo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "josu-jon-imaz",
+    "tipo": "actor",
+    "nombre": "Josu Jon Imaz San Miguel",
+    "alias": "Imaz",
+    "cargo": "Consejero Delegado (CEO) de Repsol",
+    "bio_corta": "Político vasco reconvertido en gestor. Ex presidente del PNV (2004-2007). CEO de Repsol desde abril 2014.",
+    "fuente_principal": "https://www.repsol.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:repsol",
+      "ex-politico"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Zumarraga (Gipuzkoa), 1963. Doctor en Química. Trayectoria política PNV-empresa."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "PNV",
+            "contenido": "Diputado en el Parlamento Vasco, consejero de Industria del Gobierno Vasco (1999-2001), portavoz EAJ-PNV.",
+            "fecha": "1999-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente PNV",
+            "contenido": "Presidente del EBB del PNV entre 2004 y 2007 (relevo de Arzalluz, antes que Urkullu).",
+            "fecha": "2004-01-31"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Petronor / Repsol",
+            "contenido": "Presidente de Petronor (filial Repsol) desde 2008. Repsol como CEO desde 2014.",
+            "fecha": "2014-04-30"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto extraordinario",
+            "contenido": "Voz pública muy crítica del impuesto. Amenazas explícitas de reasignar inversiones fuera de España.",
+            "tags": [
+              "impuesto",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Biocombustibles",
+            "contenido": "Defiende biocombustibles y e-fuels frente a la electrificación pura.",
+            "tags": [
+              "biocombustibles"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PNV",
+            "contenido": "Vinculo histórico vivo con la dirección del PNV (Andoni Ortuzar, Aitor Esteban) por su pasado como presidente.",
+            "tags": [
+              "pnv"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Lehendakaritza",
+            "contenido": "Buena relación con Lehendakaris (Urkullu y Pradales).",
+            "tags": [
+              "pnv",
+              "euskadi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sánchez Galán",
+            "contenido": "Coincidencia en lobby energético crítico con el Gobierno Sánchez.",
+            "tags": [
+              "iberdrola",
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Imaz sobre impuesto",
+            "contenido": "\"Cada euro de impuesto extraordinario es un euro menos para invertir aquí. Repensaremos cada inversión\", JGA 2024.",
+            "fecha": "2024-04-25"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Salto política-empresa",
+            "contenido": "Su transición del PNV a Repsol generó debate público sobre puertas giratorias políticas.",
+            "tags": [
+              "puertas-giratorias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Repsol",
+            "fuente_url": "https://www.repsol.com/es/conocenos/equipo-directivo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "maurici-lucena",
+    "tipo": "actor",
+    "nombre": "Maurici Lucena Betriu",
+    "alias": "Maurici Lucena",
+    "cargo": "Presidente y CEO de Aena",
+    "bio_corta": "Economista catalán del PSC. Preside Aena desde 2018. Ex secretario de Estado de Comercio (2018).",
+    "fuente_principal": "https://www.aena.es",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:aena",
+      "ex-politico"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1971. Economista. Doctor en Economía por la Universidad de Cambridge."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "PSC / Generalitat",
+            "contenido": "Diputado del PSC en el Parlament. Director del CIDOB (think tank Barcelona).",
+            "fecha": "2007-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sec. Estado Comercio",
+            "contenido": "Secretario de Estado de Comercio (2018) en el primer Gobierno Sánchez (Reyes Maroto).",
+            "fecha": "2018-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidencia Aena",
+            "contenido": "Designado presidente de Aena en diciembre 2018.",
+            "fecha": "2018-12-04"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSC / PSOE",
+            "contenido": "Cercano al PSC. Nombramiento político por Gobierno Sánchez.",
+            "tags": [
+              "psc",
+              "psoe",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Min. Transportes (Óscar Puente)",
+            "contenido": "Interlocución con el ministro responsable.",
+            "tags": [
+              "mintranspor",
+              "puente"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Generalitat",
+            "contenido": "Histórica tensión con el Govern catalán por la ampliación de El Prat (impacto La Ricarda).",
+            "tags": [
+              "elprat",
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Nombramiento político",
+            "contenido": "PP y prensa conservadora cuestionaron el carácter político de su nombramiento al frente de Aena.",
+            "tags": [
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Aena",
+            "fuente_url": "https://www.aena.es/es/corporativa/consejo-administracion.html"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-bogas",
+    "tipo": "actor",
+    "nombre": "José Damián Bogas Gálvez",
+    "alias": "Bogas",
+    "cargo": "Consejero Delegado (CEO) de Endesa",
+    "bio_corta": "Ingeniero industrial. CEO de Endesa desde 2014. Trayectoria entera dentro del grupo Endesa-Enel.",
+    "fuente_principal": "https://www.endesa.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:endesa"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero industrial. Toda la carrera en Endesa: redes, generación, comercialización."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Ingeniero industrial por la ETSII. Toda su carrera en el grupo Endesa-Enel.",
+            "tags": [
+              "formacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Endesa carrera interna",
+            "contenido": "Director general de España y Portugal antes de ser CEO.",
+            "fecha": "2009-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Endesa",
+            "contenido": "CEO desde octubre 2014.",
+            "fecha": "2014-10-09"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Generación, distribución, comercialización",
+            "contenido": "Carrera en distintas direcciones generales de Endesa (Generación, Distribución, Iberia).",
+            "fecha": "1995-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Nuclear",
+            "contenido": "Defensor de revisar el calendario de cierre nuclear pactado en 2019.",
+            "tags": [
+              "nuclear"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Calendario nuclear",
+            "contenido": "Reclamación pública de revisar el calendario de cierre nuclear (pacto 2019) por seguridad de suministro.",
+            "tags": [
+              "nuclear"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Hidrógeno verde",
+            "contenido": "Inversiones en H2 en As Pontes y Compostilla (transición justa).",
+            "tags": [
+              "transicion-justa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Enel / Italia",
+            "contenido": "Reporta a Enel (Italia, controlada por Tesoro italiano).",
+            "tags": [
+              "enel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "AELEC",
+            "contenido": "Voz destacada de AELEC (patronal eléctricas).",
+            "tags": [
+              "aelec"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sindicatos cierres térmicos",
+            "contenido": "Diálogo CCOO/UGT en cierres de Compostilla, Andorra (Teruel) y As Pontes.",
+            "tags": [
+              "sindicatos",
+              "transicion-justa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno - tutela MITECO",
+            "contenido": "Interlocución con el MITECO sobre transición y precios.",
+            "tags": [
+              "miteco"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Cierres térmicos",
+            "contenido": "Cierre de centrales de carbón completado en 2021. Impacto territorial en Teruel, El Bierzo, A Coruña. Comités de transición justa.",
+            "fecha": "2021-12-31",
+            "tags": [
+              "carbon"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Endesa",
+            "fuente_url": "https://www.endesa.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "francisco-reynes",
+    "tipo": "actor",
+    "nombre": "Francisco Reynés Massanet",
+    "alias": "Reynés",
+    "cargo": "Presidente y CEO de Naturgy",
+    "bio_corta": "Ingeniero industrial mallorquín. Preside Naturgy (ex Gas Natural Fenosa) desde febrero 2018. Antes CEO de Abertis.",
+    "fuente_principal": "https://www.naturgy.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:naturgy"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Palma de Mallorca, 1963. Ingeniero industrial."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abertis",
+            "contenido": "CEO de Abertis (concesionaria) entre 2010 y 2017.",
+            "fecha": "2010-12-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Naturgy",
+            "contenido": "Presidente y CEO de Naturgy desde febrero 2018.",
+            "fecha": "2018-02-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "CriteriaCaixa / Isidre Fainé",
+            "contenido": "Apoyo accionarial clave; CriteriaCaixa es el mayor accionista.",
+            "tags": [
+              "caixa",
+              "faine"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fondos GIP/CVC/IFM",
+            "contenido": "Diálogo con fondos accionistas (GIP, CVC, IFM).",
+            "tags": [
+              "fondos"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Operación Géminis",
+            "contenido": "\"Géminis crea valor para todos los accionistas\", JGA 2023.",
+            "fecha": "2023-05-04"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Operación Géminis cancelada",
+            "contenido": "Plan de escisión retirado en 2023 por falta de apoyo de los fondos.",
+            "tags": [
+              "geminis"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Naturgy",
+            "fuente_url": "https://www.naturgy.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rafael-del-pino-calvo-sotelo",
+    "tipo": "actor",
+    "nombre": "Rafael del Pino y Calvo-Sotelo",
+    "alias": "Rafael del Pino",
+    "cargo": "Presidente de Ferrovial",
+    "bio_corta": "Ingeniero. Preside Ferrovial desde 2000 (relevo de su padre Rafael del Pino y Moreno). Mayor accionista junto con sus hermanos.",
+    "fuente_principal": "https://www.ferrovial.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:ferrovial"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1958. Ingeniero de Caminos. MBA por MIT Sloan. Hijo del fundador Rafael del Pino y Moreno."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Familia / cargos",
+            "contenido": "Carrera entera dentro de Ferrovial. Director general en los 90, vicepresidente y luego presidente desde 2000.",
+            "fecha": "2000-04-26"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Liberal económico",
+            "contenido": "Defensor del liberalismo económico vía la Fundación Rafael del Pino. Crítico con políticas redistributivas.",
+            "tags": [
+              "liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia del Pino",
+            "contenido": "Hermanos María, Joaquín, Leopoldo y Fernando del Pino, accionistas relevantes.",
+            "tags": [
+              "familia-del-pino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "Patrono de la Fundación, plataforma de pensamiento liberal en España.",
+            "tags": [
+              "fundacion",
+              "liberal"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Choque con Sánchez 2023",
+            "contenido": "Pulso público con el Gobierno por el traslado de sede a Países Bajos. Acusaciones de deslealtad recíprocas con Yolanda Díaz, Sánchez, Calviño.",
+            "tags": [
+              "politica",
+              "sanchez",
+              "gobierno"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Comunidad de Madrid (Ayuso)",
+            "contenido": "Buena interlocución con Isabel Díaz Ayuso (PP). Asistencia a foros liberales conjuntos.",
+            "tags": [
+              "pp",
+              "ayuso",
+              "madrid"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre traslado de sede",
+            "contenido": "\"La decisión no es fiscal sino estratégica para acceder a capital global\", JGA Ferrovial 2023.",
+            "fecha": "2023-04-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Traslado a Países Bajos",
+            "contenido": "Operación criticada por Gobierno y sindicatos. Aprobada por junta a pesar de la presión política.",
+            "fecha": "2023-04-13",
+            "tags": [
+              "sede"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Ferrovial",
+            "fuente_url": "https://www.ferrovial.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ignacio-madridejos",
+    "tipo": "actor",
+    "nombre": "Ignacio Madridejos Fernández",
+    "alias": "Madridejos",
+    "cargo": "CEO de Ferrovial",
+    "bio_corta": "Ingeniero de Caminos. CEO de Ferrovial desde octubre 2019. Previamente CEO de Cemex Europa, Cemex USA y carrera previa en Repsol.",
+    "fuente_principal": "https://www.ferrovial.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:ferrovial"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1965. Ingeniero de Caminos por la UPM y MBA por Stanford Graduate School of Business."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Repsol",
+            "contenido": "Inicios en Repsol en planificación estratégica.",
+            "fecha": "1989-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "McKinsey",
+            "contenido": "Consultor en McKinsey & Co. en los 90s.",
+            "fecha": "1994-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cemex",
+            "contenido": "Carrera completa en Cemex (México): director de planificación, director Cemex USA, CEO Cemex Europa.",
+            "fecha": "2002-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Ferrovial",
+            "contenido": "CEO desde octubre 2019. Lideró operativamente la transición y traslado de sede a Países Bajos.",
+            "fecha": "2019-10-23"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Internacionalización",
+            "contenido": "Apuesta clara por EE.UU. (Managed Lanes en Texas y Carolina del Norte) y Canadá (407 ETR) como columna vertebral.",
+            "tags": [
+              "internacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Traslado de sede",
+            "contenido": "Defendió operativamente el cambio de sede a Ámsterdam en 2023 y la salida a NASDAQ en 2024.",
+            "tags": [
+              "nasdaq",
+              "paisesbajos"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Rafael del Pino",
+            "contenido": "Tándem con el presidente. Madridejos como brazo ejecutivo de la familia accionista.",
+            "tags": [
+              "del-pino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - tensión",
+            "contenido": "Co-protagonista del choque público de 2023 con Pedro Sánchez por el traslado a Países Bajos.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fondos infraestructura",
+            "contenido": "Interlocución con fondos de infraestructura (Macquarie, Brookfield) co-inversores en concesiones.",
+            "tags": [
+              "fondos"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre NASDAQ",
+            "contenido": "\"Cotizar en NASDAQ nos da acceso al mayor pool de capital del mundo para concesiones\", presentación CMD 2024.",
+            "fecha": "2024-05-09"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Traslado de sede",
+            "contenido": "Polémica política y mediática por el traslado de sede aprobado en junta abril 2023.",
+            "fecha": "2023-04-13",
+            "tags": [
+              "sede"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Ferrovial",
+            "fuente_url": "https://www.ferrovial.com/es/sobre-nosotros/equipo-directivo/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "luis-maroto",
+    "tipo": "actor",
+    "nombre": "Luis Maroto Camino",
+    "alias": "Luis Maroto",
+    "cargo": "CEO de Amadeus IT Group",
+    "bio_corta": "Economista. CEO de Amadeus desde enero 2011. Promovió la salida a bolsa (2010) y la consolidación tecnológica del grupo.",
+    "fuente_principal": "https://amadeus.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:amadeus-it-group"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1965. Económicas (Complutense) y MBA IE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Pepsico / consultoría",
+            "contenido": "Carrera previa en Pepsico y consultoría.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Amadeus carrera interna",
+            "contenido": "En Amadeus desde 2000, ascenso a CFO y luego CEO en 2011.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Llegada a Amadeus",
+            "contenido": "Entra en Amadeus en 1999. CFO y luego director general antes del salto a CEO.",
+            "fecha": "1999-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPV 2010",
+            "contenido": "Lidera la salida a bolsa de Amadeus en 2010, tras el periodo de capital riesgo (BC Partners, Cinven).",
+            "fecha": "2010-04-29"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pandemia Covid",
+            "contenido": "Gestionó la caída del 60% de ingresos en 2020 y la rápida recuperación 2022-2023 con planes de eficiencia y reducción de plantilla.",
+            "fecha": "2020-04-15"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Soberanía tecnológica europea",
+            "contenido": "Posicionamiento de Amadeus como infraestructura crítica europea de viajes frente a Sabre (EE.UU.) y Travelport.",
+            "tags": [
+              "soberania"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Inteligencia artificial",
+            "contenido": "Apuesta corporativa por IA agéntica para reservas. Inversión en Cytric y Outpayce (pagos).",
+            "tags": [
+              "ia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Aerolíneas",
+            "contenido": "Relación con CEOs de Iberia, IAG, Lufthansa, Air France-KLM.",
+            "tags": [
+              "aerolineas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Iberia / IAG",
+            "contenido": "Iberia accionista histórico fundador y cliente clave.",
+            "tags": [
+              "iag",
+              "iberia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Lufthansa, Air France-KLM",
+            "contenido": "Antiguos accionistas fundadores y clientes principales.",
+            "tags": [
+              "aerolineas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "OTAs (Booking, Expedia)",
+            "contenido": "Relación dual: clientes y competidores en distribución.",
+            "tags": [
+              "otas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Amadeus",
+            "fuente_url": "https://amadeus.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "marco-patuano",
+    "tipo": "actor",
+    "nombre": "Marco Patuano",
+    "alias": "Patuano",
+    "cargo": "CEO de Cellnex Telecom",
+    "bio_corta": "Ejecutivo italiano. CEO de Cellnex desde junio 2023 con mandato explícito de desapalancar tras la fase Tobías Martínez. Antes CEO de Telecom Italia (2011-2016) y director general de Edizione (Benetton).",
+    "fuente_principal": "https://www.cellnextelecom.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:cellnex-telecom"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Italiano, nacido en 1964. Licenciado en Economía por la Università Bocconi de Milán. MBA en INSEAD (Fontainebleau)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Pirelli",
+            "contenido": "Inicios en Pirelli en los 90, en el conglomerado Tronchetti Provera.",
+            "fecha": "1990-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Telecom Italia",
+            "contenido": "Entra en Telecom Italia en 1995. CFO desde 2008, COO en 2010, CEO 2011-2016.",
+            "fecha": "2011-04-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida TI por Vivendi",
+            "contenido": "Sale de Telecom Italia tras la toma de control de Vivendi (2015-2016).",
+            "fecha": "2016-03-21"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Edizione (Benetton)",
+            "contenido": "Director general de Edizione 2017-2020, holding industrial de los Benetton (Atlantia, Cellnex, Autogrill).",
+            "fecha": "2017-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Cellnex",
+            "contenido": "Designado CEO en junio 2023 sustituyendo a Tobías Martínez. Mandato: desapalancar y consolidar tras la fase de M&A agresiva.",
+            "fecha": "2023-06-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Desapalancamiento",
+            "contenido": "Discurso público centrado en alcanzar grado de inversión (S&P BBB-) tras el ciclo de adquisiciones europeas. Objetivo deuda/EBITDA <6x.",
+            "tags": [
+              "estrategia",
+              "apalancamiento"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Modelo TowerCo",
+            "contenido": "Defensa del modelo de torres independientes frente a la reintegración por operadores (caso a caso). Diálogo con reguladores europeos.",
+            "tags": [
+              "modelo-negocio"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Benetton / Edizione (Alessandro Benetton)",
+            "contenido": "Su llegada a Cellnex fue impulsada por Edizione (Benetton) y GIC (Singapur), accionistas relevantes.",
+            "tags": [
+              "benetton",
+              "edizione"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "GIC / TCI Fund / BlackRock",
+            "contenido": "Interlocución con los grandes fondos institucionales accionistas de Cellnex.",
+            "tags": [
+              "fondos"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Operadores europeos",
+            "contenido": "Relaciones con CEOs de Iliad/Free, Bouygues, Vodafone, Wind Tre y MasOrange como clientes y como potenciales compradores de carteras.",
+            "tags": [
+              "clientes"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Vincent Bolloré",
+            "contenido": "Conflicto previo con Bolloré durante la transición Vivendi-Telecom Italia (2015-2016).",
+            "tags": [
+              "bollore"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre desapalancamiento",
+            "contenido": "\"Cellnex tiene que pasar de fase de crecimiento M&A a fase de optimización de capital y retorno al accionista\", presentación a inversores noviembre 2023.",
+            "fecha": "2023-11-09"
+          },
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre Capital Markets Day 2024",
+            "contenido": "\"Recuperar el grado de inversión es prioridad absoluta antes de cualquier nueva expansión\", marzo 2024.",
+            "fecha": "2024-03-06"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caída bursátil Cellnex",
+            "contenido": "Bajo su predecesor (Tobías Martínez) Cellnex perdió >50% entre 2021 y 2023. Patuano hereda recuperación pendiente.",
+            "tags": [
+              "bolsa",
+              "desapalancamiento"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Cellnex equipo directivo",
+            "fuente_url": "https://www.cellnextelecom.com/es/sobre-cellnex/equipo-directivo/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CMD 2024 inversores",
+            "fuente_url": "https://www.cellnextelecom.com/es/inversores/presentaciones/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "florentino-perez",
+    "tipo": "actor",
+    "nombre": "Florentino Pérez Rodríguez",
+    "alias": "Florentino Pérez",
+    "cargo": "Presidente y CEO de ACS",
+    "bio_corta": "Ingeniero de Caminos. Presidente de ACS desde 1997. Presidente del Real Madrid (1995-2006 y 2009-presente). Una de las figuras más influyentes del establishment español.",
+    "fuente_principal": "https://www.grupoacs.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:acs"
+    ],
+    "confidence": 0.93,
+    "completeness": 0.85,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1947. Ingeniero de Caminos. Carrera vinculada al PRD/UCD y al sector de infraestructuras."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "PRD-UCD",
+            "contenido": "Concejal del Ayuntamiento de Madrid (UCD, 1979-1983). Coqueteo con CDS y PSP.",
+            "fecha": "1979-04-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OCP",
+            "contenido": "Llega a OCP Construcciones en 1987 como consejero delegado.",
+            "fecha": "1987-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "ACS",
+            "contenido": "Fusión OCP + Ginés Navarro Construcciones en 1997 crea ACS. Florentino preside.",
+            "fecha": "1997-12-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Real Madrid",
+            "contenido": "Presidente del Real Madrid 1995, 2000-2006 y 2009-presente.",
+            "fecha": "2000-07-16"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Concesionalismo",
+            "contenido": "Defensor del modelo de concesiones de infraestructura. Críticas a paralización de proyectos por motivos políticos locales.",
+            "tags": [
+              "concesiones"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Superliga",
+            "contenido": "Impulsor de la Superliga europea de fútbol (2021-presente), proyecto que enfrenta a UEFA y a gobiernos europeos.",
+            "tags": [
+              "superliga",
+              "fcbarcelona"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Joan Laporta",
+            "contenido": "Aliado con el FC Barcelona (Joan Laporta) en la Superliga. Inusual eje Madrid-Barcelona.",
+            "tags": [
+              "superliga",
+              "laporta"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Conflicto Iberdrola",
+            "contenido": "Confrontación pública con Sánchez Galán por la batalla societaria 2006-2017 y posterior pieza del caso Villarejo.",
+            "tags": [
+              "iberdrola",
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo (víctima)",
+            "contenido": "Víctima del espionaje encargado por Iberdrola y BBVA contra ACS y su entorno entre 2004-2017.",
+            "tags": [
+              "villarejo",
+              "judicial"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Casa Real / Rey Juan Carlos",
+            "contenido": "Histórica relación con el Rey emérito. Florentino fue figura de consenso en los 90s-2000s.",
+            "tags": [
+              "casa-real",
+              "juan-carlos"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ayuso / Almeida",
+            "contenido": "Buena relación con la Comunidad de Madrid (Ayuso) y Ayuntamiento (Almeida). Cordialidad bipartidista.",
+            "tags": [
+              "pp",
+              "ayuso"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre Superliga",
+            "contenido": "\"El fútbol está en peligro si no se reforma el modelo de competición\", entrevista TVE marzo 2023.",
+            "fecha": "2023-03-23"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Audios Villarejo",
+            "contenido": "En 2021-2022 se publicaron audios atribuidos a Villarejo con conversaciones sobre Florentino. Florentino denunció y litigó. Audios cuestionados.",
+            "tags": [
+              "villarejo",
+              "audios"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "ACS",
+            "fuente_url": "https://www.grupoacs.com/accionistas-e-inversores/gobierno-corporativo/composicion-del-consejo/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "josep-oliu",
+    "tipo": "actor",
+    "nombre": "Josep Oliu Creus",
+    "alias": "Oliu",
+    "cargo": "Presidente de Banco Sabadell",
+    "bio_corta": "Economista catalán. Preside Banco Sabadell desde 1999. Antes ocupó el cargo en plena expansión del banco. Figura central en la defensa frente a la OPA de BBVA (2024).",
+    "fuente_principal": "https://www.grupbancsabadell.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:banco-sabadell"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Sabadell, 1949. Económicas (UAB y Universidad de Minnesota)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sabadell carrera entera",
+            "contenido": "Toda su carrera en Banco Sabadell. CEO en 1990, presidente desde 1999.",
+            "fecha": "1999-03-19"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Defensa concentración",
+            "contenido": "Argumenta contra concentración bancaria como negativa para PYMES.",
+            "tags": [
+              "concentracion",
+              "pymes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Foment del Treball",
+            "contenido": "Vinculado al Foment del Treball Nacional (patronal catalana).",
+            "tags": [
+              "foment",
+              "cataluna"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - OPA",
+            "contenido": "Interlocución con el Gobierno español por la OPA BBVA, beneficiándose de la posición pública del Ejecutivo contraria a la operación.",
+            "tags": [
+              "politica",
+              "gobierno",
+              "opa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Generalitat",
+            "contenido": "Histórica vinculación al tejido empresarial catalán y a la Generalitat (todos los Gobiernos).",
+            "tags": [
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Rechazo a OPA",
+            "contenido": "\"La oferta de BBVA destruye más valor del que crea\", carta a accionistas mayo 2024.",
+            "fecha": "2024-05-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis TSB 2018",
+            "contenido": "Bajo su presidencia, crisis tecnológica de TSB con multas FCA.",
+            "tags": [
+              "tsb"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Sabadell",
+            "fuente_url": "https://www.grupbancsabadell.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cesar-gonzalez-bueno",
+    "tipo": "actor",
+    "nombre": "César González-Bueno Mayer",
+    "alias": "González-Bueno",
+    "cargo": "CEO de Banco Sabadell",
+    "bio_corta": "Banquero. CEO de Banco Sabadell desde marzo 2021. Antes fundador y CEO de ING Direct España (1999-2011) y CEO de Novagalicia/Abanca (2012-2014). Co-protagonista de la defensa frente a la OPA hostil de BBVA (2024-).",
+    "fuente_principal": "https://www.grupbancsabadell.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:banco-sabadell"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1960. Económicas (ICADE) y MBA por Harvard Business School."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "McKinsey / Banesto",
+            "contenido": "Inicios en McKinsey y posteriormente Banesto en los 90s.",
+            "fecha": "1985-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundador ING Direct España",
+            "contenido": "Funda ING Direct en España en 1999 (filial del grupo neerlandés ING). Pionero en banca digital. CEO hasta 2011.",
+            "fecha": "1999-05-25"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Novagalicia / Abanca",
+            "contenido": "CEO de Novagalicia Banco (luego Abanca) 2012-2014 durante la reestructuración tras la nacionalización.",
+            "fecha": "2012-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mutua Madrileña",
+            "contenido": "CEO de Mutua Madrileña Automovilista 2015-2018.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Sabadell",
+            "contenido": "CEO desde marzo 2021 tras la salida de Jaume Guardiola y la fusión fallida con BBVA de 2020.",
+            "fecha": "2021-03-26"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Defensa frente a OPA",
+            "contenido": "Tesis pública: el Sabadell crea más valor para PYMES y empleo manteniéndose independiente; las sinergias de BBVA destruyen empleo en Cataluña/Valencia.",
+            "tags": [
+              "opa",
+              "pymes"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Banca digital",
+            "contenido": "Apuesta por la transformación digital del Sabadell (proyecto Insight, app revisada).",
+            "tags": [
+              "digital"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Josep Oliu",
+            "contenido": "Tándem con el presidente desde 2021.",
+            "tags": [
+              "oliu"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Carlos Torres Vila",
+            "contenido": "Adversario directo en la OPA BBVA-Sabadell.",
+            "tags": [
+              "bbva",
+              "torres-vila"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez",
+            "contenido": "Interlocución con Moncloa y Ministerio Economía (Cuerpo). Beneficia de la postura crítica del Gobierno con la OPA.",
+            "tags": [
+              "politica",
+              "gobierno"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Foment del Treball",
+            "contenido": "Vinculado al tejido empresarial catalán vía Sabadell.",
+            "tags": [
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Rechazo OPA",
+            "contenido": "\"La oferta de BBVA infravalora el Sabadell. Crearemos valor en solitario\", JGA mayo 2024.",
+            "fecha": "2024-05-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA hostil BBVA en curso",
+            "contenido": "Defensa pública en mítines bancarios y prensa. Operación pendiente de autorizaciones (CNMC, CNMV, Gobierno, autoridades UK).",
+            "tags": [
+              "bbva"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Sabadell equipo",
+            "fuente_url": "https://www.grupbancsabadell.com/es/conocenos/equipo-directivo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "maria-dolores-dancausa",
+    "tipo": "actor",
+    "nombre": "María Dolores Dancausa Treviño",
+    "alias": "Dancausa",
+    "cargo": "Vicepresidenta y consejera de Bankinter (ex CEO)",
+    "bio_corta": "Banquera. CEO de Bankinter durante 18 años (2006-2024). Una de las CEO con más larga trayectoria del IBEX 35. Pasa a vicepresidenta no ejecutiva en 2024.",
+    "fuente_principal": "https://www.bankinter.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "vicepresidente",
+      "empresa:bankinter"
+    ],
+    "confidence": 0.87,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en San Sebastián, 1959. Derecho (Universidad de Navarra)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Bankinter / LDA",
+            "contenido": "Carrera en Bankinter; CEO de Línea Directa Aseguradora durante 13 años antes del salto al banco.",
+            "fecha": "1992-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Bankinter",
+            "contenido": "CEO entre 2006 y 2024.",
+            "fecha": "2006-10-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cambio a vicepresidencia",
+            "contenido": "En 2024 pasa a la vicepresidencia no ejecutiva del consejo; Gloria Ortiz asume el CEO.",
+            "fecha": "2024-03-21"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Modelo de banca rentable",
+            "contenido": "Bankinter como caso de RoE>15% mantenido por modelo de banca privada y empresas.",
+            "tags": [
+              "estrategia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto banca",
+            "contenido": "Posición contraria al gravamen extraordinario.",
+            "tags": [
+              "impuesto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Botín-Rivero / Cartival",
+            "contenido": "Reportaba a Cartival (Jaime Botín y su entorno).",
+            "tags": [
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Guerrero",
+            "contenido": "Tándem como presidente del consejo.",
+            "tags": [
+              "guerrero"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gloria Ortiz Portero",
+            "contenido": "Sucesora como CEO desde marzo 2024.",
+            "tags": [
+              "ortiz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cartival / Jaime Botín",
+            "contenido": "Reportaba al accionista de control.",
+            "tags": [
+              "cartival"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Foro Diálogos para el Desarrollo",
+            "contenido": "Voz pública habitual en foros empresariales.",
+            "tags": [
+              "foros"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Bankinter",
+            "fuente_url": "https://www.bankinter.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-huertas",
+    "tipo": "actor",
+    "nombre": "Antonio Huertas Mejías",
+    "alias": "Huertas",
+    "cargo": "Presidente y CEO de Mapfre",
+    "bio_corta": "Abogado. Preside Mapfre desde marzo 2012. Carrera entera dentro del grupo Mapfre.",
+    "fuente_principal": "https://www.mapfre.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:mapfre"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Cáceres, 1964. Derecho (Salamanca). MBA EOI."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Mapfre carrera interna",
+            "contenido": "En Mapfre desde 1988. Diversos cargos directivos.",
+            "fecha": "1988-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente",
+            "contenido": "Presidente desde marzo 2012.",
+            "fecha": "2012-03-10"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cargos previos",
+            "contenido": "Director de Mapfre Caja Madrid Holding y director general adjunto de Mapfre antes de asumir la presidencia en 2012.",
+            "fecha": "2008-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Eficiencia y rentabilidad",
+            "contenido": "Foco en combined ratio, retorno al accionista y desinversiones en mercados deficitarios.",
+            "tags": [
+              "estrategia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromiso de no aseguramiento de carbón térmico desde 2030.",
+            "tags": [
+              "esg"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Mapfre",
+            "contenido": "Accionista de control. Patronato.",
+            "tags": [
+              "fundacion-mapfre"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "CaixaBank - alianza bancaseguros",
+            "contenido": "Acuerdo de distribución bancaseguros heredado de Bankia.",
+            "tags": [
+              "caixabank"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Unespa",
+            "contenido": "Patronal aseguradora; Huertas presidente entre 2017 y 2022.",
+            "tags": [
+              "unespa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Mapfre",
+            "fuente_url": "https://www.mapfre.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "beatriz-corredor",
+    "tipo": "actor",
+    "nombre": "Beatriz Corredor Sierra",
+    "alias": "Corredor",
+    "cargo": "Presidenta de Redeia",
+    "bio_corta": "Abogada y ex política. Preside Redeia (Red Eléctrica) desde febrero 2020. Ex ministra de Vivienda con Zapatero (2008-2010).",
+    "fuente_principal": "https://www.redeia.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:redeia",
+      "ex-politico"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Madrid, 1968. Derecho (Complutense). Registradora de la Propiedad. Vinculada al PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "PSOE / Vivienda",
+            "contenido": "Concejal Ayuntamiento Madrid (PSOE). Ministra de Vivienda 2008-2010 con Zapatero.",
+            "fecha": "2008-04-14"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta Redeia",
+            "contenido": "Presidenta desde febrero 2020 designada por el primer Gobierno Sánchez.",
+            "fecha": "2020-02-14"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE / Zapatero / Sánchez",
+            "contenido": "Cercana al PSOE. Vinculada al ecosistema Zapatero y mantenida bajo Sánchez.",
+            "tags": [
+              "psoe",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "SEPI",
+            "contenido": "SEPI mantiene 20% de Redeia y propuso su nombramiento.",
+            "tags": [
+              "sepi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ministerio Transición Ecológica",
+            "contenido": "Interlocución con Teresa Ribera durante años; con Aagesen después.",
+            "tags": [
+              "miteco",
+              "ribera"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre la red",
+            "contenido": "\"La red eléctrica es el pilar invisible de la transición ecológica\", JGA 2023.",
+            "fecha": "2023-04-20"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Nombramiento político",
+            "contenido": "PP cuestionó su nombramiento por carácter político en infraestructura crítica. Defendió experiencia gestora.",
+            "tags": [
+              "politica",
+              "pp"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Redeia",
+            "fuente_url": "https://www.redeia.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-llarden",
+    "tipo": "actor",
+    "nombre": "Antonio Llardén Carratalá",
+    "alias": "Llardén",
+    "cargo": "Presidente de Enagás",
+    "bio_corta": "Ingeniero industrial catalán. Preside Enagás desde 2007. Promotor del proyecto H2Med.",
+    "fuente_principal": "https://www.enagas.es",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:enagas"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Tarrasa, 1952. Ingeniero industrial."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Industria / Enagás",
+            "contenido": "Carrera en el sector industrial e Hidrocarburos. Presidente Enagás desde 2007.",
+            "fecha": "2007-05-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Trayectoria previa",
+            "contenido": "Director general en Catalana de Gas y luego Gas Natural antes de Enagás.",
+            "fecha": "1990-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco regulatorio",
+            "contenido": "Crítica con la rebaja de retribución regulada del transporte aplicada por la CNMC.",
+            "tags": [
+              "regulacion"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Hub europeo gas",
+            "contenido": "Promoción de España como hub europeo de regasificación tras invasión Ucrania.",
+            "tags": [
+              "geopolitica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "H2Med - apoyo político",
+            "contenido": "Lobby del proyecto Iberia-Francia con Sánchez, Macron, Costa.",
+            "tags": [
+              "h2med",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Arturo Gonzalo Aizpiri",
+            "contenido": "Tándem con el CEO.",
+            "tags": [
+              "aizpiri"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sedigás",
+            "contenido": "Patronal del gas, vínculos históricos como presidente.",
+            "tags": [
+              "sedigas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Tallgrass impairments",
+            "contenido": "Deterioros >1.000 M€ en la inversión USA Tallgrass entre 2019-2021. Cuestionada estrategia internacional.",
+            "tags": [
+              "tallgrass"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Enagás",
+            "fuente_url": "https://www.enagas.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "arturo-gonzalo-aizpiri",
+    "tipo": "actor",
+    "nombre": "Arturo Gonzalo Aizpiri",
+    "alias": "Aizpiri",
+    "cargo": "CEO de Enagás",
+    "bio_corta": "Ingeniero de Minas. CEO de Enagás desde abril 2022. Carrera larga en Repsol especializado en sostenibilidad. Encaje político con la agenda de transición ecológica del Gobierno Sánchez.",
+    "fuente_principal": "https://www.enagas.es",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:enagas"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero de Minas (Universidad Politécnica de Madrid). Especialización en política energética y sostenibilidad."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Repsol carrera larga",
+            "contenido": "En Repsol desde los 90s. Director ejecutivo de Personas y Organización (RR.HH.) y de Climate Change, Innovation & Sustainability.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Secretario Estado MMA",
+            "contenido": "Secretario General para la Prevención de la Contaminación y el Cambio Climático con Cristina Narbona (PSOE) 2004-2008.",
+            "fecha": "2004-04-30",
+            "tags": [
+              "psoe",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vuelta Repsol",
+            "contenido": "Regreso a Repsol como director ejecutivo tras la etapa pública.",
+            "fecha": "2008-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Enagás",
+            "contenido": "CEO desde abril 2022, sustituyendo a Marcelino Oreja.",
+            "fecha": "2022-04-04"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Hidrógeno verde / H2Med",
+            "contenido": "Voz pública líder del proyecto H2Med (corredor de hidrógeno verde Iberia-Francia). Lobby ante Bruselas (CEF-Energy).",
+            "tags": [
+              "h2med",
+              "hidrogeno"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco retributivo",
+            "contenido": "Crítica con la rebaja de retribución regulada aplicada por la CNMC en los marcos 2021-2026.",
+            "tags": [
+              "regulacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE / Narbona",
+            "contenido": "Vínculo histórico con la rama medioambiental del PSOE (Cristina Narbona) desde su paso por el Ministerio.",
+            "tags": [
+              "psoe",
+              "narbona"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Teresa Ribera / Aagesen",
+            "contenido": "Interlocutor con sucesivas ministras de Transición Ecológica para el proyecto H2Med.",
+            "tags": [
+              "politica",
+              "ribera"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Macron - Costa",
+            "contenido": "H2Med tiene apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa.",
+            "tags": [
+              "politica",
+              "ue"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Imaz (Repsol)",
+            "contenido": "Ex compañero en Repsol durante años; relación profesional.",
+            "tags": [
+              "imaz"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre H2Med",
+            "contenido": "\"H2Med es la columna vertebral de la economía del hidrógeno europea\", JGA 2024.",
+            "fecha": "2024-03-15"
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Enagás equipo",
+            "fuente_url": "https://www.enagas.es/es/conoce-enagas/equipo-directivo/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-manuel-entrecanales",
+    "tipo": "actor",
+    "nombre": "José Manuel Entrecanales Domecq",
+    "alias": "Entrecanales",
+    "cargo": "Presidente y CEO de Acciona",
+    "bio_corta": "Empresario madrileño. Preside Acciona desde 2004 (relevo de su padre José María). Una de las grandes fortunas familiares de España.",
+    "fuente_principal": "https://www.acciona.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:acciona"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1963. Económicas (Yale). MBA Columbia. Hijo de José María Entrecanales (fundador de Necso) y nieto del fundador de la saga."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Acciona desde 2004",
+            "contenido": "Presidente desde mayo 2004.",
+            "fecha": "2004-05-26"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Ecologismo empresarial",
+            "contenido": "Posiciones públicas pioneras a favor de las renovables, la economía circular y la lucha climática. Reconocimiento internacional.",
+            "tags": [
+              "esg"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Entrecanales-Domecq",
+            "contenido": "Control familiar de ~55%. Hermanos y primos varios en consejos.",
+            "tags": [
+              "familia-entrecanales"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Foros internacionales",
+            "contenido": "Davos, UN Global Compact, WEF Climate.",
+            "tags": [
+              "davos"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "ESG",
+            "contenido": "\"La sostenibilidad no es opción sino la única estrategia viable\", JGA 2023.",
+            "fecha": "2023-06-12"
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Acciona",
+            "fuente_url": "https://www.acciona.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rafael-mateo",
+    "tipo": "actor",
+    "nombre": "Rafael Mateo Alcalá",
+    "alias": "Mateo",
+    "cargo": "CEO de Acciona Energía",
+    "bio_corta": "Ingeniero industrial. CEO de Acciona Energía desde la salida a bolsa (2021).",
+    "fuente_principal": "https://www.acciona-energia.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:acciona-energia"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ingeniero industrial. Carrera en Endesa y Acciona Energía."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Ingeniero industrial. Carrera en utilities y energías.",
+            "tags": [
+              "formacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "CEO desde OPV 2021",
+            "contenido": "",
+            "fecha": "2021-07-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Endesa / Enel Green Power",
+            "contenido": "Carrera previa en Endesa y en Enel Green Power LatAm.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Acciona Energía",
+            "contenido": "Lidera la salida a bolsa en julio 2021 como CEO de la filial cotizada.",
+            "fecha": "2021-07-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Modelo 100% renovable",
+            "contenido": "Defensa del modelo de generación 100% renovable como ventaja competitiva frente a utilities mixtas.",
+            "tags": [
+              "esg"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "José Manuel Entrecanales",
+            "contenido": "Reporta al presidente de Acciona matriz (83% de Acciona Energía).",
+            "tags": [
+              "entrecanales"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "APPA Renovables",
+            "contenido": "Miembro destacado de la patronal de renovables.",
+            "tags": [
+              "appa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Acciona Energía",
+            "fuente_url": "https://www.acciona-energia.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ismael-clemente",
+    "tipo": "actor",
+    "nombre": "Ismael Clemente Orrego",
+    "alias": "Ismael Clemente",
+    "cargo": "Presidente y CEO de Merlin Properties",
+    "bio_corta": "Abogado del Estado y financiero. Cofundador y consejero delegado de Merlin Properties desde 2014.",
+    "fuente_principal": "https://www.merlinproperties.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:merlin-properties"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido 1970. Abogado del Estado. Trayectoria en M&A inmobiliario."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abogado del Estado",
+            "contenido": "Cuerpo desde 1995.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Merlin",
+            "contenido": "Cofundador de Merlin (con Miguel Ollero) y CEO desde 2014.",
+            "fecha": "2014-06-30"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "BBVA / Santander",
+            "contenido": "Conexiones por la compra de la cartera Tree (BBVA) y participación accionarial de Santander.",
+            "tags": [
+              "santander",
+              "bbva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Abogacía del Estado",
+            "contenido": "Vinculado a la red de Abogados del Estado.",
+            "tags": [
+              "abogacia-estado"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "SOCIMI",
+            "contenido": "\"Eliminar SOCIMI dañaría a millones de propietarios indirectos\", carta accionistas 2023.",
+            "fecha": "2023-04-29"
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Merlin",
+            "fuente_url": "https://www.merlinproperties.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-jose-brugera",
+    "tipo": "actor",
+    "nombre": "Juan José Brugera Clavero",
+    "alias": "Brugera",
+    "cargo": "Presidente de Inmobiliaria Colonial",
+    "bio_corta": "Empresario y banquero catalán. Preside Colonial desde 2008 tras la reestructuración. Ex Caja Catalunya, ex Círculo de Economía.",
+    "fuente_principal": "https://www.inmocolonial.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:inmobiliaria-colonial"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1947. Económicas y empresariales."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Círculo de Economía",
+            "contenido": "Presidente del Círculo de Economía (Cataluña).",
+            "fecha": "2003-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Colonial",
+            "contenido": "Presidente desde 2008.",
+            "fecha": "2008-12-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mutua Madrileña",
+            "contenido": "Director general de Mutua Madrileña antes de Colonial.",
+            "fecha": "1998-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment catalán",
+            "contenido": "Conexiones con el establishment empresarial catalán histórico.",
+            "tags": [
+              "cataluna"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pere Viñolas",
+            "contenido": "Tándem con el CEO.",
+            "tags": [
+              "vinolas"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "QIA Qatar",
+            "contenido": "Interlocutor con QIA (~19% Colonial).",
+            "tags": [
+              "qia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment empresarial catalán",
+            "contenido": "Vínculos históricos con el Círculo de Economía y Foment.",
+            "tags": [
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Colonial",
+            "fuente_url": "https://www.inmocolonial.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pere-vinolas",
+    "tipo": "actor",
+    "nombre": "Pere Viñolas Serra",
+    "alias": "Viñolas",
+    "cargo": "CEO de Inmobiliaria Colonial",
+    "bio_corta": "Economista catalán. CEO de Colonial desde 2008.",
+    "fuente_principal": "https://www.inmocolonial.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:inmobiliaria-colonial"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista catalán. Trayectoria en Renta Corporación previa."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Economista catalán. Carrera previa en Renta Corporación y banca de inversión.",
+            "tags": [
+              "formacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "CEO Colonial",
+            "contenido": "CEO desde 2008.",
+            "fecha": "2008-12-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Renta Corporación",
+            "contenido": "Director general de Renta Corporación antes de Colonial.",
+            "fecha": "2002-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Oficinas prime",
+            "contenido": "Apuesta exclusiva por oficinas Grade A en CBD. No diversifica a logística ni residencial.",
+            "tags": [
+              "estrategia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Juan José Brugera",
+            "contenido": "Tándem con el presidente.",
+            "tags": [
+              "brugera"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "SFL París",
+            "contenido": "Gestiona la filial cotizada francesa (~83%).",
+            "tags": [
+              "sfl"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "QIA / Finaccess / Santo Domingo",
+            "contenido": "Interlocución con los principales accionistas.",
+            "tags": [
+              "accionistas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Colonial",
+            "fuente_url": "https://www.inmocolonial.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "lakshmi-mittal",
+    "tipo": "actor",
+    "nombre": "Lakshmi Niwas Mittal",
+    "alias": "Lakshmi Mittal",
+    "cargo": "Presidente de ArcelorMittal",
+    "bio_corta": "Empresario indio. Preside ArcelorMittal desde la fusión Arcelor-Mittal (2006). Una de las mayores fortunas del mundo en su sector.",
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:arcelormittal"
+    ],
+    "confidence": 0.87,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Rajasthan, 1950. Construyó imperio siderúrgico desde Indonesia."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA hostil Arcelor",
+            "contenido": "Lanzó OPA hostil sobre Arcelor (2006), cerrando la creación de ArcelorMittal.",
+            "fecha": "2006-06-25"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Construcción del imperio",
+            "contenido": "Mittal Steel construido en Indonesia, Trinidad, Kazajistán y Sudáfrica entre 1976 y 2005.",
+            "fecha": "1976-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Mittal-Arcelor",
+            "contenido": "OPA hostil sobre Arcelor en 2006 culmina con la creación de ArcelorMittal.",
+            "fecha": "2006-06-25"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Descarbonización siderurgia",
+            "contenido": "Inversiones en acero verde (H2-DRI) en Sestao y Gijón condicionadas a apoyo público.",
+            "tags": [
+              "perte",
+              "h2"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Mittal",
+            "contenido": "Hijo Aditya Mittal es CEO. Otras posiciones familiares en consejos.",
+            "tags": [
+              "mittal"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Aditya Mittal",
+            "contenido": "Hijo y CEO desde 2021.",
+            "tags": [
+              "familia-mittal"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Filántropo y donante UK",
+            "contenido": "Donaciones documentadas a Partido Laborista UK (Blair, Brown). Polémicas Mittal-Romania (cartas Blair).",
+            "tags": [
+              "uk",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno español",
+            "contenido": "Interlocución con MINCOTUR y Gobierno autonómico (Asturias, País Vasco) por inversiones en descarbonización.",
+            "tags": [
+              "mincotur",
+              "asturias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "ArcelorMittal",
+            "fuente_url": "https://corporate.arcelormittal.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "aditya-mittal",
+    "tipo": "actor",
+    "nombre": "Aditya Mittal",
+    "alias": "Aditya Mittal",
+    "cargo": "CEO de ArcelorMittal",
+    "bio_corta": "Empresario. CEO de ArcelorMittal desde febrero 2021. Hijo de Lakshmi Mittal.",
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:arcelormittal"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en India, 1976. Wharton. Sucede a su padre como CEO."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Formación",
+            "contenido": "Estudios en Wharton (Pensilvania). Hijo de Lakshmi y Usha Mittal.",
+            "tags": [
+              "formacion",
+              "familia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "CEO desde 2021",
+            "contenido": "",
+            "fecha": "2021-02-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Carrera ArcelorMittal",
+            "contenido": "Antes de CEO fue CFO (2008-2020) y Director Comercial.",
+            "fecha": "2008-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Lakshmi Mittal",
+            "contenido": "Padre y presidente.",
+            "tags": [
+              "familia-mittal"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Aperam / Vanisha Mittal",
+            "contenido": "Hermana Vanisha en consejo de Aperam (spin-off acero inox de Mittal).",
+            "tags": [
+              "familia-mittal"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno español",
+            "contenido": "Interlocución con MINCOTUR por PERTE descarbonización (>300 M€ ayudas).",
+            "tags": [
+              "mincotur"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "ArcelorMittal",
+            "fuente_url": "https://corporate.arcelormittal.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "luis-gallego",
+    "tipo": "actor",
+    "nombre": "Luis Gallego Martín",
+    "alias": "Luis Gallego",
+    "cargo": "CEO de IAG",
+    "bio_corta": "Ingeniero aeronáutico. CEO de IAG desde septiembre 2020. Antes CEO de Iberia.",
+    "fuente_principal": "https://www.iairgroup.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "ceo",
+      "empresa:iag"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1968. Ingeniero aeronáutico (UPM). MBA Pricewaterhouse."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Vueling",
+            "contenido": "CEO de Vueling 2009-2013.",
+            "fecha": "2009-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO Iberia",
+            "contenido": "CEO de Iberia 2013-2020.",
+            "fecha": "2013-03-25"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "CEO IAG",
+            "contenido": "CEO de IAG desde septiembre 2020.",
+            "fecha": "2020-09-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Clickair / Vueling",
+            "contenido": "CEO de Clickair (2006-2009), luego CEO de Vueling tras la fusión 2009-2013.",
+            "fecha": "2006-10-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reestructuración Iberia",
+            "contenido": "Como CEO de Iberia (2013-2020), lideró un ERE histórico y la modernización de flota.",
+            "fecha": "2013-03-25"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Ampliación Barajas",
+            "contenido": "Defensa pública de la ampliación T4 Barajas como hub europeo-LatAm.",
+            "tags": [
+              "barajas"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "SAF (combustibles sostenibles)",
+            "contenido": "Apuesta por SAF e inversión en producción propia (Velocys, Cepsa).",
+            "tags": [
+              "saf"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Air Europa",
+            "contenido": "Intentó dos veces (2019 y 2023) comprar Air Europa, retirada por exigencias de Bruselas.",
+            "tags": [
+              "air-europa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Aena / Lucena",
+            "contenido": "Interlocución habitual por tarifas y ampliación Barajas.",
+            "tags": [
+              "aena"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Qatar Airways",
+            "contenido": "Mayor accionista de IAG (~25%).",
+            "tags": [
+              "qatar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Javier Ferrán",
+            "contenido": "Presidente no ejecutivo de IAG. Tándem.",
+            "tags": [
+              "ferran"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Qatar Airways / Akbar Al Baker",
+            "contenido": "Mayor accionista de IAG; interlocución estratégica con Doha.",
+            "tags": [
+              "qatar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Globalia / Hidalgo",
+            "contenido": "Interlocución con Juan José Hidalgo (Globalia/Air Europa) durante las negociaciones fallidas.",
+            "tags": [
+              "air-europa",
+              "hidalgo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "IAG",
+            "fuente_url": "https://www.iairgroup.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "thomas-glanzmann",
+    "tipo": "actor",
+    "nombre": "Thomas Glanzmann",
+    "alias": "Glanzmann",
+    "cargo": "Presidente ejecutivo de Grifols",
+    "bio_corta": "Ejecutivo suizo del sector farmacéutico. Presidente ejecutivo de Grifols desde febrero 2023 tras la salida de Steve Mayer. Carrera previa en Baxter, Cerimon Pharmaceuticals y Lundbeck.",
+    "fuente_principal": "https://www.grifols.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:grifols"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Suizo, nacido en 1959. Doctor en Farmacia y MBA. Trayectoria internacional en farma."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Baxter International",
+            "contenido": "Carrera larga en Baxter, llegó a vicepresidente senior. Vínculo con la división de plasma y hemoderivados (luego escindida como Baxalta).",
+            "fecha": "1988-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cerimon / Lundbeck",
+            "contenido": "Posiciones ejecutivas en biotechs y farma especializada en los 2010s.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Consejero Grifols",
+            "contenido": "Consejero independiente de Grifols desde 2017.",
+            "fecha": "2017-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente ejecutivo",
+            "contenido": "Presidente ejecutivo en febrero 2023 con mandato de profesionalizar la gestión tras el conflicto familiar y la presión de inversores.",
+            "fecha": "2023-02-15"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Gobierno corporativo",
+            "contenido": "Discurso público sobre la necesidad de separar gestión de propiedad y profesionalizar Grifols.",
+            "tags": [
+              "gobernanza"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Plasma",
+            "contenido": "Defensa del modelo retribuido de donación de plasma frente a propuestas restrictivas UE.",
+            "tags": [
+              "plasma",
+              "ue"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Grifols",
+            "contenido": "Tándem complicado con Raimon Grifols (vicepresidente) y los hijos de Víctor Grifols. Tensiones públicas durante la crisis Gotham y OPA Brookfield.",
+            "tags": [
+              "familia-grifols"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nacho Abia (CEO)",
+            "contenido": "Coordinación con Nacho Abia, CEO desde abril 2024 (procedente de Olympus).",
+            "tags": [
+              "abia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Brookfield",
+            "contenido": "Interlocutor de la negociación OPA con Brookfield 2024.",
+            "tags": [
+              "brookfield"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "CNMV",
+            "contenido": "Interlocución crítica con CNMV sobre el expediente Scranton.",
+            "tags": [
+              "cnmv"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Tras Gotham",
+            "contenido": "\"Las afirmaciones de Gotham son materialmente erróneas. Tenemos plena confianza en nuestra contabilidad\", carta a accionistas enero 2024.",
+            "fecha": "2024-01-10"
+          },
+          {
+            "tipo": "declaracion",
+            "titulo": "OPA Brookfield fallida",
+            "contenido": "\"Los accionistas merecen valor, y no a cualquier precio. Seguimos creando valor en solitario\", noviembre 2024.",
+            "fecha": "2024-11-27"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis Gotham 2024",
+            "contenido": "Gestión de la crisis Gotham (acción cayó >40%). Investigación CNMV en curso.",
+            "fecha": "2024-01-09",
+            "tags": [
+              "gotham"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPA Brookfield fallida",
+            "contenido": "Brookfield retiró la oferta en noviembre 2024 por desacuerdo en precio con la familia.",
+            "fecha": "2024-11-26",
+            "tags": [
+              "brookfield"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Grifols equipo",
+            "fuente_url": "https://www.grifols.com/es/web/international/about-grifols/leadership"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "angel-escribano",
+    "tipo": "actor",
+    "nombre": "Ángel Escribano Ruiz",
+    "alias": "Escribano",
+    "cargo": "Presidente de Indra",
+    "bio_corta": "Empresario industrial. Cofundador con su hermano Javier de Escribano Mechanical & Engineering (defensa). Preside Indra desde enero 2025 tras la salida de Marc Murtra a Telefónica. Caso paradigmático de directivo de defensa nacional impulsado por la SEPI.",
+    "fuente_principal": "https://www.indracompany.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:indra",
+      "sector-defensa"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario español. Carrera entera en la empresa familiar Escribano M&E, especializada en electrónica de defensa, torres de tiro, sistemas de control y vehículos blindados."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fundación Escribano M&E",
+            "contenido": "Fundada por los hermanos Ángel y Javier Escribano. Crecimiento como suministrador del Ministerio de Defensa y exportaciones internacionales.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Accionista Indra (8%)",
+            "contenido": "Escribano M&E comienza a tomar posiciones en Indra desde 2022. Llega al ~8% del capital.",
+            "fecha": "2022-06-01",
+            "tags": [
+              "sepi",
+              "indra"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente Indra",
+            "contenido": "Designado presidente el 22 enero 2025, en bloque accionarial con SEPI tras la salida de Marc Murtra (que saltó a Telefónica).",
+            "fecha": "2025-01-22"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Indra como campeón europeo de defensa",
+            "contenido": "Tesis pública: consolidar Indra como campeón europeo de defensa con peso en programas FCAS, Eurofighter, Eurodrone, ITS.",
+            "tags": [
+              "defensa",
+              "europa"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Industria nacional",
+            "contenido": "Defensa de la industria española como prioridad estratégica europea. Llamamientos al aumento de presupuesto OTAN 2%.",
+            "tags": [
+              "otan",
+              "industria"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "SEPI / Belén Gualda",
+            "contenido": "Su nombramiento fue empujado por SEPI (28% Indra) bajo Gobierno Sánchez. Coordinación constante.",
+            "tags": [
+              "sepi",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez / Margarita Robles",
+            "contenido": "Relación directa con Moncloa y MinDef como gestor del campeón nacional de defensa.",
+            "tags": [
+              "sanchez",
+              "robles"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "SAPA Placencia",
+            "contenido": "Otro grupo industrial defensa con presencia en Indra (~7%). Coordinación accionarial.",
+            "tags": [
+              "sapa-placencia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Amber Capital (Oughourlian)",
+            "contenido": "Accionista relevante de Indra (~7%). Necesita diálogo.",
+            "tags": [
+              "amber"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hermano Javier Escribano",
+            "contenido": "Cofundador y co-accionista. Mantiene la operativa en Escribano M&E.",
+            "tags": [
+              "familia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Inaugural",
+            "contenido": "\"Indra debe consolidarse como campeón europeo de defensa\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-22"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Continuidad gobernanza Indra",
+            "contenido": "Hereda la herida abierta de la destitución de 2022 (CNMV amonestó). Reto: estabilizar consejo y minimizar conflictos.",
+            "tags": [
+              "gobernanza",
+              "indra"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Indra equipo",
+            "fuente_url": "https://www.indracompany.com/es/sobre-indra/consejo-administracion"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "Escribano M&E",
+            "fuente_url": "https://escribano.eu"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "manuel-manrique",
+    "tipo": "actor",
+    "nombre": "Manuel Manrique Cecilia",
+    "alias": "Manrique",
+    "cargo": "Presidente y CEO de Sacyr",
+    "bio_corta": "Ingeniero de Caminos. Preside Sacyr desde octubre 2011 tras la salida abrupta de Luis del Rivero (fundador histórico). Pivot a concesiones internacionales como columna del negocio.",
+    "fuente_principal": "https://www.sacyr.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:sacyr"
+    ],
+    "confidence": 0.83,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en 1949. Ingeniero de Caminos. Carrera entera en Sacyr/SyV."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sacyr carrera interna",
+            "contenido": "En Sacyr desde los 90s. Diferentes responsabilidades operativas y financieras.",
+            "fecha": "1996-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tras salida Del Rivero",
+            "contenido": "Asume la presidencia en octubre 2011 tras la dimisión forzada de Luis del Rivero (en el contexto de la deuda y el conflicto con Repsol).",
+            "fecha": "2011-10-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reestructuración financiera",
+            "contenido": "Lidera la reducción del apalancamiento y el saneamiento del balance 2012-2017.",
+            "fecha": "2014-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Pivot a concesiones",
+            "contenido": "Reorientación a concesiones internacionales (Chile, Colombia, Italia, Irlanda, Uruguay) con flujos predecibles. Reducir peso de la construcción cíclica.",
+            "tags": [
+              "concesiones",
+              "estrategia"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Repsol",
+            "contenido": "Conservación de la participación de Sacyr en Repsol (~9%) como activo estratégico. Defensa frente a presiones para vender.",
+            "tags": [
+              "repsol"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Disa Corporación",
+            "contenido": "Disa (familia Hernández, Canarias) es accionista relevante (~6%) y aliada estable.",
+            "tags": [
+              "disa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Beta Asociados",
+            "contenido": "Vehículo del propio Manrique y entorno, ~7% del capital.",
+            "tags": [
+              "beta"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo",
+            "contenido": "Sacyr como víctima del espionaje encargado por BBVA contra Luis del Rivero en torno a la OPA Repsol 2006. Vínculo procesal indirecto.",
+            "tags": [
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Repsol consejo",
+            "contenido": "Sacyr mantiene consejero en Repsol vía Manrique.",
+            "tags": [
+              "repsol"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre concesiones",
+            "contenido": "\"Las concesiones internacionales son nuestro presente y futuro\", JGA 2024.",
+            "fecha": "2024-06-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Atrasos Canal Panamá",
+            "contenido": "Sacyr lideró el consorcio GUPC de la ampliación del Canal. Atrasos y arbitrajes prolongados 2014-2022.",
+            "tags": [
+              "panama"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Sacyr equipo",
+            "fuente_url": "https://www.sacyr.com/es/sobre-nosotros/equipo-directivo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "marc-puig",
+    "tipo": "actor",
+    "nombre": "Marc Puig Guasch",
+    "alias": "Marc Puig",
+    "cargo": "Presidente y CEO de Puig Brands",
+    "bio_corta": "Empresario catalán. Tercera generación al frente de Puig. Lideró la OPV de mayo 2024.",
+    "fuente_principal": "https://www.puig.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "ceo",
+      "empresa:puig"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1962. MBA Harvard. Nieto del fundador."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Puig carrera interna",
+            "contenido": "En la empresa familiar desde 1990s. CEO desde 2007.",
+            "fecha": "2007-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPV 2024",
+            "contenido": "Lideró la salida a bolsa en mayo 2024.",
+            "fecha": "2024-05-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inicios en P&G",
+            "contenido": "Antes de incorporarse a la empresa familiar, carrera en Procter & Gamble en marketing.",
+            "fecha": "1988-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Adquisiciones nicho lujo",
+            "contenido": "Lidera la compra de Jean Paul Gaultier, Penhaligon's, L'Artisan Parfumeur, Charlotte Tilbury (2020) y Byredo (2022).",
+            "fecha": "2020-06-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Lujo y marca",
+            "contenido": "Tesis pública: priorizar marcas premium con storytelling fuerte por encima de productos commodity. Cita LVMH y Estée Lauder como referencias.",
+            "tags": [
+              "lujo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Puig",
+            "contenido": "Hermano Manuel Puig (vicepresidente) y otros miembros familiares.",
+            "tags": [
+              "familia-puig"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FC Barcelona",
+            "contenido": "Puig patrocinador FCB (camiseta entrenamiento). Vínculo con Joan Laporta.",
+            "tags": [
+              "fcbarcelona",
+              "laporta"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment catalán",
+            "contenido": "Vinculado al Círculo de Economía, Foment del Treball y al ecosistema empresarial catalán.",
+            "tags": [
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Puig",
+            "fuente_url": "https://www.puig.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-sevilla",
+    "tipo": "actor",
+    "nombre": "José Sevilla Álvarez",
+    "alias": "José Sevilla",
+    "cargo": "Presidente de Unicaja Banco",
+    "bio_corta": "Banquero. Preside Unicaja desde 2024 tras la salida de Manuel Azuaga por la crisis de gobernanza. Antes CEO de Bankia (2014-2021).",
+    "fuente_principal": "https://www.unicajabanco.com",
+    "tags": [
+      "ibex35",
+      "directivo",
+      "presidente",
+      "empresa:unicaja"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Económicas. Trayectoria larga en Bankia (vinculado al equipo Goirigolzarri)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "CEO Bankia",
+            "contenido": "CEO de Bankia 2014-2021.",
+            "fecha": "2014-12-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente Unicaja",
+            "contenido": "Presidente desde 2024.",
+            "fecha": "2024-03-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Banco de España / FROB",
+            "contenido": "Carrera en el Banco de España y servicio de inspección antes de la banca privada.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Equipo Goirigolzarri en BBVA",
+            "contenido": "Director general adjunto en BBVA bajo Goirigolzarri en los 2000s.",
+            "fecha": "2005-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Equipo Goirigolzarri",
+            "contenido": "Vinculado al equipo histórico de Goirigolzarri en Bankia y luego CaixaBank.",
+            "tags": [
+              "goirigolzarri"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Unicaja",
+            "contenido": "Interlocutor con la Fundación tras la crisis Medel 2023-2024.",
+            "tags": [
+              "medel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isidro Rubiales (CEO)",
+            "contenido": "Tándem ejecutivo en Unicaja.",
+            "tags": [
+              "rubiales"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Unicaja",
+            "fuente_url": "https://www.unicajabanco.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "isidre-faine",
+    "tipo": "actor",
+    "nombre": "Isidre Fainé Casas",
+    "alias": "Isidre Fainé",
+    "cargo": "Presidente Fundación La Caixa / CriteriaCaixa",
+    "bio_corta": "Banquero catalán. Preside la Fundación La Caixa y CriteriaCaixa (accionista de referencia de CaixaBank, Naturgy, Telefónica). Ex presidente de CECA y CEOE.",
+    "fuente_principal": "https://fundacionlacaixa.org",
+    "tags": [
+      "accionista-control",
+      "presidente-fundacion",
+      "empresa:caixabank",
+      "empresa:naturgy",
+      "empresa:telefonica"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.75,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Manresa, 1942. Económicas (Universidad de Barcelona)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La Caixa carrera entera",
+            "contenido": "En La Caixa desde 1982. Director general 1999, presidente 2007.",
+            "fecha": "2007-06-26"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundación / Criteria",
+            "contenido": "Tras desbancarización de La Caixa (2014), preside la Fundación y Criteria.",
+            "fecha": "2014-06-29"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Goirigolzarri (CaixaBank)",
+            "contenido": "Interlocutor habitual del presidente de CaixaBank.",
+            "tags": [
+              "caixa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Reynés (Naturgy)",
+            "contenido": "Naturgy participada por Criteria al 26%.",
+            "tags": [
+              "naturgy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Murtra (Telefónica)",
+            "contenido": "Criteria es accionista de Telefónica.",
+            "tags": [
+              "telefonica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment catalán",
+            "contenido": "Una de las figuras centrales del catalanismo empresarial moderado.",
+            "tags": [
+              "cataluna"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Casa Real",
+            "contenido": "Vinculado al rey emérito y al rey Felipe VI.",
+            "tags": [
+              "casa-real"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sobre Cataluña",
+            "contenido": "\"Cataluña dentro de España es la mejor opción\", entrevista La Vanguardia 2017.",
+            "fecha": "2017-10-04"
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fundación La Caixa",
+            "fuente_url": "https://fundacionlacaixa.org"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "amancio-ortega",
+    "tipo": "actor",
+    "nombre": "Amancio Ortega Gaona",
+    "alias": "Amancio Ortega",
+    "cargo": "Fundador de Inditex / Pontegadea",
+    "bio_corta": "Empresario gallego. Fundador de Inditex (1975). Mayor fortuna de España. Control de Inditex (~59%) vía Pontegadea. No tiene cargo ejecutivo desde 2011.",
+    "fuente_principal": "https://www.pontegadea.com",
+    "tags": [
+      "accionista-control",
+      "fundador",
+      "empresa:inditex"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Busdongo de Arbas (León), 1936. Sin formación universitaria. Comenzó como aprendiz en La Maja (camisería A Coruña)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Primera Zara",
+            "contenido": "Abre primera tienda Zara en A Coruña en 1975.",
+            "fecha": "1975-05-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pontegadea",
+            "contenido": "Vehículo familiar Pontegadea, mayor inmobiliaria privada de España.",
+            "fecha": "2001-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Retirada cargo ejecutivo",
+            "contenido": "Cede presidencia a Pablo Isla en 2011.",
+            "fecha": "2011-07-19"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Ortega",
+            "contenido": "Hijas Sandra Ortega Mera (fortuna heredada de su madre Rosalía Mera) y Marta Ortega Pérez (presidenta de Inditex).",
+            "tags": [
+              "ortega"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Patrimonio inmobiliario",
+            "contenido": "Pontegadea propietaria de edificios emblemáticos en Madrid (Castellana 81), Barcelona (Diagonal), Nueva York, Londres, Miami.",
+            "tags": [
+              "pontegadea",
+              "inmobiliario"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Donaciones a Sanidad",
+            "contenido": "Donaciones documentadas (>200 M€) a sanidad pública en Galicia. Reconocimiento bipartidista.",
+            "tags": [
+              "filantropia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Estructura fiscal Países Bajos",
+            "contenido": "Antes de la reestructuración 2017, Inditex pagaba royalties de marca a filial holandesa, generando ahorro fiscal cuestionado.",
+            "tags": [
+              "fiscalidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Pontegadea",
+            "fuente_url": "https://www.pontegadea.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "manuel-pizarro",
+    "tipo": "actor",
+    "nombre": "Manuel Pizarro Moreno",
+    "alias": "Pizarro",
+    "cargo": "Vicepresidente del Consejo de Banco Santander",
+    "bio_corta": "Abogado del Estado. Vicepresidente no ejecutivo de Banco Santander. Ex político (PP). Ex presidente de Endesa (2002-2007).",
+    "fuente_principal": "https://www.santander.com",
+    "tags": [
+      "directivo",
+      "vicepresidente",
+      "empresa:banco-santander",
+      "ex-politico"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Teruel, 1953. Abogado del Estado."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Ibercaja / Endesa",
+            "contenido": "Presidente de Ibercaja 1988-2004. Presidente de Endesa 2002-2007.",
+            "fecha": "2002-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diputado PP",
+            "contenido": "Diputado del PP (2008-2011). Cabeza de lista por Madrid en 2008.",
+            "fecha": "2008-03-09"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Santander",
+            "contenido": "Consejero externo del Santander.",
+            "fecha": "2017-04-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ibercaja",
+            "contenido": "Presidente de Ibercaja entre 1988 y 2004.",
+            "fecha": "1988-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Endesa OPAs",
+            "contenido": "Como presidente de Endesa (2002-2007), pieza central en la batalla OPA Gas Natural-E.ON-Enel.",
+            "fecha": "2002-06-21"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP / Mariano Rajoy",
+            "contenido": "Vinculado al PP, fichado por Rajoy en 2007 como propuesta económica.",
+            "tags": [
+              "pp",
+              "rajoy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mariano Rajoy / PP",
+            "contenido": "Fichado por Rajoy como cabeza de lista PP Madrid en 2008.",
+            "tags": [
+              "rajoy",
+              "pp"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ana Botín",
+            "contenido": "Consejero externo del Santander desde 2017.",
+            "tags": [
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Establishment financiero",
+            "contenido": "Vinculado a la red de banqueros y FAES.",
+            "tags": [
+              "faes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Santander",
+            "fuente_url": "https://www.santander.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rodrigo-rato",
+    "tipo": "actor",
+    "nombre": "Rodrigo de Rato y Figaredo",
+    "alias": "Rato",
+    "cargo": "Ex presidente Bankia · ex ministro / referencia política-empresa",
+    "bio_corta": "Político y ejecutivo. Ex ministro de Economía PP (1996-2004), ex director gerente del FMI (2004-2007), ex presidente de Bankia (2010-2012). Condenado por tarjetas black y por fraude fiscal.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Rodrigo_Rato",
+    "tags": [
+      "ex-politico",
+      "ex-presidente-bankia",
+      "condenado"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1949. Derecho. MBA Berkeley."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Ministro Economía PP",
+            "contenido": "Vicepresidente económico y ministro de Economía bajo Aznar (1996-2004).",
+            "fecha": "1996-05-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director gerente FMI",
+            "contenido": "Director gerente del FMI 2004-2007.",
+            "fecha": "2004-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente Bankia",
+            "contenido": "Preside Caja Madrid y luego Bankia 2010-2012. Salida tras nacionalización.",
+            "fecha": "2010-01-21"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP histórico",
+            "contenido": "Aznar, Rajoy, círculo del PP histórico.",
+            "tags": [
+              "pp",
+              "aznar",
+              "rajoy"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FMI / IMF",
+            "contenido": "Como Managing Director del FMI 2004-2007 conoció a líderes financieros globales (Trichet, Geithner, Lagarde).",
+            "tags": [
+              "fmi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Aznar / Aznar José María",
+            "contenido": "Mano derecha económica de Aznar como vicepresidente económico y ministro de Economía (1996-2004).",
+            "tags": [
+              "aznar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caja Madrid / Bankia",
+            "contenido": "Presidente entre 2010-2012, en plena crisis. Salida tras nacionalización.",
+            "tags": [
+              "bankia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Miguel Blesa",
+            "contenido": "Predecesor en Caja Madrid. Coimputado en Tarjetas Black.",
+            "tags": [
+              "blesa",
+              "tarjetas-black"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tribunal Supremo / Audiencia Nacional",
+            "contenido": "Múltiples imputaciones y condenas firmes (tarjetas black 2017→2018; fraude fiscal 2024).",
+            "tags": [
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Tarjetas black",
+            "contenido": "Condenado por la AN en 2017 a 4,5 años de cárcel por uso indebido de tarjetas de Caja Madrid. TS confirmó 2018.",
+            "fecha": "2017-02-23",
+            "tags": [
+              "judicial",
+              "tarjetas-black"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Caso Rato (fraude fiscal)",
+            "contenido": "Condenado por fraude fiscal por la AN en febrero 2024 a 4 años y 9 meses de cárcel.",
+            "fecha": "2024-02-29",
+            "tags": [
+              "judicial",
+              "fraude"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Rodrigo_Rato"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pablo-isla",
+    "tipo": "actor",
+    "nombre": "Pablo Isla Álvarez de Tejera",
+    "alias": "Pablo Isla",
+    "cargo": "Ex presidente Inditex · referencia empresarial",
+    "bio_corta": "Abogado del Estado. Presidente de Inditex (2011-2022). Vicepresidente primero de CEOE (2014-2022). Una de las figuras más respetadas del IBEX.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Pablo_Isla",
+    "tags": [
+      "ex-presidente-inditex",
+      "ex-ceoe"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1964. Abogado del Estado. MBA IESE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Altadis",
+            "contenido": "Co-presidente de Altadis (tabaco) 2000-2005.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inditex",
+            "contenido": "Vicepresidente Inditex 2005, presidente desde 2011.",
+            "fecha": "2011-07-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida Inditex",
+            "contenido": "Cede la presidencia a Marta Ortega en abril 2022.",
+            "fecha": "2022-04-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "CEOE - Garamendi",
+            "contenido": "Vicepresidente primero de CEOE 2014-2022, antes con Rosell y luego con Garamendi.",
+            "tags": [
+              "ceoe",
+              "garamendi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Reconocimiento bipartidista",
+            "contenido": "Figura consensual entre PP y PSOE.",
+            "tags": [
+              "politica",
+              "consensual"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Ortega",
+            "contenido": "Tutelado por Pontegadea durante 11 años.",
+            "tags": [
+              "ortega"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Pablo_Isla"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-garamendi",
+    "tipo": "actor",
+    "nombre": "Antonio Garamendi Lecanda",
+    "alias": "Garamendi",
+    "cargo": "Presidente de CEOE",
+    "bio_corta": "Empresario vasco. Presidente de la CEOE desde 2018 (renovado 2022). Voz pública del empresariado español frente al Gobierno Sánchez.",
+    "fuente_principal": "https://www.ceoe.es",
+    "tags": [
+      "patronal",
+      "presidente",
+      "ceoe"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Getxo (Bizkaia), 1958. Empresario industrial (entornos siderúrgico y químico vasco)."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Confebask / Cepyme",
+            "contenido": "Empresarial vasco. Presidente de Cepyme 2014-2018.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente CEOE",
+            "contenido": "Presidente desde noviembre 2018, sustituyendo a Juan Rosell.",
+            "fecha": "2018-11-21"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Crítico con Gobierno",
+            "contenido": "Posición crítica con el Gobierno Sánchez en fiscalidad, mercado de trabajo (reforma laboral 2021) y políticas energéticas.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Diálogo social",
+            "contenido": "Interlocución habitual con CCOO (Sordo) y UGT (Álvarez), Ministerio de Trabajo (Yolanda Díaz).",
+            "tags": [
+              "dialogo-social"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ibex 35 grandes",
+            "contenido": "Vinculado a la mayoría de presidentes IBEX (Botín, Sánchez Galán, Florentino, Entrecanales).",
+            "tags": [
+              "ibex35"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CEOE",
+            "fuente_url": "https://www.ceoe.es"
+          }
+        ]
+      }
+    ]
+  }
+]

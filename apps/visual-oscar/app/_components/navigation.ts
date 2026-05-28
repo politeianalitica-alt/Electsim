@@ -44,7 +44,12 @@ export const MODULES: NavModule[] = [
     full: 'Inteligencia Política',
     items: [
       { label: 'Mapa de Actores',                href: '/mapa-actores' },
-      { label: 'Dosieres de personas',           href: '/dosieres' },
+      // Apartado único de fichas individuales:
+      // unifica los 3.342 políticos del fixture + 145 dossieres IBEX 35 +
+      // 87 dossieres de Diputaciones Provinciales y Forales.
+      // Filtrado interno por tipo (Políticos / Empresarios / Lobby /
+      // Casa Real / Casos / Otros) y subbarra por partido/empresa.
+      { label: 'Personas',                       href: '/dosieres' },
       { label: 'Partidos y Grupos',              href: '/partidos' },
       { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
       { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
