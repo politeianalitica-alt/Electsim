@@ -113,8 +113,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0002",
@@ -218,18 +218,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0003",
     "slug": "carolina-agudo-alonso",
     "nombre_completo": "Carolina Agudo Alonso",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Cortes de Castilla-La Mancha · XV Legislatura",
+    "cargo_actual": "Senadora designada por Cortes de Castilla-La Mancha · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -251,7 +251,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0003-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -263,7 +263,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0003-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Cortes de Castilla-La Mancha. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -323,18 +323,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0004",
     "slug": "nerea-ahedo-ceza",
     "nombre_completo": "Nerea Ahedo Ceza",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Bizkaia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Bizkaia · XV Legislatura",
     "partido": "PNV",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Bizkaia en la XV Legislatura, integrado en el Grupo Parlamentario Vasco (EAJ-PNV).",
+    "bio_corta": "Senadora electa por Bizkaia en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
     "tags": [
       "pnv",
       "senador",
@@ -356,7 +356,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0004-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Bizkaia en la XV Legislatura, integrado en el Grupo Parlamentario Vasco (EAJ-PNV).",
+            "contenido": "Senadora electa por Bizkaia en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -368,7 +368,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0004-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Bizkaia. Grupo Parlamentario Vasco (EAJ-PNV). XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Bizkaia. Grupo Parlamentario Vasco (EAJ-PNV). XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -428,18 +428,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0005",
     "slug": "rosa-maria-aldea-gomez",
     "nombre_completo": "Rosa María Aldea Gómez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Palencia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Palencia · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -461,7 +461,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0005-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -473,7 +473,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0005-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Palencia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Palencia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -533,8 +533,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0006",
@@ -638,8 +638,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0007",
@@ -743,18 +743,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0008",
     "slug": "melania-alvarez-garcia",
     "nombre_completo": "Melania Álvarez García",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Junta General del Principado de Asturias · XV Legislatura",
+    "cargo_actual": "Senadora designada por Junta General del Principado de Asturias · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Junta General del Principado de Asturias en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Junta General del Principado de Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -776,7 +776,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0008-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Junta General del Principado de Asturias en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Junta General del Principado de Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -788,7 +788,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0008-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Junta General del Principado de Asturias. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Junta General del Principado de Asturias. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -848,18 +848,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0009",
     "slug": "maria-jesus-alvarez-gonzalez",
     "nombre_completo": "María Jesús Álvarez González",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Junta General del Principado de Asturias · XV Legislatura",
+    "cargo_actual": "Senadora designada por Junta General del Principado de Asturias · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Junta General del Principado de Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Junta General del Principado de Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -881,7 +881,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0009-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Junta General del Principado de Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Junta General del Principado de Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -893,7 +893,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0009-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Junta General del Principado de Asturias. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Junta General del Principado de Asturias. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -953,8 +953,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0010",
@@ -1058,18 +1058,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0011",
     "slug": "concepcion-andreu-rodriguez",
     "nombre_completo": "Concepción Andreu Rodríguez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  La Rioja · XV Legislatura",
+    "cargo_actual": "Senador electo por La Rioja · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senador electo por La Rioja en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -1091,7 +1091,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0011-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senador electo por La Rioja en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1103,7 +1103,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0011-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  La Rioja. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senador electo por La Rioja. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1163,8 +1163,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0012",
@@ -1268,18 +1268,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0013",
     "slug": "mariola-aranda-garcia",
     "nombre_completo": "Mariola Aranda García",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Jaén · XV Legislatura",
+    "cargo_actual": "Senadora electa por Jaén · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Jaén en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Jaén en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -1301,7 +1301,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0013-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Jaén en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Jaén en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1313,7 +1313,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0013-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Jaén. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Jaén. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1373,8 +1373,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0014",
@@ -1478,8 +1478,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0015",
@@ -1583,18 +1583,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0016",
     "slug": "nidia-maria-arevalo-gomez",
     "nombre_completo": "Nidia María Arévalo Gómez",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Pontevedra · XV Legislatura",
+    "cargo_actual": "Senadora electa por Pontevedra · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Pontevedra en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -1616,7 +1616,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0016-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Pontevedra en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1628,7 +1628,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0016-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Pontevedra. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Pontevedra. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1688,8 +1688,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0017",
@@ -1793,8 +1793,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0018",
@@ -1898,18 +1898,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0019",
     "slug": "marta-arocha-correa",
     "nombre_completo": "Marta Arocha Correa",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Tenerife · XV Legislatura",
+    "cargo_actual": "Senadora electa por Tenerife · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Tenerife en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Tenerife en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -1931,7 +1931,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0019-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Tenerife en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Tenerife en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1943,7 +1943,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0019-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Tenerife. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Tenerife. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2003,8 +2003,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0020",
@@ -2108,8 +2108,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0021",
@@ -2213,8 +2213,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0022",
@@ -2318,8 +2318,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0023",
@@ -2423,18 +2423,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0024",
     "slug": "sara-bailac-ardanuy",
     "nombre_completo": "Sara Bailac Ardanuy",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Lleida · XV Legislatura",
+    "cargo_actual": "Senadora electa por Lleida · XV Legislatura",
     "partido": "ERC",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Lleida en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+    "bio_corta": "Senadora electa por Lleida en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
     "tags": [
       "erc",
       "senador",
@@ -2456,7 +2456,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0024-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Lleida en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+            "contenido": "Senadora electa por Lleida en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2468,7 +2468,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0024-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Lleida. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Lleida. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2528,18 +2528,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0025",
     "slug": "carmen-ballester-feliu",
     "nombre_completo": "Carmen Ballester Feliu",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Castellón/Castelló · XV Legislatura",
+    "cargo_actual": "Senadora electa por Castellón/Castelló · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -2561,7 +2561,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0025-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2573,7 +2573,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0025-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Castellón/Castelló. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Castellón/Castelló. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2633,8 +2633,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0026",
@@ -2738,8 +2738,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0027",
@@ -2843,18 +2843,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0028",
     "slug": "miren-uxue-barcos-berruezo",
     "nombre_completo": "Miren Uxue Barcos Berruezo",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Navarra · XV Legislatura",
+    "cargo_actual": "Senador designado por Parlamento de Navarra · XV Legislatura",
     "partido": "SUMAR",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Navarra en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
+    "bio_corta": "Senador designado por Parlamento de Navarra en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
     "tags": [
       "sumar",
       "senador",
@@ -2876,7 +2876,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0028-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Navarra en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
+            "contenido": "Senador designado por Parlamento de Navarra en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2888,7 +2888,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0028-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Navarra. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
+            "contenido": "Senador designado por Parlamento de Navarra. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2948,8 +2948,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0029",
@@ -3053,8 +3053,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0030",
@@ -3158,18 +3158,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0031",
     "slug": "teresa-maria-belmonte-sanchez",
     "nombre_completo": "Teresa María Belmonte Sánchez",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Corts Valencianes · XV Legislatura",
+    "cargo_actual": "Senadora designada por Corts Valencianes · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -3191,7 +3191,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0031-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3203,7 +3203,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0031-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Corts Valencianes. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Corts Valencianes. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3263,18 +3263,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0032",
     "slug": "estefania-beltran-de-heredia-arroniz",
     "nombre_completo": "Estefanía Beltrán De Heredia Arroniz",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento Vasco · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento Vasco · XV Legislatura",
     "partido": "PNV",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento Vasco en la XV Legislatura, integrado en el Grupo Parlamentario Vasco (EAJ-PNV).",
+    "bio_corta": "Senadora designada por Parlamento Vasco en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
     "tags": [
       "pnv",
       "senador",
@@ -3296,7 +3296,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0032-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento Vasco en la XV Legislatura, integrado en el Grupo Parlamentario Vasco (EAJ-PNV).",
+            "contenido": "Senadora designada por Parlamento Vasco en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3308,7 +3308,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0032-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento Vasco. Grupo Parlamentario Vasco (EAJ-PNV). XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento Vasco. Grupo Parlamentario Vasco (EAJ-PNV). XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3368,18 +3368,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0033",
     "slug": "ana-maria-beltran-villalba",
     "nombre_completo": "Ana María Beltrán Villalba",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Huesca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Huesca · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -3401,7 +3401,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0033-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3413,7 +3413,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0033-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Huesca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Huesca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3473,8 +3473,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0034",
@@ -3578,8 +3578,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0035",
@@ -3683,18 +3683,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0036",
     "slug": "idurre-bideguren-gabantxo",
     "nombre_completo": "Idurre Bideguren Gabantxo",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento Vasco · XV Legislatura",
+    "cargo_actual": "Senador designado por Parlamento Vasco · XV Legislatura",
     "partido": "ERC",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento Vasco en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+    "bio_corta": "Senador designado por Parlamento Vasco en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
     "tags": [
       "erc",
       "senador",
@@ -3716,7 +3716,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0036-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento Vasco en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+            "contenido": "Senador designado por Parlamento Vasco en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3728,7 +3728,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0036-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento Vasco. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
+            "contenido": "Senador designado por Parlamento Vasco. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3788,18 +3788,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0037",
     "slug": "luisa-blanch-fulcara",
     "nombre_completo": "Luisa Blanch Fulcarà",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Girona · XV Legislatura",
+    "cargo_actual": "Senadora electa por Girona · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Girona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Girona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -3821,7 +3821,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0037-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Girona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Girona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3833,7 +3833,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0037-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Girona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Girona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3893,18 +3893,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0038",
     "slug": "maria-mar-blanco-garrido",
     "nombre_completo": "María Mar Blanco Garrido",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Asamblea de Madrid · XV Legislatura",
+    "cargo_actual": "Senadora designada por Asamblea de Madrid · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -3926,7 +3926,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0038-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3938,7 +3938,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0038-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Asamblea de Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Asamblea de Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3998,8 +3998,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0039",
@@ -4103,18 +4103,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0040",
     "slug": "maria-jesus-bonilla-dominguez",
     "nombre_completo": "María Jesús Bonilla Domínguez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cuenca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cuenca · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -4136,7 +4136,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0040-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4148,7 +4148,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0040-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cuenca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cuenca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4208,18 +4208,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0041",
     "slug": "miriam-bravo-sanchez",
     "nombre_completo": "Miriam Bravo Sánchez",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Asamblea de Madrid · XV Legislatura",
+    "cargo_actual": "Senador designado por Asamblea de Madrid · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Asamblea de Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senador designado por Asamblea de Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -4241,7 +4241,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0041-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Asamblea de Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senador designado por Asamblea de Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4253,7 +4253,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0041-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Asamblea de Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senador designado por Asamblea de Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4313,18 +4313,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0042",
     "slug": "esther-basilia-del-brio-gonzalez",
     "nombre_completo": "Esther Basilia Del Brío González",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Salamanca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Salamanca · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -4346,7 +4346,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0042-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4358,7 +4358,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0042-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Salamanca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Salamanca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4418,18 +4418,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0043",
     "slug": "rocio-briones-morales",
     "nombre_completo": "Rocío Briones Morales",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Corts Valencianes · XV Legislatura",
+    "cargo_actual": "Senadora designada por Corts Valencianes · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Corts Valencianes en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -4451,7 +4451,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0043-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Corts Valencianes en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4463,7 +4463,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0043-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Corts Valencianes. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Corts Valencianes. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4523,18 +4523,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0044",
     "slug": "eva-patricia-bueno-campanario",
     "nombre_completo": "Eva Patricia Bueno Campanario",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Sevilla · XV Legislatura",
+    "cargo_actual": "Senadora electa por Sevilla · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Sevilla en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Sevilla en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -4556,7 +4556,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0044-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Sevilla en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Sevilla en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4568,7 +4568,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0044-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Sevilla. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Sevilla. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4628,8 +4628,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0045",
@@ -4733,18 +4733,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0046",
     "slug": "maria-emma-buj-sanchez",
     "nombre_completo": "María Emma Buj Sánchez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Teruel · XV Legislatura",
+    "cargo_actual": "Senadora electa por Teruel · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -4766,7 +4766,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0046-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4778,7 +4778,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0046-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Teruel. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Teruel. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4838,18 +4838,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0047",
     "slug": "maria-mar-caballero-martinez",
     "nombre_completo": "María Mar Caballero Martínez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Navarra · XV Legislatura",
+    "cargo_actual": "Senadora electa por Navarra · XV Legislatura",
     "partido": null,
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Mixto.",
+    "bio_corta": "Senadora electa por Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Mixto.",
     "tags": [
       "senador",
       "senado",
@@ -4870,7 +4870,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0047-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Mixto.",
+            "contenido": "Senadora electa por Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Mixto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4882,7 +4882,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0047-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Navarra. Grupo Parlamentario Mixto. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Navarra. Grupo Parlamentario Mixto. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4942,8 +4942,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0048",
@@ -5047,8 +5047,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0049",
@@ -5152,8 +5152,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0050",
@@ -5257,8 +5257,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0051",
@@ -5362,18 +5362,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0052",
     "slug": "consol-cantenys-arboli",
     "nombre_completo": "Consol Cantenys Arbolí",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Girona · XV Legislatura",
+    "cargo_actual": "Senador electo por Girona · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Girona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senador electo por Girona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -5395,7 +5395,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0052-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Girona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senador electo por Girona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5407,7 +5407,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0052-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Girona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senador electo por Girona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5467,8 +5467,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0053",
@@ -5571,8 +5571,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0054",
@@ -5676,8 +5676,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0055",
@@ -5781,18 +5781,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0056",
     "slug": "veronica-maria-casal-miguez",
     "nombre_completo": "Verónica María Casal Míguez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  A Coruña · XV Legislatura",
+    "cargo_actual": "Senadora electa por A Coruña · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -5814,7 +5814,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0056-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5826,7 +5826,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0056-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  A Coruña. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por A Coruña. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5886,18 +5886,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0057",
     "slug": "cristina-casanueva-jimenez",
     "nombre_completo": "Cristina Casanueva Jiménez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Córdoba · XV Legislatura",
+    "cargo_actual": "Senadora electa por Córdoba · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -5919,7 +5919,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0057-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5931,7 +5931,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0057-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Córdoba. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Córdoba. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5991,8 +5991,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0058",
@@ -6096,18 +6096,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0059",
     "slug": "laura-castel-fort",
     "nombre_completo": "Laura Castel Fort",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Cataluña · XV Legislatura",
     "partido": "ERC",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+    "bio_corta": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
     "tags": [
       "erc",
       "senador",
@@ -6129,7 +6129,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0059-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+            "contenido": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6141,7 +6141,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0059-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Cataluña. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Cataluña. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6201,8 +6201,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0060",
@@ -6306,18 +6306,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0061",
     "slug": "elena-castillo-lopez",
     "nombre_completo": "Elena Castillo López",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cantabria · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cantabria · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cantabria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Cantabria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -6339,7 +6339,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0061-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cantabria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Cantabria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6351,7 +6351,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0061-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cantabria. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cantabria. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6411,8 +6411,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0062",
@@ -6516,8 +6516,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0063",
@@ -6621,8 +6621,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0064",
@@ -6726,8 +6726,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0065",
@@ -6831,18 +6831,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0066",
     "slug": "mar-cotelo-balmaseda",
     "nombre_completo": "Mar Cotelo Balmaseda",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de La Rioja · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de La Rioja · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de La Rioja en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Parlamento de La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -6864,7 +6864,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0066-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de La Rioja en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Parlamento de La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6876,7 +6876,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0066-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de La Rioja. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de La Rioja. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6936,8 +6936,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0067",
@@ -7041,8 +7041,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0068",
@@ -7146,8 +7146,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0069",
@@ -7251,8 +7251,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0070",
@@ -7356,18 +7356,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0071",
     "slug": "estela-del-carmen-darocas-marin",
     "nombre_completo": "Estela Del Carmen Darocas Marín",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Valencia/València · XV Legislatura",
+    "cargo_actual": "Senadora electa por Valencia/València · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Valencia/València en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Valencia/València en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -7389,7 +7389,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0071-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Valencia/València en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Valencia/València en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7401,7 +7401,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0071-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Valencia/València. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Valencia/València. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7461,18 +7461,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0072",
     "slug": "carla-delgado-gomez",
     "nombre_completo": "Carla Delgado Gómez",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Asamblea de Madrid · XV Legislatura",
+    "cargo_actual": "Senadora designada por Asamblea de Madrid · XV Legislatura",
     "partido": "SUMAR",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Asamblea de Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
+    "bio_corta": "Senadora designada por Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
     "tags": [
       "sumar",
       "senador",
@@ -7494,7 +7494,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0072-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Asamblea de Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
+            "contenido": "Senadora designada por Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7506,7 +7506,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0072-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Asamblea de Madrid. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Asamblea de Madrid. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7566,18 +7566,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0073",
     "slug": "cristina-diaz-moreno",
     "nombre_completo": "Cristina Díaz Moreno",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Ceuta · XV Legislatura",
+    "cargo_actual": "Senadora electa por Ceuta · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Ceuta en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Ceuta en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -7599,7 +7599,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0073-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Ceuta en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Ceuta en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7611,7 +7611,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0073-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Ceuta. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Ceuta. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7671,8 +7671,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0074",
@@ -7776,18 +7776,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0075",
     "slug": "susana-diaz-pacheco",
     "nombre_completo": "Susana Díaz Pacheco",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Andalucía · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Andalucía · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -7809,7 +7809,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0075-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7821,7 +7821,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0075-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Andalucía. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Andalucía. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7881,18 +7881,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0076",
     "slug": "maria-elena-diego-castellanos",
     "nombre_completo": "María Elena Diego Castellanos",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Salamanca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Salamanca · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -7914,7 +7914,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0076-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Salamanca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7926,7 +7926,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0076-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Salamanca. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Salamanca. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7986,8 +7986,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0077",
@@ -8091,18 +8091,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0078",
     "slug": "maria-del-rocio-divar-conde",
     "nombre_completo": "María Del Rocío Dívar Conde",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Zaragoza · XV Legislatura",
+    "cargo_actual": "Senadora electa por Zaragoza · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Zaragoza en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Zaragoza en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -8124,7 +8124,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0078-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Zaragoza en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Zaragoza en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8136,7 +8136,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0078-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Zaragoza. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Zaragoza. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8196,18 +8196,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0079",
     "slug": "olaia-duarte-lopez",
     "nombre_completo": "Olaia Duarte López",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Gipuzkoa · XV Legislatura",
+    "cargo_actual": "Senadora electa por Gipuzkoa · XV Legislatura",
     "partido": "ERC",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Gipuzkoa en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+    "bio_corta": "Senadora electa por Gipuzkoa en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
     "tags": [
       "erc",
       "senador",
@@ -8229,7 +8229,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0079-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Gipuzkoa en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+            "contenido": "Senadora electa por Gipuzkoa en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8241,7 +8241,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0079-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Gipuzkoa. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Gipuzkoa. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8301,18 +8301,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0080",
     "slug": "gorka-elejabarrieta-diaz",
     "nombre_completo": "Gorka Elejabarrieta Díaz",
     "alias": null,
-    "cargo_actual": "Senador electo por Gipuzkoa · XV Legislatura",
+    "cargo_actual": "Senadora electa por Gipuzkoa · XV Legislatura",
     "partido": "ERC",
     "foto_url": null,
-    "bio_corta": "Senador electo por Gipuzkoa en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+    "bio_corta": "Senadora electa por Gipuzkoa en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
     "tags": [
       "erc",
       "senador",
@@ -8334,7 +8334,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0080-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Gipuzkoa en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+            "contenido": "Senadora electa por Gipuzkoa en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8346,7 +8346,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0080-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Gipuzkoa. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Gipuzkoa. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8406,8 +8406,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0081",
@@ -8511,18 +8511,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0082",
     "slug": "adelina-escandell-grases",
     "nombre_completo": "Adelina Escandell Grases",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Cataluña · XV Legislatura",
     "partido": "ERC",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+    "bio_corta": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
     "tags": [
       "erc",
       "senador",
@@ -8544,7 +8544,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0082-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
+            "contenido": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Esquerra Republicana - EH Bildu.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8556,7 +8556,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0082-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Cataluña. Grupo Parlamentario Esquerra Republicana - EH Bildu. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8616,8 +8616,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0083",
@@ -8721,8 +8721,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0084",
@@ -8826,18 +8826,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0085",
     "slug": "maria-dolores-esteve-juan",
     "nombre_completo": "María Dolores Esteve Juan",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Alicante/Alacant · XV Legislatura",
+    "cargo_actual": "Senadora electa por Alicante/Alacant · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -8859,7 +8859,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0085-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8871,7 +8871,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0085-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Alicante/Alacant. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Alicante/Alacant. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8931,18 +8931,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0086",
     "slug": "maria-dolores-etxano-varela",
     "nombre_completo": "María Dolores Etxano Varela",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Bizkaia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Bizkaia · XV Legislatura",
     "partido": "PNV",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Bizkaia en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
+    "bio_corta": "Senadora electa por Bizkaia en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
     "tags": [
       "pnv",
       "senador",
@@ -8964,7 +8964,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0086-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Bizkaia en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
+            "contenido": "Senadora electa por Bizkaia en la XV Legislatura, integrada en el Grupo Parlamentario Vasco (EAJ-PNV).",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8976,7 +8976,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0086-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Bizkaia. Grupo Parlamentario Vasco (EAJ-PNV). XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Bizkaia. Grupo Parlamentario Vasco (EAJ-PNV). XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9036,8 +9036,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0087",
@@ -9141,18 +9141,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0088",
     "slug": "maria-fernandez-alvarez",
     "nombre_completo": "María Fernández Álvarez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Asturias · XV Legislatura",
+    "cargo_actual": "Senadora electa por Asturias · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -9174,7 +9174,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0088-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9186,7 +9186,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0088-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Asturias. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Asturias. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9246,8 +9246,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0089",
@@ -9351,8 +9351,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0090",
@@ -9456,8 +9456,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0091",
@@ -9561,18 +9561,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0092",
     "slug": "maria-teresa-fernandez-molina",
     "nombre_completo": "María Teresa Fernández Molina",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Cortes de Castilla-La Mancha · XV Legislatura",
+    "cargo_actual": "Senadora designada por Cortes de Castilla-La Mancha · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -9594,7 +9594,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0092-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9606,7 +9606,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0092-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Cortes de Castilla-La Mancha. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9666,8 +9666,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0093",
@@ -9771,8 +9771,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0094",
@@ -9876,8 +9876,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0095",
@@ -9981,8 +9981,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0096",
@@ -10086,18 +10086,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0097",
     "slug": "maria-dolores-flores-garcia",
     "nombre_completo": "María Dolores Flores García",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Asamblea Regional de Murcia · XV Legislatura",
+    "cargo_actual": "Senadora designada por Asamblea Regional de Murcia · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Asamblea Regional de Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Asamblea Regional de Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -10119,7 +10119,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0097-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Asamblea Regional de Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Asamblea Regional de Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10131,7 +10131,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0097-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Asamblea Regional de Murcia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Asamblea Regional de Murcia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10191,8 +10191,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0098",
@@ -10296,8 +10296,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0099",
@@ -10401,8 +10401,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0100",
@@ -10506,8 +10506,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0101",
@@ -10611,18 +10611,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0102",
     "slug": "rosa-maria-gallego-neira",
     "nombre_completo": "Rosa María Gallego Neira",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  A Coruña · XV Legislatura",
+    "cargo_actual": "Senadora electa por A Coruña · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -10644,7 +10644,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0102-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por A Coruña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10656,7 +10656,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0102-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  A Coruña. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por A Coruña. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10716,8 +10716,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0103",
@@ -10821,18 +10821,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0104",
     "slug": "maria-angeles-garcia-herrero",
     "nombre_completo": "María Ángeles García Herrero",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Segovia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Segovia · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -10854,7 +10854,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0104-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10866,7 +10866,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0104-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Segovia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Segovia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10926,18 +10926,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0105",
     "slug": "miriam-garcia-navarro",
     "nombre_completo": "Miriam García Navarro",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Albacete · XV Legislatura",
+    "cargo_actual": "Senador electo por Albacete · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Albacete en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senador electo por Albacete en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -10959,7 +10959,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0105-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Albacete en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senador electo por Albacete en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10971,7 +10971,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0105-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Albacete. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senador electo por Albacete. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11031,8 +11031,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0106",
@@ -11136,18 +11136,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0107",
     "slug": "alicia-garcia-rodriguez",
     "nombre_completo": "Alicia García Rodríguez",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Ávila · XV Legislatura",
+    "cargo_actual": "Senadora electa por Ávila · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Ávila en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Ávila en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -11169,7 +11169,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0107-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Ávila en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Ávila en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11181,7 +11181,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0107-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Ávila. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Ávila. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11241,8 +11241,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0108",
@@ -11346,8 +11346,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0109",
@@ -11451,18 +11451,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0110",
     "slug": "maria-jose-garcia-pelayo-jurado",
     "nombre_completo": "María José García-pelayo Jurado",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cádiz · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cádiz · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -11484,7 +11484,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0110-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11496,7 +11496,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0110-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cádiz. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cádiz. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11556,18 +11556,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0111",
     "slug": "abigail-garrido-tinta",
     "nombre_completo": "Abigail Garrido Tinta",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senador designado por Parlamento de Cataluña · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senador designado por Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -11589,7 +11589,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0111-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senador designado por Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11601,7 +11601,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0111-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senador designado por Parlamento de Cataluña. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11661,8 +11661,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0112",
@@ -11766,8 +11766,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0113",
@@ -11871,8 +11871,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0114",
@@ -11976,18 +11976,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0115",
     "slug": "paloma-gomez-enriquez",
     "nombre_completo": "Paloma Gómez Enríquez",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Andalucía · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Andalucía · XV Legislatura",
     "partido": null,
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Andalucía en la XV Legislatura, integrado en el Grupo Parlamentario Mixto.",
+    "bio_corta": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Mixto.",
     "tags": [
       "senador",
       "senado",
@@ -12008,7 +12008,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0115-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Andalucía en la XV Legislatura, integrado en el Grupo Parlamentario Mixto.",
+            "contenido": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Mixto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12020,7 +12020,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0115-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Andalucía. Grupo Parlamentario Mixto. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Andalucía. Grupo Parlamentario Mixto. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12080,18 +12080,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0116",
     "slug": "maria-jose-gomez-rodriguez",
     "nombre_completo": "María José Gómez Rodríguez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Lugo · XV Legislatura",
+    "cargo_actual": "Senadora electa por Lugo · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Lugo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Lugo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -12113,7 +12113,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0116-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Lugo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Lugo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12125,7 +12125,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0116-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Lugo. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Lugo. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12185,18 +12185,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0117",
     "slug": "raquel-gonzalez-benito",
     "nombre_completo": "Raquel González Benito",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Burgos · XV Legislatura",
+    "cargo_actual": "Senadora electa por Burgos · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Burgos en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Burgos en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -12218,7 +12218,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0117-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Burgos en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Burgos en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12230,7 +12230,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0117-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Burgos. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Burgos. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12290,8 +12290,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0118",
@@ -12395,8 +12395,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0119",
@@ -12500,8 +12500,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0120",
@@ -12605,8 +12605,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0121",
@@ -12710,8 +12710,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0122",
@@ -12814,8 +12814,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0123",
@@ -12919,18 +12919,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0124",
     "slug": "monica-grados-caro",
     "nombre_completo": "Mónica Grados Caro",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cáceres · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cáceres · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -12952,7 +12952,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0124-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12964,7 +12964,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0124-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cáceres. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cáceres. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13024,18 +13024,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0125",
     "slug": "eva-maria-granados-galiano",
     "nombre_completo": "Eva María Granados Galiano",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Cataluña · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -13057,7 +13057,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0125-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13069,7 +13069,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0125-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Cataluña. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Cataluña. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13129,8 +13129,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0126",
@@ -13234,18 +13234,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0127",
     "slug": "lorena-guerra-sanchez",
     "nombre_completo": "Lorena Guerra Sánchez",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Córdoba · XV Legislatura",
+    "cargo_actual": "Senadora electa por Córdoba · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Córdoba en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -13267,7 +13267,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0127-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Córdoba en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13279,7 +13279,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0127-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Córdoba. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Córdoba. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13339,8 +13339,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0128",
@@ -13444,8 +13444,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0129",
@@ -13549,18 +13549,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0130",
     "slug": "paloma-hernandez-cerezo",
     "nombre_completo": "Paloma Hernández Cerezo",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Fuerteventura · XV Legislatura",
+    "cargo_actual": "Senadora electa por Fuerteventura · XV Legislatura",
     "partido": "SUMAR",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Fuerteventura en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
+    "bio_corta": "Senadora electa por Fuerteventura en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
     "tags": [
       "sumar",
       "senador",
@@ -13582,7 +13582,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0130-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Fuerteventura en la XV Legislatura, integrado en el Grupo Parlamentario Izquierda Confederal.",
+            "contenido": "Senadora electa por Fuerteventura en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13594,7 +13594,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0130-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Fuerteventura. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Fuerteventura. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13654,18 +13654,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0131",
     "slug": "inmaculada-hernandez-rodriguez",
     "nombre_completo": "Inmaculada Hernández Rodríguez",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Andalucía · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Andalucía · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Andalucía en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -13687,7 +13687,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0131-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Andalucía en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13699,7 +13699,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0131-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Andalucía. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Andalucía. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13759,8 +13759,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0132",
@@ -13864,8 +13864,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0133",
@@ -13969,8 +13969,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0134",
@@ -14074,18 +14074,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0135",
     "slug": "maria-yolanda-ibarrola-de-la-fuente",
     "nombre_completo": "María Yolanda Ibarrola De La Fuente",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Asamblea de Madrid · XV Legislatura",
+    "cargo_actual": "Senadora designada por Asamblea de Madrid · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -14107,7 +14107,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0135-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Asamblea de Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14119,7 +14119,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0135-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Asamblea de Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Asamblea de Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14179,8 +14179,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0136",
@@ -14284,8 +14284,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0137",
@@ -14389,8 +14389,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0138",
@@ -14494,8 +14494,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0139",
@@ -14599,8 +14599,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0140",
@@ -14704,8 +14704,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0141",
@@ -14809,8 +14809,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0142",
@@ -14914,8 +14914,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0143",
@@ -15019,8 +15019,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0144",
@@ -15124,18 +15124,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0145",
     "slug": "maria-del-carmen-leyte-coello",
     "nombre_completo": "María Del Carmen Leyte Coello",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Ourense · XV Legislatura",
+    "cargo_actual": "Senadora electa por Ourense · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -15157,7 +15157,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0145-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15169,7 +15169,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0145-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Ourense. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Ourense. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15229,18 +15229,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0146",
     "slug": "julia-maria-liberal-liberal",
     "nombre_completo": "Julia María Liberal Liberal",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Araba/Álava · XV Legislatura",
+    "cargo_actual": "Senadora electa por Araba/Álava · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Araba/Álava en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Araba/Álava en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -15262,7 +15262,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0146-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Araba/Álava en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Araba/Álava en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15274,7 +15274,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0146-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Araba/Álava. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Araba/Álava. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15334,18 +15334,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0147",
     "slug": "maria-eugenia-limon-bayo",
     "nombre_completo": "María Eugenia Limón Bayo",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Huelva · XV Legislatura",
+    "cargo_actual": "Senadora electa por Huelva · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Huelva en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Huelva en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -15367,7 +15367,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0147-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Huelva en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Huelva en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15379,7 +15379,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0147-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Huelva. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Huelva. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15439,8 +15439,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0148",
@@ -15544,8 +15544,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0149",
@@ -15649,18 +15649,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0150",
     "slug": "antonia-lopez-moya",
     "nombre_completo": "Antonia López Moya",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Murcia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Murcia · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Murcia en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -15682,7 +15682,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0150-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Murcia en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15694,7 +15694,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0150-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Murcia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Murcia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15754,8 +15754,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0151",
@@ -15859,18 +15859,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0152",
     "slug": "carmen-belen-lopez-zapata",
     "nombre_completo": "Carmen Belén López Zapata",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Almería · XV Legislatura",
+    "cargo_actual": "Senadora electa por Almería · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Almería en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Almería en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -15892,7 +15892,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0152-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Almería en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Almería en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15904,7 +15904,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0152-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Almería. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Almería. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15964,8 +15964,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0153",
@@ -16069,18 +16069,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0154",
     "slug": "maria-de-los-angeles-luna-morales",
     "nombre_completo": "María De Los Ángeles Luna Morales",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Córdoba · XV Legislatura",
+    "cargo_actual": "Senadora electa por Córdoba · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -16102,7 +16102,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0154-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Córdoba en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16114,7 +16114,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0154-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Córdoba. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Córdoba. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16174,18 +16174,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0155",
     "slug": "maria-teresa-macias-mateos",
     "nombre_completo": "María Teresa Macías Mateos",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Badajoz · XV Legislatura",
+    "cargo_actual": "Senadora electa por Badajoz · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -16207,7 +16207,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0155-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16219,7 +16219,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0155-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Badajoz. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Badajoz. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16279,8 +16279,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0156",
@@ -16384,18 +16384,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0157",
     "slug": "maria-teresa-mallada-de-castro",
     "nombre_completo": "María Teresa Mallada De Castro",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Asturias · XV Legislatura",
+    "cargo_actual": "Senadora electa por Asturias · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -16417,7 +16417,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0157-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Asturias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16429,7 +16429,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0157-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Asturias. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Asturias. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16489,18 +16489,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0158",
     "slug": "maria-amparo-marco-gual",
     "nombre_completo": "María Amparo Marco Gual",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Castellón/Castelló · XV Legislatura",
+    "cargo_actual": "Senadora electa por Castellón/Castelló · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -16522,7 +16522,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0158-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16534,7 +16534,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0158-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Castellón/Castelló. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Castellón/Castelló. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16594,18 +16594,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0159",
     "slug": "maria-dolores-marcos-moyano",
     "nombre_completo": "María Dolores Marcos Moyano",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cáceres · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cáceres · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -16627,7 +16627,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0159-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16639,7 +16639,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0159-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cáceres. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cáceres. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16699,18 +16699,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0160",
     "slug": "nuria-marin-martinez",
     "nombre_completo": "Núria Marín Martínez",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Cataluña · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -16732,7 +16732,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0160-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16744,7 +16744,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0160-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Cataluña. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16804,8 +16804,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0161",
@@ -16909,18 +16909,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0162",
     "slug": "maria-susana-marques-escoin",
     "nombre_completo": "María Susana Marqués Escoín",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Castellón/Castelló · XV Legislatura",
+    "cargo_actual": "Senadora electa por Castellón/Castelló · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -16942,7 +16942,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0162-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Castellón/Castelló en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16954,7 +16954,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0162-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Castellón/Castelló. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Castellón/Castelló. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17014,8 +17014,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0163",
@@ -17119,8 +17119,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0164",
@@ -17224,8 +17224,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0165",
@@ -17329,18 +17329,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0166",
     "slug": "maria-del-lirio-martin-garcia",
     "nombre_completo": "María Del Lirio Martín García",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Segovia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Segovia · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -17362,7 +17362,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0166-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17374,7 +17374,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0166-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Segovia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Segovia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17434,8 +17434,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0167",
@@ -17539,18 +17539,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0168",
     "slug": "paloma-martin-martin",
     "nombre_completo": "Paloma Martín Martín",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Madrid · XV Legislatura",
+    "cargo_actual": "Senadora electa por Madrid · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -17572,7 +17572,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0168-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Madrid en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Madrid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17584,7 +17584,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0168-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Madrid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17644,18 +17644,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0169",
     "slug": "maria-eva-martin-perez",
     "nombre_completo": "María Eva Martín Pérez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Granada · XV Legislatura",
+    "cargo_actual": "Senadora electa por Granada · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Granada en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Granada en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -17677,7 +17677,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0169-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Granada en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Granada en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17689,7 +17689,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0169-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Granada. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Granada. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17749,8 +17749,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0170",
@@ -17854,18 +17854,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0171",
     "slug": "araceli-martinez-esteban",
     "nombre_completo": "Araceli Martínez Esteban",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Guadalajara · XV Legislatura",
+    "cargo_actual": "Senador electo por Guadalajara · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Guadalajara en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senador electo por Guadalajara en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -17887,7 +17887,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0171-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Guadalajara en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senador electo por Guadalajara en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17899,7 +17899,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0171-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Guadalajara. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senador electo por Guadalajara. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17959,8 +17959,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0172",
@@ -18064,8 +18064,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0173",
@@ -18169,18 +18169,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0174",
     "slug": "ana-martinez-zaragoza",
     "nombre_completo": "Ana Martínez Zaragoza",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Alicante/Alacant · XV Legislatura",
+    "cargo_actual": "Senadora electa por Alicante/Alacant · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -18202,7 +18202,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0174-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18214,7 +18214,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0174-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Alicante/Alacant. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Alicante/Alacant. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18274,8 +18274,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0175",
@@ -18379,8 +18379,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0176",
@@ -18484,8 +18484,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0177",
@@ -18589,8 +18589,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0178",
@@ -18694,18 +18694,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0179",
     "slug": "maria-asuncion-mayo-fernandez",
     "nombre_completo": "María Asunción Mayo Fernández",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  León · XV Legislatura",
+    "cargo_actual": "Senadora electa por León · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  León en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por León en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -18727,7 +18727,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0179-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  León en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por León en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18739,7 +18739,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0179-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  León. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por León. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18799,18 +18799,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0180",
     "slug": "nuria-medina-santos",
     "nombre_completo": "Nuria Medina Santos",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Navarra · XV Legislatura",
+    "cargo_actual": "Senadora electa por Navarra · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -18832,7 +18832,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0180-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Navarra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18844,7 +18844,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0180-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Navarra. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Navarra. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18904,8 +18904,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0181",
@@ -19009,8 +19009,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0182",
@@ -19114,8 +19114,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0183",
@@ -19219,8 +19219,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0184",
@@ -19324,8 +19324,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0185",
@@ -19429,8 +19429,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0186",
@@ -19534,8 +19534,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0187",
@@ -19639,18 +19639,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0188",
     "slug": "maria-isabel-moreno-duque",
     "nombre_completo": "María Isabel Moreno Duque",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cáceres · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cáceres · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -19672,7 +19672,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0188-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Cáceres en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19684,7 +19684,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0188-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cáceres. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cáceres. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19744,18 +19744,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0189",
     "slug": "cristina-moreno-fernandez",
     "nombre_completo": "Cristina Moreno Fernández",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Valencia/València · XV Legislatura",
+    "cargo_actual": "Senadora electa por Valencia/València · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Valencia/València en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Valencia/València en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -19777,7 +19777,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0189-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Valencia/València en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Valencia/València en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19789,7 +19789,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0189-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Valencia/València. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Valencia/València. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19849,18 +19849,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0190",
     "slug": "isabel-maria-moreno-mohamed",
     "nombre_completo": "Isabel María Moreno Mohamed",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Melilla · XV Legislatura",
+    "cargo_actual": "Senadora electa por Melilla · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Melilla en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Melilla en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -19882,7 +19882,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0190-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Melilla en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Melilla en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19894,7 +19894,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0190-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Melilla. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Melilla. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19954,8 +19954,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0191",
@@ -20059,8 +20059,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0192",
@@ -20164,8 +20164,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0193",
@@ -20269,18 +20269,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0194",
     "slug": "melania-mur-sangra",
     "nombre_completo": "Melania Mur Sangrá",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Huesca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Huesca · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Huesca en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -20302,7 +20302,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0194-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Huesca en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20314,7 +20314,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0194-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Huesca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Huesca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20374,8 +20374,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0195",
@@ -20479,8 +20479,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0196",
@@ -20584,18 +20584,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0197",
     "slug": "maria-australia-navarro-de-paz",
     "nombre_completo": "María Australia Navarro De Paz",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Canarias · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Canarias · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -20617,7 +20617,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0197-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20629,7 +20629,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0197-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Canarias. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Canarias. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20689,8 +20689,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0198",
@@ -20794,8 +20794,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0199",
@@ -20899,8 +20899,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0200",
@@ -21004,18 +21004,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0201",
     "slug": "maria-jose-ortega-gomez",
     "nombre_completo": "María José Ortega Gómez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Palencia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Palencia · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21037,7 +21037,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0201-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Palencia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21049,7 +21049,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0201-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Palencia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Palencia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21109,18 +21109,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0202",
     "slug": "eva-ortiz-vilella",
     "nombre_completo": "Eva Ortiz Vilella",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Alicante/Alacant · XV Legislatura",
+    "cargo_actual": "Senadora electa por Alicante/Alacant · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21142,7 +21142,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0202-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Alicante/Alacant en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21154,7 +21154,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0202-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Alicante/Alacant. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Alicante/Alacant. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21214,18 +21214,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0203",
     "slug": "carmen-pagador-lopez",
     "nombre_completo": "Carmen Pagador López",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Badajoz · XV Legislatura",
+    "cargo_actual": "Senadora electa por Badajoz · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21247,7 +21247,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0203-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Badajoz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21259,7 +21259,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0203-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Badajoz. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Badajoz. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21319,18 +21319,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0204",
     "slug": "maria-teresa-pallares-pique",
     "nombre_completo": "Maria Teresa Pallarès Piqué",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Cataluña · XV Legislatura",
     "partido": "JUNTS",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Plural.",
+    "bio_corta": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Plural.",
     "tags": [
       "junts",
       "senador",
@@ -21352,7 +21352,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0204-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Plural.",
+            "contenido": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Plural.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21364,7 +21364,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0204-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña. Grupo Parlamentario Plural. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Cataluña. Grupo Parlamentario Plural. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21424,18 +21424,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0205",
     "slug": "maria-jose-pardo-pumar",
     "nombre_completo": "María José Pardo Pumar",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Pontevedra · XV Legislatura",
+    "cargo_actual": "Senadora electa por Pontevedra · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21457,7 +21457,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0205-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21469,7 +21469,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0205-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Pontevedra. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Pontevedra. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21529,18 +21529,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0206",
     "slug": "maria-patricio-zafra",
     "nombre_completo": "María Patricio Zafra",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Guadalajara · XV Legislatura",
+    "cargo_actual": "Senadora electa por Guadalajara · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21562,7 +21562,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0206-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21574,7 +21574,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0206-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Guadalajara. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Guadalajara. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21634,18 +21634,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0207",
     "slug": "maria-del-carmen-perez-becerra",
     "nombre_completo": "María Del Carmen Pérez Becerra",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cádiz · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cádiz · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21667,7 +21667,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0207-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Cádiz en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21679,7 +21679,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0207-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cádiz. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cádiz. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21739,18 +21739,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0208",
     "slug": "maria-teresa-perez-esteban",
     "nombre_completo": "María Teresa Pérez Esteban",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Cortes de Aragón · XV Legislatura",
+    "cargo_actual": "Senadora designada por Cortes de Aragón · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Cortes de Aragón en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Cortes de Aragón en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -21772,7 +21772,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0208-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Cortes de Aragón en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Cortes de Aragón en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21784,7 +21784,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0208-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Cortes de Aragón. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Cortes de Aragón. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21844,8 +21844,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0209",
@@ -21949,18 +21949,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0210",
     "slug": "maria-carmen-isabel-pobo-sanchez",
     "nombre_completo": "María Carmen Isabel Pobo Sánchez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Teruel · XV Legislatura",
+    "cargo_actual": "Senadora electa por Teruel · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -21982,7 +21982,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0210-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21994,7 +21994,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0210-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Teruel. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Teruel. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22054,8 +22054,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0211",
@@ -22159,8 +22159,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0212",
@@ -22264,8 +22264,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0213",
@@ -22369,8 +22369,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0214",
@@ -22474,8 +22474,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0215",
@@ -22579,8 +22579,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0216",
@@ -22684,8 +22684,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0217",
@@ -22789,8 +22789,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0218",
@@ -22894,8 +22894,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0219",
@@ -22999,8 +22999,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0220",
@@ -23104,18 +23104,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0221",
     "slug": "eva-maria-redondo-gamero",
     "nombre_completo": "Eva María Redondo Gamero",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Corts Valencianes · XV Legislatura",
+    "cargo_actual": "Senadora designada por Corts Valencianes · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -23137,7 +23137,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0221-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Corts Valencianes en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -23149,7 +23149,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0221-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Corts Valencianes. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Corts Valencianes. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -23209,8 +23209,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0222",
@@ -23314,8 +23314,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0223",
@@ -23419,8 +23419,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0224",
@@ -23524,18 +23524,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0225",
     "slug": "maria-carmen-riolobos-regadera",
     "nombre_completo": "María Carmen Riolobos Regadera",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Toledo · XV Legislatura",
+    "cargo_actual": "Senadora electa por Toledo · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Toledo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Toledo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -23557,7 +23557,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0225-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Toledo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Toledo en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -23569,7 +23569,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0225-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Toledo. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Toledo. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -23629,18 +23629,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0226",
     "slug": "maria-montserrat-rivas-de-la-torre",
     "nombre_completo": "María Montserrat Rivas De La Torre",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Guadalajara · XV Legislatura",
+    "cargo_actual": "Senadora electa por Guadalajara · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -23662,7 +23662,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0226-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Guadalajara en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -23674,7 +23674,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0226-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Guadalajara. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Guadalajara. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -23734,8 +23734,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0227",
@@ -23839,8 +23839,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0228",
@@ -23944,8 +23944,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0229",
@@ -24049,8 +24049,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0230",
@@ -24154,18 +24154,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0231",
     "slug": "pilar-milagros-rojo-noguera",
     "nombre_completo": "Pilar Milagros Rojo Noguera",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Albacete · XV Legislatura",
+    "cargo_actual": "Senadora electa por Albacete · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Albacete en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Albacete en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -24187,7 +24187,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0231-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Albacete en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Albacete en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24199,7 +24199,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0231-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Albacete. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Albacete. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24259,18 +24259,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0232",
     "slug": "lorena-roldan-suarez",
     "nombre_completo": "Lorena Roldán Suárez",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Parlamento de Cataluña · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Cataluña · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -24292,7 +24292,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0232-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Parlamento de Cataluña en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24304,7 +24304,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0232-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Parlamento de Cataluña. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Cataluña. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24364,8 +24364,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0233",
@@ -24469,18 +24469,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0234",
     "slug": "pasion-gador-romero-garcia",
     "nombre_completo": "Pasión Gador Romero García",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Lleida · XV Legislatura",
+    "cargo_actual": "Senador electo por Lleida · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Lleida en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senador electo por Lleida en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -24502,7 +24502,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0234-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Lleida en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senador electo por Lleida en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24514,7 +24514,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0234-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Lleida. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senador electo por Lleida. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24574,8 +24574,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0235",
@@ -24679,18 +24679,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0236",
     "slug": "rosa-maria-romero-sanchez",
     "nombre_completo": "Rosa María Romero Sánchez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Ciudad Real · XV Legislatura",
+    "cargo_actual": "Senadora electa por Ciudad Real · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Ciudad Real en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Ciudad Real en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -24712,7 +24712,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0236-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Ciudad Real en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Ciudad Real en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24724,7 +24724,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0236-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Ciudad Real. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Ciudad Real. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24784,8 +24784,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0237",
@@ -24889,18 +24889,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0238",
     "slug": "nuria-rovira-costas",
     "nombre_completo": "Núria Rovira Costas",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Tarragona · XV Legislatura",
+    "cargo_actual": "Senadora electa por Tarragona · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Tarragona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Tarragona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -24922,7 +24922,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0238-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Tarragona en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Tarragona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24934,7 +24934,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0238-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Tarragona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Tarragona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24994,18 +24994,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0239",
     "slug": "maria-cristina-rubio-blasco",
     "nombre_completo": "María Cristina Rubio Blasco",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Soria · XV Legislatura",
+    "cargo_actual": "Senadora electa por Soria · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Soria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Soria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -25027,7 +25027,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0239-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Soria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Soria en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25039,7 +25039,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0239-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Soria. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Soria. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25099,18 +25099,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0240",
     "slug": "luisa-fernanda-rudi-ubeda",
     "nombre_completo": "Luisa Fernanda Rudi Úbeda",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Zaragoza · XV Legislatura",
+    "cargo_actual": "Senadora electa por Zaragoza · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Zaragoza en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Zaragoza en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -25132,7 +25132,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0240-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Zaragoza en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Zaragoza en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25144,7 +25144,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0240-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Zaragoza. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Zaragoza. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25204,8 +25204,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0241",
@@ -25309,8 +25309,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0242",
@@ -25414,18 +25414,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0243",
     "slug": "maria-teresa-ruiz-sillero-bernal",
     "nombre_completo": "María Teresa Ruiz-sillero Bernal",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Andalucía · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Andalucía · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -25447,7 +25447,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0243-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Parlamento de Andalucía en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25459,7 +25459,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0243-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Andalucía. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Andalucía. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25519,18 +25519,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0244",
     "slug": "marta-jorgina-saavedra-domenech",
     "nombre_completo": "Marta Jorgina Saavedra Doménech",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Gran Canaria · XV Legislatura",
+    "cargo_actual": "Senadora electa por Gran Canaria · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Gran Canaria en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Gran Canaria en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -25552,7 +25552,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0244-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Gran Canaria en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Gran Canaria en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25564,7 +25564,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0244-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Gran Canaria. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Gran Canaria. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25624,8 +25624,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0245",
@@ -25729,18 +25729,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0246",
     "slug": "maria-salom-coll",
     "nombre_completo": "María Salom Coll",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Mallorca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Mallorca · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Mallorca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Mallorca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -25762,7 +25762,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0246-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Mallorca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Mallorca en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25774,7 +25774,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0246-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Mallorca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Mallorca. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25834,18 +25834,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0247",
     "slug": "maria-del-mar-san-martin-ibarra",
     "nombre_completo": "María Del Mar San Martín Ibarra",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  La Rioja · XV Legislatura",
+    "cargo_actual": "Senadora electa por La Rioja · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -25867,7 +25867,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0247-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por La Rioja en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25879,7 +25879,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0247-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  La Rioja. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por La Rioja. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -25939,8 +25939,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0248",
@@ -26044,18 +26044,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0249",
     "slug": "rosa-maria-sanchez-gandara",
     "nombre_completo": "Rosa María Sánchez Gándara",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Ourense · XV Legislatura",
+    "cargo_actual": "Senadora electa por Ourense · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -26077,7 +26077,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0249-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Ourense en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26089,7 +26089,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0249-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Ourense. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Ourense. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26149,18 +26149,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0250",
     "slug": "piedad-sanchez-garcia",
     "nombre_completo": "Piedad Sánchez García",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Ávila · XV Legislatura",
+    "cargo_actual": "Senador electo por Ávila · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Ávila en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senador electo por Ávila en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -26182,7 +26182,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0250-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Ávila en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senador electo por Ávila en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26194,7 +26194,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0250-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Ávila. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senador electo por Ávila. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26254,8 +26254,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0251",
@@ -26359,18 +26359,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0252",
     "slug": "aurelia-sanchez-navarro",
     "nombre_completo": "Aurelia Sánchez Navarro",
     "alias": null,
-    "cargo_actual": "Senador designado por Designada: Cortes de Castilla-La Mancha · XV Legislatura",
+    "cargo_actual": "Senadora designada por Cortes de Castilla-La Mancha · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador designado por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -26392,7 +26392,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0252-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador designado por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26404,7 +26404,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0252-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador designado por Designada: Cortes de Castilla-La Mancha. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26464,18 +26464,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0253",
     "slug": "inmaculada-sanchez-roca",
     "nombre_completo": "Inmaculada Sánchez Roca",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Murcia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Murcia · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Murcia en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -26497,7 +26497,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0253-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Murcia en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Murcia en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26509,7 +26509,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0253-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Murcia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Murcia. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26569,8 +26569,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0254",
@@ -26674,8 +26674,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0255",
@@ -26778,8 +26778,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0256",
@@ -26883,8 +26883,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0257",
@@ -26988,8 +26988,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0258",
@@ -27093,18 +27093,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0259",
     "slug": "paloma-ines-sanz-jeronimo",
     "nombre_completo": "Paloma Inés Sanz Jerónimo",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Segovia · XV Legislatura",
+    "cargo_actual": "Senadora electa por Segovia · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Segovia en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -27126,7 +27126,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0259-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Segovia en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Segovia en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27138,7 +27138,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0259-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Segovia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Segovia. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27198,8 +27198,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0260",
@@ -27303,18 +27303,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0261",
     "slug": "maria-arenales-serrano-arguello",
     "nombre_completo": "María Arenales Serrano Argüello",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Valladolid · XV Legislatura",
+    "cargo_actual": "Senadora electa por Valladolid · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Valladolid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Valladolid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -27336,7 +27336,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0261-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Valladolid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Valladolid en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27348,7 +27348,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0261-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Valladolid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Valladolid. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27408,8 +27408,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0262",
@@ -27513,8 +27513,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0263",
@@ -27618,18 +27618,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0264",
     "slug": "rosa-maria-serrano-sierra",
     "nombre_completo": "Rosa María Serrano Sierra",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Huesca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Huesca · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -27651,7 +27651,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0264-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Huesca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27663,7 +27663,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0264-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Huesca. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Huesca. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27723,8 +27723,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0265",
@@ -27828,18 +27828,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0266",
     "slug": "maria-carmen-da-silva-mendez",
     "nombre_completo": "María Carmen Da Silva Méndez",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Galicia · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Galicia · XV Legislatura",
     "partido": "JUNTS",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Galicia en la XV Legislatura, integrada en el Grupo Parlamentario Plural.",
+    "bio_corta": "Senadora designada por Parlamento de Galicia en la XV Legislatura, integrada en el Grupo Parlamentario Plural.",
     "tags": [
       "junts",
       "senador",
@@ -27861,7 +27861,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0266-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Galicia en la XV Legislatura, integrada en el Grupo Parlamentario Plural.",
+            "contenido": "Senadora designada por Parlamento de Galicia en la XV Legislatura, integrada en el Grupo Parlamentario Plural.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27873,7 +27873,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0266-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Galicia. Grupo Parlamentario Plural. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Galicia. Grupo Parlamentario Plural. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27933,18 +27933,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0267",
     "slug": "maria-del-carmen-silva-rego",
     "nombre_completo": "María Del Carmen Silva Rego",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Pontevedra · XV Legislatura",
+    "cargo_actual": "Senadora electa por Pontevedra · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -27966,7 +27966,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0267-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Pontevedra en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -27978,7 +27978,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0267-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Pontevedra. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Pontevedra. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -28038,8 +28038,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0268",
@@ -28143,8 +28143,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0269",
@@ -28248,18 +28248,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0270",
     "slug": "paula-alicia-somalo-garcia",
     "nombre_completo": "Paula Alicia Somalo García",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Araba/Álava · XV Legislatura",
+    "cargo_actual": "Senadora electa por Araba/Álava · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Araba/Álava en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Araba/Álava en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -28281,7 +28281,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0270-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Araba/Álava en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Araba/Álava en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -28293,7 +28293,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0270-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Araba/Álava. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Araba/Álava. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -28353,8 +28353,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0271",
@@ -28458,8 +28458,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0272",
@@ -28563,8 +28563,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0273",
@@ -28668,8 +28668,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0274",
@@ -28773,8 +28773,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0275",
@@ -28878,18 +28878,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0276",
     "slug": "carmen-torralba-valiente",
     "nombre_completo": "Carmen Torralba Valiente",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Cuenca · XV Legislatura",
+    "cargo_actual": "Senadora electa por Cuenca · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -28911,7 +28911,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0276-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Cuenca en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -28923,7 +28923,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0276-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Cuenca. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Cuenca. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -28983,18 +28983,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0277",
     "slug": "amparo-torres-valencoso",
     "nombre_completo": "Amparo Torres Valencoso",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Albacete · XV Legislatura",
+    "cargo_actual": "Senador electo por Albacete · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Albacete en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senador electo por Albacete en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -29016,7 +29016,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0277-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Albacete en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senador electo por Albacete en la XV Legislatura, integrado en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -29028,7 +29028,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0277-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Albacete. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senador electo por Albacete. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -29088,8 +29088,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0278",
@@ -29193,8 +29193,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0279",
@@ -29298,18 +29298,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0280",
     "slug": "natalia-ucero-perez",
     "nombre_completo": "Natalia Ucero Pérez",
     "alias": null,
-    "cargo_actual": "Senador electo por Electa:  Zamora · XV Legislatura",
+    "cargo_actual": "Senadora electa por Zamora · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senador electo por Electa:  Zamora en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Zamora en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -29331,7 +29331,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0280-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senador electo por Electa:  Zamora en la XV Legislatura, integrado en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Zamora en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -29343,7 +29343,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0280-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senador electo por Electa:  Zamora. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Zamora. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -29403,8 +29403,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0281",
@@ -29508,8 +29508,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0282",
@@ -29613,8 +29613,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0283",
@@ -29718,8 +29718,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0284",
@@ -29823,8 +29823,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0285",
@@ -29928,18 +29928,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0286",
     "slug": "rosa-faustina-viera-fernandez",
     "nombre_completo": "Rosa Faustina Viera Fernández",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Parlamento de Canarias · XV Legislatura",
+    "cargo_actual": "Senadora designada por Parlamento de Canarias · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora designada por Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -29961,7 +29961,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0286-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora designada por Parlamento de Canarias en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -29973,7 +29973,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0286-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Parlamento de Canarias. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Parlamento de Canarias. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30033,18 +30033,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0287",
     "slug": "elena-vila-gomez",
     "nombre_completo": "Elena Vila Gómez",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Barcelona · XV Legislatura",
+    "cargo_actual": "Senadora electa por Barcelona · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Barcelona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora electa por Barcelona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -30066,7 +30066,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0287-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Barcelona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora electa por Barcelona en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30078,7 +30078,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0287-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Barcelona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Barcelona. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30138,18 +30138,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0288",
     "slug": "maria-jose-villalba-chavarria",
     "nombre_completo": "María José Villalba Chavarría",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Teruel · XV Legislatura",
+    "cargo_actual": "Senadora electa por Teruel · XV Legislatura",
     "partido": "SUMAR",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
+    "bio_corta": "Senadora electa por Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
     "tags": [
       "sumar",
       "senador",
@@ -30171,7 +30171,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0288-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
+            "contenido": "Senadora electa por Teruel en la XV Legislatura, integrada en el Grupo Parlamentario Izquierda Confederal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30183,7 +30183,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0288-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Teruel. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Teruel. Grupo Parlamentario Izquierda Confederal. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30243,8 +30243,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0289",
@@ -30348,18 +30348,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0290",
     "slug": "lucia-yeves-leal",
     "nombre_completo": "Lucía Yeves Leal",
     "alias": null,
-    "cargo_actual": "Senadora electa por Electa:  Málaga · XV Legislatura",
+    "cargo_actual": "Senadora electa por Málaga · XV Legislatura",
     "partido": "PP",
     "foto_url": null,
-    "bio_corta": "Senadora electa por Electa:  Málaga en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+    "bio_corta": "Senadora electa por Málaga en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
     "tags": [
       "pp",
       "senador",
@@ -30381,7 +30381,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0290-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora electa por Electa:  Málaga en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
+            "contenido": "Senadora electa por Málaga en la XV Legislatura, integrada en el Grupo Parlamentario Popular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30393,7 +30393,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0290-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora electa por Electa:  Málaga. Grupo Parlamentario Popular. XV Legislatura del Senado.",
+            "contenido": "Senadora electa por Málaga. Grupo Parlamentario Popular. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30453,18 +30453,18 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0291",
     "slug": "maria-del-pilar-zamora-bastante",
     "nombre_completo": "María Del Pilar Zamora Bastante",
     "alias": null,
-    "cargo_actual": "Senadora designada por Designada: Cortes de Castilla-La Mancha · XV Legislatura",
+    "cargo_actual": "Senadora designada por Cortes de Castilla-La Mancha · XV Legislatura",
     "partido": "PSOE",
     "foto_url": null,
-    "bio_corta": "Senadora designada por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+    "bio_corta": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
     "tags": [
       "psoe",
       "senador",
@@ -30486,7 +30486,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0291-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Senadora designada por Designada: Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha en la XV Legislatura, integrada en el Grupo Parlamentario Socialista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30498,7 +30498,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0291-ap-00",
             "tipo": "dato",
             "titulo": "Escaño",
-            "contenido": "Senadora designada por Designada: Cortes de Castilla-La Mancha. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
+            "contenido": "Senadora designada por Cortes de Castilla-La Mancha. Grupo Parlamentario Socialista. XV Legislatura del Senado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -30558,8 +30558,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   },
   {
     "id": "sen-0292",
@@ -30663,8 +30663,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:35:41.718269Z",
-    "updated_at": "2026-05-28T22:35:41.718269Z"
+    "created_at": "2026-05-28T22:40:45.275482Z",
+    "updated_at": "2026-05-28T22:40:45.275482Z"
   }
 ]
 

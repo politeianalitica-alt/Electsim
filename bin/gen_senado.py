@@ -62,14 +62,28 @@ GRUPO_NOMBRE = {
     "GPMX": "Grupo Parlamentario Mixto",
 }
 
-NOMBRES_MUJER = {
-    "maría", "ana", "cristina", "laura", "pilar", "carmen", "isabel", "marta",
-    "sara", "patricia", "elena", "nuria", "mertxe", "aina", "inés", "irene",
-    "yolanda", "montse", "noelia", "esther", "gemma", "macarena", "sofía",
-    "teresa", "josefa", "esperanza", "verónica", "mariana", "lídia", "joseba",
-    "rosa", "eva", "raquel", "silvia", "beatriz", "lucía", "clara", "mónica",
-    "susana", "olga", "amparo", "concepción", "encarnación", "dolores",
+# Heurística de género: la inmensa mayoría de nombres femeninos en español
+# terminan en -a; añadimos femeninos que no acaban en -a y excluimos masculinos
+# que sí acaban en -a o son ambiguos.
+FEMALE_EXTRA = {
+    "pilar", "isabel", "carmen", "mar", "raquel", "nuria", "mertxe", "inés",
+    "beatriz", "soledad", "mercedes", "lourdes", "consuelo", "rosario", "flor",
+    "estíbaliz", "edurne", "itziar", "nekane", "garbiñe", "arantxa", "aránzazu",
+    "montse", "noemí", "rocío", "carolin", "esther", "ainhoa",
 }
+MALE_A = {
+    "borja", "joshua", "luca", "elías", "jokin", "unai", "iker", "aimar",
+    "jon", "asier", "nicola", "iosu", "andrea",  # andrea es ambiguo · por defecto m. en algún caso
+}
+
+
+def is_female(nombre: str) -> bool:
+    first = (nombre.split()[0].lower() if nombre else "")
+    if first in MALE_A:
+        return False
+    if first in FEMALE_EXTRA:
+        return True
+    return first.endswith("a")
 
 
 def fetch(url: str) -> bytes:
@@ -113,8 +127,8 @@ def main() -> int:
         cred = (s.findtext("ultCredencial") or "").strip()
         grupo_sig = (s.findtext("grupoNombre") or "").strip()
         proc_lit = (s.findtext("procedLiteral") or "").strip()       # Electo / Designado
-        proc_lugar = re.sub(r"^(Electo|Designado)\s*:?\s*", "", (s.findtext("procedLugar") or "").strip())
-        es_mujer = nombre.split()[0].lower() in NOMBRES_MUJER if nombre else False
+        proc_lugar = re.sub(r"^(Elect[oa]|Designad[oa])\s*:?\s*", "", (s.findtext("procedLugar") or "").strip())
+        es_mujer = is_female(nombre)
         rol = "Senadora" if es_mujer else "Senador"
         tipo_eleccion = "electa" if es_mujer else "electo"
         if proc_lit.lower().startswith("design"):
