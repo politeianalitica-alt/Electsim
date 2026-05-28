@@ -56,6 +56,11 @@ import { GeoConflictDrawer } from '@/components/geopolitica/GeoConflictDrawer'
 import { GeoRiskMap } from '@/components/geopolitica/risk/GeoRiskMap'
 import { GeoRiskKpis } from '@/components/geopolitica/risk/GeoRiskKpis'
 import { GeoRiskDrawer } from '@/components/geopolitica/risk/GeoRiskDrawer'
+// Sprint GEO-MIL C5 · Tab Militar y Alianzas
+import { MilitaryMap } from '@/components/geopolitica/militar/MilitaryMap'
+import { MilitaryKpis } from '@/components/geopolitica/militar/MilitaryKpis'
+import { DefenseCommoditiesPanel } from '@/components/geopolitica/militar/DefenseCommoditiesPanel'
+import { MilitarySignalFeed } from '@/components/geopolitica/militar/MilitarySignalFeed'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -382,6 +387,8 @@ export default function GeopoliticaPage() {
   const [conflictDrawerIso, setConflictDrawerIso] = useState<string | null>(null)
   // Sprint GEO-RP C2 · drawer ficha riesgo país (Tab País)
   const [riskDrawerIso, setRiskDrawerIso] = useState<string | null>(null)
+  // Sprint GEO-MIL C5 · drawer ficha militar (Tab Militar) · C6 lo llenará
+  const [militaryDrawerIso, setMilitaryDrawerIso] = useState<string | null>(null)
   // Filtro de dimensión/sector para TAB 3 Impacto España
   const [impactoDim, setImpactoDim] = useState<string>('all')
   // Orden de TAB 0 Teatro Global
@@ -1032,28 +1039,95 @@ export default function GeopoliticaPage() {
         })()}
 
         {/* TAB 3 — Riesgo militar, defensa & alianzas (NATO + España Defensa · Capa 3) */}
+        {/* TAB 3 — Militar y Alianzas · vista estratégica + commodities + feed señales
+            Sprint GEO-MIL C5 · sustituye/precede vista legacy con mapa mundial 3 capas
+            (gasto SIPRI + alianzas curadas + USD bn) + KPIs + commodities defensa
+            con cotización live + feed señales reconfiguración GDELT.
+            Drawer ficha militar país en C6 (stub por ahora). */}
         {tab === 3 && (
           <div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
-                <strong style={{ color: '#0f172a' }}>Capa 3 · militar y diplomático.</strong>{' '}
-                Sprint G13 FASE 13 · orden spec: NATO (cumbres, ejercicios, flanco este) +
-                Defensa España oficial + ISW (briefings operativos teatro). Cero adición de
-                nuevos widgets · re-orden de los existentes para clarificar flujo.
+            <div style={{
+              background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+              borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
+            }}>
+              <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
+                Militar y Alianzas · vista estratégica global
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#cbd5e1', lineHeight: 1.5 }}>
+                <strong>Señales de reconfiguración estratégica antes de ser noticia.</strong>{' '}
+                Mapa con 3 capas (gasto %PIB / USD bn / alianzas con arcos) ·
+                SIPRI 2024 (60 países) + IISS capabilities (50 países) +
+                7 alianzas curadas + 6 commodities críticos · cotización live + feed señales GDELT.
               </p>
             </div>
-            {/* 1 · NATO HQ press releases */}
-            <div style={{ marginBottom: 20 }}>
-              <GeoNatoFeed limit={25} />
+            <div style={{ marginBottom: 14 }}>
+              <MilitaryKpis />
             </div>
-            {/* 2 · Spain Official Defensa filtered · cap militar/diplomática ES */}
-            <div style={{ marginBottom: 20 }}>
-              <GeoSpainOfficial limit={20} />
+            <div style={{ marginBottom: 14 }}>
+              <MilitaryMap onCountryClick={(iso3) => setMilitaryDrawerIso(iso3)} />
             </div>
-            {/* 3 · ISW briefings · teatro operativo · análisis cualitativo */}
-            <div style={{ marginBottom: 20 }}>
-              <GeoIswBriefings limit={15} />
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+              gap: 14, marginBottom: 14,
+            }}>
+              <DefenseCommoditiesPanel />
+              <MilitarySignalFeed onCountryClick={(iso3) => setMilitaryDrawerIso(iso3)} />
             </div>
+
+            {/* Drawer ficha militar país · stub mínimo · C6 lo completa con 5 sub-tabs */}
+            {militaryDrawerIso && (
+              <>
+                <div onClick={() => setMilitaryDrawerIso(null)} style={{
+                  position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.5)', zIndex: 1000,
+                }} />
+                <aside style={{
+                  position: 'fixed', top: 0, right: 0, bottom: 0,
+                  width: 'min(640px, 96vw)', background: '#fff',
+                  boxShadow: '-8px 0 32px rgba(15,23,42,0.2)',
+                  zIndex: 1001, overflowY: 'auto', padding: 20,
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                    <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: '#0f172a' }}>
+                      Ficha militar · {militaryDrawerIso}
+                    </h2>
+                    <button onClick={() => setMilitaryDrawerIso(null)} style={{ background: 'none', border: 'none', fontSize: 22, color: '#64748b', cursor: 'pointer', padding: 0, lineHeight: 1 }}>×</button>
+                  </div>
+                  <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '4px solid #f59e0b', padding: '14px 16px', borderRadius: 8 }}>
+                    <strong style={{ color: '#92400e', fontSize: 13 }}>Drawer en construcción</strong>
+                    <p style={{ margin: '6px 0 0', fontSize: 11, color: '#78350f' }}>
+                      La ficha militar país completa (5 sub-tabs: Presupuesto + Capacidades IISS + Transferencias armas + Posición alianzas + Industria defensa con Finnhub) viene en commit C6.
+                    </p>
+                    <p style={{ margin: '6px 0 0', fontSize: 11, color: '#78350f' }}>
+                      Mientras tanto puedes ver el país en la <a onClick={() => { setRiskDrawerIso(militaryDrawerIso); setMilitaryDrawerIso(null) }} style={{ color: '#0891b2', cursor: 'pointer', textDecoration: 'underline' }}>ficha Riesgo País</a> (Sub-tab Economía tiene SIPRI milex completo).
+                    </p>
+                  </div>
+                </aside>
+              </>
+            )}
+
+            {/* Vista legacy · NATO + Spain Defensa + ISW conservada */}
+            <details style={{
+              background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
+              padding: '12px 16px', marginTop: 14,
+            }}>
+              <summary style={{ cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                Vista legacy · NATO HQ + Defensa España + ISW briefings (clic para abrir)
+              </summary>
+              <div style={{ marginTop: 14 }}>
+                <p style={{ margin: '0 0 12px', fontSize: 11, color: '#64748b', lineHeight: 1.5 }}>
+                  Vista anterior · NATO HQ (cumbres/ejercicios/flanco este) + Defensa España oficial + ISW briefings teatro operativo.
+                </p>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoNatoFeed limit={25} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoSpainOfficial limit={20} />
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <GeoIswBriefings limit={15} />
+                </div>
+              </div>
+            </details>
           </div>
         )}
 
