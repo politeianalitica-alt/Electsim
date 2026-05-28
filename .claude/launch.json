@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "visual-oscar",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd /Users/oscargarciaretuerta/Downloads/electsim-espana/apps/visual-oscar && exec npm run dev"],
+      "port": 3000
+    }
+  ]
+}

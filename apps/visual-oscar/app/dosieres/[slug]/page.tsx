@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
@@ -12,6 +12,9 @@ import { findDossier } from '@/lib/dosieres-link'
 // el backend; se mergean en cliente · misma estética que el resto).
 import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
+// Overlay de relaciones políticas estructurales (Fase B). Aplica a los
+// ~2.500 dossieres del fixture sin apartado redes propio.
+import REDES_OVERLAY from '@/data/redes-overlay.json'
 // Sprint G14 cierre · panel OSINT externo · solo PEPs · audit obligatorio
 import { DossierOSINTPanel } from '@/components/dossier/DossierOSINTPanel'
 
@@ -110,7 +113,60 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
       ?? null
     : null
 
-  const dossier: DossierCompleto | null = apiDossier ?? localDossier
+  const dossierBase: DossierCompleto | null = apiDossier ?? localDossier
+
+  // Merge overlay de relaciones políticas estructurales (Fase B).
+  // Si el dossier NO trae apartado `redes` propio, miramos el overlay
+  // y construimos un apartado sintético con líderes/rivales del partido.
+  // Esto cubre ~2.500 políticos del fixture sin redes hasta ahora.
+  const dossier = useMemo(() => {
+    if (!dossierBase) return null
+    const yaTieneRedes = dossierBase.apartados.some(a => a.tipo === 'redes')
+    if (yaTieneRedes) return dossierBase
+
+    const ov = REDES_OVERLAY as {
+      by_party: Record<string, { titulo: string; contenido: string; tags: string[]; slug_ref: string | null }[]>;
+      generic: { titulo: string; contenido: string; tags: string[]; slug_ref: string | null }[];
+      apply_to: Record<string, string>;
+    }
+    const partidoKey = ov.apply_to[dossierBase.slug]
+    if (!partidoKey) return dossierBase   // no hay overlay para este slug
+
+    const templateItems = partidoKey === '_generic'
+      ? ov.generic
+      : (ov.by_party[partidoKey] ?? [])
+
+    // Filtrar auto-referencias (yo no me cito a mí mismo)
+    const items = templateItems
+      .filter(it => it.slug_ref !== dossierBase.slug)
+      .map((it, i) => ({
+        id: `overlay-${dossierBase.slug}-${i}`,
+        apartado_id: `overlay-${dossierBase.slug}-redes`,
+        tipo: 'contacto' as const,
+        titulo: it.titulo,
+        contenido: it.contenido,
+        fecha: null,
+        fuente_url: null,
+        fuente_titulo: null,
+        tags: it.tags,
+        orden: i,
+      }))
+
+    if (items.length === 0) return dossierBase
+
+    const apartadoRedes: Apartado = {
+      id: `overlay-${dossierBase.slug}-ap-redes`,
+      tipo: 'redes',
+      titulo: 'Relaciones políticas',
+      resumen: 'Valoración analítica estructural (escala +10 a -10) inferida desde el partido del actor. Notas razonadas, no datos oficiales.',
+      orden: 3,
+      items,
+    }
+    return {
+      ...dossierBase,
+      apartados: [...dossierBase.apartados, apartadoRedes],
+    }
+  }, [dossierBase])
 
   // Mientras la API responde, si tenemos local, ya pintamos (sin parpadeo)
   if (loading && !localDossier) return <LoadingState/>
