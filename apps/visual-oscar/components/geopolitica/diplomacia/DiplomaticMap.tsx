@@ -9,7 +9,7 @@
  * Consume /api/diplomacia/sanciones-mapa.
  */
 import { useEffect, useState } from 'react'
-import { projectEquirect } from '@/lib/geopolitica/country-coords'
+import { WorldMapBase } from '@/components/geopolitica/WorldMapBase'
 
 interface Country {
   iso3: string; name_es: string; iso2: string
@@ -101,38 +101,42 @@ export function DiplomaticMap({ onCountryClick }: Props) {
 
       {!loading && data?.ok && (
         <>
-          <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} style={{
-            display: 'block', background: layer === 'agnu' ? '#f0f9ff' : '#fef2f2',
-            borderRadius: 8,
-          }}>
-            {[0, 90, 180, 270, 360].map((x) => (
-              <line key={x} x1={(x / 360) * W} y1={0} x2={(x / 360) * W} y2={H} stroke="#cbd5e1" strokeWidth={0.3} />
-            ))}
-            <line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke="#94a3b8" strokeWidth={0.5} />
-
-            {data.countries.map((c) => {
-              const { x, y } = projectEquirect(c.lat, c.lon, W, H)
-              const fill = layer === 'sanciones'
-                ? SANCTIONS_COLOR[c.sanctions_count_estimate || 'none']
-                : colorForAgnu(c.alignment_west)
-              const r = layer === 'sanciones' && c.sanctions_count_estimate === 'pariah' ? 7
-                : layer === 'sanciones' && c.has_sanctions ? 5
-                : 4
-              return (
-                <g key={c.iso3}>
-                  <circle
-                    cx={x} cy={y} r={r}
-                    fill={fill} opacity={0.85}
-                    stroke="#fff" strokeWidth={0.5}
-                    onMouseEnter={() => setHover(c)}
-                    onMouseLeave={() => setHover(null)}
-                    onClick={() => onCountryClick?.(c.iso3)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                </g>
-              )
-            })}
-          </svg>
+          {/* G19 item 13 · WorldMapBase con contorno de países + círculos diplomáticos */}
+          <WorldMapBase
+            width={W}
+            height={H}
+            bgColor={layer === 'agnu' ? '#f0f9ff' : '#fef2f2'}
+            countryFill={layer === 'agnu' ? '#cbd5e1' : '#e2e8f0'}
+            countryStroke="#94a3b8"
+            countryStrokeWidth={0.3}
+          >
+            {(project) => (
+              <>
+                {data.countries.map((c) => {
+                  const { x, y } = project(c.lat, c.lon)
+                  const fill = layer === 'sanciones'
+                    ? SANCTIONS_COLOR[c.sanctions_count_estimate || 'none']
+                    : colorForAgnu(c.alignment_west)
+                  const r = layer === 'sanciones' && c.sanctions_count_estimate === 'pariah' ? 7
+                    : layer === 'sanciones' && c.has_sanctions ? 5
+                    : 4
+                  return (
+                    <g key={c.iso3}>
+                      <circle
+                        cx={x} cy={y} r={r}
+                        fill={fill} opacity={0.85}
+                        stroke="#fff" strokeWidth={0.8}
+                        onMouseEnter={() => setHover(c)}
+                        onMouseLeave={() => setHover(null)}
+                        onClick={() => onCountryClick?.(c.iso3)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </g>
+                  )
+                })}
+              </>
+            )}
+          </WorldMapBase>
 
           <div style={{ display: 'flex', gap: 12, marginTop: 8, alignItems: 'center', fontSize: 9, color: '#475569', flexWrap: 'wrap' }}>
             {layer === 'sanciones' && (

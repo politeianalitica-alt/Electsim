@@ -27,10 +27,16 @@ function voteLabel(v: Vote): string {
 export function AgnuHeatmap() {
   const [hover, setHover] = useState<{ iso3: string; resId: string; vote: Vote } | null>(null)
   const [filterTopic, setFilterTopic] = useState<string | null>(null)
+  // G19 item 15 · resolución seleccionada (click) para ver detalle qué se votaba
+  const [selectedResId, setSelectedResId] = useState<string | null>(null)
 
   const resolutions = filterTopic
     ? AGNU_RESOLUTIONS.filter((r) => r.topic === filterTopic)
     : AGNU_RESOLUTIONS
+
+  const selectedResolution = selectedResId
+    ? AGNU_RESOLUTIONS.find((r) => r.id === selectedResId) ?? null
+    : null
 
   // Ordenar países por alignment occidental descendente
   const countries = Object.keys(AGNU_VOTES).sort((a, b) => {
@@ -48,11 +54,12 @@ export function AgnuHeatmap() {
     }}>
       <header style={{ marginBottom: 12 }}>
         <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, color: '#0f172a' }}>
-          Heatmap votaciones AGNU · 50 países × 10 resoluciones clave 2022-2024
+          Heatmap votaciones AGNU · 50 países × {AGNU_RESOLUTIONS.length} resoluciones clave 2022-2025
         </h3>
         <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
           Verde = a favor línea occidental · Rojo = en contra · Gris = abstención · Vacío = ausente.
-          Países ordenados por alineamiento descendente.
+          Países ordenados por alineamiento descendente. <strong>Click en el título de cualquier
+          resolución para ver qué se votaba.</strong>
         </p>
         <div style={{ display: 'flex', gap: 4, marginTop: 8, flexWrap: 'wrap' }}>
           <button onClick={() => setFilterTopic(null)} style={chipStyle(filterTopic === null)}>Todas</button>
@@ -68,7 +75,19 @@ export function AgnuHeatmap() {
             <tr>
               <th style={{ padding: '4px 8px', textAlign: 'left', borderBottom: '2px solid #f1f5f9', position: 'sticky', left: 0, background: '#fff', zIndex: 2 }}>País</th>
               {resolutions.map((r) => (
-                <th key={r.id} style={{ padding: '4px 4px', writingMode: 'vertical-rl', textOrientation: 'mixed', fontWeight: 600, color: '#64748b', borderBottom: '2px solid #f1f5f9', minHeight: 60, height: 80, whiteSpace: 'nowrap' }} title={r.title_es}>
+                <th
+                  key={r.id}
+                  onClick={() => setSelectedResId(selectedResId === r.id ? null : r.id)}
+                  style={{
+                    padding: '4px 4px', writingMode: 'vertical-rl', textOrientation: 'mixed',
+                    fontWeight: 600, borderBottom: '2px solid #f1f5f9',
+                    minHeight: 60, height: 80, whiteSpace: 'nowrap',
+                    color: selectedResId === r.id ? '#0891b2' : '#64748b',
+                    cursor: 'pointer',
+                    background: selectedResId === r.id ? '#f0f9ff' : 'transparent',
+                  }}
+                  title={`${r.title_es} · click para detalle`}
+                >
                   {r.title_es.slice(0, 40)}{r.title_es.length > 40 ? '…' : ''}
                 </th>
               ))}
@@ -117,6 +136,68 @@ export function AgnuHeatmap() {
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, background: '#94a3b8', borderRadius: 2 }} />Abstención</span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, background: '#f1f5f9', borderRadius: 2 }} />Ausente</span>
       </div>
+
+      {/* G19 item 15 · panel detalle resolución seleccionada */}
+      {selectedResolution && (
+        <div style={{
+          marginTop: 14,
+          padding: '14px 16px',
+          background: '#f0f9ff',
+          border: '1px solid #bae6fd',
+          borderLeft: '3px solid #0891b2',
+          borderRadius: 8,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 8 }}>
+            <div>
+              <p style={{
+                margin: 0, fontSize: 9, color: '#0891b2', fontWeight: 700,
+                textTransform: 'uppercase', letterSpacing: 0.4,
+              }}>
+                Resolución {selectedResolution.id} · {selectedResolution.date} · {selectedResolution.topic.replace(/_/g, ' ')}
+              </p>
+              <h4 style={{ margin: '4px 0 0', fontSize: 14, fontWeight: 700, color: '#0c4a6e' }}>
+                {selectedResolution.title_es}
+              </h4>
+            </div>
+            <button
+              onClick={() => setSelectedResId(null)}
+              style={{
+                background: 'none', border: 'none', fontSize: 18, color: '#64748b',
+                cursor: 'pointer', padding: 0, lineHeight: 1,
+              }}
+              aria-label="Cerrar detalle"
+            >×</button>
+          </div>
+          {selectedResolution.summary_es && (
+            <p style={{ margin: '0 0 10px', fontSize: 12, color: '#0f172a', lineHeight: 1.55 }}>
+              {selectedResolution.summary_es}
+            </p>
+          )}
+          {selectedResolution.outcome && (
+            <div style={{ display: 'flex', gap: 12, fontSize: 11, marginBottom: 8 }}>
+              <span style={{ color: '#16a34a', fontWeight: 700 }}>A favor: {selectedResolution.outcome.yes}</span>
+              <span style={{ color: '#dc2626', fontWeight: 700 }}>En contra: {selectedResolution.outcome.no}</span>
+              <span style={{ color: '#64748b', fontWeight: 700 }}>Abstención: {selectedResolution.outcome.abstain}</span>
+            </div>
+          )}
+          {selectedResolution.sponsors && selectedResolution.sponsors.length > 0 && (
+            <p style={{ margin: 0, fontSize: 10, color: '#475569' }}>
+              <strong style={{ color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.3 }}>Sponsors:</strong>{' '}
+              {selectedResolution.sponsors.join(' · ')}
+            </p>
+          )}
+          {selectedResolution.source_url && (
+            <p style={{ margin: '8px 0 0', fontSize: 10 }}>
+              <a
+                href={selectedResolution.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#0891b2', fontWeight: 600, textDecoration: 'none' }}
+              >Texto oficial digitallibrary.un.org →</a>
+            </p>
+          )}
+        </div>
+      )}
     </section>
   )
 }

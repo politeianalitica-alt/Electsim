@@ -75,6 +75,58 @@ async function fetchByThemeOrQuery(opts: { theme?: string; query: string; type: 
   })
 }
 
+// G19 item 14 · FALLBACK RSS de fuentes diplomáticas oficiales cuando
+// GDELT devuelve 0 artículos (rate-limit o sin cobertura).
+async function fetchDiplomaticRssFallback(): Promise<DiplomaticSignal[]> {
+  const FEEDS: Array<{ url: string; type: SignalType; source: string }> = [
+    { url: 'https://www.eeas.europa.eu/_en/rss.xml', type: 'crisis_diplomatica', source: 'EEAS (UE)' },
+    { url: 'https://press.un.org/en/news/feed', type: 'votacion_onu', source: 'UN Press' },
+    { url: 'https://www.state.gov/rss-feed/secretary-remarks/feed/', type: 'acercamiento', source: 'US State Department' },
+  ]
+  const all: DiplomaticSignal[] = []
+  for (const feed of FEEDS) {
+    try {
+      const ctrl = new AbortController()
+      const t = setTimeout(() => ctrl.abort(), 6000)
+      const r = await fetch(feed.url, {
+        signal: ctrl.signal,
+        headers: { 'User-Agent': 'Politeia/1.0 (geopolitica analyst)' },
+        next: { revalidate: 1800 },
+      })
+      clearTimeout(t)
+      if (!r.ok) continue
+      const xml = await r.text()
+      const items = xml.match(/<item[\s\S]*?<\/item>/g) ?? []
+      const meta = TYPE_META[feed.type]
+      for (const itXml of items.slice(0, 6)) {
+        const title = (itXml.match(/<title>([\s\S]*?)<\/title>/) ?? [, ''])[1]
+          .replace(/<!\[CDATA\[|\]\]>/g, '').trim()
+        const link = (itXml.match(/<link>([\s\S]*?)<\/link>/) ?? [, ''])[1].trim()
+        const pubDate = (itXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/) ?? [, ''])[1].trim()
+        const isoDate = pubDate ? new Date(pubDate).toISOString().slice(0, 19) : ''
+        if (!title || !link) continue
+        all.push({
+          type: feed.type,
+          type_label: meta.label,
+          type_emoji: meta.emoji,
+          type_color: meta.color,
+          country_iso3: null,
+          country_name: null,
+          title: title.slice(0, 240),
+          source_domain: feed.source,
+          url: link,
+          datetime: isoDate,
+          tone: 0,
+          confidence: 3, // máxima (oficiales)
+        })
+      }
+    } catch {
+      /* feed individual falló · continuar */
+    }
+  }
+  return all
+}
+
 export async function GET() {
   const startedAt = new Date().toISOString()
 
@@ -87,6 +139,13 @@ export async function GET() {
   ])
 
   const all = [...govChange, ...crisisDiplo, ...sanction, ...exercise]
+  let rssUsed = false
+  if (all.length === 0) {
+    const rssSignals = await fetchDiplomaticRssFallback().catch(() => [])
+    all.push(...rssSignals)
+    rssUsed = rssSignals.length > 0
+  }
+
   const seen = new Set<string>()
   const deduped: DiplomaticSignal[] = []
   for (const s of all) {
@@ -105,10 +164,12 @@ export async function GET() {
       sancion_nueva: sanction.length,
       acercamiento: exercise.length,
     },
-    pending_types: ['deterioro bilateral · GDELT events bilateral 14d', 'bloqueo logístico · PortWatch+GDELT cruzado'],
     fetched_at: startedAt,
     _meta: {
-      source: 'GDELT DOC v2 themes + queries específicas · 7d',
+      source: rssUsed
+        ? 'Fallback RSS · EEAS + UN Press + US State Dept (GDELT rate-limited)'
+        : 'GDELT DOC v2 themes + queries específicas · 7d',
+      rss_fallback_used: rssUsed,
       cache_ttl_seconds: 900,
     },
   }, {

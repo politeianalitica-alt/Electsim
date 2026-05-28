@@ -71,7 +71,10 @@ export async function searchEntities(query: string, limit = 10): Promise<OpenSan
   if (!query || query.length < 2) {
     return { ok: false, data: [], error: 'query_too_short', fetched_at: startedAt }
   }
-  const path = `/search/default?q=${encodeURIComponent(query)}&limit=${limit}&topics=sanction`
+  // G19 item 14 · removido filtro topics=sanction (era demasiado restrictivo
+  // · OpenSanctions tags entidades como sanction.linked, ofac.sdn, etc.). Ahora
+  // devolvemos todo el match · UI filtra en cliente si necesita.
+  const path = `/search/default?q=${encodeURIComponent(query)}&limit=${limit}`
   const json = await fetchOS(path)
   if (!json?.results) {
     return { ok: false, data: [], error: 'no_results', fetched_at: startedAt }
