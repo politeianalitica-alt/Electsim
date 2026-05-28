@@ -90,20 +90,30 @@ function inferirTipo(d: { tags?: string[]; partido?: string | null }): TipoPerfi
   ) return 'judicial'
   if (tags.includes('casa-real') || tags.includes('monarquia')) return 'casa-real'
   if (tags.includes('sindical') || tags.includes('sindicato')) return 'sindicalista'
+  // Expresidentes del Gobierno → siempre políticos, aunque dirijan un think tank (Aznar/FAES)
+  if (tags.includes('expresidente')) return 'politico'
   if (tags.includes('patronal') || tags.includes('lobby') || tags.includes('think-tank')) return 'lobbista'
-  if (tags.includes('medio') || tags.includes('periodista') || tags.includes('tertuliano')) return 'mediatico'
+  if (
+    tags.includes('medio') || tags.includes('medios') ||
+    tags.includes('periodista') || tags.includes('tertuliano')
+  ) return 'mediatico'
   if (tags.includes('asesor') || tags.includes('consultor') || tags.includes('comunicacion')) return 'asesor'
   // Reguladores / instituciones del Estado / Iglesia
   if (
     tags.includes('regulador') || tags.includes('banco-de-espana') || tags.includes('cnmc') ||
+    tags.includes('cnmv') || tags.includes('airef') || tags.includes('sepi') ||
+    tags.includes('institucional') || tags.includes('estado') || tags.includes('bei') ||
+    tags.includes('comision-europea') ||
     tags.includes('iglesia') || tags.includes('religion') ||
     tags.includes('congreso') || tags.includes('senado') || tags.includes('institucion')
   ) return 'institucional'
   if (
     tags.includes('empresa') || tags.includes('ibex35') ||
     tags.includes('directivo') || tags.includes('ceo') || tags.includes('empresario') ||
+    tags.includes('empresaria') || tags.includes('despacho') || tags.includes('abogados') ||
     tags.includes('fundador') || tags.includes('accionista-control') ||
-    tags.includes('holding-familiar') || tags.includes('fondo') ||
+    tags.includes('holding-familiar') || tags.includes('holding') || tags.includes('fondo') ||
+    tags.includes('inversion') || tags.includes('banca') || tags.includes('dinastia') ||
     tags.includes('fondo-soberano') || tags.includes('inversora') || tags.some(t => t.startsWith('familia'))
   ) return 'empresario'
   if (d.partido) return 'politico'
@@ -155,9 +165,11 @@ function inferirSubcategoria(
     // Si es la empresa misma (no un directivo), usar su nombre o sector
     const tags = (d.tags || []).map(t => t.toLowerCase())
     if (tags.includes('ibex35') && tags.includes('empresa')) return 'IBEX 35'
-    if (tags.some(t => t.startsWith('familia'))) return 'Familias'
-    if (tags.includes('fundacion')) return 'Fundaciones'
+    if (tags.some(t => t.startsWith('familia')) || tags.includes('dinastia')) return 'Familias'
+    if (tags.includes('despacho') || tags.includes('abogados')) return 'Despachos'
+    if (tags.includes('fundacion') || tags.includes('fundaciones')) return 'Fundaciones'
     if (tags.includes('fondo') || tags.includes('fondo-soberano') || tags.includes('private-equity')) return 'Fondos'
+    if (tags.includes('banca') || tags.includes('inversion') || tags.includes('capital-riesgo') || tags.includes('holding') || tags.includes('inversora')) return 'Inversores'
     return 'Otros'
   }
   return ''
