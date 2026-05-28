@@ -170,18 +170,17 @@ export default function DosieresPage() {
     ...DIPUTACIONES_RESUMEN,
   ], [apiDosieres])
 
-  // Enriquecer cada dossier con tipo + subcat inferidos (memoizado)
-  // _href: ruta de detalle según origen del dossier (id-prefix indica fuente)
+  // Enriquecer cada dossier con tipo + subcat inferidos (memoizado).
+  // Todos los slugs van a /dosieres/[slug] · esa página tiene fallback
+  // a IBEX35_FIXTURE y DIPUTACIONES_FIXTURE para los seeds locales,
+  // así toda persona/empresa comparte la misma estética rica.
   const enriched = useMemo(() => dosieres.map(d => {
     const tipo = inferirTipo(d)
-    const href = d.id?.startsWith('ibx-') ? `/ibex35/${d.slug}`
-      : d.id?.startsWith('dip-') ? `/diputaciones/${d.slug}`
-      : `/dosieres/${d.slug}`
     return {
       ...d,
       _tipo: tipo,
       _subcat: inferirSubcategoria(d, tipo),
-      _href: href,
+      _href: `/dosieres/${d.slug}`,
     }
   }), [dosieres])
 

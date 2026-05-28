@@ -8,6 +8,10 @@ import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton from '@/components/Skeleton'
 import { findDossier } from '@/lib/dosieres-link'
+// Fixtures locales para los seeds IBEX 35 + Diputaciones (no están en
+// el backend; se mergean en cliente · misma estética que el resto).
+import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
+import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
 // Sprint G14 cierre · panel OSINT externo · solo PEPs · audit obligatorio
 import { DossierOSINTPanel } from '@/components/dossier/DossierOSINTPanel'
 
@@ -93,11 +97,23 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
   )
 
   // El proxy envuelve detalles con _meta · normalizamos
-  const dossier: DossierCompleto | null = data && typeof data === 'object' && 'slug' in data
+  const apiDossier: DossierCompleto | null = data && typeof data === 'object' && 'slug' in data
     ? (data as DossierCompleto)
     : null
 
-  if (loading) return <LoadingState/>
+  // Fallback en cliente: los seeds IBEX 35 y Diputaciones no están en
+  // el backend. Si la API no devuelve nada y el slug existe en algún
+  // fixture local, lo usamos con la misma estética que el resto.
+  const localDossier = !apiDossier
+    ? (IBEX35_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? (DIPUTACIONES_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? null
+    : null
+
+  const dossier: DossierCompleto | null = apiDossier ?? localDossier
+
+  // Mientras la API responde, si tenemos local, ya pintamos (sin parpadeo)
+  if (loading && !localDossier) return <LoadingState/>
   if (!dossier) return <NotFoundState slug={params.slug}/>
 
   const partidoColor = dossier.partido ? (PARTIDO_COLOR[dossier.partido] ?? '#6e6e73') : '#6e6e73'
