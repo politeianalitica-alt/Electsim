@@ -52,6 +52,10 @@ import { GeoCountryDrawer } from '@/components/geopolitica/GeoCountryDrawer'
 import { GeoConflictsMap } from '@/components/geopolitica/GeoConflictsMap'
 import { GeoConflictsTable } from '@/components/geopolitica/GeoConflictsTable'
 import { GeoConflictDrawer } from '@/components/geopolitica/GeoConflictDrawer'
+// Sprint GEO-RP C2 · Tab Riesgo País (IRPC compuesto + ficha 6 sub-tabs)
+import { GeoRiskMap } from '@/components/geopolitica/risk/GeoRiskMap'
+import { GeoRiskKpis } from '@/components/geopolitica/risk/GeoRiskKpis'
+import { GeoRiskDrawer } from '@/components/geopolitica/risk/GeoRiskDrawer'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -376,6 +380,8 @@ export default function GeopoliticaPage() {
   const [radarDrawerIso, setRadarDrawerIso] = useState<string | null>(null)
   // Sprint GEO-RADAR C3 · drawer conflicto (Tab Conflictos)
   const [conflictDrawerIso, setConflictDrawerIso] = useState<string | null>(null)
+  // Sprint GEO-RP C2 · drawer ficha riesgo país (Tab País)
+  const [riskDrawerIso, setRiskDrawerIso] = useState<string | null>(null)
   // Filtro de dimensión/sector para TAB 3 Impacto España
   const [impactoDim, setImpactoDim] = useState<string>('all')
   // Orden de TAB 0 Teatro Global
@@ -683,6 +689,39 @@ export default function GeopoliticaPage() {
         )}
 
         {/* TAB 2 — Riesgo país & estabilidad estatal (heatmap + scatter + país cards + Travel Advisories + ReliefWeb) */}
+        {/* TAB 2 — Riesgo País · IRPC compuesto + ficha 6 sub-tabs ────────
+            Sprint GEO-RP C2 · sustituye/precede la vista legacy con un
+            mapa global IRPC + KPIs + drawer ficha completa.
+            Sub-tab 1 Señales EWS (5 bloques) + Régimen + Briefing funcionales.
+            Sub-tabs 3/4/5 (Economía, Seguridad, Exposición España) → C3. */}
+        {tab === 2 && (
+          <div style={{ marginBottom: 18 }}>
+            <div style={{
+              background: 'linear-gradient(135deg, #0c4a6e 0%, #075985 100%)',
+              borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
+            }}>
+              <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
+                Riesgo País · IRPC compuesto + ficha analítica
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#bae6fd', lineHeight: 1.5 }}>
+                <strong>¿Es seguro/rentable operar, invertir o relacionarse con este país?</strong>{' '}
+                Mapa mundial coroplético con IRPC (V-Dem 25% + GDELT violencia 25% + tono 20% +
+                estrés soberano 15% + PortWatch 15%). Click en cualquier país abre ficha analítica
+                con 6 sub-tabs: Señales EWS · Régimen · Economía · Seguridad · Exposición España · Briefing.
+                ACLED no disponible · sustituido por GDELT events.
+              </p>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <GeoRiskKpis />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <GeoRiskMap onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
+            </div>
+            <GeoRiskDrawer iso3={riskDrawerIso} onClose={() => setRiskDrawerIso(null)} />
+          </div>
+        )}
+
+        {/* Vista legacy Tab 2 · sistema de teatros + DAFO + riesgo cards */}
         {tab === 2 && (() => {
           // 3 modos de orden:
           //  - importancia: por interes_espana DESC (default, ya en riesgoSorted)
