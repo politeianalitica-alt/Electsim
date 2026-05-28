@@ -82,6 +82,25 @@ SOURCES = {
             "// Re-generar: python3 bin/gen_congreso.py && python3 bin/gen_subfixture.py --source congreso\n"
         ),
     },
+    "medios": {
+        "files": [
+            REPO / "data" / "medios" / "medios.json",
+        ],
+        "out": VISUAL / "medios-fixture.ts",
+        "fixture_name": "MEDIOS_FIXTURE",
+        "resumen_name": "MEDIOS_RESUMEN",
+        "id_prefix": "med",
+        "header": (
+            "// AUTO-GENERADO desde data/medios/medios.json · ver bin/gen_medios.py\n"
+            "// Mapa del poder mediático: periodistas, directores, presentadores y\n"
+            "// tertulianos, con su RELACIÓN CON LOS PODERES DEL ESTADO (Gobierno,\n"
+            "// oposición, judicatura) ± y la razón según cómo encuadran las noticias.\n"
+            "// Las relaciones apuntan a nodos resolubles (Sánchez/Feijóo/Fiscalía) y\n"
+            "// se convierten en aristas del grafo. Caracterización por línea editorial\n"
+            "// pública del medio + rol observable (no juicios privados).\n"
+            "// Re-generar: python3 bin/gen_medios.py && python3 bin/gen_subfixture.py --source medios\n"
+        ),
+    },
     "senado": {
         "files": [
             REPO / "data" / "senado" / "senadores.json",

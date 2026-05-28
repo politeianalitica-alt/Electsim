@@ -17,6 +17,7 @@ import type { DossierCompleto } from '@/data/dosieres-fixture'
 import { IBEX35_FIXTURE, getIBXBySlug } from '@/data/ibex35-fixture'
 import { PODER_FIXTURE, getPODBySlug } from '@/data/poder-fixture'
 import { DIPUTACIONES_FIXTURE, getDIPBySlug } from '@/data/diputaciones-fixture'
+import { MEDIOS_FIXTURE, getMEDBySlug } from '@/data/medios-fixture'
 import { getCONGBySlug } from '@/data/congreso-fixture'
 import { getSENBySlug } from '@/data/senado-fixture'
 import { getDossierBySlug } from '@/data/dosieres-fixture'
@@ -76,6 +77,7 @@ const FUENTES: DossierCompleto[] = [
   ...IBEX35_FIXTURE,
   ...PODER_FIXTURE,
   ...DIPUTACIONES_FIXTURE,
+  ...MEDIOS_FIXTURE,
 ] as unknown as DossierCompleto[]
 
 function build(): { actors: GrafoActor[]; relaciones: RelacionExplicita[] } {
@@ -144,7 +146,7 @@ export const RELACIONES_GRAFO_DOSIERES: RelacionExplicita[] = built.relaciones
 
 /** Busca la ficha completa de un nodo del grafo en TODOS los fixtures. */
 export function getDossierAny(id: string, nombre?: string): DossierCompleto | null {
-  const getters = [getIBXBySlug, getPODBySlug, getDIPBySlug, getCONGBySlug, getSENBySlug, getDossierBySlug]
+  const getters = [getIBXBySlug, getPODBySlug, getDIPBySlug, getMEDBySlug, getCONGBySlug, getSENBySlug, getDossierBySlug]
   for (const g of getters) {
     const d = g(id)
     if (d) return d

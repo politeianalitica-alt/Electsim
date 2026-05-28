@@ -7,6 +7,7 @@ import {
 } from '@/data/dosieres-fixture'
 import { getCONGBySlug } from '@/data/congreso-fixture'
 import { getSENBySlug } from '@/data/senado-fixture'
+import { getMEDBySlug } from '@/data/medios-fixture'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -72,7 +73,7 @@ export async function GET(req: NextRequest, { params }: { params: { path?: strin
     return NextResponse.json(filtered)
   }
   // Detalle por slug · ficha oficial (Congreso/Senado) prevalece sobre la genérica
-  const dossier = getCONGBySlug(subpath) ?? getSENBySlug(subpath) ?? getDossierBySlug(subpath)
+  const dossier = getCONGBySlug(subpath) ?? getSENBySlug(subpath) ?? getMEDBySlug(subpath) ?? getDossierBySlug(subpath)
   if (!dossier) {
     return NextResponse.json(
       withMeta({ error: 'not_found', slug: subpath }, 'mock', {

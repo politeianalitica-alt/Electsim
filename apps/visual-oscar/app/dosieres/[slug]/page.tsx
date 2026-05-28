@@ -13,6 +13,7 @@ import { findDossier } from '@/lib/dosieres-link'
 import { getDossierBySlug } from '@/data/dosieres-fixture'
 import { getCONGBySlug } from '@/data/congreso-fixture'
 import { getSENBySlug } from '@/data/senado-fixture'
+import { getMEDBySlug } from '@/data/medios-fixture'
 import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
 import { PODER_FIXTURE } from '@/data/poder-fixture'
@@ -117,6 +118,7 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
       ?? (PODER_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
       ?? (getCONGBySlug(params.slug) as DossierCompleto | null)
       ?? (getSENBySlug(params.slug) as DossierCompleto | null)
+      ?? (getMEDBySlug(params.slug) as DossierCompleto | null)
       ?? (getDossierBySlug(params.slug) as DossierCompleto | null)
       ?? null
     : null
