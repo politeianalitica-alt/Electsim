@@ -69,6 +69,11 @@ import { DiplomaticKpis } from '@/components/geopolitica/diplomacia/DiplomaticKp
 import { SanctionsSearch } from '@/components/geopolitica/diplomacia/SanctionsSearch'
 import { DiplomaticSignalFeed } from '@/components/geopolitica/diplomacia/DiplomaticSignalFeed'
 import { AgnuHeatmap } from '@/components/geopolitica/diplomacia/AgnuHeatmap'
+// Sprint GEO-ES · Tab 6 Presencia España
+import { SpainPresenceMap } from '@/components/geopolitica/espana/SpainPresenceMap'
+import { SpainKpis } from '@/components/geopolitica/espana/SpainKpis'
+import { ComercioPanel } from '@/components/geopolitica/espana/ComercioPanel'
+import { InversionPanel } from '@/components/geopolitica/espana/InversionPanel'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1419,18 +1424,52 @@ export default function GeopoliticaPage() {
         )}
 
         {/* Sprint G9 · Spain Watchlist (convergence × presencia ES) sobre Tab 5 */}
+        {/* TAB 5 — Presencia España · cuadro de mando proyección exterior
+            Sprint GEO-ES · mapa 4 dimensiones + KPIs + comercio + inversión.
+            Reemplaza/precede la vista legacy (watchlist + spain official). */}
         {tab === 5 && (
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ margin: 0, fontSize: 12, color: '#64748b', lineHeight: 1.5, marginBottom: 14 }}>
-              <strong style={{ color: '#0f172a' }}>Capa 3 española + watchlist analítica.</strong>{' '}
-              Voz oficial del Estado (MAEC + Moncloa + Defensa.gob) + watchlist priorizada de
-              países donde España tiene exposición Y la convergencia multi-source apunta a
-              deterioro (intersección de los 19 endpoints geo con el catálogo Presencia).
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
-              <GeoSpainWatchlist />
-              <GeoSpainOfficial limit={30} />
+          <div style={{ marginBottom: 18 }}>
+            <div style={{
+              background: 'linear-gradient(135deg, #aa0000 0%, #d50000 100%)',
+              borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
+            }}>
+              <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
+                Presencia España · proyección exterior con pulso en tiempo real
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fecaca', lineHeight: 1.5 }}>
+                <strong>¿Dónde está España realmente y qué está pasando en esos lugares?</strong>{' '}
+                Mapa 4 dimensiones (FDI / IBEX / Diplomática / Exports) ·
+                Comercio exterior con 8 dependencias críticas · Inversión con análisis HHI + exposición V-Dem.
+                Datasets curados DataInvex 2023 + DataComex 2024 + MAEC + Cervantes.
+              </p>
             </div>
+            <div style={{ marginBottom: 14 }}>
+              <SpainKpis />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <SpainPresenceMap onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
+            </div>
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+              gap: 14, marginBottom: 14,
+            }}>
+              <ComercioPanel />
+              <InversionPanel />
+            </div>
+
+            <details style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '12px 16px' }}>
+              <summary style={{ cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                Vista legacy · Spain Watchlist + Spain Official (clic para abrir)
+              </summary>
+              <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
+                <p style={{ margin: 0, fontSize: 11, color: '#64748b', lineHeight: 1.5 }}>
+                  Voz oficial del Estado (MAEC + Moncloa + Defensa.gob) + watchlist priorizada de países
+                  donde España tiene exposición Y convergencia multi-source apunta a deterioro.
+                </p>
+                <GeoSpainWatchlist />
+                <GeoSpainOfficial limit={30} />
+              </div>
+            </details>
           </div>
         )}
 
