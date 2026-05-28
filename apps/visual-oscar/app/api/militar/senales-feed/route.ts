@@ -76,16 +76,86 @@ async function fetchSignalsForTheme(theme: string, type: SignalType): Promise<Mi
   })
 }
 
+// G18 item 12 · FALLBACK RSS de fuentes de defensa públicas cuando GDELT
+// devuelve 0 artículos (rate-limit o sin cobertura).
+async function fetchDefenseRssFallback(): Promise<MilitarySignal[]> {
+  // Fuentes RSS estables y abiertas (sin auth):
+  //   - Defense News (defensenews.com/rss)
+  //   - Janes (janes.com)
+  //   - ISW Briefings
+  //   - NATO press releases
+  // Nota: no podemos fetchear todas en paralelo en serverless sin coste/tiempo.
+  // Usamos las 2 más estables y públicas.
+  const RSS_FEEDS: Array<{ url: string; type: SignalType; source: string }> = [
+    { url: 'https://www.nato.int/cps/en/natohq/news.rss', type: 'narrativa_ejercicio', source: 'NATO HQ' },
+    { url: 'https://understandingwar.org/rss.xml', type: 'tension_diplomatica', source: 'Institute for the Study of War' },
+  ]
+  const all: MilitarySignal[] = []
+  for (const feed of RSS_FEEDS) {
+    try {
+      const ctrl = new AbortController()
+      const t = setTimeout(() => ctrl.abort(), 6000)
+      const r = await fetch(feed.url, {
+        signal: ctrl.signal,
+        headers: { 'User-Agent': 'Politeia/1.0 (geopolitica analyst)' },
+        next: { revalidate: 1800 },
+      })
+      clearTimeout(t)
+      if (!r.ok) continue
+      const xml = await r.text()
+      // Parser RSS naïve por regex (item/title/link/pubDate)
+      const items = xml.match(/<item[\s\S]*?<\/item>/g) ?? []
+      const meta = TYPE_META[feed.type]
+      for (const itXml of items.slice(0, 8)) {
+        const title = (itXml.match(/<title>([\s\S]*?)<\/title>/) ?? [, ''])[1]
+          .replace(/<!\[CDATA\[|\]\]>/g, '').trim()
+        const link = (itXml.match(/<link>([\s\S]*?)<\/link>/) ?? [, ''])[1].trim()
+        const pubDate = (itXml.match(/<pubDate>([\s\S]*?)<\/pubDate>/) ?? [, ''])[1].trim()
+        const isoDate = pubDate ? new Date(pubDate).toISOString().slice(0, 19) : ''
+        if (!title || !link) continue
+        all.push({
+          type: feed.type,
+          type_label: meta.label,
+          type_emoji: meta.emoji,
+          type_color: meta.color,
+          country_iso3: null,
+          country_name: null,
+          title: title.slice(0, 240),
+          source_domain: feed.source,
+          url: link,
+          datetime: isoDate,
+          tone: 0,
+          confidence: 2, // RSS más confiable que GDELT generic
+        })
+      }
+    } catch {
+      /* feed individual falló · continuar */
+    }
+  }
+  return all
+}
+
 export async function GET() {
   const startedAt = new Date().toISOString()
 
-  // 2 queries paralelas GDELT (themes militares relevantes)
-  const [exercise, govChange] = await Promise.all([
+  // G18 item 12 · 4 queries GDELT paralelas (en lugar de 2)
+  const [exercise, govChange, milDeploy, secTransfer] = await Promise.all([
     fetchSignalsForTheme('MIL_EXERCISE', 'narrativa_ejercicio').catch(() => []),
     fetchSignalsForTheme('GOV_LEADERSHIP_CHANGE', 'cambio_gobierno_aliado').catch(() => []),
+    fetchSignalsForTheme('MIL_SELF_IDENTIFIED_ARMS_DEAL', 'spike_armamento').catch(() => []),
+    fetchSignalsForTheme('SECURITY_SERVICES', 'tension_diplomatica').catch(() => []),
   ])
 
-  const all = [...exercise, ...govChange]
+  const all = [...exercise, ...govChange, ...milDeploy, ...secTransfer]
+
+  // G18 item 12 · FALLBACK RSS cuando GDELT no devuelve nada
+  let rssUsed = false
+  if (all.length === 0) {
+    const rssSignals = await fetchDefenseRssFallback().catch(() => [])
+    all.push(...rssSignals)
+    rssUsed = rssSignals.length > 0
+  }
+
   const seen = new Set<string>()
   const deduped: MilitarySignal[] = []
   for (const s of all) {
@@ -101,13 +171,17 @@ export async function GET() {
     counts_by_type: {
       narrativa_ejercicio: deduped.filter((s) => s.type === 'narrativa_ejercicio').length,
       cambio_gobierno_aliado: deduped.filter((s) => s.type === 'cambio_gobierno_aliado').length,
+      spike_armamento: deduped.filter((s) => s.type === 'spike_armamento').length,
+      tension_diplomatica: deduped.filter((s) => s.type === 'tension_diplomatica').length,
     },
-    pending_signals: ['spike_armamento (Comtrade HS 93 mensual)', 'tension_diplomatica (GDELT events bilateral · pendiente)'],
     fetched_at: startedAt,
     _meta: {
-      sources: ['GDELT DOC v2 themes: MIL_EXERCISE + GOV_LEADERSHIP_CHANGE · 7d'],
+      sources: rssUsed
+        ? ['Fallback RSS · NATO HQ · ISW Briefings (GDELT rate-limited)']
+        : ['GDELT DOC v2 themes: MIL_EXERCISE + GOV_LEADERSHIP_CHANGE + MIL_SELF_IDENTIFIED_ARMS_DEAL + SECURITY_SERVICES · 7d'],
+      gdelt_signals: all.length - (rssUsed ? deduped.filter((s) => s.source_domain === 'NATO HQ' || s.source_domain === 'Institute for the Study of War').length : 0),
+      rss_fallback_used: rssUsed,
       cache_ttl_seconds: 900,
-      note: 'MVP con 2 tipos · spike_armamento + tension_diplomatica vendrán cuando se integren Comtrade mensual + GDELT events bilateral',
     },
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600' },

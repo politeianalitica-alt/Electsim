@@ -10,7 +10,7 @@
  * Click país → callback onCountryClick(iso3) abre drawer ficha militar.
  */
 import { useEffect, useState } from 'react'
-import { projectEquirect } from '@/lib/geopolitica/country-coords'
+import { WorldMapBase } from '@/components/geopolitica/WorldMapBase'
 
 interface CountryMilex {
   iso3: string; name_es: string; iso2: string
@@ -136,61 +136,64 @@ export function MilitaryMap({ onCountryClick }: Props) {
             </div>
           )}
 
-          <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} style={{
-            display: 'block', background: layer === 'alianzas' ? '#0f172a' : '#eff6ff',
-            borderRadius: 8,
-          }}>
-            {/* Grid guía */}
-            {[0, 90, 180, 270, 360].map((x) => (
-              <line key={x} x1={(x / 360) * W} y1={0} x2={(x / 360) * W} y2={H} stroke={layer === 'alianzas' ? '#1e293b' : '#cbd5e1'} strokeWidth={0.3} />
-            ))}
-            <line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke={layer === 'alianzas' ? '#334155' : '#94a3b8'} strokeWidth={0.5} />
-
-            {/* Capa alianzas · arcos */}
-            {layer === 'alianzas' && alliances?.ok && alliances.pairs
-              .filter((p) => !activeAlliance || p.alliance_id === activeAlliance)
-              .map((p, i) => {
-                const ca = countryByIso.get(p.a)
-                const cb = countryByIso.get(p.b)
-                if (!ca || !cb) return null
-                const { x: x1, y: y1 } = projectEquirect(ca.lat, ca.lon, W, H)
-                const { x: x2, y: y2 } = projectEquirect(cb.lat, cb.lon, W, H)
-                return (
-                  <line key={`${p.alliance_id}-${i}`}
-                    x1={x1} y1={y1} x2={x2} y2={y2}
-                    stroke={p.color} strokeWidth={p.depth * 0.4}
-                    opacity={0.25}
-                  />
-                )
-              })}
-
-            {/* Países como círculos */}
-            {milex.countries_all.map((c) => {
-              const { x, y } = projectEquirect(c.lat, c.lon, W, H)
-              const isInAlliance = layer === 'alianzas' && activeAlliance && alliances?.alliances.find((a) => a.id === activeAlliance)?.members.includes(c.iso3)
-              const dimmed = layer === 'alianzas' && activeAlliance && !isInAlliance
-              const fill = layer === 'alianzas'
-                ? (isInAlliance ? alliances?.alliances.find((a) => a.id === activeAlliance)?.color || '#0891b2' : '#475569')
-                : layer === 'gasto_pct_gdp'
-                  ? colorForPctGdp(c.milex_pct_gdp)
-                  : (c.milex_usd_bn !== null ? '#dc2626' : '#cbd5e1')
-              const r = layer === 'gasto_usd' ? radiusForUsd(c.milex_usd_bn) : 4
-              return (
-                <g key={c.iso3}>
-                  <circle
-                    cx={x} cy={y} r={r}
-                    fill={fill}
-                    opacity={dimmed ? 0.15 : 0.85}
-                    stroke="#fff" strokeWidth={0.5}
-                    onMouseEnter={() => setHover(c)}
-                    onMouseLeave={() => setHover(null)}
-                    onClick={() => onCountryClick?.(c.iso3)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                </g>
-              )
-            })}
-          </svg>
+          {/* G18 item 10 · WorldMapBase con contorno de países +
+              overlay de círculos militares y arcos de alianzas */}
+          <WorldMapBase
+            width={W}
+            height={H}
+            bgColor={layer === 'alianzas' ? '#0f172a' : '#eff6ff'}
+            countryFill={layer === 'alianzas' ? '#1e293b' : '#cbd5e1'}
+            countryStroke={layer === 'alianzas' ? '#334155' : '#94a3b8'}
+            countryStrokeWidth={0.3}
+          >
+            {(project) => (
+              <>
+                {/* Capa alianzas · arcos */}
+                {layer === 'alianzas' && alliances?.ok && alliances.pairs
+                  .filter((p) => !activeAlliance || p.alliance_id === activeAlliance)
+                  .map((p, i) => {
+                    const ca = countryByIso.get(p.a)
+                    const cb = countryByIso.get(p.b)
+                    if (!ca || !cb) return null
+                    const { x: x1, y: y1 } = project(ca.lat, ca.lon)
+                    const { x: x2, y: y2 } = project(cb.lat, cb.lon)
+                    return (
+                      <line key={`${p.alliance_id}-${i}`}
+                        x1={x1} y1={y1} x2={x2} y2={y2}
+                        stroke={p.color} strokeWidth={p.depth * 0.4}
+                        opacity={0.35}
+                      />
+                    )
+                  })}
+                {/* Países como círculos */}
+                {milex.countries_all.map((c) => {
+                  const { x, y } = project(c.lat, c.lon)
+                  const isInAlliance = layer === 'alianzas' && activeAlliance && alliances?.alliances.find((a) => a.id === activeAlliance)?.members.includes(c.iso3)
+                  const dimmed = layer === 'alianzas' && activeAlliance && !isInAlliance
+                  const fill = layer === 'alianzas'
+                    ? (isInAlliance ? alliances?.alliances.find((a) => a.id === activeAlliance)?.color || '#0891b2' : '#475569')
+                    : layer === 'gasto_pct_gdp'
+                      ? colorForPctGdp(c.milex_pct_gdp)
+                      : (c.milex_usd_bn !== null ? '#dc2626' : '#cbd5e1')
+                  const r = layer === 'gasto_usd' ? radiusForUsd(c.milex_usd_bn) : 4
+                  return (
+                    <g key={c.iso3}>
+                      <circle
+                        cx={x} cy={y} r={r}
+                        fill={fill}
+                        opacity={dimmed ? 0.15 : 0.85}
+                        stroke="#fff" strokeWidth={0.5}
+                        onMouseEnter={() => setHover(c)}
+                        onMouseLeave={() => setHover(null)}
+                        onClick={() => onCountryClick?.(c.iso3)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </g>
+                  )
+                })}
+              </>
+            )}
+          </WorldMapBase>
 
           <div style={{ display: 'flex', gap: 12, marginTop: 8, alignItems: 'center', fontSize: 9, color: '#475569', flexWrap: 'wrap' }}>
             {layer === 'gasto_pct_gdp' && (
