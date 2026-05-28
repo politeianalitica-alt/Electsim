@@ -7,6 +7,10 @@
 //     Rajoy), think tanks (FAES, R.I. Elcano), Pablo Iglesias, Borrell,
 //     Calviño/BEI, prensa (Pedro J., Herrera, Cebrián), Tezanos/CIS,
 //     Gabilondo, empresarios (Koplowitz, Lao, Mango), RTVE, Von der Leyen.
+//   · figuras_clave_3.json · tejido económico-institucional: holding March
+//     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte
+//     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),
+//     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).
 // Re-generar: python3 bin/gen_subfixture.py --source poder
 
 import type {
@@ -216,8 +220,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0002",
@@ -415,8 +419,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0003",
@@ -591,8 +595,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0004",
@@ -744,8 +748,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0005",
@@ -883,8 +887,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0006",
@@ -1027,8 +1031,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0007",
@@ -1136,8 +1140,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0008",
@@ -1224,8 +1228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0009",
@@ -1372,8 +1376,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0010",
@@ -1531,8 +1535,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0011",
@@ -1695,8 +1699,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0012",
@@ -1822,8 +1826,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0013",
@@ -2010,8 +2014,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0014",
@@ -2135,8 +2139,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0015",
@@ -2312,8 +2316,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0016",
@@ -2433,8 +2437,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0017",
@@ -2537,8 +2541,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0018",
@@ -2679,8 +2683,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0019",
@@ -2782,8 +2786,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0020",
@@ -2918,8 +2922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0021",
@@ -3043,8 +3047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0022",
@@ -3218,8 +3222,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0023",
@@ -3320,8 +3324,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0024",
@@ -3475,8 +3479,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0025",
@@ -3602,8 +3606,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0026",
@@ -3722,8 +3726,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0027",
@@ -3932,8 +3936,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0028",
@@ -4086,8 +4090,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0029",
@@ -4250,8 +4254,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0030",
@@ -4404,8 +4408,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0031",
@@ -4573,8 +4577,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0032",
@@ -4710,8 +4714,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0033",
@@ -4863,8 +4867,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0034",
@@ -4983,8 +4987,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0035",
@@ -5086,8 +5090,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0036",
@@ -5223,8 +5227,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0037",
@@ -5328,8 +5332,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0038",
@@ -5455,8 +5459,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0039",
@@ -5559,8 +5563,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0040",
@@ -5647,8 +5651,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0041",
@@ -5749,8 +5753,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0042",
@@ -5837,8 +5841,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0043",
@@ -5965,8 +5969,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0044",
@@ -6052,8 +6056,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0045",
@@ -6155,8 +6159,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   },
   {
     "id": "pod-0046",
@@ -6259,8 +6263,823 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T19:04:02.576186Z",
-    "updated_at": "2026-05-28T19:04:02.576186Z"
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0047",
+    "slug": "corporacion-financiera-alba",
+    "nombre_completo": "Corporación Financiera Alba",
+    "alias": "Alba",
+    "cargo_actual": "Holding inversor de la familia March",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Sociedad de inversión cotizada controlada por la familia March, brazo inversor de uno de los grandes patrimonios históricos de España. Su cartera incluye participaciones significativas en cotizadas del IBEX y del Mercado Continuo, lo que convierte a Alba en un accionista de referencia silencioso en buena parte del tejido empresarial.",
+    "tags": [
+      "inversion",
+      "holding",
+      "familia-march",
+      "ibex",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.corporacionalba.es",
+    "apartados": [
+      {
+        "id": "pod-0047-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0047-ap-00-it-00",
+            "apartado_id": "pod-0047-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Holding de inversión que rota su cartera entre cotizadas industriales y de servicios. Históricamente ha tenido posiciones de referencia en empresas como Acerinox, CIE Automotive, Ebro Foods, Indra o Naturgy, entre otras.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0047-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0047-ap-01-it-00",
+            "apartado_id": "pod-0047-ap-01",
+            "tipo": "dato",
+            "titulo": "Estilo inversor",
+            "contenido": "Inversión paciente, presencia en consejos y horizonte de largo plazo. Voz discreta pero decisiva en operaciones corporativas de sus participadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "largo-plazo",
+              "consejos"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0047-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0047-ap-02-it-00",
+            "apartado_id": "pod-0047-ap-02",
+            "tipo": "contacto",
+            "titulo": "familia-march",
+            "contenido": "**Accionista de control** (nota +10/10) — Alba es el vehículo cotizado del patrimonio March, junto a Banca March y la Fundación Juan March.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0047-ap-02-it-01",
+            "apartado_id": "pod-0047-ap-02",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Accionista de referencia en varias** (nota +7/10) — Sus paquetes accionariales le dan asiento en consejos y peso en juntas del IBEX y el Continuo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0048",
+    "slug": "familia-march",
+    "nombre_completo": "Familia March",
+    "alias": "Los March",
+    "cargo_actual": "Banca March · Corporación Financiera Alba · Fundación Juan March",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Una de las grandes dinastías financieras de España, originaria de Mallorca. Controla Banca March (banca privada y patrimonial), el holding cotizado Corporación Financiera Alba y la prestigiosa Fundación Juan March. Combina poder financiero, inversor y cultural con un perfil deliberadamente discreto.",
+    "tags": [
+      "banca",
+      "inversion",
+      "fundaciones",
+      "dinastia",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.bancamarch.es",
+    "apartados": [
+      {
+        "id": "pod-0048-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0048-ap-00-it-00",
+            "apartado_id": "pod-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Dinastía financiera mallorquina cuyo origen se remonta a Juan March Ordinas. Hoy combina banca privada (Banca March), inversión cotizada (Alba) y mecenazgo cultural (Fundación Juan March).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0048-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0048-ap-01-it-00",
+            "apartado_id": "pod-0048-ap-01",
+            "tipo": "contacto",
+            "titulo": "corporacion-financiera-alba",
+            "contenido": "**Su holding inversor cotizado** (nota +10/10) — Vehículo a través del cual la familia toma posiciones en el IBEX y el Continuo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0048-ap-01-it-01",
+            "apartado_id": "pod-0048-ap-01",
+            "tipo": "contacto",
+            "titulo": "Banca March",
+            "contenido": "**Banco familiar de banca privada** (nota +9/10) — Una de las pocas entidades de capital 100% familiar que quedan en España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0049",
+    "slug": "garrigues",
+    "nombre_completo": "Garrigues",
+    "alias": "Garrigues",
+    "cargo_actual": "Mayor despacho de abogados de España",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "El bufete de abogados más grande de España y uno de los mayores de Europa continental. Asesor fiscal y mercantil de gran parte del IBEX 35, es también una de las principales puertas giratorias entre la alta función pública, la magistratura y el sector privado.",
+    "tags": [
+      "despacho",
+      "abogados",
+      "fiscal",
+      "puerta-giratoria",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.garrigues.com",
+    "apartados": [
+      {
+        "id": "pod-0049-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0049-ap-00-it-00",
+            "apartado_id": "pod-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Despacho full-service con presencia internacional, especializado en fiscal, mercantil, laboral y litigios. Asesora operaciones corporativas de las grandes cotizadas españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0049-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0049-ap-01-it-00",
+            "apartado_id": "pod-0049-ap-01",
+            "tipo": "dato",
+            "titulo": "Puerta giratoria",
+            "contenido": "Es frecuente el fichaje de exaltos cargos de Hacienda, ministerios y organismos reguladores, así como de magistrados que pasan al ejercicio privado. Esa porosidad es fuente recurrente de debate sobre conflictos de interés.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "conflicto-interes",
+              "revolving-door"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0049-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0049-ap-02-it-00",
+            "apartado_id": "pod-0049-ap-02",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Asesor jurídico-fiscal de referencia** (nota +7/10) — Interviene en fusiones, OPAs, salidas a bolsa y contenciosos fiscales de las grandes cotizadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0049-ap-02-it-01",
+            "apartado_id": "pod-0049-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alta función pública y magistratura",
+            "contenido": "**Destino de la puerta giratoria** (nota +5/10) — Incorpora exinspectores de Hacienda, exaltos cargos y magistrados, lo que refuerza su capacidad de interlocución con la Administración.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0050",
+    "slug": "cuatrecasas",
+    "nombre_completo": "Cuatrecasas",
+    "alias": "Cuatrecasas",
+    "cargo_actual": "Gran despacho de abogados",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Uno de los grandes bufetes españoles, con fuerte presencia en derecho mercantil, mercado de capitales y operaciones corporativas. Junto a Garrigues y Uría, forma el núcleo de despachos que asesoran al IBEX y articulan parte de la puerta giratoria con el sector público.",
+    "tags": [
+      "despacho",
+      "abogados",
+      "mercantil",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.cuatrecasas.com",
+    "apartados": [
+      {
+        "id": "pod-0050-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0050-ap-00-it-00",
+            "apartado_id": "pod-0050-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Despacho de origen barcelonés con red internacional (Iberia, Latinoamérica). Fuerte en mercado de capitales, M&A y regulatorio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0050-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0050-ap-01-it-00",
+            "apartado_id": "pod-0050-ap-01",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Asesor en operaciones corporativas** (nota +7/10) — Participa en OPAs, emisiones y reestructuraciones de cotizadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0050-ap-01-it-01",
+            "apartado_id": "pod-0050-ap-01",
+            "tipo": "contacto",
+            "titulo": "garrigues",
+            "contenido": "**Competidor del top de despachos** (nota -2/10) — Rivalidad por los grandes mandatos del IBEX, aunque a menudo en lados opuestos de la misma operación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0051",
+    "slug": "uria-menendez",
+    "nombre_completo": "Uría Menéndez",
+    "alias": "Uría",
+    "cargo_actual": "Gran despacho de abogados",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Bufete de referencia en derecho mercantil y financiero, históricamente vinculado a las grandes operaciones del sector bancario y energético. Su prestigio académico y su cercanía a la elite jurídica lo sitúan como uno de los despachos más influyentes del país.",
+    "tags": [
+      "despacho",
+      "abogados",
+      "financiero",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.uria.com",
+    "apartados": [
+      {
+        "id": "pod-0051-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0051-ap-00-it-00",
+            "apartado_id": "pod-0051-ap-00",
+            "tipo": "dato",
+            "titulo": "Qué es",
+            "contenido": "Despacho con fuerte tradición académica y especialización en banca, mercado de capitales y competencia. Asesor habitual de entidades financieras y energéticas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0051-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0051-ap-01-it-00",
+            "apartado_id": "pod-0051-ap-01",
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Asesor jurídico de banca y energía** (nota +7/10) — Interviene en las mayores operaciones financieras y regulatorias del país.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0051-ap-01-it-01",
+            "apartado_id": "pod-0051-ap-01",
+            "tipo": "contacto",
+            "titulo": "Elite jurídica y reguladores",
+            "contenido": "**Vínculo con el mundo académico y regulatorio** (nota +5/10) — Sus socios y of counsel incluyen catedráticos y exmagistrados de referencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0052",
+    "slug": "marta-alvarez",
+    "nombre_completo": "Marta Álvarez Guil",
+    "alias": "Marta Álvarez",
+    "cargo_actual": "Presidenta de El Corte Inglés",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidenta de El Corte Inglés, el mayor grupo de distribución no alimentaria de España y uno de los principales empleadores del país. Heredera de la familia fundadora, representa el poder del gran comercio tradicional español frente al empuje del e-commerce.",
+    "tags": [
+      "empresaria",
+      "distribucion",
+      "el-corte-ingles",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.elcorteingles.es",
+    "apartados": [
+      {
+        "id": "pod-0052-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0052-ap-00-it-00",
+            "apartado_id": "pod-0052-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presidenta de El Corte Inglés y miembro de la familia accionista de referencia. Lidera el grupo en su transición digital y la reordenación de su deuda y activos inmobiliarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0052-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0052-ap-01-it-00",
+            "apartado_id": "pod-0052-ap-01",
+            "tipo": "dato",
+            "titulo": "Reto estratégico",
+            "contenido": "Modernizar un gigante del retail tradicional, monetizar su cartera inmobiliaria y competir con la distribución online manteniendo la marca como referente de servicio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "retail",
+              "transformacion-digital"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0052-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0052-ap-02-it-00",
+            "apartado_id": "pod-0052-ap-02",
+            "tipo": "contacto",
+            "titulo": "El Corte Inglés",
+            "contenido": "**Presidenta y accionista** (nota +9/10) — Encarna la continuidad de la familia fundadora al frente del grupo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0052-ap-02-it-01",
+            "apartado_id": "pod-0052-ap-02",
+            "tipo": "contacto",
+            "titulo": "Gran banca y fondos",
+            "contenido": "**Socios financieros e inmobiliarios** (nota +5/10) — La reestructuración del grupo la ha acercado a la banca acreedora y a inversores en su cartera inmobiliaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0053",
+    "slug": "jose-luis-bonet",
+    "nombre_completo": "José Luis Bonet Ferrer",
+    "alias": "Bonet",
+    "cargo_actual": "Presidente de honor de Freixenet · expresidente de la Cámara de Comercio de España",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario del cava (Freixenet) y figura histórica de la representación empresarial española como presidente de la Cámara de Comercio de España. Voz de peso en la internacionalización de la empresa y en la marca España.",
+    "tags": [
+      "empresario",
+      "camara-comercio",
+      "marca-espana",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.camara.es",
+    "apartados": [
+      {
+        "id": "pod-0053-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0053-ap-00-it-00",
+            "apartado_id": "pod-0053-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario vinculado a Freixenet y a la promoción del comercio exterior. Presidió la Cámara de Comercio de España y el Foro de Marcas Renombradas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0053-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0053-ap-01-it-00",
+            "apartado_id": "pod-0053-ap-01",
+            "tipo": "contacto",
+            "titulo": "Cámara de Comercio de España",
+            "contenido": "**Expresidente de referencia** (nota +7/10) — Interlocutor del Gobierno y las autonomías en política comercial e internacionalización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0053-ap-01-it-01",
+            "apartado_id": "pod-0053-ap-01",
+            "tipo": "contacto",
+            "titulo": "antonio-garamendi",
+            "contenido": "**Par en la representación empresarial** (nota +4/10) — Cámaras y CEOE comparten agenda de competitividad y proyección exterior de la empresa española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0054",
+    "slug": "juan-abello",
+    "nombre_completo": "Juan Abelló Gallo",
+    "alias": "Abelló",
+    "cargo_actual": "Presidente de Torreal",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario e inversor, presidente del grupo de capital riesgo y patrimonial Torreal. Una de las grandes fortunas españolas, con un largo historial de entradas y salidas en cotizadas y operaciones de private equity. Conocido también por su faceta de coleccionista de arte.",
+    "tags": [
+      "empresario",
+      "inversion",
+      "capital-riesgo",
+      "torreal",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.torreal.es",
+    "apartados": [
+      {
+        "id": "pod-0054-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0054-ap-00-it-00",
+            "apartado_id": "pod-0054-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Inversor de larga trayectoria, presidente de Torreal. Ha participado en operaciones en sectores tan diversos como la sanidad, la alimentación, la energía y los servicios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0054-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0054-ap-01-it-00",
+            "apartado_id": "pod-0054-ap-01",
+            "tipo": "contacto",
+            "titulo": "Torreal",
+            "contenido": "**Presidente y accionista** (nota +9/10) — Vehículo de inversión a través del cual entra en el capital de empresas cotizadas y no cotizadas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0054-ap-01-it-01",
+            "apartado_id": "pod-0054-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mercado de capitales español",
+            "contenido": "**Inversor histórico** (nota +5/10) — Su nombre aparece de forma recurrente en operaciones corporativas y en consejos de administración.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0055",
+    "slug": "hortensia-herrero",
+    "nombre_completo": "Hortensia Herrero Chacón",
+    "alias": "Hortensia Herrero",
+    "cargo_actual": "Vicepresidenta de Mercadona · presidenta de la Fundación Hortensia Herrero",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Copropietaria y vicepresidenta de Mercadona junto a su marido Juan Roig, y una de las mujeres más ricas de España. A través de su fundación se ha convertido en una de las grandes mecenas del arte contemporáneo, con un centro de arte de referencia en Valencia.",
+    "tags": [
+      "empresaria",
+      "mercadona",
+      "mecenazgo",
+      "arte",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.fundacionhortensiaherrero.org",
+    "apartados": [
+      {
+        "id": "pod-0055-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0055-ap-00-it-00",
+            "apartado_id": "pod-0055-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Vicepresidenta y copropietaria de Mercadona. Su fundación impulsa la restauración de patrimonio y el coleccionismo de arte contemporáneo en Valencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0055-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0055-ap-01-it-00",
+            "apartado_id": "pod-0055-ap-01",
+            "tipo": "contacto",
+            "titulo": "juan-roig",
+            "contenido": "**Su marido y socio en Mercadona** (nota +10/10) — Comparten el control de la mayor cadena de distribución alimentaria de España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0055-ap-01-it-01",
+            "apartado_id": "pod-0055-ap-01",
+            "tipo": "contacto",
+            "titulo": "Mundo cultural valenciano",
+            "contenido": "**Gran mecenas del arte** (nota +7/10) — Su fundación es interlocutora de instituciones culturales y administraciones autonómicas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
+  },
+  {
+    "id": "pod-0056",
+    "slug": "tomas-olivo",
+    "nombre_completo": "Tomás Olivo López",
+    "alias": "Tomás Olivo",
+    "cargo_actual": "Presidente de General de Galerías Comerciales",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Empresario inmobiliario, presidente de General de Galerías Comerciales (centros comerciales) y una de las mayores fortunas de España según los rankings de patrimonio. Perfil extremadamente discreto y patrimonio concentrado en activos inmobiliarios de gran valor.",
+    "tags": [
+      "empresario",
+      "inmobiliario",
+      "centros-comerciales",
+      "no-electo"
+    ],
+    "fuente_principal": "https://www.lassalinas.es",
+    "apartados": [
+      {
+        "id": "pod-0056-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0056-ap-00-it-00",
+            "apartado_id": "pod-0056-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Empresario inmobiliario afincado en el sureste español. Su grupo desarrolla y explota grandes centros comerciales. Figura recurrente en lo más alto de las listas de grandes fortunas españolas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0056-ap-01",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0056-ap-01-it-00",
+            "apartado_id": "pod-0056-ap-01",
+            "tipo": "contacto",
+            "titulo": "General de Galerías Comerciales",
+            "contenido": "**Accionista de control** (nota +9/10) — Vehículo de su patrimonio inmobiliario, una de las mayores socimi/inmobiliarias del país por valor de activos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T19:10:13.009483Z",
+    "updated_at": "2026-05-28T19:10:13.009483Z"
   }
 ]
 

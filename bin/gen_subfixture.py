@@ -67,6 +67,7 @@ SOURCES = {
         "files": [
             REPO / "data" / "poder" / "figuras_clave.json",
             REPO / "data" / "poder" / "figuras_clave_2.json",
+            REPO / "data" / "poder" / "figuras_clave_3.json",
         ],
         "out": VISUAL / "poder-fixture.ts",
         "fixture_name": "PODER_FIXTURE",
@@ -82,6 +83,10 @@ SOURCES = {
             "//     Rajoy), think tanks (FAES, R.I. Elcano), Pablo Iglesias, Borrell,\n"
             "//     Calviño/BEI, prensa (Pedro J., Herrera, Cebrián), Tezanos/CIS,\n"
             "//     Gabilondo, empresarios (Koplowitz, Lao, Mango), RTVE, Von der Leyen.\n"
+            "//   · figuras_clave_3.json · tejido económico-institucional: holding March\n"
+            "//     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte\n"
+            "//     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),\n"
+            "//     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).\n"
             "// Re-generar: python3 bin/gen_subfixture.py --source poder\n"
         ),
     },
