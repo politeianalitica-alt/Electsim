@@ -13,7 +13,7 @@
  * abrir el drawer.
  */
 import { useEffect, useState } from 'react'
-import { projectEquirect } from '@/lib/geopolitica/country-coords'
+import { WorldMapBase } from './WorldMapBase'
 
 interface CountryIRC {
   iso3: string
@@ -86,49 +86,46 @@ export function GeoRadarMap({ onCountryClick, highlightRegion }: Props) {
 
       {!loading && data?.ok && (
         <>
-          <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} style={{
-            display: 'block', background: '#f0f9ff', borderRadius: 8,
-            border: '1px solid #e0f2fe',
-          }}>
-            {/* Líneas meridianos/paralelos guía */}
-            {[0, 90, 180, 270, 360].map((x) => (
-              <line key={x} x1={(x / 360) * W} y1={0} x2={(x / 360) * W} y2={H} stroke="#cbd5e1" strokeWidth={0.3} strokeDasharray="2 2" />
-            ))}
-            {[0, 60, 120, 180, 240, 300, 360].map((y) => (
-              <line key={y} x1={0} y1={(y / 360) * H} x2={W} y2={(y / 360) * H} stroke="#cbd5e1" strokeWidth={0.3} strokeDasharray="2 2" />
-            ))}
-            {/* Ecuador resaltado */}
-            <line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke="#94a3b8" strokeWidth={0.6} />
-
-            {/* Países como círculos */}
-            {data.countries.map((c) => {
-              const { x, y } = projectEquirect(c.lat, c.lon, W, H)
-              const dimmed = highlightRegion && c.region !== highlightRegion
-              const fill = colorForIRC(c.irc)
-              const r = radiusForIRC(c.irc)
-              return (
-                <g key={c.iso3}>
-                  <circle
-                    cx={x} cy={y} r={r}
-                    fill={fill}
-                    opacity={dimmed ? 0.2 : 0.85}
-                    stroke="#fff" strokeWidth={0.5}
-                    onMouseEnter={() => setHover(c)}
-                    onMouseLeave={() => setHover(null)}
-                    onClick={() => onCountryClick?.(c.iso3)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  {/* Pulso para IRC crítico */}
-                  {c.irc >= 75 && !dimmed && (
-                    <circle cx={x} cy={y} r={r + 4} fill="none" stroke={fill} strokeWidth={0.8} opacity={0.5}>
-                      <animate attributeName="r" values={`${r + 2};${r + 8};${r + 2}`} dur="2s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" />
-                    </circle>
-                  )}
-                </g>
-              )
-            })}
-          </svg>
+          {/* G16 · WorldMapBase con contorno de países como capa base + puntos IRC encima */}
+          <WorldMapBase
+            width={W}
+            height={H}
+            bgColor="#f0f9ff"
+            countryFill="#cbd5e1"
+            countryStroke="#94a3b8"
+            countryStrokeWidth={0.3}
+          >
+            {(project) => (
+              <>
+                {data.countries.map((c) => {
+                  const { x, y } = project(c.lat, c.lon)
+                  const dimmed = highlightRegion && c.region !== highlightRegion
+                  const fill = colorForIRC(c.irc)
+                  const r = radiusForIRC(c.irc)
+                  return (
+                    <g key={c.iso3}>
+                      <circle
+                        cx={x} cy={y} r={r}
+                        fill={fill}
+                        opacity={dimmed ? 0.2 : 0.9}
+                        stroke="#fff" strokeWidth={0.8}
+                        onMouseEnter={() => setHover(c)}
+                        onMouseLeave={() => setHover(null)}
+                        onClick={() => onCountryClick?.(c.iso3)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                      {c.irc >= 75 && !dimmed && (
+                        <circle cx={x} cy={y} r={r + 4} fill="none" stroke={fill} strokeWidth={0.8} opacity={0.5}>
+                          <animate attributeName="r" values={`${r + 2};${r + 8};${r + 2}`} dur="2s" repeatCount="indefinite" />
+                          <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" />
+                        </circle>
+                      )}
+                    </g>
+                  )
+                })}
+              </>
+            )}
+          </WorldMapBase>
 
           {/* Leyenda escala riesgo */}
           <div style={{ display: 'flex', gap: 10, marginTop: 8, alignItems: 'center', fontSize: 9, color: '#475569', flexWrap: 'wrap' }}>

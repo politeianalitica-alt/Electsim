@@ -537,26 +537,13 @@ export default function GeopoliticaPage() {
           ))}
         </div>
 
-        {/* ───── Conflictos en entorno geopolítico ES ─────
-            Sprint Geo-FIX · este bloque usaba ACLED como fuente. Como la
-            API de ACLED nos fue denegada, el componente AcledSpainContext
-            se mantiene técnicamente vivo (vive en components/geopolitics/)
-            pero su render principal viene del fallback RSS/GDELT/UCDP.
-            En la UI nos referimos genéricamente a "eventos hard" o "señal
-            táctica" sin citar ACLED. */}
-        <div style={{ margin: '18px 0' }}>
-          <AcledSpainContext days={30} />
-        </div>
-
-        {/* Sprint G2 · Hero superior · Spain Composite Risk Index 0-100 */}
-        <div style={{ marginBottom: 16 }}>
-          <GeoTermometro />
-        </div>
-
-        {/* Sprint G3 · IA Brief geopolítico (Eurasia-style diario) */}
-        <div style={{ marginBottom: 16 }}>
-          <GeoIaBrief />
-        </div>
+        {/* Sprint G16 · Item 1 · ACLED card removed (siempre devolvía
+            "invalid_grant" / "no disponible"). El usuario pidió arrancar
+            la página directamente con la barra de tabs. GeoTermometro y
+            GeoIaBrief también eliminados del top porque sus datos venían
+            principalmente del bloque ACLED (devolvían 0/100 + brief vacío
+            "no hay información disponible"). Las features útiles se
+            recuperan en cada tab cuando aplique. */}
 
         <TabBar
           items={[
@@ -658,9 +645,9 @@ export default function GeopoliticaPage() {
                 Conflictos y Violencia Política · zoom operacional
               </h2>
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fecaca', lineHeight: 1.5 }}>
-                Mapa de conflictos activos por intensidad mediática + tabla con tendencia + drawer detalle
-                en 5 sub-tabs (resumen · timeline · cobertura mediática · impacto económico SIPRI · actores corporativos).
-                Fuentes: GDELT WAR_CONFLICT events · SIPRI Milex 2024 · V-Dem democracia. ACLED no disponible.
+                Mapa de conflictos activos por intensidad UCDP/PRIO + GDELT táctico + tabla con tendencia +
+                drawer detalle 6 sub-tabs (resumen · timeline · noticias · cobertura · impacto SIPRI · actores).
+                Fuentes: UCDP/PRIO seed top 30 · GDELT WAR_CONFLICT events · SIPRI Milex 2024 · V-Dem democracia.
               </p>
             </div>
 

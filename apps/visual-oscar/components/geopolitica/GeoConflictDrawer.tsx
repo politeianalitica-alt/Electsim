@@ -13,7 +13,17 @@
  */
 import { useEffect, useState } from 'react'
 
-type SubTab = 'resumen' | 'timeline' | 'cobertura' | 'impacto' | 'corporativo'
+type SubTab = 'resumen' | 'timeline' | 'noticias' | 'cobertura' | 'impacto' | 'corporativo'
+
+interface NewsArticle {
+  title: string
+  url: string
+  domain: string
+  language?: string
+  sourcecountry?: string
+  seendate?: string
+  tone?: number
+}
 
 interface Detail {
   iso3: string; name_es: string; name_en: string
@@ -59,6 +69,7 @@ const PHASE_META: Record<Detail['summary']['fase_actual'], { label: string; colo
 
 export function GeoConflictDrawer({ iso3, onClose }: Props) {
   const [data, setData] = useState<Detail | null>(null)
+  const [news, setNews] = useState<NewsArticle[]>([])
   const [loading, setLoading] = useState(true)
   const [sub, setSub] = useState<SubTab>('resumen')
 
@@ -67,9 +78,20 @@ export function GeoConflictDrawer({ iso3, onClose }: Props) {
     let alive = true
     setLoading(true)
     setSub('resumen')
-    fetch(`/api/geopolitica/conflicto/${iso3}`, { cache: 'force-cache' })
-      .then((r) => r.json() as Promise<Response>)
-      .then((j) => { if (alive) setData(j.ok ? j.detail || null : null) })
+    setNews([])
+    // Fetch detail + news en paralelo (G16 item 5)
+    Promise.all([
+      fetch(`/api/geopolitica/conflicto/${iso3}`, { cache: 'force-cache' })
+        .then((r) => r.json() as Promise<Response>),
+      fetch(`/api/geopolitica/conflict-news/${iso3}?limit=20`, { cache: 'force-cache' })
+        .then((r) => r.json())
+        .catch(() => ({ articles: [] })),
+    ])
+      .then(([detailResp, newsResp]) => {
+        if (!alive) return
+        setData(detailResp.ok ? detailResp.detail || null : null)
+        setNews(Array.isArray(newsResp.articles) ? newsResp.articles : [])
+      })
       .catch(() => {})
       .finally(() => { if (alive) setLoading(false) })
     return () => { alive = false }
@@ -132,6 +154,7 @@ export function GeoConflictDrawer({ iso3, onClose }: Props) {
               {([
                 { id: 'resumen', label: 'Resumen' },
                 { id: 'timeline', label: 'Timeline' },
+                { id: 'noticias', label: `Noticias${news.length > 0 ? ` (${news.length})` : ''}` },
                 { id: 'cobertura', label: 'Cobertura' },
                 { id: 'impacto', label: 'Impacto económico' },
                 { id: 'corporativo', label: 'Actores corp.' },
@@ -163,7 +186,8 @@ export function GeoConflictDrawer({ iso3, onClose }: Props) {
           )}
 
           {!loading && data && sub === 'resumen' && <SubResumen d={data} />}
-          {!loading && data && sub === 'timeline' && <SubTimeline d={data} />}
+          {!loading && data && sub === 'timeline' && <SubTimeline d={data} news={news} />}
+          {!loading && sub === 'noticias' && <SubNoticias news={news} countryName={data?.name_es || iso3} />}
           {!loading && data && sub === 'cobertura' && <SubCobertura d={data} />}
           {!loading && data && sub === 'impacto' && <SubImpacto d={data} />}
           {!loading && data && sub === 'corporativo' && <SubCorporativo d={data} />}
@@ -206,9 +230,80 @@ function SubResumen({ d }: { d: Detail }) {
   )
 }
 
-function SubTimeline({ d }: { d: Detail }) {
+function SubNoticias({ news, countryName }: { news: NewsArticle[]; countryName: string }) {
+  if (news.length === 0) {
+    return (
+      <div>
+        <p style={{ fontSize: 11, color: '#94a3b8', fontStyle: 'italic', marginBottom: 8 }}>
+          Sin noticias recientes en GDELT para {countryName}. Posibles causas: cobertura
+          mediática internacional baja, GDELT rate-limited, o nombre del país no resoluble
+          en la query.
+        </p>
+        <p style={{ fontSize: 10, color: '#64748b' }}>
+          Prueba alternativa:{' '}
+          <a
+            href={`https://www.google.com/search?q=${encodeURIComponent(countryName + ' conflict news')}&tbm=nws`}
+            target="_blank" rel="noopener noreferrer"
+            style={{ color: '#0891b2', fontWeight: 600 }}
+          >búsqueda Google News →</a>
+        </p>
+      </div>
+    )
+  }
+  return (
+    <div>
+      <p style={{ fontSize: 11, color: '#475569', marginBottom: 10 }}>
+        Últimas {news.length} noticias relevantes · ordenadas por fecha desc · GDELT DOC v2
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {news.map((a) => {
+          const toneColor =
+            (a.tone ?? 0) < -5 ? '#7f1d1d' :
+            (a.tone ?? 0) < -2 ? '#dc2626' :
+            (a.tone ?? 0) < 0 ? '#ea580c' : '#94a3b8'
+          const dateStr = a.seendate ? a.seendate.slice(0, 10) : ''
+          return (
+            <a key={a.url} href={a.url} target="_blank" rel="noopener noreferrer" style={{
+              padding: '8px 10px', background: '#fff', border: '1px solid #f1f5f9',
+              borderLeft: `3px solid ${toneColor}`, borderRadius: 4,
+              textDecoration: 'none', color: 'inherit',
+            }}>
+              <p style={{ margin: 0, fontSize: 11, color: '#0f172a', lineHeight: 1.4, fontWeight: 600 }}>
+                {a.title}
+              </p>
+              <p style={{ margin: '3px 0 0', fontSize: 9, color: '#94a3b8', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                <span>{a.domain}</span>
+                {a.sourcecountry && <span>· {a.sourcecountry}</span>}
+                {a.language && <span>· {a.language}</span>}
+                {dateStr && <span>· {dateStr}</span>}
+                {a.tone !== undefined && (
+                  <span style={{ color: toneColor, fontWeight: 600, fontFamily: 'ui-monospace, monospace' }}>
+                    · tono {a.tone > 0 ? '+' : ''}{a.tone.toFixed(1)}
+                  </span>
+                )}
+              </p>
+            </a>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function SubTimeline({ d, news }: { d: Detail; news: NewsArticle[] }) {
   const series = d.timeline.series_daily
-  if (series.length < 2) return <p style={{ fontSize: 11, color: '#94a3b8' }}>Datos insuficientes para timeline.</p>
+  // FIX G16 item 5 · si no hay serie suficiente, mostramos news directamente
+  if (series.length < 2) {
+    return (
+      <div>
+        <p style={{ fontSize: 11, color: '#475569', marginBottom: 8 }}>
+          Serie temporal insuficiente para gráfico ({series.length} día{series.length !== 1 ? 's' : ''} con datos).
+          Mostrando noticias recientes en su lugar.
+        </p>
+        <SubNoticias news={news} countryName={d.name_es} />
+      </div>
+    )
+  }
   const vals = series.map((s) => s.events)
   const maxV = Math.max(...vals)
   const w = 600, h = 200, pad = 30

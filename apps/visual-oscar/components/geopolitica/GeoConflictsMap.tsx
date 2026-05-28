@@ -9,7 +9,7 @@
  * Consume /api/geopolitica/conflictos-activos.
  */
 import { useEffect, useState } from 'react'
-import { projectEquirect } from '@/lib/geopolitica/country-coords'
+import { WorldMapBase } from './WorldMapBase'
 
 interface Conflict {
   iso3: string; name_es: string; iso2: string
@@ -103,49 +103,50 @@ export function GeoConflictsMap({ onConflictClick }: Props) {
 
       {!loading && data?.ok && (
         <>
-          <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} style={{
-            display: 'block', background: '#0f172a', borderRadius: 8,
-          }}>
-            {/* Continentes esquemáticos · líneas guía */}
-            {[0, 90, 180, 270, 360].map((x) => (
-              <line key={x} x1={(x / 360) * W} y1={0} x2={(x / 360) * W} y2={H} stroke="#1e293b" strokeWidth={0.3} />
-            ))}
-            <line x1={0} y1={H / 2} x2={W} y2={H / 2} stroke="#334155" strokeWidth={0.5} />
-
-            {/* Conflictos */}
-            {data.conflicts.map((c) => {
-              const { x, y } = projectEquirect(c.lat, c.lon, W, H)
-              const r = 4 + c.intensity * 3   // 7-19 px
-              const color = colorForTone(c.avg_tone)
-              return (
-                <g key={c.iso3}>
-                  {/* Halo pulsante para intensidad 4-5 */}
-                  {c.intensity >= 4 && (
-                    <circle cx={x} cy={y} r={r + 6} fill="none" stroke={color} strokeWidth={1} opacity={0.4}>
-                      <animate attributeName="r" values={`${r + 2};${r + 12};${r + 2}`} dur="3s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                  )}
-                  <circle
-                    cx={x} cy={y} r={r}
-                    fill={color} opacity={0.8}
-                    stroke="#fff" strokeWidth={1}
-                    onMouseEnter={() => setHover(c)}
-                    onMouseLeave={() => setHover(null)}
-                    onClick={() => onConflictClick?.(c.iso3)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  {/* Trend arrow micro */}
-                  {c.trend === 'subida' && (
-                    <text x={x + r + 2} y={y - r} fontSize={9} fill="#dc2626" fontWeight={700}>↑</text>
-                  )}
-                  {c.trend === 'bajada' && (
-                    <text x={x + r + 2} y={y - r} fontSize={9} fill="#16a34a" fontWeight={700}>↓</text>
-                  )}
-                </g>
-              )
-            })}
-          </svg>
+          {/* G16 · WorldMapBase fondo oscuro con contorno paises + conflictos overlay */}
+          <WorldMapBase
+            width={W}
+            height={H}
+            bgColor="#0f172a"
+            countryFill="#1e293b"
+            countryStroke="#334155"
+            countryStrokeWidth={0.3}
+          >
+            {(project) => (
+              <>
+                {data.conflicts.map((c) => {
+                  const { x, y } = project(c.lat, c.lon)
+                  const r = 4 + c.intensity * 3
+                  const color = colorForTone(c.avg_tone)
+                  return (
+                    <g key={c.iso3}>
+                      {c.intensity >= 4 && (
+                        <circle cx={x} cy={y} r={r + 6} fill="none" stroke={color} strokeWidth={1} opacity={0.4}>
+                          <animate attributeName="r" values={`${r + 2};${r + 12};${r + 2}`} dur="3s" repeatCount="indefinite" />
+                          <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                      )}
+                      <circle
+                        cx={x} cy={y} r={r}
+                        fill={color} opacity={0.85}
+                        stroke="#fff" strokeWidth={1}
+                        onMouseEnter={() => setHover(c)}
+                        onMouseLeave={() => setHover(null)}
+                        onClick={() => onConflictClick?.(c.iso3)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                      {c.trend === 'subida' && (
+                        <text x={x + r + 2} y={y - r} fontSize={9} fill="#dc2626" fontWeight={700}>↑</text>
+                      )}
+                      {c.trend === 'bajada' && (
+                        <text x={x + r + 2} y={y - r} fontSize={9} fill="#16a34a" fontWeight={700}>↓</text>
+                      )}
+                    </g>
+                  )
+                })}
+              </>
+            )}
+          </WorldMapBase>
 
           <div style={{ display: 'flex', gap: 12, marginTop: 8, alignItems: 'center', fontSize: 9, color: '#475569', flexWrap: 'wrap' }}>
             <span style={{ fontWeight: 600, color: '#0f172a' }}>Tono GDELT:</span>
