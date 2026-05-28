@@ -63,6 +63,38 @@ SOURCES = {
             "// Re-generar: python3 bin/gen_subfixture.py --source diputaciones\n"
         ),
     },
+    "poder": {
+        "files": [
+            REPO / "data" / "poder" / "figuras_clave.json",
+            REPO / "data" / "poder" / "figuras_clave_2.json",
+            REPO / "data" / "poder" / "figuras_clave_3.json",
+            REPO / "data" / "poder" / "figuras_clave_4.json",
+        ],
+        "out": VISUAL / "poder-fixture.ts",
+        "fixture_name": "PODER_FIXTURE",
+        "resumen_name": "PODER_RESUMEN",
+        "id_prefix": "pod",
+        "header": (
+            "// AUTO-GENERADO desde data/poder/*.json · ver bin/gen_subfixture.py\n"
+            "// Mapa de poder NO-electo (2 lotes):\n"
+            "//   · figuras_clave.json   · medios, poder judicial (TS/CGPJ, TC, Fiscalía),\n"
+            "//     reguladores (BdE, CNMC), empresarios no-IBEX (Roig, Ortega Mera,\n"
+            "//     Escotet), sindicatos (CCOO, UGT), Casa Real e Iglesia.\n"
+            "//   · figuras_clave_2.json · expresidentes (Aznar, Zapatero, F. González,\n"
+            "//     Rajoy), think tanks (FAES, R.I. Elcano), Pablo Iglesias, Borrell,\n"
+            "//     Calviño/BEI, prensa (Pedro J., Herrera, Cebrián), Tezanos/CIS,\n"
+            "//     Gabilondo, empresarios (Koplowitz, Lao, Mango), RTVE, Von der Leyen.\n"
+            "//   · figuras_clave_3.json · tejido económico-institucional: holding March\n"
+            "//     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte\n"
+            "//     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),\n"
+            "//     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).\n"
+            "//   · figuras_clave_4.json · reguladores y holding público sobre el IBEX\n"
+            "//     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños\n"
+            "//     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,\n"
+            "//     Losantos), LaLiga/Tebas, Fundación Alternativas, Funcas, Manuel Jove.\n"
+            "// Re-generar: python3 bin/gen_subfixture.py --source poder\n"
+        ),
+    },
 }
 
 

@@ -77,26 +77,32 @@
           {
             "tipo": "contacto",
             "titulo": "Cartera de participadas",
-            "contenido": "Indra (28%), Telefónica (~10%), Redeia (20%), Enagás (~5%), Hispasat (vía Redeia), Aena (51% vía Enaire), Navantia (100%), Hunosa, Tragsa, Correos, Mercasa, EFE…",
+            "contenido": "**Indra (28%), Telefónica (~10%), Redeia (20%), Enagás (~5%), Hispasat (vía Redeia), Aena (51% vía Enaire), Navantia (100%), Hunosa, Tragsa, Correos, Mercasa, EFE…** (nota +3/10)",
             "tags": [
-              "cartera"
+              "cartera",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Belén Gualda (presidenta)",
-            "contenido": "Ingeniera. Presidenta de SEPI desde marzo 2022. Sustituyó a Vicente Fernández Guerrero.",
+            "contenido": "**Ingeniera** (nota +8/10) — Presidenta de SEPI desde marzo 2022. Sustituyó a Vicente Fernández Guerrero.",
             "tags": [
-              "presidenta"
+              "presidenta",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ministerio Hacienda - María Jesús Montero",
-            "contenido": "Tutela política. Montero vicepresidenta primera y ministra Hacienda.",
+            "contenido": "**Tutela política** (nota +8/10) — Montero vicepresidenta primera y ministra Hacienda.",
             "tags": [
               "politica",
-              "montero"
+              "montero",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -231,25 +237,31 @@
           {
             "tipo": "contacto",
             "titulo": "Grandes IBEX 35",
-            "contenido": "Vinculaciones con presidentes de Santander (Botín), Iberdrola (Sánchez Galán), ACS (Florentino), Inditex (anteriormente Pablo Isla como vicepresidente).",
+            "contenido": "**Vinculaciones con presidentes de Santander (Botín), Iberdrola (Sánchez Galán), ACS (Florentino), Inditex (anteriormente Pablo Isla como vicepresidente)** (nota +8/10)",
             "tags": [
-              "ibex35"
+              "ibex35",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cepyme",
-            "contenido": "Confederación de pequeñas y medianas empresas, parte del Consejo Permanente de CEOE.",
+            "contenido": "**Confederación de pequeñas y medianas empresas, parte del Consejo Permanente de CEOE** (nota +6/10)",
             "tags": [
-              "cepyme"
+              "cepyme",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "BusinessEurope",
-            "contenido": "Patronal europea, CEOE como miembro fundador.",
+            "contenido": "**Patronal europea, CEOE como miembro fundador** (nota +8/10)",
             "tags": [
-              "europa"
+              "europa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -369,34 +381,42 @@
           {
             "tipo": "contacto",
             "titulo": "CECA",
-            "contenido": "AEB y CECA (cajas) son las dos patronales bancarias españolas, con coordinación creciente desde la crisis 2008-2012.",
+            "contenido": "**AEB y CECA (cajas) son las dos patronales bancarias españolas, con coordinación creciente desde la crisis 2008-2012** (nota +8/10)",
             "tags": [
-              "ceca"
+              "ceca",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Miembros",
-            "contenido": "Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, Bank of America España, Citi, JP Morgan.",
+            "contenido": "**Santander, BBVA, Sabadell, Bankinter, Deutsche Bank España, Bank of America España, Citi, JP Morgan** (nota +6/10)",
             "tags": [
-              "miembros"
+              "miembros",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "European Banking Federation (EBF)",
-            "contenido": "Patronal europea. AEB miembro fundador.",
+            "contenido": "**Patronal europea** (nota +8/10) — AEB miembro fundador.",
             "tags": [
               "ebf",
-              "europa"
+              "europa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Alejandra Kindelán",
-            "contenido": "Presidenta desde 2022.",
+            "contenido": "**Presidenta desde 2022** (nota +8/10)",
             "tags": [
-              "kindelan"
+              "kindelan",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -461,34 +481,41 @@
           {
             "tipo": "contacto",
             "titulo": "Miembros",
-            "contenido": "Iberdrola, Endesa, EDP España. Naturgy fuera (opera vía Sedigás).",
+            "contenido": "**Iberdrola, Endesa, EDP España** (nota +6/10) — Naturgy fuera (opera vía Sedigás).",
             "tags": [
-              "miembros"
+              "miembros",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Lobby Gobierno",
-            "contenido": "Interlocución con Ministerio de Transición Ecológica (Aagesen tras salto de Teresa Ribera a UE) y CNMC.",
+            "contenido": "**Interlocución con Ministerio de Transición Ecológica (Aagesen tras salto de Teresa Ribera a UE) y CNMC** (nota +4/10)",
             "tags": [
-              "lobby"
+              "lobby",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Marina Serrano (presidenta)",
-            "contenido": "Presidenta de AELEC desde 2018.",
+            "contenido": "**Presidenta de AELEC desde 2018** (nota +8/10)",
             "tags": [
-              "serrano"
+              "serrano",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sánchez Galán / Bogas",
-            "contenido": "Voces más fuertes del sector representado.",
+            "contenido": "**Voces más fuertes del sector representado**",
             "tags": [
               "iberdrola",
-              "endesa"
+              "endesa",
+              "sin-valorar"
             ]
           }
         ]
@@ -574,49 +601,59 @@
           {
             "tipo": "contacto",
             "titulo": "OPA BBVA-Sabadell",
-            "contenido": "Autorización CNMV requisito clave de la OPA. Diciembre 2024 CNMV autorizó el folleto.",
+            "contenido": "**Autorización CNMV requisito clave de la OPA** — Diciembre 2024 CNMV autorizó el folleto.",
             "tags": [
-              "bbva-sabadell"
+              "bbva-sabadell",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Grifols",
-            "contenido": "Expediente abierto en 2024 por relación Grifols-Scranton tras Gotham.",
+            "contenido": "**Expediente abierto en 2024 por relación Grifols-Scranton tras Gotham**",
             "tags": [
-              "grifols"
+              "grifols",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Indra",
-            "contenido": "Amonestó en 2022 por la destitución de consejeros independientes.",
+            "contenido": "**Amonestó en 2022 por la destitución de consejeros independientes** (nota -6/10)",
             "tags": [
-              "indra"
+              "indra",
+              "nota--6",
+              "tension"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Carlos San Basilio",
-            "contenido": "Presidente desde 2024.",
+            "contenido": "**Presidente desde 2024** (nota +8/10)",
             "tags": [
-              "san-basilio"
+              "san-basilio",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "ESMA",
-            "contenido": "Reguladora europea. CNMV miembro de la junta.",
+            "contenido": "**Reguladora europea** (nota +6/10) — CNMV miembro de la junta.",
             "tags": [
-              "esma"
+              "esma",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Banco de España",
-            "contenido": "Coordinación regulatoria.",
+            "contenido": "**Coordinación regulatoria** (nota +7/10)",
             "tags": [
-              "bde"
+              "bde",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -704,41 +741,47 @@
           {
             "tipo": "contacto",
             "titulo": "Establishment empresarial",
-            "contenido": "Vínculos institucionales con presidentes de Santander, Iberdrola, CaixaBank y otros.",
+            "contenido": "**Vínculos institucionales con presidentes de Santander, Iberdrola, CaixaBank y otros** (nota +8/10)",
             "tags": [
-              "empresariado"
+              "empresariado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Felipe VI",
-            "contenido": "Jefe de Estado desde junio 2014.",
+            "contenido": "**Jefe de Estado desde junio 2014**",
             "tags": [
-              "felipe-vi"
+              "felipe-vi",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Letizia Ortiz",
-            "contenido": "Reina consorte. Activa en programas Casa Real.",
+            "contenido": "**Reina consorte** — Activa en programas Casa Real.",
             "tags": [
-              "letizia"
+              "letizia",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Juan Carlos I emérito",
-            "contenido": "Reside en Abu Dabi desde agosto 2020.",
+            "contenido": "**Reside en Abu Dabi desde agosto 2020**",
             "tags": [
-              "emerito"
+              "emerito",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Camilo Villarino",
-            "contenido": "Jefe de la Casa desde 2023 (releva a Jaime Alfonsín).",
+            "contenido": "**Jefe de la Casa desde 2023 (releva a Jaime Alfonsín)**",
             "tags": [
-              "villarino"
+              "villarino",
+              "sin-valorar"
             ]
           }
         ]
@@ -822,33 +865,40 @@
           {
             "tipo": "contacto",
             "titulo": "Pedro Sánchez",
-            "contenido": "Secretario general y presidente del Gobierno.",
+            "contenido": "**Secretario general y presidente del Gobierno** (nota +8/10)",
             "tags": [
-              "sanchez"
+              "sanchez",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "PSC",
-            "contenido": "Federación catalana hermana.",
+            "contenido": "**Federación catalana hermana** (nota +5/10)",
             "tags": [
-              "psc"
+              "psc",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cuadros en consejos IBEX",
-            "contenido": "Beatriz Corredor (Redeia), Maurici Lucena (Aena, PSC), Marc Murtra (Telefónica, próximo a PSC).",
+            "contenido": "**Beatriz Corredor (Redeia), Maurici Lucena (Aena, PSC), Marc Murtra (Telefónica, próximo a PSC)**",
             "tags": [
-              "puertas-giratorias"
+              "puertas-giratorias",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia PSOE socios",
-            "contenido": "Sumar, ERC, EH Bildu, PNV, BNG, Junts.",
+            "contenido": "**Sumar, ERC, EH Bildu, PNV, BNG, Junts** (nota +5/10)",
             "tags": [
-              "socios"
+              "socios",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -912,25 +962,29 @@
           {
             "tipo": "contacto",
             "titulo": "Cuadros en IBEX",
-            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena).",
+            "contenido": "**Marc Murtra (Telefónica), Maurici Lucena (Aena)**",
             "tags": [
-              "ibex35"
+              "ibex35",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cuadros en empresas",
-            "contenido": "Marc Murtra (Telefónica), Maurici Lucena (Aena), José Montilla (consejos varios).",
+            "contenido": "**Marc Murtra (Telefónica), Maurici Lucena (Aena), José Montilla (consejos varios)**",
             "tags": [
-              "ibex35"
+              "ibex35",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "PSOE federal",
-            "contenido": "Federación catalana hermana. Pacto de soberanía dual.",
+            "contenido": "**Federación catalana hermana** (nota +5/10) — Pacto de soberanía dual.",
             "tags": [
-              "psoe"
+              "psoe",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -1014,25 +1068,29 @@
           {
             "tipo": "contacto",
             "titulo": "Núñez Feijóo",
-            "contenido": "Presidente desde abril 2022.",
+            "contenido": "**Presidente desde abril 2022** (nota +8/10)",
             "tags": [
-              "feijoo"
+              "feijoo",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cuadros pasados en empresa",
-            "contenido": "Manuel Pizarro (Santander), Rodrigo Rato (ex Bankia/FMI).",
+            "contenido": "**Manuel Pizarro (Santander), Rodrigo Rato (ex Bankia/FMI)**",
             "tags": [
-              "puertas-giratorias"
+              "puertas-giratorias",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Comunidad Madrid - Ayuso",
-            "contenido": "Bastión del PP. Diálogo con establishment empresarial (Florentino, Del Pino, Botín).",
+            "contenido": "**Bastión del PP** — Diálogo con establishment empresarial (Florentino, Del Pino, Botín).",
             "tags": [
-              "ayuso"
+              "ayuso",
+              "sin-valorar"
             ]
           }
         ]
@@ -1100,41 +1158,49 @@
           {
             "tipo": "contacto",
             "titulo": "Imanol Pradales",
-            "contenido": "Lehendakari desde junio 2024.",
+            "contenido": "**Lehendakari desde junio 2024**",
             "tags": [
-              "pradales"
+              "pradales",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Andoni Ortuzar",
-            "contenido": "Presidente del EBB del PNV.",
+            "contenido": "**Presidente del EBB del PNV** (nota +8/10)",
             "tags": [
-              "ortuzar"
+              "ortuzar",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Josu Jon Imaz",
-            "contenido": "Ex presidente del EBB (2004-2007), hoy CEO de Repsol.",
+            "contenido": "**Ex presidente del EBB (2004-2007), hoy CEO de Repsol** (nota +8/10)",
             "tags": [
-              "imaz"
+              "imaz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Aitor Esteban",
-            "contenido": "Portavoz histórico en el Congreso, clave en pactos con Sánchez.",
+            "contenido": "**Portavoz histórico en el Congreso, clave en pactos con Sánchez** (nota +4/10)",
             "tags": [
-              "congreso"
+              "congreso",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Empresariado vasco",
-            "contenido": "Vínculos con Confebask, BBK, Kutxabank, Iberdrola (Sánchez Galán).",
+            "contenido": "**Vínculos con Confebask, BBK, Kutxabank, Iberdrola (Sánchez Galán)**",
             "tags": [
-              "empresariado"
+              "empresariado",
+              "sin-valorar"
             ]
           }
         ]
@@ -1240,26 +1306,31 @@
           {
             "tipo": "contacto",
             "titulo": "Pedro Sánchez",
-            "contenido": "Una de las ministras de mayor confianza del presidente.",
+            "contenido": "**Una de las ministras de mayor confianza del presidente** (nota +8/10)",
             "tags": [
-              "sanchez"
+              "sanchez",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Tensión con eléctricas",
-            "contenido": "Pulso público con Iberdrola (Sánchez Galán) y Repsol (Imaz) por impuesto extraordinario y modelo de mercado.",
+            "contenido": "**Pulso público con Iberdrola (Sánchez Galán) y Repsol (Imaz) por impuesto extraordinario y modelo de mercado** (nota -7/10)",
             "tags": [
               "iberdrola",
-              "repsol"
+              "repsol",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sara Aagesen",
-            "contenido": "Su sucesora como ministra Transición Ecológica tras salto a UE.",
+            "contenido": "**Su sucesora como ministra Transición Ecológica tras salto a UE**",
             "tags": [
-              "sucesora"
+              "sucesora",
+              "sin-valorar"
             ]
           }
         ]
@@ -1348,18 +1419,22 @@
           {
             "tipo": "contacto",
             "titulo": "Florentino Pérez",
-            "contenido": "Aliado inesperado en la Superliga europea (2021-presente).",
+            "contenido": "**Aliado inesperado en la Superliga europea (2021-presente)** (nota +7/10)",
             "tags": [
               "superliga",
-              "florentino"
+              "florentino",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Independentismo",
-            "contenido": "Posición pro-independencia consistente. Cordialidad con ERC y JxCat.",
+            "contenido": "**Posición pro-independencia consistente** (nota +6/10) — Cordialidad con ERC y JxCat.",
             "tags": [
-              "independentismo"
+              "independentismo",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -1424,33 +1499,38 @@
           {
             "tipo": "contacto",
             "titulo": "Inditex",
-            "contenido": "~59% del capital. Mayor activo individual.",
+            "contenido": "**~59% del capital** — Mayor activo individual.",
             "tags": [
-              "inditex"
+              "inditex",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cartera inmobiliaria",
-            "contenido": "Torre Picasso (Madrid), Castellana 81, Hotel Marqués de Riscal, Edificio Cepsa, Trump Tower (Manhattan), edificios en Nueva York/Londres/París.",
+            "contenido": "**Torre Picasso (Madrid), Castellana 81, Hotel Marqués de Riscal, Edificio Cepsa, Trump Tower (Manhattan), edificios en Nueva York/Londres/París**",
             "tags": [
-              "inmobiliario"
+              "inmobiliario",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Inversiones recientes",
-            "contenido": "Diversificación reciente a energías renovables (Repsol JV, Acciona Energía indirectamente) e infraestructura.",
+            "contenido": "**Diversificación reciente a energías renovables (Repsol JV, Acciona Energía indirectamente) e infraestructura**",
             "tags": [
-              "energia"
+              "energia",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sandra Ortega",
-            "contenido": "Hermana de Amancio (heredera de Rosalía Mera) tiene su propio vehículo: Rosp Corunna. No es Pontegadea.",
+            "contenido": "**Hermana de Amancio (heredera de Rosalía Mera) tiene su propio vehículo: Rosp Corunna** (nota +5/10) — No es Pontegadea.",
             "tags": [
-              "familia"
+              "familia",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -1514,25 +1594,31 @@
           {
             "tipo": "contacto",
             "titulo": "Cartera",
-            "contenido": "CaixaBank ~32%, Naturgy ~26%, Telefónica ~2,7%, Cellnex ~5%, Saba (aparcamientos), inmobiliario y participaciones internacionales.",
+            "contenido": "**CaixaBank ~32%, Naturgy ~26%, Telefónica ~2,7%, Cellnex ~5%, Saba (aparcamientos), inmobiliario y participaciones internacionales** (nota +3/10)",
             "tags": [
-              "cartera"
+              "cartera",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Isidre Fainé",
-            "contenido": "Presidente. Toma de decisiones estratégicas.",
+            "contenido": "**Presidente** (nota +8/10) — Toma de decisiones estratégicas.",
             "tags": [
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ángel Simón",
-            "contenido": "CEO desde marzo 2024 (anteriormente CEO de Agbar).",
+            "contenido": "**CEO desde marzo 2024 (anteriormente CEO de Agbar)** (nota +6/10)",
             "tags": [
-              "simon"
+              "simon",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -1598,34 +1684,40 @@
           {
             "tipo": "contacto",
             "titulo": "Bankinter",
-            "contenido": "~22% del capital, accionista de referencia.",
+            "contenido": "**~22% del capital, accionista de referencia**",
             "tags": [
-              "bankinter"
+              "bankinter",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Jaime Botín",
-            "contenido": "Beneficiario último.",
+            "contenido": "**Beneficiario último**",
             "tags": [
-              "jaime-botin"
+              "jaime-botin",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Pedro Guerrero (presidente Bankinter)",
-            "contenido": "Interlocutor permanente como presidente del consejo de Bankinter.",
+            "contenido": "**Interlocutor permanente como presidente del consejo de Bankinter** (nota +8/10)",
             "tags": [
               "bankinter",
-              "guerrero"
+              "guerrero",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Botín-Rivero",
-            "contenido": "Beneficiarios últimos.",
+            "contenido": "**Beneficiarios últimos** (nota +5/10)",
             "tags": [
-              "botin-rivero"
+              "botin-rivero",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -1716,33 +1808,38 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Grifols",
-            "contenido": "Beneficiarios últimos: ramas de la familia con participación.",
+            "contenido": "**Beneficiarios últimos: ramas de la familia con participación** (nota +5/10)",
             "tags": [
-              "familia-grifols"
+              "familia-grifols",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Grifols S.A.",
-            "contenido": "Vínculo operativo permanente: compró activos a Grifols en 2018 (Biotest US, Haema).",
+            "contenido": "**Vínculo operativo permanente: compró activos a Grifols en 2018 (Biotest US, Haema)**",
             "tags": [
-              "grifols"
+              "grifols",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gotham City Research",
-            "contenido": "Identificó la relación en informe enero 2024 como problema contable.",
+            "contenido": "**Identificó la relación en informe enero 2024 como problema contable**",
             "tags": [
-              "gotham"
+              "gotham",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "CNMV",
-            "contenido": "Expediente abierto desde 2024.",
+            "contenido": "**Expediente abierto desde 2024**",
             "tags": [
-              "cnmv"
+              "cnmv",
+              "sin-valorar"
             ]
           }
         ]
@@ -1808,17 +1905,20 @@
           {
             "tipo": "contacto",
             "titulo": "Cartera",
-            "contenido": "Acerinox ~19%, ACS ~13%, Naturgy ~5%, Ebro Foods ~14%, CIE Automotive ~11%, Indra ~6%.",
+            "contenido": "**Acerinox ~19%, ACS ~13%, Naturgy ~5%, Ebro Foods ~14%, CIE Automotive ~11%, Indra ~6%**",
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia March",
-            "contenido": "Carlos y Juan March controlan. Asset manager histórico (Banca March).",
+            "contenido": "**Carlos y Juan March controlan** (nota +8/10) — Asset manager histórico (Banca March).",
             "tags": [
-              "march"
+              "march",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -1870,25 +1970,30 @@
           {
             "tipo": "contacto",
             "titulo": "CriteriaCaixa",
-            "contenido": "Controla 100% de Criteria (que tiene la cartera industrial).",
+            "contenido": "**Controla 100% de Criteria (que tiene la cartera industrial)** (nota +8/10)",
             "tags": [
-              "criteria"
+              "criteria",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "CaixaBank",
-            "contenido": "Vía Criteria, ~32% de CaixaBank.",
+            "contenido": "**Vía Criteria, ~32% de CaixaBank**",
             "tags": [
-              "caixabank"
+              "caixabank",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Isidre Fainé",
-            "contenido": "Presidente del patronato.",
+            "contenido": "**Presidente del patronato** (nota +8/10)",
             "tags": [
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -1951,41 +2056,48 @@
           {
             "tipo": "contacto",
             "titulo": "Mapfre S.A.",
-            "contenido": "~70% del capital.",
+            "contenido": "**~70% del capital**",
             "tags": [
-              "mapfre"
+              "mapfre",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Antonio Huertas",
-            "contenido": "Presidente de Mapfre.",
+            "contenido": "**Presidente de Mapfre** (nota +8/10)",
             "tags": [
-              "huertas"
+              "huertas",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Patronato",
-            "contenido": "Patronato presidido por Antonio Huertas, presidente de Mapfre.",
+            "contenido": "**Patronato presidido por Antonio Huertas, presidente de Mapfre** (nota +8/10)",
             "tags": [
-              "huertas"
+              "huertas",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Programas culturales",
-            "contenido": "Sala Recoletos (Madrid), Casa Garriga Nogués (Barcelona). Exposiciones y premios.",
+            "contenido": "**Sala Recoletos (Madrid), Casa Garriga Nogués (Barcelona)** — Exposiciones y premios.",
             "tags": [
-              "cultura"
+              "cultura",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Programas sociales LatAm",
-            "contenido": "Programas en países Mapfre (Brasil, México, Perú, Colombia).",
+            "contenido": "**Programas en países Mapfre (Brasil, México, Perú, Colombia)**",
             "tags": [
-              "latam"
+              "latam",
+              "sin-valorar"
             ]
           }
         ]
@@ -2053,25 +2165,29 @@
           {
             "tipo": "contacto",
             "titulo": "Unicaja Banco",
-            "contenido": "~30%.",
+            "contenido": "**~30%**",
             "tags": [
-              "unicaja"
+              "unicaja",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Patronato post-Medel",
-            "contenido": "Tras la crisis 2023-2024, renovación del patronato con perfiles independientes.",
+            "contenido": "**Tras la crisis 2023-2024, renovación del patronato con perfiles independientes** (nota +8/10)",
             "tags": [
-              "medel"
+              "medel",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Bipartidismo andaluz",
-            "contenido": "Histórica relación con PSOE-A y PP-A. Caja con perfil político.",
+            "contenido": "**Histórica relación con PSOE-A y PP-A** — Caja con perfil político.",
             "tags": [
-              "andalucia"
+              "andalucia",
+              "sin-valorar"
             ]
           }
         ]
@@ -2124,34 +2240,40 @@
           {
             "tipo": "contacto",
             "titulo": "Rafael del Pino",
-            "contenido": "Presidente.",
+            "contenido": "**Presidente** (nota +8/10)",
             "tags": [
-              "del-pino"
+              "del-pino",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ideología",
-            "contenido": "Plataforma de promoción del pensamiento liberal en España. Vínculos con Mont Pelerin Society y FAES.",
+            "contenido": "**Plataforma de promoción del pensamiento liberal en España** — Vínculos con Mont Pelerin Society y FAES.",
             "tags": [
-              "liberalismo"
+              "liberalismo",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Madrid Forum",
-            "contenido": "Foro anual con economistas y políticos liberales (LLM, exministros, académicos).",
+            "contenido": "**Foro anual con economistas y políticos liberales (LLM, exministros, académicos)** (nota -5/10)",
             "tags": [
-              "madrid-forum"
+              "madrid-forum",
+              "nota--5",
+              "tension"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FAES / Mont Pelerin Society",
-            "contenido": "Vínculos con think tanks liberales nacionales e internacionales.",
+            "contenido": "**Vínculos con think tanks liberales nacionales e internacionales**",
             "tags": [
               "faes",
-              "mps"
+              "mps",
+              "sin-valorar"
             ]
           }
         ]
@@ -2203,33 +2325,39 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Botín",
-            "contenido": "Patronazgo familiar. Ana Botín presidenta.",
+            "contenido": "**Patronazgo familiar** (nota +8/10) — Ana Botín presidenta.",
             "tags": [
-              "botin"
+              "botin",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ana Botín",
-            "contenido": "Presidenta del patronato. Continuidad familiar.",
+            "contenido": "**Presidenta del patronato** (nota +8/10) — Continuidad familiar.",
             "tags": [
-              "botin"
+              "botin",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Programa Talento Solidario y Ciencia",
-            "contenido": "Becas en programas científicos (CSIC), arte y emprendimiento social.",
+            "contenido": "**Becas en programas científicos (CSIC), arte y emprendimiento social**",
             "tags": [
-              "programas"
+              "programas",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Renzo Piano - Centro Botín",
-            "contenido": "Centro Botín en Santander (2017) diseñado por Renzo Piano.",
+            "contenido": "**Centro Botín en Santander (2017) diseñado por Renzo Piano**",
             "tags": [
-              "centro-botin"
+              "centro-botin",
+              "sin-valorar"
             ]
           }
         ]
@@ -2296,34 +2424,41 @@
           {
             "tipo": "contacto",
             "titulo": "Florentino Pérez",
-            "contenido": "Presidente desde 2009 (segunda etapa).",
+            "contenido": "**Presidente desde 2009 (segunda etapa)** (nota +8/10)",
             "tags": [
-              "florentino"
+              "florentino",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Superliga",
-            "contenido": "Impulsor con FC Barcelona del proyecto Superliga europea desde 2021.",
+            "contenido": "**Impulsor con FC Barcelona del proyecto Superliga europea desde 2021**",
             "tags": [
-              "superliga"
+              "superliga",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Joan Laporta / FC Barcelona",
-            "contenido": "Aliado en la Superliga. Eje Madrid-Barcelona inusual.",
+            "contenido": "**Aliado en la Superliga** (nota +7/10) — Eje Madrid-Barcelona inusual.",
             "tags": [
               "laporta",
-              "fcbarcelona"
+              "fcbarcelona",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "UEFA - conflicto",
-            "contenido": "Pulso público con la UEFA (Aleksander Čeferin) por la Superliga.",
+            "contenido": "**Pulso público con la UEFA (Aleksander Čeferin) por la Superliga** (nota -8/10)",
             "tags": [
-              "uefa"
+              "uefa",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -2375,18 +2510,21 @@
           {
             "tipo": "contacto",
             "titulo": "Cartival / Bankinter",
-            "contenido": "Beneficiario último de Cartival, ~22% Bankinter.",
+            "contenido": "**Beneficiario último de Cartival, ~22% Bankinter**",
             "tags": [
               "bankinter",
-              "cartival"
+              "cartival",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Botín",
-            "contenido": "Rama Botín-Rivero, separada institucionalmente de la rama Botín-O'Shea (Ana Botín).",
+            "contenido": "**Rama Botín-Rivero, separada institucionalmente de la rama Botín-O'Shea (Ana Botín)** (nota +5/10)",
             "tags": [
-              "familia-botin"
+              "familia-botin",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -2491,28 +2629,34 @@
           {
             "tipo": "contacto",
             "titulo": "Procesados (jurídicos)",
-            "contenido": "BBVA, Iberdrola (personas jurídicas). Repsol investigada.",
+            "contenido": "**BBVA, Iberdrola (personas jurídicas)** (nota -8/10) — Repsol investigada.",
             "tags": [
               "bbva",
               "iberdrola",
-              "repsol"
+              "repsol",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Imputados destacados",
-            "contenido": "Francisco González (ex pte BBVA), Ignacio Sánchez Galán (Iberdrola), ex directivos varios.",
+            "contenido": "**Francisco González (ex pte BBVA), Ignacio Sánchez Galán (Iberdrola), ex directivos varios** (nota -8/10)",
             "tags": [
               "fg",
-              "galan"
+              "galan",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Víctimas de espionaje",
-            "contenido": "Sacyr/Luis del Rivero, Florentino Pérez/ACS, exministros, juezas/jueces, periodistas.",
+            "contenido": "**Sacyr/Luis del Rivero, Florentino Pérez/ACS, exministros, juezas/jueces, periodistas** (nota -8/10)",
             "tags": [
-              "victimas"
+              "victimas",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -2582,43 +2726,49 @@
           {
             "tipo": "contacto",
             "titulo": "Condenados destacados",
-            "contenido": "Rodrigo Rato (4,5 años), Miguel Blesa (6 años), Ildefonso Sánchez Barcoj, etc.",
+            "contenido": "**Rodrigo Rato (4,5 años), Miguel Blesa (6 años), Ildefonso Sánchez Barcoj, etc**",
             "tags": [
               "rato",
-              "blesa"
+              "blesa",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rodrigo Rato",
-            "contenido": "Condenado a 4,5 años (TS 2018).",
+            "contenido": "**Condenado a 4,5 años (TS 2018)**",
             "tags": [
-              "rato"
+              "rato",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Miguel Blesa",
-            "contenido": "Condenado a 6 años. Suicidio en 2017 antes de ingreso en prisión.",
+            "contenido": "**Condenado a 6 años** — Suicidio en 2017 antes de ingreso en prisión.",
             "tags": [
-              "blesa"
+              "blesa",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "65 condenados",
-            "contenido": "Ex consejeros y directivos de Caja Madrid y Bankia (sindicatos, PSOE, PP, IU).",
+            "contenido": "**Ex consejeros y directivos de Caja Madrid y Bankia (sindicatos, PSOE, PP, IU)** (nota +7/10)",
             "tags": [
-              "condenados"
+              "condenados",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Bankia/CaixaBank",
-            "contenido": "Heredero institucional. Bankia indemnizada por sus responsables.",
+            "contenido": "**Heredero institucional** — Bankia indemnizada por sus responsables.",
             "tags": [
               "bankia",
-              "caixabank"
+              "caixabank",
+              "sin-valorar"
             ]
           }
         ]
@@ -2679,26 +2829,29 @@
           {
             "tipo": "contacto",
             "titulo": "Jaime Botín",
-            "contenido": "Condenado AN 2020 (18 meses + 91 M€ multa + comiso cuadro).",
+            "contenido": "**Condenado AN 2020 (18 meses + 91 M€ multa + comiso cuadro)**",
             "tags": [
-              "jaime-botin"
+              "jaime-botin",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cabeza de mujer joven (Picasso)",
-            "contenido": "Cuadro decomisado por el Estado español tasado en 25 M€.",
+            "contenido": "**Cuadro decomisado por el Estado español tasado en 25 M€**",
             "tags": [
-              "picasso"
+              "picasso",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Aduanas francesas",
-            "contenido": "Interceptaron el yate en Córcega (julio 2015) detectando el cuadro.",
+            "contenido": "**Interceptaron el yate en Córcega (julio 2015) detectando el cuadro**",
             "tags": [
               "aduanas",
-              "francia"
+              "francia",
+              "sin-valorar"
             ]
           }
         ]
@@ -2750,31 +2903,38 @@
           {
             "tipo": "contacto",
             "titulo": "Ramas",
-            "contenido": "Rama Botín-O'Shea (Santander, Ana Botín). Rama Botín-Rivero (Bankinter, Jaime Botín)."
+            "contenido": "**Rama Botín-O'Shea (Santander, Ana Botín)** — Rama Botín-Rivero (Bankinter, Jaime Botín).",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rama Botín-O'Shea (Santander)",
-            "contenido": "Ana Patricia (presidenta Santander), Javier (consejero familiar), Carmen, Paloma. Madre Carmen O'Shea Soriano.",
+            "contenido": "**Ana Patricia (presidenta Santander), Javier (consejero familiar), Carmen, Paloma** (nota +8/10) — Madre Carmen O'Shea Soriano.",
             "tags": [
-              "santander"
+              "santander",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rama Botín-Rivero (Bankinter)",
-            "contenido": "Jaime Botín (Bankinter vía Cartival, condenado Picasso). Sobrinos vinculados a Bankinter.",
+            "contenido": "**Jaime Botín (Bankinter vía Cartival, condenado Picasso)** — Sobrinos vinculados a Bankinter.",
             "tags": [
               "bankinter",
-              "cartival"
+              "cartival",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Botín / Centro Botín",
-            "contenido": "Plataforma filantrópica y cultural.",
+            "contenido": "**Plataforma filantrópica y cultural**",
             "tags": [
-              "fundacion-botin"
+              "fundacion-botin",
+              "sin-valorar"
             ]
           }
         ]
@@ -2815,30 +2975,39 @@
           {
             "tipo": "contacto",
             "titulo": "Hijos",
-            "contenido": "Rafael (presidente Ferrovial), María, Joaquín, Leopoldo, Fernando. Todos accionistas."
+            "contenido": "**Rafael (presidente Ferrovial), María, Joaquín, Leopoldo, Fernando** (nota +8/10) — Todos accionistas.",
+            "tags": [
+              "nota-+8",
+              "alianza-fuerte"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ferrovial (~33%)",
-            "contenido": "Accionista de control vía sociedades patrimoniales.",
+            "contenido": "**Accionista de control vía sociedades patrimoniales** (nota +8/10)",
             "tags": [
-              "ferrovial"
+              "ferrovial",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rafael, María, Joaquín, Leopoldo, Fernando",
-            "contenido": "Hermanos accionistas. Rafael presidente, María consejera, otros con vehículos propios.",
+            "contenido": "**Hermanos accionistas** (nota +8/10) — Rafael presidente, María consejera, otros con vehículos propios.",
             "tags": [
-              "hermanos"
+              "hermanos",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Rafael del Pino",
-            "contenido": "Plataforma liberal en España.",
+            "contenido": "**Plataforma liberal en España**",
             "tags": [
-              "fundacion"
+              "fundacion",
+              "sin-valorar"
             ]
           }
         ]
@@ -2879,22 +3048,29 @@
           {
             "tipo": "contacto",
             "titulo": "Cabeza visible",
-            "contenido": "José Manuel Entrecanales Domecq, presidente de Acciona."
+            "contenido": "**José Manuel Entrecanales Domecq, presidente de Acciona** (nota +8/10)",
+            "tags": [
+              "nota-+8",
+              "alianza-fuerte"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Acciona (~55%)",
-            "contenido": "Control vía vehículos Tussen de Grachten, Wit Europese, otros.",
+            "contenido": "**Control vía vehículos Tussen de Grachten, Wit Europese, otros**",
             "tags": [
-              "acciona"
+              "acciona",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "José Manuel y Juan Ignacio Entrecanales Domecq",
-            "contenido": "Hermanos cabeza visible.",
+            "contenido": "**Hermanos cabeza visible** (nota +5/10)",
             "tags": [
-              "hermanos"
+              "hermanos",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -2934,30 +3110,37 @@
           {
             "tipo": "contacto",
             "titulo": "Vehículos",
-            "contenido": "Scranton Enterprises (B.V.), Deria, Ralledor."
+            "contenido": "**Scranton Enterprises (B** — V.), Deria, Ralledor.",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Generación actual",
-            "contenido": "Víctor Grifols Roura (ex CEO), Raimon Grifols Roura (vicepresidente). Hijos: Víctor Jr, Raimon Jr, etc. en consejos.",
+            "contenido": "**Víctor Grifols Roura (ex CEO), Raimon Grifols Roura (vicepresidente)** (nota +8/10) — Hijos: Víctor Jr, Raimon Jr, etc. en consejos.",
             "tags": [
-              "familia"
+              "familia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Vehículos B.V.",
-            "contenido": "Scranton Enterprises B.V., Deria S.A., Ralledor Holding.",
+            "contenido": "**Scranton Enterprises B** — V., Deria S.A., Ralledor Holding.",
             "tags": [
-              "vehiculos"
+              "vehiculos",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Brookfield (relación)",
-            "contenido": "Negoció OPA conjunta 2024 (fallida noviembre).",
+            "contenido": "**Negoció OPA conjunta 2024 (fallida noviembre)**",
             "tags": [
-              "brookfield"
+              "brookfield",
+              "sin-valorar"
             ]
           }
         ]
@@ -2998,22 +3181,29 @@
           {
             "tipo": "contacto",
             "titulo": "Vehículo",
-            "contenido": "Norbel Inversiones S.L."
+            "contenido": "**Norbel Inversiones S** — L.",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Norbel Inversiones",
-            "contenido": "Vehículo familiar, ~64% Rovi.",
+            "contenido": "**Vehículo familiar, ~64% Rovi** (nota +5/10)",
             "tags": [
-              "norbel"
+              "norbel",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Tres generaciones",
-            "contenido": "Juan López-Belmonte Encina (fundador 1946), Juan López-Belmonte López (presidente), Juan López-Belmonte White (CEO).",
+            "contenido": "**Juan López-Belmonte Encina (fundador 1946), Juan López-Belmonte López (presidente), Juan López-Belmonte White (CEO)** (nota +8/10)",
             "tags": [
-              "generaciones"
+              "generaciones",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3053,14 +3243,20 @@
           {
             "tipo": "contacto",
             "titulo": "Núcleo",
-            "contenido": "Lakshmi (P), Aditya (CEO), Vanisha (consejera)."
+            "contenido": "**Lakshmi (P), Aditya (CEO), Vanisha (consejera)** (nota +6/10)",
+            "tags": [
+              "nota-+6",
+              "alianza-debil"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Aperam / Mittal Steel legacy",
-            "contenido": "Familia controladora indirecta de Aperam (spin-off inox).",
+            "contenido": "**Familia controladora indirecta de Aperam (spin-off inox)** (nota +8/10)",
             "tags": [
-              "aperam"
+              "aperam",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3100,14 +3296,18 @@
           {
             "tipo": "contacto",
             "titulo": "Cúpula",
-            "contenido": "Marc Puig (P), Manuel Puig (VP)."
+            "contenido": "**Marc Puig (P), Manuel Puig (VP)**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Acciones tipo A doble voto",
-            "contenido": "Mantienen control post-OPV vía estructura accionarial dual.",
+            "contenido": "**Mantienen control post-OPV vía estructura accionarial dual**",
             "tags": [
-              "dual"
+              "dual",
+              "sin-valorar"
             ]
           }
         ]
@@ -3184,36 +3384,46 @@
           {
             "tipo": "contacto",
             "titulo": "Endesa",
-            "contenido": "70,1% del capital, decisiones estratégicas integradas."
+            "contenido": "**70,1% del capital, decisiones estratégicas integradas**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Tesoro italiano",
-            "contenido": "~24%, accionista de referencia."
+            "contenido": "**~24%, accionista de referencia**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Endesa (70,1%)",
-            "contenido": "Filial española cotizada.",
+            "contenido": "**Filial española cotizada**",
             "tags": [
-              "endesa"
+              "endesa",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Enel Green Power",
-            "contenido": "Filial de renovables global.",
+            "contenido": "**Filial de renovables global**",
             "tags": [
-              "egp"
+              "egp",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Flavio Cattaneo (CEO)",
-            "contenido": "CEO con perfil más cercano al Gobierno Meloni.",
+            "contenido": "**CEO con perfil más cercano al Gobierno Meloni** (nota +6/10)",
             "tags": [
               "cattaneo",
-              "meloni"
+              "meloni",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -3255,22 +3465,29 @@
           {
             "tipo": "contacto",
             "titulo": "Logista",
-            "contenido": "~50,01% del capital."
+            "contenido": "**~50,01% del capital**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Logista (50,01%)",
-            "contenido": "Accionista de control. Decisiones operativas Logista pasan por Bristol.",
+            "contenido": "**Accionista de control** (nota +8/10) — Decisiones operativas Logista pasan por Bristol.",
             "tags": [
-              "logista"
+              "logista",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Stéphan Vermut (CEO Imperial)",
-            "contenido": "CEO desde 2020.",
+            "contenido": "**CEO desde 2020** (nota +6/10)",
             "tags": [
-              "vermut"
+              "vermut",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -3311,14 +3528,19 @@
           {
             "tipo": "contacto",
             "titulo": "Cartera España",
-            "contenido": "Iberdrola, Colonial, El Corte Inglés (10%), Banco Santander Brasil."
+            "contenido": "**Iberdrola, Colonial, El Corte Inglés (10%), Banco Santander Brasil**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Al Thani",
-            "contenido": "Controlado por el Estado de Qatar (Tamim bin Hamad Al Thani).",
+            "contenido": "**Controlado por el Estado de Qatar (Tamim bin Hamad Al Thani)** (nota +8/10)",
             "tags": [
-              "al-thani"
+              "al-thani",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3360,30 +3582,38 @@
           {
             "tipo": "contacto",
             "titulo": "IAG",
-            "contenido": "~25% del capital."
+            "contenido": "**~25% del capital**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "IAG (~25%)",
-            "contenido": "Mayor accionista. Akbar Al Baker (ex CEO) y luego Badr Mohammed Al Meer (CEO).",
+            "contenido": "**Mayor accionista** (nota +6/10) — Akbar Al Baker (ex CEO) y luego Badr Mohammed Al Meer (CEO).",
             "tags": [
-              "iag"
+              "iag",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "oneworld",
-            "contenido": "Alianza estratégica con IAG en oneworld.",
+            "contenido": "**Alianza estratégica con IAG en oneworld** (nota +7/10)",
             "tags": [
-              "oneworld"
+              "oneworld",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Estado de Qatar",
-            "contenido": "Aerolínea estatal.",
+            "contenido": "**Aerolínea estatal**",
             "tags": [
-              "qatar"
+              "qatar",
+              "sin-valorar"
             ]
           }
         ]
@@ -3437,22 +3667,29 @@
           {
             "tipo": "contacto",
             "titulo": "PIF",
-            "contenido": "Controlada por Public Investment Fund."
+            "contenido": "**Controlada por Public Investment Fund** (nota +8/10)",
+            "tags": [
+              "nota-+8",
+              "alianza-fuerte"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Telefónica (~9,9%)",
-            "contenido": "Compra septiembre 2023. Operación que motivó respuesta SEPI.",
+            "contenido": "**Compra septiembre 2023** — Operación que motivó respuesta SEPI.",
             "tags": [
-              "telefonica"
+              "telefonica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "PIF (fondo soberano saudí)",
-            "contenido": "Controlado por el Public Investment Fund de Arabia Saudí.",
+            "contenido": "**Controlado por el Public Investment Fund de Arabia Saudí** (nota +8/10)",
             "tags": [
-              "pif"
+              "pif",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3513,25 +3750,29 @@
           {
             "tipo": "contacto",
             "titulo": "Daniel Yu (fundador)",
-            "contenido": "Analista bajista neoyorquino, fundador.",
+            "contenido": "**Analista bajista neoyorquino, fundador** (nota +8/10)",
             "tags": [
-              "yu"
+              "yu",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "General Industrial Partners (con quien co-publican)",
-            "contenido": "Co-publicó análisis Grifols con General Industrial Partners (UK).",
+            "contenido": "**Co-publicó análisis Grifols con General Industrial Partners (UK)**",
             "tags": [
-              "gip-uk"
+              "gip-uk",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Casos",
-            "contenido": "Gowex (2014, suicidio empresa), Quindell (2014), Aerojet, Grifols (2024).",
+            "contenido": "**Gowex (2014, suicidio empresa), Quindell (2014), Aerojet, Grifols (2024)**",
             "tags": [
-              "historial"
+              "historial",
+              "sin-valorar"
             ]
           }
         ]
@@ -3587,30 +3828,38 @@
           {
             "tipo": "contacto",
             "titulo": "Cellnex",
-            "contenido": "~7%."
+            "contenido": "**~7%**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cellnex (~7%)",
-            "contenido": "Accionista relevante. Apoyo al cambio de CEO 2023.",
+            "contenido": "**Accionista relevante** (nota +6/10) — Apoyo al cambio de CEO 2023.",
             "tags": [
-              "cellnex"
+              "cellnex",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Estado Singapur",
-            "contenido": "Fondo soberano del Estado de Singapur.",
+            "contenido": "**Fondo soberano del Estado de Singapur**",
             "tags": [
-              "singapur"
+              "singapur",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Lim Chow Kiat (CEO)",
-            "contenido": "CEO de GIC desde 2017.",
+            "contenido": "**CEO de GIC desde 2017** (nota +6/10)",
             "tags": [
-              "lim"
+              "lim",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -3651,38 +3900,47 @@
           {
             "tipo": "contacto",
             "titulo": "Cellnex",
-            "contenido": "~9% vía ConnecT."
+            "contenido": "**~9% vía ConnecT**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Benetton",
-            "contenido": "Cuatro hermanos fundadores (Luciano, Giuliana, Gilberto, Carlo) y herederos (Alessandro Benetton presidente).",
+            "contenido": "**Cuatro hermanos fundadores (Luciano, Giuliana, Gilberto, Carlo) y herederos (Alessandro Benetton presidente)** (nota +8/10)",
             "tags": [
-              "benetton"
+              "benetton",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cellnex (~9%)",
-            "contenido": "Via vehículo ConnecT.",
+            "contenido": "**Via vehículo ConnecT**",
             "tags": [
-              "cellnex"
+              "cellnex",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Atlantia legacy",
-            "contenido": "Antiguo accionista de Atlantia (Autostrade per l'Italia) - vendida en 2022 tras tragedia Genova.",
+            "contenido": "**Antiguo accionista de Atlantia (Autostrade per l'Italia) - vendida en 2022 tras tragedia Genova** (nota -5/10)",
             "tags": [
-              "atlantia"
+              "atlantia",
+              "nota--5",
+              "tension"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mundys (Aeroporti Roma, Telepass)",
-            "contenido": "Tras venta Atlantia, Edizione retiene parte vía Mundys.",
+            "contenido": "**Tras venta Atlantia, Edizione retiene parte vía Mundys**",
             "tags": [
-              "mundys"
+              "mundys",
+              "sin-valorar"
             ]
           }
         ]
@@ -3770,25 +4028,29 @@
           {
             "tipo": "contacto",
             "titulo": "Naturgy (~15%)",
-            "contenido": "Tras OPA parcial 2021, autorizada con condiciones por Gobierno español.",
+            "contenido": "**Tras OPA parcial 2021, autorizada con condiciones por Gobierno español**",
             "tags": [
-              "naturgy"
+              "naturgy",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fondos de pensiones australianos",
-            "contenido": "Propiedad de fondos de pensiones australianos (industria superannuation).",
+            "contenido": "**Propiedad de fondos de pensiones australianos (industria superannuation)**",
             "tags": [
-              "australia"
+              "australia",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "David Neal (CEO)",
-            "contenido": "CEO de IFM Investors desde 2019.",
+            "contenido": "**CEO de IFM Investors desde 2019** (nota +6/10)",
             "tags": [
-              "neal"
+              "neal",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -3829,46 +4091,54 @@
           {
             "tipo": "contacto",
             "titulo": "Naturgy",
-            "contenido": "~20%."
+            "contenido": "**~20%**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Naturgy (~20%)",
-            "contenido": "Desde 2018 vía Rioja Bidco.",
+            "contenido": "**Desde 2018 vía Rioja Bidco**",
             "tags": [
-              "naturgy"
+              "naturgy",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Universidad Pública",
-            "contenido": "Inversor en distintos sectores: fútbol (LaLiga - Operación Boost en 2021), Tendam, Vitalia, Naturgy.",
+            "contenido": "**Inversor en distintos sectores: fútbol (LaLiga - Operación Boost en 2021), Tendam, Vitalia, Naturgy**",
             "tags": [
-              "cartera-espana"
+              "cartera-espana",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "LaLiga - Operación Boost",
-            "contenido": "Inversor estratégico de LaLiga desde 2021 (operación rechazada inicialmente por Real Madrid y FC Barcelona).",
+            "contenido": "**Inversor estratégico de LaLiga desde 2021 (operación rechazada inicialmente por Real Madrid y FC Barcelona)**",
             "tags": [
-              "laliga"
+              "laliga",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Tendam, Vitalia, Universidad Europea",
-            "contenido": "Cartera España diversificada: retail, residencias mayores, educación.",
+            "contenido": "**Cartera España diversificada: retail, residencias mayores, educación**",
             "tags": [
-              "cartera-espana"
+              "cartera-espana",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Salida a bolsa 2024",
-            "contenido": "CVC se listó en Ámsterdam en abril 2024.",
+            "contenido": "**CVC se listó en Ámsterdam en abril 2024**",
             "tags": [
-              "opv"
+              "opv",
+              "sin-valorar"
             ]
           }
         ]
@@ -3909,33 +4179,38 @@
           {
             "tipo": "contacto",
             "titulo": "BlackRock",
-            "contenido": "Adquirido por BlackRock en 2024 por 12.500 M$.",
+            "contenido": "**Adquirido por BlackRock en 2024 por 12** — 500 M$.",
             "tags": [
-              "blackrock"
+              "blackrock",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Naturgy (~20%)",
-            "contenido": "Accionista desde 2018.",
+            "contenido": "**Accionista desde 2018**",
             "tags": [
-              "naturgy"
+              "naturgy",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Adebayo Ogunlesi (cofundador)",
-            "contenido": "Cofundador y CEO de GIP. Ahora vicepresidente BlackRock.",
+            "contenido": "**Cofundador y CEO de GIP** (nota +8/10) — Ahora vicepresidente BlackRock.",
             "tags": [
-              "ogunlesi"
+              "ogunlesi",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cartera global",
-            "contenido": "Gatwick (UK), Edinburgh Airport, Suez Water (Norteamérica), Italo (Italia).",
+            "contenido": "**Gatwick (UK), Edinburgh Airport, Suez Water (Norteamérica), Italo (Italia)**",
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ]
           }
         ]
@@ -3993,38 +4268,46 @@
           {
             "tipo": "contacto",
             "titulo": "Acerinox",
-            "contenido": "~19%."
+            "contenido": "**~19%**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Acerinox (~19%)",
-            "contenido": "Accionista histórico.",
+            "contenido": "**Accionista histórico**",
             "tags": [
-              "acerinox"
+              "acerinox",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "US Steel - OPA fallida",
-            "contenido": "OPA 14.900 M$ sobre US Steel bloqueada por Biden enero 2025, revisada bajo Trump.",
+            "contenido": "**OPA 14** — 900 M$ sobre US Steel bloqueada por Biden enero 2025, revisada bajo Trump.",
             "tags": [
-              "us-steel"
+              "us-steel",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Eiji Hashimoto (CEO)",
-            "contenido": "CEO de Nippon Steel desde 2024.",
+            "contenido": "**CEO de Nippon Steel desde 2024** (nota +6/10)",
             "tags": [
-              "hashimoto"
+              "hashimoto",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Tata Steel UK / Europa",
-            "contenido": "Joint venture Tata-Nippon en Países Bajos. Salida ordenada UK.",
+            "contenido": "**Joint venture Tata-Nippon en Países Bajos** — Salida ordenada UK.",
             "tags": [
-              "tata"
+              "tata",
+              "sin-valorar"
             ]
           }
         ]
@@ -4066,35 +4349,46 @@
           {
             "tipo": "contacto",
             "titulo": "Naturgy / Medgaz",
-            "contenido": "Socio en Medgaz (gasoducto)."
+            "contenido": "**Socio en Medgaz (gasoducto)** (nota +5/10)",
+            "tags": [
+              "nota-+5",
+              "alianza-debil"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Crisis Sáhara 2022",
-            "contenido": "Suspensión parcial de contratos tras viraje español sobre el Sáhara Occidental."
+            "contenido": "**Suspensión parcial de contratos tras viraje español sobre el Sáhara Occidental**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Naturgy",
-            "contenido": "Socio en Medgaz (gasoducto Argelia-Almería).",
+            "contenido": "**Socio en Medgaz (gasoducto Argelia-Almería)** (nota +5/10)",
             "tags": [
-              "naturgy"
+              "naturgy",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cepsa",
-            "contenido": "Cepsa históricamente vinculada (Sonatrach fue accionista).",
+            "contenido": "**Cepsa históricamente vinculada (Sonatrach fue accionista)**",
             "tags": [
-              "cepsa"
+              "cepsa",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno argelino",
-            "contenido": "Empresa estatal. Relación geopolítica directa con Madrid.",
+            "contenido": "**Empresa estatal** — Relación geopolítica directa con Madrid.",
             "tags": [
-              "argelia"
+              "argelia",
+              "sin-valorar"
             ]
           }
         ]
@@ -4136,22 +4430,28 @@
           {
             "tipo": "contacto",
             "titulo": "Rovi",
-            "contenido": "Fabricación europea de mRNA-1273."
+            "contenido": "**Fabricación europea de mRNA-1273**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rovi (España)",
-            "contenido": "Partner industrial para fill-and-finish europeo de mRNA-1273.",
+            "contenido": "**Partner industrial para fill-and-finish europeo de mRNA-1273**",
             "tags": [
-              "rovi"
+              "rovi",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Stéphane Bancel (CEO)",
-            "contenido": "CEO francés desde 2011.",
+            "contenido": "**CEO francés desde 2011** (nota +6/10)",
             "tags": [
-              "bancel"
+              "bancel",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -4193,39 +4493,47 @@
           {
             "tipo": "contacto",
             "titulo": "VMO2",
-            "contenido": "50% de Virgin Media O2."
+            "contenido": "**50% de Virgin Media O2**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Telefónica - VMO2",
-            "contenido": "Joint venture 50/50 desde junio 2021.",
+            "contenido": "**Joint venture 50/50 desde junio 2021**",
             "tags": [
               "telefonica",
-              "vmo2"
+              "vmo2",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "John Malone",
-            "contenido": "Magnate del cable y telecos. Mayor accionista.",
+            "contenido": "**Magnate del cable y telecos** — Mayor accionista.",
             "tags": [
-              "malone"
+              "malone",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mike Fries (CEO)",
-            "contenido": "CEO de Liberty Global desde 2005.",
+            "contenido": "**CEO de Liberty Global desde 2005** (nota +6/10)",
             "tags": [
-              "fries"
+              "fries",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cartera europea",
-            "contenido": "VMO2 (UK), Sunrise (Suiza, escindida 2024), Telenet (Bélgica), UPC (Polonia, Eslovaquia).",
+            "contenido": "**VMO2 (UK), Sunrise (Suiza, escindida 2024), Telenet (Bélgica), UPC (Polonia, Eslovaquia)**",
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ]
           }
         ]
@@ -4279,25 +4587,30 @@
           {
             "tipo": "contacto",
             "titulo": "Grifols (OPA fallida)",
-            "contenido": "Negoció con familia OPA de exclusión 2024, retirada noviembre 2024.",
+            "contenido": "**Negoció con familia OPA de exclusión 2024, retirada noviembre 2024** (nota +5/10)",
             "tags": [
-              "grifols"
+              "grifols",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Bruce Flatt (CEO)",
-            "contenido": "CEO de Brookfield desde 2002.",
+            "contenido": "**CEO de Brookfield desde 2002** (nota +6/10)",
             "tags": [
-              "flatt"
+              "flatt",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cartera infraestructura España",
-            "contenido": "Saeta Yield (eolica, vendida), X-Elio, Cupa Pizarras.",
+            "contenido": "**Saeta Yield (eolica, vendida), X-Elio, Cupa Pizarras**",
             "tags": [
-              "cartera"
+              "cartera",
+              "sin-valorar"
             ]
           }
         ]
@@ -4350,30 +4663,38 @@
           {
             "tipo": "contacto",
             "titulo": "Santander",
-            "contenido": "Lo absorbió tras resolución."
+            "contenido": "**Lo absorbió tras resolución**",
+            "tags": [
+              "sin-valorar"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "Santander (absorbente)",
-            "contenido": "Adquirió por 1€ tras resolución JUR junio 2017.",
+            "contenido": "**Adquirió por 1€ tras resolución JUR junio 2017**",
             "tags": [
-              "santander"
+              "santander",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ángel Ron",
-            "contenido": "Presidente saliente al inicio de la crisis (sucesivo de Emilio Saracho).",
+            "contenido": "**Presidente saliente al inicio de la crisis (sucesivo de Emilio Saracho)** (nota -6/10)",
             "tags": [
-              "ron"
+              "ron",
+              "nota--6",
+              "tension"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Demandas accionistas",
-            "contenido": "Cientos de demandas pendientes resueltas a favor de la legalidad de la resolución (TG UE 2022).",
+            "contenido": "**Cientos de demandas pendientes resueltas a favor de la legalidad de la resolución (TG UE 2022)** (nota -7/10)",
             "tags": [
-              "judicial"
+              "judicial",
+              "nota--7",
+              "conflicto"
             ]
           }
         ]
@@ -4434,34 +4755,38 @@
           {
             "tipo": "contacto",
             "titulo": "CaixaBank (absorbente)",
-            "contenido": "Fusión por absorción marzo 2021.",
+            "contenido": "**Fusión por absorción marzo 2021**",
             "tags": [
-              "caixabank"
+              "caixabank",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FROB - rescate",
-            "contenido": "Rescate ~22.000 M€ mayo 2012.",
+            "contenido": "**Rescate ~22** — 000 M€ mayo 2012.",
             "tags": [
-              "frob"
+              "frob",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Rato → Goirigolzarri",
-            "contenido": "Rato dimite y es sustituido por Goirigolzarri.",
+            "contenido": "**Rato dimite y es sustituido por Goirigolzarri**",
             "tags": [
               "rato",
-              "goirigolzarri"
+              "goirigolzarri",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Tarjetas Black",
-            "contenido": "Caja Madrid/Bankia: causa por uso de tarjetas opacas. Sentencias 2017-2018.",
+            "contenido": "**Caja Madrid/Bankia: causa por uso de tarjetas opacas** — Sentencias 2017-2018.",
             "tags": [
-              "tarjetas-black"
+              "tarjetas-black",
+              "sin-valorar"
             ]
           }
         ]
@@ -4515,17 +4840,19 @@
           {
             "tipo": "contacto",
             "titulo": "Unicaja (absorbente)",
-            "contenido": "Fusión por absorción marzo 2021.",
+            "contenido": "**Fusión por absorción marzo 2021**",
             "tags": [
-              "unicaja"
+              "unicaja",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cajastur, Caja Cantabria, Caja Extremadura",
-            "contenido": "Tres cajas integradas en 2011 que formaron Liberbank.",
+            "contenido": "**Tres cajas integradas en 2011 que formaron Liberbank**",
             "tags": [
-              "cajas"
+              "cajas",
+              "sin-valorar"
             ]
           }
         ]
@@ -4568,25 +4895,29 @@
           {
             "tipo": "contacto",
             "titulo": "Banco Santander (matriz)",
-            "contenido": "100% Santander. Sede Londres.",
+            "contenido": "**100% Santander** (nota +8/10) — Sede Londres.",
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Abbey, A&L, B&B legacy",
-            "contenido": "Heredera de Abbey National (2004), Alliance & Leicester (2008), Bradford & Bingley (2008).",
+            "contenido": "**Heredera de Abbey National (2004), Alliance & Leicester (2008), Bradford & Bingley (2008)**",
             "tags": [
-              "historia"
+              "historia",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mercado UK",
-            "contenido": "Compite con HSBC UK, Barclays, Lloyds, NatWest.",
+            "contenido": "**Compite con HSBC UK, Barclays, Lloyds, NatWest**",
             "tags": [
-              "competencia"
+              "competencia",
+              "sin-valorar"
             ]
           }
         ]
@@ -4627,30 +4958,39 @@
           {
             "tipo": "contacto",
             "titulo": "Doğuş",
-            "contenido": "Familia Şahenk, accionista histórico."
+            "contenido": "**Familia Şahenk, accionista histórico** (nota +5/10)",
+            "tags": [
+              "nota-+5",
+              "alianza-debil"
+            ]
           },
           {
             "tipo": "contacto",
             "titulo": "BBVA (matriz)",
-            "contenido": "~86% BBVA. Sede Estambul.",
+            "contenido": "**~86% BBVA** (nota +8/10) — Sede Estambul.",
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Sahenk (Doğuş)",
-            "contenido": "Accionista histórico minoritario.",
+            "contenido": "**Accionista histórico minoritario** (nota +5/10)",
             "tags": [
-              "dogus"
+              "dogus",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hiperinflación Turquía",
-            "contenido": "Aplicación NIIF 29 afecta la consolidación contable desde 2022.",
+            "contenido": "**Aplicación NIIF 29 afecta la consolidación contable desde 2022**",
             "tags": [
-              "niif-29"
+              "niif-29",
+              "sin-valorar"
             ]
           }
         ]
@@ -4705,25 +5045,30 @@
           {
             "tipo": "contacto",
             "titulo": "Banco Sabadell (matriz)",
-            "contenido": "100% Sabadell desde 2015. Sede Edimburgo.",
+            "contenido": "**100% Sabadell desde 2015** (nota +8/10) — Sede Edimburgo.",
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "OPA BBVA - factor TSB",
-            "contenido": "TSB es elemento clave del debate sobre la OPA hostil de BBVA sobre Sabadell (riesgo de desinversión).",
+            "contenido": "**TSB es elemento clave del debate sobre la OPA hostil de BBVA sobre Sabadell (riesgo de desinversión)**",
             "tags": [
-              "opa-bbva"
+              "opa-bbva",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FCA (regulador UK)",
-            "contenido": "Tutela regulatoria.",
+            "contenido": "**Tutela regulatoria** (nota +0/10)",
             "tags": [
-              "fca"
+              "fca",
+              "nota-+0",
+              "neutral"
             ]
           }
         ]
@@ -4766,25 +5111,30 @@
           {
             "tipo": "contacto",
             "titulo": "Iberdrola (matriz)",
-            "contenido": "100% Iberdrola desde 2007. Sede Glasgow.",
+            "contenido": "**100% Iberdrola desde 2007** (nota +8/10) — Sede Glasgow.",
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ofgem (regulador UK)",
-            "contenido": "Tutela regulatoria.",
+            "contenido": "**Tutela regulatoria** (nota +0/10)",
             "tags": [
-              "ofgem"
+              "ofgem",
+              "nota-+0",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Big Six UK",
-            "contenido": "Una de las grandes seis utilities británicas (con Centrica, EDF, E.ON, OVO/SSE, Octopus).",
+            "contenido": "**Una de las grandes seis utilities británicas (con Centrica, EDF, E** — ON, OVO/SSE, Octopus).",
             "tags": [
-              "big-six"
+              "big-six",
+              "sin-valorar"
             ]
           }
         ]
@@ -4827,25 +5177,30 @@
           {
             "tipo": "contacto",
             "titulo": "Iberdrola (matriz)",
-            "contenido": "~82% Iberdrola. Cotiza NYSE.",
+            "contenido": "**~82% Iberdrola** (nota +8/10) — Cotiza NYSE.",
             "tags": [
-              "matriz"
+              "matriz",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mercado EE.UU.",
-            "contenido": "Operaciones en Nueva York, Maine, Connecticut, Massachusetts, etc.",
+            "contenido": "**Operaciones en Nueva York, Maine, Connecticut, Massachusetts, etc**",
             "tags": [
-              "ee-uu"
+              "ee-uu",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Conflicto PNM Resources",
-            "contenido": "OPA fallida sobre PNM Resources (Nuevo México) bloqueada por reguladores 2023.",
+            "contenido": "**OPA fallida sobre PNM Resources (Nuevo México) bloqueada por reguladores 2023** (nota -8/10)",
             "tags": [
-              "pnm"
+              "pnm",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -4888,33 +5243,39 @@
           {
             "tipo": "contacto",
             "titulo": "ACS (matriz)",
-            "contenido": "~80% ACS desde 2011.",
+            "contenido": "**~80% ACS desde 2011** (nota +8/10)",
             "tags": [
-              "acs"
+              "acs",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cimic (Australia)",
-            "contenido": "Filial australiana controlada por Hochtief.",
+            "contenido": "**Filial australiana controlada por Hochtief** (nota +8/10)",
             "tags": [
-              "cimic"
+              "cimic",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Turner (USA)",
-            "contenido": "Filial estadounidense.",
+            "contenido": "**Filial estadounidense**",
             "tags": [
-              "turner"
+              "turner",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Florentino Pérez",
-            "contenido": "Decisiones estratégicas.",
+            "contenido": "**Decisiones estratégicas**",
             "tags": [
-              "florentino"
+              "florentino",
+              "sin-valorar"
             ]
           }
         ]
@@ -4957,33 +5318,40 @@
           {
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "100% IAG desde 2011.",
+            "contenido": "**100% IAG desde 2011** (nota +8/10)",
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hub Madrid-Barajas",
-            "contenido": "Operativa en T4 (Aena). Eje LatAm.",
+            "contenido": "**Operativa en T4 (Aena)** — Eje LatAm.",
             "tags": [
-              "barajas"
+              "barajas",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Marco Sansavini (CEO)",
-            "contenido": "CEO desde 2024.",
+            "contenido": "**CEO desde 2024** (nota +6/10)",
             "tags": [
-              "sansavini"
+              "sansavini",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "oneworld",
-            "contenido": "Alianza estratégica.",
+            "contenido": "**Alianza estratégica** (nota +7/10)",
             "tags": [
-              "oneworld"
+              "oneworld",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -5027,25 +5395,30 @@
           {
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "100% IAG desde 2011.",
+            "contenido": "**100% IAG desde 2011** (nota +8/10)",
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hub Heathrow",
-            "contenido": "Mayor cuota en Heathrow (~50% slots).",
+            "contenido": "**Mayor cuota en Heathrow (~50% slots)**",
             "tags": [
-              "heathrow"
+              "heathrow",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sean Doyle (CEO)",
-            "contenido": "CEO desde 2020.",
+            "contenido": "**CEO desde 2020** (nota +6/10)",
             "tags": [
-              "doyle"
+              "doyle",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -5089,25 +5462,30 @@
           {
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "~100% IAG.",
+            "contenido": "**~100% IAG** (nota +8/10)",
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hub Barcelona-El Prat",
-            "contenido": "Mayor low-cost desde El Prat. Competidor de Ryanair y easyJet.",
+            "contenido": "**Mayor low-cost desde El Prat** — Competidor de Ryanair y easyJet.",
             "tags": [
-              "elprat"
+              "elprat",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Carolina Martinoli (CEO)",
-            "contenido": "CEO desde 2024.",
+            "contenido": "**CEO desde 2024** (nota +6/10)",
             "tags": [
-              "martinoli"
+              "martinoli",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -5151,25 +5529,30 @@
           {
             "tipo": "contacto",
             "titulo": "IAG (matriz)",
-            "contenido": "100% IAG desde 2015.",
+            "contenido": "**100% IAG desde 2015** (nota +8/10)",
             "tags": [
-              "iag"
+              "iag",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hub Dublín",
-            "contenido": "Slots clave para Norteamérica.",
+            "contenido": "**Slots clave para Norteamérica**",
             "tags": [
-              "dublin"
+              "dublin",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Lynne Embleton (CEO)",
-            "contenido": "CEO desde 2021.",
+            "contenido": "**CEO desde 2021** (nota +6/10)",
             "tags": [
-              "embleton"
+              "embleton",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -5226,25 +5609,29 @@
           {
             "tipo": "contacto",
             "titulo": "Telefónica (50%)",
-            "contenido": "Joint venture 50/50.",
+            "contenido": "**Joint venture 50/50**",
             "tags": [
-              "telefonica"
+              "telefonica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Liberty Global (50%)",
-            "contenido": "Otro socio 50%.",
+            "contenido": "**Otro socio 50%** (nota +5/10)",
             "tags": [
-              "liberty-global"
+              "liberty-global",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mercado UK telecos",
-            "contenido": "Compite con BT/EE, Vodafone UK, Three UK.",
+            "contenido": "**Compite con BT/EE, Vodafone UK, Three UK**",
             "tags": [
-              "uk"
+              "uk",
+              "sin-valorar"
             ]
           }
         ]

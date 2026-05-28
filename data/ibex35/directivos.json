@@ -25,6 +25,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacida en A Coruña en 1984. Licenciada en European Business por la European Business School de Londres. Carrera dentro del grupo en Zara (Londres, Shanghai). Hija de Amancio Ortega."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -58,26 +66,32 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Ortega / Pontegadea",
-            "contenido": "Familia con el mayor patrimonio de España. Pontegadea controla ~59% de Inditex.",
+            "contenido": "**Familia con el mayor patrimonio de España** (nota +8/10) — Pontegadea controla ~59% de Inditex.",
             "tags": [
               "pontegadea",
-              "ortega"
+              "ortega",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Carlos Torretta",
-            "contenido": "Casada con Carlos Torretta (hijo de Roberto Torretta), exejecutivo de Inditex. Boda 2022.",
+            "contenido": "**Casada con Carlos Torretta (hijo de Roberto Torretta), exejecutivo de Inditex** (nota +5/10) — Boda 2022.",
             "tags": [
-              "torretta"
+              "torretta",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Óscar García Maceiras",
-            "contenido": "Tándem ejecutivo con el CEO Óscar García Maceiras (designado el mismo día abril 2022).",
+            "contenido": "**Tándem ejecutivo con el CEO Óscar García Maceiras (designado el mismo día abril 2022)** (nota +8/10)",
             "tags": [
-              "maceiras"
+              "maceiras",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -104,6 +118,22 @@
             "tipo": "documento",
             "titulo": "Comunicado Inditex 30-nov-2021",
             "fuente_url": "https://www.inditex.com/itxcomweb/es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -134,6 +164,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en A Coruña en 1973. Abogado del Estado (opositó en 2003). Trayectoria mixta sector público-banca-cotizada."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -174,26 +212,30 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Ortega",
-            "contenido": "Reporta directamente a Marta Ortega y al consejo dominado por Pontegadea.",
+            "contenido": "**Reporta directamente a Marta Ortega y al consejo dominado por Pontegadea** (nota +5/10)",
             "tags": [
-              "ortega"
+              "ortega",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Red Santander",
-            "contenido": "Mantiene relaciones por su paso en Santander con Ana Botín y Bravo (general counsel del Santander).",
+            "contenido": "**Mantiene relaciones por su paso en Santander con Ana Botín y Bravo (general counsel del Santander)**",
             "tags": [
               "santander",
-              "botin"
+              "botin",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Abogacía del Estado",
-            "contenido": "Vinculado al cuerpo de Abogados del Estado, red de influencia institucional.",
+            "contenido": "**Vinculado al cuerpo de Abogados del Estado, red de influencia institucional**",
             "tags": [
-              "abogacia-estado"
+              "abogacia-estado",
+              "sin-valorar"
             ]
           }
         ]
@@ -217,6 +259,22 @@
             "tipo": "documento",
             "titulo": "Comunicado Inditex 30-nov-2021",
             "fuente_url": "https://www.inditex.com/itxcomweb/es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -247,6 +305,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Salamanca, 1950. Ingeniero industrial (ICAI) y MBA. Considerado el ejecutivo con la carrera más larga al frente de un IBEX 35."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -300,6 +366,14 @@
             "tags": [
               "ceoe"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -310,36 +384,44 @@
           {
             "tipo": "contacto",
             "titulo": "Choque con Pedro Sánchez",
-            "contenido": "Una de las figuras empresariales más críticas con el Gobierno de Sánchez. Tensión sobre impuesto extraordinario, tope al gas, y políticas energéticas.",
+            "contenido": "**Una de las figuras empresariales más críticas con el Gobierno de Sánchez** (nota -7/10) — Tensión sobre impuesto extraordinario, tope al gas, y políticas energéticas.",
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Conflicto histórico con Florentino Pérez",
-            "contenido": "Guerra societaria 2006-2017 cuando ACS tomó hasta 20% de Iberdrola. Episodio central del caso Villarejo (espionaje de Iberdrola a ACS).",
+            "contenido": "**Guerra societaria 2006-2017 cuando ACS tomó hasta 20% de Iberdrola** (nota -8/10) — Episodio central del caso Villarejo (espionaje de Iberdrola a ACS).",
             "tags": [
               "acs",
               "florentino",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Eurelectric",
-            "contenido": "Vicepresidente y voz clave en Eurelectric (patronal europea de eléctricas).",
+            "contenido": "**Vicepresidente y voz clave en Eurelectric (patronal europea de eléctricas)** (nota +8/10)",
             "tags": [
-              "eurelectric"
+              "eurelectric",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Casa Real / monarquía",
-            "contenido": "Buena interlocución institucional con la Casa Real, presencia en actos oficiales.",
+            "contenido": "**Buena interlocución institucional con la Casa Real, presencia en actos oficiales** (nota +6/10)",
             "tags": [
-              "casa-real"
+              "casa-real",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -410,6 +492,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacida en Santander, 1960. Bryn Mawr College (EE.UU.). Carrera en JP Morgan antes de incorporarse a Santander."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -463,6 +553,14 @@
             "tags": [
               "diversidad"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -473,35 +571,42 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Botín",
-            "contenido": "Saga banquera. Hermanos: Javier, Emilio (consejero del Santander), Carmen, Paloma.",
+            "contenido": "**Saga banquera** (nota +7/10) — Hermanos: Javier, Emilio (consejero del Santander), Carmen, Paloma.",
             "tags": [
-              "familia-botin"
+              "familia-botin",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Botín",
-            "contenido": "Patrona de la Fundación Botín (Santander), patronazgo cultural y científico.",
+            "contenido": "**Patrona de la Fundación Botín (Santander), patronazgo cultural y científico** (nota +8/10)",
             "tags": [
-              "fundacion-botin"
+              "fundacion-botin",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Davos / Bilderberg",
-            "contenido": "Participante habitual en Foro de Davos. Asistencias documentadas a Bilderberg (2014, 2019).",
+            "contenido": "**Participante habitual en Foro de Davos** (nota +3/10) — Asistencias documentadas a Bilderberg (2014, 2019).",
             "tags": [
               "davos",
-              "bilderberg"
+              "bilderberg",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Reuniones con Sánchez",
-            "contenido": "Reuniones bilaterales documentadas en agenda oficial de Moncloa con Pedro Sánchez y Carlos Cuerpo.",
+            "contenido": "**Reuniones bilaterales documentadas en agenda oficial de Moncloa con Pedro Sánchez y Carlos Cuerpo**",
             "tags": [
               "politica",
-              "sanchez"
+              "sanchez",
+              "sin-valorar"
             ]
           }
         ]
@@ -572,6 +677,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en México, 1965. Universidad Anáhuac. Carrera previa en Credit Suisse (México, NY)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -632,6 +745,14 @@
             "tags": [
               "emergentes"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -642,33 +763,41 @@
           {
             "tipo": "contacto",
             "titulo": "Ana Botín",
-            "contenido": "Reporta a la presidenta. Tándem.",
+            "contenido": "**Reporta a la presidenta** (nota +8/10) — Tándem.",
             "tags": [
-              "botin"
+              "botin",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Élite mexicana",
-            "contenido": "Vinculaciones con el ecosistema empresarial mexicano (Carlos Slim, etc.) durante etapa Santander México.",
+            "contenido": "**Vinculaciones con el ecosistema empresarial mexicano (Carlos Slim, etc** (nota +5/10) — ) durante etapa Santander México.",
             "tags": [
-              "mexico"
+              "mexico",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Élite empresarial mexicana",
-            "contenido": "Vinculaciones del paso por Santander México (Carlos Slim, FUNO, Inbursa) y Credit Suisse México (Larrea).",
+            "contenido": "**Vinculaciones del paso por Santander México (Carlos Slim, FUNO, Inbursa) y Credit Suisse México (Larrea)** (nota +5/10)",
             "tags": [
-              "mexico"
+              "mexico",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "PNC Bank",
-            "contenido": "Interlocución de la venta de BBVA USA a PNC en 2021.",
+            "contenido": "**Interlocución de la venta de BBVA USA a PNC en 2021** (nota +4/10)",
             "tags": [
-              "pnc"
+              "pnc",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -711,6 +840,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Salamanca, 1966. Ingeniero eléctrico (MIT) y MBA por MIT Sloan. Trayectoria mixta consultoría-banca-tecnología."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -771,6 +908,14 @@
               "digital",
               "crypto"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -781,26 +926,32 @@
           {
             "tipo": "contacto",
             "titulo": "Onur Genç",
-            "contenido": "CEO del banco, tándem desde 2018.",
+            "contenido": "**CEO del banco, tándem desde 2018** (nota +8/10)",
             "tags": [
-              "genc"
+              "genc",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Garanti / Turquía",
-            "contenido": "BBVA controla Garanti BBVA en Turquía. Torres Vila gestiona relación con accionistas turcos y autoridades.",
+            "contenido": "**BBVA controla Garanti BBVA en Turquía** (nota +8/10) — Torres Vila gestiona relación con accionistas turcos y autoridades.",
             "tags": [
               "garanti",
-              "turquia"
+              "turquia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Villarejo - imputado",
-            "contenido": "Aunque sucedió a Francisco González (también imputado), Torres Vila ha sido investigado y luego sobreseído en relación con la pieza BBVA.",
+            "contenido": "**Aunque sucedió a Francisco González (también imputado), Torres Vila ha sido investigado y luego sobreseído en relación con la pieza BBVA** (nota -8/10)",
             "tags": [
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -869,6 +1020,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Turquía, 1975. ITU Estambul y Carnegie Mellon (MBA)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -923,6 +1082,14 @@
             "tags": [
               "garanti"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -933,34 +1100,42 @@
           {
             "tipo": "contacto",
             "titulo": "Doğuş Holding",
-            "contenido": "Relación histórica con Doğuş Holding (familia Sahenk) en Garanti.",
+            "contenido": "**Relación histórica con Doğuş Holding (familia Sahenk) en Garanti** (nota +5/10)",
             "tags": [
               "dogus",
-              "turquia"
+              "turquia",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Doğuş Holding / Sahenk",
-            "contenido": "Relación con la familia Sahenk, accionista histórico de Garanti.",
+            "contenido": "**Relación con la familia Sahenk, accionista histórico de Garanti** (nota +5/10)",
             "tags": [
-              "dogus"
+              "dogus",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Garanti consejo",
-            "contenido": "Sigue como miembro influyente en el consejo de Garanti BBVA.",
+            "contenido": "**Sigue como miembro influyente en el consejo de Garanti BBVA** (nota +6/10)",
             "tags": [
-              "garanti"
+              "garanti",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Carlos Torres Vila",
-            "contenido": "Tándem ejecutivo BBVA.",
+            "contenido": "**Tándem ejecutivo BBVA** (nota +8/10)",
             "tags": [
-              "torres-vila"
+              "torres-vila",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -1003,6 +1178,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Bilbao, 1954. Licenciado en Económicas (Universidad de Deusto). Especializado en banca minorista y reestructuración."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1049,6 +1232,14 @@
             "tags": [
               "cec"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -1059,27 +1250,33 @@
           {
             "tipo": "contacto",
             "titulo": "Isidre Fainé / La Caixa",
-            "contenido": "Interlocutor permanente con Isidre Fainé (Fundación La Caixa y CriteriaCaixa, accionista de control).",
+            "contenido": "**Interlocutor permanente con Isidre Fainé (Fundación La Caixa y CriteriaCaixa, accionista de control)** (nota +8/10)",
             "tags": [
               "caixa",
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FROB / Estado",
-            "contenido": "Como presidente de Bankia y luego CaixaBank, interlocutor habitual con el FROB y los Ministerios de Economía sucesivos.",
+            "contenido": "**Como presidente de Bankia y luego CaixaBank, interlocutor habitual con el FROB y los Ministerios de Economía sucesivos** (nota +8/10)",
             "tags": [
               "frob",
-              "estado"
+              "estado",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Reputación bipartidista",
-            "contenido": "Buena interlocución con Gobiernos PP (Rajoy, Montoro) y PSOE (Sánchez, Cuerpo, Calviño).",
+            "contenido": "**Buena interlocución con Gobiernos PP (Rajoy, Montoro) y PSOE (Sánchez, Cuerpo, Calviño)** (nota +6/10)",
             "tags": [
-              "politica"
+              "politica",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -1148,6 +1345,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en 1965. Derecho (ICADE), MBA INSEAD. Abogado del Estado."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1182,17 +1387,21 @@
           {
             "tipo": "contacto",
             "titulo": "Tándem con Goirigolzarri",
-            "contenido": "Reporta al presidente desde 2021.",
+            "contenido": "**Reporta al presidente desde 2021** (nota +8/10)",
             "tags": [
-              "caixa"
+              "caixa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Isidre Fainé",
-            "contenido": "Relación directa con el patrono de Criteria desde su etapa anterior.",
+            "contenido": "**Relación directa con el patrono de Criteria desde su etapa anterior** (nota +8/10)",
             "tags": [
-              "faine"
+              "faine",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -1205,6 +1414,22 @@
             "tipo": "documento",
             "titulo": "CaixaBank",
             "fuente_url": "https://www.caixabank.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -1235,6 +1460,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Barcelona, 1972. Ingeniero industrial (UPC) y MBA London Business School."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1286,6 +1519,14 @@
               "fair-share",
               "soberania"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -1296,29 +1537,33 @@
           {
             "tipo": "contacto",
             "titulo": "PSOE / PSC",
-            "contenido": "Vinculado al ecosistema PSC (catalanismo socialista). Su nombramiento es político, vía SEPI.",
+            "contenido": "**Vinculado al ecosistema PSC (catalanismo socialista)** — Su nombramiento es político, vía SEPI.",
             "tags": [
               "politica",
               "psoe",
-              "psc"
+              "psc",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "SEPI",
-            "contenido": "SEPI lo impulsó a Indra (2021) y luego a Telefónica (2025). Confianza directa del Gobierno.",
+            "contenido": "**SEPI lo impulsó a Indra (2021) y luego a Telefónica (2025)** — Confianza directa del Gobierno.",
             "tags": [
               "sepi",
-              "politica"
+              "politica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "STC (Saudi Telecom)",
-            "contenido": "Como presidente, gestor de la relación con el accionista saudí STC (~9,9%).",
+            "contenido": "**Como presidente, gestor de la relación con el accionista saudí STC (~9,9%)** (nota +8/10)",
             "tags": [
               "stc",
-              "saudi"
+              "saudi",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -1388,6 +1633,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Sariñena (Huesca) en 1948. Económicas (Universidad de Barcelona). Auditoría (Arthur Andersen)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1422,27 +1675,31 @@
           {
             "tipo": "contacto",
             "titulo": "La Caixa / Fainé",
-            "contenido": "Mantiene vínculo histórico con la órbita La Caixa.",
+            "contenido": "**Mantiene vínculo histórico con la órbita La Caixa**",
             "tags": [
               "faine",
-              "caixa"
+              "caixa",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Crisis YPF",
-            "contenido": "Lideró la negociación de la compensación de Argentina por la expropiación de YPF (2012-2014).",
+            "contenido": "**Lideró la negociación de la compensación de Argentina por la expropiación de YPF (2012-2014)** (nota +7/10)",
             "tags": [
               "ypf",
-              "argentina"
+              "argentina",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Bilderberg",
-            "contenido": "Asistente habitual al grupo Bilderberg.",
+            "contenido": "**Asistente habitual al grupo Bilderberg**",
             "tags": [
-              "bilderberg"
+              "bilderberg",
+              "sin-valorar"
             ]
           }
         ]
@@ -1483,6 +1740,22 @@
             "fuente_url": "https://www.repsol.com/es/conocenos/equipo-directivo"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1512,6 +1785,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Zumarraga (Gipuzkoa), 1963. Doctor en Química. Trayectoria política PNV-empresa."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1559,6 +1840,14 @@
             "tags": [
               "biocombustibles"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -1569,27 +1858,31 @@
           {
             "tipo": "contacto",
             "titulo": "PNV",
-            "contenido": "Vinculo histórico vivo con la dirección del PNV (Andoni Ortuzar, Aitor Esteban) por su pasado como presidente.",
+            "contenido": "**Vinculo histórico vivo con la dirección del PNV (Andoni Ortuzar, Aitor Esteban) por su pasado como presidente** (nota +8/10)",
             "tags": [
-              "pnv"
+              "pnv",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Lehendakaritza",
-            "contenido": "Buena relación con Lehendakaris (Urkullu y Pradales).",
+            "contenido": "**Buena relación con Lehendakaris (Urkullu y Pradales)**",
             "tags": [
               "pnv",
-              "euskadi"
+              "euskadi",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sánchez Galán",
-            "contenido": "Coincidencia en lobby energético crítico con el Gobierno Sánchez.",
+            "contenido": "**Coincidencia en lobby energético crítico con el Gobierno Sánchez**",
             "tags": [
               "iberdrola",
-              "politica"
+              "politica",
+              "sin-valorar"
             ]
           }
         ]
@@ -1660,6 +1953,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Barcelona, 1971. Economista. Doctor en Economía por la Universidad de Cambridge."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1694,29 +1995,34 @@
           {
             "tipo": "contacto",
             "titulo": "PSC / PSOE",
-            "contenido": "Cercano al PSC. Nombramiento político por Gobierno Sánchez.",
+            "contenido": "**Cercano al PSC** — Nombramiento político por Gobierno Sánchez.",
             "tags": [
               "psc",
               "psoe",
-              "politica"
+              "politica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Min. Transportes (Óscar Puente)",
-            "contenido": "Interlocución con el ministro responsable.",
+            "contenido": "**Interlocución con el ministro responsable** (nota +4/10)",
             "tags": [
               "mintranspor",
-              "puente"
+              "puente",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Generalitat",
-            "contenido": "Histórica tensión con el Govern catalán por la ampliación de El Prat (impacto La Ricarda).",
+            "contenido": "**Histórica tensión con el Govern catalán por la ampliación de El Prat (impacto La Ricarda)** (nota -7/10)",
             "tags": [
               "elprat",
-              "cataluna"
+              "cataluna",
+              "nota--7",
+              "conflicto"
             ]
           }
         ]
@@ -1743,6 +2049,22 @@
             "tipo": "documento",
             "titulo": "Aena",
             "fuente_url": "https://www.aena.es/es/corporativa/consejo-administracion.html"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -1780,6 +2102,14 @@
             "contenido": "Ingeniero industrial por la ETSII. Toda su carrera en el grupo Endesa-Enel.",
             "tags": [
               "formacion"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
             ]
           }
         ]
@@ -1835,6 +2165,14 @@
             "tags": [
               "transicion-justa"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -1845,34 +2183,41 @@
           {
             "tipo": "contacto",
             "titulo": "Enel / Italia",
-            "contenido": "Reporta a Enel (Italia, controlada por Tesoro italiano).",
+            "contenido": "**Reporta a Enel (Italia, controlada por Tesoro italiano)** (nota +8/10)",
             "tags": [
-              "enel"
+              "enel",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "AELEC",
-            "contenido": "Voz destacada de AELEC (patronal eléctricas).",
+            "contenido": "**Voz destacada de AELEC (patronal eléctricas)** (nota +8/10)",
             "tags": [
-              "aelec"
+              "aelec",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sindicatos cierres térmicos",
-            "contenido": "Diálogo CCOO/UGT en cierres de Compostilla, Andorra (Teruel) y As Pontes.",
+            "contenido": "**Diálogo CCOO/UGT en cierres de Compostilla, Andorra (Teruel) y As Pontes**",
             "tags": [
               "sindicatos",
-              "transicion-justa"
+              "transicion-justa",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno - tutela MITECO",
-            "contenido": "Interlocución con el MITECO sobre transición y precios.",
+            "contenido": "**Interlocución con el MITECO sobre transición y precios** (nota +4/10)",
             "tags": [
-              "miteco"
+              "miteco",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -1933,6 +2278,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Palma de Mallorca, 1963. Ingeniero industrial."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -1961,18 +2314,20 @@
           {
             "tipo": "contacto",
             "titulo": "CriteriaCaixa / Isidre Fainé",
-            "contenido": "Apoyo accionarial clave; CriteriaCaixa es el mayor accionista.",
+            "contenido": "**Apoyo accionarial clave; CriteriaCaixa es el mayor accionista**",
             "tags": [
               "caixa",
-              "faine"
+              "faine",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fondos GIP/CVC/IFM",
-            "contenido": "Diálogo con fondos accionistas (GIP, CVC, IFM).",
+            "contenido": "**Diálogo con fondos accionistas (GIP, CVC, IFM)**",
             "tags": [
-              "fondos"
+              "fondos",
+              "sin-valorar"
             ]
           }
         ]
@@ -2013,6 +2368,22 @@
             "fuente_url": "https://www.naturgy.com"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -2041,6 +2412,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1958. Ingeniero de Caminos. MBA por MIT Sloan. Hijo del fundador Rafael del Pino y Moreno."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -2067,6 +2446,14 @@
             "tags": [
               "liberal"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -2077,38 +2464,46 @@
           {
             "tipo": "contacto",
             "titulo": "Familia del Pino",
-            "contenido": "Hermanos María, Joaquín, Leopoldo y Fernando del Pino, accionistas relevantes.",
+            "contenido": "**Hermanos María, Joaquín, Leopoldo y Fernando del Pino, accionistas relevantes** (nota +5/10)",
             "tags": [
-              "familia-del-pino"
+              "familia-del-pino",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Rafael del Pino",
-            "contenido": "Patrono de la Fundación, plataforma de pensamiento liberal en España.",
+            "contenido": "**Patrono de la Fundación, plataforma de pensamiento liberal en España** (nota +8/10)",
             "tags": [
               "fundacion",
-              "liberal"
+              "liberal",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Choque con Sánchez 2023",
-            "contenido": "Pulso público con el Gobierno por el traslado de sede a Países Bajos. Acusaciones de deslealtad recíprocas con Yolanda Díaz, Sánchez, Calviño.",
+            "contenido": "**Pulso público con el Gobierno por el traslado de sede a Países Bajos** (nota -7/10) — Acusaciones de deslealtad recíprocas con Yolanda Díaz, Sánchez, Calviño.",
             "tags": [
               "politica",
               "sanchez",
-              "gobierno"
+              "gobierno",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Comunidad de Madrid (Ayuso)",
-            "contenido": "Buena interlocución con Isabel Díaz Ayuso (PP). Asistencia a foros liberales conjuntos.",
+            "contenido": "**Buena interlocución con Isabel Díaz Ayuso (PP)** (nota +6/10) — Asistencia a foros liberales conjuntos.",
             "tags": [
               "pp",
               "ayuso",
-              "madrid"
+              "madrid",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -2178,6 +2573,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1965. Ingeniero de Caminos por la UPM y MBA por Stanford Graduate School of Business."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -2231,6 +2634,14 @@
               "nasdaq",
               "paisesbajos"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -2241,26 +2652,32 @@
           {
             "tipo": "contacto",
             "titulo": "Rafael del Pino",
-            "contenido": "Tándem con el presidente. Madridejos como brazo ejecutivo de la familia accionista.",
+            "contenido": "**Tándem con el presidente** (nota +8/10) — Madridejos como brazo ejecutivo de la familia accionista.",
             "tags": [
-              "del-pino"
+              "del-pino",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - tensión",
-            "contenido": "Co-protagonista del choque público de 2023 con Pedro Sánchez por el traslado a Países Bajos.",
+            "contenido": "**Co-protagonista del choque público de 2023 con Pedro Sánchez por el traslado a Países Bajos** (nota -7/10)",
             "tags": [
               "politica",
-              "gobierno-sanchez"
+              "gobierno-sanchez",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fondos infraestructura",
-            "contenido": "Interlocución con fondos de infraestructura (Macquarie, Brookfield) co-inversores en concesiones.",
+            "contenido": "**Interlocución con fondos de infraestructura (Macquarie, Brookfield) co-inversores en concesiones** (nota +4/10)",
             "tags": [
-              "fondos"
+              "fondos",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -2330,6 +2747,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1965. Económicas (Complutense) y MBA IE."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -2390,6 +2815,14 @@
             "tags": [
               "ia"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -2400,34 +2833,41 @@
           {
             "tipo": "contacto",
             "titulo": "Aerolíneas",
-            "contenido": "Relación con CEOs de Iberia, IAG, Lufthansa, Air France-KLM.",
+            "contenido": "**Relación con CEOs de Iberia, IAG, Lufthansa, Air France-KLM** (nota +6/10)",
             "tags": [
-              "aerolineas"
+              "aerolineas",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Iberia / IAG",
-            "contenido": "Iberia accionista histórico fundador y cliente clave.",
+            "contenido": "**Iberia accionista histórico fundador y cliente clave** (nota +8/10)",
             "tags": [
               "iag",
-              "iberia"
+              "iberia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Lufthansa, Air France-KLM",
-            "contenido": "Antiguos accionistas fundadores y clientes principales.",
+            "contenido": "**Antiguos accionistas fundadores y clientes principales** (nota -5/10)",
             "tags": [
-              "aerolineas"
+              "aerolineas",
+              "nota--5",
+              "tension"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "OTAs (Booking, Expedia)",
-            "contenido": "Relación dual: clientes y competidores en distribución.",
+            "contenido": "**Relación dual: clientes y competidores en distribución**",
             "tags": [
-              "otas"
+              "otas",
+              "sin-valorar"
             ]
           }
         ]
@@ -2470,6 +2910,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Italiano, nacido en 1964. Licenciado en Economía por la Università Bocconi de Milán. MBA en INSEAD (Fontainebleau)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -2529,6 +2977,14 @@
             "tags": [
               "modelo-negocio"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -2539,34 +2995,41 @@
           {
             "tipo": "contacto",
             "titulo": "Benetton / Edizione (Alessandro Benetton)",
-            "contenido": "Su llegada a Cellnex fue impulsada por Edizione (Benetton) y GIC (Singapur), accionistas relevantes.",
+            "contenido": "**Su llegada a Cellnex fue impulsada por Edizione (Benetton) y GIC (Singapur), accionistas relevantes**",
             "tags": [
               "benetton",
-              "edizione"
+              "edizione",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "GIC / TCI Fund / BlackRock",
-            "contenido": "Interlocución con los grandes fondos institucionales accionistas de Cellnex.",
+            "contenido": "**Interlocución con los grandes fondos institucionales accionistas de Cellnex** (nota +4/10)",
             "tags": [
-              "fondos"
+              "fondos",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Operadores europeos",
-            "contenido": "Relaciones con CEOs de Iliad/Free, Bouygues, Vodafone, Wind Tre y MasOrange como clientes y como potenciales compradores de carteras.",
+            "contenido": "**Relaciones con CEOs de Iliad/Free, Bouygues, Vodafone, Wind Tre y MasOrange como clientes y como potenciales compradores de carteras** (nota +6/10)",
             "tags": [
-              "clientes"
+              "clientes",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Vincent Bolloré",
-            "contenido": "Conflicto previo con Bolloré durante la transición Vivendi-Telecom Italia (2015-2016).",
+            "contenido": "**Conflicto previo con Bolloré durante la transición Vivendi-Telecom Italia (2015-2016)** (nota -8/10)",
             "tags": [
-              "bollore"
+              "bollore",
+              "nota--8",
+              "conflicto"
             ]
           }
         ]
@@ -2648,6 +3111,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1947. Ingeniero de Caminos. Carrera vinculada al PRD/UCD y al sector de infraestructuras."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -2701,6 +3172,14 @@
               "superliga",
               "fcbarcelona"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -2711,46 +3190,55 @@
           {
             "tipo": "contacto",
             "titulo": "Joan Laporta",
-            "contenido": "Aliado con el FC Barcelona (Joan Laporta) en la Superliga. Inusual eje Madrid-Barcelona.",
+            "contenido": "**Aliado con el FC Barcelona (Joan Laporta) en la Superliga** (nota +7/10) — Inusual eje Madrid-Barcelona.",
             "tags": [
               "superliga",
-              "laporta"
+              "laporta",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Conflicto Iberdrola",
-            "contenido": "Confrontación pública con Sánchez Galán por la batalla societaria 2006-2017 y posterior pieza del caso Villarejo.",
+            "contenido": "**Confrontación pública con Sánchez Galán por la batalla societaria 2006-2017 y posterior pieza del caso Villarejo** (nota -8/10)",
             "tags": [
               "iberdrola",
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Villarejo (víctima)",
-            "contenido": "Víctima del espionaje encargado por Iberdrola y BBVA contra ACS y su entorno entre 2004-2017.",
+            "contenido": "**Víctima del espionaje encargado por Iberdrola y BBVA contra ACS y su entorno entre 2004-2017** (nota -8/10)",
             "tags": [
               "villarejo",
-              "judicial"
+              "judicial",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Casa Real / Rey Juan Carlos",
-            "contenido": "Histórica relación con el Rey emérito. Florentino fue figura de consenso en los 90s-2000s.",
+            "contenido": "**Histórica relación con el Rey emérito** — Florentino fue figura de consenso en los 90s-2000s.",
             "tags": [
               "casa-real",
-              "juan-carlos"
+              "juan-carlos",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ayuso / Almeida",
-            "contenido": "Buena relación con la Comunidad de Madrid (Ayuso) y Ayuntamiento (Almeida). Cordialidad bipartidista.",
+            "contenido": "**Buena relación con la Comunidad de Madrid (Ayuso) y Ayuntamiento (Almeida)** (nota +6/10) — Cordialidad bipartidista.",
             "tags": [
               "pp",
-              "ayuso"
+              "ayuso",
+              "nota-+6",
+              "alianza-debil"
             ]
           }
         ]
@@ -2820,6 +3308,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Sabadell, 1949. Económicas (UAB y Universidad de Minnesota)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -2847,6 +3343,14 @@
               "concentracion",
               "pymes"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -2857,28 +3361,34 @@
           {
             "tipo": "contacto",
             "titulo": "Foment del Treball",
-            "contenido": "Vinculado al Foment del Treball Nacional (patronal catalana).",
+            "contenido": "**Vinculado al Foment del Treball Nacional (patronal catalana)** (nota +8/10)",
             "tags": [
               "foment",
-              "cataluna"
+              "cataluna",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez - OPA",
-            "contenido": "Interlocución con el Gobierno español por la OPA BBVA, beneficiándose de la posición pública del Ejecutivo contraria a la operación.",
+            "contenido": "**Interlocución con el Gobierno español por la OPA BBVA, beneficiándose de la posición pública del Ejecutivo contraria a la operación** (nota +4/10)",
             "tags": [
               "politica",
               "gobierno",
-              "opa"
+              "opa",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Generalitat",
-            "contenido": "Histórica vinculación al tejido empresarial catalán y a la Generalitat (todos los Gobiernos).",
+            "contenido": "**Histórica vinculación al tejido empresarial catalán y a la Generalitat (todos los Gobiernos)** (nota +5/10)",
             "tags": [
-              "cataluna"
+              "cataluna",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -2947,6 +3457,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1960. Económicas (ICADE) y MBA por Harvard Business School."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3006,6 +3524,14 @@
             "tags": [
               "digital"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3016,35 +3542,42 @@
           {
             "tipo": "contacto",
             "titulo": "Josep Oliu",
-            "contenido": "Tándem con el presidente desde 2021.",
+            "contenido": "**Tándem con el presidente desde 2021** (nota +8/10)",
             "tags": [
-              "oliu"
+              "oliu",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Carlos Torres Vila",
-            "contenido": "Adversario directo en la OPA BBVA-Sabadell.",
+            "contenido": "**Adversario directo en la OPA BBVA-Sabadell** (nota -7/10)",
             "tags": [
               "bbva",
-              "torres-vila"
+              "torres-vila",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno Sánchez",
-            "contenido": "Interlocución con Moncloa y Ministerio Economía (Cuerpo). Beneficia de la postura crítica del Gobierno con la OPA.",
+            "contenido": "**Interlocución con Moncloa y Ministerio Economía (Cuerpo)** (nota -7/10) — Beneficia de la postura crítica del Gobierno con la OPA.",
             "tags": [
               "politica",
-              "gobierno"
+              "gobierno",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Foment del Treball",
-            "contenido": "Vinculado al tejido empresarial catalán vía Sabadell.",
+            "contenido": "**Vinculado al tejido empresarial catalán vía Sabadell**",
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ]
           }
         ]
@@ -3113,6 +3646,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacida en San Sebastián, 1959. Derecho (Universidad de Navarra)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3161,6 +3702,14 @@
             "tags": [
               "impuesto"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3171,41 +3720,50 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Botín-Rivero / Cartival",
-            "contenido": "Reportaba a Cartival (Jaime Botín y su entorno).",
+            "contenido": "**Reportaba a Cartival (Jaime Botín y su entorno)** (nota +5/10)",
             "tags": [
-              "botin"
+              "botin",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Pedro Guerrero",
-            "contenido": "Tándem como presidente del consejo.",
+            "contenido": "**Tándem como presidente del consejo** (nota +8/10)",
             "tags": [
-              "guerrero"
+              "guerrero",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gloria Ortiz Portero",
-            "contenido": "Sucesora como CEO desde marzo 2024.",
+            "contenido": "**Sucesora como CEO desde marzo 2024** (nota +6/10)",
             "tags": [
-              "ortiz"
+              "ortiz",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Cartival / Jaime Botín",
-            "contenido": "Reportaba al accionista de control.",
+            "contenido": "**Reportaba al accionista de control** (nota +8/10)",
             "tags": [
-              "cartival"
+              "cartival",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Foro Diálogos para el Desarrollo",
-            "contenido": "Voz pública habitual en foros empresariales.",
+            "contenido": "**Voz pública habitual en foros empresariales**",
             "tags": [
-              "foros"
+              "foros",
+              "sin-valorar"
             ]
           }
         ]
@@ -3249,6 +3807,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Cáceres, 1964. Derecho (Salamanca). MBA EOI."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3297,6 +3863,14 @@
             "tags": [
               "esg"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3307,25 +3881,31 @@
           {
             "tipo": "contacto",
             "titulo": "Fundación Mapfre",
-            "contenido": "Accionista de control. Patronato.",
+            "contenido": "**Accionista de control** (nota +8/10) — Patronato.",
             "tags": [
-              "fundacion-mapfre"
+              "fundacion-mapfre",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "CaixaBank - alianza bancaseguros",
-            "contenido": "Acuerdo de distribución bancaseguros heredado de Bankia.",
+            "contenido": "**Acuerdo de distribución bancaseguros heredado de Bankia** (nota +4/10)",
             "tags": [
-              "caixabank"
+              "caixabank",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Unespa",
-            "contenido": "Patronal aseguradora; Huertas presidente entre 2017 y 2022.",
+            "contenido": "**Patronal aseguradora; Huertas presidente entre 2017 y 2022** (nota +8/10)",
             "tags": [
-              "unespa"
+              "unespa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3369,6 +3949,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacida en Madrid, 1968. Derecho (Complutense). Registradora de la Propiedad. Vinculada al PSOE."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3397,27 +3985,31 @@
           {
             "tipo": "contacto",
             "titulo": "PSOE / Zapatero / Sánchez",
-            "contenido": "Cercana al PSOE. Vinculada al ecosistema Zapatero y mantenida bajo Sánchez.",
+            "contenido": "**Cercana al PSOE** — Vinculada al ecosistema Zapatero y mantenida bajo Sánchez.",
             "tags": [
               "psoe",
-              "politica"
+              "politica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "SEPI",
-            "contenido": "SEPI mantiene 20% de Redeia y propuso su nombramiento.",
+            "contenido": "**SEPI mantiene 20% de Redeia y propuso su nombramiento**",
             "tags": [
-              "sepi"
+              "sepi",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ministerio Transición Ecológica",
-            "contenido": "Interlocución con Teresa Ribera durante años; con Aagesen después.",
+            "contenido": "**Interlocución con Teresa Ribera durante años; con Aagesen después** (nota +4/10)",
             "tags": [
               "miteco",
-              "ribera"
+              "ribera",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -3459,6 +4051,22 @@
             "fuente_url": "https://www.redeia.com"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -3487,6 +4095,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Tarrasa, 1952. Ingeniero industrial."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3529,6 +4145,14 @@
             "tags": [
               "geopolitica"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3539,26 +4163,31 @@
           {
             "tipo": "contacto",
             "titulo": "H2Med - apoyo político",
-            "contenido": "Lobby del proyecto Iberia-Francia con Sánchez, Macron, Costa.",
+            "contenido": "**Lobby del proyecto Iberia-Francia con Sánchez, Macron, Costa**",
             "tags": [
               "h2med",
-              "politica"
+              "politica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Arturo Gonzalo Aizpiri",
-            "contenido": "Tándem con el CEO.",
+            "contenido": "**Tándem con el CEO** (nota +8/10)",
             "tags": [
-              "aizpiri"
+              "aizpiri",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Sedigás",
-            "contenido": "Patronal del gas, vínculos históricos como presidente.",
+            "contenido": "**Patronal del gas, vínculos históricos como presidente** (nota +8/10)",
             "tags": [
-              "sedigas"
+              "sedigas",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3617,6 +4246,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Ingeniero de Minas (Universidad Politécnica de Madrid). Especialización en política energética y sostenibilidad."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3674,6 +4311,14 @@
             "tags": [
               "regulacion"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3684,36 +4329,41 @@
           {
             "tipo": "contacto",
             "titulo": "PSOE / Narbona",
-            "contenido": "Vínculo histórico con la rama medioambiental del PSOE (Cristina Narbona) desde su paso por el Ministerio.",
+            "contenido": "**Vínculo histórico con la rama medioambiental del PSOE (Cristina Narbona) desde su paso por el Ministerio**",
             "tags": [
               "psoe",
-              "narbona"
+              "narbona",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Teresa Ribera / Aagesen",
-            "contenido": "Interlocutor con sucesivas ministras de Transición Ecológica para el proyecto H2Med.",
+            "contenido": "**Interlocutor con sucesivas ministras de Transición Ecológica para el proyecto H2Med** (nota +4/10)",
             "tags": [
               "politica",
-              "ribera"
+              "ribera",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Macron - Costa",
-            "contenido": "H2Med tiene apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa.",
+            "contenido": "**H2Med tiene apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa**",
             "tags": [
               "politica",
-              "ue"
+              "ue",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Imaz (Repsol)",
-            "contenido": "Ex compañero en Repsol durante años; relación profesional.",
+            "contenido": "**Ex compañero en Repsol durante años; relación profesional**",
             "tags": [
-              "imaz"
+              "imaz",
+              "sin-valorar"
             ]
           }
         ]
@@ -3769,6 +4419,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1963. Económicas (Yale). MBA Columbia. Hijo de José María Entrecanales (fundador de Necso) y nieto del fundador de la saga."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3795,6 +4453,14 @@
             "tags": [
               "esg"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3805,17 +4471,20 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Entrecanales-Domecq",
-            "contenido": "Control familiar de ~55%. Hermanos y primos varios en consejos.",
+            "contenido": "**Control familiar de ~55%** (nota +5/10) — Hermanos y primos varios en consejos.",
             "tags": [
-              "familia-entrecanales"
+              "familia-entrecanales",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Foros internacionales",
-            "contenido": "Davos, UN Global Compact, WEF Climate.",
+            "contenido": "**Davos, UN Global Compact, WEF Climate**",
             "tags": [
-              "davos"
+              "davos",
+              "sin-valorar"
             ]
           }
         ]
@@ -3878,6 +4547,14 @@
             "tags": [
               "formacion"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -3918,6 +4595,14 @@
             "tags": [
               "esg"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -3930,17 +4615,21 @@
           {
             "tipo": "contacto",
             "titulo": "José Manuel Entrecanales",
-            "contenido": "Reporta al presidente de Acciona matriz (83% de Acciona Energía).",
+            "contenido": "**Reporta al presidente de Acciona matriz (83% de Acciona Energía)** (nota +8/10)",
             "tags": [
-              "entrecanales"
+              "entrecanales",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "APPA Renovables",
-            "contenido": "Miembro destacado de la patronal de renovables.",
+            "contenido": "**Miembro destacado de la patronal de renovables** (nota +8/10)",
             "tags": [
-              "appa"
+              "appa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -3984,6 +4673,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido 1970. Abogado del Estado. Trayectoria en M&A inmobiliario."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4012,18 +4709,21 @@
           {
             "tipo": "contacto",
             "titulo": "BBVA / Santander",
-            "contenido": "Conexiones por la compra de la cartera Tree (BBVA) y participación accionarial de Santander.",
+            "contenido": "**Conexiones por la compra de la cartera Tree (BBVA) y participación accionarial de Santander** (nota +3/10)",
             "tags": [
               "santander",
-              "bbva"
+              "bbva",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Abogacía del Estado",
-            "contenido": "Vinculado a la red de Abogados del Estado.",
+            "contenido": "**Vinculado a la red de Abogados del Estado**",
             "tags": [
-              "abogacia-estado"
+              "abogacia-estado",
+              "sin-valorar"
             ]
           }
         ]
@@ -4048,6 +4748,22 @@
             "tipo": "documento",
             "titulo": "Merlin",
             "fuente_url": "https://www.merlinproperties.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -4078,6 +4794,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Barcelona, 1947. Económicas y empresariales."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4112,33 +4836,39 @@
           {
             "tipo": "contacto",
             "titulo": "Establishment catalán",
-            "contenido": "Conexiones con el establishment empresarial catalán histórico.",
+            "contenido": "**Conexiones con el establishment empresarial catalán histórico**",
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Pere Viñolas",
-            "contenido": "Tándem con el CEO.",
+            "contenido": "**Tándem con el CEO** (nota +8/10)",
             "tags": [
-              "vinolas"
+              "vinolas",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "QIA Qatar",
-            "contenido": "Interlocutor con QIA (~19% Colonial).",
+            "contenido": "**Interlocutor con QIA (~19% Colonial)** (nota +4/10)",
             "tags": [
-              "qia"
+              "qia",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Establishment empresarial catalán",
-            "contenido": "Vínculos históricos con el Círculo de Economía y Foment.",
+            "contenido": "**Vínculos históricos con el Círculo de Economía y Foment**",
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ]
           }
         ]
@@ -4151,6 +4881,22 @@
             "tipo": "documento",
             "titulo": "Colonial",
             "fuente_url": "https://www.inmocolonial.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -4189,6 +4935,14 @@
             "tags": [
               "formacion"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4223,6 +4977,14 @@
             "tags": [
               "estrategia"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -4235,25 +4997,30 @@
           {
             "tipo": "contacto",
             "titulo": "Juan José Brugera",
-            "contenido": "Tándem con el presidente.",
+            "contenido": "**Tándem con el presidente** (nota +8/10)",
             "tags": [
-              "brugera"
+              "brugera",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "SFL París",
-            "contenido": "Gestiona la filial cotizada francesa (~83%).",
+            "contenido": "**Gestiona la filial cotizada francesa (~83%)**",
             "tags": [
-              "sfl"
+              "sfl",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "QIA / Finaccess / Santo Domingo",
-            "contenido": "Interlocución con los principales accionistas.",
+            "contenido": "**Interlocución con los principales accionistas** (nota +4/10)",
             "tags": [
-              "accionistas"
+              "accionistas",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -4296,6 +5063,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Rajasthan, 1950. Construyó imperio siderúrgico desde Indonesia."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4337,6 +5112,14 @@
               "perte",
               "h2"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -4347,35 +5130,43 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Mittal",
-            "contenido": "Hijo Aditya Mittal es CEO. Otras posiciones familiares en consejos.",
+            "contenido": "**Hijo Aditya Mittal es CEO** (nota +6/10) — Otras posiciones familiares en consejos.",
             "tags": [
-              "mittal"
+              "mittal",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Aditya Mittal",
-            "contenido": "Hijo y CEO desde 2021.",
+            "contenido": "**Hijo y CEO desde 2021** (nota +6/10)",
             "tags": [
-              "familia-mittal"
+              "familia-mittal",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Filántropo y donante UK",
-            "contenido": "Donaciones documentadas a Partido Laborista UK (Blair, Brown). Polémicas Mittal-Romania (cartas Blair).",
+            "contenido": "**Donaciones documentadas a Partido Laborista UK (Blair, Brown)** (nota -7/10) — Polémicas Mittal-Romania (cartas Blair).",
             "tags": [
               "uk",
-              "politica"
+              "politica",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno español",
-            "contenido": "Interlocución con MINCOTUR y Gobierno autonómico (Asturias, País Vasco) por inversiones en descarbonización.",
+            "contenido": "**Interlocución con MINCOTUR y Gobierno autonómico (Asturias, País Vasco) por inversiones en descarbonización** (nota +4/10)",
             "tags": [
               "mincotur",
-              "asturias"
+              "asturias",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -4427,6 +5218,14 @@
               "formacion",
               "familia"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4457,25 +5256,31 @@
           {
             "tipo": "contacto",
             "titulo": "Lakshmi Mittal",
-            "contenido": "Padre y presidente.",
+            "contenido": "**Padre y presidente** (nota +8/10)",
             "tags": [
-              "familia-mittal"
+              "familia-mittal",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Aperam / Vanisha Mittal",
-            "contenido": "Hermana Vanisha en consejo de Aperam (spin-off acero inox de Mittal).",
+            "contenido": "**Hermana Vanisha en consejo de Aperam (spin-off acero inox de Mittal)** (nota +5/10)",
             "tags": [
-              "familia-mittal"
+              "familia-mittal",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Gobierno español",
-            "contenido": "Interlocución con MINCOTUR por PERTE descarbonización (>300 M€ ayudas).",
+            "contenido": "**Interlocución con MINCOTUR por PERTE descarbonización (>300 M€ ayudas)** (nota +4/10)",
             "tags": [
-              "mincotur"
+              "mincotur",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -4488,6 +5293,22 @@
             "tipo": "documento",
             "titulo": "ArcelorMittal",
             "fuente_url": "https://corporate.arcelormittal.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -4518,6 +5339,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1968. Ingeniero aeronáutico (UPM). MBA Pricewaterhouse."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4586,6 +5415,14 @@
             "tags": [
               "air-europa"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -4596,42 +5433,51 @@
           {
             "tipo": "contacto",
             "titulo": "Aena / Lucena",
-            "contenido": "Interlocución habitual por tarifas y ampliación Barajas.",
+            "contenido": "**Interlocución habitual por tarifas y ampliación Barajas** (nota +4/10)",
             "tags": [
-              "aena"
+              "aena",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Qatar Airways",
-            "contenido": "Mayor accionista de IAG (~25%).",
+            "contenido": "**Mayor accionista de IAG (~25%)**",
             "tags": [
-              "qatar"
+              "qatar",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Javier Ferrán",
-            "contenido": "Presidente no ejecutivo de IAG. Tándem.",
+            "contenido": "**Presidente no ejecutivo de IAG** (nota +8/10) — Tándem.",
             "tags": [
-              "ferran"
+              "ferran",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Qatar Airways / Akbar Al Baker",
-            "contenido": "Mayor accionista de IAG; interlocución estratégica con Doha.",
+            "contenido": "**Mayor accionista de IAG; interlocución estratégica con Doha** (nota +4/10)",
             "tags": [
-              "qatar"
+              "qatar",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Globalia / Hidalgo",
-            "contenido": "Interlocución con Juan José Hidalgo (Globalia/Air Europa) durante las negociaciones fallidas.",
+            "contenido": "**Interlocución con Juan José Hidalgo (Globalia/Air Europa) durante las negociaciones fallidas** (nota +4/10)",
             "tags": [
               "air-europa",
-              "hidalgo"
+              "hidalgo",
+              "nota-+4",
+              "alianza-debil"
             ]
           }
         ]
@@ -4674,6 +5520,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Suizo, nacido en 1959. Doctor en Farmacia y MBA. Trayectoria internacional en farma."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4727,6 +5581,14 @@
               "plasma",
               "ue"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -4737,33 +5599,41 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Grifols",
-            "contenido": "Tándem complicado con Raimon Grifols (vicepresidente) y los hijos de Víctor Grifols. Tensiones públicas durante la crisis Gotham y OPA Brookfield.",
+            "contenido": "**Tándem complicado con Raimon Grifols (vicepresidente) y los hijos de Víctor Grifols** (nota -7/10) — Tensiones públicas durante la crisis Gotham y OPA Brookfield.",
             "tags": [
-              "familia-grifols"
+              "familia-grifols",
+              "nota--7",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Nacho Abia (CEO)",
-            "contenido": "Coordinación con Nacho Abia, CEO desde abril 2024 (procedente de Olympus).",
+            "contenido": "**Coordinación con Nacho Abia, CEO desde abril 2024 (procedente de Olympus)** (nota +7/10)",
             "tags": [
-              "abia"
+              "abia",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Brookfield",
-            "contenido": "Interlocutor de la negociación OPA con Brookfield 2024.",
+            "contenido": "**Interlocutor de la negociación OPA con Brookfield 2024** (nota +4/10)",
             "tags": [
-              "brookfield"
+              "brookfield",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "CNMV",
-            "contenido": "Interlocución crítica con CNMV sobre el expediente Scranton.",
+            "contenido": "**Interlocución crítica con CNMV sobre el expediente Scranton** (nota -7/10)",
             "tags": [
-              "cnmv"
+              "cnmv",
+              "nota--7",
+              "conflicto"
             ]
           }
         ]
@@ -4849,6 +5719,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Empresario español. Carrera entera en la empresa familiar Escribano M&E, especializada en electrónica de defensa, torres de tiro, sistemas de control y vehículos blindados."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -4901,6 +5779,14 @@
               "otan",
               "industria"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -4911,43 +5797,51 @@
           {
             "tipo": "contacto",
             "titulo": "SEPI / Belén Gualda",
-            "contenido": "Su nombramiento fue empujado por SEPI (28% Indra) bajo Gobierno Sánchez. Coordinación constante.",
+            "contenido": "**Su nombramiento fue empujado por SEPI (28% Indra) bajo Gobierno Sánchez** (nota +7/10) — Coordinación constante.",
             "tags": [
               "sepi",
-              "politica"
+              "politica",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Pedro Sánchez / Margarita Robles",
-            "contenido": "Relación directa con Moncloa y MinDef como gestor del campeón nacional de defensa.",
+            "contenido": "**Relación directa con Moncloa y MinDef como gestor del campeón nacional de defensa**",
             "tags": [
               "sanchez",
-              "robles"
+              "robles",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "SAPA Placencia",
-            "contenido": "Otro grupo industrial defensa con presencia en Indra (~7%). Coordinación accionarial.",
+            "contenido": "**Otro grupo industrial defensa con presencia en Indra (~7%)** (nota +7/10) — Coordinación accionarial.",
             "tags": [
-              "sapa-placencia"
+              "sapa-placencia",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Amber Capital (Oughourlian)",
-            "contenido": "Accionista relevante de Indra (~7%). Necesita diálogo.",
+            "contenido": "**Accionista relevante de Indra (~7%)** — Necesita diálogo.",
             "tags": [
-              "amber"
+              "amber",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Hermano Javier Escribano",
-            "contenido": "Cofundador y co-accionista. Mantiene la operativa en Escribano M&E.",
+            "contenido": "**Cofundador y co-accionista** (nota +8/10) — Mantiene la operativa en Escribano M&E.",
             "tags": [
-              "familia"
+              "familia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -5023,6 +5917,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en 1949. Ingeniero de Caminos. Carrera entera en Sacyr/SyV."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5070,6 +5972,14 @@
             "tags": [
               "repsol"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -5080,33 +5990,40 @@
           {
             "tipo": "contacto",
             "titulo": "Disa Corporación",
-            "contenido": "Disa (familia Hernández, Canarias) es accionista relevante (~6%) y aliada estable.",
+            "contenido": "**Disa (familia Hernández, Canarias) es accionista relevante (~6%) y aliada estable** (nota +5/10)",
             "tags": [
-              "disa"
+              "disa",
+              "nota-+5",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Beta Asociados",
-            "contenido": "Vehículo del propio Manrique y entorno, ~7% del capital.",
+            "contenido": "**Vehículo del propio Manrique y entorno, ~7% del capital**",
             "tags": [
-              "beta"
+              "beta",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caso Villarejo",
-            "contenido": "Sacyr como víctima del espionaje encargado por BBVA contra Luis del Rivero en torno a la OPA Repsol 2006. Vínculo procesal indirecto.",
+            "contenido": "**Sacyr como víctima del espionaje encargado por BBVA contra Luis del Rivero en torno a la OPA Repsol 2006** (nota -8/10) — Vínculo procesal indirecto.",
             "tags": [
-              "villarejo"
+              "villarejo",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Repsol consejo",
-            "contenido": "Sacyr mantiene consejero en Repsol vía Manrique.",
+            "contenido": "**Sacyr mantiene consejero en Repsol vía Manrique** (nota +7/10)",
             "tags": [
-              "repsol"
+              "repsol",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -5176,6 +6093,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Barcelona, 1962. MBA Harvard. Nieto del fundador."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5222,6 +6147,14 @@
             "tags": [
               "lujo"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -5232,26 +6165,31 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Puig",
-            "contenido": "Hermano Manuel Puig (vicepresidente) y otros miembros familiares.",
+            "contenido": "**Hermano Manuel Puig (vicepresidente) y otros miembros familiares** (nota +8/10)",
             "tags": [
-              "familia-puig"
+              "familia-puig",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FC Barcelona",
-            "contenido": "Puig patrocinador FCB (camiseta entrenamiento). Vínculo con Joan Laporta.",
+            "contenido": "**Puig patrocinador FCB (camiseta entrenamiento)** (nota +6/10) — Vínculo con Joan Laporta.",
             "tags": [
               "fcbarcelona",
-              "laporta"
+              "laporta",
+              "nota-+6",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Establishment catalán",
-            "contenido": "Vinculado al Círculo de Economía, Foment del Treball y al ecosistema empresarial catalán.",
+            "contenido": "**Vinculado al Círculo de Economía, Foment del Treball y al ecosistema empresarial catalán**",
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ]
           }
         ]
@@ -5294,6 +6232,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Económicas. Trayectoria larga en Bankia (vinculado al equipo Goirigolzarri)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5334,25 +6280,30 @@
           {
             "tipo": "contacto",
             "titulo": "Equipo Goirigolzarri",
-            "contenido": "Vinculado al equipo histórico de Goirigolzarri en Bankia y luego CaixaBank.",
+            "contenido": "**Vinculado al equipo histórico de Goirigolzarri en Bankia y luego CaixaBank**",
             "tags": [
-              "goirigolzarri"
+              "goirigolzarri",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Fundación Unicaja",
-            "contenido": "Interlocutor con la Fundación tras la crisis Medel 2023-2024.",
+            "contenido": "**Interlocutor con la Fundación tras la crisis Medel 2023-2024** (nota +4/10)",
             "tags": [
-              "medel"
+              "medel",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Isidro Rubiales (CEO)",
-            "contenido": "Tándem ejecutivo en Unicaja.",
+            "contenido": "**Tándem ejecutivo en Unicaja** (nota +8/10)",
             "tags": [
-              "rubiales"
+              "rubiales",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]
@@ -5365,6 +6316,22 @@
             "tipo": "documento",
             "titulo": "Unicaja",
             "fuente_url": "https://www.unicajabanco.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -5396,6 +6363,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Manresa, 1942. Económicas (Universidad de Barcelona)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5424,41 +6399,48 @@
           {
             "tipo": "contacto",
             "titulo": "Goirigolzarri (CaixaBank)",
-            "contenido": "Interlocutor habitual del presidente de CaixaBank.",
+            "contenido": "**Interlocutor habitual del presidente de CaixaBank** (nota +8/10)",
             "tags": [
-              "caixa"
+              "caixa",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Reynés (Naturgy)",
-            "contenido": "Naturgy participada por Criteria al 26%.",
+            "contenido": "**Naturgy participada por Criteria al 26%** (nota +3/10)",
             "tags": [
-              "naturgy"
+              "naturgy",
+              "nota-+3",
+              "neutral"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Murtra (Telefónica)",
-            "contenido": "Criteria es accionista de Telefónica.",
+            "contenido": "**Criteria es accionista de Telefónica**",
             "tags": [
-              "telefonica"
+              "telefonica",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Establishment catalán",
-            "contenido": "Una de las figuras centrales del catalanismo empresarial moderado.",
+            "contenido": "**Una de las figuras centrales del catalanismo empresarial moderado**",
             "tags": [
-              "cataluna"
+              "cataluna",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Casa Real",
-            "contenido": "Vinculado al rey emérito y al rey Felipe VI.",
+            "contenido": "**Vinculado al rey emérito y al rey Felipe VI**",
             "tags": [
-              "casa-real"
+              "casa-real",
+              "sin-valorar"
             ]
           }
         ]
@@ -5483,6 +6465,22 @@
             "tipo": "documento",
             "titulo": "Fundación La Caixa",
             "fuente_url": "https://fundacionlacaixa.org"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -5512,6 +6510,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Busdongo de Arbas (León), 1936. Sin formación universitaria. Comenzó como aprendiz en La Maja (camisería A Coruña)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5546,26 +6552,30 @@
           {
             "tipo": "contacto",
             "titulo": "Familia Ortega",
-            "contenido": "Hijas Sandra Ortega Mera (fortuna heredada de su madre Rosalía Mera) y Marta Ortega Pérez (presidenta de Inditex).",
+            "contenido": "**Hijas Sandra Ortega Mera (fortuna heredada de su madre Rosalía Mera) y Marta Ortega Pérez (presidenta de Inditex)** (nota +8/10)",
             "tags": [
-              "ortega"
+              "ortega",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Patrimonio inmobiliario",
-            "contenido": "Pontegadea propietaria de edificios emblemáticos en Madrid (Castellana 81), Barcelona (Diagonal), Nueva York, Londres, Miami.",
+            "contenido": "**Pontegadea propietaria de edificios emblemáticos en Madrid (Castellana 81), Barcelona (Diagonal), Nueva York, Londres, Miami**",
             "tags": [
               "pontegadea",
-              "inmobiliario"
+              "inmobiliario",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Donaciones a Sanidad",
-            "contenido": "Donaciones documentadas (>200 M€) a sanidad pública en Galicia. Reconocimiento bipartidista.",
+            "contenido": "**Donaciones documentadas (>200 M€) a sanidad pública en Galicia** — Reconocimiento bipartidista.",
             "tags": [
-              "filantropia"
+              "filantropia",
+              "sin-valorar"
             ]
           }
         ]
@@ -5592,6 +6602,22 @@
             "tipo": "documento",
             "titulo": "Pontegadea",
             "fuente_url": "https://www.pontegadea.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -5622,6 +6648,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Teruel, 1953. Abogado del Estado."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5668,35 +6702,40 @@
           {
             "tipo": "contacto",
             "titulo": "PP / Mariano Rajoy",
-            "contenido": "Vinculado al PP, fichado por Rajoy en 2007 como propuesta económica.",
+            "contenido": "**Vinculado al PP, fichado por Rajoy en 2007 como propuesta económica**",
             "tags": [
               "pp",
-              "rajoy"
+              "rajoy",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Mariano Rajoy / PP",
-            "contenido": "Fichado por Rajoy como cabeza de lista PP Madrid en 2008.",
+            "contenido": "**Fichado por Rajoy como cabeza de lista PP Madrid en 2008**",
             "tags": [
               "rajoy",
-              "pp"
+              "pp",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ana Botín",
-            "contenido": "Consejero externo del Santander desde 2017.",
+            "contenido": "**Consejero externo del Santander desde 2017** (nota +7/10)",
             "tags": [
-              "botin"
+              "botin",
+              "nota-+7",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Establishment financiero",
-            "contenido": "Vinculado a la red de banqueros y FAES.",
+            "contenido": "**Vinculado a la red de banqueros y FAES**",
             "tags": [
-              "faes"
+              "faes",
+              "sin-valorar"
             ]
           }
         ]
@@ -5709,6 +6748,22 @@
             "tipo": "documento",
             "titulo": "Santander",
             "fuente_url": "https://www.santander.com"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -5738,6 +6793,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1949. Derecho. MBA Berkeley."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5772,52 +6835,61 @@
           {
             "tipo": "contacto",
             "titulo": "PP histórico",
-            "contenido": "Aznar, Rajoy, círculo del PP histórico.",
+            "contenido": "**Aznar, Rajoy, círculo del PP histórico**",
             "tags": [
               "pp",
               "aznar",
-              "rajoy"
+              "rajoy",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "FMI / IMF",
-            "contenido": "Como Managing Director del FMI 2004-2007 conoció a líderes financieros globales (Trichet, Geithner, Lagarde).",
+            "contenido": "**Como Managing Director del FMI 2004-2007 conoció a líderes financieros globales (Trichet, Geithner, Lagarde)**",
             "tags": [
-              "fmi"
+              "fmi",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Aznar / Aznar José María",
-            "contenido": "Mano derecha económica de Aznar como vicepresidente económico y ministro de Economía (1996-2004).",
+            "contenido": "**Mano derecha económica de Aznar como vicepresidente económico y ministro de Economía (1996-2004)** (nota +9/10)",
             "tags": [
-              "aznar"
+              "aznar",
+              "nota-+9",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Caja Madrid / Bankia",
-            "contenido": "Presidente entre 2010-2012, en plena crisis. Salida tras nacionalización.",
+            "contenido": "**Presidente entre 2010-2012, en plena crisis** (nota +8/10) — Salida tras nacionalización.",
             "tags": [
-              "bankia"
+              "bankia",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Miguel Blesa",
-            "contenido": "Predecesor en Caja Madrid. Coimputado en Tarjetas Black.",
+            "contenido": "**Predecesor en Caja Madrid** (nota -8/10) — Coimputado en Tarjetas Black.",
             "tags": [
               "blesa",
-              "tarjetas-black"
+              "tarjetas-black",
+              "nota--8",
+              "conflicto"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Tribunal Supremo / Audiencia Nacional",
-            "contenido": "Múltiples imputaciones y condenas firmes (tarjetas black 2017→2018; fraude fiscal 2024).",
+            "contenido": "**Múltiples imputaciones y condenas firmes (tarjetas black 2017→2018; fraude fiscal 2024)**",
             "tags": [
-              "judicial"
+              "judicial",
+              "sin-valorar"
             ]
           }
         ]
@@ -5858,6 +6930,22 @@
             "fuente_url": "https://es.wikipedia.org/wiki/Rodrigo_Rato"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -5884,6 +6972,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Madrid, 1964. Abogado del Estado. MBA IESE."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -5918,27 +7014,32 @@
           {
             "tipo": "contacto",
             "titulo": "CEOE - Garamendi",
-            "contenido": "Vicepresidente primero de CEOE 2014-2022, antes con Rosell y luego con Garamendi.",
+            "contenido": "**Vicepresidente primero de CEOE 2014-2022, antes con Rosell y luego con Garamendi** (nota +8/10)",
             "tags": [
               "ceoe",
-              "garamendi"
+              "garamendi",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Reconocimiento bipartidista",
-            "contenido": "Figura consensual entre PP y PSOE.",
+            "contenido": "**Figura consensual entre PP y PSOE**",
             "tags": [
               "politica",
-              "consensual"
+              "consensual",
+              "sin-valorar"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Familia Ortega",
-            "contenido": "Tutelado por Pontegadea durante 11 años.",
+            "contenido": "**Tutelado por Pontegadea durante 11 años** (nota +5/10)",
             "tags": [
-              "ortega"
+              "ortega",
+              "nota-+5",
+              "alianza-debil"
             ]
           }
         ]
@@ -5951,6 +7052,22 @@
             "tipo": "documento",
             "titulo": "Wikipedia",
             "fuente_url": "https://es.wikipedia.org/wiki/Pablo_Isla"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       }
@@ -5980,6 +7097,14 @@
             "tipo": "dato",
             "titulo": "Perfil",
             "contenido": "Nacido en Getxo (Bizkaia), 1958. Empresario industrial (entornos siderúrgico y químico vasco)."
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Perfil ejecutivo",
+            "contenido": "Como alto directivo de una cotizada del IBEX 35, su retribución es pública (incluida en el Informe Anual sobre Remuneraciones de los Consejeros) y sus operaciones sobre acciones de la compañía son notificables a la CNMV. Participa en la definición de la estrategia corporativa, supervisa la operativa y representa a la compañía ante reguladores, inversores institucionales y patronales sectoriales.",
+            "tags": [
+              "perfil-ejecutivo"
+            ]
           }
         ]
       },
@@ -6013,6 +7138,14 @@
               "politica",
               "gobierno-sanchez"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco de gobernanza ejecutiva",
+            "contenido": "La retribución de los consejeros ejecutivos se vota anualmente en la Junta de Accionistas (informe vinculante cada tres años, consultivo los otros años). Los principios del Código de Buen Gobierno de la CNMV exigen separación entre Presidente y CEO (o consejero coordinador independiente si coinciden), comisiones de Auditoría y de Nombramientos / Retribuciones con mayoría de independientes, y rotación del auditor cada 10 años. Las decisiones estratégicas pasan por el Consejo, con voto del directivo si es consejero ejecutivo.",
+            "tags": [
+              "gobernanza-ejecutiva"
+            ]
           }
         ]
       },
@@ -6023,17 +7156,21 @@
           {
             "tipo": "contacto",
             "titulo": "Diálogo social",
-            "contenido": "Interlocución habitual con CCOO (Sordo) y UGT (Álvarez), Ministerio de Trabajo (Yolanda Díaz).",
+            "contenido": "**Interlocución habitual con CCOO (Sordo) y UGT (Álvarez), Ministerio de Trabajo (Yolanda Díaz)** (nota +4/10)",
             "tags": [
-              "dialogo-social"
+              "dialogo-social",
+              "nota-+4",
+              "alianza-debil"
             ]
           },
           {
             "tipo": "contacto",
             "titulo": "Ibex 35 grandes",
-            "contenido": "Vinculado a la mayoría de presidentes IBEX (Botín, Sánchez Galán, Florentino, Entrecanales).",
+            "contenido": "**Vinculado a la mayoría de presidentes IBEX (Botín, Sánchez Galán, Florentino, Entrecanales)** (nota +8/10)",
             "tags": [
-              "ibex35"
+              "ibex35",
+              "nota-+8",
+              "alianza-fuerte"
             ]
           }
         ]

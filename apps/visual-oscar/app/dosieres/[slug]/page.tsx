@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
@@ -8,6 +8,14 @@ import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton from '@/components/Skeleton'
 import { findDossier } from '@/lib/dosieres-link'
+// Fixtures locales para los seeds IBEX 35 + Diputaciones (no están en
+// el backend; se mergean en cliente · misma estética que el resto).
+import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
+import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
+import { PODER_FIXTURE } from '@/data/poder-fixture'
+// Overlay de relaciones políticas estructurales (Fase B). Aplica a los
+// ~2.500 dossieres del fixture sin apartado redes propio.
+import REDES_OVERLAY from '@/data/redes-overlay.json'
 // Sprint G14 cierre · panel OSINT externo · solo PEPs · audit obligatorio
 import { DossierOSINTPanel } from '@/components/dossier/DossierOSINTPanel'
 
@@ -93,11 +101,77 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
   )
 
   // El proxy envuelve detalles con _meta · normalizamos
-  const dossier: DossierCompleto | null = data && typeof data === 'object' && 'slug' in data
+  const apiDossier: DossierCompleto | null = data && typeof data === 'object' && 'slug' in data
     ? (data as DossierCompleto)
     : null
 
-  if (loading) return <LoadingState/>
+  // Fallback en cliente: los seeds IBEX 35 y Diputaciones no están en
+  // el backend. Si la API no devuelve nada y el slug existe en algún
+  // fixture local, lo usamos con la misma estética que el resto.
+  const localDossier = !apiDossier
+    ? (IBEX35_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? (DIPUTACIONES_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? (PODER_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
+      ?? null
+    : null
+
+  const dossierBase: DossierCompleto | null = apiDossier ?? localDossier
+
+  // Merge overlay de relaciones políticas estructurales (Fase B).
+  // Si el dossier NO trae apartado `redes` propio, miramos el overlay
+  // y construimos un apartado sintético con líderes/rivales del partido.
+  // Esto cubre ~2.500 políticos del fixture sin redes hasta ahora.
+  const dossier = useMemo(() => {
+    if (!dossierBase) return null
+    const yaTieneRedes = dossierBase.apartados.some(a => a.tipo === 'redes')
+    if (yaTieneRedes) return dossierBase
+
+    const ov = REDES_OVERLAY as {
+      by_party: Record<string, { titulo: string; contenido: string; tags: string[]; slug_ref: string | null }[]>;
+      generic: { titulo: string; contenido: string; tags: string[]; slug_ref: string | null }[];
+      apply_to: Record<string, string>;
+    }
+    const partidoKey = ov.apply_to[dossierBase.slug]
+    if (!partidoKey) return dossierBase   // no hay overlay para este slug
+
+    const templateItems = partidoKey === '_generic'
+      ? ov.generic
+      : (ov.by_party[partidoKey] ?? [])
+
+    // Filtrar auto-referencias (yo no me cito a mí mismo)
+    const items = templateItems
+      .filter(it => it.slug_ref !== dossierBase.slug)
+      .map((it, i) => ({
+        id: `overlay-${dossierBase.slug}-${i}`,
+        apartado_id: `overlay-${dossierBase.slug}-redes`,
+        tipo: 'contacto' as const,
+        titulo: it.titulo,
+        contenido: it.contenido,
+        fecha: null,
+        fuente_url: null,
+        fuente_titulo: null,
+        tags: it.tags,
+        orden: i,
+      }))
+
+    if (items.length === 0) return dossierBase
+
+    const apartadoRedes: Apartado = {
+      id: `overlay-${dossierBase.slug}-ap-redes`,
+      tipo: 'redes',
+      titulo: 'Relaciones políticas',
+      resumen: 'Valoración analítica estructural (escala +10 a -10) inferida desde el partido del actor. Notas razonadas, no datos oficiales.',
+      orden: 3,
+      items,
+    }
+    return {
+      ...dossierBase,
+      apartados: [...dossierBase.apartados, apartadoRedes],
+    }
+  }, [dossierBase])
+
+  // Mientras la API responde, si tenemos local, ya pintamos (sin parpadeo)
+  if (loading && !localDossier) return <LoadingState/>
   if (!dossier) return <NotFoundState slug={params.slug}/>
 
   const partidoColor = dossier.partido ? (PARTIDO_COLOR[dossier.partido] ?? '#6e6e73') : '#6e6e73'
@@ -111,9 +185,19 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
  <AppHeader/>
  <main style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 24px 80px' }}>
 
-        {/* Breadcrumb · sutil */}
- <nav style={{ marginBottom: 16, fontSize: 12, color: '#86868b' }}>
+        {/* Breadcrumb · sutil + acción "Editar" */}
+ <nav style={{ marginBottom: 16, fontSize: 12, color: '#86868b', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
  <Link href="/dosieres" style={{ color: '#86868b', textDecoration: 'none' }}>← Todos los dosieres</Link>
+ <Link
+   href={`/dosieres/nuevo?import=${dossier.slug}`}
+   style={{
+     color: '#0071e3', textDecoration: 'none', fontSize: 11.5, fontWeight: 600,
+     padding: '4px 10px', border: '1px solid #d2e3fb', borderRadius: 6,
+   }}
+   title="Abre el formulario precargado con los datos de este dossier"
+ >
+   Editar / clonar
+ </Link>
  </nav>
 
         {/* ═══ HERO grande con foto + nombre + partido prominente ═══ */}

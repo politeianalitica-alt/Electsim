@@ -60,6 +60,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "javier-aureliano-garcia"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0001-ap-00-it-02",
+            "apartado_id": "dip-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0001-ap-00-it-03",
+            "apartado_id": "dip-0001-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -81,6 +109,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0001-ap-01-it-01",
+            "apartado_id": "dip-0001-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -117,6 +159,21 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "agricultura"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0001-ap-02-it-02",
+            "apartado_id": "dip-0001-ap-02",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -132,12 +189,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0001-ap-03",
             "tipo": "contacto",
             "titulo": "Composición",
-            "contenido": "Mayoría PP. Resto: PSOE, Vox, IU/Por Almería.",
+            "contenido": "**Mayoría PP** — Resto: PSOE, Vox, IU/Por Almería.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "composicion"
+              "composicion",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -146,12 +204,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0001-ap-03",
             "tipo": "contacto",
             "titulo": "Junta de Andalucía",
-            "contenido": "Coordinación con Junta de Andalucía (Moreno Bonilla, PP).",
+            "contenido": "**Coordinación con Junta de Andalucía (Moreno Bonilla, PP)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junta-andalucia"
+              "junta-andalucia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -160,12 +220,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0001-ap-03",
             "tipo": "contacto",
             "titulo": "FAMP",
-            "contenido": "Federación Andaluza de Municipios y Provincias.",
+            "contenido": "**Federación Andaluza de Municipios y Provincias**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "famp"
+              "famp",
+              "sin-valorar"
             ],
             "orden": 2
           }
@@ -193,8 +254,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0002",
@@ -245,6 +306,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "almudena-martinez"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0002-ap-00-it-02",
+            "apartado_id": "dip-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0002-ap-00-it-03",
+            "apartado_id": "dip-0002-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -266,6 +355,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0002-ap-01-it-01",
+            "apartado_id": "dip-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -289,6 +392,21 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "competencias"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0002-ap-02-it-01",
+            "apartado_id": "dip-0002-ap-02",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -304,12 +422,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0002-ap-03",
             "tipo": "contacto",
             "titulo": "Junta de Andalucía",
-            "contenido": "Coordinación con Moreno Bonilla (PP).",
+            "contenido": "**Coordinación con Moreno Bonilla (PP)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junta-andalucia"
+              "junta-andalucia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -318,12 +438,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0002-ap-03",
             "tipo": "contacto",
             "titulo": "Bahía de Algeciras",
-            "contenido": "Vínculos con Autoridad Portuaria Bahía Algeciras y CCAA por gigafactoría Stellantis y polo logístico.",
+            "contenido": "**Vínculos con Autoridad Portuaria Bahía Algeciras y CCAA por gigafactoría Stellantis y polo logístico**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "algeciras"
+              "algeciras",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -351,8 +472,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0003",
@@ -402,6 +523,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0003-ap-00-it-02",
+            "apartado_id": "dip-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0003-ap-00-it-03",
+            "apartado_id": "dip-0003-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -423,6 +572,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0003-ap-01-it-01",
+            "apartado_id": "dip-0003-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -438,12 +601,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0003-ap-02",
             "tipo": "contacto",
             "titulo": "Junta de Andalucía",
-            "contenido": "Coordinación con Moreno Bonilla.",
+            "contenido": "**Coordinación con Moreno Bonilla** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junta-andalucia"
+              "junta-andalucia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -452,12 +617,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0003-ap-02",
             "tipo": "contacto",
             "titulo": "Diputación e Inditex",
-            "contenido": "Convenios con grandes empleadores y patronal Confecórdoba.",
+            "contenido": "**Convenios con grandes empleadores y patronal Confecórdoba** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "empresa"
+              "empresa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -483,10 +650,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0003-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0003-ap-04-it-00",
+            "apartado_id": "dip-0003-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0004",
@@ -534,56 +725,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "dip-0004-ap-00-it-02",
+            "apartado_id": "dip-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0004-ap-00-it-03",
+            "apartado_id": "dip-0004-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0004-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0004-ap-01-it-00",
+            "apartado_id": "dip-0004-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0004-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0004-ap-01-it-00",
-            "apartado_id": "dip-0004-ap-01",
+            "id": "dip-0004-ap-02-it-00",
+            "apartado_id": "dip-0004-ap-02",
             "tipo": "contacto",
             "titulo": "Junta de Andalucía",
-            "contenido": "Coordinación con Moreno Bonilla.",
+            "contenido": "**Coordinación con Moreno Bonilla** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junta-andalucia"
+              "junta-andalucia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0004-ap-01-it-01",
-            "apartado_id": "dip-0004-ap-01",
+            "id": "dip-0004-ap-02-it-01",
+            "apartado_id": "dip-0004-ap-02",
             "tipo": "contacto",
             "titulo": "Universidad de Granada",
-            "contenido": "Convenios institucionales con UGR.",
+            "contenido": "**Convenios institucionales con UGR** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ugr"
+              "ugr",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0004-ap-02",
+        "id": "dip-0004-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0004-ap-02-it-00",
-            "apartado_id": "dip-0004-ap-02",
+            "id": "dip-0004-ap-03-it-00",
+            "apartado_id": "dip-0004-ap-03",
             "tipo": "documento",
             "titulo": "Diputación de Granada",
             "contenido": "",
@@ -594,10 +840,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0004-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0004-ap-04-it-00",
+            "apartado_id": "dip-0004-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0005",
@@ -647,56 +917,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0005-ap-00-it-02",
+            "apartado_id": "dip-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0005-ap-00-it-03",
+            "apartado_id": "dip-0005-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0005-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0005-ap-01-it-00",
+            "apartado_id": "dip-0005-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0005-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0005-ap-01-it-00",
-            "apartado_id": "dip-0005-ap-01",
+            "id": "dip-0005-ap-02-it-00",
+            "apartado_id": "dip-0005-ap-02",
             "tipo": "contacto",
             "titulo": "Junta de Andalucía",
-            "contenido": "Coordinación con Moreno Bonilla.",
+            "contenido": "**Coordinación con Moreno Bonilla** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junta-andalucia"
+              "junta-andalucia",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0005-ap-01-it-01",
-            "apartado_id": "dip-0005-ap-01",
+            "id": "dip-0005-ap-02-it-01",
+            "apartado_id": "dip-0005-ap-02",
             "tipo": "contacto",
             "titulo": "Sector pesquero y fresa",
-            "contenido": "Vínculos con cooperativas de la fresa y pesca de Huelva.",
+            "contenido": "**Vínculos con cooperativas de la fresa y pesca de Huelva**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sector"
+              "sector",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0005-ap-02",
+        "id": "dip-0005-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0005-ap-02-it-00",
-            "apartado_id": "dip-0005-ap-02",
+            "id": "dip-0005-ap-03-it-00",
+            "apartado_id": "dip-0005-ap-03",
             "tipo": "documento",
             "titulo": "Diputación de Huelva",
             "contenido": "",
@@ -707,10 +1031,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0005-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0005-ap-04-it-00",
+            "apartado_id": "dip-0005-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0006",
@@ -761,6 +1109,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "francisco-reyes"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0006-ap-00-it-02",
+            "apartado_id": "dip-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0006-ap-00-it-03",
+            "apartado_id": "dip-0006-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -782,6 +1158,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0006-ap-01-it-01",
+            "apartado_id": "dip-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -805,6 +1195,21 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "olivar"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0006-ap-02-it-01",
+            "apartado_id": "dip-0006-ap-02",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -820,12 +1225,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0006-ap-03",
             "tipo": "contacto",
             "titulo": "PSOE Andalucía",
-            "contenido": "Vínculo con la federación regional del PSOE-A.",
+            "contenido": "**Vínculo con la federación regional del PSOE-A**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-a"
+              "psoe-a",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -834,12 +1240,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0006-ap-03",
             "tipo": "contacto",
             "titulo": "Junta de Andalucía (oposición)",
-            "contenido": "Coordinación de oposición con la Junta del PP.",
+            "contenido": "**Coordinación de oposición con la Junta del PP** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
@@ -867,8 +1275,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0007",
@@ -919,19 +1327,70 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "salado"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0007-ap-00-it-02",
+            "apartado_id": "dip-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0007-ap-00-it-03",
+            "apartado_id": "dip-0007-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0007-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0007-ap-01-it-00",
+            "apartado_id": "dip-0007-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0007-ap-02",
         "tipo": "posiciones",
         "titulo": null,
         "resumen": null,
         "orden": 2,
         "items": [
           {
-            "id": "dip-0007-ap-01-it-00",
-            "apartado_id": "dip-0007-ap-01",
+            "id": "dip-0007-ap-02-it-00",
+            "apartado_id": "dip-0007-ap-02",
             "tipo": "dato",
             "titulo": "Turismo y tecnología",
             "contenido": "Eje turístico Costa del Sol + polo tecnológico (PTA Andalucía, Málaga Tech).",
@@ -943,41 +1402,19 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "tech"
             ],
             "orden": 0
-          }
-        ]
-      },
-      {
-        "id": "dip-0007-ap-02",
-        "tipo": "redes",
-        "titulo": null,
-        "resumen": null,
-        "orden": 3,
-        "items": [
-          {
-            "id": "dip-0007-ap-02-it-00",
-            "apartado_id": "dip-0007-ap-02",
-            "tipo": "contacto",
-            "titulo": "Junta de Andalucía",
-            "contenido": "Coordinación con Moreno Bonilla, alineamiento PP.",
-            "fecha": null,
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [
-              "junta-andalucia"
-            ],
-            "orden": 0
           },
           {
             "id": "dip-0007-ap-02-it-01",
             "apartado_id": "dip-0007-ap-02",
-            "tipo": "contacto",
-            "titulo": "Ayuntamiento Málaga (De la Torre PP)",
-            "contenido": "Coordinación con Francisco de la Torre (alcalde Málaga capital).",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "delatorre"
+              "debate-supresion",
+              "modelo-territorial"
             ],
             "orden": 1
           }
@@ -985,14 +1422,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0007-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0007-ap-03-it-00",
+            "apartado_id": "dip-0007-ap-03",
+            "tipo": "contacto",
+            "titulo": "Junta de Andalucía",
+            "contenido": "**Coordinación con Moreno Bonilla, alineamiento PP** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junta-andalucia",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "dip-0007-ap-03-it-01",
+            "apartado_id": "dip-0007-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ayuntamiento Málaga (De la Torre PP)",
+            "contenido": "**Coordinación con Francisco de la Torre (alcalde Málaga capital)** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "delatorre",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "dip-0007-ap-04",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0007-ap-03-it-00",
-            "apartado_id": "dip-0007-ap-03",
+            "id": "dip-0007-ap-04-it-00",
+            "apartado_id": "dip-0007-ap-04",
             "tipo": "documento",
             "titulo": "Diputación de Málaga",
             "contenido": "",
@@ -1005,8 +1483,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0008",
@@ -1057,6 +1535,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "javier-fernandez"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0008-ap-00-it-02",
+            "apartado_id": "dip-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0008-ap-00-it-03",
+            "apartado_id": "dip-0008-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1078,6 +1584,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0008-ap-01-it-01",
+            "apartado_id": "dip-0008-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -1093,12 +1613,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0008-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE Sevilla",
-            "contenido": "Vínculo histórico fuerte. Sevilla bastión PSOE.",
+            "contenido": "**Vínculo histórico fuerte** — Sevilla bastión PSOE.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-sevilla"
+              "psoe-sevilla",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -1107,12 +1628,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0008-ap-02",
             "tipo": "contacto",
             "titulo": "Ayuntamiento Sevilla (Sanz PP)",
-            "contenido": "Coordinación complicada con José Luis Sanz (PP, alcalde Sevilla capital).",
+            "contenido": "**Coordinación complicada con José Luis Sanz (PP, alcalde Sevilla capital)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sanz"
+              "sanz",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -1138,10 +1661,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0008-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0008-ap-04-it-00",
+            "apartado_id": "dip-0008-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0009",
@@ -1191,56 +1738,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0009-ap-00-it-02",
+            "apartado_id": "dip-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0009-ap-00-it-03",
+            "apartado_id": "dip-0009-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0009-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0009-ap-01-it-00",
+            "apartado_id": "dip-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0009-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0009-ap-01-it-00",
-            "apartado_id": "dip-0009-ap-01",
+            "id": "dip-0009-ap-02-it-00",
+            "apartado_id": "dip-0009-ap-02",
             "tipo": "contacto",
             "titulo": "Gobierno Aragón",
-            "contenido": "Coordinación con Jorge Azcón (PP, presidente de Aragón).",
+            "contenido": "**Coordinación con Jorge Azcón (PP, presidente de Aragón)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "azcon"
+              "azcon",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0009-ap-01-it-01",
-            "apartado_id": "dip-0009-ap-01",
+            "id": "dip-0009-ap-02-it-01",
+            "apartado_id": "dip-0009-ap-02",
             "tipo": "contacto",
             "titulo": "Pirineos / despoblación",
-            "contenido": "Foco en despoblación rural pirenaica.",
+            "contenido": "**Foco en despoblación rural pirenaica**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "despoblacion"
+              "despoblacion",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0009-ap-02",
+        "id": "dip-0009-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0009-ap-02-it-00",
-            "apartado_id": "dip-0009-ap-02",
+            "id": "dip-0009-ap-03-it-00",
+            "apartado_id": "dip-0009-ap-03",
             "tipo": "documento",
             "titulo": "DPHuesca",
             "contenido": "",
@@ -1251,10 +1852,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0009-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0009-ap-04-it-00",
+            "apartado_id": "dip-0009-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0010",
@@ -1304,27 +1929,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0010-ap-00-it-02",
+            "apartado_id": "dip-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0010-ap-00-it-03",
+            "apartado_id": "dip-0010-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0010-ap-01",
-        "tipo": "posiciones",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 2,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0010-ap-01-it-00",
             "apartado_id": "dip-0010-ap-01",
-            "tipo": "dato",
-            "titulo": "Teruel Existe",
-            "contenido": "Contexto político marcado por Teruel Existe (España Vaciada). Diputación frente al partido provincial.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "teruel-existe"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -1332,17 +1985,17 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0010-ap-02",
-        "tipo": "redes",
+        "tipo": "posiciones",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 2,
         "items": [
           {
             "id": "dip-0010-ap-02-it-00",
             "apartado_id": "dip-0010-ap-02",
-            "tipo": "contacto",
+            "tipo": "dato",
             "titulo": "Teruel Existe",
-            "contenido": "Tomás Guitarte y la plataforma. Tensión en el Congreso por compromisos con Teruel.",
+            "contenido": "Contexto político marcado por Teruel Existe (España Vaciada). Diputación frente al partido provincial.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1354,14 +2007,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
           {
             "id": "dip-0010-ap-02-it-01",
             "apartado_id": "dip-0010-ap-02",
-            "tipo": "contacto",
-            "titulo": "Gobierno Aragón",
-            "contenido": "Coordinación con Azcón.",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "azcon"
+              "debate-supresion",
+              "modelo-territorial"
             ],
             "orden": 1
           }
@@ -1369,14 +2023,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0010-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0010-ap-03-it-00",
+            "apartado_id": "dip-0010-ap-03",
+            "tipo": "contacto",
+            "titulo": "Teruel Existe",
+            "contenido": "**Tomás Guitarte y la plataforma** (nota -7/10) — Tensión en el Congreso por compromisos con Teruel.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "teruel-existe",
+              "nota--7",
+              "conflicto"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "dip-0010-ap-03-it-01",
+            "apartado_id": "dip-0010-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gobierno Aragón",
+            "contenido": "**Coordinación con Azcón** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "azcon",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "dip-0010-ap-04",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0010-ap-03-it-00",
-            "apartado_id": "dip-0010-ap-03",
+            "id": "dip-0010-ap-04-it-00",
+            "apartado_id": "dip-0010-ap-04",
             "tipo": "documento",
             "titulo": "DPTeruel",
             "contenido": "",
@@ -1389,8 +2084,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0011",
@@ -1441,6 +2136,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "sanchez-quero"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0011-ap-00-it-02",
+            "apartado_id": "dip-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0011-ap-00-it-03",
+            "apartado_id": "dip-0011-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -1462,6 +2185,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0011-ap-01-it-01",
+            "apartado_id": "dip-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -1477,12 +2214,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0011-ap-02",
             "tipo": "contacto",
             "titulo": "Gobierno Aragón (oposición)",
-            "contenido": "Coordinación con la oposición PSOE en Aragón.",
+            "contenido": "**Coordinación con la oposición PSOE en Aragón** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           },
@@ -1491,12 +2230,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0011-ap-02",
             "tipo": "contacto",
             "titulo": "Ayuntamiento Zaragoza (Chueca PP)",
-            "contenido": "Coordinación con Natalia Chueca (PP).",
+            "contenido": "**Coordinación con Natalia Chueca (PP)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "chueca"
+              "chueca",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -1522,10 +2263,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0011-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0011-ap-04-it-00",
+            "apartado_id": "dip-0011-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0012",
@@ -1575,56 +2340,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0012-ap-00-it-02",
+            "apartado_id": "dip-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0012-ap-00-it-03",
+            "apartado_id": "dip-0012-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0012-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0012-ap-01-it-00",
+            "apartado_id": "dip-0012-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0012-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0012-ap-01-it-00",
-            "apartado_id": "dip-0012-ap-01",
+            "id": "dip-0012-ap-02-it-00",
+            "apartado_id": "dip-0012-ap-02",
             "tipo": "contacto",
             "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco (PP).",
+            "contenido": "**Coordinación con Mañueco (PP)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0012-ap-01-it-01",
-            "apartado_id": "dip-0012-ap-01",
+            "id": "dip-0012-ap-02-it-01",
+            "apartado_id": "dip-0012-ap-02",
             "tipo": "contacto",
             "titulo": "Por Ávila",
-            "contenido": "Partido provincial regionalista presente en la institución.",
+            "contenido": "**Partido provincial regionalista presente en la institución**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "por-avila"
+              "por-avila",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0012-ap-02",
+        "id": "dip-0012-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0012-ap-02-it-00",
-            "apartado_id": "dip-0012-ap-02",
+            "id": "dip-0012-ap-03-it-00",
+            "apartado_id": "dip-0012-ap-03",
             "tipo": "documento",
             "titulo": "Diputación de Ávila",
             "contenido": "",
@@ -1635,10 +2454,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0012-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0012-ap-04-it-00",
+            "apartado_id": "dip-0012-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0013",
@@ -1688,27 +2531,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0013-ap-00-it-02",
+            "apartado_id": "dip-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0013-ap-00-it-03",
+            "apartado_id": "dip-0013-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0013-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0013-ap-01-it-00",
             "apartado_id": "dip-0013-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -1716,14 +2587,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0013-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0013-ap-02-it-00",
+            "apartado_id": "dip-0013-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta CyL",
+            "contenido": "**Coordinación con Mañueco** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0013-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0013-ap-02-it-00",
-            "apartado_id": "dip-0013-ap-02",
+            "id": "dip-0013-ap-03-it-00",
+            "apartado_id": "dip-0013-ap-03",
             "tipo": "documento",
             "titulo": "Diputación de Burgos",
             "contenido": "",
@@ -1734,10 +2630,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0013-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0013-ap-04-it-00",
+            "apartado_id": "dip-0013-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0014",
@@ -1788,56 +2708,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "upl"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0014-ap-00-it-02",
+            "apartado_id": "dip-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0014-ap-00-it-03",
+            "apartado_id": "dip-0014-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0014-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0014-ap-01-it-00",
+            "apartado_id": "dip-0014-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0014-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0014-ap-01-it-00",
-            "apartado_id": "dip-0014-ap-01",
+            "id": "dip-0014-ap-02-it-00",
+            "apartado_id": "dip-0014-ap-02",
             "tipo": "contacto",
             "titulo": "UPL (Unión del Pueblo Leonés)",
-            "contenido": "Partido regionalista que pesa en la institución.",
+            "contenido": "**Partido regionalista que pesa en la institución**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "upl"
+              "upl",
+              "sin-valorar"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0014-ap-01-it-01",
-            "apartado_id": "dip-0014-ap-01",
+            "id": "dip-0014-ap-02-it-01",
+            "apartado_id": "dip-0014-ap-02",
             "tipo": "contacto",
             "titulo": "Junta CyL (oposición)",
-            "contenido": "Oposición a la Junta del PP-Vox.",
+            "contenido": "**Oposición a la Junta del PP-Vox** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0014-ap-02",
+        "id": "dip-0014-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0014-ap-02-it-00",
-            "apartado_id": "dip-0014-ap-02",
+            "id": "dip-0014-ap-03-it-00",
+            "apartado_id": "dip-0014-ap-03",
             "tipo": "documento",
             "titulo": "DipuLeón",
             "contenido": "",
@@ -1848,10 +2822,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0014-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0014-ap-04-it-00",
+            "apartado_id": "dip-0014-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0015",
@@ -1901,27 +2899,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0015-ap-00-it-02",
+            "apartado_id": "dip-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0015-ap-00-it-03",
+            "apartado_id": "dip-0015-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0015-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0015-ap-01-it-00",
             "apartado_id": "dip-0015-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -1929,14 +2955,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0015-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0015-ap-02-it-00",
+            "apartado_id": "dip-0015-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta CyL",
+            "contenido": "**Coordinación con Mañueco** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0015-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0015-ap-02-it-00",
-            "apartado_id": "dip-0015-ap-02",
+            "id": "dip-0015-ap-03-it-00",
+            "apartado_id": "dip-0015-ap-03",
             "tipo": "documento",
             "titulo": "DipuPalencia",
             "contenido": "",
@@ -1947,10 +2998,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0015-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0015-ap-04-it-00",
+            "apartado_id": "dip-0015-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0016",
@@ -2000,56 +3075,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0016-ap-00-it-02",
+            "apartado_id": "dip-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0016-ap-00-it-03",
+            "apartado_id": "dip-0016-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0016-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0016-ap-01-it-00",
+            "apartado_id": "dip-0016-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0016-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0016-ap-01-it-00",
-            "apartado_id": "dip-0016-ap-01",
+            "id": "dip-0016-ap-02-it-00",
+            "apartado_id": "dip-0016-ap-02",
             "tipo": "contacto",
             "titulo": "USAL",
-            "contenido": "Convenios con Universidad de Salamanca (USAL).",
+            "contenido": "**Convenios con Universidad de Salamanca (USAL)** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "usal"
+              "usal",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0016-ap-01-it-01",
-            "apartado_id": "dip-0016-ap-01",
+            "id": "dip-0016-ap-02-it-01",
+            "apartado_id": "dip-0016-ap-02",
             "tipo": "contacto",
             "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco.",
+            "contenido": "**Coordinación con Mañueco** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0016-ap-02",
+        "id": "dip-0016-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0016-ap-02-it-00",
-            "apartado_id": "dip-0016-ap-02",
+            "id": "dip-0016-ap-03-it-00",
+            "apartado_id": "dip-0016-ap-03",
             "tipo": "documento",
             "titulo": "DipuSalamanca",
             "contenido": "",
@@ -2060,10 +3190,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0016-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0016-ap-04-it-00",
+            "apartado_id": "dip-0016-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0017",
@@ -2113,27 +3267,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0017-ap-00-it-02",
+            "apartado_id": "dip-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0017-ap-00-it-03",
+            "apartado_id": "dip-0017-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0017-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0017-ap-01-it-00",
             "apartado_id": "dip-0017-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -2141,14 +3323,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0017-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0017-ap-02-it-00",
+            "apartado_id": "dip-0017-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta CyL",
+            "contenido": "**Coordinación con Mañueco** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0017-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0017-ap-02-it-00",
-            "apartado_id": "dip-0017-ap-02",
+            "id": "dip-0017-ap-03-it-00",
+            "apartado_id": "dip-0017-ap-03",
             "tipo": "documento",
             "titulo": "DipuSegovia",
             "contenido": "",
@@ -2159,10 +3366,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0017-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0017-ap-04-it-00",
+            "apartado_id": "dip-0017-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0018",
@@ -2212,19 +3443,70 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0018-ap-00-it-02",
+            "apartado_id": "dip-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0018-ap-00-it-03",
+            "apartado_id": "dip-0018-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0018-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0018-ap-01-it-00",
+            "apartado_id": "dip-0018-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0018-ap-02",
         "tipo": "posiciones",
         "titulo": null,
         "resumen": null,
         "orden": 2,
         "items": [
           {
-            "id": "dip-0018-ap-01-it-00",
-            "apartado_id": "dip-0018-ap-01",
+            "id": "dip-0018-ap-02-it-00",
+            "apartado_id": "dip-0018-ap-02",
             "tipo": "dato",
             "titulo": "España Vaciada",
             "contenido": "Soria ¡Ya! (parte de la España Vaciada) presencia clave.",
@@ -2235,41 +3517,19 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "espana-vaciada"
             ],
             "orden": 0
-          }
-        ]
-      },
-      {
-        "id": "dip-0018-ap-02",
-        "tipo": "redes",
-        "titulo": null,
-        "resumen": null,
-        "orden": 3,
-        "items": [
-          {
-            "id": "dip-0018-ap-02-it-00",
-            "apartado_id": "dip-0018-ap-02",
-            "tipo": "contacto",
-            "titulo": "Soria ¡Ya! / España Vaciada",
-            "contenido": "Coordinación / oposición con la plataforma.",
-            "fecha": null,
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [
-              "soria-ya"
-            ],
-            "orden": 0
           },
           {
             "id": "dip-0018-ap-02-it-01",
             "apartado_id": "dip-0018-ap-02",
-            "tipo": "contacto",
-            "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco.",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "debate-supresion",
+              "modelo-territorial"
             ],
             "orden": 1
           }
@@ -2277,14 +3537,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0018-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0018-ap-03-it-00",
+            "apartado_id": "dip-0018-ap-03",
+            "tipo": "contacto",
+            "titulo": "Soria ¡Ya! / España Vaciada",
+            "contenido": "**Coordinación / oposición con la plataforma** (nota -7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "soria-ya",
+              "nota--7",
+              "conflicto"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "dip-0018-ap-03-it-01",
+            "apartado_id": "dip-0018-ap-03",
+            "tipo": "contacto",
+            "titulo": "Junta CyL",
+            "contenido": "**Coordinación con Mañueco** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 1
+          }
+        ]
+      },
+      {
+        "id": "dip-0018-ap-04",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0018-ap-03-it-00",
-            "apartado_id": "dip-0018-ap-03",
+            "id": "dip-0018-ap-04-it-00",
+            "apartado_id": "dip-0018-ap-04",
             "tipo": "documento",
             "titulo": "DipuSoria",
             "contenido": "",
@@ -2297,8 +3598,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0019",
@@ -2348,27 +3649,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0019-ap-00-it-02",
+            "apartado_id": "dip-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0019-ap-00-it-03",
+            "apartado_id": "dip-0019-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0019-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0019-ap-01-it-00",
             "apartado_id": "dip-0019-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta CyL",
-            "contenido": "Coordinación directa con Mañueco (Valladolid capital política).",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -2376,14 +3705,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0019-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0019-ap-02-it-00",
+            "apartado_id": "dip-0019-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta CyL",
+            "contenido": "**Coordinación directa con Mañueco (Valladolid capital política)** (nota +7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0019-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0019-ap-02-it-00",
-            "apartado_id": "dip-0019-ap-02",
+            "id": "dip-0019-ap-03-it-00",
+            "apartado_id": "dip-0019-ap-03",
             "tipo": "documento",
             "titulo": "DipuValladolid",
             "contenido": "",
@@ -2394,10 +3748,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0019-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0019-ap-04-it-00",
+            "apartado_id": "dip-0019-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0020",
@@ -2447,56 +3825,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0020-ap-00-it-02",
+            "apartado_id": "dip-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0020-ap-00-it-03",
+            "apartado_id": "dip-0020-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0020-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0020-ap-01-it-00",
+            "apartado_id": "dip-0020-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0020-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0020-ap-01-it-00",
-            "apartado_id": "dip-0020-ap-01",
+            "id": "dip-0020-ap-02-it-00",
+            "apartado_id": "dip-0020-ap-02",
             "tipo": "contacto",
             "titulo": "Junta CyL",
-            "contenido": "Coordinación con Mañueco.",
+            "contenido": "**Coordinación con Mañueco** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0020-ap-01-it-01",
-            "apartado_id": "dip-0020-ap-01",
+            "id": "dip-0020-ap-02-it-01",
+            "apartado_id": "dip-0020-ap-02",
             "tipo": "contacto",
             "titulo": "Zamora ¡Ya! / España Vaciada",
-            "contenido": "Plataforma regionalista presente.",
+            "contenido": "**Plataforma regionalista presente**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "espana-vaciada"
+              "espana-vaciada",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0020-ap-02",
+        "id": "dip-0020-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0020-ap-02-it-00",
-            "apartado_id": "dip-0020-ap-02",
+            "id": "dip-0020-ap-03-it-00",
+            "apartado_id": "dip-0020-ap-03",
             "tipo": "documento",
             "titulo": "DipuZamora",
             "contenido": "",
@@ -2507,10 +3939,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0020-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0020-ap-04-it-00",
+            "apartado_id": "dip-0020-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0021",
@@ -2561,28 +4017,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "cabanero"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0021-ap-00-it-02",
+            "apartado_id": "dip-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0021-ap-00-it-03",
+            "apartado_id": "dip-0021-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0021-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0021-ap-01-it-00",
             "apartado_id": "dip-0021-ap-01",
-            "tipo": "contacto",
-            "titulo": "Emiliano García-Page",
-            "contenido": "Aliado del presidente CLM (PSOE).",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page",
-              "psoe"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -2590,14 +4073,40 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0021-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0021-ap-02-it-00",
+            "apartado_id": "dip-0021-ap-02",
+            "tipo": "contacto",
+            "titulo": "Emiliano García-Page",
+            "contenido": "**Aliado del presidente CLM (PSOE)** (nota +8/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "page",
+              "psoe",
+              "nota-+8",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0021-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0021-ap-02-it-00",
-            "apartado_id": "dip-0021-ap-02",
+            "id": "dip-0021-ap-03-it-00",
+            "apartado_id": "dip-0021-ap-03",
             "tipo": "documento",
             "titulo": "DipuAlba",
             "contenido": "",
@@ -2608,10 +4117,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0021-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0021-ap-04-it-00",
+            "apartado_id": "dip-0021-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0022",
@@ -2661,28 +4194,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0022-ap-00-it-02",
+            "apartado_id": "dip-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0022-ap-00-it-03",
+            "apartado_id": "dip-0022-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0022-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0022-ap-01-it-00",
             "apartado_id": "dip-0022-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta CLM (Page)",
-            "contenido": "Oposición con la Junta del PSOE.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page",
-              "oposicion"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -2690,14 +4250,40 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0022-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0022-ap-02-it-00",
+            "apartado_id": "dip-0022-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta CLM (Page)",
+            "contenido": "**Oposición con la Junta del PSOE** (nota -7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "page",
+              "oposicion",
+              "nota--7",
+              "conflicto"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0022-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0022-ap-02-it-00",
-            "apartado_id": "dip-0022-ap-02",
+            "id": "dip-0022-ap-03-it-00",
+            "apartado_id": "dip-0022-ap-03",
             "tipo": "documento",
             "titulo": "DipuCR",
             "contenido": "",
@@ -2708,10 +4294,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0022-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0022-ap-04-it-00",
+            "apartado_id": "dip-0022-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0023",
@@ -2761,56 +4371,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "psoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0023-ap-00-it-02",
+            "apartado_id": "dip-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0023-ap-00-it-03",
+            "apartado_id": "dip-0023-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0023-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0023-ap-01-it-00",
+            "apartado_id": "dip-0023-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0023-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0023-ap-01-it-00",
-            "apartado_id": "dip-0023-ap-01",
+            "id": "dip-0023-ap-02-it-00",
+            "apartado_id": "dip-0023-ap-02",
             "tipo": "contacto",
             "titulo": "Page / PSOE-CLM",
-            "contenido": "Aliado del presidente regional.",
+            "contenido": "**Aliado del presidente regional** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page"
+              "page",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0023-ap-01-it-01",
-            "apartado_id": "dip-0023-ap-01",
+            "id": "dip-0023-ap-02-it-01",
+            "apartado_id": "dip-0023-ap-02",
             "tipo": "contacto",
             "titulo": "Cuenca Ahora / España Vaciada",
-            "contenido": "Plataforma España Vaciada relevante en la provincia.",
+            "contenido": "**Plataforma España Vaciada relevante en la provincia**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "espana-vaciada"
+              "espana-vaciada",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0023-ap-02",
+        "id": "dip-0023-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0023-ap-02-it-00",
-            "apartado_id": "dip-0023-ap-02",
+            "id": "dip-0023-ap-03-it-00",
+            "apartado_id": "dip-0023-ap-03",
             "tipo": "documento",
             "titulo": "DipuCuenca",
             "contenido": "",
@@ -2821,10 +4485,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0023-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0023-ap-04-it-00",
+            "apartado_id": "dip-0023-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0024",
@@ -2874,27 +4562,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "psoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0024-ap-00-it-02",
+            "apartado_id": "dip-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0024-ap-00-it-03",
+            "apartado_id": "dip-0024-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0024-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0024-ap-01-it-00",
             "apartado_id": "dip-0024-ap-01",
-            "tipo": "contacto",
-            "titulo": "Page / PSOE-CLM",
-            "contenido": "Aliado del presidente regional.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -2902,14 +4618,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0024-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0024-ap-02-it-00",
+            "apartado_id": "dip-0024-ap-02",
+            "tipo": "contacto",
+            "titulo": "Page / PSOE-CLM",
+            "contenido": "**Aliado del presidente regional** (nota +8/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "page",
+              "nota-+8",
+              "alianza-fuerte"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0024-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0024-ap-02-it-00",
-            "apartado_id": "dip-0024-ap-02",
+            "id": "dip-0024-ap-03-it-00",
+            "apartado_id": "dip-0024-ap-03",
             "tipo": "documento",
             "titulo": "DipuGuada",
             "contenido": "",
@@ -2920,10 +4661,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0024-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0024-ap-04-it-00",
+            "apartado_id": "dip-0024-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0025",
@@ -2973,28 +4738,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0025-ap-00-it-02",
+            "apartado_id": "dip-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0025-ap-00-it-03",
+            "apartado_id": "dip-0025-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0025-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0025-ap-01-it-00",
             "apartado_id": "dip-0025-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta CLM (Page) - oposición",
-            "contenido": "PP en provincia, PSOE en Junta.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page",
-              "oposicion"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -3002,14 +4794,40 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0025-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0025-ap-02-it-00",
+            "apartado_id": "dip-0025-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta CLM (Page) - oposición",
+            "contenido": "**PP en provincia, PSOE en Junta** (nota -7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "page",
+              "oposicion",
+              "nota--7",
+              "conflicto"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0025-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0025-ap-02-it-00",
-            "apartado_id": "dip-0025-ap-02",
+            "id": "dip-0025-ap-03-it-00",
+            "apartado_id": "dip-0025-ap-03",
             "tipo": "documento",
             "titulo": "DipuToledo",
             "contenido": "",
@@ -3020,10 +4838,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0025-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0025-ap-04-it-00",
+            "apartado_id": "dip-0025-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0026",
@@ -3074,6 +4916,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "moret"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0026-ap-00-it-02",
+            "apartado_id": "dip-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0026-ap-00-it-03",
+            "apartado_id": "dip-0026-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3095,6 +4965,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0026-ap-01-it-01",
+            "apartado_id": "dip-0026-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -3118,6 +5002,21 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "modelo-diba"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0026-ap-02-it-01",
+            "apartado_id": "dip-0026-ap-02",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -3133,13 +5032,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0026-ap-03",
             "tipo": "contacto",
             "titulo": "Generalitat (Illa PSC)",
-            "contenido": "Coordinación con Generalitat (Salvador Illa, PSC) desde agosto 2024.",
+            "contenido": "**Coordinación con Generalitat (Salvador Illa, PSC) desde agosto 2024** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "generalitat",
-              "illa"
+              "illa",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -3148,12 +5049,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0026-ap-03",
             "tipo": "contacto",
             "titulo": "Ajuntament Barcelona (Collboni PSC)",
-            "contenido": "Coordinación con Jaume Collboni (PSC, alcalde Barcelona).",
+            "contenido": "**Coordinación con Jaume Collboni (PSC, alcalde Barcelona)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "collboni"
+              "collboni",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -3162,12 +5065,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0026-ap-03",
             "tipo": "contacto",
             "titulo": "ERC",
-            "contenido": "Socio principal en la diputación.",
+            "contenido": "**Socio principal en la diputación** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "erc"
+              "erc",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -3195,8 +5100,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0027",
@@ -3247,57 +5152,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "noguer"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0027-ap-00-it-02",
+            "apartado_id": "dip-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0027-ap-00-it-03",
+            "apartado_id": "dip-0027-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0027-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0027-ap-01-it-00",
+            "apartado_id": "dip-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0027-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0027-ap-01-it-00",
-            "apartado_id": "dip-0027-ap-01",
+            "id": "dip-0027-ap-02-it-00",
+            "apartado_id": "dip-0027-ap-02",
             "tipo": "contacto",
             "titulo": "Junts",
-            "contenido": "Bastión histórico de Junts/CDC en Cataluña.",
+            "contenido": "**Bastión histórico de Junts/CDC en Cataluña**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junts"
+              "junts",
+              "sin-valorar"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0027-ap-01-it-01",
-            "apartado_id": "dip-0027-ap-01",
+            "id": "dip-0027-ap-02-it-01",
+            "apartado_id": "dip-0027-ap-02",
             "tipo": "contacto",
             "titulo": "Generalitat (Illa)",
-            "contenido": "Coordinación con Illa, aunque oposición política.",
+            "contenido": "**Coordinación con Illa, aunque oposición política** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "illa",
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0027-ap-02",
+        "id": "dip-0027-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0027-ap-02-it-00",
-            "apartado_id": "dip-0027-ap-02",
+            "id": "dip-0027-ap-03-it-00",
+            "apartado_id": "dip-0027-ap-03",
             "tipo": "documento",
             "titulo": "DDGI",
             "contenido": "",
@@ -3308,10 +5267,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0027-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0027-ap-04-it-00",
+            "apartado_id": "dip-0027-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0028",
@@ -3361,27 +5344,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "erc"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0028-ap-00-it-02",
+            "apartado_id": "dip-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0028-ap-00-it-03",
+            "apartado_id": "dip-0028-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0028-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0028-ap-01-it-00",
             "apartado_id": "dip-0028-ap-01",
-            "tipo": "contacto",
-            "titulo": "Generalitat / ERC",
-            "contenido": "Vinculación histórica con la izquierda independentista.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "erc"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -3389,14 +5400,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0028-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0028-ap-02-it-00",
+            "apartado_id": "dip-0028-ap-02",
+            "tipo": "contacto",
+            "titulo": "Generalitat / ERC",
+            "contenido": "**Vinculación histórica con la izquierda independentista** (nota +5/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "nota-+5",
+              "alianza-debil"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0028-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0028-ap-02-it-00",
-            "apartado_id": "dip-0028-ap-02",
+            "id": "dip-0028-ap-03-it-00",
+            "apartado_id": "dip-0028-ap-03",
             "tipo": "documento",
             "titulo": "DipuLleida",
             "contenido": "",
@@ -3407,10 +5443,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0028-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0028-ap-04-it-00",
+            "apartado_id": "dip-0028-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0029",
@@ -3460,56 +5520,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "erc"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0029-ap-00-it-02",
+            "apartado_id": "dip-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0029-ap-00-it-03",
+            "apartado_id": "dip-0029-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0029-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0029-ap-01-it-00",
+            "apartado_id": "dip-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0029-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0029-ap-01-it-00",
-            "apartado_id": "dip-0029-ap-01",
+            "id": "dip-0029-ap-02-it-00",
+            "apartado_id": "dip-0029-ap-02",
             "tipo": "contacto",
             "titulo": "PSC (socio)",
-            "contenido": "Pacto de gobierno PSC-ERC.",
+            "contenido": "**Pacto de gobierno PSC-ERC** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psc"
+              "psc",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0029-ap-01-it-01",
-            "apartado_id": "dip-0029-ap-01",
+            "id": "dip-0029-ap-02-it-01",
+            "apartado_id": "dip-0029-ap-02",
             "tipo": "contacto",
             "titulo": "Tarragona Petroquímica",
-            "contenido": "Coordinación con el clúster petroquímico de Tarragona.",
+            "contenido": "**Coordinación con el clúster petroquímico de Tarragona** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "industria"
+              "industria",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0029-ap-02",
+        "id": "dip-0029-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0029-ap-02-it-00",
-            "apartado_id": "dip-0029-ap-02",
+            "id": "dip-0029-ap-03-it-00",
+            "apartado_id": "dip-0029-ap-03",
             "tipo": "documento",
             "titulo": "Dipta",
             "contenido": "",
@@ -3520,10 +5635,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0029-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0029-ap-04-it-00",
+            "apartado_id": "dip-0029-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0030",
@@ -3574,56 +5713,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "benidorm"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0030-ap-00-it-02",
+            "apartado_id": "dip-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0030-ap-00-it-03",
+            "apartado_id": "dip-0030-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0030-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0030-ap-01-it-00",
+            "apartado_id": "dip-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0030-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0030-ap-01-it-00",
-            "apartado_id": "dip-0030-ap-01",
+            "id": "dip-0030-ap-02-it-00",
+            "apartado_id": "dip-0030-ap-02",
             "tipo": "contacto",
             "titulo": "Generalitat Valenciana (Mazón PP)",
-            "contenido": "Coordinación con Carlos Mazón (PP), president valenciano.",
+            "contenido": "**Coordinación con Carlos Mazón (PP), president valenciano** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mazon"
+              "mazon",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0030-ap-01-it-01",
-            "apartado_id": "dip-0030-ap-01",
+            "id": "dip-0030-ap-02-it-01",
+            "apartado_id": "dip-0030-ap-02",
             "tipo": "contacto",
             "titulo": "Turismo Benidorm/Costa Blanca",
-            "contenido": "Doble cargo crea agenda turística reforzada.",
+            "contenido": "**Doble cargo crea agenda turística reforzada**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "turismo"
+              "turismo",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0030-ap-02",
+        "id": "dip-0030-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0030-ap-02-it-00",
-            "apartado_id": "dip-0030-ap-02",
+            "id": "dip-0030-ap-03-it-00",
+            "apartado_id": "dip-0030-ap-03",
             "tipo": "documento",
             "titulo": "DipuAlicante",
             "contenido": "",
@@ -3634,10 +5827,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0030-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0030-ap-04-it-00",
+            "apartado_id": "dip-0030-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0031",
@@ -3687,56 +5904,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0031-ap-00-it-02",
+            "apartado_id": "dip-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0031-ap-00-it-03",
+            "apartado_id": "dip-0031-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0031-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0031-ap-01-it-00",
+            "apartado_id": "dip-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0031-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0031-ap-01-it-00",
-            "apartado_id": "dip-0031-ap-01",
+            "id": "dip-0031-ap-02-it-00",
+            "apartado_id": "dip-0031-ap-02",
             "tipo": "contacto",
             "titulo": "Generalitat Valenciana (Mazón)",
-            "contenido": "Coordinación con Mazón.",
+            "contenido": "**Coordinación con Mazón** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mazon"
+              "mazon",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0031-ap-01-it-01",
-            "apartado_id": "dip-0031-ap-01",
+            "id": "dip-0031-ap-02-it-01",
+            "apartado_id": "dip-0031-ap-02",
             "tipo": "contacto",
             "titulo": "Sector cerámico Castellón",
-            "contenido": "Castellón es polo mundial de cerámica (Vila-real, Onda, Castelló).",
+            "contenido": "**Castellón es polo mundial de cerámica (Vila-real, Onda, Castelló)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ceramica"
+              "ceramica",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0031-ap-02",
+        "id": "dip-0031-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0031-ap-02-it-00",
-            "apartado_id": "dip-0031-ap-02",
+            "id": "dip-0031-ap-03-it-00",
+            "apartado_id": "dip-0031-ap-03",
             "tipo": "documento",
             "titulo": "DipCas",
             "contenido": "",
@@ -3747,10 +6018,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0031-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0031-ap-04-it-00",
+            "apartado_id": "dip-0031-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0032",
@@ -3800,6 +6095,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0032-ap-00-it-02",
+            "apartado_id": "dip-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0032-ap-00-it-03",
+            "apartado_id": "dip-0032-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -3823,6 +6146,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "dana"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0032-ap-01-it-01",
+            "apartado_id": "dip-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -3838,13 +6175,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0032-ap-02",
             "tipo": "contacto",
             "titulo": "Generalitat Valenciana (Mazón)",
-            "contenido": "Coordinación con Carlos Mazón. Crisis post-DANA en 2024-25.",
+            "contenido": "**Coordinación con Carlos Mazón** (nota +7/10) — Crisis post-DANA en 2024-25.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "mazon",
-              "dana"
+              "dana",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -3870,10 +6209,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0032-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0032-ap-04-it-00",
+            "apartado_id": "dip-0032-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0033",
@@ -3924,57 +6287,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "gallardo"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0033-ap-00-it-02",
+            "apartado_id": "dip-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0033-ap-00-it-03",
+            "apartado_id": "dip-0033-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0033-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0033-ap-01-it-00",
+            "apartado_id": "dip-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0033-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0033-ap-01-it-00",
-            "apartado_id": "dip-0033-ap-01",
+            "id": "dip-0033-ap-02-it-00",
+            "apartado_id": "dip-0033-ap-02",
             "tipo": "contacto",
             "titulo": "Junta Extremadura (Guardiola PP)",
-            "contenido": "Oposición con la Junta del PP-Vox.",
+            "contenido": "**Oposición con la Junta del PP-Vox** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "guardiola",
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0033-ap-01-it-01",
-            "apartado_id": "dip-0033-ap-01",
+            "id": "dip-0033-ap-02-it-01",
+            "apartado_id": "dip-0033-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE-Extremadura",
-            "contenido": "Figura de peso interno del partido regional.",
+            "contenido": "**Figura de peso interno del partido regional**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-ex"
+              "psoe-ex",
+              "sin-valorar"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0033-ap-02",
+        "id": "dip-0033-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0033-ap-02-it-00",
-            "apartado_id": "dip-0033-ap-02",
+            "id": "dip-0033-ap-03-it-00",
+            "apartado_id": "dip-0033-ap-03",
             "tipo": "documento",
             "titulo": "Diputación Badajoz",
             "contenido": "",
@@ -3985,10 +6402,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0033-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0033-ap-04-it-00",
+            "apartado_id": "dip-0033-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0034",
@@ -4038,27 +6479,55 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "psoe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0034-ap-00-it-02",
+            "apartado_id": "dip-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0034-ap-00-it-03",
+            "apartado_id": "dip-0034-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0034-ap-01",
-        "tipo": "redes",
+        "tipo": "trayectoria",
         "titulo": null,
         "resumen": null,
-        "orden": 3,
+        "orden": 1,
         "items": [
           {
             "id": "dip-0034-ap-01-it-00",
             "apartado_id": "dip-0034-ap-01",
-            "tipo": "contacto",
-            "titulo": "Junta Extremadura - oposición",
-            "contenido": "PSOE en oposición provincial al Gobierno regional PP-Vox.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oposicion"
+              "historia-institucional"
             ],
             "orden": 0
           }
@@ -4066,14 +6535,39 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
       },
       {
         "id": "dip-0034-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "dip-0034-ap-02-it-00",
+            "apartado_id": "dip-0034-ap-02",
+            "tipo": "contacto",
+            "titulo": "Junta Extremadura - oposición",
+            "contenido": "**PSOE en oposición provincial al Gobierno regional PP-Vox** (nota -7/10)",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "oposicion",
+              "nota--7",
+              "conflicto"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0034-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0034-ap-02-it-00",
-            "apartado_id": "dip-0034-ap-02",
+            "id": "dip-0034-ap-03-it-00",
+            "apartado_id": "dip-0034-ap-03",
             "tipo": "documento",
             "titulo": "Diputación Cáceres",
             "contenido": "",
@@ -4084,10 +6578,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0034-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0034-ap-04-it-00",
+            "apartado_id": "dip-0034-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0035",
@@ -4138,57 +6656,112 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "formoso"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0035-ap-00-it-02",
+            "apartado_id": "dip-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0035-ap-00-it-03",
+            "apartado_id": "dip-0035-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0035-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0035-ap-01-it-00",
+            "apartado_id": "dip-0035-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0035-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0035-ap-01-it-00",
-            "apartado_id": "dip-0035-ap-01",
+            "id": "dip-0035-ap-02-it-00",
+            "apartado_id": "dip-0035-ap-02",
             "tipo": "contacto",
             "titulo": "Xunta (Rueda PPdeG)",
-            "contenido": "Oposición con la Xunta del PP.",
+            "contenido": "**Oposición con la Xunta del PP** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "rueda",
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0035-ap-01-it-01",
-            "apartado_id": "dip-0035-ap-01",
+            "id": "dip-0035-ap-02-it-01",
+            "apartado_id": "dip-0035-ap-02",
             "tipo": "contacto",
             "titulo": "BNG",
-            "contenido": "Posibilidad de pactos con BNG.",
+            "contenido": "**Posibilidad de pactos con BNG** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bng"
+              "bng",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0035-ap-02",
+        "id": "dip-0035-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0035-ap-02-it-00",
-            "apartado_id": "dip-0035-ap-02",
+            "id": "dip-0035-ap-03-it-00",
+            "apartado_id": "dip-0035-ap-03",
             "tipo": "documento",
             "titulo": "Deputación Coruña",
             "contenido": "",
@@ -4199,10 +6772,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0035-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0035-ap-04-it-00",
+            "apartado_id": "dip-0035-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0036",
@@ -4253,56 +6850,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "tome"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0036-ap-00-it-02",
+            "apartado_id": "dip-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0036-ap-00-it-03",
+            "apartado_id": "dip-0036-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0036-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0036-ap-01-it-00",
+            "apartado_id": "dip-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0036-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0036-ap-01-it-00",
-            "apartado_id": "dip-0036-ap-01",
+            "id": "dip-0036-ap-02-it-00",
+            "apartado_id": "dip-0036-ap-02",
             "tipo": "contacto",
             "titulo": "BNG",
-            "contenido": "Pacto local con BNG.",
+            "contenido": "**Pacto local con BNG** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bng"
+              "bng",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0036-ap-01-it-01",
-            "apartado_id": "dip-0036-ap-01",
+            "id": "dip-0036-ap-02-it-01",
+            "apartado_id": "dip-0036-ap-02",
             "tipo": "contacto",
             "titulo": "Xunta (Rueda) - oposición",
-            "contenido": "Oposición a la Xunta PP.",
+            "contenido": "**Oposición a la Xunta PP** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0036-ap-02",
+        "id": "dip-0036-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0036-ap-02-it-00",
-            "apartado_id": "dip-0036-ap-02",
+            "id": "dip-0036-ap-03-it-00",
+            "apartado_id": "dip-0036-ap-03",
             "tipo": "documento",
             "titulo": "Deputación Lugo",
             "contenido": "",
@@ -4313,10 +6965,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0036-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0036-ap-04-it-00",
+            "apartado_id": "dip-0036-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0037",
@@ -4366,6 +7042,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0037-ap-00-it-02",
+            "apartado_id": "dip-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0037-ap-00-it-03",
+            "apartado_id": "dip-0037-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4389,6 +7093,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "baltar"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0037-ap-01-it-01",
+            "apartado_id": "dip-0037-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4404,12 +7122,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0037-ap-02",
             "tipo": "contacto",
             "titulo": "PP Galicia (Rueda)",
-            "contenido": "Alineamiento con la Xunta tras el conflicto Baltar.",
+            "contenido": "**Alineamiento con la Xunta tras el conflicto Baltar** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rueda"
+              "rueda",
+              "nota--8",
+              "conflicto"
             ],
             "orden": 0
           },
@@ -4418,12 +7138,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0037-ap-02",
             "tipo": "contacto",
             "titulo": "Manuel Baltar (ex)",
-            "contenido": "Figura controvertida del PPdeG.",
+            "contenido": "**Figura controvertida del PPdeG**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "baltar"
+              "baltar",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -4472,10 +7193,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0037-ap-05",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0037-ap-05-it-00",
+            "apartado_id": "dip-0037-ap-05",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0038",
@@ -4525,56 +7270,110 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "pp"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0038-ap-00-it-02",
+            "apartado_id": "dip-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0038-ap-00-it-03",
+            "apartado_id": "dip-0038-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0038-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0038-ap-01-it-00",
+            "apartado_id": "dip-0038-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0038-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0038-ap-01-it-00",
-            "apartado_id": "dip-0038-ap-01",
+            "id": "dip-0038-ap-02-it-00",
+            "apartado_id": "dip-0038-ap-02",
             "tipo": "contacto",
             "titulo": "PP Galicia (Rueda)",
-            "contenido": "Alineamiento Xunta.",
+            "contenido": "**Alineamiento Xunta**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rueda"
+              "rueda",
+              "sin-valorar"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0038-ap-01-it-01",
-            "apartado_id": "dip-0038-ap-01",
+            "id": "dip-0038-ap-02-it-01",
+            "apartado_id": "dip-0038-ap-02",
             "tipo": "contacto",
             "titulo": "Vigo - Caballero (PSOE alcalde)",
-            "contenido": "Vigo (Abel Caballero PSOE) en tensión con la diputación PP.",
+            "contenido": "**Vigo (Abel Caballero PSOE) en tensión con la diputación PP** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "caballero"
+              "caballero",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0038-ap-02",
+        "id": "dip-0038-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0038-ap-02-it-00",
-            "apartado_id": "dip-0038-ap-02",
+            "id": "dip-0038-ap-03-it-00",
+            "apartado_id": "dip-0038-ap-03",
             "tipo": "documento",
             "titulo": "Deputación Pontevedra",
             "contenido": "",
@@ -4585,10 +7384,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0038-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0038-ap-04-it-00",
+            "apartado_id": "dip-0038-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0039",
@@ -4640,19 +7463,70 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "gonzalez"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0039-ap-00-it-02",
+            "apartado_id": "dip-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0039-ap-00-it-03",
+            "apartado_id": "dip-0039-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0039-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0039-ap-01-it-00",
+            "apartado_id": "dip-0039-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0039-ap-02",
         "tipo": "posiciones",
         "titulo": null,
         "resumen": null,
         "orden": 2,
         "items": [
           {
-            "id": "dip-0039-ap-01-it-00",
-            "apartado_id": "dip-0039-ap-01",
+            "id": "dip-0039-ap-02-it-00",
+            "apartado_id": "dip-0039-ap-02",
             "tipo": "dato",
             "titulo": "Concierto Económico",
             "contenido": "Competencia tributaria propia (impuestos directos). Cuota al Estado.",
@@ -4665,8 +7539,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           },
           {
-            "id": "dip-0039-ap-01-it-01",
-            "apartado_id": "dip-0039-ap-01",
+            "id": "dip-0039-ap-02-it-01",
+            "apartado_id": "dip-0039-ap-02",
             "tipo": "dato",
             "titulo": "Industrial / Mercedes Vitoria",
             "contenido": "Polo industrial automoción (Mercedes Vitoria, Michelin).",
@@ -4677,56 +7551,75 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "industria"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0039-ap-02-it-02",
+            "apartado_id": "dip-0039-ap-02",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 2
           }
         ]
       },
       {
-        "id": "dip-0039-ap-02",
+        "id": "dip-0039-ap-03",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0039-ap-02-it-00",
-            "apartado_id": "dip-0039-ap-02",
+            "id": "dip-0039-ap-03-it-00",
+            "apartado_id": "dip-0039-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Vasco (Pradales PNV)",
-            "contenido": "Coordinación con Lehendakari Pradales.",
+            "contenido": "**Coordinación con Lehendakari Pradales** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pradales"
+              "pradales",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0039-ap-02-it-01",
-            "apartado_id": "dip-0039-ap-02",
+            "id": "dip-0039-ap-03-it-01",
+            "apartado_id": "dip-0039-ap-03",
             "tipo": "contacto",
             "titulo": "Pleno PNV-PSE",
-            "contenido": "Pacto de gobierno PNV-PSE en Álava.",
+            "contenido": "**Pacto de gobierno PNV-PSE en Álava** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pnv-pse"
+              "pnv-pse",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0039-ap-03",
+        "id": "dip-0039-ap-04",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0039-ap-03-it-00",
-            "apartado_id": "dip-0039-ap-03",
+            "id": "dip-0039-ap-04-it-00",
+            "apartado_id": "dip-0039-ap-04",
             "tipo": "documento",
             "titulo": "Araba",
             "contenido": "",
@@ -4739,8 +7632,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0040",
@@ -4792,6 +7685,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "etxanobe"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0040-ap-00-it-02",
+            "apartado_id": "dip-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0040-ap-00-it-03",
+            "apartado_id": "dip-0040-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
@@ -4813,6 +7734,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0040-ap-01-it-01",
+            "apartado_id": "dip-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4836,6 +7771,21 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "industria"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0040-ap-02-it-01",
+            "apartado_id": "dip-0040-ap-02",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -4851,12 +7801,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0040-ap-03",
             "tipo": "contacto",
             "titulo": "Gobierno Vasco (Pradales)",
-            "contenido": "Pradales (PNV) anteriormente diputado foral de Movilidad e Infraestructuras de Bizkaia (con Rementeria).",
+            "contenido": "**Pradales (PNV) anteriormente diputado foral de Movilidad e Infraestructuras de Bizkaia (con Rementeria)**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pradales"
+              "pradales",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -4865,12 +7816,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0040-ap-03",
             "tipo": "contacto",
             "titulo": "Pacto PNV-PSE",
-            "contenido": "Mismo modelo que Lehendakaritza.",
+            "contenido": "**Mismo modelo que Lehendakaritza** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pnv-pse"
+              "pnv-pse",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -4898,8 +7851,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0041",
@@ -4951,56 +7904,111 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "mendoza"
             ],
             "orden": 1
+          },
+          {
+            "id": "dip-0041-ap-00-it-02",
+            "apartado_id": "dip-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Competencias institucionales",
+            "contenido": "Las Diputaciones Provinciales tienen competencias en: (1) coordinación y prestación de servicios municipales en municipios <20.000 hab. (asistencia técnica, jurídica, informática y económica), (2) red provincial de carreteras (mantenimiento, refuerzo, nuevas obras), (3) protección civil y emergencias, (4) cooperación al desarrollo de los municipios mediante Planes Provinciales plurianuales, (5) gestión cultural, deportiva y turística supramunicipal, (6) recaudación tributaria delegada de los ayuntamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "competencias-institucionales"
+            ],
+            "orden": 2
+          },
+          {
+            "id": "dip-0041-ap-00-it-03",
+            "apartado_id": "dip-0041-ap-00",
+            "tipo": "dato",
+            "titulo": "Encaje político-territorial",
+            "contenido": "Los diputados provinciales no son elegidos directamente: los partidos del Pleno designan a sus diputados entre los concejales electos en los municipios de la provincia. La presidencia se elige por mayoría del Pleno y por convención recae en el partido con mayor representación municipal. El presupuesto anual oscila entre 80 M€ (provincias pequeñas) y más de 1.000 M€ (Barcelona). Las diputaciones son una pieza clave del clientelismo político local por su capacidad de redistribuir fondos a los municipios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "encaje-institucional"
+            ],
+            "orden": 3
           }
         ]
       },
       {
         "id": "dip-0041-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "dip-0041-ap-01-it-00",
+            "apartado_id": "dip-0041-ap-01",
+            "tipo": "evento",
+            "titulo": "Origen y marco legal",
+            "contenido": "Las diputaciones provinciales tienen su origen en la Constitución de Cádiz de 1812 y se consolidan tras la Ley Provincial de 1845. El marco actual lo fija la Ley 7/1985 Reguladora de las Bases del Régimen Local (LBRL), modificada por la Ley 27/2013 de Racionalización y Sostenibilidad de la Administración Local (LRSAL). En las CCAA uniprovinciales (Madrid, Asturias, Cantabria, Murcia, Navarra, La Rioja) la diputación está integrada en la propia comunidad autónoma. En País Vasco operan las Diputaciones Forales (Álava, Bizkaia, Gipuzkoa) con régimen propio del Concierto Económico.",
+            "fecha": "1812-03-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "historia-institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "dip-0041-ap-02",
         "tipo": "redes",
         "titulo": null,
         "resumen": null,
         "orden": 3,
         "items": [
           {
-            "id": "dip-0041-ap-01-it-00",
-            "apartado_id": "dip-0041-ap-01",
+            "id": "dip-0041-ap-02-it-00",
+            "apartado_id": "dip-0041-ap-02",
             "tipo": "contacto",
             "titulo": "Gobierno Vasco (Pradales)",
-            "contenido": "Coordinación con Lehendakari.",
+            "contenido": "**Coordinación con Lehendakari** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pradales"
+              "pradales",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
           {
-            "id": "dip-0041-ap-01-it-01",
-            "apartado_id": "dip-0041-ap-01",
+            "id": "dip-0041-ap-02-it-01",
+            "apartado_id": "dip-0041-ap-02",
             "tipo": "contacto",
             "titulo": "EH Bildu (oposición)",
-            "contenido": "EH Bildu es fuerza principal de oposición en Gipuzkoa (territorio históricamente más abertzale).",
+            "contenido": "**EH Bildu es fuerza principal de oposición en Gipuzkoa (territorio históricamente más abertzale)** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bildu"
+              "bildu",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
         ]
       },
       {
-        "id": "dip-0041-ap-02",
+        "id": "dip-0041-ap-03",
         "tipo": "evidencia",
         "titulo": null,
         "resumen": null,
         "orden": 6,
         "items": [
           {
-            "id": "dip-0041-ap-02-it-00",
-            "apartado_id": "dip-0041-ap-02",
+            "id": "dip-0041-ap-03-it-00",
+            "apartado_id": "dip-0041-ap-03",
             "tipo": "documento",
             "titulo": "Gipuzkoa",
             "contenido": "",
@@ -5011,10 +8019,34 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0041-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0041-ap-04-it-00",
+            "apartado_id": "dip-0041-ap-04",
+            "tipo": "dato",
+            "titulo": "Debate sobre el modelo provincial",
+            "contenido": "Las diputaciones provinciales son objeto de debate político recurrente: desde Podemos, Sumar y partes de ERC y Junts se ha defendido su supresión como nivel administrativo redundante que generaría ahorros. Desde PP, PSOE y partidos territoriales se defienden como prestadoras de servicios irrenunciables a los municipios pequeños y como motor del desarrollo rural. La Ley 27/2013 (LRSAL) reforzó sus competencias para municipios <20.000 hab. y limitó su capacidad de gasto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "debate-supresion",
+              "modelo-territorial"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0042",
@@ -5050,6 +8082,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0042-ap-00-it-01",
+            "apartado_id": "dip-0042-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5110,12 +8156,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0042-ap-02",
             "tipo": "contacto",
             "titulo": "PP Andalucía / Moreno",
-            "contenido": "Vínculo con la federación andaluza de PP-A.",
+            "contenido": "**Vínculo con la federación andaluza de PP-A**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-a"
+              "pp-a",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -5124,12 +8171,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0042-ap-02",
             "tipo": "contacto",
             "titulo": "FAMP",
-            "contenido": "Participación en Federación Andaluza de Municipios y Provincias.",
+            "contenido": "**Participación en Federación Andaluza de Municipios y Provincias** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "famp"
+              "famp",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           }
@@ -5155,10 +8204,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0042-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0042-ap-04-it-00",
+            "apartado_id": "dip-0042-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0043",
@@ -5194,6 +8266,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0043-ap-00-it-01",
+            "apartado_id": "dip-0043-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5242,13 +8328,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0043-ap-02",
             "tipo": "contacto",
             "titulo": "PP-A / Moreno",
-            "contenido": "Alineamiento con Juanma Moreno.",
+            "contenido": "**Alineamiento con Juanma Moreno**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pp-a",
-              "moreno"
+              "moreno",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -5257,12 +8344,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0043-ap-02",
             "tipo": "contacto",
             "titulo": "Bahía de Cádiz",
-            "contenido": "Coordinación con el área metropolitana de Cádiz.",
+            "contenido": "**Coordinación con el área metropolitana de Cádiz** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bahia-cadiz"
+              "bahia-cadiz",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -5288,10 +8377,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0043-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0043-ap-04-it-00",
+            "apartado_id": "dip-0043-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0044",
@@ -5327,6 +8439,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0044-ap-00-it-01",
+            "apartado_id": "dip-0044-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5375,12 +8501,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0044-ap-02",
             "tipo": "contacto",
             "titulo": "PP-A",
-            "contenido": "Vinculación regional.",
+            "contenido": "**Vinculación regional** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-a"
+              "pp-a",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           }
@@ -5406,10 +8534,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0044-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0044-ap-04-it-00",
+            "apartado_id": "dip-0044-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0045",
@@ -5445,6 +8596,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0045-ap-00-it-01",
+            "apartado_id": "dip-0045-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5481,12 +8646,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0045-ap-02",
             "tipo": "contacto",
             "titulo": "PP-A / Moreno",
-            "contenido": "Alineamiento Junta Andalucía.",
+            "contenido": "**Alineamiento Junta Andalucía**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-a"
+              "pp-a",
+              "sin-valorar"
             ],
             "orden": 0
           }
@@ -5512,10 +8678,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0045-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0045-ap-04-it-00",
+            "apartado_id": "dip-0045-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0046",
@@ -5551,6 +8740,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0046-ap-00-it-01",
+            "apartado_id": "dip-0046-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5587,12 +8790,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0046-ap-02",
             "tipo": "contacto",
             "titulo": "PP-A",
-            "contenido": "Vínculo con la federación regional PP-A.",
+            "contenido": "**Vínculo con la federación regional PP-A**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-a"
+              "pp-a",
+              "sin-valorar"
             ],
             "orden": 0
           }
@@ -5618,10 +8822,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0046-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0046-ap-04-it-00",
+            "apartado_id": "dip-0046-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0047",
@@ -5657,6 +8884,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0047-ap-00-it-01",
+            "apartado_id": "dip-0047-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5725,6 +8966,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "olivar"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0047-ap-02-it-01",
+            "apartado_id": "dip-0047-ap-02",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5740,12 +8995,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0047-ap-03",
             "tipo": "contacto",
             "titulo": "PSOE Andalucía",
-            "contenido": "Voz importante del PSOE-A en la provincia.",
+            "contenido": "**Voz importante del PSOE-A en la provincia**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-a"
+              "psoe-a",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -5754,12 +9010,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0047-ap-03",
             "tipo": "contacto",
             "titulo": "FAMP",
-            "contenido": "Federación andaluza.",
+            "contenido": "**Federación andaluza**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "famp"
+              "famp",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -5787,8 +9044,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0048",
@@ -5824,6 +9081,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0048-ap-00-it-01",
+            "apartado_id": "dip-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5872,12 +9143,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0048-ap-02",
             "tipo": "contacto",
             "titulo": "De la Torre (alcalde Málaga)",
-            "contenido": "Coordinación con Francisco de la Torre (PP), alcalde de Málaga capital.",
+            "contenido": "**Coordinación con Francisco de la Torre (PP), alcalde de Málaga capital** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "delatorre"
+              "delatorre",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -5886,12 +9159,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0048-ap-02",
             "tipo": "contacto",
             "titulo": "PP-A / Moreno",
-            "contenido": "Alineamiento con la Junta de Andalucía.",
+            "contenido": "**Alineamiento con la Junta de Andalucía**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-a"
+              "pp-a",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -5917,10 +9191,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0048-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0048-ap-04-it-00",
+            "apartado_id": "dip-0048-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0049",
@@ -5956,6 +9253,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0049-ap-00-it-01",
+            "apartado_id": "dip-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -5992,12 +9303,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0049-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE Sevilla",
-            "contenido": "Federación provincial. Sevilla bastión PSOE histórico.",
+            "contenido": "**Federación provincial** — Sevilla bastión PSOE histórico.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-sevilla"
+              "psoe-sevilla",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -6006,12 +9318,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0049-ap-02",
             "tipo": "contacto",
             "titulo": "Ayuntamiento Sevilla (Sanz PP)",
-            "contenido": "Coordinación complicada con José Luis Sanz (PP, alcalde Sevilla).",
+            "contenido": "**Coordinación complicada con José Luis Sanz (PP, alcalde Sevilla)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sanz"
+              "sanz",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -6037,10 +9351,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0049-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0049-ap-04-it-00",
+            "apartado_id": "dip-0049-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0050",
@@ -6076,6 +9413,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0050-ap-00-it-01",
+            "apartado_id": "dip-0050-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6124,12 +9475,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0050-ap-02",
             "tipo": "contacto",
             "titulo": "PP Aragón / Azcón",
-            "contenido": "Coordinación con Jorge Azcón (PP, presidente aragonés).",
+            "contenido": "**Coordinación con Jorge Azcón (PP, presidente aragonés)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "azcon"
+              "azcon",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -6155,10 +9508,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0050-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0050-ap-04-it-00",
+            "apartado_id": "dip-0050-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0051",
@@ -6194,6 +9570,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0051-ap-00-it-01",
+            "apartado_id": "dip-0051-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6242,12 +9632,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0051-ap-02",
             "tipo": "contacto",
             "titulo": "Teruel Existe",
-            "contenido": "Tensión con Teruel Existe (España Vaciada) como fuerza política provincial.",
+            "contenido": "**Tensión con Teruel Existe (España Vaciada) como fuerza política provincial** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "teruel-existe"
+              "teruel-existe",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           },
@@ -6256,12 +9648,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0051-ap-02",
             "tipo": "contacto",
             "titulo": "PP Aragón / Azcón",
-            "contenido": "Vinculación regional.",
+            "contenido": "**Vinculación regional** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "azcon"
+              "azcon",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -6287,10 +9681,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0051-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0051-ap-04-it-00",
+            "apartado_id": "dip-0051-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0052",
@@ -6326,6 +9743,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0052-ap-00-it-01",
+            "apartado_id": "dip-0052-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6386,12 +9817,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0052-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE Aragón",
-            "contenido": "Voz del PSOE-A en oposición a Azcón.",
+            "contenido": "**Voz del PSOE-A en oposición a Azcón** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-a"
+              "psoe-a",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           }
@@ -6417,10 +9850,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0052-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0052-ap-04-it-00",
+            "apartado_id": "dip-0052-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0053",
@@ -6456,6 +9912,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0053-ap-00-it-01",
+            "apartado_id": "dip-0053-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6492,12 +9962,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0053-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación con Junta CyL.",
+            "contenido": "**Coordinación con Junta CyL** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -6523,10 +9995,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0053-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0053-ap-04-it-00",
+            "apartado_id": "dip-0053-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0054",
@@ -6562,6 +10057,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0054-ap-00-it-01",
+            "apartado_id": "dip-0054-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6598,12 +10107,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0054-ap-02",
             "tipo": "contacto",
             "titulo": "Ángel Ibáñez (predecesor)",
-            "contenido": "Predecesor, hoy en Junta CyL.",
+            "contenido": "**Predecesor, hoy en Junta CyL** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ibanez"
+              "ibanez",
+              "nota--5",
+              "tension"
             ],
             "orden": 0
           },
@@ -6612,12 +10123,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0054-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación regional.",
+            "contenido": "**Coordinación regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -6643,10 +10156,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0054-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0054-ap-04-it-00",
+            "apartado_id": "dip-0054-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0055",
@@ -6682,6 +10218,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0055-ap-00-it-01",
+            "apartado_id": "dip-0055-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6718,12 +10268,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0055-ap-02",
             "tipo": "contacto",
             "titulo": "UPL (socio)",
-            "contenido": "Pacto con regionalismo leonés.",
+            "contenido": "**Pacto con regionalismo leonés** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "upl"
+              "upl",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -6732,12 +10284,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0055-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE CyL",
-            "contenido": "Oposición Junta del PP-Vox.",
+            "contenido": "**Oposición Junta del PP-Vox** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-cyl"
+              "psoe-cyl",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
@@ -6763,10 +10317,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0055-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0055-ap-04-it-00",
+            "apartado_id": "dip-0055-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0056",
@@ -6802,6 +10379,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0056-ap-00-it-01",
+            "apartado_id": "dip-0056-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6850,12 +10441,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0056-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación regional.",
+            "contenido": "**Coordinación regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -6881,10 +10474,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0056-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0056-ap-04-it-00",
+            "apartado_id": "dip-0056-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0057",
@@ -6920,6 +10536,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0057-ap-00-it-01",
+            "apartado_id": "dip-0057-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -6956,12 +10586,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0057-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación regional.",
+            "contenido": "**Coordinación regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -6970,12 +10602,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0057-ap-02",
             "tipo": "contacto",
             "titulo": "USAL",
-            "contenido": "Convenios con la Universidad de Salamanca.",
+            "contenido": "**Convenios con la Universidad de Salamanca** (nota +3/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "usal"
+              "usal",
+              "nota-+3",
+              "neutral"
             ],
             "orden": 1
           }
@@ -7001,10 +10635,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0057-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0057-ap-04-it-00",
+            "apartado_id": "dip-0057-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0058",
@@ -7040,6 +10697,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0058-ap-00-it-01",
+            "apartado_id": "dip-0058-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7076,12 +10747,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0058-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación regional.",
+            "contenido": "**Coordinación regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -7107,10 +10780,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0058-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0058-ap-04-it-00",
+            "apartado_id": "dip-0058-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0059",
@@ -7146,6 +10842,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0059-ap-00-it-01",
+            "apartado_id": "dip-0059-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7182,12 +10892,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0059-ap-02",
             "tipo": "contacto",
             "titulo": "Soria ¡Ya!",
-            "contenido": "Plataforma España Vaciada en la provincia.",
+            "contenido": "**Plataforma España Vaciada en la provincia**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "soria-ya"
+              "soria-ya",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -7196,12 +10907,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0059-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación regional.",
+            "contenido": "**Coordinación regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -7227,10 +10940,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0059-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0059-ap-04-it-00",
+            "apartado_id": "dip-0059-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0060",
@@ -7266,6 +11002,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0060-ap-00-it-01",
+            "apartado_id": "dip-0060-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7302,12 +11052,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0060-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Vínculo directo con Valladolid como capital política.",
+            "contenido": "**Vínculo directo con Valladolid como capital política**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "sin-valorar"
             ],
             "orden": 0
           }
@@ -7333,10 +11084,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0060-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0060-ap-04-it-00",
+            "apartado_id": "dip-0060-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0061",
@@ -7372,6 +11146,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0061-ap-00-it-01",
+            "apartado_id": "dip-0061-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7408,12 +11196,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0061-ap-02",
             "tipo": "contacto",
             "titulo": "PP CyL / Mañueco",
-            "contenido": "Coordinación regional.",
+            "contenido": "**Coordinación regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "manueco"
+              "manueco",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -7439,10 +11229,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0061-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0061-ap-04-it-00",
+            "apartado_id": "dip-0061-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0062",
@@ -7478,6 +11291,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0062-ap-00-it-01",
+            "apartado_id": "dip-0062-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7514,12 +11341,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0062-ap-02",
             "tipo": "contacto",
             "titulo": "Emiliano García-Page",
-            "contenido": "Aliado del presidente CLM.",
+            "contenido": "**Aliado del presidente CLM** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page"
+              "page",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -7545,10 +11374,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0062-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0062-ap-04-it-00",
+            "apartado_id": "dip-0062-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0063",
@@ -7584,6 +11436,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0063-ap-00-it-01",
+            "apartado_id": "dip-0063-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7620,12 +11486,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0063-ap-02",
             "tipo": "contacto",
             "titulo": "PP CLM",
-            "contenido": "Vinculación regional.",
+            "contenido": "**Vinculación regional** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-clm"
+              "pp-clm",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           }
@@ -7651,10 +11519,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0063-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0063-ap-04-it-00",
+            "apartado_id": "dip-0063-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0064",
@@ -7690,6 +11581,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0064-ap-00-it-01",
+            "apartado_id": "dip-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7726,12 +11631,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0064-ap-02",
             "tipo": "contacto",
             "titulo": "García-Page",
-            "contenido": "Aliado regional.",
+            "contenido": "**Aliado regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page"
+              "page",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -7757,10 +11664,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0064-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0064-ap-04-it-00",
+            "apartado_id": "dip-0064-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0065",
@@ -7796,6 +11726,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0065-ap-00-it-01",
+            "apartado_id": "dip-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7832,12 +11776,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0065-ap-02",
             "tipo": "contacto",
             "titulo": "García-Page",
-            "contenido": "Aliado regional.",
+            "contenido": "**Aliado regional** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "page"
+              "page",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           }
@@ -7863,10 +11809,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0065-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0065-ap-04-it-00",
+            "apartado_id": "dip-0065-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0066",
@@ -7902,6 +11871,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0066-ap-00-it-01",
+            "apartado_id": "dip-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -7938,12 +11921,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0066-ap-02",
             "tipo": "contacto",
             "titulo": "PP CLM",
-            "contenido": "Vinculación regional.",
+            "contenido": "**Vinculación regional** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pp-clm"
+              "pp-clm",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           }
@@ -7969,10 +11954,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0066-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0066-ap-04-it-00",
+            "apartado_id": "dip-0066-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0067",
@@ -8009,6 +12017,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0067-ap-00-it-01",
+            "apartado_id": "dip-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8057,12 +12079,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0067-ap-02",
             "tipo": "contacto",
             "titulo": "Salvador Illa",
-            "contenido": "Coordinación con president Generalitat (PSC).",
+            "contenido": "**Coordinación con president Generalitat (PSC)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "illa"
+              "illa",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8071,12 +12095,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0067-ap-02",
             "tipo": "contacto",
             "titulo": "ERC",
-            "contenido": "Socio en la diputación.",
+            "contenido": "**Socio en la diputación** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "erc"
+              "erc",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -8085,12 +12111,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0067-ap-02",
             "tipo": "contacto",
             "titulo": "Jaume Collboni",
-            "contenido": "Coordinación con alcalde de Barcelona (PSC).",
+            "contenido": "**Coordinación con alcalde de Barcelona (PSC)** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "collboni"
+              "collboni",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 2
           }
@@ -8116,10 +12144,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0067-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0067-ap-04-it-00",
+            "apartado_id": "dip-0067-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0068",
@@ -8156,6 +12207,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0068-ap-00-it-01",
+            "apartado_id": "dip-0068-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8204,12 +12269,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0068-ap-02",
             "tipo": "contacto",
             "titulo": "Junts",
-            "contenido": "Bastión histórico de Junts en Girona.",
+            "contenido": "**Bastión histórico de Junts en Girona**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junts"
+              "junts",
+              "sin-valorar"
             ],
             "orden": 0
           }
@@ -8237,8 +12303,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0069",
@@ -8275,6 +12341,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0069-ap-00-it-01",
+            "apartado_id": "dip-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8311,12 +12391,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0069-ap-02",
             "tipo": "contacto",
             "titulo": "ERC",
-            "contenido": "Federación leridana de ERC.",
+            "contenido": "**Federación leridana de ERC**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "erc"
+              "erc",
+              "sin-valorar"
             ],
             "orden": 0
           }
@@ -8344,8 +12425,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0070",
@@ -8382,6 +12463,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0070-ap-00-it-01",
+            "apartado_id": "dip-0070-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8418,12 +12513,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0070-ap-02",
             "tipo": "contacto",
             "titulo": "PSC",
-            "contenido": "Pacto de gobierno.",
+            "contenido": "**Pacto de gobierno** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psc"
+              "psc",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 0
           }
@@ -8451,8 +12548,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0071",
@@ -8490,6 +12587,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0071-ap-00-it-01",
+            "apartado_id": "dip-0071-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8547,6 +12658,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "benidorm"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0071-ap-02-it-01",
+            "apartado_id": "dip-0071-ap-02",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8562,12 +12687,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0071-ap-03",
             "tipo": "contacto",
             "titulo": "Mazón",
-            "contenido": "Coordinación con president valenciano (PP).",
+            "contenido": "**Coordinación con president valenciano (PP)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mazon"
+              "mazon",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8576,12 +12703,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0071-ap-03",
             "tipo": "contacto",
             "titulo": "HOSBEC",
-            "contenido": "Patronal hotelera Benidorm-Costa Blanca.",
+            "contenido": "**Patronal hotelera Benidorm-Costa Blanca** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "hosbec"
+              "hosbec",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           }
@@ -8609,8 +12738,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0072",
@@ -8647,6 +12776,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0072-ap-00-it-01",
+            "apartado_id": "dip-0072-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8683,12 +12826,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0072-ap-02",
             "tipo": "contacto",
             "titulo": "Mazón",
-            "contenido": "Coordinación con la Generalitat Valenciana.",
+            "contenido": "**Coordinación con la Generalitat Valenciana** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "mazon"
+              "mazon",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -8697,12 +12842,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0072-ap-02",
             "tipo": "contacto",
             "titulo": "Sector cerámico",
-            "contenido": "Castellón es polo mundial de cerámica.",
+            "contenido": "**Castellón es polo mundial de cerámica**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "ceramica"
+              "ceramica",
+              "sin-valorar"
             ],
             "orden": 1
           }
@@ -8728,10 +12874,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0072-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0072-ap-04-it-00",
+            "apartado_id": "dip-0072-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0073",
@@ -8768,6 +12937,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0073-ap-00-it-01",
+            "apartado_id": "dip-0073-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8824,6 +13007,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "dana"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0073-ap-02-it-01",
+            "apartado_id": "dip-0073-ap-02",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8839,13 +13036,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0073-ap-03",
             "tipo": "contacto",
             "titulo": "Mazón",
-            "contenido": "Coordinación crítica post-DANA.",
+            "contenido": "**Coordinación crítica post-DANA** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "mazon",
-              "dana"
+              "dana",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 0
           }
@@ -8873,8 +13072,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0074",
@@ -8911,6 +13110,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0074-ap-00-it-01",
+            "apartado_id": "dip-0074-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8979,6 +13192,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "liderazgo-psoe"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0074-ap-02-it-01",
+            "apartado_id": "dip-0074-ap-02",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -8994,12 +13221,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0074-ap-03",
             "tipo": "contacto",
             "titulo": "PSOE Extremadura",
-            "contenido": "Figura de peso interno.",
+            "contenido": "**Figura de peso interno**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-ex"
+              "psoe-ex",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -9008,13 +13236,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0074-ap-03",
             "tipo": "contacto",
             "titulo": "Junta Extremadura (Guardiola PP)",
-            "contenido": "Oposición a la Junta del PP-Vox.",
+            "contenido": "**Oposición a la Junta del PP-Vox** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "guardiola",
-              "oposicion"
+              "oposicion",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
@@ -9042,8 +13272,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0075",
@@ -9080,6 +13310,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0075-ap-00-it-01",
+            "apartado_id": "dip-0075-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9116,12 +13360,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0075-ap-02",
             "tipo": "contacto",
             "titulo": "PSOE Extremadura",
-            "contenido": "Federación regional.",
+            "contenido": "**Federación regional**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psoe-ex"
+              "psoe-ex",
+              "sin-valorar"
             ],
             "orden": 0
           }
@@ -9147,10 +13392,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0075-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0075-ap-04-it-00",
+            "apartado_id": "dip-0075-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0076",
@@ -9187,6 +13455,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0076-ap-00-it-01",
+            "apartado_id": "dip-0076-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9244,6 +13526,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
               "endesa"
             ],
             "orden": 0
+          },
+          {
+            "id": "dip-0076-ap-02-it-01",
+            "apartado_id": "dip-0076-ap-02",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9259,12 +13555,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0076-ap-03",
             "tipo": "contacto",
             "titulo": "PSdeG",
-            "contenido": "Aspirante interno al liderazgo regional del PSdeG.",
+            "contenido": "**Aspirante interno al liderazgo regional del PSdeG** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "psdeg"
+              "psdeg",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -9273,12 +13571,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0076-ap-03",
             "tipo": "contacto",
             "titulo": "Xunta (Rueda) - oposición",
-            "contenido": "Oposición Xunta PP.",
+            "contenido": "**Oposición Xunta PP** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rueda"
+              "rueda",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
@@ -9306,8 +13606,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0077",
@@ -9344,6 +13644,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0077-ap-00-it-01",
+            "apartado_id": "dip-0077-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9392,12 +13706,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0077-ap-02",
             "tipo": "contacto",
             "titulo": "BNG",
-            "contenido": "Pacto local con BNG.",
+            "contenido": "**Pacto local con BNG** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bng"
+              "bng",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 0
           }
@@ -9423,10 +13739,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0077-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0077-ap-04-it-00",
+            "apartado_id": "dip-0077-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PSOE)",
+            "contenido": "Los presidentes de diputación del PSOE suelen alinearse con la agenda del Gobierno central (transición ecológica, vivienda, derechos sociales) y reforzar la cooperación con ayuntamientos PSOE de la provincia. Apoyan los Planes Provinciales como herramienta redistributiva hacia municipios pequeños y suelen ser críticos con la Junta autonómica cuando ésta es del PP. Defensores de la solidaridad interterritorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-psoe"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0078",
@@ -9463,6 +13802,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0078-ap-00-it-01",
+            "apartado_id": "dip-0078-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9499,12 +13852,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0078-ap-02",
             "tipo": "contacto",
             "titulo": "PP Galicia / Rueda",
-            "contenido": "Alineamiento con la Xunta tras la era Baltar.",
+            "contenido": "**Alineamiento con la Xunta tras la era Baltar**",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rueda"
+              "rueda",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -9513,12 +13867,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0078-ap-02",
             "tipo": "contacto",
             "titulo": "Manuel Baltar (ex)",
-            "contenido": "Predecesor controvertido.",
+            "contenido": "**Predecesor controvertido** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "baltar"
+              "baltar",
+              "nota--5",
+              "tension"
             ],
             "orden": 1
           }
@@ -9544,10 +13900,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0078-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0078-ap-04-it-00",
+            "apartado_id": "dip-0078-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0079",
@@ -9584,6 +13963,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0079-ap-00-it-01",
+            "apartado_id": "dip-0079-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9620,12 +14013,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0079-ap-02",
             "tipo": "contacto",
             "titulo": "Xunta / Rueda",
-            "contenido": "Coordinación con Xunta PP.",
+            "contenido": "**Coordinación con Xunta PP** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rueda"
+              "rueda",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -9634,13 +14029,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0079-ap-02",
             "tipo": "contacto",
             "titulo": "Vigo / Abel Caballero (PSOE)",
-            "contenido": "Tensión con el alcalde de Vigo (PSOE).",
+            "contenido": "**Tensión con el alcalde de Vigo (PSOE)** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "caballero",
-              "vigo"
+              "vigo",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           }
@@ -9666,10 +14063,33 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "dip-0079-ap-04",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 9,
+        "items": [
+          {
+            "id": "dip-0079-ap-04-it-00",
+            "apartado_id": "dip-0079-ap-04",
+            "tipo": "dato",
+            "titulo": "Posicionamiento típico del partido (PP)",
+            "contenido": "Los presidentes de diputación del PP suelen defender el modelo provincial actual, las bajadas fiscales locales, la libertad de gestión presupuestaria y la cooperación con las CCAA del mismo signo. En contextos PP-Vox, gestionan los pactos en ayuntamientos clave de la provincia. Críticos habituales con el Gobierno central PSOE-Sumar y con la financiación municipal del modelo de bilateralidad catalán.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "posicion-pp"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0080",
@@ -9707,6 +14127,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0080-ap-00-it-01",
+            "apartado_id": "dip-0080-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9792,13 +14226,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0080-ap-03",
             "tipo": "contacto",
             "titulo": "PNV / Pradales",
-            "contenido": "Coordinación con el Lehendakari.",
+            "contenido": "**Coordinación con el Lehendakari** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "pradales",
-              "pnv"
+              "pnv",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -9807,12 +14243,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0080-ap-03",
             "tipo": "contacto",
             "titulo": "PSE (socio)",
-            "contenido": "Pacto PNV-PSE en Álava.",
+            "contenido": "**Pacto PNV-PSE en Álava** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pse"
+              "pse",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           }
@@ -9840,8 +14278,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0081",
@@ -9879,6 +14317,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0081-ap-00-it-01",
+            "apartado_id": "dip-0081-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9950,12 +14402,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0081-ap-03",
             "tipo": "contacto",
             "titulo": "Imanol Pradales",
-            "contenido": "Lehendakari. Pradales fue diputado foral en Bizkaia con Rementeria.",
+            "contenido": "**Lehendakari** — Pradales fue diputado foral en Bizkaia con Rementeria.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pradales"
+              "pradales",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -9964,12 +14417,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0081-ap-03",
             "tipo": "contacto",
             "titulo": "Unai Rementeria (predecesor)",
-            "contenido": "Predecesor en la Diputación.",
+            "contenido": "**Predecesor en la Diputación** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "rementeria"
+              "rementeria",
+              "nota--5",
+              "tension"
             ],
             "orden": 1
           }
@@ -9997,8 +14452,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0082",
@@ -10036,6 +14491,20 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "dip-0082-ap-00-it-01",
+            "apartado_id": "dip-0082-ap-00",
+            "tipo": "dato",
+            "titulo": "Poderes del presidente provincial",
+            "contenido": "El presidente de la diputación dirige el gobierno provincial, preside el Pleno y la Junta de Gobierno, propone los vicepresidentes y nombra a los diputados delegados con áreas de gestión. Gestiona discrecionalmente los Planes Provinciales de Cooperación, una de las herramientas más codiciadas del clientelismo local. En las provincias gobernadas por su mismo partido, suele ser el principal operador territorial del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-presidente"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10084,12 +14553,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0082-ap-02",
             "tipo": "contacto",
             "titulo": "PNV / Pradales",
-            "contenido": "Coordinación con Lehendakari.",
+            "contenido": "**Coordinación con Lehendakari** (nota +7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "pradales"
+              "pradales",
+              "nota-+7",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -10098,12 +14569,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0082-ap-02",
             "tipo": "contacto",
             "titulo": "EH Bildu - oposición",
-            "contenido": "EH Bildu fuerza principal de oposición en Gipuzkoa.",
+            "contenido": "**EH Bildu fuerza principal de oposición en Gipuzkoa** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bildu"
+              "bildu",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 1
           },
@@ -10112,12 +14585,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0082-ap-02",
             "tipo": "contacto",
             "titulo": "Markel Olano (predecesor)",
-            "contenido": "Predecesor PNV.",
+            "contenido": "**Predecesor PNV** (nota -5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "olano"
+              "olano",
+              "nota--5",
+              "tension"
             ],
             "orden": 2
           }
@@ -10145,8 +14620,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0083",
@@ -10288,11 +14763,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0083-ap-03",
             "tipo": "contacto",
             "titulo": "PP nacional / Feijóo",
-            "contenido": "Pulso interno por liderazgo PP. Referente alternativo dentro del partido.",
+            "contenido": "**Pulso interno por liderazgo PP** (nota +7/10) — Referente alternativo dentro del partido.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+7",
+              "alianza-fuerte"
+            ],
             "orden": 0
           },
           {
@@ -10300,11 +14778,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0083-ap-03",
             "tipo": "contacto",
             "titulo": "Vox - distancia",
-            "contenido": "Sin pactos con Vox en 2022 tras mayoría absoluta.",
+            "contenido": "**Sin pactos con Vox en 2022 tras mayoría absoluta** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [],
+            "tags": [
+              "nota-+4",
+              "alianza-debil"
+            ],
             "orden": 1
           }
         ]
@@ -10331,8 +14812,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0084",
@@ -10429,13 +14910,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0084-ap-02",
             "tipo": "contacto",
             "titulo": "Saga Baltar",
-            "contenido": "Su padre presidió la Deputación 22 años (1990-2012).",
+            "contenido": "**Su padre presidió la Deputación 22 años (1990-2012)** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "saga",
-              "baltar"
+              "baltar",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 0
           },
@@ -10444,13 +14927,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0084-ap-02",
             "tipo": "contacto",
             "titulo": "PPdeG (Rueda)",
-            "contenido": "Conflicto interno con la dirección PP-Galicia.",
+            "contenido": "**Conflicto interno con la dirección PP-Galicia** (nota -8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "rueda",
-              "conflicto"
+              "conflicto",
+              "nota--8"
             ],
             "orden": 1
           }
@@ -10501,8 +14985,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0085",
@@ -10587,12 +15071,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Oriol Junqueras",
-            "contenido": "Presidente del partido.",
+            "contenido": "**Presidente del partido** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "junqueras"
+              "junqueras",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -10601,12 +15087,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Pere Aragonès",
-            "contenido": "Ex president de la Generalitat (2021-2024).",
+            "contenido": "**Ex president de la Generalitat (2021-2024)** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "aragones"
+              "aragones",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -10615,12 +15103,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0085-ap-02",
             "tipo": "contacto",
             "titulo": "Pedro Sánchez / PSOE",
-            "contenido": "Socio parlamentario crítico.",
+            "contenido": "**Socio parlamentario crítico** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "sanchez"
+              "sanchez",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -10648,8 +15138,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0086",
@@ -10734,12 +15224,13 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0086-ap-02",
             "tipo": "contacto",
             "titulo": "Carles Puigdemont",
-            "contenido": "Líder histórico. Domicilio en Waterloo.",
+            "contenido": "**Líder histórico** — Domicilio en Waterloo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "puigdemont"
+              "puigdemont",
+              "sin-valorar"
             ],
             "orden": 0
           },
@@ -10748,13 +15239,15 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0086-ap-02",
             "tipo": "contacto",
             "titulo": "Pedro Sánchez - amnistía",
-            "contenido": "Socio negociador clave 2023-2024.",
+            "contenido": "**Socio negociador clave 2023-2024** (nota +5/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
               "sanchez",
-              "amnistia"
+              "amnistia",
+              "nota-+5",
+              "alianza-debil"
             ],
             "orden": 1
           },
@@ -10763,12 +15256,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0086-ap-02",
             "tipo": "contacto",
             "titulo": "Generalitat (oposición)",
-            "contenido": "Oposición a Illa (PSC) tras 2024.",
+            "contenido": "**Oposición a Illa (PSC) tras 2024** (nota -7/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "illa"
+              "illa",
+              "nota--7",
+              "conflicto"
             ],
             "orden": 2
           }
@@ -10796,8 +15291,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   },
   {
     "id": "dip-0087",
@@ -10869,12 +15364,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0087-ap-02",
             "tipo": "contacto",
             "titulo": "Valentín González Formoso",
-            "contenido": "Presidente Deputación A Coruña.",
+            "contenido": "**Presidente Deputación A Coruña** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "formoso"
+              "formoso",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 0
           },
@@ -10883,12 +15380,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0087-ap-02",
             "tipo": "contacto",
             "titulo": "José Tomé Roca",
-            "contenido": "Presidente Deputación Lugo.",
+            "contenido": "**Presidente Deputación Lugo** (nota +8/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "tome"
+              "tome",
+              "nota-+8",
+              "alianza-fuerte"
             ],
             "orden": 1
           },
@@ -10897,12 +15396,14 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "apartado_id": "dip-0087-ap-02",
             "tipo": "contacto",
             "titulo": "BNG - alianzas",
-            "contenido": "Pactos puntuales locales con BNG.",
+            "contenido": "**Pactos puntuales locales con BNG** (nota +4/10)",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [
-              "bng"
+              "bng",
+              "nota-+4",
+              "alianza-debil"
             ],
             "orden": 2
           }
@@ -10930,8 +15431,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T10:25:05.037423Z",
-    "updated_at": "2026-05-28T10:25:05.037423Z"
+    "created_at": "2026-05-28T14:34:35.751977Z",
+    "updated_at": "2026-05-28T14:34:35.751977Z"
   }
 ]
 
