@@ -30,20 +30,41 @@ target-version = "py311"
 line-length = 100
 src = ["apps", "packages", "observability", "config", "tests"]
 # Excluir directorios que no son código fuente del proyecto:
-# - .claude/ y .agent/ contienen skills externas (ui-ux-pro-max, etc.)
-#   con su propio estilo y reglas ajenas al proyecto.
-# - .claire/worktrees/ son worktrees temporales de la herramienta Claire.
-# - node_modules/ y .next/ son artefactos de Next.js.
-# - .venv/ es el entorno virtual local.
+# - Carpetas de IDEs / agentes / CLIs que sincronizan la misma skill
+#   `ui-ux-pro-max` (cada una con su propio estilo, no aplicable a este
+#   proyecto). Ver `ls -d .*/` en la raíz para la lista completa.
+# - `.claire/worktrees/` y otros worktrees temporales.
+# - Artefactos de Next.js (`.next/`, `node_modules/`).
+# - `.venv/` y caches locales.
 extend-exclude = [
-    ".claude",
-    ".claire",
+    # IDEs / agentes / CLIs que arrastran la skill ui-ux-pro-max
     ".agent",
+    ".claire",
+    ".claude",
+    ".codebuddy",
+    ".codex",
+    ".continue",
+    ".cursor",
+    ".gemini",
+    ".kiro",
+    ".opencode",
+    ".qoder",
+    ".roo",
+    ".superpowers",
+    ".trae",
+    ".windsurf",
+    # Data dirs / configs locales
+    ".chroma_db",
+    ".etl_cache",
+    ".streamlit",
+    ".vercel",
+    # Worktrees temporales (Claire u otras herramientas)
+    "**/worktrees/**",
+    # Artefactos y entornos
     ".venv",
     "node_modules",
     ".next",
     "**/.next/**",
-    "**/worktrees/**",
 ]
 
 [tool.ruff.lint]
