@@ -9,6 +9,7 @@ import EmptyState from '@/components/EmptyState'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import { DOSIERES_RESUMEN } from '@/data/dosieres-fixture'
 import { CONGRESO_RESUMEN } from '@/data/congreso-fixture'
+import { SENADO_RESUMEN } from '@/data/senado-fixture'
 import { IBEX35_RESUMEN } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
 import { PODER_RESUMEN } from '@/data/poder-fixture'
@@ -204,6 +205,7 @@ export default function DosieresPage() {
     for (const d of apiDosieres) bySlug.set(d.slug, d) // backend (si vive) sobre fixture genérico
     // Fuentes curadas prevalecen sobre la ficha genérica (mismo slug):
     for (const d of CONGRESO_RESUMEN) bySlug.set(d.slug, d) // diputados con datos oficiales
+    for (const d of SENADO_RESUMEN) bySlug.set(d.slug, d)   // senadores con datos oficiales
     for (const d of IBEX35_RESUMEN) bySlug.set(d.slug, d)
     for (const d of DIPUTACIONES_RESUMEN) bySlug.set(d.slug, d)
     for (const d of PODER_RESUMEN) bySlug.set(d.slug, d)
@@ -510,7 +512,7 @@ export default function DosieresPage() {
 
  <p style={{ marginTop: 30, textAlign: 'center', fontSize: 11, color: '#86868b' }}>
           {dosieres.length} personas en un único sitio
-          {' · '}<span style={{ color: '#525258' }}>{DOSIERES_RESUMEN.length} políticos + {IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder no-electo</span>
+          {' · '}<span style={{ color: '#525258' }}>{CONGRESO_RESUMEN.length} diputados + {SENADO_RESUMEN.length} senadores + {IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder no-electo + {DOSIERES_RESUMEN.length} políticos (fixture)</span>
  </p>
  </main>
  </div>

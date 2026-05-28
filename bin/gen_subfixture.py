@@ -82,6 +82,23 @@ SOURCES = {
             "// Re-generar: python3 bin/gen_congreso.py && python3 bin/gen_subfixture.py --source congreso\n"
         ),
     },
+    "senado": {
+        "files": [
+            REPO / "data" / "senado" / "senadores.json",
+        ],
+        "out": VISUAL / "senado-fixture.ts",
+        "fixture_name": "SENADO_FIXTURE",
+        "resumen_name": "SENADO_RESUMEN",
+        "id_prefix": "sen",
+        "header": (
+            "// AUTO-GENERADO desde data/senado/senadores.json · ver bin/gen_senado.py\n"
+            "// Los ~292 senadores de la XV Legislatura con datos OFICIALES del Senado\n"
+            "// (opendata): grupo parlamentario, circunscripción y tipo (electo/designado).\n"
+            "// El Senado NO abre biografía ni intereses como dato; se enlaza la ficha\n"
+            "// oficial (biografía) y la declaración de bienes/actividades (sin inventar).\n"
+            "// Re-generar: python3 bin/gen_senado.py && python3 bin/gen_subfixture.py --source senado\n"
+        ),
+    },
     "poder": {
         "files": [
             REPO / "data" / "poder" / "figuras_clave.json",
