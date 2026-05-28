@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { ACTORES, CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actores'
+import { CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actores'
+import { ACTORES_TODOS as ACTORES } from '@/lib/actores-todos'
 import { useApi } from '@/lib/useApi'
 import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
@@ -90,11 +91,17 @@ export default function MapaActoresPage() {
     return getDossierAny(grafoSel, nombre)
   }, [grafoSel, grafoActors])
 
+  // ~4.000 actores (catálogo + todos los dossiers). El cuadrante renderiza como
+  // máximo los 800 más influyentes del filtro/búsqueda para no saturar el SVG;
+  // la búsqueda y los filtros de categoría dan acceso a cualquiera.
+  const RENDER_CAP = 800
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
     return ACTORES
       .filter(a => filterCat === 'Todos' || a.cat === filterCat)
-      .filter(a => !q || a.nombre.toLowerCase().includes(q) || a.partido.toLowerCase().includes(q) || a.cargo.toLowerCase().includes(q))
+      .filter(a => !q || a.nombre.toLowerCase().includes(q) || a.partido.toLowerCase().includes(q) || (a.cargo || '').toLowerCase().includes(q))
+      .sort((x, y) => (y.inf || 0) - (x.inf || 0))
+      .slice(0, RENDER_CAP)
   }, [filterCat, query])
 
   const counts = useMemo(() => {
@@ -179,7 +186,7 @@ export default function MapaActoresPage() {
       {view === 'grafo' && (
         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <RelacionesGrafo actors={grafoActors} maxActors={500} onSelect={setGrafoSel} />
+            <RelacionesGrafo actors={grafoActors} maxActors={700} onSelect={setGrafoSel} />
           </div>
           {grafoSelDossier && (
             <DossierSidebar dossier={grafoSelDossier} onClose={() => setGrafoSel(null)} />
