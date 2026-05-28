@@ -115,8 +115,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0002",
@@ -220,8 +220,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0003",
@@ -325,8 +325,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0004",
@@ -430,8 +430,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0005",
@@ -535,8 +535,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0006",
@@ -640,8 +640,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0007",
@@ -745,8 +745,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0008",
@@ -850,8 +850,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0009",
@@ -955,8 +955,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0010",
@@ -1060,8 +1060,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0011",
@@ -1165,8 +1165,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0012",
@@ -1270,8 +1270,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0013",
@@ -1360,8 +1360,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0014",
@@ -1465,8 +1465,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0015",
@@ -1555,8 +1555,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0016",
@@ -1645,8 +1645,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0017",
@@ -1750,8 +1750,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0018",
@@ -1840,8 +1840,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0019",
@@ -1930,8 +1930,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0020",
@@ -2020,8 +2020,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0021",
@@ -2110,8 +2110,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0022",
@@ -2215,8 +2215,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0023",
@@ -2320,8 +2320,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0024",
@@ -2410,8 +2410,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0025",
@@ -2515,8 +2515,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0026",
@@ -2605,8 +2605,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0027",
@@ -2695,8 +2695,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0028",
@@ -2800,8 +2800,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0029",
@@ -2905,8 +2905,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0030",
@@ -2995,8 +2995,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0031",
@@ -3085,8 +3085,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0032",
@@ -3175,8 +3175,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0033",
@@ -3265,8 +3265,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0034",
@@ -3355,8 +3355,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0035",
@@ -3445,8 +3445,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0036",
@@ -3535,8 +3535,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0037",
@@ -3625,8 +3625,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0038",
@@ -3715,8 +3715,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0039",
@@ -3820,8 +3820,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0040",
@@ -3910,8 +3910,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0041",
@@ -4000,8 +4000,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0042",
@@ -4090,8 +4090,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0043",
@@ -4180,8 +4180,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0044",
@@ -4270,8 +4270,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0045",
@@ -4360,8 +4360,8 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   },
   {
     "id": "med-0046",
@@ -4450,8 +4450,4103 @@ export const MEDIOS_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T23:03:38.648135Z",
-    "updated_at": "2026-05-28T23:03:38.648135Z"
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0047",
+    "slug": "lucia-mendez",
+    "nombre_completo": "Lucía Méndez",
+    "alias": null,
+    "cargo_actual": "Columnista política · El Mundo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Columnista política de El Mundo. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0047-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0047-ap-00-it-00",
+            "apartado_id": "med-0047-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista política de El Mundo. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0047-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0047-ap-01-it-00",
+            "apartado_id": "med-0047-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis político de fondo; crítica con todos los partidos, sin alineamiento de bloque.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0047-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0047-ap-02-it-00",
+            "apartado_id": "med-0047-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -1/10) — Crítica con la comunicación y los pactos del Ejecutivo, pero no militante.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0048",
+    "slug": "esther-palomera",
+    "nombre_completo": "Esther Palomera",
+    "alias": null,
+    "cargo_actual": "Columnista y tertuliana · elDiario.es · laSexta",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Columnista y tertuliana de elDiario.es · laSexta. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0048-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0048-ap-00-it-00",
+            "apartado_id": "med-0048-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista y tertuliana de elDiario.es · laSexta. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0048-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0048-ap-01-it-00",
+            "apartado_id": "med-0048-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis de centro-izquierda; foco en regeneración y crítica a la derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0048-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0048-ap-02-it-00",
+            "apartado_id": "med-0048-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Defensa del bloque progresista, con exigencia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0048-ap-02-it-01",
+            "apartado_id": "med-0048-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -4/10) — Crítica con la estrategia del PP y Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0049",
+    "slug": "montserrat-dominguez",
+    "nombre_completo": "Montserrat Domínguez",
+    "alias": null,
+    "cargo_actual": "Periodista · Cadena SER (ex-HuffPost)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de Cadena SER (ex-HuffPost). Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0049-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0049-ap-00-it-00",
+            "apartado_id": "med-0049-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de Cadena SER (ex-HuffPost). Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0049-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0049-ap-01-it-00",
+            "apartado_id": "med-0049-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de centro-izquierda; agenda social y de derechos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0049-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0049-ap-02-it-00",
+            "apartado_id": "med-0049-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Sintonía con la agenda progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0050",
+    "slug": "aimar-bretos",
+    "nombre_completo": "Aimar Bretos",
+    "alias": null,
+    "cargo_actual": "Presentador · Cadena SER · Hora 25",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentador de Cadena SER · Hora 25. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0050-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0050-ap-00-it-00",
+            "apartado_id": "med-0050-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Cadena SER · Hora 25. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0050-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0050-ap-01-it-00",
+            "apartado_id": "med-0050-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo nocturno de la SER; entrevistas incisivas a ambos lados.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0050-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0050-ap-02-it-00",
+            "apartado_id": "med-0050-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Línea editorial de la SER, percibida afín, con entrevistas exigentes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0050-ap-02-it-01",
+            "apartado_id": "med-0050-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -2/10) — Crítico pero abierto a la oposición.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0051",
+    "slug": "carles-francino",
+    "nombre_completo": "Carles Francino",
+    "alias": null,
+    "cargo_actual": "Presentador · Cadena SER · La Ventana",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentador de Cadena SER · La Ventana. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0051-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0051-ap-00-it-00",
+            "apartado_id": "med-0051-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Cadena SER · La Ventana. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0051-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0051-ap-01-it-00",
+            "apartado_id": "med-0051-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín de tarde reposado; sensibilidad progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0051-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0051-ap-02-it-00",
+            "apartado_id": "med-0051-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Tono afín al espacio de centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0052",
+    "slug": "gonzalo-miro",
+    "nombre_completo": "Gonzalo Miró",
+    "alias": null,
+    "cargo_actual": "Tertuliano · Tertulias TV",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Tertuliano de Tertulias TV. Línea: Izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0052-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0052-ap-00-it-00",
+            "apartado_id": "med-0052-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Tertuliano de Tertulias TV. Línea: Izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0052-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0052-ap-01-it-00",
+            "apartado_id": "med-0052-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano de izquierdas; defensa del Gobierno frente a la derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0052-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0052-ap-02-it-00",
+            "apartado_id": "med-0052-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Defensor del Ejecutivo en los platós.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0052-ap-02-it-01",
+            "apartado_id": "med-0052-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -5/10) — Confrontación con tertulianos de derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0053",
+    "slug": "bob-pop",
+    "nombre_completo": "Bob Pop (Roberto Enríquez)",
+    "alias": null,
+    "cargo_actual": "Escritor y comentarista · laSexta · cultura",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Escritor y comentarista de laSexta · cultura. Línea: Izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0053-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0053-ap-00-it-00",
+            "apartado_id": "med-0053-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Escritor y comentarista de laSexta · cultura. Línea: Izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0053-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0053-ap-01-it-00",
+            "apartado_id": "med-0053-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Mirada cultural de izquierdas, crítica con la derecha y la ultraderecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0053-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0053-ap-02-it-00",
+            "apartado_id": "med-0053-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Afín al espacio progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0053-ap-02-it-01",
+            "apartado_id": "med-0053-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -5/10) — Sátira y crítica a la derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0054",
+    "slug": "fernando-berlin",
+    "nombre_completo": "Fernando Berlín",
+    "alias": null,
+    "cargo_actual": "Director · Radiocable",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director de Radiocable. Línea: Izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0054-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0054-ap-00-it-00",
+            "apartado_id": "med-0054-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de Radiocable. Línea: Izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0054-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0054-ap-01-it-00",
+            "apartado_id": "med-0054-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio digital de izquierdas; framing antiderecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0054-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0054-ap-02-it-00",
+            "apartado_id": "med-0054-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +4/10) — Apoyo claro al bloque progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0054-ap-02-it-01",
+            "apartado_id": "med-0054-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -6/10) — Crítica frontal a PP y Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0055",
+    "slug": "javier-gallego",
+    "nombre_completo": "Javier Gallego",
+    "alias": null,
+    "cargo_actual": "Director y presentador · Carne Cruda",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director y presentador de Carne Cruda. Línea: Izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0055-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0055-ap-00-it-00",
+            "apartado_id": "med-0055-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director y presentador de Carne Cruda. Línea: Izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0055-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0055-ap-01-it-00",
+            "apartado_id": "med-0055-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo independiente de izquierdas; foco en derechos sociales y crítica al poder económico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0055-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0055-ap-02-it-00",
+            "apartado_id": "med-0055-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Próximo al espacio progresista, exigente por la izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0055-ap-02-it-01",
+            "apartado_id": "med-0055-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -6/10) — Crítica a la derecha y la ultraderecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0056",
+    "slug": "nativel-preciado",
+    "nombre_completo": "Nativel Preciado",
+    "alias": null,
+    "cargo_actual": "Escritora y periodista · Tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Escritora y periodista de Tertulias. Línea: Izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0056-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0056-ap-00-it-00",
+            "apartado_id": "med-0056-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Escritora y periodista de Tertulias. Línea: Izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0056-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0056-ap-01-it-00",
+            "apartado_id": "med-0056-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Veterana de izquierdas; defensa de la memoria democrática.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0056-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0056-ap-02-it-00",
+            "apartado_id": "med-0056-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Afín al espacio progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0057",
+    "slug": "monica-carrillo",
+    "nombre_completo": "Mónica Carrillo",
+    "alias": null,
+    "cargo_actual": "Presentadora · Antena 3 · Informativos",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentadora de Antena 3 · Informativos. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0057-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0057-ap-00-it-00",
+            "apartado_id": "med-0057-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de Antena 3 · Informativos. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0057-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0057-ap-01-it-00",
+            "apartado_id": "med-0057-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo clásico; tono neutro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0057-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0057-ap-02-it-00",
+            "apartado_id": "med-0057-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura institucional neutra.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0058",
+    "slug": "sandra-golpe",
+    "nombre_completo": "Sandra Golpe",
+    "alias": null,
+    "cargo_actual": "Presentadora · Antena 3 · Antena 3 Noticias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentadora de Antena 3 · Antena 3 Noticias. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0058-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0058-ap-00-it-00",
+            "apartado_id": "med-0058-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de Antena 3 · Antena 3 Noticias. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0058-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0058-ap-01-it-00",
+            "apartado_id": "med-0058-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo de máxima audiencia; tono neutral.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0058-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0058-ap-02-it-00",
+            "apartado_id": "med-0058-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura institucional sin alineamiento marcado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0059",
+    "slug": "jose-ribagorda",
+    "nombre_completo": "José Ribagorda",
+    "alias": null,
+    "cargo_actual": "Presentador · Telecinco · Informativos",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentador de Telecinco · Informativos. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0059-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0059-ap-00-it-00",
+            "apartado_id": "med-0059-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Telecinco · Informativos. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0059-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0059-ap-01-it-00",
+            "apartado_id": "med-0059-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo de fin de semana; tono sobrio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0059-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0059-ap-02-it-00",
+            "apartado_id": "med-0059-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura neutra.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0060",
+    "slug": "manu-marlasca",
+    "nombre_completo": "Manu Marlasca",
+    "alias": null,
+    "cargo_actual": "Periodista de investigación · laSexta · sucesos",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de investigación de laSexta · sucesos. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0060-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0060-ap-00-it-00",
+            "apartado_id": "med-0060-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de investigación de laSexta · sucesos. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0060-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0060-ap-01-it-00",
+            "apartado_id": "med-0060-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Especialista en sucesos y tribunales; enfoque factual.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0060-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0060-ap-02-it-00",
+            "apartado_id": "med-0060-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura judicial y de sucesos sin sesgo político marcado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0061",
+    "slug": "ana-terradillos",
+    "nombre_completo": "Ana Terradillos",
+    "alias": null,
+    "cargo_actual": "Presentadora y tertuliana · Telecinco · COPE",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentadora y tertuliana de Telecinco · COPE. Línea: Centro-derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0061-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0061-ap-00-it-00",
+            "apartado_id": "med-0061-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora y tertuliana de Telecinco · COPE. Línea: Centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0061-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0061-ap-01-it-00",
+            "apartado_id": "med-0061-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista y tertulia escorada al centro-derecha; exigente con el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0061-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0061-ap-02-it-00",
+            "apartado_id": "med-0061-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Coberturas y entrevistas críticas con el Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0062",
+    "slug": "pilar-garcia-muniz",
+    "nombre_completo": "Pilar García Muñiz",
+    "alias": null,
+    "cargo_actual": "Presentadora · COPE (ex-TVE)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentadora de COPE (ex-TVE). Línea: Centro-derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0062-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0062-ap-00-it-00",
+            "apartado_id": "med-0062-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de COPE (ex-TVE). Línea: Centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0062-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0062-ap-01-it-00",
+            "apartado_id": "med-0062-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Mañanas de COPE; tono conservador moderado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0062-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0062-ap-02-it-00",
+            "apartado_id": "med-0062-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Línea editorial de COPE, crítica con el Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0063",
+    "slug": "juan-pablo-colmenarejo",
+    "nombre_completo": "Juan Pablo Colmenarejo",
+    "alias": null,
+    "cargo_actual": "Presentador · Onda Madrid · COPE",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentador de Onda Madrid · COPE. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0063-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0063-ap-00-it-00",
+            "apartado_id": "med-0063-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Onda Madrid · COPE. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0063-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0063-ap-01-it-00",
+            "apartado_id": "med-0063-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio conservadora; framing crítico con el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0063-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0063-ap-02-it-00",
+            "apartado_id": "med-0063-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Tono editorial adverso al Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0064",
+    "slug": "emilia-landaluce",
+    "nombre_completo": "Emilia Landaluce",
+    "alias": null,
+    "cargo_actual": "Columnista · El Mundo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Columnista de El Mundo. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0064-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0064-ap-00-it-00",
+            "apartado_id": "med-0064-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de El Mundo. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0064-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0064-ap-01-it-00",
+            "apartado_id": "med-0064-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Columnismo conservador; crítica al sanchismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0064-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0064-ap-02-it-00",
+            "apartado_id": "med-0064-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Columnas adversas al Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0065",
+    "slug": "isabel-duran-periodista",
+    "nombre_completo": "Isabel Durán",
+    "alias": null,
+    "cargo_actual": "Periodista y tertuliana · TVE · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista y tertuliana de TVE · tertulias. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0065-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0065-ap-00-it-00",
+            "apartado_id": "med-0065-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliana de TVE · tertulias. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0065-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0065-ap-01-it-00",
+            "apartado_id": "med-0065-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliana conservadora; encuadre anti-sanchista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0065-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0065-ap-02-it-00",
+            "apartado_id": "med-0065-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Discurso hostil al Ejecutivo en platós.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0066",
+    "slug": "antonio-jimenez-trece",
+    "nombre_completo": "Antonio Jiménez",
+    "alias": null,
+    "cargo_actual": "Director y presentador · TRECE · El Cascabel",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director y presentador de TRECE · El Cascabel. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0066-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0066-ap-00-it-00",
+            "apartado_id": "med-0066-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director y presentador de TRECE · El Cascabel. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0066-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0066-ap-01-it-00",
+            "apartado_id": "med-0066-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertulia de la cadena de la Iglesia; framing conservador anti-Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0066-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0066-ap-02-it-00",
+            "apartado_id": "med-0066-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Línea editorial de TRECE, crítica con el Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0066-ap-02-it-01",
+            "apartado_id": "med-0066-ap-02",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +4/10) — Sintonía con el centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0067",
+    "slug": "alfonso-merlos",
+    "nombre_completo": "Alfonso Merlos",
+    "alias": null,
+    "cargo_actual": "Periodista y tertuliano · esRadio · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0067-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0067-ap-00-it-00",
+            "apartado_id": "med-0067-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0067-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0067-ap-01-it-00",
+            "apartado_id": "med-0067-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano de derecha combativa; framing anti-Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0067-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0067-ap-02-it-00",
+            "apartado_id": "med-0067-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Discurso hostil al Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0068",
+    "slug": "cake-minuesa",
+    "nombre_completo": "Cake Minuesa",
+    "alias": null,
+    "cargo_actual": "Comunicador · Digital · redes",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Comunicador de Digital · redes. Línea: Derecha dura.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0068-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0068-ap-00-it-00",
+            "apartado_id": "med-0068-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Comunicador de Digital · redes. Línea: Derecha dura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0068-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0068-ap-01-it-00",
+            "apartado_id": "med-0068-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Activista-comunicador de derecha radical; vídeos de confrontación con el Gobierno y la izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha-dura"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0068-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0068-ap-02-it-00",
+            "apartado_id": "med-0068-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -9/10) — Activismo de oposición frontal al Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0069",
+    "slug": "javier-garcia-isac",
+    "nombre_completo": "Javier García Isac",
+    "alias": null,
+    "cargo_actual": "Director · Radio Ya · Decisión Radio",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director de Radio Ya · Decisión Radio. Línea: Derecha dura.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0069-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0069-ap-00-it-00",
+            "apartado_id": "med-0069-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de Radio Ya · Decisión Radio. Línea: Derecha dura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0069-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0069-ap-01-it-00",
+            "apartado_id": "med-0069-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio de derecha radical; framing de confrontación total con el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha-dura"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0069-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0069-ap-02-it-00",
+            "apartado_id": "med-0069-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -9/10) — Línea de oposición frontal y constante al Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0070",
+    "slug": "ana-samboal",
+    "nombre_completo": "Ana Samboal",
+    "alias": null,
+    "cargo_actual": "Presentadora · El Toro TV",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentadora de El Toro TV. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0070-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0070-ap-00-it-00",
+            "apartado_id": "med-0070-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de El Toro TV. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0070-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0070-ap-01-it-00",
+            "apartado_id": "med-0070-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista y análisis de derecha; crítica al sanchismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0070-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0070-ap-02-it-00",
+            "apartado_id": "med-0070-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Encuadre adverso al Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0071",
+    "slug": "federico-quevedo",
+    "nombre_completo": "Federico Quevedo",
+    "alias": null,
+    "cargo_actual": "Periodista y tertuliano · El Debate · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista y tertuliano de El Debate · tertulias. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0071-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0071-ap-00-it-00",
+            "apartado_id": "med-0071-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de El Debate · tertulias. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0071-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0071-ap-01-it-00",
+            "apartado_id": "med-0071-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano conservador; framing anti-Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0071-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0071-ap-02-it-00",
+            "apartado_id": "med-0071-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Discurso crítico con el Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0072",
+    "slug": "pablo-planas",
+    "nombre_completo": "Pablo Planas",
+    "alias": null,
+    "cargo_actual": "Periodista · Libertad Digital",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de Libertad Digital. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0072-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0072-ap-00-it-00",
+            "apartado_id": "med-0072-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de Libertad Digital. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0072-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0072-ap-01-it-00",
+            "apartado_id": "med-0072-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo liberal-conservador anti-sanchista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0072-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0072-ap-02-it-00",
+            "apartado_id": "med-0072-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Línea editorial de Libertad Digital, hostil al Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0073",
+    "slug": "daniel-lacalle",
+    "nombre_completo": "Daniel Lacalle",
+    "alias": null,
+    "cargo_actual": "Economista y comentarista · Economía · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista y comentarista de Economía · tertulias. Línea: Derecha liberal.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0073-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0073-ap-00-it-00",
+            "apartado_id": "med-0073-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista y comentarista de Economía · tertulias. Línea: Derecha liberal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0073-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0073-ap-01-it-00",
+            "apartado_id": "med-0073-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista liberal; crítica frontal a la política económica y fiscal del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha-liberal"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0073-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0073-ap-02-it-00",
+            "apartado_id": "med-0073-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Encuadre muy crítico con el intervencionismo, los impuestos y el gasto del Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0074",
+    "slug": "juan-ramon-rallo",
+    "nombre_completo": "Juan Ramón Rallo",
+    "alias": null,
+    "cargo_actual": "Economista y divulgador · Economía · YouTube",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista y divulgador de Economía · YouTube. Línea: Derecha liberal.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0074-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0074-ap-00-it-00",
+            "apartado_id": "med-0074-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista y divulgador de Economía · YouTube. Línea: Derecha liberal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0074-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0074-ap-01-it-00",
+            "apartado_id": "med-0074-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista libertario; crítica a la intervención del Estado y al gasto público.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha-liberal"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0074-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0074-ap-02-it-00",
+            "apartado_id": "med-0074-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Crítica sistemática a la política económica del Gobierno desde el liberalismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0075",
+    "slug": "gonzalo-bernardos",
+    "nombre_completo": "Gonzalo Bernardos",
+    "alias": null,
+    "cargo_actual": "Economista y tertuliano · Economía · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista y tertuliano de Economía · tertulias. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0075-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0075-ap-00-it-00",
+            "apartado_id": "med-0075-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista y tertuliano de Economía · tertulias. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0075-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0075-ap-01-it-00",
+            "apartado_id": "med-0075-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista mediático; defensa de buena parte de la política económica del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0075-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0075-ap-02-it-00",
+            "apartado_id": "med-0075-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +4/10) — Valoración favorable de la gestión económica del Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0076",
+    "slug": "jose-carlos-diez",
+    "nombre_completo": "José Carlos Díez",
+    "alias": null,
+    "cargo_actual": "Economista · Economía · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Economista de Economía · tertulias. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0076-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0076-ap-00-it-00",
+            "apartado_id": "med-0076-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista de Economía · tertulias. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0076-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0076-ap-01-it-00",
+            "apartado_id": "med-0076-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista de sensibilidad socialdemócrata.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0076-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0076-ap-02-it-00",
+            "apartado_id": "med-0076-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Sintonía con la orientación económica del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0077",
+    "slug": "jordi-baste",
+    "nombre_completo": "Jordi Basté",
+    "alias": null,
+    "cargo_actual": "Director y presentador · RAC1 · El Món a RAC1",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Director y presentador de RAC1 · El Món a RAC1. Línea: catalanista.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "catalanista"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0077-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0077-ap-00-it-00",
+            "apartado_id": "med-0077-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director y presentador de RAC1 · El Món a RAC1. Línea: catalanista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0077-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0077-ap-01-it-00",
+            "apartado_id": "med-0077-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio catalana líder; catalanismo moderado, crítico con la judicialización del 'procés'.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "catalanista"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0077-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0077-ap-02-it-00",
+            "apartado_id": "med-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Favorable a la vía del diálogo y la desjudicialización.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0077-ap-02-it-01",
+            "apartado_id": "med-0077-ap-02",
+            "tipo": "contacto",
+            "titulo": "Álvaro García Ortiz",
+            "contenido": "**Poder judicial / Fiscalía** (nota -3/10) — Crítico con la actuación judicial sobre el independentismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0078",
+    "slug": "josep-cuni",
+    "nombre_completo": "Josep Cuní",
+    "alias": null,
+    "cargo_actual": "Periodista · SER Catalunya (histórico)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de SER Catalunya (histórico). Línea: catalanista.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "catalanista"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0078-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0078-ap-00-it-00",
+            "apartado_id": "med-0078-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de SER Catalunya (histórico). Línea: catalanista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0078-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0078-ap-01-it-00",
+            "apartado_id": "med-0078-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Catalanismo de centro; defensa del diálogo Cataluña-Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "catalanista"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0078-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0078-ap-02-it-00",
+            "apartado_id": "med-0078-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Favorable a la distensión territorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0079",
+    "slug": "monica-terribas",
+    "nombre_completo": "Mònica Terribas",
+    "alias": null,
+    "cargo_actual": "Periodista · TV3 · SER (histórico)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de TV3 · SER (histórico). Línea: soberanista.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "soberanista"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0079-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0079-ap-00-it-00",
+            "apartado_id": "med-0079-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de TV3 · SER (histórico). Línea: soberanista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0079-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0079-ap-01-it-00",
+            "apartado_id": "med-0079-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo soberanista catalán; crítica con el Estado en el conflicto territorial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "soberanista"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0079-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0079-ap-02-it-00",
+            "apartado_id": "med-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -1/10) — Crítica con el Estado en lo territorial, pese a valorar la distensión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "med-0079-ap-02-it-01",
+            "apartado_id": "med-0079-ap-02",
+            "tipo": "contacto",
+            "titulo": "Álvaro García Ortiz",
+            "contenido": "**Poder judicial / Fiscalía** (nota -4/10) — Denuncia de la judicialización del independentismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0080",
+    "slug": "vicent-sanchis",
+    "nombre_completo": "Vicent Sanchis",
+    "alias": null,
+    "cargo_actual": "Periodista · TV3 (ex-director)",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de TV3 (ex-director). Línea: soberanista.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "soberanista"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0080-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0080-ap-00-it-00",
+            "apartado_id": "med-0080-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de TV3 (ex-director). Línea: soberanista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0080-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0080-ap-01-it-00",
+            "apartado_id": "med-0080-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Director histórico de TV3; línea soberanista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "soberanista"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0080-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0080-ap-02-it-00",
+            "apartado_id": "med-0080-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -2/10) — Crítico con el Estado en el marco del 'procés'.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0081",
+    "slug": "gloria-lomana",
+    "nombre_completo": "Gloria Lomana",
+    "alias": null,
+    "cargo_actual": "Periodista · Ex-Antena 3 · análisis",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de Ex-Antena 3 · análisis. Línea: Centro-derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0081-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0081-ap-00-it-00",
+            "apartado_id": "med-0081-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de Ex-Antena 3 · análisis. Línea: Centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0081-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0081-ap-01-it-00",
+            "apartado_id": "med-0081-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis de centro-derecha; foco en liderazgo y comunicación política.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0081-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0081-ap-02-it-00",
+            "apartado_id": "med-0081-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -2/10) — Mirada crítica con la comunicación del Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0082",
+    "slug": "javier-chicote",
+    "nombre_completo": "Javier Chicote",
+    "alias": null,
+    "cargo_actual": "Periodista de investigación · ABC · investigación",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista de investigación de ABC · investigación. Línea: Centro-derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0082-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0082-ap-00-it-00",
+            "apartado_id": "med-0082-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de investigación de ABC · investigación. Línea: Centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0082-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0082-ap-01-it-00",
+            "apartado_id": "med-0082-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Investigación sobre corrupción y poder; coberturas incómodas para el Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0082-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0082-ap-02-it-00",
+            "apartado_id": "med-0082-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Investigaciones que han tensado con Moncloa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0083",
+    "slug": "miguel-angel-mellado",
+    "nombre_completo": "Miguel Ángel Mellado",
+    "alias": null,
+    "cargo_actual": "Adjunto a la dirección · El Mundo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Adjunto a la dirección de El Mundo. Línea: Centro-derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0083-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0083-ap-00-it-00",
+            "apartado_id": "med-0083-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Adjunto a la dirección de El Mundo. Línea: Centro-derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0083-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0083-ap-01-it-00",
+            "apartado_id": "med-0083-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis de centro-derecha alineado con la línea de El Mundo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0083-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0083-ap-02-it-00",
+            "apartado_id": "med-0083-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -4/10) — Crítico con la gestión del Ejecutivo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0084",
+    "slug": "victor-de-la-serna",
+    "nombre_completo": "Víctor de la Serna",
+    "alias": null,
+    "cargo_actual": "Columnista · El Mundo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Columnista de El Mundo. Línea: Derecha.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0084-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0084-ap-00-it-00",
+            "apartado_id": "med-0084-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de El Mundo. Línea: Derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0084-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0084-ap-01-it-00",
+            "apartado_id": "med-0084-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Columnista conservador veterano; crítico con el sanchismo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "derecha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0084-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0084-ap-02-it-00",
+            "apartado_id": "med-0084-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -5/10) — Columnas adversas al Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0085",
+    "slug": "maximo-pradera",
+    "nombre_completo": "Máximo Pradera",
+    "alias": null,
+    "cargo_actual": "Comunicador · Cultura · tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Comunicador de Cultura · tertulias. Línea: Izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0085-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0085-ap-00-it-00",
+            "apartado_id": "med-0085-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Comunicador de Cultura · tertulias. Línea: Izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0085-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0085-ap-01-it-00",
+            "apartado_id": "med-0085-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Mirada cultural de izquierdas, irónica con la derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0085-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0085-ap-02-it-00",
+            "apartado_id": "med-0085-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Afín al espacio progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0086",
+    "slug": "rosa-villacastin",
+    "nombre_completo": "Rosa Villacastín",
+    "alias": null,
+    "cargo_actual": "Periodista y tertuliana · Tertulias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista y tertuliana de Tertulias. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0086-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0086-ap-00-it-00",
+            "apartado_id": "med-0086-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliana de Tertulias. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0086-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0086-ap-01-it-00",
+            "apartado_id": "med-0086-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Veterana de prensa del corazón y tertulia política de sensibilidad progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0086-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0086-ap-02-it-00",
+            "apartado_id": "med-0086-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Tono afín al espacio de centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0087",
+    "slug": "antonio-casado",
+    "nombre_completo": "Antonio Casado",
+    "alias": null,
+    "cargo_actual": "Columnista político · El Confidencial",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Columnista político de El Confidencial. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0087-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0087-ap-00-it-00",
+            "apartado_id": "med-0087-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista político de El Confidencial. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0087-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0087-ap-01-it-00",
+            "apartado_id": "med-0087-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis político de centro; crónica parlamentaria equilibrada.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0087-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0087-ap-02-it-00",
+            "apartado_id": "med-0087-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -1/10) — Crítico moderado con la gestión, sin alineamiento de bloque.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0088",
+    "slug": "fernando-jauregui",
+    "nombre_completo": "Fernando Jáuregui",
+    "alias": null,
+    "cargo_actual": "Periodista veterano · Tertulias · Diariocrítico",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista veterano de Tertulias · Diariocrítico. Línea: Centro.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0088-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0088-ap-00-it-00",
+            "apartado_id": "med-0088-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista veterano de Tertulias · Diariocrítico. Línea: Centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0088-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0088-ap-01-it-00",
+            "apartado_id": "med-0088-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Veterano de la Transición; análisis de centro institucionalista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0088-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0088-ap-02-it-00",
+            "apartado_id": "med-0088-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Mirada institucional, crítica con los extremos de ambos bloques.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0089",
+    "slug": "alfredo-menendez",
+    "nombre_completo": "Alfredo Menéndez",
+    "alias": null,
+    "cargo_actual": "Presentador · Cadena SER · Hoy por Hoy fin de semana",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presentador de Cadena SER · Hoy por Hoy fin de semana. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0089-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0089-ap-00-it-00",
+            "apartado_id": "med-0089-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Cadena SER · Hoy por Hoy fin de semana. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0089-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0089-ap-01-it-00",
+            "apartado_id": "med-0089-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín de fin de semana de la SER; sensibilidad progresista.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0089-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0089-ap-02-it-00",
+            "apartado_id": "med-0089-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Tono afín al espacio de centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
+  },
+  {
+    "id": "med-0090",
+    "slug": "pilar-velasco",
+    "nombre_completo": "Pilar Velasco",
+    "alias": null,
+    "cargo_actual": "Periodista política · Cadena SER",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Periodista política de Cadena SER. Línea: Centro-izquierda.",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "fuente_principal": null,
+    "apartados": [
+      {
+        "id": "med-0090-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "med-0090-ap-00-it-00",
+            "apartado_id": "med-0090-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista política de Cadena SER. Línea: Centro-izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0090-ap-01",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "med-0090-ap-01-it-00",
+            "apartado_id": "med-0090-ap-01",
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Información política de la SER; crónica de Moncloa y partidos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "centro-izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "med-0090-ap-02",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "med-0090-ap-02-it-00",
+            "apartado_id": "med-0090-ap-02",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Cobertura desde la SER, percibida como afín, con tono informativo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-28T23:20:07.574303Z",
+    "updated_at": "2026-05-28T23:20:07.574303Z"
   }
 ]
 
