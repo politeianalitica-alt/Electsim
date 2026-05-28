@@ -80,6 +80,30 @@ interface GovernmentLayer {
   governing_parties: string[]
   international_orgs: string[]
   independence_date: string | null
+  // ── Wikidata extended facts (FIX-A7) ───────────────────────────
+  national_motto?: string | null
+  state_religion?: string | null
+  legal_system?: string | null
+  official_language?: string | null
+  head_of_state_since?: string | null
+  head_of_government_since?: string | null
+  _source: SourceMeta
+}
+
+interface EconomicLayer {
+  gdp_growth_pct_latest: number | null
+  inflation_pct_latest: number | null
+  unemployment_pct_latest: number | null
+  current_account_pct_gdp_latest: number | null
+  debt_pct_gdp_latest: number | null
+  reserves_months_imports_latest: number | null
+  series_5y: {
+    gdp_growth_pct?: Array<{ year: number; value: number | null }>
+    inflation_pct?: Array<{ year: number; value: number | null }>
+    unemployment_pct?: Array<{ year: number; value: number | null }>
+  }
+  economic_health: 'estable' | 'tension' | 'crisis' | 'sin_datos'
+  alerts: string[]
   _source: SourceMeta
 }
 
@@ -151,6 +175,7 @@ interface CountryProfile {
     sanctions: SanctionsLayer | null
     travel: TravelLayer | null
     risk: RiskLayer | null
+    economic?: EconomicLayer | null
   }
   layers_available: string[]
   layers_count: number
@@ -226,6 +251,7 @@ export default function PaisPage() {
             }}>
               <IdentityBlock layer={data.layers.identity} />
               <GovernmentBlock layer={data.layers.government} />
+              <EconomicBlock layer={data.layers.economic ?? null} />
               <ConflictBlock layer={data.layers.conflict} />
               <NarrativeBlock layer={data.layers.narrative} />
               <HumanitarianBlock layer={data.layers.humanitarian} />
@@ -351,11 +377,39 @@ function GovernmentBlock({ layer }: { layer: GovernmentLayer | null }) {
       {layer && (
         <>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12 }}>
-            <Field label="Jefe de Estado" value={layer.head_of_state || '—'} />
-            <Field label="Jefe de Gobierno" value={layer.head_of_government || '—'} />
+            <Field
+              label="Jefe de Estado"
+              value={
+                layer.head_of_state
+                  ? layer.head_of_state +
+                    (layer.head_of_state_since ? ` (desde ${layer.head_of_state_since})` : '')
+                  : '—'
+              }
+            />
+            <Field
+              label="Jefe de Gobierno"
+              value={
+                layer.head_of_government
+                  ? layer.head_of_government +
+                    (layer.head_of_government_since ? ` (desde ${layer.head_of_government_since})` : '')
+                  : '—'
+              }
+            />
             <Field label="Forma de gobierno" value={layer.form_of_government || '—'} />
+            {layer.legal_system && (
+              <Field label="Sistema legal" value={layer.legal_system} />
+            )}
+            {layer.official_language && (
+              <Field label="Idioma oficial" value={layer.official_language} />
+            )}
+            {layer.state_religion && (
+              <Field label="Religión oficial" value={layer.state_religion} />
+            )}
             {layer.independence_date && (
               <Field label="Independencia" value={layer.independence_date} />
+            )}
+            {layer.national_motto && (
+              <Field label="Lema nacional" value={layer.national_motto} />
             )}
           </div>
           {layer.international_orgs.length > 0 && (
@@ -377,6 +431,63 @@ function GovernmentBlock({ layer }: { layer: GovernmentLayer | null }) {
           <SourceFooter source={layer._source} />
         </>
       )}
+    </BlockShell>
+  )
+}
+
+function EconomicBlock({ layer }: { layer: EconomicLayer | null }) {
+  if (!layer) {
+    return (
+      <BlockShell title="Indicadores económicos" accent="#16a34a" emoji="⊞" emptyMessage="World Bank no disponible o sin datos para este país">
+        {null}
+      </BlockShell>
+    )
+  }
+  const healthLabel = layer.economic_health === 'crisis' ? 'CRISIS' :
+    layer.economic_health === 'tension' ? 'TENSIÓN' :
+    layer.economic_health === 'estable' ? 'ESTABLE' : 'SIN DATOS'
+  const healthColor = layer.economic_health === 'crisis' ? '#dc2626' :
+    layer.economic_health === 'tension' ? '#f59e0b' :
+    layer.economic_health === 'estable' ? '#16a34a' : '#94a3b8'
+
+  const fmt = (v: number | null, suffix = '%') =>
+    v === null ? '—' : `${v >= 0 && suffix === '%' ? '' : ''}${v.toFixed(1)}${suffix}`
+
+  return (
+    <BlockShell title="Indicadores económicos" accent="#16a34a" emoji="⊞" emptyMessage={null}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+        <span style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.4, fontWeight: 700 }}>
+          Salud macro
+        </span>
+        <span style={{
+          fontSize: 11, fontWeight: 700, color: healthColor,
+          background: layer.economic_health === 'crisis' ? '#fef2f2' : layer.economic_health === 'tension' ? '#fef3c7' : layer.economic_health === 'estable' ? '#f0fdf4' : '#f8fafc',
+          padding: '3px 8px', borderRadius: 4,
+        }}>
+          {healthLabel}
+        </span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, fontSize: 11 }}>
+        <Field label="PIB crecimiento" value={fmt(layer.gdp_growth_pct_latest)} />
+        <Field label="Inflación IPC" value={fmt(layer.inflation_pct_latest)} />
+        <Field label="Desempleo" value={fmt(layer.unemployment_pct_latest)} />
+        <Field label="Cuenta corriente" value={fmt(layer.current_account_pct_gdp_latest, '% PIB')} />
+        <Field label="Deuda pública" value={fmt(layer.debt_pct_gdp_latest, '% PIB')} />
+        <Field label="Reservas" value={layer.reserves_months_imports_latest === null ? '—' : `${layer.reserves_months_imports_latest.toFixed(1)} m`} />
+      </div>
+      {layer.alerts.length > 0 && (
+        <div style={{ marginTop: 10, padding: '8px 10px', background: '#fef2f2', borderRadius: 6, borderLeft: '3px solid #dc2626' }}>
+          <p style={{ margin: '0 0 4px', fontSize: 10, fontWeight: 700, color: '#7f1d1d', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Alertas macro · {layer.alerts.length}
+          </p>
+          <ul style={{ margin: 0, paddingLeft: 16, fontSize: 11, color: '#991b1b', lineHeight: 1.5 }}>
+            {layer.alerts.map((a, i) => (
+              <li key={i}>{a}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <SourceFooter source={layer._source} />
     </BlockShell>
   )
 }
