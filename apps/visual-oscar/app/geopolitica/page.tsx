@@ -63,6 +63,12 @@ import { DefenseCommoditiesPanel } from '@/components/geopolitica/militar/Defens
 import { MilitarySignalFeed } from '@/components/geopolitica/militar/MilitarySignalFeed'
 // Sprint GEO-MIL C6 · Drawer ficha militar país (5 sub-tabs)
 import { GeoMilitaryDrawer } from '@/components/geopolitica/militar/GeoMilitaryDrawer'
+// Sprint GEO-DIP · Tab 5 Diplomacia & Sanciones
+import { DiplomaticMap } from '@/components/geopolitica/diplomacia/DiplomaticMap'
+import { DiplomaticKpis } from '@/components/geopolitica/diplomacia/DiplomaticKpis'
+import { SanctionsSearch } from '@/components/geopolitica/diplomacia/SanctionsSearch'
+import { DiplomaticSignalFeed } from '@/components/geopolitica/diplomacia/DiplomaticSignalFeed'
+import { AgnuHeatmap } from '@/components/geopolitica/diplomacia/AgnuHeatmap'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1283,22 +1289,58 @@ export default function GeopoliticaPage() {
         {/* TAB 4 — Diplomacia & sanciones (UN SC + sanciones EU/OFAC/UN + Top Risks + alertas) */}
         {tab === 4 && (
           <div>
-            {/* Sprint G2 · Top 10 Risks (estilo Eurasia Group) + Sanciones + Calendar */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
-              <GeoTopRisks />
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16 }}>
-                <GeoSanctionsFeed />
-                <GeoCalendarPanel />
-              </div>
-              {/* Sprint G6 · UN Security Council news (Capa 3 · diplomacia de crisis) */}
-              <div style={{ marginTop: 16 }}>
-                <GeoUnscFeed limit={20} />
-              </div>
-              {/* Sprint G7 · EEAS / Council EU (Capa 3 · posición europea) */}
-              <div style={{ marginTop: 16 }}>
-                <GeoEeasFeed limit={20} />
-              </div>
+            {/* Sprint GEO-DIP · Tab 5 Diplomacia & Sanciones
+                Nuevo bloque · mapa global 2 capas (sanciones + AGNU) +
+                KPIs + screening OpenSanctions + feed señales + heatmap AGNU.
+                Vista legacy (Eurasia top10 + sanciones feed + calendar + UNSC + EEAS) abajo. */}
+            <div style={{
+              background: 'linear-gradient(135deg, #7c2d12 0%, #92400e 100%)',
+              borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
+            }}>
+              <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
+                Diplomacia & Sanciones · ¿con quién puede tratar España sin riesgo legal?
+              </h2>
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fed7aa', lineHeight: 1.5 }}>
+                Mapa global 2 capas (sanciones por país + polarización AGNU) ·
+                screening fuzzy 333+ fuentes OpenSanctions (OFAC SDN + EU FSF + UNSC + UK OFSI) ·
+                radar movimientos diplomáticos 7d · heatmap votaciones AGNU 50 países × 10 resoluciones clave.
+              </p>
             </div>
+            <div style={{ marginBottom: 14 }}>
+              <DiplomaticKpis />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <DiplomaticMap onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
+            </div>
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+              gap: 14, marginBottom: 14,
+            }}>
+              <SanctionsSearch />
+              <DiplomaticSignalFeed onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <AgnuHeatmap />
+            </div>
+
+            <details style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '12px 16px', marginBottom: 16 }}>
+              <summary style={{ cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#475569' }}>
+                Vista legacy · Eurasia Top10 + Sanciones RSS + Calendar + UNSC + EEAS (clic para abrir)
+              </summary>
+              <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: '1fr', gap: 16, marginBottom: 20 }}>
+                <GeoTopRisks />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 16 }}>
+                  <GeoSanctionsFeed />
+                  <GeoCalendarPanel />
+                </div>
+                <div style={{ marginTop: 16 }}>
+                  <GeoUnscFeed limit={20} />
+                </div>
+                <div style={{ marginTop: 16 }}>
+                  <GeoEeasFeed limit={20} />
+                </div>
+              </div>
+            </details>
             {/* Resumen contadores por nivel */}
             <div className="geo-nivel-grid">
               {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as NivelGeo[]).map((lv) => {
