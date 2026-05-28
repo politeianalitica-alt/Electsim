@@ -1,0 +1,5626 @@
+[
+  {
+    "slug": "inditex",
+    "tipo": "actor",
+    "nombre": "Industria de Diseño Textil S.A.",
+    "alias": "Inditex",
+    "cargo": "Empresa IBEX 35 · textil / retail",
+    "bio_corta": "Mayor grupo textil del mundo por capitalización. Propietario de Zara, Pull&Bear, Massimo Dutti, Bershka, Stradivarius, Oysho, Zara Home y Lefties. Sede en Arteixo (A Coruña). Fundado por Amancio Ortega en 1985.",
+    "fuente_principal": "https://www.inditex.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:retail-textil",
+      "ticker:ITX",
+      "sede:galicia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.75,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Industria de Diseño Textil S.A., constituida en 1985 con sede en Arteixo (A Coruña). Cotiza en IBEX 35 desde 2001. Capitalización entre las mayores del índice.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marcas",
+            "contenido": "Opera ocho enseñas: Zara (buque insignia), Pull&Bear, Massimo Dutti, Bershka, Stradivarius, Oysho, Zara Home y Lefties.",
+            "tags": [
+              "marcas"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Más de 5.500 tiendas en ~95 países. Plantilla superior a 165.000 empleados. Ventas anuales por encima de 35.000 M€ (ejercicio 2023).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fundación",
+            "contenido": "Amancio Ortega abre la primera tienda Zara en A Coruña en 1975. Inditex se constituye como grupo en 1985.",
+            "fecha": "1985-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "Inditex sale a cotización en mayo de 2001. Amancio Ortega mantiene la mayoría del capital a través de Pontegadea.",
+            "fecha": "2001-05-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sucesión",
+            "contenido": "En abril de 2022 Marta Ortega, hija del fundador, asume la presidencia no ejecutiva. Óscar García Maceiras es nombrado CEO.",
+            "fecha": "2022-04-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromiso público con neutralidad climática 2040 y uso 100% de materiales más sostenibles a 2030. Programa Join Life como etiqueta de prendas con estándares ESG.",
+            "tags": [
+              "esg",
+              "sostenibilidad"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Fiscalidad",
+            "contenido": "Tributa principalmente en España. La compañía suele defender públicamente su contribución fiscal en el país tras polémicas sobre estructura holandesa de royalties resueltas con Hacienda.",
+            "tags": [
+              "fiscalidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Pontegadea",
+            "contenido": "Pontegadea Inversiones (vehículo de Amancio Ortega) controla ~59% de Inditex. Pontegadea es además uno de los mayores caseros institucionales de España.",
+            "tags": [
+              "accionariado",
+              "pontegadea"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Cadena de suministro",
+            "contenido": "Red de ~1.800 proveedores y ~8.500 fábricas auditadas, con foco en proximidad (España, Portugal, Marruecos, Turquía). Esta proximidad es clave en su modelo just-in-time.",
+            "tags": [
+              "proveedores"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nexo con Gobierno",
+            "contenido": "Inditex y Pontegadea han mantenido históricamente relación cordial con todos los Gobiernos. Pablo Isla (ex CEO) ocupó la vicepresidencia primera de CEOE entre 2014 y 2022.",
+            "tags": [
+              "politica",
+              "ceoe"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Marta Ortega sobre relevo",
+            "contenido": "\"Mi compromiso es preservar lo que mi padre construyó y dejarlo en mejor estado para la siguiente generación\", carta a empleados en su toma de posesión.",
+            "fecha": "2022-04-01"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Auditoría laboral en Bangladesh y Pakistán",
+            "contenido": "Tras el colapso del Rana Plaza (2013), Inditex firmó el Accord on Fire and Building Safety y reforzó auditorías. Posteriormente ha enfrentado denuncias puntuales sobre condiciones en proveedores indirectos.",
+            "tags": [
+              "laboral"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Estructura fiscal en Países Bajos",
+            "contenido": "En 2016 el Greens/EFA del Parlamento Europeo publicó un informe señalando ahorro fiscal vía filial holandesa por royalties de marca. Inditex reestructuró posteriormente para tributar mayoritariamente en España.",
+            "fecha": "2016-12-08",
+            "tags": [
+              "fiscalidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Memoria anual",
+            "contenido": "Memoria anual y informe integrado en inditex.com/es/inversores",
+            "fuente_url": "https://www.inditex.com/itxcomweb/es/inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "Hechos relevantes CNMV",
+            "contenido": "Comunicaciones a CNMV bajo el ISIN ES0148396007 / ticker ITX",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A15075062"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "iberdrola",
+    "tipo": "actor",
+    "nombre": "Iberdrola S.A.",
+    "alias": "Iberdrola",
+    "cargo": "Empresa IBEX 35 · utility eléctrica",
+    "bio_corta": "Mayor utility eléctrica española y una de las mayores del mundo por valor en bolsa. Líder global en renovables. Sede social en Bilbao. Presidida desde 2006 por Ignacio Sánchez Galán.",
+    "fuente_principal": "https://www.iberdrola.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-electrica",
+      "ticker:IBE",
+      "sede:paisvasco"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Iberdrola S.A., con sede en Bilbao y origen en la fusión de 1992 entre Hidroeléctrica Española e Iberduero. Presente en 11 países.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Capacidad instalada superior a 80 GW (60% renovable). ~42.000 empleados. EBITDA ~14.000 M€ (2023).",
+            "tags": [
+              "dimensión"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Filiales clave",
+            "contenido": "Iberdrola España, ScottishPower (UK), Avangrid (EE.UU., con NYSE), Neoenergia (Brasil), Iberdrola México.",
+            "tags": [
+              "filiales"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Constitución",
+            "contenido": "Iberdrola nace en 1992 de la fusión de Hidroeléctrica Española (Hidrola) e Iberduero.",
+            "fecha": "1992-12-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Llegada de Sánchez Galán",
+            "contenido": "Ignacio Sánchez Galán entra como consejero delegado en 2001 y asume la presidencia en 2006.",
+            "fecha": "2006-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Expansión internacional",
+            "contenido": "Adquisición de ScottishPower (2007) y Energy East/Avangrid (2008-2015) consolidan el carácter global. Liderazgo en eólica offshore.",
+            "fecha": "2007-04-23"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Transición energética",
+            "contenido": "Posicionamiento corporativo agresivo a favor de la descarbonización, electrificación masiva y precios marginalistas en el pool eléctrico. Defensa pública de mantener el sistema marginalista frente a propuestas de desacoplamiento.",
+            "tags": [
+              "transicion-verde"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a las energéticas",
+            "contenido": "Posicionamiento contrario al gravamen extraordinario impuesto por el Gobierno en 2022. Iberdrola anunció condicionar inversiones en España al marco fiscal y judicializó el impuesto.",
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Capital muy disperso. Mayores accionistas conocidos: Qatar Investment Authority (~8%), Norges Bank (~3-4%), BlackRock (~5%), Kutxabank (~1%). No hay un accionista de control.",
+            "tags": [
+              "accionariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Choque con el Gobierno (Sánchez)",
+            "contenido": "Relación tensa con el Gobierno de Pedro Sánchez en 2021-2024 por el tope al gas, el recorte a beneficios caídos del cielo y el impuesto extraordinario. Sánchez Galán ha sido voz crítica pública.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "CEOE",
+            "contenido": "Histórica presencia en órganos de la CEOE. Sánchez Galán ha sido vocal y miembro destacado del comité ejecutivo.",
+            "tags": [
+              "ceoe"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Investigación judicial Villarejo",
+            "contenido": "Iberdrola está procesada en el caso Villarejo (pieza Tándem) por presunto encargo de espionaje a rivales y directivos entre 2004-2017. Sánchez Galán fue imputado en 2022.",
+            "tags": [
+              "judicial",
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Sánchez Galán sobre impuesto",
+            "contenido": "\"El impuesto frena la inversión en renovables en España\", declaraciones recurrentes en juntas de accionistas 2023-2024.",
+            "fecha": "2023-04-20"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Villarejo - pieza Iberdrola",
+            "contenido": "Audiencia Nacional investiga contratos por más de 1 M€ entre Iberdrola y el comisario Villarejo entre 2004 y 2017 para espiar a rivales (incluido Florentino Pérez en relación con la guerra ACS-Iberdrola). Procesados directivos y la propia Iberdrola como persona jurídica.",
+            "tags": [
+              "judicial",
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Manipulación precios pool (2013-2014)",
+            "contenido": "CNMC sancionó a Iberdrola con 25 M€ por manipulación de precios mediante hidráulica en diciembre 2013. Confirmado por TS en 2020.",
+            "fecha": "2015-11-30",
+            "tags": [
+              "cnmc",
+              "sancion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.iberdrola.com/accionistas-inversores",
+            "fuente_url": "https://www.iberdrola.com/accionistas-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV - hechos relevantes",
+            "contenido": "ISIN ES0144580Y14 / ticker IBE",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A48010615"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "banco-santander",
+    "tipo": "actor",
+    "nombre": "Banco Santander S.A.",
+    "alias": "Santander",
+    "cargo": "Empresa IBEX 35 · banca",
+    "bio_corta": "Mayor banco español por capitalización y activos. Grupo cotizado con presencia clave en España, Reino Unido, EE.UU., Brasil, México y Polonia. Presidido por Ana Botín desde 2014.",
+    "fuente_principal": "https://www.santander.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:SAN",
+      "sede:cantabria"
+    ],
+    "confidence": 0.92,
+    "completeness": 0.8,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Banco Santander S.A., fundado en 1857 en Santander. Sede social en Santander y operativa centralizada en Boadilla del Monte (Madrid).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~165 millones de clientes en 9 mercados core. Activos totales >1,8 billones €. Plantilla ~210.000 empleados. Beneficio atribuido ~11.000 M€ (2023).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Saga Botín",
+            "contenido": "Tercera generación al frente del banco: Emilio Botín-Sanz de Sautuola y López (1950-86), Emilio Botín-Sanz de Sautuola y García de los Ríos (1986-2014), Ana Botín-Sanz de Sautuola O'Shea (2014-presente).",
+            "tags": [
+              "saga"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fusión con BCH",
+            "contenido": "En 1999 Santander adquiere Banco Central Hispano (fusión inicial pacto Botín-Amusategui) para constituir BSCH.",
+            "fecha": "1999-01-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra de Banco Popular",
+            "contenido": "El 7 de junio de 2017 Santander adquiere Banco Popular por 1€ tras resolución de la JUR (Mecanismo Único de Resolución), evitando rescate público.",
+            "fecha": "2017-06-07"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición contraria al impuesto extraordinario a la banca aprobado en 2022. Anunció recursos judiciales y proyecciones de reducción de crédito.",
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Digitalización",
+            "contenido": "Apuesta por la plataforma OnePay/Openbank y la transformación a banco digital con servicios pan-europeos. Marca PagoNxt para pagos B2B.",
+            "tags": [
+              "digital"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Capital muy disperso, sin accionista de control. Familia Botín mantiene ~0,5%. Mayores institucionales: BlackRock, Vanguard, State Street.",
+            "tags": [
+              "accionariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Botín",
+            "contenido": "Brazo filantrópico de la familia con sede en Santander, foco en arte, ciencia y educación. Patronazgo de Ana Botín.",
+            "tags": [
+              "filantropia",
+              "familia-botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "AEB y CEOE",
+            "contenido": "Asociación Española de Banca dominada históricamente por Santander. Presidente de AEB es José María Roldán (ex Banco de España).",
+            "tags": [
+              "aeb",
+              "ceoe"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nexo político",
+            "contenido": "Botín familia ha mantenido relación cordial con sucesivos Gobiernos PSOE y PP. Reuniones puntuales con Sánchez en La Moncloa documentadas en agendas oficiales.",
+            "tags": [
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Ana Botín sobre impuestazo",
+            "contenido": "\"Un impuesto que solo se aplica a la banca y a empresas concretas no es la solución\", Davos 2023.",
+            "fecha": "2023-01-18"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Banco Popular",
+            "contenido": "Cientos de demandas de accionistas y bonistas del Popular tras la resolución 2017. Tribunal General UE confirmó la legalidad de la resolución en 2022.",
+            "tags": [
+              "judicial"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Caso Orcel",
+            "contenido": "En 2019 Santander revocó el nombramiento de Andrea Orcel como CEO. Orcel ganó la demanda parcialmente en primera instancia, reducida en apelación. Caso emblemático sobre fichajes ejecutivos.",
+            "fecha": "2019-01-15",
+            "tags": [
+              "judicial",
+              "fichajes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.santander.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.santander.com/es/accionistas-e-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113900J37 / ticker SAN",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A39000013"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bbva",
+    "tipo": "actor",
+    "nombre": "Banco Bilbao Vizcaya Argentaria S.A.",
+    "alias": "BBVA",
+    "cargo": "Empresa IBEX 35 · banca",
+    "bio_corta": "Segundo banco español por activos. Origen en la fusión BBV+Argentaria (1999). Sede social en Bilbao. Liderazgo en banca digital. Presidente Carlos Torres Vila desde 2018.",
+    "fuente_principal": "https://www.bbva.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:BBVA",
+      "sede:paisvasco"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "BBVA S.A., sede en Bilbao. Origen 1999 con la fusión BBV (1988, Banco Bilbao + Banco de Vizcaya) y Argentaria (Banco Exterior + Caja Postal + Argentaria).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~70 millones de clientes. Activos ~775.000 M€. Plantilla ~120.000. Mercados core: España, México, Turquía (Garanti), América del Sur, EE.UU. (vendió franquicia retail USA a PNC en 2021).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fusión BBV-Argentaria",
+            "contenido": "BBVA se constituye en octubre de 1999 mediante OPA recíproca BBV-Argentaria.",
+            "fecha": "1999-10-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Venta franquicia USA",
+            "contenido": "En noviembre de 2020 BBVA acuerda vender BBVA USA a PNC por 9.700 M$. Operación cerrada en junio 2021.",
+            "fecha": "2020-11-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPA hostil sobre Sabadell",
+            "contenido": "En mayo de 2024 BBVA lanzó OPA hostil sobre Banco Sabadell tras rechazar el consejo del Sabadell la fusión amistosa. Operación que requiere autorizaciones de BdE, CNMV, CNMC, Gobierno y JFSA-PRA-BoE para Reino Unido (TSB).",
+            "fecha": "2024-05-09",
+            "tags": [
+              "fusiones",
+              "sabadell"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromiso 300.000 M€ en financiación sostenible 2018-2025 (revisado al alza). Apoyo a Net Zero Banking Alliance.",
+            "tags": [
+              "esg"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición pública contraria al gravamen extraordinario de 2022, con recurso judicial.",
+            "tags": [
+              "fiscalidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Sin accionista de control. Mayores: BlackRock ~5%, Vanguard ~3%, Norges Bank ~3%. Free float muy elevado.",
+            "tags": [
+              "accionariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "OPA Sabadell · Gobierno",
+            "contenido": "La OPA enfrenta resistencia política. El Gobierno (Pedro Sánchez, Carlos Cuerpo en Economía) ha manifestado dudas sobre la concentración bancaria y la salida de TSB del perímetro UK.",
+            "tags": [
+              "politica",
+              "sabadell",
+              "gobierno"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo - pieza BBVA",
+            "contenido": "Audiencia Nacional investiga contratos del BBVA con Villarejo entre 2004-2017 (caso Tándem, pieza BBVA), originalmente para espiar a Sacyr y a directivos en torno a la OPA Sacyr-Repsol de 2004. Francisco González (ex presidente) imputado.",
+            "tags": [
+              "judicial",
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Torres Vila sobre OPA Sabadell",
+            "contenido": "\"La operación crea un campeón europeo con beneficios para clientes y accionistas\", presentación a inversores mayo 2024.",
+            "fecha": "2024-05-09"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Villarejo - BBVA",
+            "contenido": "Procesados ex altos cargos y BBVA como persona jurídica. Imputación a Francisco González decretada en 2020.",
+            "tags": [
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.bbva.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.bbva.com/es/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113211835 / ticker BBVA",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A48265169"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "caixabank",
+    "tipo": "actor",
+    "nombre": "CaixaBank S.A.",
+    "alias": "CaixaBank",
+    "cargo": "Empresa IBEX 35 · banca",
+    "bio_corta": "Tercer banco español por activos tras la fusión con Bankia (2021). Origen en La Caixa (Barcelona). Sede social en Valencia desde 2017. Presidente José Ignacio Goirigolzarri.",
+    "fuente_principal": "https://www.caixabank.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:CABK",
+      "sede:valencia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "CaixaBank S.A., sede social en Valencia (trasladada en octubre 2017 desde Barcelona) y sede operativa principal en Barcelona y Madrid.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~20 millones de clientes en España y Portugal. Activos ~610.000 M€. Plantilla ~45.000. Mayor red de oficinas de España.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Traslado sede",
+            "contenido": "El 6 de octubre de 2017, en plena crisis del procés, CaixaBank traslada su sede social de Barcelona a Valencia.",
+            "fecha": "2017-10-06",
+            "tags": [
+              "procés"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fusión Bankia",
+            "contenido": "Marzo 2021 se consuma la fusión por absorción de Bankia, con Goirigolzarri (ex presidente de Bankia) asumiendo la presidencia de CaixaBank y Gonzalo Gortázar continuando como CEO.",
+            "fecha": "2021-03-26"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a la banca",
+            "contenido": "Posición contraria al gravamen extraordinario 2022, recurrido judicialmente como el resto del sector.",
+            "tags": [
+              "fiscalidad"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Banca minorista vs digital",
+            "contenido": "Mantiene apuesta por red física como diferencial competitivo en España (mayor red del país) frente a competidores 100% digitales.",
+            "tags": [
+              "estrategia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista principal: Fundación La Caixa",
+            "contenido": "CriteriaCaixa (vehículo de la Fundación La Caixa) controla ~32% de CaixaBank. Es accionista de referencia.",
+            "tags": [
+              "accionariado",
+              "criteria",
+              "la-caixa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "FROB / Estado",
+            "contenido": "El Estado (FROB) heredó ~16% del capital tras la fusión con Bankia. Plan de desinversión gradual; participación en 2024 ~17,9%.",
+            "tags": [
+              "accionariado",
+              "estado",
+              "frob"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación La Caixa",
+            "contenido": "La Fundación La Caixa es uno de los mayores patrocinadores filantrópicos de Europa. Isidre Fainé preside Fundación y CriteriaCaixa.",
+            "tags": [
+              "filantropia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nexo político",
+            "contenido": "Goirigolzarri tiene buena interlocución bipartidista (gestionó la nacionalización de Bankia bajo Rajoy y la fusión con CaixaBank bajo Sánchez).",
+            "tags": [
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Goirigolzarri sobre fusión",
+            "contenido": "\"Creamos el banco líder en España con escala para competir en Europa\", junta de accionistas marzo 2021.",
+            "fecha": "2021-03-26"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Tarjetas black Bankia",
+            "contenido": "Heredado tras la fusión: ex consejeros de Caja Madrid/Bankia condenados por uso indebido de tarjetas opacas (sentencia AN 2017, TS 2018). Bankia como persona jurídica indemnizada por sus responsables.",
+            "tags": [
+              "judicial",
+              "heredado"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.caixabank.com/inversores",
+            "fuente_url": "https://www.caixabank.com/inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0140609019 / ticker CABK",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08663619"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "telefonica",
+    "tipo": "actor",
+    "nombre": "Telefónica S.A.",
+    "alias": "Telefónica",
+    "cargo": "Empresa IBEX 35 · telecomunicaciones",
+    "bio_corta": "Operador histórico de telecomunicaciones español. Presencia en España, Brasil, Reino Unido (joint venture con Liberty), Alemania y resto Hispam. Presidente Marc Murtra desde enero 2025; previamente José María Álvarez-Pallete (2016-2025).",
+    "fuente_principal": "https://www.telefonica.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:telecomunicaciones",
+      "ticker:TEF",
+      "sede:madrid"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Telefónica S.A., fundada en 1924. Privatizada en sucesivas fases entre 1995 y 1999. Sede en Distrito Telefónica (Madrid).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~390 millones de accesos. Ingresos ~40.000 M€. Plantilla ~104.000. Marcas Movistar, O2, Vivo, Tu.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Privatización",
+            "contenido": "OPV inicial 1995. Privatización completa 1997-1999 bajo Aznar; Juan Villalonga preside 1996-2000.",
+            "tags": [
+              "privatizacion"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Era Alierta",
+            "contenido": "César Alierta presidente 2000-2016. Crecimiento internacional en Hispam y Reino Unido (O2, 2005).",
+            "tags": [
+              "alierta"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Entrada SEPI / STC",
+            "contenido": "En 2023 Saudi Telecom Company (STC) compra ~9,9% del capital. El Gobierno autoriza a la SEPI a tomar hasta 10% como contrapeso, materializado en 2024. Telefónica recupera carácter parcialmente estatal.",
+            "fecha": "2023-09-05",
+            "tags": [
+              "sepi",
+              "stc",
+              "gobierno"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cambio de presidente",
+            "contenido": "En enero de 2025 Marc Murtra (ex Indra) sustituye a José María Álvarez-Pallete tras presión política del Gobierno (accionista vía SEPI).",
+            "fecha": "2025-01-18",
+            "tags": [
+              "politica",
+              "sepi"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Soberanía digital",
+            "contenido": "Telefónica defiende la 'fair share' (pago de plataformas OTT a operadores por uso intensivo de red) y la consolidación europea del sector.",
+            "tags": [
+              "fair-share",
+              "ue"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Cierre red de cobre",
+            "contenido": "Plan de apagado total del cobre completado en abril 2024 en España, primer país europeo en culminarlo.",
+            "tags": [
+              "red-fija"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "STC ~9,9%, SEPI ~10%, BBVA ~4,8%, CriteriaCaixa ~2,7%. Capital semi-controlado tras entrada SEPI 2024.",
+            "tags": [
+              "accionariado",
+              "sepi",
+              "stc"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Telefónica - Gobierno Sánchez",
+            "contenido": "Entrada de SEPI ordenada por el Gobierno con voluntad explícita de proteger el carácter estratégico nacional. Refleja prioridad geopolítica.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Telefónica",
+            "contenido": "Brazo de RSC con foco en educación digital y empleabilidad joven. Patronato encabezado por el presidente de Telefónica.",
+            "tags": [
+              "filantropia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Joint venture VMO2 (UK)",
+            "contenido": "Virgin Media O2 es joint venture al 50% con Liberty Global en Reino Unido.",
+            "tags": [
+              "joint-venture"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Murtra inaugural",
+            "contenido": "\"Telefónica tiene que volver a ser ofensiva en Europa\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-18"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "ERE 2021",
+            "contenido": "Plan de salidas voluntarias de ~2.700 empleados en España; concertado con sindicatos, sin gran conflicto laboral.",
+            "fecha": "2021-06-10",
+            "tags": [
+              "laboral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web accionistas",
+            "contenido": "https://www.telefonica.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.telefonica.com/es/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0178430E18 / ticker TEF",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28015865"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "repsol",
+    "tipo": "actor",
+    "nombre": "Repsol S.A.",
+    "alias": "Repsol",
+    "cargo": "Empresa IBEX 35 · energía integrada",
+    "bio_corta": "Mayor compañía energética integrada española (upstream + refino + marketing). Sede en Madrid. Presidente y CEO Josu Jon Imaz desde 2014. Estrategia de transición a multienergía con renovables y biocarburantes.",
+    "fuente_principal": "https://www.repsol.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:energia-oil-gas",
+      "ticker:REP",
+      "sede:madrid"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.75,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Repsol S.A., constituida en 1987 como holding INH-CAMPSA. Privatizada 1989-1997. Sede en Madrid.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "5 refinerías en España + 1 Perú. Red ~4.700 estaciones de servicio. Plantilla ~24.000. Ingresos ~60.000 M€.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Expropiación YPF",
+            "contenido": "En abril 2012 el Gobierno argentino (Cristina Fernández) expropia 51% de YPF, filial argentina de Repsol. Repsol cobra compensación de 5.000 M$ en 2014.",
+            "fecha": "2012-04-16",
+            "tags": [
+              "ypf",
+              "argentina"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Talisman",
+            "contenido": "Repsol adquiere la canadiense Talisman Energy en 2015 por 13.000 M$, expansión upstream.",
+            "fecha": "2015-05-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Plan Estratégico 2024-2027",
+            "contenido": "Anuncia inversiones 16.000-19.000 M€ con peso creciente de bajas emisiones. Objetivo neutralidad 2050.",
+            "fecha": "2024-02-22",
+            "tags": [
+              "transicion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Impuesto a las energéticas",
+            "contenido": "Posición pública muy crítica con el gravamen extraordinario aprobado en 2022. Imaz ha amenazado con redirigir inversiones a otros países.",
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Biocombustibles",
+            "contenido": "Apuesta corporativa por combustibles renovables (HVO, e-fuels) frente a la electrificación total del transporte. Choque con políticas UE/Gobierno.",
+            "tags": [
+              "biocombustibles"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Sacyr ~9%, BlackRock ~3%, Amundi ~3%. Capital muy disperso. Mexicanos Pemex desinvirtieron tras 2014.",
+            "tags": [
+              "accionariado",
+              "sacyr"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Choque con Gobierno Sánchez",
+            "contenido": "Imaz ha sido voz crítica del Gobierno por el impuesto. En 2024 anunció pausa de inversiones en hidrógeno verde en España condicionada al marco fiscal.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Repsol",
+            "contenido": "Brazo filantrópico con foco en cultura, educación, transición energética.",
+            "tags": [
+              "filantropia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Imaz sobre el impuesto",
+            "contenido": "\"El impuesto extraordinario es confiscatorio y discriminatorio. Repasaremos cada euro de inversión en España\", entrevista 2024.",
+            "fecha": "2024-02-22"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Villarejo (cliente)",
+            "contenido": "Repsol contrató servicios de Villarejo en 2011-2012 en torno a una guerra societaria con Sacyr (en el contexto de la batalla por el control de Repsol). Procesados directivos en pieza específica.",
+            "tags": [
+              "judicial",
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vertido Mar Menor (Peñíscola, La Plata)",
+            "contenido": "Repsol asumió responsabilidad y pagó 36 M$ por el derrame del oleoducto La Pampilla en Perú en enero 2022.",
+            "fecha": "2022-01-15",
+            "tags": [
+              "medioambiente",
+              "peru"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.repsol.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.repsol.com/es/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0173516115 / ticker REP",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A78374725"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "aena",
+    "tipo": "actor",
+    "nombre": "Aena S.M.E. S.A.",
+    "alias": "Aena",
+    "cargo": "Empresa IBEX 35 · infraestructuras aeroportuarias",
+    "bio_corta": "Mayor gestor aeroportuario del mundo por pasajeros. Estado español (Enaire) mantiene el 51%. Sede en Madrid. Presidente Maurici Lucena (PSC) desde 2018, renovado en 2023.",
+    "fuente_principal": "https://www.aena.es",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:infraestructuras",
+      "ticker:AENA",
+      "sede:madrid",
+      "control-estatal"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Aena S.M.E. S.A., sociedad mercantil estatal cotizada. Gestiona 46 aeropuertos y 2 helipuertos en España + 17 internacionales (incluye London Luton).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~283 millones de pasajeros en aeropuertos españoles 2023. Ingresos ~4.700 M€. Plantilla ~8.500.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPV",
+            "contenido": "Aena sale a bolsa en febrero 2015 bajo el Gobierno de Mariano Rajoy, OPV valorada 4.300 M€. Estado mantiene 51%.",
+            "fecha": "2015-02-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Adquisición Luton",
+            "contenido": "Aena Internacional gestiona el aeropuerto de Londres-Luton tras adquirir el 51% en 2013.",
+            "fecha": "2013-11-27"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Tarifas aeroportuarias",
+            "contenido": "Aena defiende incrementos de DORA (Documento de Regulación Aeroportuaria) para financiar inversiones, especialmente ampliación T4 Barajas y T1 El Prat. Choque público con aerolíneas (Ryanair, IAG).",
+            "tags": [
+              "dora",
+              "aerolineas"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Ampliación El Prat",
+            "contenido": "Planes de ampliación (3.000 M€) bloqueados desde 2021 por desencuentro con la Generalitat (PSC-ERC) por impacto en La Ricarda. Aena revivió debate en 2024.",
+            "tags": [
+              "elprat",
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Enaire / Estado",
+            "contenido": "Enaire (sociedad estatal dependiente del Ministerio de Transportes) controla 51%. Aena es de facto una empresa pública cotizada.",
+            "tags": [
+              "estado",
+              "enaire"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nexo PSC / PSOE",
+            "contenido": "Lucena (presidente) procede del PSC. Fue secretario de Estado de Comercio en el primer Gobierno Sánchez (2018) antes de saltar a Aena. Su nombramiento es político.",
+            "tags": [
+              "politica",
+              "psc",
+              "psoe"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ministerio Transportes",
+            "contenido": "Tutela directa del Ministerio de Transportes y Movilidad Sostenible (Óscar Puente desde diciembre 2023).",
+            "tags": [
+              "ministerio",
+              "puente"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Lucena sobre tarifas",
+            "contenido": "\"Hay que recuperar inversión pendiente. Las tarifas españolas son de las más bajas de Europa\", JGA 2023.",
+            "fecha": "2023-04-20"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Conflicto El Prat",
+            "contenido": "Bloqueo histórico de la ampliación del aeropuerto de Barcelona-El Prat por impacto en zona protegida La Ricarda. Pulso público Aena-Generalitat-Comisión Europea.",
+            "tags": [
+              "politica",
+              "medioambiente"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.aena.es/es/accionistas-e-inversores/",
+            "fuente_url": "https://www.aena.es/es/accionistas-e-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0105046009 / ticker AENA",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A86212420"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "endesa",
+    "tipo": "actor",
+    "nombre": "Endesa S.A.",
+    "alias": "Endesa",
+    "cargo": "Empresa IBEX 35 · utility eléctrica",
+    "bio_corta": "Mayor eléctrica de España por número de clientes. Filial controlada al 70% por Enel (Italia, controlada a su vez por el Tesoro italiano). Sede en Madrid. Presidente José Bogas (CEO).",
+    "fuente_principal": "https://www.endesa.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-electrica",
+      "ticker:ELE",
+      "sede:madrid"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.72,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Endesa S.A. constituida en 1944 como Empresa Nacional de Electricidad. Privatizada 1988-1998. OPA exitosa de Enel sobre Endesa cerrada en 2007.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~10 millones de clientes en España y Portugal. Capacidad instalada ~22 GW. Plantilla ~9.300. Líder en distribución eléctrica peninsular sur y este.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Privatización",
+            "contenido": "Sucesivas OPVs entre 1988 y 1998 bajo Gobiernos PSOE y PP.",
+            "tags": [
+              "privatizacion"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPA Enel",
+            "contenido": "Tras OPAs competidoras de Gas Natural y E.ON, finalmente Enel (con Acciona) toma el control en 2007. Acciona vende en 2009.",
+            "fecha": "2009-02-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cierre carbón",
+            "contenido": "Cierre de las centrales térmicas de carbón completado en 2021 (Compostilla, Andorra, As Pontes parcial). Hito de descarbonización.",
+            "fecha": "2021-12-31",
+            "tags": [
+              "transicion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Transición justa",
+            "contenido": "Endesa lidera mesas de transición justa en comarcas afectadas por cierres (Teruel, Bierzo, Galicia interior).",
+            "tags": [
+              "transicion-justa"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Mercado eléctrico",
+            "contenido": "Defensa pública del modelo marginalista. Bogas ha mostrado posiciones más conciliadoras con el Gobierno que Sánchez Galán (Iberdrola).",
+            "tags": [
+              "mercado"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Enel (Italia)",
+            "contenido": "Enel controla 70,1% de Endesa. Decisiones estratégicas integradas con el grupo italiano.",
+            "tags": [
+              "accionariado",
+              "enel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Enel - Gobierno italiano",
+            "contenido": "Enel está controlada en último término por el Tesoro italiano (~24%). Las decisiones sobre Endesa tienen componente geopolítico Italia-España.",
+            "tags": [
+              "geopolitica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "AELEC",
+            "contenido": "Endesa, junto con Iberdrola y EDP, forma la patronal AELEC (antes UNESA).",
+            "tags": [
+              "patronal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Bogas sobre nuclear",
+            "contenido": "\"El calendario de cierre nuclear pactado en 2019 debe revisarse a la luz de la realidad del sistema\", JGA 2024.",
+            "fecha": "2024-04-25",
+            "tags": [
+              "nuclear"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sanción CNMC manipulación 2013",
+            "contenido": "Endesa fue sancionada en bloque con otras eléctricas por la CNMC por el episodio de diciembre 2013.",
+            "tags": [
+              "cnmc"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.endesa.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.endesa.com/es/accionistas-e-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0130670112 / ticker ELE",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28023430"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "naturgy",
+    "tipo": "actor",
+    "nombre": "Naturgy Energy Group S.A.",
+    "alias": "Naturgy",
+    "cargo": "Empresa IBEX 35 · utility gas y electricidad",
+    "bio_corta": "Antiguo Gas Natural Fenosa. Líder en distribución y comercialización de gas en España. Sede en Madrid. Presidente Francisco Reynés desde 2018. Estructura accionarial muy concentrada.",
+    "fuente_principal": "https://www.naturgy.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-gas",
+      "ticker:NTGY",
+      "sede:madrid"
+    ],
+    "confidence": 0.86,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Naturgy Energy Group S.A. (rebautizada en 2018 desde Gas Natural Fenosa). Origen en Gas Natural SDG (Catalana de Gas) más Unión Fenosa (adquirida 2009).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~18 millones de clientes en 11 países. Mayor distribuidor de gas en España. Plantilla ~7.300.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA fallida sobre Endesa",
+            "contenido": "En 2005-2006 Gas Natural lanzó OPA hostil sobre Endesa, contestada por E.ON y finalmente perdida ante Enel-Acciona.",
+            "fecha": "2005-09-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Unión Fenosa",
+            "contenido": "Gas Natural adquiere Unión Fenosa en 2009 por 16.700 M€.",
+            "fecha": "2009-07-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Rebranding Naturgy",
+            "contenido": "En junio 2018 Gas Natural Fenosa pasa a llamarse Naturgy, con renovación del consejo y Reynés como presidente ejecutivo.",
+            "fecha": "2018-06-26"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Crisis gas - Argelia",
+            "contenido": "Naturgy es históricamente el comprador clave de gas argelino vía Medgaz. La crisis Argelia-España (2022) por el viraje sobre Sáhara afectó suministros y precios.",
+            "tags": [
+              "argelia",
+              "sahara",
+              "medgaz"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Operación Géminis",
+            "contenido": "En 2022-2023 Reynés impulsó la 'Operación Géminis' para dividir Naturgy en dos empresas cotizadas (redes vs generación-comercialización). Plan retirado en 2023 por falta de respaldo.",
+            "tags": [
+              "geminis",
+              "escision"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "CriteriaCaixa ~26%, fondos GIP ~20%, CVC ~20%, IFM (australiano) ~15%. Estructura muy concentrada y compleja.",
+            "tags": [
+              "accionariado",
+              "criteria",
+              "gip",
+              "cvc",
+              "ifm"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "OPA IFM 2021",
+            "contenido": "El fondo australiano IFM lanzó OPA parcial sobre Naturgy en 2021. El Gobierno de Sánchez aprobó la operación con condiciones especiales (mantenimiento de sede y empleo).",
+            "fecha": "2021-08-10",
+            "tags": [
+              "gobierno",
+              "ifm"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno argelino (Sonatrach)",
+            "contenido": "Sonatrach es socio en Medgaz y proveedor estratégico. Relación geopolítica directa.",
+            "tags": [
+              "argelia",
+              "sonatrach"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Reynés sobre escisión",
+            "contenido": "\"Géminis es la mejor opción para crear valor; respetaremos la voluntad accionarial\", JGA 2023.",
+            "fecha": "2023-05-04"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Pyrenees / Colombia",
+            "contenido": "Investigación judicial sobre comisiones a intermediarios en Colombia (Electricaribe) entre 2011-2016. Naturgy se desinvirtió de Electricaribe en 2017 tras intervención del Gobierno colombiano.",
+            "tags": [
+              "colombia",
+              "electricaribe"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.naturgy.com/inversores",
+            "fuente_url": "https://www.naturgy.com/inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0116870314 / ticker NTGY",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08015497"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ferrovial",
+    "tipo": "actor",
+    "nombre": "Ferrovial SE",
+    "alias": "Ferrovial",
+    "cargo": "Empresa IBEX 35 · construcción e infraestructuras",
+    "bio_corta": "Constructora y concesionaria global. Líder mundial en autopistas de peaje (407 ETR Canadá, Managed Lanes EE.UU.) y aeropuertos (Heathrow hasta 2024). Trasladó sede a Países Bajos en 2023. Fundador Rafael del Pino y Moreno; presidente Rafael del Pino y Calvo-Sotelo.",
+    "fuente_principal": "https://www.ferrovial.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:construccion-infraestructuras",
+      "ticker:FER",
+      "sede:paisesbajos"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.8,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Ferrovial SE, sede traslocada a Ámsterdam en 2023 manteniendo cotización principal en BME y secundaria en Euronext Amsterdam (y desde 2024 Nasdaq).",
+            "tags": [
+              "fundacional",
+              "traslado-sede"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~8.500 M€. Plantilla ~24.000. Operaciones en EE.UU., Canadá, Reino Unido, Polonia, Australia, España.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Compra Heathrow",
+            "contenido": "En 2006 consorcio liderado por Ferrovial compró BAA (Heathrow y otros aeropuertos UK) por 16.500 M€. Desinversión progresiva, salida final en 2024.",
+            "fecha": "2006-06-08"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Traslado de sede a Países Bajos",
+            "contenido": "Mayo 2023: traslado de sede a Ámsterdam aprobado por junta. Operación judicializada y muy politizada por el Gobierno de Sánchez, finalmente ejecutada.",
+            "fecha": "2023-06-16",
+            "tags": [
+              "gobierno",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida a NASDAQ",
+            "contenido": "En mayo 2024 Ferrovial debutó en NASDAQ (símbolo FER), cumpliendo objetivo declarado del traslado.",
+            "fecha": "2024-05-09",
+            "tags": [
+              "nasdaq"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Crítica a la fiscalidad española",
+            "contenido": "La salida a Países Bajos fue justificada por la familia Del Pino como acceso a NASDAQ y mejor entorno fiscal. Posicionamiento crítico con el marco fiscal español.",
+            "tags": [
+              "fiscalidad",
+              "politica"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Concesionalismo",
+            "contenido": "Modelo de negocio centrado en concesiones de larga duración (40-99 años) en autopistas, sin riesgo de tráfico en muchos casos (peajes en sombra).",
+            "tags": [
+              "modelo-negocio"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Familia Del Pino",
+            "contenido": "La familia Del Pino (vehículo Rijn Capital/Karlovy + otros) controla ~33% del capital. Rafael del Pino y Calvo-Sotelo preside el consejo.",
+            "tags": [
+              "accionariado",
+              "del-pino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Choque con Gobierno Sánchez",
+            "contenido": "El traslado de sede 2023 generó choque público con el Gobierno (Pedro Sánchez, Yolanda Díaz, Nadia Calviño). Acusaciones cruzadas sobre lealtad al país e inseguridad jurídica.",
+            "tags": [
+              "politica",
+              "gobierno-sanchez"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PP / Ayuntamientos PP",
+            "contenido": "Mayor cuota de obra pública en gobiernos PP que en PSOE. Buena relación tradicional con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "tags": [
+              "politica",
+              "pp",
+              "ayuso"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Rafael del Pino",
+            "contenido": "Una de las principales fundaciones liberales del país. Patrocinio de cátedras, foros (Madrid Forum), publicaciones en favor del libre mercado.",
+            "tags": [
+              "filantropia",
+              "liberalismo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Del Pino sobre el traslado",
+            "contenido": "\"La operación no tiene motivación fiscal sino estratégica de acceso a capital global y mercados anglosajones\", JGA 2023.",
+            "fecha": "2023-04-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Investigación sobreprecios autopistas radiales",
+            "contenido": "Ferrovial fue accionista de varias autopistas radiales rescatadas por el Estado (R-4, R-3/5). Multas, quitas y pleitos arbitrales en curso 2017-2024.",
+            "tags": [
+              "autopistas",
+              "rescates"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.ferrovial.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.ferrovial.com/es/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN NL0015001FS8 / ticker FER",
+            "fuente_url": "https://www.cnmv.es/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "amadeus-it-group",
+    "tipo": "actor",
+    "nombre": "Amadeus IT Group S.A.",
+    "alias": "Amadeus",
+    "cargo": "Empresa IBEX 35 · tecnología viajes",
+    "bio_corta": "Proveedor global de tecnología para la industria de viajes (GDS, hoteles, aeropuertos). Sede operativa en Madrid y desarrollo en Niza/Madrid/Bangalore. CEO Luis Maroto desde 2011.",
+    "fuente_principal": "https://amadeus.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:tecnologia-viajes",
+      "ticker:AMS",
+      "sede:madrid"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Amadeus IT Group S.A., fundada en 1987 por Air France, Iberia, Lufthansa y SAS como sistema de distribución global (GDS).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~16.000 empleados. Ingresos ~5.400 M€ (2023). Tres divisiones: Distribution (GDS), Air IT (Altea PSS) y Hospitality.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "OPV 2010. Antes había sido excluida de cotización en 2005 por consorcio de capital riesgo (BC Partners, Cinven) tras compra a aerolíneas.",
+            "fecha": "2010-04-29"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Impacto pandemia",
+            "contenido": "Caída de ingresos del 60% en 2020. Recuperación gradual hasta superar niveles 2019 en 2023.",
+            "fecha": "2020-04-15"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Soberanía tecnológica",
+            "contenido": "Amadeus se posiciona como infraestructura crítica europea frente a Sabre (EE.UU.) y Travelport. Lobby europeo en regulación de PNR y datos.",
+            "tags": [
+              "soberania"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Free float muy elevado. Mayor accionista BlackRock ~5%, Capital Research ~5%. Sin accionista de control.",
+            "tags": [
+              "accionariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Clientes - aerolíneas",
+            "contenido": "Iberia, IAG, Lufthansa, Air France-KLM siguen siendo clientes principales (y antiguos socios fundadores).",
+            "tags": [
+              "clientes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Maroto sobre IA",
+            "contenido": "\"La IA reordenará la industria de viajes; Amadeus invierte en agentic AI para reservas\", presentación 2024.",
+            "fecha": "2024-02-29"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Bajo perfil litigioso",
+            "contenido": "Sin controversias judiciales de relevancia pública en España.",
+            "tags": [
+              "sin-controversias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://corporate.amadeus.com/es/accionistas-inversores",
+            "fuente_url": "https://corporate.amadeus.com/es/accionistas-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0109067019 / ticker AMS",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A84236934"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cellnex-telecom",
+    "tipo": "actor",
+    "nombre": "Cellnex Telecom S.A.",
+    "alias": "Cellnex",
+    "cargo": "Empresa IBEX 35 · infraestructura telecomunicaciones (torres)",
+    "bio_corta": "Mayor operador independiente de torres de telecomunicaciones de Europa. Sede en Madrid. Origen en Abertis (escisión 2015). Presidente Bertrand Kan; CEO Marco Patuano.",
+    "fuente_principal": "https://www.cellnextelecom.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:infraestructuras-telecom",
+      "ticker:CLNX",
+      "sede:madrid"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Cellnex Telecom S.A., escindida de Abertis y salida a bolsa en mayo 2015.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~110.000 emplazamientos en 12 países europeos. Ingresos ~4.000 M€. Plantilla ~3.500.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "OPV mayo 2015 con Abertis como mayor accionista inicial.",
+            "fecha": "2015-05-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Era Tobías",
+            "contenido": "Tobías Martínez (CEO 2015-2023) protagonizó expansión paneuropea agresiva con M&A (Italia, Francia, UK, Polonia).",
+            "tags": [
+              "expansion"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cambio estratégico",
+            "contenido": "Tras subida de tipos y desaceleración M&A, en 2023 entra Marco Patuano (ex Telecom Italia, propuesto por GIC y Edizione) como CEO. Pivot a desinversiones y desapalancamiento.",
+            "fecha": "2023-06-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Modelo torres independiente",
+            "contenido": "Defensa del modelo TowerCo independiente frente a la concentración de redes en operadores. Lobby ante reguladores europeos.",
+            "tags": [
+              "modelo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionistas",
+            "contenido": "GIC (Singapur) ~7%, ConnecT/Edizione (Benetton) ~9%, TCI Fund ~6%, BlackRock ~5%, Criteria ~5%.",
+            "tags": [
+              "accionariado",
+              "gic",
+              "benetton",
+              "tci"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Clientes operadores",
+            "contenido": "Telefónica, Bouygues, Iliad, MasOrange, Vodafone, Wind Tre, Three UK. Relación dual: clientes y fuentes de adquisición de torres.",
+            "tags": [
+              "clientes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Patuano sobre desapalancamiento",
+            "contenido": "\"Cellnex tiene que pasar de fase de crecimiento M&A a fase de optimización de capital\", noviembre 2023.",
+            "fecha": "2023-11-09"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caída de valoración 2022-2023",
+            "contenido": "Cellnex perdió >50% de valor entre 2021 y 2023 por subida de tipos. Crítica de minoritarios sobre apalancamiento.",
+            "tags": [
+              "bolsa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.cellnextelecom.com/es/inversores/",
+            "fuente_url": "https://www.cellnextelecom.com/es/inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0105066007 / ticker CLNX",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A64907306"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "acs",
+    "tipo": "actor",
+    "nombre": "ACS, Actividades de Construcción y Servicios S.A.",
+    "alias": "ACS",
+    "cargo": "Empresa IBEX 35 · construcción",
+    "bio_corta": "Mayor constructora española y una de las mayores del mundo. Propietaria de Hochtief (Alemania), Cimic (Australia), Dragados (España), Turner (EE.UU.). Presidente y mayor accionista: Florentino Pérez.",
+    "fuente_principal": "https://www.grupoacs.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:construccion",
+      "ticker:ACS",
+      "sede:madrid"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.8,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "ACS S.A., resultado de la fusión OCP-Ginés Navarro Construcciones (1997). Sede en Madrid.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~35.000 M€. Plantilla ~120.000. Mayor operador mundial de concesiones y construcción internacional.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Florentino al frente",
+            "contenido": "Florentino Pérez asume la presidencia ejecutiva en 1997 tras la fusión OCP-Ginés Navarro. Sigue al frente.",
+            "tags": [
+              "florentino"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Hochtief",
+            "contenido": "ACS toma el control de Hochtief en 2011 (compañía alemana, accionista de Cimic Australia y Turner USA).",
+            "fecha": "2011-09-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Batalla Iberdrola",
+            "contenido": "ACS fue accionista relevante de Iberdrola entre 2006 y 2017, llegando a >20%. Conflicto público entre Florentino Pérez y Sánchez Galán. ACS terminó vendiendo.",
+            "tags": [
+              "iberdrola"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Concesionalismo internacional",
+            "contenido": "ACS pivota progresivamente hacia concesiones (autopistas, energía, infra social) en EE.UU. y Australia, reduciendo peso de obra pública española.",
+            "tags": [
+              "estrategia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Florentino Pérez",
+            "contenido": "Florentino y su entorno controlan ~13%. Fundación Florentino Pérez y vehículos varios.",
+            "tags": [
+              "accionariado",
+              "florentino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Real Madrid",
+            "contenido": "Florentino Pérez es presidente del Real Madrid (1995-2006 y 2009-presente). El club da proyección política e internacional.",
+            "tags": [
+              "real-madrid",
+              "florentino"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Relación con Gobiernos",
+            "contenido": "Cordial con sucesivos Gobiernos PP y PSOE. Florentino ha sido figura de consenso en sectores económicos. Vínculos con Comunidad de Madrid (Ayuso) y Ayuntamiento Madrid.",
+            "tags": [
+              "politica"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Caso Villarejo (víctima)",
+            "contenido": "ACS y Florentino aparecen como víctimas de los servicios de Villarejo contratados por Iberdrola y BBVA (espionaje a directivos).",
+            "tags": [
+              "judicial",
+              "villarejo"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Florentino sobre infraestructuras",
+            "contenido": "\"España no puede permitirse renunciar a los grandes proyectos por discusiones políticas locales\", JGA 2023.",
+            "fecha": "2023-05-04"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Lezo (Canal Isabel II)",
+            "contenido": "Investigación sobre adjudicaciones del Canal de Isabel II en Madrid. Aunque no ACS directamente imputada, sí afectó a ecosistema constructor.",
+            "tags": [
+              "judicial",
+              "lezo"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Atrasos AVE Riad",
+            "contenido": "Consorcio liderado por Renfe-ACS-Talgo enfrentó atrasos y sobrecostes en la línea AVE Medina-La Meca. Reclamaciones cruzadas con SRO Arabia Saudí.",
+            "tags": [
+              "proyectos-internacionales"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.grupoacs.com/accionistas-e-inversores/",
+            "fuente_url": "https://www.grupoacs.com/accionistas-e-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0167050915 / ticker ACS",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28004885"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "banco-sabadell",
+    "tipo": "actor",
+    "nombre": "Banco de Sabadell S.A.",
+    "alias": "Sabadell",
+    "cargo": "Empresa IBEX 35 · banca",
+    "bio_corta": "Cuarto banco español. Sede social en Alicante desde 2017. Propietario de TSB (Reino Unido). En 2024 objetivo de OPA hostil de BBVA. Presidente Josep Oliu; CEO César González-Bueno.",
+    "fuente_principal": "https://www.grupbancsabadell.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:SAB",
+      "sede:alicante"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Banco de Sabadell S.A., fundado en 1881 en Sabadell. Sede social en Alicante desde octubre 2017.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~12 millones de clientes. Activos ~250.000 M€. Plantilla ~19.000. Filial TSB en UK con ~5 millones de clientes.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Compra CAM",
+            "contenido": "Sabadell adquiere la nacionalizada CAM en 2011 por 1€ con EPA (esquema protección activos) del FROB.",
+            "fecha": "2011-12-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra TSB",
+            "contenido": "Sabadell compra TSB en Reino Unido a Lloyds en 2015 por 2.350 M€.",
+            "fecha": "2015-03-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Traslado de sede",
+            "contenido": "En el mismo día que CaixaBank (6 oct 2017), Sabadell traslada su sede de Cataluña a Alicante.",
+            "fecha": "2017-10-06",
+            "tags": [
+              "procés"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Negativa fusión BBVA / OPA hostil",
+            "contenido": "En mayo 2024 BBVA propone fusión amistosa; el consejo del Sabadell la rechaza. BBVA lanza OPA hostil. En curso a mayo 2026.",
+            "fecha": "2024-05-09",
+            "tags": [
+              "opa",
+              "bbva"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Defensa de independencia",
+            "contenido": "Oliu y el consejo defienden plan en solitario, mejor retribución al accionista y conservar TSB. Críticas a sinergias de BBVA.",
+            "tags": [
+              "opa",
+              "bbva"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Posición sobre concentración",
+            "contenido": "El Sabadell aporta a la prensa argumentos sobre los costes para PYMES de la concentración bancaria.",
+            "tags": [
+              "pymes",
+              "concentracion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Disperso. BlackRock ~6%, Zurich ~5%, otros institucionales. Sin accionista de control. La OPA BBVA puede alterar este mapa.",
+            "tags": [
+              "accionariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - Postura crítica BBVA",
+            "contenido": "El Gobierno (Pedro Sánchez, Carlos Cuerpo) ha expresado dudas sobre la operación BBVA-Sabadell, condicionante último de la autorización.",
+            "tags": [
+              "politica",
+              "gobierno",
+              "opa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Generalitat / catalanismo",
+            "contenido": "Aunque trasladó la sede, Sabadell mantiene fuerte vinculación con tejido empresarial catalán y PYMES catalanas.",
+            "tags": [
+              "politica",
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Oliu rechaza fusión",
+            "contenido": "\"La oferta de BBVA infravalora significativamente las perspectivas del Sabadell\", carta a accionistas mayo 2024.",
+            "fecha": "2024-05-13"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis TSB 2018",
+            "contenido": "Migración tecnológica fallida en TSB en 2018 generó multas FCA y costes >300 M€. Provocó relevo del CEO de TSB.",
+            "fecha": "2018-04-22",
+            "tags": [
+              "tsb"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.grupbancsabadell.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.grupbancsabadell.com/es/accionistas-e-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113860A34 / ticker SAB",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08000143"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bankinter",
+    "tipo": "actor",
+    "nombre": "Bankinter S.A.",
+    "alias": "Bankinter",
+    "cargo": "Empresa IBEX 35 · banca",
+    "bio_corta": "Banco mediano español con foco en banca privada y empresas. Considerado el más eficiente del sector. Sede en Madrid. Presidenta Pedro Guerrero (no ejecutivo); CEO Gloria Ortiz Portero (2024-).",
+    "fuente_principal": "https://www.bankinter.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:BKT",
+      "sede:madrid"
+    ],
+    "confidence": 0.86,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Bankinter S.A., fundado en 1965 como Banco Intercontinental Español. Banca innovadora histórica (primer banco español con web, fundador de ING Direct vía partnerships).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Activos ~110.000 M€. Plantilla ~6.500. Negocios: banca comercial, banca privada (LineaDirecta hasta 2021 cuando se escindió), EVO Banco, Bankinter Portugal.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Escisión Línea Directa",
+            "contenido": "En abril 2021 Bankinter escinde Línea Directa Aseguradora y la saca a bolsa.",
+            "fecha": "2021-04-29"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra EVO Banco",
+            "contenido": "En 2018 adquiere EVO Banco a Apollo, reforzando capa digital.",
+            "fecha": "2018-09-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Relevo en CEO",
+            "contenido": "Tras 18 años como CEO, María Dolores Dancausa pasa a la presidencia (cargo no ejecutivo) en 2024. Gloria Ortiz asume el CEO.",
+            "fecha": "2024-03-21"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Tipos de interés",
+            "contenido": "Bankinter se benefició especialmente del ciclo de subidas BCE 2022-2023, máximos históricos de RoE.",
+            "tags": [
+              "tipos"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Cartival (familia Botín-Rivero) ~22%, Fernando Masaveu ~5%, Corp. Mp. Indus ~5%. Familia Botín-Rivero (rama Jaime Botín) es accionista de referencia histórico.",
+            "tags": [
+              "accionariado",
+              "botin"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Botín-Rivero",
+            "contenido": "Jaime Botín (hermano del fallecido Emilio Botín) y su entorno controlan vía Cartival. Jaime Botín condenado en 2020 por contrabando del Picasso.",
+            "tags": [
+              "botin",
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Ortiz sobre rentabilidad",
+            "contenido": "\"Bankinter mantiene su modelo de banca rentable y bien capitalizada\", JGA 2024.",
+            "fecha": "2024-03-21"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Picasso (Jaime Botín)",
+            "contenido": "Jaime Botín condenado en 2020 por la AN por contrabando al intentar sacar el cuadro 'Cabeza de mujer joven' de Picasso en yate. Imagen reputacional impacta tangencialmente al banco.",
+            "fecha": "2020-01-16",
+            "tags": [
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.bankinter.com/banca/accionistas-inversores",
+            "fuente_url": "https://www.bankinter.com/banca/accionistas-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0113679I37 / ticker BKT",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28157360"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "mapfre",
+    "tipo": "actor",
+    "nombre": "Mapfre S.A.",
+    "alias": "Mapfre",
+    "cargo": "Empresa IBEX 35 · seguros",
+    "bio_corta": "Mayor grupo asegurador español. Presencia en 40+ países, líder en Latinoamérica. Controlada por Fundación Mapfre (no cotiza). Presidente Antonio Huertas desde 2012.",
+    "fuente_principal": "https://www.mapfre.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:seguros",
+      "ticker:MAP",
+      "sede:madrid"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Mapfre S.A., fundada en 1933 como Mutualidad de la Agrupación de Propietarios de Fincas Rústicas de España. Convertida en S.A. y cotizada desde 1971.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Primas emitidas ~24.000 M€. Plantilla ~31.000. Mercado clave España + Brasil + EE.UU. + México.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Era Huertas",
+            "contenido": "Antonio Huertas, presidente desde marzo 2012. Foco en eficiencia, retorno al accionista y desinversiones en mercados subóptimos.",
+            "tags": [
+              "huertas"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Crisis EE.UU.",
+            "contenido": "Mapfre USA tuvo problemas de combined ratio en 2018-2020; reestructuración con cierres en estados deficitarios.",
+            "tags": [
+              "usa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Sostenibilidad",
+            "contenido": "Compromisos de no aseguramiento de nuevos proyectos de carbón a partir de 2030. Apuesta por seguros climáticos.",
+            "tags": [
+              "esg"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Fundación Mapfre",
+            "contenido": "Fundación Mapfre (no cotiza) controla ~70% del capital de Mapfre S.A. La fundación es uno de los mayores patrocinadores culturales del país (exposiciones, premios).",
+            "tags": [
+              "accionariado",
+              "fundacion"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Filantropía cultural",
+            "contenido": "Fundación Mapfre opera sala de exposiciones en Madrid (Recoletos) y Barcelona (Casa Garriga). Patrocina premios y proyectos sociales en LatAm.",
+            "tags": [
+              "filantropia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bankia / CaixaBank",
+            "contenido": "Alianza estratégica de distribución con Bankia (heredada por CaixaBank tras fusión). Producto bancaseguro.",
+            "tags": [
+              "caixabank"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Huertas sobre crecimiento",
+            "contenido": "\"Mapfre busca crecer en mercados rentables, no en presencia geográfica indiscriminada\", JGA 2024.",
+            "fecha": "2024-03-08"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sin grandes controversias",
+            "contenido": "Mapfre tiene bajo perfil litigioso en España.",
+            "tags": [
+              "sin-controversias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.mapfre.com/accionistas-inversores/",
+            "fuente_url": "https://www.mapfre.com/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0124244E34 / ticker MAP",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08055741"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "redeia",
+    "tipo": "actor",
+    "nombre": "Redeia Corporación S.A.",
+    "alias": "Redeia (Red Eléctrica)",
+    "cargo": "Empresa IBEX 35 · operador del sistema eléctrico",
+    "bio_corta": "Operador del sistema eléctrico español (transporte de alta tensión, monopolio regulado). Sede en Alcobendas. SEPI mantiene 20%. Presidenta Beatriz Corredor (PSOE) desde 2020.",
+    "fuente_principal": "https://www.redeia.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-redes",
+      "ticker:RED",
+      "sede:madrid",
+      "control-estatal"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Redeia Corporación S.A. (antes Red Eléctrica Corporación). Constituida en 1985 como operador único del sistema eléctrico. Privatización parcial 1999.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~45.000 km de red de transporte. Plantilla ~2.200. Filiales: Red Eléctrica (España), Hispasat (satélites, control SEPI), REN (Portugal participada), Reintel (fibra).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa",
+            "contenido": "OPV julio 1999 bajo Gobierno Aznar.",
+            "fecha": "1999-07-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Hispasat",
+            "contenido": "Redeia compra Hispasat a Abertis en 2019 por mandato del Gobierno (sensibilidad estratégica).",
+            "fecha": "2019-10-04",
+            "tags": [
+              "hispasat",
+              "gobierno"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cambio presidencia",
+            "contenido": "Beatriz Corredor (ex ministra Vivienda PSOE, Zapatero) sustituye a Jordi Sevilla en febrero 2020.",
+            "fecha": "2020-02-14",
+            "tags": [
+              "psoe",
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Operador monopolio regulado",
+            "contenido": "Redeia es monopolio natural regulado por CNMC. Su negocio principal (transporte) tiene ingresos regulados ('valor neto de los activos × WACC').",
+            "tags": [
+              "regulacion"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Transición energética",
+            "contenido": "Redeia tiene rol clave en planificación de la red para integración masiva de renovables y H2.",
+            "tags": [
+              "transicion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: SEPI",
+            "contenido": "SEPI (Estado) mantiene 20%. Es accionista de referencia (límite legal del 10% para resto inversores).",
+            "tags": [
+              "sepi",
+              "estado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Limitación 10% otros",
+            "contenido": "Ley sector eléctrico (Ley 17/2007) limita a 5% participaciones individuales y 1% participaciones políticas (operadores).",
+            "tags": [
+              "regulacion"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nexo PSOE",
+            "contenido": "Corredor procede del PSOE (ex ministra). Su nombramiento es político. Refleja preferencia del Gobierno Sánchez por perfil afín en infraestructura crítica.",
+            "tags": [
+              "politica",
+              "psoe",
+              "sanchez"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Corredor sobre red",
+            "contenido": "\"La red eléctrica es el pilar de la transición\", JGA 2023.",
+            "fecha": "2023-04-20"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Nombramiento de Corredor",
+            "contenido": "Su nombramiento generó crítica del PP por entender que politizaba un cargo técnico. Corredor defendió experiencia gestora previa.",
+            "tags": [
+              "politica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.redeia.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.redeia.com/es/accionistas-e-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0173093115 / ticker RED",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A78003662"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "enagas",
+    "tipo": "actor",
+    "nombre": "Enagás S.A.",
+    "alias": "Enagás",
+    "cargo": "Empresa IBEX 35 · operador del sistema gasista",
+    "bio_corta": "Operador técnico del sistema gasista español (transporte y almacenamiento, monopolio regulado). Sede en Madrid. SEPI mantiene 5%. Presidente Antonio Llardén; CEO Arturo Gonzalo Aizpiri.",
+    "fuente_principal": "https://www.enagas.es",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:utility-gas-infra",
+      "ticker:ENG",
+      "sede:madrid"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Enagás S.A., fundada en 1972 como sociedad pública. Privatizada 1994-2002. Operador certificado del sistema gasista.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~12.000 km de gasoductos. 6 plantas de regasificación (mayor red regasificadora de Europa). Plantilla ~1.300.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis Tallgrass",
+            "contenido": "Inversiones en EE.UU. (Tallgrass) generaron deterioros importantes 2019-2021. Llardén bajo crítica de minoritarios.",
+            "tags": [
+              "tallgrass",
+              "usa"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Hub europeo gas",
+            "contenido": "Tras invasión rusa de Ucrania (2022), España y Enagás emergen como hub estratégico europeo (regasificación) ante caída de gas ruso.",
+            "fecha": "2022-03-01",
+            "tags": [
+              "geopolitica",
+              "ucrania"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Hidrógeno verde",
+            "contenido": "Enagás pivota a H2 verde: proyecto H2Med (gasoducto Iberia-Francia para hidrógeno) clave en agenda energética europea, con financiación PNIEC.",
+            "tags": [
+              "h2med",
+              "hidrogeno"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Marco regulatorio",
+            "contenido": "Crítica con la rebaja de retribución que la CNMC y los Marcos Regulatorios 2021-2026 han aplicado al transporte.",
+            "tags": [
+              "regulacion"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "SEPI ~5%, BlackRock ~5%, Vanguard ~3%, Amancio Ortega vía Pontegadea ~5%, GIC ~5%. Muy disperso.",
+            "tags": [
+              "accionariado",
+              "sepi",
+              "pontegadea"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "H2Med - apoyo político",
+            "contenido": "H2Med (proyecto Iberia-Francia para H2) cuenta con apoyo explícito de Pedro Sánchez, Emmanuel Macron y António Costa. Financiación CEF-Energy.",
+            "tags": [
+              "politica",
+              "sanchez",
+              "macron",
+              "h2med"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez - Aizpiri",
+            "contenido": "Arturo Gonzalo Aizpiri (CEO) procede del entorno empresarial verde, encaje político con la agenda de transición ecológica del Gobierno.",
+            "tags": [
+              "politica",
+              "sanchez"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Llardén sobre regulación",
+            "contenido": "\"La retribución regulada actual no atrae inversión\", JGA 2024.",
+            "fecha": "2024-03-15"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Tallgrass impairment",
+            "contenido": "Deterioros por valor de >1.000 M€ en Tallgrass 2019-2021 cuestionaron la estrategia internacional.",
+            "tags": [
+              "tallgrass"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.enagas.es/accionistas-inversores/",
+            "fuente_url": "https://www.enagas.es/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0130960018 / ticker ENG",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28294726"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "acciona",
+    "tipo": "actor",
+    "nombre": "Acciona S.A.",
+    "alias": "Acciona",
+    "cargo": "Empresa IBEX 35 · infraestructuras y servicios",
+    "bio_corta": "Conglomerado de infraestructuras, agua, servicios y renovables (vía Acciona Energía cotizada aparte). Sede en Alcobendas. Controlada por la familia Entrecanales. Presidente José Manuel Entrecanales.",
+    "fuente_principal": "https://www.acciona.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:infraestructuras-renovables",
+      "ticker:ANA",
+      "sede:madrid"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.75,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Acciona S.A., raíces en Entrecanales y Távora (1931). Refundación Acciona en 1997 (fusión Entrecanales + Cubiertas y MZOV).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~17.000 M€. Plantilla ~50.000. Negocios: infraestructuras, agua (desalación líder global), servicios, renovables (vía Acciona Energía 83%), inmobiliaria.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Batalla Endesa con Enel",
+            "contenido": "Acciona y Enel se aliaron en 2007 para tomar Endesa. Acciona salió en 2009 vendiendo a Enel su 25% por 11.100 M€.",
+            "fecha": "2009-02-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa de Acciona Energía",
+            "contenido": "Spin-off de Acciona Energía cotizando en bolsa desde julio 2021.",
+            "fecha": "2021-07-01",
+            "tags": [
+              "acciona-energia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Transición y agua",
+            "contenido": "Entrecanales pionero defensor de renovables, agua y movilidad eléctrica. Posiciones públicas muy progresistas en ESG.",
+            "tags": [
+              "esg",
+              "verde"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionista de control: Familia Entrecanales",
+            "contenido": "Familia Entrecanales-Domecq controla ~55% vía sociedades patrimoniales (Tussen de Grachten, etc.).",
+            "tags": [
+              "accionariado",
+              "entrecanales"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Acciona Energía (ANE)",
+            "contenido": "Filial cotizada también IBEX 35. Acciona mantiene 83%.",
+            "tags": [
+              "acciona-energia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Nexo política exterior",
+            "contenido": "Acciona muy expuesta a grandes obras internacionales (Canal de Panamá, Sao Paulo Metro, Sídney Metro). Diplomacia económica activa.",
+            "tags": [
+              "internacional"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Entrecanales sobre ESG",
+            "contenido": "\"La sostenibilidad no es opción, es la única estrategia viable de largo plazo\", JGA 2023.",
+            "fecha": "2023-06-12"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sobrecostes ampliación Canal Panamá",
+            "contenido": "Acciona lideró consorcio GUPC en ampliación del Canal de Panamá. Atrasos y reclamaciones arbitrales por miles de M$ resueltos parcialmente en 2017-2022.",
+            "tags": [
+              "panama",
+              "arbitrajes"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.acciona.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.acciona.com/es/accionistas-inversores/"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0125220311 / ticker ANA",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A08001851"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "acciona-energia",
+    "tipo": "actor",
+    "nombre": "Acciona Energía S.A.",
+    "alias": "Acciona Energía",
+    "cargo": "Empresa IBEX 35 · renovables",
+    "bio_corta": "Filial cotizada de Acciona dedicada exclusivamente a generación renovable (eólica, solar). Sede Alcobendas. CEO Rafael Mateo.",
+    "fuente_principal": "https://www.acciona-energia.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:renovables",
+      "ticker:ANE",
+      "sede:madrid"
+    ],
+    "confidence": 0.84,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Acciona Energía S.A., filial cotizada al 83% por Acciona S.A. Salida a bolsa julio 2021.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~13 GW instalados en 16 países. Plantilla ~3.500. Renovables 100% (no carbón ni gas).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPV",
+            "contenido": "Julio 2021. Una de las mayores OPVs verdes europeas del año.",
+            "fecha": "2021-07-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "100% renovable",
+            "contenido": "Único actor del IBEX cuya generación es exclusivamente renovable. Discurso ESG fuerte.",
+            "tags": [
+              "esg"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Matriz Acciona",
+            "contenido": "Acciona S.A. mantiene 83%. Gobernanza compartida (mismos consejeros familiares).",
+            "tags": [
+              "matriz"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "José Manuel Entrecanales",
+            "contenido": "Presidente de Acciona Energía vía matriz.",
+            "tags": [
+              "entrecanales"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rafael Mateo (CEO)",
+            "contenido": "CEO operativo desde OPV 2021.",
+            "tags": [
+              "mateo"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "APPA Renovables",
+            "contenido": "Miembro de la patronal de renovables. Voz pública pro-PPA y subastas estables.",
+            "tags": [
+              "appa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Mercados internacionales",
+            "contenido": "Operaciones en EE.UU., Australia, México, Chile, India. Diversificación geográfica como ventaja sobre puros-España.",
+            "tags": [
+              "internacional"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caída bursátil 2022-2024",
+            "contenido": "Acciona Energía perdió >40% desde OPV por compresión múltiplos sectoriales y subida de tipos. Crítica de minoritarios.",
+            "tags": [
+              "bolsa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.acciona-energia.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.acciona-energia.com/es/accionistas-inversores/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "logista",
+    "tipo": "actor",
+    "nombre": "Compañía de Distribución Integral Logista Holdings S.A.",
+    "alias": "Logista",
+    "cargo": "Empresa IBEX 35 · distribución (tabaco, paquetería)",
+    "bio_corta": "Mayor distribuidor de tabaco en España, Francia, Italia y Portugal. Diversificación a paquetería express. Controlada por Imperial Brands (~50%). Sede en Leganés.",
+    "fuente_principal": "https://www.logistaholdings.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:distribucion",
+      "ticker:LOG",
+      "sede:madrid"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Logista Holdings S.A. Origen en Logista (Tabacalera/Altadis). Imperial Brands accionista de control.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~6.000 empleados. Plataformas logísticas en SW Europa. Reparto a >300.000 puntos de venta.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPV",
+            "contenido": "Logista vuelve a cotizar en 2014 tras la operación de Imperial Brands.",
+            "fecha": "2014-07-14"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Fiscalidad tabaco",
+            "contenido": "Logista no fabrica tabaco pero distribuye. Posicionada en el lobby sobre impuestos especiales al tabaco.",
+            "tags": [
+              "fiscalidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Imperial Brands",
+            "contenido": "Imperial Brands plc (UK) mantiene ~50,01% del capital. Decisiones estratégicas se coordinan con Bristol.",
+            "tags": [
+              "accionariado",
+              "imperial"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Estancos",
+            "contenido": "Red de ~50.000 puntos de venta (estancos y conveniencia) en sus mercados.",
+            "tags": [
+              "red-distribucion"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Logista Pharma",
+            "contenido": "Filial dedicada a logística farmacéutica de frío y especializada.",
+            "tags": [
+              "pharma"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Logista Parcel (Nacex, Seur Iberia, MRW)",
+            "contenido": "Crecimiento en paquetería B2C/B2B vía adquisiciones de empresas paqueteras españolas.",
+            "tags": [
+              "paqueteria"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "AEAT y Aduanas",
+            "contenido": "Interlocución regulatoria intensa por la fiscalidad del tabaco (Impuestos Especiales) y supervisión aduanera.",
+            "tags": [
+              "aeat"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Contrabando",
+            "contenido": "Logista no investigada directamente, pero distribución de tabaco siempre sensible a la lucha contra el mercado ilícito.",
+            "tags": [
+              "contrabando"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.logistaholdings.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.logistaholdings.com/es/accionistas-inversores/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "merlin-properties",
+    "tipo": "actor",
+    "nombre": "Merlin Properties SOCIMI S.A.",
+    "alias": "Merlin",
+    "cargo": "Empresa IBEX 35 · inmobiliaria SOCIMI",
+    "bio_corta": "Mayor SOCIMI española. Cartera de oficinas, logística, centros comerciales y data centers. Presidente Ismael Clemente.",
+    "fuente_principal": "https://www.merlinproperties.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:inmobiliario-socimi",
+      "ticker:MRL",
+      "sede:madrid"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.67,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Merlin Properties SOCIMI S.A., constituida en 2014. SOCIMI cotizada en IBEX. Sede en Madrid.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "GAV ~11.000 M€. Oficinas (Madrid, BCN, Lisboa), logística Iberia, centros comerciales, data centers (BlackRock Ascendant partnership).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fundación",
+            "contenido": "Ismael Clemente y Miguel Ollero fundan Merlin Properties en 2014 con respaldo financiero anglosajón.",
+            "fecha": "2014-06-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Tree Inversiones",
+            "contenido": "En 2014 compra la cartera de oficinas BBVA en España (~880 sucursales). Operación estructurante.",
+            "fecha": "2014-06-30",
+            "tags": [
+              "bbva"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Régimen SOCIMI",
+            "contenido": "Defensa pública del régimen SOCIMI español contra propuestas de Unidas Podemos/Sumar de eliminarlo.",
+            "tags": [
+              "socimi",
+              "fiscalidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Santander ~24%, BlackRock ~5%, Norges Bank ~3%, free float ~65%.",
+            "tags": [
+              "accionariado",
+              "santander"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Joint venture data centers",
+            "contenido": "Edge Conex (filial EQT) y Merlin acordaron pacto para data centers Madrid-Bilbao-Lisboa.",
+            "tags": [
+              "data-centers",
+              "eqt"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Clemente sobre SOCIMI",
+            "contenido": "\"Eliminar el régimen SOCIMI dejaría a España al margen del REIT europeo y dañaría el crédito hipotecario\", carta accionistas 2023.",
+            "fecha": "2023-04-29"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sin grandes controversias",
+            "contenido": "Merlin tiene bajo perfil litigioso público.",
+            "tags": [
+              "sin-controversias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.merlinproperties.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.merlinproperties.com/es/accionistas-inversores/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "inmobiliaria-colonial",
+    "tipo": "actor",
+    "nombre": "Inmobiliaria Colonial SOCIMI S.A.",
+    "alias": "Colonial",
+    "cargo": "Empresa IBEX 35 · inmobiliaria SOCIMI prime offices",
+    "bio_corta": "SOCIMI especializada en oficinas prime en Madrid, Barcelona y París (vía SFL). Sede en Barcelona. Presidente Juan José Brugera; CEO Pere Viñolas.",
+    "fuente_principal": "https://www.inmocolonial.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:inmobiliario-socimi",
+      "ticker:COL",
+      "sede:cataluna"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Inmobiliaria Colonial, fundada en 1946. Reestructuración profunda 2008-2014 tras crisis. Sede en Barcelona; cotización IBEX 35 desde 2017.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "GAV ~11.700 M€. Oficinas prime en CBD Madrid (Paseo de Recoletos), Barcelona (Diagonal), París (SFL filial).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Reestructuración 2014",
+            "contenido": "Tras quita de >2.000 M€ y ampliación capital, Villar Mir/Grupo Marán salen y entran Qatar Investment Authority y otros como referencia.",
+            "fecha": "2014-06-09"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Oficinas prime",
+            "contenido": "Apuesta exclusiva por oficinas prime (Grade A) en CBD. No diversifica a logística ni retail.",
+            "tags": [
+              "estrategia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Qatar Investment Authority ~19%, Grupo Santo Domingo ~7%, Aguila LTD (Banco Santander) ~6%, Finaccess (familia mexicana Del Valle) ~16%.",
+            "tags": [
+              "accionariado",
+              "qia",
+              "finaccess"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "SFL París",
+            "contenido": "Société Foncière Lyonnaise (SFL) es filial cotizada en París (~83%). Activos prime en CBD parisino.",
+            "tags": [
+              "sfl",
+              "francia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sin controversias relevantes",
+            "contenido": "Colonial ha tenido bajo perfil tras saneamiento.",
+            "tags": [
+              "sin-controversias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.inmocolonial.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.inmocolonial.com/es/accionistas-e-inversores"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "arcelormittal",
+    "tipo": "actor",
+    "nombre": "ArcelorMittal S.A.",
+    "alias": "ArcelorMittal",
+    "cargo": "Empresa IBEX 35 · siderurgia",
+    "bio_corta": "Mayor productor siderúrgico del mundo (no español aunque cotiza en BME). Sede en Luxemburgo. Cotizada en NYSE, Ámsterdam, París, BME, Luxemburgo. Familia Mittal controla ~37%.",
+    "fuente_principal": "https://corporate.arcelormittal.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:siderurgia",
+      "ticker:MTS",
+      "sede:luxemburgo"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "ArcelorMittal S.A., sede en Luxemburgo. Cotiza en BME por presencia de ArcelorMittal España (ex Aceralia).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión España",
+            "contenido": "En España opera plantas en Asturias (Gijón, Avilés), País Vasco (Sestao), Bizkaia. ~10.000 empleados.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fusión Arcelor-Mittal",
+            "contenido": "En 2006 Lakshmi Mittal lanzó OPA hostil sobre Arcelor (que incluía Aceralia España). Operación cerrada con creación de ArcelorMittal.",
+            "fecha": "2006-06-25"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Descarbonización siderurgia",
+            "contenido": "Inversiones en Sestao y Gijón para producción de acero verde con H2 y horno DRI. Plan condicional al apoyo público y al precio del H2.",
+            "tags": [
+              "descarbonizacion",
+              "perte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Mittal",
+            "contenido": "Lakshmi Mittal y familia controlan ~37%. Hijo Aditya Mittal es CEO desde 2021.",
+            "tags": [
+              "mittal"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PERTE - Gobierno Sánchez",
+            "contenido": "ArcelorMittal beneficiaria del PERTE de descarbonización industrial (>300 M€ ayudas para Sestao y Gijón).",
+            "tags": [
+              "perte",
+              "gobierno"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Sindicatos",
+            "contenido": "Relación tensa con CCOO y UGT en Asturias por reestructuraciones y ERTEs periódicos.",
+            "tags": [
+              "laboral",
+              "asturias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Multas Cártel acero",
+            "contenido": "Sancionada por CNMC en 2017 por participar en cártel del cable de acero pretensado (junto a otros).",
+            "tags": [
+              "cnmc",
+              "cartel"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://corporate.arcelormittal.com/investors",
+            "fuente_url": "https://corporate.arcelormittal.com/investors"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "iag",
+    "tipo": "actor",
+    "nombre": "International Consolidated Airlines Group S.A.",
+    "alias": "IAG",
+    "cargo": "Empresa IBEX 35 · aerolíneas",
+    "bio_corta": "Holding aéreo dual UK-España resultante de la fusión British Airways + Iberia (2011). Incluye Vueling, Aer Lingus, Level. Sede social en Madrid; sede operativa en Londres. CEO Luis Gallego (ex Iberia).",
+    "fuente_principal": "https://www.iairgroup.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:aerolineas",
+      "ticker:IAG",
+      "sede:madrid"
+    ],
+    "confidence": 0.86,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "IAG S.A., constituida en enero 2011 con la fusión de British Airways e Iberia. Cotiza en BME y LSE.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "5 aerolíneas. >130 millones de pasajeros (pre-Covid). Plantilla ~70.000. Ingresos ~30.000 M€.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fusión BA-Iberia",
+            "contenido": "21 enero 2011 efectiva la fusión que crea IAG.",
+            "fecha": "2011-01-21"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra Aer Lingus",
+            "contenido": "2015 OPA exitosa sobre Aer Lingus por 1.500 M€.",
+            "fecha": "2015-08-18"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPA fallida Air Europa",
+            "contenido": "Tras dos intentos (2019, 2023), IAG abandonó en diciembre 2023 la compra de Air Europa por exigencias de remedies de la Comisión Europea.",
+            "fecha": "2023-12-21",
+            "tags": [
+              "air-europa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Hub Madrid - Barajas",
+            "contenido": "IAG ha sido clave en el debate sobre la ampliación de Madrid-Barajas como hub europeo-LatAm. Apoyo a inversiones T4.",
+            "tags": [
+              "barajas",
+              "aena"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Sostenibilidad SAF",
+            "contenido": "Compromiso con uso de combustibles sostenibles (SAF). Inversión en producción propia (proyecto Velocys).",
+            "tags": [
+              "saf"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Qatar Airways ~25% (límite UE), Capital Research ~9%, BlackRock ~6%, Europacific ~3%.",
+            "tags": [
+              "accionariado",
+              "qatar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Qatar Airways - alianza",
+            "contenido": "Qatar Airways es socio estratégico (oneworld) y mayor accionista. Influencia en gobierno corporativo.",
+            "tags": [
+              "qatar",
+              "oneworld"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Hub Barajas - Aena",
+            "contenido": "IAG es el cliente principal de Aena en Madrid-Barajas (~50% de las operaciones). Tensiones por tarifas DORA.",
+            "tags": [
+              "aena",
+              "barajas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Gallego sobre Air Europa",
+            "contenido": "\"La remedies exigidas por Bruselas hacían la operación inviable\", diciembre 2023.",
+            "fecha": "2023-12-21"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sanción CNMV BA filtración",
+            "contenido": "En 2018 British Airways sufrió filtración masiva de datos de tarjetas. Multas ICO en UK y demandas colectivas.",
+            "tags": [
+              "data-breach"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.iairgroup.com/es/accionistas-inversores",
+            "fuente_url": "https://www.iairgroup.com/es/accionistas-inversores"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "grifols",
+    "tipo": "actor",
+    "nombre": "Grifols S.A.",
+    "alias": "Grifols",
+    "cargo": "Empresa IBEX 35 · hemoderivados",
+    "bio_corta": "Multinacional española líder mundial en hemoderivados y plasma humano. Sede en Sant Cugat del Vallès. Familia Grifols accionista de control. En 2024 tensión por intento de OPA de Brookfield.",
+    "fuente_principal": "https://www.grifols.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:farma-hemoderivados",
+      "ticker:GRF",
+      "sede:cataluna"
+    ],
+    "confidence": 0.86,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Grifols S.A., fundada en 1940 por Josep Antoni Grifols. Sede en Sant Cugat del Vallès. Tres generaciones de la familia en la gestión.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Mayor recolector mundial de plasma humano (~390 centros). Ingresos ~6.500 M€. Plantilla ~24.000.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Adquisición Talecris",
+            "contenido": "En 2011 Grifols compra Talecris (EE.UU.) por 4.000 M$ con financiación significativa, hito de internacionalización.",
+            "fecha": "2011-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Crisis Gotham City",
+            "contenido": "En enero 2024 el fondo bajista Gotham City Research publicó informe atacando la valoración de Grifols por su relación con Scranton (vehículo familiar). Acción cayó >40%.",
+            "fecha": "2024-01-09",
+            "tags": [
+              "gotham",
+              "scranton"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPA Brookfield - fallida",
+            "contenido": "En julio 2024 Brookfield y la familia Grifols anunciaron exploración de OPA de exclusión. Operación descartada en noviembre 2024 por no alcanzar precio acordado.",
+            "fecha": "2024-11-26",
+            "tags": [
+              "brookfield",
+              "opa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Donación de plasma",
+            "contenido": "Grifols defiende mercado libre de plasma vs limitaciones de la directiva UE sobre sustancias humanas. Crítica corporativa al regulador europeo.",
+            "tags": [
+              "plasma",
+              "ue"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Grifols",
+            "contenido": "Familia Grifols controla ~30% vía vehículos (Scranton Enterprises B.V., entre otros).",
+            "tags": [
+              "accionariado",
+              "familia-grifols"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Scranton - controversia",
+            "contenido": "Scranton Enterprises es vehículo de la familia que adquirió activos vendidos por Grifols. Gotham cuestionó la doble contabilización.",
+            "tags": [
+              "scranton",
+              "gotham"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Brookfield - relación",
+            "contenido": "Brookfield (Canadá) gestor de infra fue partner potencial 2024. Tras OPA fallida, relación distante.",
+            "tags": [
+              "brookfield"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Familia tras Gotham",
+            "contenido": "\"Las acusaciones de Gotham son infundadas y persiguen un beneficio bursátil propio\", comunicado oficial enero 2024.",
+            "fecha": "2024-01-10"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Investigación CNMV",
+            "contenido": "CNMV abrió investigación sobre la relación Grifols-Scranton tras los informes de Gotham. Continúa abierta a 2025.",
+            "tags": [
+              "cnmv",
+              "scranton"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Demandas accionistas",
+            "contenido": "Acciones legales colectivas de minoritarios e institucionales en España y EE.UU.",
+            "tags": [
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.grifols.com/es/web/international/financial-information",
+            "fuente_url": "https://www.grifols.com/es/web/international/financial-information"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0171996087 / ticker GRF",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A58389123"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "indra",
+    "tipo": "actor",
+    "nombre": "Indra Sistemas S.A.",
+    "alias": "Indra",
+    "cargo": "Empresa IBEX 35 · tecnología y defensa",
+    "bio_corta": "Tecnológica con foco en defensa, transporte (ATM, ferrocarril), elecciones y consultoría (Minsait). SEPI accionista de referencia. Sede en Alcobendas. Presidente Ángel Escribano desde enero 2025 (ex CEO Escribano M&E).",
+    "fuente_principal": "https://www.indracompany.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:tecnologia-defensa",
+      "ticker:IDR",
+      "sede:madrid"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.78,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Indra Sistemas S.A., origen INISEL (1985) más Ceselsa (1992). Privatizada 1999. SEPI mantiene 28%.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~4.700 M€. Plantilla ~57.000. Divisiones: Defensa & Seguridad, Movilidad, Minsait (consultoría TI).",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Privatización",
+            "contenido": "Indra sale a bolsa en 1999 bajo Aznar.",
+            "fecha": "1999-03-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Bronca consejo 2022",
+            "contenido": "En junta extraordinaria de 2022 SEPI y otros accionistas votan a favor de cesar a 4 consejeros independientes. Bronca con CNMV y gobiernos corporativos.",
+            "fecha": "2022-06-23",
+            "tags": [
+              "gobernanza",
+              "cnmv"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Era Murtra",
+            "contenido": "Marc Murtra preside Indra desde 2021 hasta enero 2025, cuando salta a Telefónica. Pivot fuerte a defensa.",
+            "fecha": "2021-01-22",
+            "tags": [
+              "murtra"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fichaje Escribano",
+            "contenido": "Tras salida Murtra, Ángel Escribano (cofundador Escribano M&E, accionista 8%) preside Indra desde enero 2025.",
+            "fecha": "2025-01-22",
+            "tags": [
+              "escribano"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Defensa europea",
+            "contenido": "Indra como campeón nacional de defensa (radares, simuladores, sensores). Beneficiaria del aumento del presupuesto de defensa OTAN/UE.",
+            "tags": [
+              "defensa",
+              "otan"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Eurofighter / FCAS",
+            "contenido": "Indra como partner industrial español en Eurofighter (Eurojet, Cassidian) y en el programa europeo FCAS (con Airbus, Dassault).",
+            "tags": [
+              "fcas",
+              "eurofighter"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "SEPI ~28%, Amber Capital ~7,2% (Joseph Oughourlian), Escribano Mechanical & Engineering ~8%, SAPA Placencia ~7%.",
+            "tags": [
+              "accionariado",
+              "sepi",
+              "amber",
+              "escribano"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno Sánchez",
+            "contenido": "Nombramiento de Murtra y luego Escribano refleja control directo del Gobierno vía SEPI. Defensa es área estratégica priorizada.",
+            "tags": [
+              "politica",
+              "sanchez",
+              "sepi"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ministerio de Defensa - Margarita Robles",
+            "contenido": "Indra como suministrador clave del Ministerio. Reuniones recurrentes en programas (FCAS, NH90, Eurofighter).",
+            "tags": [
+              "mindef",
+              "robles"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Escribano programa",
+            "contenido": "\"Indra debe consolidarse como campeón europeo de defensa\", presentación a empleados enero 2025.",
+            "fecha": "2025-01-22"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Polémica destitución consejeros",
+            "contenido": "En 2022 la salida abrupta de 4 consejeros independientes por presión de SEPI generó investigación CNMV sobre gobierno corporativo. Saldo: amonestación pública a Indra.",
+            "fecha": "2022-06-23",
+            "tags": [
+              "cnmv",
+              "gobernanza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.indracompany.com/es/accionistas-inversores",
+            "fuente_url": "https://www.indracompany.com/es/accionistas-inversores"
+          },
+          {
+            "tipo": "documento",
+            "titulo": "CNMV",
+            "contenido": "ISIN ES0118594417 / ticker IDR",
+            "fuente_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionGobCorp.aspx?nif=A28599033"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "acerinox",
+    "tipo": "actor",
+    "nombre": "Acerinox S.A.",
+    "alias": "Acerinox",
+    "cargo": "Empresa IBEX 35 · acero inoxidable",
+    "bio_corta": "Productor mundial de acero inoxidable. Sede en Madrid. Planta principal en Algeciras (Cádiz). Presidente Rafael Miranda; CEO Bernardo Velázquez.",
+    "fuente_principal": "https://www.acerinox.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:siderurgia-inox",
+      "ticker:ACX",
+      "sede:madrid"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.6,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Acerinox S.A., fundada en 1970. Planta principal en Los Barrios-Algeciras. Plantas en EE.UU. (NAS), Sudáfrica (Columbus), Malasia (Bahru).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Capacidad ~3,5 Mt/año. Plantilla ~9.000.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Compra Haynes",
+            "contenido": "En 2024 Acerinox compra Haynes International (aleaciones de alta especialidad) por ~800 M$.",
+            "fecha": "2024-02-05"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Cierre Bahru / Reestructuración",
+            "contenido": "Cierre de la planta de Malasia (Bahru) en 2022 por inviabilidad. Choque sindical.",
+            "tags": [
+              "malasia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Nippon Steel ~19%, Corporación Financiera Alba (March) ~19%, Casa Grande de Cartagena ~5%.",
+            "tags": [
+              "accionariado",
+              "alba",
+              "march",
+              "nippon"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Familia March",
+            "contenido": "Vía Corporación Financiera Alba (vehículo de la familia March), Acerinox tiene anclaje accionarial estable.",
+            "tags": [
+              "march",
+              "alba"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Huelga Algeciras 2024",
+            "contenido": "Huelga en planta Algeciras durante meses 2024 por convenio colectivo. Negociación bajo mediación.",
+            "fecha": "2024-02-05",
+            "tags": [
+              "laboral",
+              "algeciras"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.acerinox.com/es/accionistas-inversores/",
+            "fuente_url": "https://www.acerinox.com/es/accionistas-inversores/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "sacyr",
+    "tipo": "actor",
+    "nombre": "Sacyr S.A.",
+    "alias": "Sacyr",
+    "cargo": "Empresa IBEX 35 · construcción y concesiones",
+    "bio_corta": "Constructora y concesionaria. Histórico accionista de Repsol (~9%). Sede en Madrid. Presidente Manuel Manrique.",
+    "fuente_principal": "https://www.sacyr.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:construccion-concesiones",
+      "ticker:SCYR",
+      "sede:madrid"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.65,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Sacyr S.A., constituida en 1986. Tras fusión con Vallehermoso (2003) llegó a ser SyV. Vallehermoso vendida en 2013.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~5.000 M€. Plantilla ~50.000. Foco en concesiones de infraestructura (autopistas, hospitales) y obra pública.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "OPA fallida sobre Repsol",
+            "contenido": "En 2006 SyV (Luis del Rivero) lanzó proyecto de tomar control de Repsol; tensiones con BBVA y Pemex. Origen de la guerra de espionaje Villarejo posterior.",
+            "fecha": "2006-07-01",
+            "tags": [
+              "repsol",
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ampliación Canal Panamá",
+            "contenido": "Lideró consorcio en ampliación del Canal de Panamá (con Impregilo, Jan de Nul). Atrasos y arbitrajes prolongados.",
+            "fecha": "2014-09-15",
+            "tags": [
+              "panama"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Concesionalismo",
+            "contenido": "Pivote estratégico a concesiones internacionales (Chile, Colombia, Italia, Irlanda) con flujos predecibles.",
+            "tags": [
+              "concesiones"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionariado",
+            "contenido": "Disperso. Beta Asociados (Manrique y entorno) ~7%, Disa Corporación ~6%, Prilou (Jacobs) ~5%.",
+            "tags": [
+              "accionariado",
+              "manrique"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Participación Repsol",
+            "contenido": "Sacyr conserva ~9% de Repsol (a 2024) tras décadas como accionista. Tensiones intermitentes con el consejo de Repsol.",
+            "tags": [
+              "repsol"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caso Villarejo (víctima)",
+            "contenido": "Espionaje contratado por BBVA dirigido contra SyV y Luis del Rivero en torno a la OPA sobre Repsol.",
+            "tags": [
+              "villarejo",
+              "judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.sacyr.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.sacyr.com/es/accionistas-e-inversores"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fluidra",
+    "tipo": "actor",
+    "nombre": "Fluidra S.A.",
+    "alias": "Fluidra",
+    "cargo": "Empresa IBEX 35 · equipamiento piscinas",
+    "bio_corta": "Líder mundial en equipamiento para piscinas y wellness. Sede en Sabadell. Fusión Fluidra-Zodiac (2018). Presidente Eloi Planes (familia fundadora).",
+    "fuente_principal": "https://www.fluidra.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:equipamiento-piscinas",
+      "ticker:FDR",
+      "sede:cataluna"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Fluidra S.A., origen 1969 (familias Planes, Garrigós, Serra, Corbera). Fusión con Zodiac Pool Solutions (2018). Sede en Sabadell.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~2.000 M€. Plantilla ~7.000. Presencia en >47 países.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fusión Zodiac",
+            "contenido": "Fluidra y Zodiac (Rhône Capital) se fusionan en 2018, creando líder global.",
+            "fecha": "2018-07-02"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Energía y agua",
+            "contenido": "Posicionamiento corporativo a favor de la eficiencia energética en piscinas (bombas variables, climatización solar).",
+            "tags": [
+              "esg"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Mercado USA",
+            "contenido": "Estrategia de expansión USA vía Zodiac Pool Systems (50% del negocio post-fusión).",
+            "tags": [
+              "usa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Accionistas familiares",
+            "contenido": "Familias fundadoras (Planes, Garrigós, Serra, Corbera) mantienen acuerdo de voto sobre ~36%. Rhône Capital salió tras 2018.",
+            "tags": [
+              "accionariado",
+              "familias"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Bruce Brooks (CEO)",
+            "contenido": "CEO de Fluidra desde 2018 (post-fusión Zodiac).",
+            "tags": [
+              "brooks"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Eloi Planes (presidente)",
+            "contenido": "Tercera generación de la familia Planes.",
+            "tags": [
+              "planes"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Acuerdo familias",
+            "contenido": "Planes, Garrigós, Serra, Corbera mantienen ~36% conjuntamente con acuerdo de voto.",
+            "tags": [
+              "familias"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Rhône Capital legacy",
+            "contenido": "Fondo Rhône (anterior dueño de Zodiac) salió tras la fusión 2018.",
+            "tags": [
+              "rhone"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Bajo perfil",
+            "contenido": "Sin controversias relevantes.",
+            "tags": [
+              "sin-controversias"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Caída pos-Covid",
+            "contenido": "Tras pico de demanda durante Covid, normalización 2023-2024 con caída de ventas y de cotización.",
+            "tags": [
+              "bolsa"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.fluidra.com/es/inversores/",
+            "fuente_url": "https://www.fluidra.com/es/inversores/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rovi",
+    "tipo": "actor",
+    "nombre": "Laboratorios Farmacéuticos Rovi S.A.",
+    "alias": "Rovi",
+    "cargo": "Empresa IBEX 35 · farma",
+    "bio_corta": "Farmacéutica española. Líder en heparinas de bajo peso molecular. Fabricación a terceros (CDMO) — produjo la vacuna Moderna en Madrid durante la pandemia. Familia López-Belmonte controla. CEO Juan López-Belmonte.",
+    "fuente_principal": "https://www.rovi.es",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:farma",
+      "ticker:ROVI",
+      "sede:madrid"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Laboratorios Farmacéuticos Rovi, fundada en 1946 por Juan López-Belmonte Encina. Sede en Madrid. Plantas en Madrid y Granada.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~800 M€. Plantilla ~1.700. División CDMO crítica.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Acuerdo Moderna",
+            "contenido": "En 2020 Rovi firma con Moderna producción de fill-and-finish de la vacuna mRNA-1273 en Madrid. Hito de visibilidad internacional.",
+            "fecha": "2020-07-09",
+            "tags": [
+              "moderna",
+              "covid"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "CDMO crecimiento",
+            "contenido": "Apuesta estratégica por fabricación a terceros con expansión de capacidad en Granada (>500 M€ inversión 2022-2025).",
+            "tags": [
+              "cdmo",
+              "granada"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia López-Belmonte",
+            "contenido": "Familia López-Belmonte controla ~64% vía Norbel Inversiones.",
+            "tags": [
+              "accionariado",
+              "lopez-belmonte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Moderna",
+            "contenido": "Partnership estratégico con Moderna mantiene a Rovi entre fabricantes europeos de mRNA.",
+            "tags": [
+              "moderna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Bajo perfil",
+            "contenido": "Sin controversias relevantes.",
+            "tags": [
+              "sin-controversias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.rovi.es/inversores",
+            "fuente_url": "https://www.rovi.es/inversores"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "solaria",
+    "tipo": "actor",
+    "nombre": "Solaria Energía y Medio Ambiente S.A.",
+    "alias": "Solaria",
+    "cargo": "Empresa IBEX 35 · renovables (solar)",
+    "bio_corta": "Productora de energía solar fotovoltaica. Crecimiento agresivo en cartera de proyectos en España, Italia, Portugal. Presidente Enrique Díaz-Tejeiro.",
+    "fuente_principal": "https://www.solariaenergia.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:renovables-solar",
+      "ticker:SLR",
+      "sede:madrid"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Solaria Energía y Medio Ambiente S.A., origen fabricación de paneles, pivot a productor de energía. Sede en Madrid.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "~2 GW operativos + cartera ~9 GW en proyecto. Plantilla ~250.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Entrada IBEX 35",
+            "contenido": "Solaria entra en IBEX 35 en 2021 tras escalada bursátil durante el boom de renovables 2020-2021.",
+            "fecha": "2021-12-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pivot a producción de energía",
+            "contenido": "Reorientación desde fabricación de paneles (sector que abandonó) a productor de energía solar fotovoltaica.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Burbuja renovables 2020-2021",
+            "contenido": "Cotización multiplicó por 10 en 2020. Cayó 75% entre 2021 y 2024 con la subida de tipos.",
+            "fecha": "2021-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "PPA y marco regulatorio",
+            "contenido": "Defensa pública del modelo PPA y precios marginalistas estables como base para la financiación de nuevos proyectos.",
+            "tags": [
+              "ppa"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Cartera proyectos",
+            "contenido": "Cartera ~9 GW en distintos estados de desarrollo. Plan ambicioso de monetización.",
+            "tags": [
+              "cartera"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Díaz-Tejeiro",
+            "contenido": "Familia Díaz-Tejeiro controla ~37% vía DTL (DTL Corporación).",
+            "tags": [
+              "accionariado"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Enrique Díaz-Tejeiro (presidente)",
+            "contenido": "Familia controladora vía DTL Corporación.",
+            "tags": [
+              "diaz-tejeiro"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "DTL Corporación (~37%)",
+            "contenido": "Vehículo familiar.",
+            "tags": [
+              "dtl"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "MITECO y CNMC",
+            "contenido": "Interlocución regulatoria habitual en subastas PPA y conexiones.",
+            "tags": [
+              "miteco"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Caída bursátil 2022-2024",
+            "contenido": "Pérdida superior al 70% desde máximos 2021, en línea con el sector. Crítica de analistas sobre ritmo de monetización de la cartera.",
+            "tags": [
+              "bolsa"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Crítica analistas",
+            "contenido": "Críticas sobre el ritmo de monetización de la cartera. Cuestionamientos a la valoración. Posición bajista de varios short-sellers.",
+            "tags": [
+              "analistas"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.solariaenergia.com/es/inversores/",
+            "fuente_url": "https://www.solariaenergia.com/es/inversores/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "unicaja",
+    "tipo": "actor",
+    "nombre": "Unicaja Banco S.A.",
+    "alias": "Unicaja",
+    "cargo": "Empresa IBEX 35 · banca",
+    "bio_corta": "Quinto banco español por activos tras la fusión con Liberbank (2021). Sede en Málaga. Fundación Unicaja accionista de referencia. Presidente José Sevilla.",
+    "fuente_principal": "https://www.unicajabanco.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:banca",
+      "ticker:UNI",
+      "sede:malaga"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Unicaja Banco S.A., origen en la fusión 2010 de Unicaja+Caja Jaén y posterior incorporación de Caja España-Duero. Fusión con Liberbank en 2021.",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Activos ~95.000 M€. Plantilla ~6.500. Foco geográfico Andalucía, Asturias, Castilla y León.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fusión Liberbank",
+            "contenido": "Marzo 2021 fusión por absorción de Liberbank.",
+            "fecha": "2021-03-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Crisis gobernanza 2023",
+            "contenido": "Bronca entre Fundación Unicaja (Braulio Medel) y consejo del banco (Sevilla) sobre influencia política y control. CNMV intervino.",
+            "fecha": "2023-09-15",
+            "tags": [
+              "gobernanza",
+              "medel"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Banca regional",
+            "contenido": "Modelo de banca regional con fuerte arraigo Andalucía-Asturias. Defensa de presencia rural.",
+            "tags": [
+              "regional"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Unicaja",
+            "contenido": "Fundación Unicaja controla ~30% del banco. Braulio Medel patrón durante décadas (relevado tras crisis 2023).",
+            "tags": [
+              "accionariado",
+              "fundacion",
+              "medel"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Política regional",
+            "contenido": "Histórica relación con poderes andaluces (PSOE-A durante décadas, PP-A desde 2018). Caja con perfil político.",
+            "tags": [
+              "politica",
+              "andalucia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": []
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Crisis Medel - CNMV",
+            "contenido": "En 2023 CNMV abrió expedientes por el control no comunicado de la Fundación sobre el banco y la guerra interna en el consejo. Saldo: relevo de Medel.",
+            "tags": [
+              "cnmv",
+              "medel"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.unicajabanco.com/es/accionistas-e-inversores",
+            "fuente_url": "https://www.unicajabanco.com/es/accionistas-e-inversores"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "puig",
+    "tipo": "actor",
+    "nombre": "Puig Brands S.A.",
+    "alias": "Puig",
+    "cargo": "Empresa IBEX 35 · perfumería y moda",
+    "bio_corta": "Multinacional de perfumes, moda y maquillaje. Propietaria de Paco Rabanne, Carolina Herrera, Jean Paul Gaultier, Nina Ricci, Charlotte Tilbury, Byredo. Sede Barcelona. Familia Puig controla. OPV mayo 2024.",
+    "fuente_principal": "https://www.puig.com",
+    "tags": [
+      "ibex35",
+      "empresa",
+      "sector:perfumeria-moda",
+      "ticker:PUIG",
+      "sede:cataluna"
+    ],
+    "confidence": 0.84,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Puig Brands S.A., fundada en 1914 por Antonio Puig Castelló. Tercera/cuarta generación. Sede en Torre Puig (Barcelona).",
+            "tags": [
+              "fundacional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Dimensión",
+            "contenido": "Ingresos ~4.300 M€. Plantilla ~12.000.",
+            "tags": [
+              "dimensión"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Compra Charlotte Tilbury y Byredo",
+            "contenido": "2020-2022 adquisiciones de marcas niche-luxury Charlotte Tilbury y Byredo, consolidando estrategia de marcas afluentes.",
+            "fecha": "2022-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "OPV Puig",
+            "contenido": "3 mayo 2024 sale a bolsa, una de las mayores OPVs europeas del año (capitalización inicial ~14.000 M€).",
+            "fecha": "2024-05-03",
+            "tags": [
+              "opv"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Posicionamiento luxury beauty",
+            "contenido": "Apuesta por moda alta y perfumería selectiva. Modelo de marcas mantenidas (no dilución).",
+            "tags": [
+              "luxury"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Familia Puig",
+            "contenido": "Familia Puig mantiene ~70% del capital y mayoría de voto vía acciones tipo A (estructura dual).",
+            "tags": [
+              "accionariado",
+              "familia-puig"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Patrocinios",
+            "contenido": "Patrocinador FC Barcelona, varias pasarelas (NYFW, PFW).",
+            "tags": [
+              "fcbarcelona",
+              "moda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "declaraciones",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "declaracion",
+            "titulo": "Marc Puig sobre OPV",
+            "contenido": "\"Salimos a bolsa para crecer manteniendo el control familiar y la cultura de marca\", roadshow 2024.",
+            "fecha": "2024-04-22"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Bajo perfil",
+            "contenido": "Sin controversias judiciales públicas relevantes.",
+            "tags": [
+              "sin-controversias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Web inversores",
+            "contenido": "https://www.puig.com/es/inversores",
+            "fuente_url": "https://www.puig.com/es/inversores"
+          }
+        ]
+      }
+    ]
+  }
+]

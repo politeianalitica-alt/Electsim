@@ -1,0 +1,68 @@
+[
+  {
+    "slug": "diputacion-sevilla",
+    "wikipedia_title": "Diputación Provincial de Sevilla",
+    "scraped_at": "2026-05-28T10:32:50.080149+00:00",
+    "source": "wikipedia_es",
+    "summary_extract": "La Diputación Provincial de Sevilla es una institución pública que presta servicios directos a los ciudadanos y presta apoyo técnico, económico y tecnológico a los ayuntamientos de los 106 municipios de la provincia de Sevilla. Además, coordina algunos servicios municipales y organiza servicios de carácter supramunicipal. Tiene su sede central en la ciudad de Sevilla. Integran la Diputación Provincial, como órganos de Gobierno de la misma, el presidente, los vicepresidentes, la Junta de Gobierno y el pleno. Inició sus funciones a finales de 1813.",
+    "description": "institución española de Andalucía",
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Diputaci%C3%B3n_de_Sevilla.jpg/330px-Diputaci%C3%B3n_de_Sevilla.jpg",
+    "canonical_url": "https://es.wikipedia.org/wiki/Diputaci%C3%B3n_Provincial_de_Sevilla",
+    "infobox": {
+      "país": "España",
+      "localidad": "Sevilla",
+      "coordenadas": "37°23′09″N 5°59′39″O﻿ / ﻿37.38582, -5.9941",
+      "jurisdicción": "Provincia de Sevilla",
+      "tipo": "diputación provincial",
+      "sede": "Avenida de Menéndez Pelayo, 3241071 Sevilla, España",
+      "presidencia": "Javier Fernández (PSOE-A)",
+      "composición": "Gobierno (15) 15 color #FF0000 PSOE Apoyo Externo (4) 4 color #009150 IULV-CA Oposición (12) 11 color #1E90FF Partido Popular 1 color limeGreen Vox",
+      "entidad superior": "Unión de Editoriales Universitarias Españolas",
+      "fundación": "1813"
+    },
+    "composicion_raw": [
+      {
+        "raw": "Partido Socialista Obrero Español de Andalucía (PSOE-A) | 352.229 | 37,88% | 15"
+      },
+      {
+        "raw": "Partido Popular Andaluz (PPA) | 298.468 | 32,09% | 11"
+      },
+      {
+        "raw": "Con Andalucía-Izquierda Unida (Con Andalucía) | 110.523 | 11,88% | 4"
+      },
+      {
+        "raw": "Vox | 63.317 | 6,80% | 1"
+      }
+    ],
+    "scrape_ok": true
+  },
+  {
+    "slug": "diputacion-foral-bizkaia",
+    "wikipedia_title": "Diputación Foral de Vizcaya",
+    "scraped_at": "2026-05-28T10:32:51.916203+00:00",
+    "source": "wikipedia_es",
+    "summary_extract": "La Diputación Foral de Vizcaya, es el órgano de gobierno del territorio histórico de Vizcaya España. Además de las competencias ordinarias que ejercen las diputaciones provinciales de las restantes provincias de España, la Diputación Foral de Vizcaya ejerce competencias específicas derivadas de su naturaleza como territorio histórico del País Vasco, en virtud de su Estatuto de Autonomía y de la Ley de Territorios Históricos de 1983.",
+    "description": "gobierno del territorio de Vizcaya",
+    "thumbnail_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Bilbao_-_Diputacion_Foral_de_Vizcaya_2.jpg/330px-Bilbao_-_Diputacion_Foral_de_Vizcaya_2.jpg",
+    "canonical_url": "https://es.wikipedia.org/wiki/Diputaci%C3%B3n_Foral_de_Vizcaya",
+    "infobox": {
+      "país": "España",
+      "municipio": "Vizcaya",
+      "localidad": "Palacio de La Diputación Foral de Vizcaya",
+      "sigla": "DFV-BFA",
+      "jurisdicción": "Vizcaya",
+      "tipo": "diputación foral",
+      "fundación": "siglo XIX"
+    },
+    "composicion_raw": [],
+    "scrape_ok": true
+  },
+  {
+    "slug": "diputacio-barcelona",
+    "wikipedia_title": "Diputación de Barcelona",
+    "scraped_at": "2026-05-28T10:32:53.626612+00:00",
+    "source": "wikipedia_es",
+    "scrape_ok": false,
+    "error": "429 Client Error: Too Many Requests for url: https://es.wikipedia.org/w/api.php?action=parse&page=Diputaci%C3%B3n+de+Barcelona&format=json&prop=text&redirects=1"
+  }
+]

@@ -48,6 +48,8 @@ export const MODULES: NavModule[] = [
       { label: 'Partidos y Grupos',              href: '/partidos' },
       { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
       { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
+      { label: 'Diputaciones Provinciales',      href: '/diputaciones' },
+      { label: 'IBEX 35 · Empresas y consejos',  href: '/ibex35' },
     ],
   },
 
