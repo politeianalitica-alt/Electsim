@@ -53,6 +53,9 @@ extend-exclude = [
     ".superpowers",
     ".trae",
     ".windsurf",
+    # La skill ui-ux-pro-max también se sincroniza dentro de .github/prompts/.
+    # Excluimos esa subcarpeta sin tocar .github/workflows/.
+    ".github/prompts",
     # Data dirs / configs locales
     ".chroma_db",
     ".etl_cache",
