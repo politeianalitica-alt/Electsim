@@ -97,6 +97,26 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes (Gobierno de Aragón · PDF oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace directo al PDF oficial.",
+            "fuente_url": "https://transparencia.aragon.es/transparencia/declaraciones/XI/MODELO_5_JORGE_AZCON.pdf",
+            "fuente_titulo": "Portal de Transparencia · Gobierno de Aragón",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo",
+              "pdf-directo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -387,6 +407,26 @@
               "pp",
               "nota-+5",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Gobierno de Canarias · PDF oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace directo al PDF oficial.",
+            "fuente_url": "https://www.gobiernodecanarias.org/organigrama/descargar-ficha?ou=42091&tipo=declaracion",
+            "fuente_titulo": "Gobierno de Canarias",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo",
+              "pdf-directo"
             ]
           }
         ]
@@ -683,6 +723,26 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes (Junta de Castilla y León · PDF oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace directo al PDF oficial.",
+            "fuente_url": "https://gobierno.jcyl.es/web/jcyl/binarios/348/529/DeclaracionBienesPTE.pdf?blobheader=application%2Fpdf%3Bcharset%3DUTF-8&blobnocache=true",
+            "fuente_titulo": "Gobierno de Castilla y León",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo",
+              "pdf-directo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -771,6 +831,25 @@
               "psoe",
               "nota-+8",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Generalitat de Catalunya · ficha oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "fuente_url": "https://direcciopublica.transparencia.gencat.cat/personas/salvador-illa-roca",
+            "fuente_titulo": "Transparència · Generalitat de Catalunya",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1178,6 +1257,26 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes (Comunidad de Madrid · PDF oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace directo al PDF oficial.",
+            "fuente_url": "https://www.comunidad.madrid/transparencia/sites/default/files/person/documents/income/00_presidenta_cm_declaracion_bienes_.pdf",
+            "fuente_titulo": "Portal de Transparencia · Comunidad de Madrid",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo",
+              "pdf-directo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1276,6 +1375,25 @@
               "gobierno",
               "nota--6",
               "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes e intereses (CARM · ficha oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "fuente_url": "https://transparencia.carm.es/el-presidente",
+            "fuente_titulo": "Portal de Transparencia · Región de Murcia",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]

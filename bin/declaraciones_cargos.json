@@ -1,0 +1,38 @@
+{
+  "isabel-diaz-ayuso": {
+    "url": "https://www.comunidad.madrid/transparencia/sites/default/files/person/documents/income/00_presidenta_cm_declaracion_bienes_.pdf",
+    "titulo": "Declaración de bienes (Comunidad de Madrid · PDF oficial)",
+    "fuente": "Portal de Transparencia · Comunidad de Madrid",
+    "tipo": "pdf"
+  },
+  "alfonso-fernandez-manueco": {
+    "url": "https://gobierno.jcyl.es/web/jcyl/binarios/348/529/DeclaracionBienesPTE.pdf?blobheader=application%2Fpdf%3Bcharset%3DUTF-8&blobnocache=true",
+    "titulo": "Declaración de bienes (Junta de Castilla y León · PDF oficial)",
+    "fuente": "Gobierno de Castilla y León",
+    "tipo": "pdf"
+  },
+  "jorge-azcon": {
+    "url": "https://transparencia.aragon.es/transparencia/declaraciones/XI/MODELO_5_JORGE_AZCON.pdf",
+    "titulo": "Declaración de bienes (Gobierno de Aragón · PDF oficial)",
+    "fuente": "Portal de Transparencia · Gobierno de Aragón",
+    "tipo": "pdf"
+  },
+  "fernando-clavijo": {
+    "url": "https://www.gobiernodecanarias.org/organigrama/descargar-ficha?ou=42091&tipo=declaracion",
+    "titulo": "Declaración de bienes y actividades (Gobierno de Canarias · PDF oficial)",
+    "fuente": "Gobierno de Canarias",
+    "tipo": "pdf"
+  },
+  "salvador-illa": {
+    "url": "https://direcciopublica.transparencia.gencat.cat/personas/salvador-illa-roca",
+    "titulo": "Declaración de bienes y actividades (Generalitat de Catalunya · ficha oficial)",
+    "fuente": "Transparència · Generalitat de Catalunya",
+    "tipo": "pagina"
+  },
+  "fernando-lopez-miras": {
+    "url": "https://transparencia.carm.es/el-presidente",
+    "titulo": "Declaración de bienes e intereses (CARM · ficha oficial)",
+    "fuente": "Portal de Transparencia · Región de Murcia",
+    "tipo": "pagina"
+  }
+}
