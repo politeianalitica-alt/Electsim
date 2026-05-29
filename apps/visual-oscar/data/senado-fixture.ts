@@ -98,23 +98,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0001-ap-02-it-00",
             "apartado_id": "sen-0001-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184086",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0001-ap-02-it-01",
+            "apartado_id": "sen-0001-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_110_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0002",
@@ -203,23 +221,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0002-ap-02-it-00",
             "apartado_id": "sen-0002-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=228684",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0002-ap-02-it-01",
+            "apartado_id": "sen-0002-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_296_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0003",
@@ -309,7 +345,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0003-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -323,8 +359,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0004",
@@ -413,23 +449,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0004-ap-02-it-00",
             "apartado_id": "sen-0004-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=201904",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0004-ap-02-it-01",
+            "apartado_id": "sen-0004-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_258_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0005",
@@ -518,23 +572,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0005-ap-02-it-00",
             "apartado_id": "sen-0005-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=262423",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0005-ap-02-it-01",
+            "apartado_id": "sen-0005-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_109_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0006",
@@ -623,23 +695,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0006-ap-02-it-00",
             "apartado_id": "sen-0006-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183835",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0006-ap-02-it-01",
+            "apartado_id": "sen-0006-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_060_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0007",
@@ -728,23 +818,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0007-ap-02-it-00",
             "apartado_id": "sen-0007-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=204865",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0007-ap-02-it-01",
+            "apartado_id": "sen-0007-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_218_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0008",
@@ -834,7 +942,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0008-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -848,8 +956,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0009",
@@ -938,23 +1046,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0009-ap-02-it-00",
             "apartado_id": "sen-0009-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=241114",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0009-ap-02-it-01",
+            "apartado_id": "sen-0009-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_300_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0010",
@@ -1043,23 +1169,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0010-ap-02-it-00",
             "apartado_id": "sen-0010-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185030",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0010-ap-02-it-01",
+            "apartado_id": "sen-0010-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_262_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0011",
@@ -1148,23 +1292,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0011-ap-02-it-00",
             "apartado_id": "sen-0011-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184734",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0011-ap-02-it-01",
+            "apartado_id": "sen-0011-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_238_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0012",
@@ -1253,23 +1415,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0012-ap-02-it-00",
             "apartado_id": "sen-0012-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=220091",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0012-ap-02-it-01",
+            "apartado_id": "sen-0012-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_187_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0013",
@@ -1358,23 +1538,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0013-ap-02-it-00",
             "apartado_id": "sen-0013-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183691",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0013-ap-02-it-01",
+            "apartado_id": "sen-0013-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_030_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0014",
@@ -1463,23 +1661,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0014-ap-02-it-00",
             "apartado_id": "sen-0014-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184266",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0014-ap-02-it-01",
+            "apartado_id": "sen-0014-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_146_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0015",
@@ -1568,23 +1784,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0015-ap-02-it-00",
             "apartado_id": "sen-0015-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183553",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0015-ap-02-it-01",
+            "apartado_id": "sen-0015-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_015_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0016",
@@ -1673,23 +1907,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0016-ap-02-it-00",
             "apartado_id": "sen-0016-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183853",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0016-ap-02-it-01",
+            "apartado_id": "sen-0016-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_064_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0017",
@@ -1778,23 +2030,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0017-ap-02-it-00",
             "apartado_id": "sen-0017-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183904",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0017-ap-02-it-01",
+            "apartado_id": "sen-0017-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_075_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0018",
@@ -1883,23 +2153,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0018-ap-02-it-00",
             "apartado_id": "sen-0018-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=231602",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0018-ap-02-it-01",
+            "apartado_id": "sen-0018-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_043_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0019",
@@ -1988,23 +2276,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0019-ap-02-it-00",
             "apartado_id": "sen-0019-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184076",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0019-ap-02-it-01",
+            "apartado_id": "sen-0019-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_108_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0020",
@@ -2093,23 +2399,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0020-ap-02-it-00",
             "apartado_id": "sen-0020-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184453",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0020-ap-02-it-01",
+            "apartado_id": "sen-0020-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_183_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0021",
@@ -2198,23 +2522,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0021-ap-02-it-00",
             "apartado_id": "sen-0021-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183696",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0021-ap-02-it-01",
+            "apartado_id": "sen-0021-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_031_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0022",
@@ -2303,23 +2645,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0022-ap-02-it-00",
             "apartado_id": "sen-0022-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184153",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0022-ap-02-it-01",
+            "apartado_id": "sen-0022-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_124_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0023",
@@ -2408,23 +2768,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0023-ap-02-it-00",
             "apartado_id": "sen-0023-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184672",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0023-ap-02-it-01",
+            "apartado_id": "sen-0023-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_226_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0024",
@@ -2513,23 +2891,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0024-ap-02-it-00",
             "apartado_id": "sen-0024-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184410",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0024-ap-02-it-01",
+            "apartado_id": "sen-0024-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_175_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0025",
@@ -2618,23 +3014,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0025-ap-02-it-00",
             "apartado_id": "sen-0025-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185081",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0025-ap-02-it-01",
+            "apartado_id": "sen-0025-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_266_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0026",
@@ -2723,23 +3137,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0026-ap-02-it-00",
             "apartado_id": "sen-0026-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=200200",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0026-ap-02-it-01",
+            "apartado_id": "sen-0026-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_278_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0027",
@@ -2828,23 +3260,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0027-ap-02-it-00",
             "apartado_id": "sen-0027-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184990",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0027-ap-02-it-01",
+            "apartado_id": "sen-0027-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_051_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0028",
@@ -2933,23 +3383,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0028-ap-02-it-00",
             "apartado_id": "sen-0028-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185384",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0028-ap-02-it-01",
+            "apartado_id": "sen-0028-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_272_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0029",
@@ -3038,23 +3506,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0029-ap-02-it-00",
             "apartado_id": "sen-0029-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=238643",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0029-ap-02-it-01",
+            "apartado_id": "sen-0029-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_190_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0030",
@@ -3143,23 +3629,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0030-ap-02-it-00",
             "apartado_id": "sen-0030-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183858",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0030-ap-02-it-01",
+            "apartado_id": "sen-0030-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_065_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0031",
@@ -3248,23 +3752,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0031-ap-02-it-00",
             "apartado_id": "sen-0031-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183789",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0031-ap-02-it-01",
+            "apartado_id": "sen-0031-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_050_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0032",
@@ -3353,23 +3875,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0032-ap-02-it-00",
             "apartado_id": "sen-0032-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=209248",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0032-ap-02-it-01",
+            "apartado_id": "sen-0032-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_291_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0033",
@@ -3458,23 +3998,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0033-ap-02-it-00",
             "apartado_id": "sen-0033-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184134",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0033-ap-02-it-01",
+            "apartado_id": "sen-0033-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_120_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0034",
@@ -3563,23 +4121,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0034-ap-02-it-00",
             "apartado_id": "sen-0034-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184000",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0034-ap-02-it-01",
+            "apartado_id": "sen-0034-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_093_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0035",
@@ -3668,23 +4244,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0035-ap-02-it-00",
             "apartado_id": "sen-0035-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185095",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0035-ap-02-it-01",
+            "apartado_id": "sen-0035-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_135_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0036",
@@ -3773,23 +4367,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0036-ap-02-it-00",
             "apartado_id": "sen-0036-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=209569",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0036-ap-02-it-01",
+            "apartado_id": "sen-0036-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_292_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0037",
@@ -3878,23 +4490,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0037-ap-02-it-00",
             "apartado_id": "sen-0037-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184289",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0037-ap-02-it-01",
+            "apartado_id": "sen-0037-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_151_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0038",
@@ -3983,23 +4613,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0038-ap-02-it-00",
             "apartado_id": "sen-0038-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249592",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0038-ap-02-it-01",
+            "apartado_id": "sen-0038-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_007_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0039",
@@ -4088,23 +4736,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0039-ap-02-it-00",
             "apartado_id": "sen-0039-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184824",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0039-ap-02-it-01",
+            "apartado_id": "sen-0039-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_255_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0040",
@@ -4193,23 +4859,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0040-ap-02-it-00",
             "apartado_id": "sen-0040-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=186494",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0040-ap-02-it-01",
+            "apartado_id": "sen-0040-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_179_7.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0041",
@@ -4298,23 +4982,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0041-ap-02-it-00",
             "apartado_id": "sen-0041-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183522",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0041-ap-02-it-01",
+            "apartado_id": "sen-0041-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_008_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0042",
@@ -4403,23 +5105,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0042-ap-02-it-00",
             "apartado_id": "sen-0042-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184294",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0042-ap-02-it-01",
+            "apartado_id": "sen-0042-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_152_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0043",
@@ -4508,23 +5228,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0043-ap-02-it-00",
             "apartado_id": "sen-0043-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184611",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0043-ap-02-it-01",
+            "apartado_id": "sen-0043-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_215_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0044",
@@ -4613,23 +5351,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0044-ap-02-it-00",
             "apartado_id": "sen-0044-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184682",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0044-ap-02-it-01",
+            "apartado_id": "sen-0044-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_228_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0045",
@@ -4718,23 +5474,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0045-ap-02-it-00",
             "apartado_id": "sen-0045-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=267455",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0045-ap-02-it-01",
+            "apartado_id": "sen-0045-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_136_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0046",
@@ -4823,23 +5597,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0046-ap-02-it-00",
             "apartado_id": "sen-0046-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184285",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0046-ap-02-it-01",
+            "apartado_id": "sen-0046-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_150_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0047",
@@ -4927,23 +5719,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0047-ap-02-it-00",
             "apartado_id": "sen-0047-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183875",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0047-ap-02-it-01",
+            "apartado_id": "sen-0047-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_069_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0048",
@@ -5032,23 +5842,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0048-ap-02-it-00",
             "apartado_id": "sen-0048-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183687",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0048-ap-02-it-01",
+            "apartado_id": "sen-0048-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_029_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0049",
@@ -5137,23 +5965,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0049-ap-02-it-00",
             "apartado_id": "sen-0049-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184447",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0049-ap-02-it-01",
+            "apartado_id": "sen-0049-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_182_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0050",
@@ -5242,23 +6088,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0050-ap-02-it-00",
             "apartado_id": "sen-0050-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=222736",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0050-ap-02-it-01",
+            "apartado_id": "sen-0050-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_170_7.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0051",
@@ -5347,23 +6211,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0051-ap-02-it-00",
             "apartado_id": "sen-0051-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184039",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0051-ap-02-it-01",
+            "apartado_id": "sen-0051-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_100_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0052",
@@ -5452,23 +6334,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0052-ap-02-it-00",
             "apartado_id": "sen-0052-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184205",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0052-ap-02-it-01",
+            "apartado_id": "sen-0052-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_134_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0053",
@@ -5556,23 +6456,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0053-ap-02-it-00",
             "apartado_id": "sen-0053-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183847",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0053-ap-02-it-01",
+            "apartado_id": "sen-0053-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_063_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0054",
@@ -5661,23 +6579,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0054-ap-02-it-00",
             "apartado_id": "sen-0054-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=242983",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0054-ap-02-it-01",
+            "apartado_id": "sen-0054-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_178_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0055",
@@ -5766,23 +6702,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0055-ap-02-it-00",
             "apartado_id": "sen-0055-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185078",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0055-ap-02-it-01",
+            "apartado_id": "sen-0055-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_081_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0056",
@@ -5871,23 +6825,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0056-ap-02-it-00",
             "apartado_id": "sen-0056-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183708",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0056-ap-02-it-01",
+            "apartado_id": "sen-0056-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_034_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0057",
@@ -5976,23 +6948,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0057-ap-02-it-00",
             "apartado_id": "sen-0057-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185113",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0057-ap-02-it-01",
+            "apartado_id": "sen-0057-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_169_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0058",
@@ -6081,23 +7071,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0058-ap-02-it-00",
             "apartado_id": "sen-0058-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=229580",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0058-ap-02-it-01",
+            "apartado_id": "sen-0058-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_037_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0059",
@@ -6186,23 +7194,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0059-ap-02-it-00",
             "apartado_id": "sen-0059-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206423",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0059-ap-02-it-01",
+            "apartado_id": "sen-0059-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_282_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0060",
@@ -6291,23 +7317,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0060-ap-02-it-00",
             "apartado_id": "sen-0060-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184261",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0060-ap-02-it-01",
+            "apartado_id": "sen-0060-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_145_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0061",
@@ -6396,23 +7440,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0061-ap-02-it-00",
             "apartado_id": "sen-0061-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184232",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0061-ap-02-it-01",
+            "apartado_id": "sen-0061-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_139_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0062",
@@ -6501,23 +7563,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0062-ap-02-it-00",
             "apartado_id": "sen-0062-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184143",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0062-ap-02-it-01",
+            "apartado_id": "sen-0062-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_122_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0063",
@@ -6606,23 +7686,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0063-ap-02-it-00",
             "apartado_id": "sen-0063-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184096",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0063-ap-02-it-01",
+            "apartado_id": "sen-0063-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_112_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0064",
@@ -6712,7 +7810,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0064-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -6726,8 +7824,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0065",
@@ -6816,23 +7914,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0065-ap-02-it-00",
             "apartado_id": "sen-0065-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184123",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0065-ap-02-it-01",
+            "apartado_id": "sen-0065-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_118_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0066",
@@ -6921,23 +8037,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0066-ap-02-it-00",
             "apartado_id": "sen-0066-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185277",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0066-ap-02-it-01",
+            "apartado_id": "sen-0066-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_270_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0067",
@@ -7026,23 +8160,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0067-ap-02-it-00",
             "apartado_id": "sen-0067-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184549",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0067-ap-02-it-01",
+            "apartado_id": "sen-0067-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_203_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0068",
@@ -7131,23 +8283,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0068-ap-02-it-00",
             "apartado_id": "sen-0068-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184721",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0068-ap-02-it-01",
+            "apartado_id": "sen-0068-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_235_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0069",
@@ -7236,23 +8406,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0069-ap-02-it-00",
             "apartado_id": "sen-0069-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184237",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0069-ap-02-it-01",
+            "apartado_id": "sen-0069-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_140_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0070",
@@ -7341,23 +8529,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0070-ap-02-it-00",
             "apartado_id": "sen-0070-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185586",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0070-ap-02-it-01",
+            "apartado_id": "sen-0070-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_078_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0071",
@@ -7446,23 +8652,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0071-ap-02-it-00",
             "apartado_id": "sen-0071-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184011",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0071-ap-02-it-01",
+            "apartado_id": "sen-0071-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_095_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0072",
@@ -7551,23 +8775,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0072-ap-02-it-00",
             "apartado_id": "sen-0072-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183535",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0072-ap-02-it-01",
+            "apartado_id": "sen-0072-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_011_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0073",
@@ -7656,23 +8898,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0073-ap-02-it-00",
             "apartado_id": "sen-0073-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184374",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0073-ap-02-it-01",
+            "apartado_id": "sen-0073-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_167_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0074",
@@ -7762,7 +9022,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0074-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -7776,8 +9036,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0075",
@@ -7866,23 +9126,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0075-ap-02-it-00",
             "apartado_id": "sen-0075-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183530",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0075-ap-02-it-01",
+            "apartado_id": "sen-0075-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_010_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0076",
@@ -7972,7 +9250,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0076-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -7986,8 +9264,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0077",
@@ -8076,23 +9354,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0077-ap-02-it-00",
             "apartado_id": "sen-0077-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=234908",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0077-ap-02-it-01",
+            "apartado_id": "sen-0077-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_273_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0078",
@@ -8181,23 +9477,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0078-ap-02-it-00",
             "apartado_id": "sen-0078-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183807",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0078-ap-02-it-01",
+            "apartado_id": "sen-0078-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_054_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0079",
@@ -8286,23 +9600,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0079-ap-02-it-00",
             "apartado_id": "sen-0079-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=217282",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0079-ap-02-it-01",
+            "apartado_id": "sen-0079-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_242_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0080",
@@ -8391,23 +9723,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0080-ap-02-it-00",
             "apartado_id": "sen-0080-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184770",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0080-ap-02-it-01",
+            "apartado_id": "sen-0080-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_245_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0081",
@@ -8496,23 +9846,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0081-ap-02-it-00",
             "apartado_id": "sen-0081-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=216752",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0081-ap-02-it-01",
+            "apartado_id": "sen-0081-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_090_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0082",
@@ -8602,7 +9970,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0082-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -8616,8 +9984,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0083",
@@ -8706,23 +10074,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0083-ap-02-it-00",
             "apartado_id": "sen-0083-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=219740",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0083-ap-02-it-01",
+            "apartado_id": "sen-0083-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_013_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0084",
@@ -8811,23 +10197,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0084-ap-02-it-00",
             "apartado_id": "sen-0084-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184764",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0084-ap-02-it-01",
+            "apartado_id": "sen-0084-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_244_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0085",
@@ -8916,23 +10320,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0085-ap-02-it-00",
             "apartado_id": "sen-0085-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184128",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0085-ap-02-it-01",
+            "apartado_id": "sen-0085-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_119_7.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0086",
@@ -9021,23 +10443,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0086-ap-02-it-00",
             "apartado_id": "sen-0086-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184806",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0086-ap-02-it-01",
+            "apartado_id": "sen-0086-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_251_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0087",
@@ -9126,23 +10566,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0087-ap-02-it-00",
             "apartado_id": "sen-0087-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=238836",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0087-ap-02-it-01",
+            "apartado_id": "sen-0087-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_216_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0088",
@@ -9231,23 +10689,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0088-ap-02-it-00",
             "apartado_id": "sen-0088-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=250565",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0088-ap-02-it-01",
+            "apartado_id": "sen-0088-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_048_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0089",
@@ -9336,23 +10812,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0089-ap-02-it-00",
             "apartado_id": "sen-0089-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=213918",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0089-ap-02-it-01",
+            "apartado_id": "sen-0089-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_186_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0090",
@@ -9441,23 +10935,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0090-ap-02-it-00",
             "apartado_id": "sen-0090-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183738",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0090-ap-02-it-01",
+            "apartado_id": "sen-0090-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_039_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0091",
@@ -9546,23 +11058,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0091-ap-02-it-00",
             "apartado_id": "sen-0091-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183526",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0091-ap-02-it-01",
+            "apartado_id": "sen-0091-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_009_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0092",
@@ -9652,7 +11182,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0092-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -9666,8 +11196,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0093",
@@ -9756,23 +11286,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0093-ap-02-it-00",
             "apartado_id": "sen-0093-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184962",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0093-ap-02-it-01",
+            "apartado_id": "sen-0093-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_260_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0094",
@@ -9862,7 +11410,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0094-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -9876,8 +11424,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0095",
@@ -9967,7 +11515,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0095-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -9981,8 +11529,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0096",
@@ -10071,23 +11619,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0096-ap-02-it-00",
             "apartado_id": "sen-0096-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=257366",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0096-ap-02-it-01",
+            "apartado_id": "sen-0096-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_210_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0097",
@@ -10176,23 +11742,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0097-ap-02-it-00",
             "apartado_id": "sen-0097-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=186325",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0097-ap-02-it-01",
+            "apartado_id": "sen-0097-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_274_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0098",
@@ -10281,23 +11865,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0098-ap-02-it-00",
             "apartado_id": "sen-0098-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=222734",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0098-ap-02-it-01",
+            "apartado_id": "sen-0098-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_208_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0099",
@@ -10386,23 +11988,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0099-ap-02-it-00",
             "apartado_id": "sen-0099-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184646",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0099-ap-02-it-01",
+            "apartado_id": "sen-0099-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_221_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0100",
@@ -10492,7 +12112,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0100-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -10506,8 +12126,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0101",
@@ -10596,23 +12216,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0101-ap-02-it-00",
             "apartado_id": "sen-0101-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183501",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0101-ap-02-it-01",
+            "apartado_id": "sen-0101-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_003_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0102",
@@ -10701,23 +12339,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0102-ap-02-it-00",
             "apartado_id": "sen-0102-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183891",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0102-ap-02-it-01",
+            "apartado_id": "sen-0102-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_072_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0103",
@@ -10806,23 +12462,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0103-ap-02-it-00",
             "apartado_id": "sen-0103-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184479",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0103-ap-02-it-01",
+            "apartado_id": "sen-0103-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_189_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0104",
@@ -10911,23 +12585,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0104-ap-02-it-00",
             "apartado_id": "sen-0104-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184057",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0104-ap-02-it-01",
+            "apartado_id": "sen-0104-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_104_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0105",
@@ -11016,23 +12708,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0105-ap-02-it-00",
             "apartado_id": "sen-0105-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184277",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0105-ap-02-it-01",
+            "apartado_id": "sen-0105-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_148_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0106",
@@ -11121,23 +12831,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0106-ap-02-it-00",
             "apartado_id": "sen-0106-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206616",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0106-ap-02-it-01",
+            "apartado_id": "sen-0106-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_286_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0107",
@@ -11226,23 +12954,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0107-ap-02-it-00",
             "apartado_id": "sen-0107-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183990",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0107-ap-02-it-01",
+            "apartado_id": "sen-0107-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_091_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0108",
@@ -11331,23 +13077,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0108-ap-02-it-00",
             "apartado_id": "sen-0108-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183929",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0108-ap-02-it-01",
+            "apartado_id": "sen-0108-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_079_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0109",
@@ -11436,23 +13200,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0109-ap-02-it-00",
             "apartado_id": "sen-0109-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184556",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0109-ap-02-it-01",
+            "apartado_id": "sen-0109-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_204_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0110",
@@ -11541,23 +13323,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0110-ap-02-it-00",
             "apartado_id": "sen-0110-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184434",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0110-ap-02-it-01",
+            "apartado_id": "sen-0110-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_180_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0111",
@@ -11646,23 +13446,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0111-ap-02-it-00",
             "apartado_id": "sen-0111-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=212070",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0111-ap-02-it-01",
+            "apartado_id": "sen-0111-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_293_7.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0112",
@@ -11751,23 +13569,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0112-ap-02-it-00",
             "apartado_id": "sen-0112-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184312",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0112-ap-02-it-01",
+            "apartado_id": "sen-0112-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_156_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0113",
@@ -11857,7 +13693,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0113-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -11871,8 +13707,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0114",
@@ -11961,23 +13797,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0114-ap-02-it-00",
             "apartado_id": "sen-0114-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=263824",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0114-ap-02-it-01",
+            "apartado_id": "sen-0114-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_290_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0115",
@@ -12065,23 +13919,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0115-ap-02-it-00",
             "apartado_id": "sen-0115-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=234243",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0115-ap-02-it-01",
+            "apartado_id": "sen-0115-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_023_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0116",
@@ -12171,7 +14043,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0116-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -12185,8 +14057,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0117",
@@ -12275,23 +14147,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0117-ap-02-it-00",
             "apartado_id": "sen-0117-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249059",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0117-ap-02-it-01",
+            "apartado_id": "sen-0117-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_209_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0118",
@@ -12380,23 +14270,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0118-ap-02-it-00",
             "apartado_id": "sen-0118-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183822",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0118-ap-02-it-01",
+            "apartado_id": "sen-0118-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_057_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0119",
@@ -12485,23 +14393,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0119-ap-02-it-00",
             "apartado_id": "sen-0119-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183659",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0119-ap-02-it-01",
+            "apartado_id": "sen-0119-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_025_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0120",
@@ -12590,23 +14516,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0120-ap-02-it-00",
             "apartado_id": "sen-0120-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184166",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0120-ap-02-it-01",
+            "apartado_id": "sen-0120-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_126_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0121",
@@ -12695,23 +14639,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0121-ap-02-it-00",
             "apartado_id": "sen-0121-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184625",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0121-ap-02-it-01",
+            "apartado_id": "sen-0121-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_217_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0122",
@@ -12800,7 +14762,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0122-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -12814,8 +14776,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0123",
@@ -12904,23 +14866,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0123-ap-02-it-00",
             "apartado_id": "sen-0123-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=205531",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0123-ap-02-it-01",
+            "apartado_id": "sen-0123-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_280_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0124",
@@ -13009,23 +14989,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0124-ap-02-it-00",
             "apartado_id": "sen-0124-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184502",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0124-ap-02-it-01",
+            "apartado_id": "sen-0124-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_194_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0125",
@@ -13115,7 +15113,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0125-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -13129,8 +15127,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0126",
@@ -13219,23 +15217,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0126-ap-02-it-00",
             "apartado_id": "sen-0126-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184340",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0126-ap-02-it-01",
+            "apartado_id": "sen-0126-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_160_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0127",
@@ -13324,23 +15340,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0127-ap-02-it-00",
             "apartado_id": "sen-0127-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184396",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0127-ap-02-it-01",
+            "apartado_id": "sen-0127-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_172_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0128",
@@ -13429,23 +15463,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0128-ap-02-it-00",
             "apartado_id": "sen-0128-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183704",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0128-ap-02-it-01",
+            "apartado_id": "sen-0128-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_033_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0129",
@@ -13534,23 +15586,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0129-ap-02-it-00",
             "apartado_id": "sen-0129-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183748",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0129-ap-02-it-01",
+            "apartado_id": "sen-0129-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_041_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0130",
@@ -13639,23 +15709,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0130-ap-02-it-00",
             "apartado_id": "sen-0130-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184308",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0130-ap-02-it-01",
+            "apartado_id": "sen-0130-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_155_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0131",
@@ -13744,23 +15832,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0131-ap-02-it-00",
             "apartado_id": "sen-0131-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183830",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0131-ap-02-it-01",
+            "apartado_id": "sen-0131-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_059_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0132",
@@ -13849,23 +15955,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0132-ap-02-it-00",
             "apartado_id": "sen-0132-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183733",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0132-ap-02-it-01",
+            "apartado_id": "sen-0132-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_038_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0133",
@@ -13954,23 +16078,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0133-ap-02-it-00",
             "apartado_id": "sen-0133-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184562",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0133-ap-02-it-01",
+            "apartado_id": "sen-0133-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_205_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0134",
@@ -14059,23 +16201,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0134-ap-02-it-00",
             "apartado_id": "sen-0134-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=254500",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0134-ap-02-it-01",
+            "apartado_id": "sen-0134-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_142_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0135",
@@ -14164,23 +16324,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0135-ap-02-it-00",
             "apartado_id": "sen-0135-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183510",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0135-ap-02-it-01",
+            "apartado_id": "sen-0135-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_005_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0136",
@@ -14270,7 +16448,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0136-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -14284,8 +16462,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0137",
@@ -14374,23 +16552,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0137-ap-02-it-00",
             "apartado_id": "sen-0137-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184640",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0137-ap-02-it-01",
+            "apartado_id": "sen-0137-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_220_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0138",
@@ -14479,23 +16675,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0138-ap-02-it-00",
             "apartado_id": "sen-0138-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183766",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0138-ap-02-it-01",
+            "apartado_id": "sen-0138-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_045_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0139",
@@ -14584,23 +16798,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0139-ap-02-it-00",
             "apartado_id": "sen-0139-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184257",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0139-ap-02-it-01",
+            "apartado_id": "sen-0139-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_144_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0140",
@@ -14690,7 +16922,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0140-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -14704,8 +16936,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0141",
@@ -14794,23 +17026,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0141-ap-02-it-00",
             "apartado_id": "sen-0141-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183962",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0141-ap-02-it-01",
+            "apartado_id": "sen-0141-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_085_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0142",
@@ -14899,23 +17149,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0142-ap-02-it-00",
             "apartado_id": "sen-0142-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183885",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0142-ap-02-it-01",
+            "apartado_id": "sen-0142-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_071_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0143",
@@ -15004,23 +17272,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0143-ap-02-it-00",
             "apartado_id": "sen-0143-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=217107",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0143-ap-02-it-01",
+            "apartado_id": "sen-0143-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_125_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0144",
@@ -15109,23 +17395,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0144-ap-02-it-00",
             "apartado_id": "sen-0144-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183714",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0144-ap-02-it-01",
+            "apartado_id": "sen-0144-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_035_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0145",
@@ -15214,23 +17518,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0145-ap-02-it-00",
             "apartado_id": "sen-0145-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=212637",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0145-ap-02-it-01",
+            "apartado_id": "sen-0145-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_076_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0146",
@@ -15319,23 +17641,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0146-ap-02-it-00",
             "apartado_id": "sen-0146-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=193760",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0146-ap-02-it-01",
+            "apartado_id": "sen-0146-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_073_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0147",
@@ -15424,23 +17764,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0147-ap-02-it-00",
             "apartado_id": "sen-0147-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184242",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0147-ap-02-it-01",
+            "apartado_id": "sen-0147-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_141_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0148",
@@ -15529,23 +17887,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0148-ap-02-it-00",
             "apartado_id": "sen-0148-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206242",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0148-ap-02-it-01",
+            "apartado_id": "sen-0148-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_281_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0149",
@@ -15634,23 +18010,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0149-ap-02-it-00",
             "apartado_id": "sen-0149-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185024",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0149-ap-02-it-01",
+            "apartado_id": "sen-0149-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_006_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0150",
@@ -15739,23 +18133,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0150-ap-02-it-00",
             "apartado_id": "sen-0150-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=190163",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0150-ap-02-it-01",
+            "apartado_id": "sen-0150-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_137_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0151",
@@ -15844,23 +18256,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0151-ap-02-it-00",
             "apartado_id": "sen-0151-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=232402",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0151-ap-02-it-01",
+            "apartado_id": "sen-0151-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_252_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0152",
@@ -15949,23 +18379,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0152-ap-02-it-00",
             "apartado_id": "sen-0152-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184523",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0152-ap-02-it-01",
+            "apartado_id": "sen-0152-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_198_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0153",
@@ -16054,23 +18502,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0153-ap-02-it-00",
             "apartado_id": "sen-0153-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184228",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0153-ap-02-it-01",
+            "apartado_id": "sen-0153-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_138_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0154",
@@ -16159,23 +18625,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0154-ap-02-it-00",
             "apartado_id": "sen-0154-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184067",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0154-ap-02-it-01",
+            "apartado_id": "sen-0154-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_106_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0155",
@@ -16264,23 +18748,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0155-ap-02-it-00",
             "apartado_id": "sen-0155-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=267229",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0155-ap-02-it-01",
+            "apartado_id": "sen-0155-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_036_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0156",
@@ -16369,23 +18871,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0156-ap-02-it-00",
             "apartado_id": "sen-0156-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=208885",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0156-ap-02-it-01",
+            "apartado_id": "sen-0156-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_111_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0157",
@@ -16474,23 +18994,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0157-ap-02-it-00",
             "apartado_id": "sen-0157-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183811",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0157-ap-02-it-01",
+            "apartado_id": "sen-0157-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_055_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0158",
@@ -16579,23 +19117,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0158-ap-02-it-00",
             "apartado_id": "sen-0158-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206283",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0158-ap-02-it-01",
+            "apartado_id": "sen-0158-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_219_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0159",
@@ -16684,23 +19240,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0159-ap-02-it-00",
             "apartado_id": "sen-0159-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183982",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0159-ap-02-it-01",
+            "apartado_id": "sen-0159-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_089_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0160",
@@ -16790,7 +19364,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0160-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -16804,8 +19378,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0161",
@@ -16894,23 +19468,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0161-ap-02-it-00",
             "apartado_id": "sen-0161-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184898",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0161-ap-02-it-01",
+            "apartado_id": "sen-0161-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_004_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0162",
@@ -16999,23 +19591,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0162-ap-02-it-00",
             "apartado_id": "sen-0162-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184005",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0162-ap-02-it-01",
+            "apartado_id": "sen-0162-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_094_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0163",
@@ -17104,23 +19714,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0163-ap-02-it-00",
             "apartado_id": "sen-0163-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184370",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0163-ap-02-it-01",
+            "apartado_id": "sen-0163-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_166_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0164",
@@ -17209,23 +19837,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0164-ap-02-it-00",
             "apartado_id": "sen-0164-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184650",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0164-ap-02-it-01",
+            "apartado_id": "sen-0164-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_222_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0165",
@@ -17314,23 +19960,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0165-ap-02-it-00",
             "apartado_id": "sen-0165-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184272",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0165-ap-02-it-01",
+            "apartado_id": "sen-0165-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_147_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0166",
@@ -17419,23 +20083,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0166-ap-02-it-00",
             "apartado_id": "sen-0166-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=246455",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0166-ap-02-it-01",
+            "apartado_id": "sen-0166-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_086_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0167",
@@ -17524,23 +20206,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0167-ap-02-it-00",
             "apartado_id": "sen-0167-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184366",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0167-ap-02-it-01",
+            "apartado_id": "sen-0167-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_165_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0168",
@@ -17629,23 +20329,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0168-ap-02-it-00",
             "apartado_id": "sen-0168-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184851",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0168-ap-02-it-01",
+            "apartado_id": "sen-0168-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_259_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0169",
@@ -17734,23 +20452,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0169-ap-02-it-00",
             "apartado_id": "sen-0169-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183776",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0169-ap-02-it-01",
+            "apartado_id": "sen-0169-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_047_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0170",
@@ -17839,23 +20575,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0170-ap-02-it-00",
             "apartado_id": "sen-0170-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184420",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0170-ap-02-it-01",
+            "apartado_id": "sen-0170-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_177_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0171",
@@ -17944,23 +20698,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0171-ap-02-it-00",
             "apartado_id": "sen-0171-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184688",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0171-ap-02-it-01",
+            "apartado_id": "sen-0171-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_229_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0172",
@@ -18050,7 +20822,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0172-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -18064,8 +20836,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0173",
@@ -18154,23 +20926,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0173-ap-02-it-00",
             "apartado_id": "sen-0173-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183871",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0173-ap-02-it-01",
+            "apartado_id": "sen-0173-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_068_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0174",
@@ -18259,23 +21049,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0174-ap-02-it-00",
             "apartado_id": "sen-0174-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184527",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0174-ap-02-it-01",
+            "apartado_id": "sen-0174-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_199_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0175",
@@ -18364,23 +21172,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0175-ap-02-it-00",
             "apartado_id": "sen-0175-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184711",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0175-ap-02-it-01",
+            "apartado_id": "sen-0175-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_233_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0176",
@@ -18469,23 +21295,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0176-ap-02-it-00",
             "apartado_id": "sen-0176-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184475",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0176-ap-02-it-01",
+            "apartado_id": "sen-0176-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_188_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0177",
@@ -18574,23 +21418,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0177-ap-02-it-00",
             "apartado_id": "sen-0177-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184602",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0177-ap-02-it-01",
+            "apartado_id": "sen-0177-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_213_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0178",
@@ -18679,23 +21541,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0178-ap-02-it-00",
             "apartado_id": "sen-0178-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=236348",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0178-ap-02-it-01",
+            "apartado_id": "sen-0178-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_299_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0179",
@@ -18784,23 +21664,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0179-ap-02-it-00",
             "apartado_id": "sen-0179-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=218505",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0179-ap-02-it-01",
+            "apartado_id": "sen-0179-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_077_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0180",
@@ -18889,23 +21787,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0180-ap-02-it-00",
             "apartado_id": "sen-0180-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184072",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0180-ap-02-it-01",
+            "apartado_id": "sen-0180-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_107_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0181",
@@ -18995,7 +21911,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0181-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -19009,8 +21925,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0182",
@@ -19099,23 +22015,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0182-ap-02-it-00",
             "apartado_id": "sen-0182-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183803",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0182-ap-02-it-01",
+            "apartado_id": "sen-0182-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_053_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0183",
@@ -19204,23 +22138,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0183-ap-02-it-00",
             "apartado_id": "sen-0183-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=230079",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0183-ap-02-it-01",
+            "apartado_id": "sen-0183-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_298_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0184",
@@ -19309,23 +22261,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0184-ap-02-it-00",
             "apartado_id": "sen-0184-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=235317",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0184-ap-02-it-01",
+            "apartado_id": "sen-0184-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_176_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0185",
@@ -19414,23 +22384,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0185-ap-02-it-00",
             "apartado_id": "sen-0185-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184317",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0185-ap-02-it-01",
+            "apartado_id": "sen-0185-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_157_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0186",
@@ -19519,23 +22507,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0186-ap-02-it-00",
             "apartado_id": "sen-0186-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=215732",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0186-ap-02-it-01",
+            "apartado_id": "sen-0186-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_294_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0187",
@@ -19624,23 +22630,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0187-ap-02-it-00",
             "apartado_id": "sen-0187-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183994",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0187-ap-02-it-01",
+            "apartado_id": "sen-0187-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_092_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0188",
@@ -19729,23 +22753,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0188-ap-02-it-00",
             "apartado_id": "sen-0188-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184174",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0188-ap-02-it-01",
+            "apartado_id": "sen-0188-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_128_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0189",
@@ -19834,23 +22876,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0189-ap-02-it-00",
             "apartado_id": "sen-0189-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184179",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0189-ap-02-it-01",
+            "apartado_id": "sen-0189-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_129_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0190",
@@ -19939,23 +22999,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0190-ap-02-it-00",
             "apartado_id": "sen-0190-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183867",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0190-ap-02-it-01",
+            "apartado_id": "sen-0190-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_067_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0191",
@@ -20044,23 +23122,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0191-ap-02-it-00",
             "apartado_id": "sen-0191-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184693",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0191-ap-02-it-01",
+            "apartado_id": "sen-0191-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_230_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0192",
@@ -20149,23 +23245,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0192-ap-02-it-00",
             "apartado_id": "sen-0192-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184598",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0192-ap-02-it-01",
+            "apartado_id": "sen-0192-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_212_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0193",
@@ -20254,23 +23368,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0193-ap-02-it-00",
             "apartado_id": "sen-0193-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184814",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0193-ap-02-it-01",
+            "apartado_id": "sen-0193-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_253_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0194",
@@ -20359,23 +23491,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0194-ap-02-it-00",
             "apartado_id": "sen-0194-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184535",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0194-ap-02-it-01",
+            "apartado_id": "sen-0194-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_200_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0195",
@@ -20464,23 +23614,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0195-ap-02-it-00",
             "apartado_id": "sen-0195-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184697",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0195-ap-02-it-01",
+            "apartado_id": "sen-0195-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_231_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0196",
@@ -20569,23 +23737,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0196-ap-02-it-00",
             "apartado_id": "sen-0196-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184512",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0196-ap-02-it-01",
+            "apartado_id": "sen-0196-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_196_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0197",
@@ -20675,7 +23861,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0197-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -20689,8 +23875,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0198",
@@ -20779,23 +23965,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0198-ap-02-it-00",
             "apartado_id": "sen-0198-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183958",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0198-ap-02-it-01",
+            "apartado_id": "sen-0198-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_084_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0199",
@@ -20884,23 +24088,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0199-ap-02-it-00",
             "apartado_id": "sen-0199-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183900",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0199-ap-02-it-01",
+            "apartado_id": "sen-0199-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_074_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0200",
@@ -20989,23 +24211,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0200-ap-02-it-00",
             "apartado_id": "sen-0200-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=223517",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0200-ap-02-it-01",
+            "apartado_id": "sen-0200-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_115_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0201",
@@ -21094,23 +24334,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0201-ap-02-it-00",
             "apartado_id": "sen-0201-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184105",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0201-ap-02-it-01",
+            "apartado_id": "sen-0201-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_114_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0202",
@@ -21199,23 +24457,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0202-ap-02-it-00",
             "apartado_id": "sen-0202-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=219738",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0202-ap-02-it-01",
+            "apartado_id": "sen-0202-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_097_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0203",
@@ -21304,23 +24580,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0203-ap-02-it-00",
             "apartado_id": "sen-0203-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184400",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0203-ap-02-it-01",
+            "apartado_id": "sen-0203-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_173_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0204",
@@ -21409,23 +24703,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0204-ap-02-it-00",
             "apartado_id": "sen-0204-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206629",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0204-ap-02-it-01",
+            "apartado_id": "sen-0204-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_288_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0205",
@@ -21514,23 +24826,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0205-ap-02-it-00",
             "apartado_id": "sen-0205-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183933",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0205-ap-02-it-01",
+            "apartado_id": "sen-0205-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_080_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0206",
@@ -21619,23 +24949,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0206-ap-02-it-00",
             "apartado_id": "sen-0206-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184138",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0206-ap-02-it-01",
+            "apartado_id": "sen-0206-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_121_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0207",
@@ -21724,23 +25072,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0207-ap-02-it-00",
             "apartado_id": "sen-0207-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184488",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0207-ap-02-it-01",
+            "apartado_id": "sen-0207-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_191_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0208",
@@ -21830,7 +25196,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0208-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -21844,8 +25210,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0209",
@@ -21934,23 +25300,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0209-ap-02-it-00",
             "apartado_id": "sen-0209-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184592",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0209-ap-02-it-01",
+            "apartado_id": "sen-0209-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_211_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0210",
@@ -22039,23 +25423,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0210-ap-02-it-00",
             "apartado_id": "sen-0210-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184281",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0210-ap-02-it-01",
+            "apartado_id": "sen-0210-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_149_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0211",
@@ -22144,23 +25546,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0211-ap-02-it-00",
             "apartado_id": "sen-0211-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=254869",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0211-ap-02-it-01",
+            "apartado_id": "sen-0211-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_098_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0212",
@@ -22249,23 +25669,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0212-ap-02-it-00",
             "apartado_id": "sen-0212-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=205828",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0212-ap-02-it-01",
+            "apartado_id": "sen-0212-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_117_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0213",
@@ -22354,23 +25792,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0213-ap-02-it-00",
             "apartado_id": "sen-0213-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184566",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0213-ap-02-it-01",
+            "apartado_id": "sen-0213-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_206_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0214",
@@ -22459,23 +25915,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0214-ap-02-it-00",
             "apartado_id": "sen-0214-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=214686",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0214-ap-02-it-01",
+            "apartado_id": "sen-0214-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_287_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0215",
@@ -22564,23 +26038,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0215-ap-02-it-00",
             "apartado_id": "sen-0215-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183744",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0215-ap-02-it-01",
+            "apartado_id": "sen-0215-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_040_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0216",
@@ -22669,23 +26161,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0216-ap-02-it-00",
             "apartado_id": "sen-0216-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184189",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0216-ap-02-it-01",
+            "apartado_id": "sen-0216-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_131_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0217",
@@ -22775,7 +26285,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0217-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -22789,8 +26299,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0218",
@@ -22879,23 +26389,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0218-ap-02-it-00",
             "apartado_id": "sen-0218-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=240938",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0218-ap-02-it-01",
+            "apartado_id": "sen-0218-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_284_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0219",
@@ -22984,23 +26512,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0219-ap-02-it-00",
             "apartado_id": "sen-0219-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184665",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0219-ap-02-it-01",
+            "apartado_id": "sen-0219-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_225_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0220",
@@ -23090,7 +26636,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0220-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -23104,8 +26650,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0221",
@@ -23194,23 +26740,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0221-ap-02-it-00",
             "apartado_id": "sen-0221-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=257494",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0221-ap-02-it-01",
+            "apartado_id": "sen-0221-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_277_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0222",
@@ -23300,7 +26864,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0222-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -23314,8 +26878,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0223",
@@ -23405,7 +26969,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0223-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -23419,8 +26983,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0224",
@@ -23509,23 +27073,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0224-ap-02-it-00",
             "apartado_id": "sen-0224-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184507",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0224-ap-02-it-01",
+            "apartado_id": "sen-0224-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_195_10.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0225",
@@ -23614,23 +27196,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0225-ap-02-it-00",
             "apartado_id": "sen-0225-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183677",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0225-ap-02-it-01",
+            "apartado_id": "sen-0225-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_027_6.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0226",
@@ -23719,23 +27319,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0226-ap-02-it-00",
             "apartado_id": "sen-0226-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184147",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0226-ap-02-it-01",
+            "apartado_id": "sen-0226-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_123_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0227",
@@ -23824,23 +27442,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0227-ap-02-it-00",
             "apartado_id": "sen-0227-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184329",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0227-ap-02-it-01",
+            "apartado_id": "sen-0227-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_158_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0228",
@@ -23929,23 +27565,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0228-ap-02-it-00",
             "apartado_id": "sen-0228-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185229",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0228-ap-02-it-01",
+            "apartado_id": "sen-0228-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_269_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0229",
@@ -24034,23 +27688,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0229-ap-02-it-00",
             "apartado_id": "sen-0229-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184185",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0229-ap-02-it-01",
+            "apartado_id": "sen-0229-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_130_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0230",
@@ -24139,23 +27811,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0230-ap-02-it-00",
             "apartado_id": "sen-0230-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184494",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0230-ap-02-it-01",
+            "apartado_id": "sen-0230-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_192_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0231",
@@ -24244,23 +27934,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0231-ap-02-it-00",
             "apartado_id": "sen-0231-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184498",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0231-ap-02-it-01",
+            "apartado_id": "sen-0231-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_193_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0232",
@@ -24350,7 +28058,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0232-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -24364,8 +28072,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0233",
@@ -24454,23 +28162,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0233-ap-02-it-00",
             "apartado_id": "sen-0233-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=267228",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0233-ap-02-it-01",
+            "apartado_id": "sen-0233-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_201_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0234",
@@ -24559,23 +28285,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0234-ap-02-it-00",
             "apartado_id": "sen-0234-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184114",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0234-ap-02-it-01",
+            "apartado_id": "sen-0234-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_116_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0235",
@@ -24664,23 +28408,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0235-ap-02-it-00",
             "apartado_id": "sen-0235-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183826",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0235-ap-02-it-01",
+            "apartado_id": "sen-0235-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_058_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0236",
@@ -24769,23 +28531,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0236-ap-02-it-00",
             "apartado_id": "sen-0236-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184744",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0236-ap-02-it-01",
+            "apartado_id": "sen-0236-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_240_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0237",
@@ -24874,23 +28654,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0237-ap-02-it-00",
             "apartado_id": "sen-0237-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185052",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0237-ap-02-it-01",
+            "apartado_id": "sen-0237-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_264_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0238",
@@ -24979,23 +28777,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0238-ap-02-it-00",
             "apartado_id": "sen-0238-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=237675",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0238-ap-02-it-01",
+            "apartado_id": "sen-0238-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_246_7.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0239",
@@ -25084,23 +28900,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0239-ap-02-it-00",
             "apartado_id": "sen-0239-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183761",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0239-ap-02-it-01",
+            "apartado_id": "sen-0239-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_044_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0240",
@@ -25189,23 +29023,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0240-ap-02-it-00",
             "apartado_id": "sen-0240-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183700",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0240-ap-02-it-01",
+            "apartado_id": "sen-0240-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_032_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0241",
@@ -25294,23 +29146,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0241-ap-02-it-00",
             "apartado_id": "sen-0241-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185001",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0241-ap-02-it-01",
+            "apartado_id": "sen-0241-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_001_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0242",
@@ -25399,23 +29269,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0242-ap-02-it-00",
             "apartado_id": "sen-0242-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249229",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0242-ap-02-it-01",
+            "apartado_id": "sen-0242-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_061_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0243",
@@ -25504,23 +29392,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0243-ap-02-it-00",
             "apartado_id": "sen-0243-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249781",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0243-ap-02-it-01",
+            "apartado_id": "sen-0243-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_014_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0244",
@@ -25609,23 +29515,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0244-ap-02-it-00",
             "apartado_id": "sen-0244-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=215443",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0244-ap-02-it-01",
+            "apartado_id": "sen-0244-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_207_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0245",
@@ -25714,23 +29638,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0245-ap-02-it-00",
             "apartado_id": "sen-0245-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184716",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0245-ap-02-it-01",
+            "apartado_id": "sen-0245-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_234_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0246",
@@ -25819,23 +29761,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0246-ap-02-it-00",
             "apartado_id": "sen-0246-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184201",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0246-ap-02-it-01",
+            "apartado_id": "sen-0246-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_133_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0247",
@@ -25924,23 +29884,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0247-ap-02-it-00",
             "apartado_id": "sen-0247-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184660",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0247-ap-02-it-01",
+            "apartado_id": "sen-0247-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_224_5.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0248",
@@ -26030,7 +30008,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0248-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -26044,8 +30022,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0249",
@@ -26134,23 +30112,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0249-ap-02-it-00",
             "apartado_id": "sen-0249-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185267",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0249-ap-02-it-01",
+            "apartado_id": "sen-0249-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_056_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0250",
@@ -26239,23 +30235,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0250-ap-02-it-00",
             "apartado_id": "sen-0250-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184033",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0250-ap-02-it-01",
+            "apartado_id": "sen-0250-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_099_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0251",
@@ -26345,7 +30359,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0251-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -26359,8 +30373,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0252",
@@ -26450,7 +30464,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0252-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -26464,8 +30478,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0253",
@@ -26554,23 +30568,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0253-ap-02-it-00",
             "apartado_id": "sen-0253-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=236525",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0253-ap-02-it-01",
+            "apartado_id": "sen-0253-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_247_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0254",
@@ -26659,23 +30691,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0254-ap-02-it-00",
             "apartado_id": "sen-0254-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184545",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0254-ap-02-it-01",
+            "apartado_id": "sen-0254-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_202_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0255",
@@ -26764,7 +30814,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0255-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -26778,8 +30828,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0256",
@@ -26868,23 +30918,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0256-ap-02-it-00",
             "apartado_id": "sen-0256-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=213917",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0256-ap-02-it-01",
+            "apartado_id": "sen-0256-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_254_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0257",
@@ -26973,23 +31041,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0257-ap-02-it-00",
             "apartado_id": "sen-0257-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184251",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0257-ap-02-it-01",
+            "apartado_id": "sen-0257-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_143_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0258",
@@ -27078,23 +31164,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0258-ap-02-it-00",
             "apartado_id": "sen-0258-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184518",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0258-ap-02-it-01",
+            "apartado_id": "sen-0258-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_197_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0259",
@@ -27183,23 +31287,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0259-ap-02-it-00",
             "apartado_id": "sen-0259-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184053",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0259-ap-02-it-01",
+            "apartado_id": "sen-0259-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_103_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0260",
@@ -27288,23 +31410,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0260-ap-02-it-00",
             "apartado_id": "sen-0260-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183771",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0260-ap-02-it-01",
+            "apartado_id": "sen-0260-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_046_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0261",
@@ -27393,23 +31533,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0261-ap-02-it-00",
             "apartado_id": "sen-0261-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183953",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0261-ap-02-it-01",
+            "apartado_id": "sen-0261-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_083_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0262",
@@ -27498,23 +31656,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0262-ap-02-it-00",
             "apartado_id": "sen-0262-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=238644",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0262-ap-02-it-01",
+            "apartado_id": "sen-0262-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_153_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0263",
@@ -27603,23 +31779,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0263-ap-02-it-00",
             "apartado_id": "sen-0263-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183557",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0263-ap-02-it-01",
+            "apartado_id": "sen-0263-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_016_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0264",
@@ -27709,7 +31903,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0264-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -27723,8 +31917,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0265",
@@ -27813,23 +32007,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0265-ap-02-it-00",
             "apartado_id": "sen-0265-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184043",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0265-ap-02-it-01",
+            "apartado_id": "sen-0265-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_101_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0266",
@@ -27918,23 +32130,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0266-ap-02-it-00",
             "apartado_id": "sen-0266-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184655",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0266-ap-02-it-01",
+            "apartado_id": "sen-0266-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_223_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0267",
@@ -28023,23 +32253,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0267-ap-02-it-00",
             "apartado_id": "sen-0267-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184379",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0267-ap-02-it-01",
+            "apartado_id": "sen-0267-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_168_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0268",
@@ -28128,23 +32376,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0268-ap-02-it-00",
             "apartado_id": "sen-0268-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183752",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0268-ap-02-it-01",
+            "apartado_id": "sen-0268-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_042_1.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0269",
@@ -28233,23 +32499,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0269-ap-02-it-00",
             "apartado_id": "sen-0269-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183797",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0269-ap-02-it-01",
+            "apartado_id": "sen-0269-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_052_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0270",
@@ -28338,23 +32622,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0270-ap-02-it-00",
             "apartado_id": "sen-0270-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183880",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0270-ap-02-it-01",
+            "apartado_id": "sen-0270-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_070_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0271",
@@ -28444,7 +32746,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0271-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -28458,8 +32760,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0272",
@@ -28549,7 +32851,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "sen-0272-ap-02",
             "tipo": "documento",
             "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "contenido": "Declaración de actividades, bienes patrimoniales y rentas registrada en el Senado. Consúltese en la sección oficial de declaraciones.",
             "fecha": null,
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
             "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
@@ -28563,8 +32865,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0273",
@@ -28653,23 +32955,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0273-ap-02-it-00",
             "apartado_id": "sen-0273-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206441",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0273-ap-02-it-01",
+            "apartado_id": "sen-0273-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_283_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0274",
@@ -28758,23 +33078,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0274-ap-02-it-00",
             "apartado_id": "sen-0274-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183682",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0274-ap-02-it-01",
+            "apartado_id": "sen-0274-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_028_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0275",
@@ -28863,23 +33201,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0275-ap-02-it-00",
             "apartado_id": "sen-0275-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183663",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0275-ap-02-it-01",
+            "apartado_id": "sen-0275-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_026_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0276",
@@ -28968,23 +33324,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0276-ap-02-it-00",
             "apartado_id": "sen-0276-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183785",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0276-ap-02-it-01",
+            "apartado_id": "sen-0276-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_049_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0277",
@@ -29073,23 +33447,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0277-ap-02-it-00",
             "apartado_id": "sen-0277-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184335",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0277-ap-02-it-01",
+            "apartado_id": "sen-0277-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_159_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0278",
@@ -29178,23 +33570,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0278-ap-02-it-00",
             "apartado_id": "sen-0278-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184194",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0278-ap-02-it-01",
+            "apartado_id": "sen-0278-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_132_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0279",
@@ -29283,23 +33693,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0279-ap-02-it-00",
             "apartado_id": "sen-0279-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=228978",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0279-ap-02-it-01",
+            "apartado_id": "sen-0279-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_297_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0280",
@@ -29388,23 +33816,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0280-ap-02-it-00",
             "apartado_id": "sen-0280-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183862",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0280-ap-02-it-01",
+            "apartado_id": "sen-0280-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_066_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0281",
@@ -29493,23 +33939,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0281-ap-02-it-00",
             "apartado_id": "sen-0281-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184801",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0281-ap-02-it-01",
+            "apartado_id": "sen-0281-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_250_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0282",
@@ -29598,23 +34062,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0282-ap-02-it-00",
             "apartado_id": "sen-0282-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183624",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0282-ap-02-it-01",
+            "apartado_id": "sen-0282-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_022_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0283",
@@ -29703,23 +34185,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0283-ap-02-it-00",
             "apartado_id": "sen-0283-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184047",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0283-ap-02-it-01",
+            "apartado_id": "sen-0283-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_102_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0284",
@@ -29808,23 +34308,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0284-ap-02-it-00",
             "apartado_id": "sen-0284-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184100",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0284-ap-02-it-01",
+            "apartado_id": "sen-0284-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_113_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0285",
@@ -29913,23 +34431,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0285-ap-02-it-00",
             "apartado_id": "sen-0285-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184730",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0285-ap-02-it-01",
+            "apartado_id": "sen-0285-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_237_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0286",
@@ -30018,23 +34554,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0286-ap-02-it-00",
             "apartado_id": "sen-0286-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=204397",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0286-ap-02-it-01",
+            "apartado_id": "sen-0286-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_279_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0287",
@@ -30123,23 +34677,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0287-ap-02-it-00",
             "apartado_id": "sen-0287-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=257400",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0287-ap-02-it-01",
+            "apartado_id": "sen-0287-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_096_4.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0288",
@@ -30228,23 +34800,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0288-ap-02-it-00",
             "apartado_id": "sen-0288-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184361",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0288-ap-02-it-01",
+            "apartado_id": "sen-0288-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_164_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0289",
@@ -30333,23 +34923,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0289-ap-02-it-00",
             "apartado_id": "sen-0289-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184170",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0289-ap-02-it-01",
+            "apartado_id": "sen-0289-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_127_2.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0290",
@@ -30438,23 +35046,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0290-ap-02-it-00",
             "apartado_id": "sen-0290-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=229558",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0290-ap-02-it-01",
+            "apartado_id": "sen-0290-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_184_7.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0291",
@@ -30543,23 +35169,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0291-ap-02-it-00",
             "apartado_id": "sen-0291-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185034",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0291-ap-02-it-01",
+            "apartado_id": "sen-0291-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_263_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   },
   {
     "id": "sen-0292",
@@ -30648,23 +35292,41 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "id": "sen-0292-ap-02-it-00",
             "apartado_id": "sen-0292-ap-02",
             "tipo": "documento",
-            "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": "Declaración de actividades, bienes patrimoniales, rentas e intereses económicos presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; consúltense en la sección oficial de declaraciones.",
+            "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+            "contenido": "Declaración de bienes patrimoniales y rentas presentada en el Senado (XV Legislatura). Enlace directo al documento oficial publicado por el Senado.",
             "fecha": null,
-            "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/declaracionbienesactividades/index.html",
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+            "fuente_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249058",
+            "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
             "tags": [
               "patrimonio",
               "declaracion-bienes",
-              "fuente-oficial"
+              "fuente-oficial",
+              "directo"
             ],
             "orden": 0
+          },
+          {
+            "id": "sen-0292-ap-02-it-01",
+            "apartado_id": "sen-0292-ap-02",
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (PDF oficial)",
+            "contenido": "Declaración de actividades presentada en el Senado (XV Legislatura). Enlace directo al PDF oficial publicado por el Senado.",
+            "fecha": null,
+            "fuente_url": "https://www.senado.es/legis15/senadores/regact/RA_15_243_3.pdf",
+            "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+            "tags": [
+              "intereses",
+              "declaracion-actividades",
+              "fuente-oficial",
+              "pdf-directo"
+            ],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T22:40:45.275482Z",
-    "updated_at": "2026-05-28T22:40:45.275482Z"
+    "created_at": "2026-05-29T15:59:23.571095Z",
+    "updated_at": "2026-05-29T15:59:23.571095Z"
   }
 ]
 
