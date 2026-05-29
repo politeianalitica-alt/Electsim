@@ -60,9 +60,10 @@ def main() -> int:
             tags = ["patrimonio", "declaracion-bienes", "fuente-oficial", "decl-cargo"]
             if rec.get("tipo") == "pdf":
                 tags.append("pdf-directo")
-            contenido = ("Declaración de bienes y actividades del cargo, publicada por su administración. "
-                         + ("Enlace directo al PDF oficial." if rec.get("tipo") == "pdf"
-                            else "Enlace a la ficha oficial donde se publica la declaración."))
+            suf = {"pdf": "Enlace directo al PDF oficial.",
+                   "pagina": "Enlace a la ficha oficial por persona donde se publica la declaración.",
+                   "registro": "Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración."}.get(rec.get("tipo"), "Enlace oficial.")
+            contenido = "Declaración de bienes y actividades del cargo, publicada por su administración. " + suf
             ev["items"].insert(0, {
                 "tipo": "documento",
                 "titulo": rec["titulo"],

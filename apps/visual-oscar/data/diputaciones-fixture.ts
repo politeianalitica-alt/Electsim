@@ -254,8 +254,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0002",
@@ -472,8 +472,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0003",
@@ -676,8 +676,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0004",
@@ -866,8 +866,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0005",
@@ -1057,8 +1057,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0006",
@@ -1275,8 +1275,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0007",
@@ -1483,8 +1483,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0008",
@@ -1687,8 +1687,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0009",
@@ -1878,8 +1878,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0010",
@@ -2084,8 +2084,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0011",
@@ -2289,8 +2289,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0012",
@@ -2480,8 +2480,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0013",
@@ -2656,8 +2656,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0014",
@@ -2848,8 +2848,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0015",
@@ -3024,8 +3024,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0016",
@@ -3216,8 +3216,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0017",
@@ -3392,8 +3392,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0018",
@@ -3598,8 +3598,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0019",
@@ -3774,8 +3774,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0020",
@@ -3965,8 +3965,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0021",
@@ -4143,8 +4143,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0022",
@@ -4320,8 +4320,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0023",
@@ -4511,8 +4511,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0024",
@@ -4687,8 +4687,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0025",
@@ -4864,8 +4864,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0026",
@@ -5100,8 +5100,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0027",
@@ -5293,8 +5293,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0028",
@@ -5469,8 +5469,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0029",
@@ -5661,8 +5661,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0030",
@@ -5853,8 +5853,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0031",
@@ -6044,8 +6044,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0032",
@@ -6235,8 +6235,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0033",
@@ -6428,8 +6428,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0034",
@@ -6604,8 +6604,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0035",
@@ -6798,8 +6798,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0036",
@@ -6991,8 +6991,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0037",
@@ -7219,8 +7219,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0038",
@@ -7410,8 +7410,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0039",
@@ -7632,8 +7632,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0040",
@@ -7851,8 +7851,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0041",
@@ -8045,8 +8045,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0042",
@@ -8229,8 +8229,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0043",
@@ -8402,8 +8402,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0044",
@@ -8559,8 +8559,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0045",
@@ -8703,8 +8703,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0046",
@@ -8847,8 +8847,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0047",
@@ -9044,8 +9044,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0048",
@@ -9216,8 +9216,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0049",
@@ -9376,8 +9376,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0050",
@@ -9533,8 +9533,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0051",
@@ -9706,8 +9706,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0052",
@@ -9875,8 +9875,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0053",
@@ -10020,8 +10020,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0054",
@@ -10181,8 +10181,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0055",
@@ -10342,8 +10342,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0056",
@@ -10499,8 +10499,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0057",
@@ -10660,8 +10660,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0058",
@@ -10805,8 +10805,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0059",
@@ -10965,8 +10965,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0060",
@@ -11109,8 +11109,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0061",
@@ -11254,8 +11254,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0062",
@@ -11399,8 +11399,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0063",
@@ -11544,8 +11544,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0064",
@@ -11689,8 +11689,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0065",
@@ -11834,8 +11834,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0066",
@@ -11979,8 +11979,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0067",
@@ -12169,8 +12169,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0068",
@@ -12303,8 +12303,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0069",
@@ -12425,8 +12425,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0070",
@@ -12548,8 +12548,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0071",
@@ -12738,8 +12738,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0072",
@@ -12899,8 +12899,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0073",
@@ -13072,8 +13072,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0074",
@@ -13272,8 +13272,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0075",
@@ -13417,8 +13417,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0076",
@@ -13606,8 +13606,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0077",
@@ -13764,8 +13764,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0078",
@@ -13925,8 +13925,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0079",
@@ -14088,8 +14088,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0080",
@@ -14278,8 +14278,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0081",
@@ -14452,8 +14452,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0082",
@@ -14620,8 +14620,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0083",
@@ -14804,19 +14804,36 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
             "id": "dip-0083-ap-04-it-00",
             "apartado_id": "dip-0083-ap-04",
             "tipo": "documento",
+            "titulo": "Declaración de bienes e intereses (Junta de Andalucía · registro oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fecha": null,
+            "fuente_url": "https://www.juntadeandalucia.es/organismos/transparencia/altos-cargos/actividades-bienes-intereses.html",
+            "fuente_titulo": "Portal de Transparencia · Junta de Andalucía",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "dip-0083-ap-04-it-01",
+            "apartado_id": "dip-0083-ap-04",
+            "tipo": "documento",
             "titulo": "Junta Andalucía",
             "contenido": "",
             "fecha": null,
             "fuente_url": "https://www.juntadeandalucia.es",
             "fuente_titulo": null,
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0084",
@@ -14988,8 +15005,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0085",
@@ -15141,8 +15158,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0086",
@@ -15294,8 +15311,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   },
   {
     "id": "dip-0087",
@@ -15434,8 +15451,8 @@ export const DIPUTACIONES_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:16:22.283327Z",
-    "updated_at": "2026-05-29T12:16:22.283327Z"
+    "created_at": "2026-05-29T17:24:02.449842Z",
+    "updated_at": "2026-05-29T17:24:02.449842Z"
   }
 ]
 

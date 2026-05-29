@@ -216,7 +216,7 @@
           {
             "tipo": "documento",
             "titulo": "Declaración de bienes y actividades (Principado de Asturias · ficha oficial)",
-            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial por persona donde se publica la declaración.",
             "fuente_url": "https://transparencia.asturias.es/-/gobierno/equipo-gobierno/adrian-barbon-presidente",
             "fuente_titulo": "Portal de Transparencia · Principado de Asturias",
             "tags": [
@@ -861,7 +861,7 @@
           {
             "tipo": "documento",
             "titulo": "Declaración de bienes y actividades (Generalitat de Catalunya · ficha oficial)",
-            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial por persona donde se publica la declaración.",
             "fuente_url": "https://direcciopublica.transparencia.gencat.cat/personas/salvador-illa-roca",
             "fuente_titulo": "Transparència · Generalitat de Catalunya",
             "tags": [
@@ -973,6 +973,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Junta de Extremadura · portal oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://ciudadano.gobex.es/web/portal-transparencia",
+            "fuente_titulo": "Portal de Transparencia · Junta de Extremadura",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1071,6 +1090,25 @@
               "gobierno",
               "nota--5",
               "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de actividades y bienes (Xunta de Galicia · registro oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.xunta.gal/es/tema/transparencia-institucional/goberno-e-altos-cargos/declaracions-de-actividades",
+            "fuente_titulo": "Portal de Transparencia · Xunta de Galicia",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1405,7 +1443,7 @@
           {
             "tipo": "documento",
             "titulo": "Declaración de bienes e intereses (CARM · ficha oficial)",
-            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial por persona donde se publica la declaración.",
             "fuente_url": "https://transparencia.carm.es/el-presidente",
             "fuente_titulo": "Portal de Transparencia · Región de Murcia",
             "tags": [
@@ -1515,7 +1553,7 @@
           {
             "tipo": "documento",
             "titulo": "Declaración de bienes y actividades (Gobierno de Navarra · ficha oficial)",
-            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial por persona donde se publica la declaración.",
             "fuente_url": "https://gobiernoabierto.navarra.es/es/gobernanza/rendicion-de-cuentas/miembros-de-gobierno-de-navarra/maria-chivite-navascues",
             "fuente_titulo": "Gobierno Abierto de Navarra",
             "tags": [

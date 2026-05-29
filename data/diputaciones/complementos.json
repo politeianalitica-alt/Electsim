@@ -107,6 +107,19 @@
         "items": [
           {
             "tipo": "documento",
+            "titulo": "Declaración de bienes e intereses (Junta de Andalucía · registro oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.juntadeandalucia.es/organismos/transparencia/altos-cargos/actividades-bienes-intereses.html",
+            "fuente_titulo": "Portal de Transparencia · Junta de Andalucía",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          },
+          {
+            "tipo": "documento",
             "titulo": "Junta Andalucía",
             "fuente_url": "https://www.juntadeandalucia.es"
           }

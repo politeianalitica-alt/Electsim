@@ -46,5 +46,23 @@
     "titulo": "Declaración de bienes y actividades (Principado de Asturias · ficha oficial)",
     "fuente": "Portal de Transparencia · Principado de Asturias",
     "tipo": "pagina"
+  },
+  "juan-manuel-moreno-bonilla": {
+    "url": "https://www.juntadeandalucia.es/organismos/transparencia/altos-cargos/actividades-bienes-intereses.html",
+    "titulo": "Declaración de bienes e intereses (Junta de Andalucía · registro oficial)",
+    "fuente": "Portal de Transparencia · Junta de Andalucía",
+    "tipo": "registro"
+  },
+  "alfonso-rueda": {
+    "url": "https://transparencia.xunta.gal/es/tema/transparencia-institucional/goberno-e-altos-cargos/declaracions-de-actividades",
+    "titulo": "Declaración de actividades y bienes (Xunta de Galicia · registro oficial)",
+    "fuente": "Portal de Transparencia · Xunta de Galicia",
+    "tipo": "registro"
+  },
+  "maria-guardiola": {
+    "url": "https://ciudadano.gobex.es/web/portal-transparencia",
+    "titulo": "Declaración de bienes y actividades (Junta de Extremadura · portal oficial)",
+    "fuente": "Portal de Transparencia · Junta de Extremadura",
+    "tipo": "registro"
   }
 }
