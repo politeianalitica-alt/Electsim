@@ -12,6 +12,7 @@
 import { NextResponse } from 'next/server'
 import { buildGdeltDocUrl, fetchGdeltJson, normalizeGdeltDate } from '@/lib/gdelt/build-query'
 import { iso2ToIso3, isoToName } from '@/lib/geopolitica/country-coords'
+import { getDiplomaticSeedSignals } from '@/lib/geopolitica/signals-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -139,11 +140,35 @@ export async function GET() {
   ])
 
   const all = [...govChange, ...crisisDiplo, ...sanction, ...exercise]
+
+  // G22 fix · cascada robusta: GDELT → RSS → seed curado.
   let rssUsed = false
-  if (all.length === 0) {
+  let seedUsed = false
+  if (all.length < 5) {
     const rssSignals = await fetchDiplomaticRssFallback().catch(() => [])
     all.push(...rssSignals)
     rssUsed = rssSignals.length > 0
+  }
+  if (all.length < 5) {
+    const seedSignals = getDiplomaticSeedSignals().map((s) => {
+      const meta = TYPE_META[s.type]
+      return {
+        type: s.type,
+        type_label: meta.label,
+        type_emoji: meta.emoji,
+        type_color: meta.color,
+        country_iso3: s.country_iso3,
+        country_name: s.country_name,
+        title: s.title,
+        source_domain: s.source_domain,
+        url: s.url,
+        datetime: s.datetime,
+        tone: s.tone,
+        confidence: s.confidence,
+      } as DiplomaticSignal
+    })
+    all.push(...seedSignals)
+    seedUsed = true
   }
 
   const seen = new Set<string>()
@@ -166,10 +191,13 @@ export async function GET() {
     },
     fetched_at: startedAt,
     _meta: {
-      source: rssUsed
-        ? 'Fallback RSS · EEAS + UN Press + US State Dept (GDELT rate-limited)'
-        : 'GDELT DOC v2 themes + queries específicas · 7d',
+      sources: [
+        'GDELT DOC v2 themes + queries específicas · 7d',
+        rssUsed ? 'RSS · EEAS + UN Press + US State Dept' : null,
+        seedUsed ? 'Seed curado · tracking propio (MAEC/EEAS/OFAC/UN Press)' : null,
+      ].filter(Boolean) as string[],
       rss_fallback_used: rssUsed,
+      seed_fallback_used: seedUsed,
       cache_ttl_seconds: 900,
     },
   }, {

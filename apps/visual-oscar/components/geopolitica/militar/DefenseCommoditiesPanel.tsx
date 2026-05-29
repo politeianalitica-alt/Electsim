@@ -54,7 +54,7 @@ export function DefenseCommoditiesPanel() {
           Commodities críticos para defensa · UE supply chain
         </h3>
         <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
-          6 minerales/materiales sin los que no hay industria militar moderna · USGS Mineral Commodity Summaries 2024 + Alpha Vantage spot
+          {data?.commodities?.length ?? 14} minerales/materiales sin los que no hay industria militar moderna · USGS Mineral Commodity Summaries 2024 + Alpha Vantage spot
         </p>
       </header>
 

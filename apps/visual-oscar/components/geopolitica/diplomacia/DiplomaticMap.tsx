@@ -77,7 +77,7 @@ export function DiplomaticMap({ onCountryClick }: Props) {
             Mapa diplomático global · sanciones + polarización AGNU
           </h3>
           <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
-            333+ fuentes consolidadas OpenSanctions · 10 resoluciones AGNU clave 2022-2024 · click país para detalle
+            333+ fuentes consolidadas OpenSanctions · 13 resoluciones AGNU clave 2022-2025 · click país para detalle
           </p>
         </div>
         <div style={{ display: 'flex', gap: 4 }}>

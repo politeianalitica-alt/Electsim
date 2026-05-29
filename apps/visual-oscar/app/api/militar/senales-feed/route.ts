@@ -15,6 +15,7 @@
 import { NextResponse } from 'next/server'
 import { buildGdeltDocUrl, fetchGdeltJson, normalizeGdeltDate } from '@/lib/gdelt/build-query'
 import { iso2ToIso3, isoToName } from '@/lib/geopolitica/country-coords'
+import { getMilitarySeedSignals } from '@/lib/geopolitica/signals-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -148,12 +149,37 @@ export async function GET() {
 
   const all = [...exercise, ...govChange, ...milDeploy, ...secTransfer]
 
-  // G18 item 12 · FALLBACK RSS cuando GDELT no devuelve nada
+  // G22 fix · CASCADA fallback robusta:
+  //   - GDELT < 5 señales → añadir RSS
+  //   - GDELT + RSS < 5 → añadir seed curado
+  // Garantiza que el feed siempre tenga contenido para el usuario.
   let rssUsed = false
-  if (all.length === 0) {
+  let seedUsed = false
+  if (all.length < 5) {
     const rssSignals = await fetchDefenseRssFallback().catch(() => [])
     all.push(...rssSignals)
     rssUsed = rssSignals.length > 0
+  }
+  if (all.length < 5) {
+    const seedSignals = getMilitarySeedSignals().map((s) => {
+      const meta = TYPE_META[s.type]
+      return {
+        type: s.type,
+        type_label: meta.label,
+        type_emoji: meta.emoji,
+        type_color: meta.color,
+        country_iso3: s.country_iso3,
+        country_name: s.country_name,
+        title: s.title,
+        source_domain: s.source_domain,
+        url: s.url,
+        datetime: s.datetime,
+        tone: s.tone,
+        confidence: s.confidence,
+      } as MilitarySignal
+    })
+    all.push(...seedSignals)
+    seedUsed = true
   }
 
   const seen = new Set<string>()
@@ -176,11 +202,13 @@ export async function GET() {
     },
     fetched_at: startedAt,
     _meta: {
-      sources: rssUsed
-        ? ['Fallback RSS · NATO HQ · ISW Briefings (GDELT rate-limited)']
-        : ['GDELT DOC v2 themes: MIL_EXERCISE + GOV_LEADERSHIP_CHANGE + MIL_SELF_IDENTIFIED_ARMS_DEAL + SECURITY_SERVICES · 7d'],
-      gdelt_signals: all.length - (rssUsed ? deduped.filter((s) => s.source_domain === 'NATO HQ' || s.source_domain === 'Institute for the Study of War').length : 0),
+      sources: [
+        'GDELT DOC v2 themes: MIL_EXERCISE + GOV_LEADERSHIP_CHANGE + MIL_SELF_IDENTIFIED_ARMS_DEAL + SECURITY_SERVICES · 7d',
+        rssUsed ? 'RSS · NATO HQ · ISW Briefings' : null,
+        seedUsed ? 'Seed curado · tracking propio NATO/Defense News/RUSI/IISS' : null,
+      ].filter(Boolean) as string[],
       rss_fallback_used: rssUsed,
+      seed_fallback_used: seedUsed,
       cache_ttl_seconds: 900,
     },
   }, {

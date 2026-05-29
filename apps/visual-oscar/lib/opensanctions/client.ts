@@ -76,10 +76,14 @@ export async function searchEntities(query: string, limit = 10): Promise<OpenSan
   // devolvemos todo el match · UI filtra en cliente si necesita.
   const path = `/search/default?q=${encodeURIComponent(query)}&limit=${limit}`
   const json = await fetchOS(path)
-  if (!json?.results) {
-    return { ok: false, data: [], error: 'no_results', fetched_at: startedAt }
+  // G22 fix · distinguir entre "API no respondió" (error real) vs "0 matches"
+  // (caso válido: la entidad no está en listas de sanciones, lo cual es BUENO
+  // y debería mostrarse como "Sin coincidencias en 333+ fuentes", no como error)
+  if (json === null) {
+    return { ok: false, data: [], error: 'api_unreachable', fetched_at: startedAt }
   }
-  const entities: SanctionedEntity[] = json.results.map((r: any): SanctionedEntity => ({
+  const results = Array.isArray(json?.results) ? json.results : []
+  const entities: SanctionedEntity[] = results.map((r: any): SanctionedEntity => ({
     id: r.id || '',
     caption: r.caption || r.properties?.name?.[0] || 'sin nombre',
     schema: r.schema || 'Person',
@@ -92,6 +96,7 @@ export async function searchEntities(query: string, limit = 10): Promise<OpenSan
     last_seen: r.last_seen,
     notes: (r.properties?.notes || [])[0],
   }))
+  // Resultado válido aunque esté vacío · ok=true, data=[]
   return { ok: true, data: entities, fetched_at: startedAt }
 }
 
