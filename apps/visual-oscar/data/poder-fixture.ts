@@ -244,8 +244,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0002",
@@ -482,8 +482,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0003",
@@ -697,8 +697,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0004",
@@ -922,8 +922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0005",
@@ -1107,8 +1107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0006",
@@ -1275,8 +1275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0007",
@@ -1468,8 +1468,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0008",
@@ -1649,8 +1649,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0009",
@@ -1833,8 +1833,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0010",
@@ -2055,8 +2055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0011",
@@ -2279,8 +2279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0012",
@@ -2406,8 +2406,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0013",
@@ -2630,8 +2630,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0014",
@@ -2824,8 +2824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0015",
@@ -3013,8 +3013,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0016",
@@ -3191,8 +3191,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0017",
@@ -3364,8 +3364,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0018",
@@ -3563,8 +3563,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0019",
@@ -3760,8 +3760,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0020",
@@ -3920,8 +3920,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0021",
@@ -4102,8 +4102,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0022",
@@ -4364,8 +4364,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0023",
@@ -4535,8 +4535,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0024",
@@ -4750,8 +4750,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0025",
@@ -4934,8 +4934,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0026",
@@ -5111,8 +5111,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0027",
@@ -5384,8 +5384,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0028",
@@ -5596,8 +5596,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0029",
@@ -5835,8 +5835,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0030",
@@ -6047,8 +6047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0031",
@@ -6228,8 +6228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0032",
@@ -6365,8 +6365,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0033",
@@ -6530,8 +6530,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0034",
@@ -6650,8 +6650,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0035",
@@ -6777,8 +6777,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0036",
@@ -6938,8 +6938,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0037",
@@ -7148,8 +7148,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0038",
@@ -7356,8 +7356,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0039",
@@ -7529,8 +7529,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0040",
@@ -7686,8 +7686,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0041",
@@ -7857,8 +7857,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0042",
@@ -8014,8 +8014,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0043",
@@ -8154,8 +8154,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0044",
@@ -8361,8 +8361,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0045",
@@ -8521,8 +8521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0046",
@@ -8682,8 +8682,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0047",
@@ -8815,8 +8815,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0048",
@@ -8915,8 +8915,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0049",
@@ -9048,8 +9048,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0050",
@@ -9135,8 +9135,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0051",
@@ -9222,8 +9222,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0052",
@@ -9390,8 +9390,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0053",
@@ -9534,8 +9534,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0054",
@@ -9679,8 +9679,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0055",
@@ -9824,8 +9824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0056",
@@ -9956,8 +9956,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0057",
@@ -10137,8 +10137,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0058",
@@ -10307,8 +10307,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0059",
@@ -10477,8 +10477,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0060",
@@ -10658,8 +10658,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0061",
@@ -10866,8 +10866,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0062",
@@ -11051,8 +11051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0063",
@@ -11236,8 +11236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0064",
@@ -11421,8 +11421,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0065",
@@ -11521,8 +11521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0066",
@@ -11621,8 +11621,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0067",
@@ -11718,8 +11718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0068",
@@ -11806,8 +11806,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0069",
@@ -11965,8 +11965,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0070",
@@ -12079,8 +12079,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0071",
@@ -12236,8 +12236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0072",
@@ -12393,8 +12393,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0073",
@@ -12562,8 +12562,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0074",
@@ -12720,8 +12720,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0075",
@@ -12891,8 +12891,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0076",
@@ -13047,8 +13047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0077",
@@ -13216,8 +13216,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0078",
@@ -13338,8 +13338,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0079",
@@ -13521,8 +13521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0080",
@@ -13707,8 +13707,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0081",
@@ -13864,8 +13864,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0082",
@@ -14021,8 +14021,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0083",
@@ -14154,8 +14154,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0084",
@@ -14325,8 +14325,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0085",
@@ -14401,8 +14401,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0086",
@@ -14533,8 +14533,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0087",
@@ -14677,8 +14677,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0088",
@@ -14798,8 +14798,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0089",
@@ -14930,8 +14930,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   },
   {
     "id": "pod-0090",
@@ -15043,8 +15043,2552 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T11:12:48.348296Z",
-    "updated_at": "2026-05-29T11:12:48.348296Z"
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0091",
+    "slug": "jorge-azcon",
+    "nombre_completo": "Jorge Azcón Navarro",
+    "alias": "Jorge Azcón",
+    "cargo_actual": "Presidente de Aragón",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente de Aragón (PP) desde 2023 y exalcalde de Zaragoza; gobierna en coalición con Vox.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "aragon"
+    ],
+    "fuente_principal": "https://www.aragon.es",
+    "apartados": [
+      {
+        "id": "pod-0091-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0091-ap-00-it-00",
+            "apartado_id": "pod-0091-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jorge Azcón Navarro (Zaragoza, 1973) es presidente de Aragón desde 2023 y líder del PP aragonés. Abogado y exalcalde de Zaragoza, alcanzó la presidencia autonómica tras las elecciones de 2023 gobernando en coalición con Vox, una alianza que después atravesó tensiones. Representa el ala de gestión del Partido Popular en el valle del Ebro. Llegó a la política autonómica desde la alcaldía de la capital y debe equilibrar la gestión con las exigencias de su socio Vox en una comunidad clave por el agua, la logística y la energía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0091-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0091-ap-01-it-00",
+            "apartado_id": "pod-0091-ap-01",
+            "tipo": "evento",
+            "titulo": "Concejal y abogado",
+            "contenido": "Abogado de formación, desarrolló su carrera en el PP de Zaragoza, ocupando concejalías y responsabilidades en el partido a nivel municipal y autonómico.",
+            "fecha": "2003-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0091-ap-01-it-01",
+            "apartado_id": "pod-0091-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcalde de Zaragoza",
+            "contenido": "En 2019 fue elegido alcalde de Zaragoza, arrebatando la capital aragonesa a la izquierda, con una gestión de perfil moderado centrada en la ciudad.",
+            "fecha": "2019-06-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0091-ap-01-it-02",
+            "apartado_id": "pod-0091-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Aragón",
+            "contenido": "Tras las elecciones autonómicas de 2023 fue investido presidente de Aragón gracias a un pacto de coalición con Vox, uno de los gobiernos PP-Vox surgidos de aquellos comicios.",
+            "fecha": "2023-08-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0091-ap-01-it-03",
+            "apartado_id": "pod-0091-ap-01",
+            "tipo": "evento",
+            "titulo": "Gestión y tensiones con Vox",
+            "contenido": "Su mandato ha combinado la gestión autonómica (agua, agricultura, despoblación) con las tensiones derivadas de la coalición con Vox, que en distintos territorios rompió con el PP.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0091-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0091-ap-02-it-00",
+            "apartado_id": "pod-0091-ap-02",
+            "tipo": "dato",
+            "titulo": "Aragonesismo y agua",
+            "contenido": "Defiende los intereses de Aragón en agua, infraestructuras y lucha contra la despoblación, con un perfil de gestión dentro de la órbita moderada del PP.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "aragon"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0091-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0091-ap-03-it-00",
+            "apartado_id": "pod-0091-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineado con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0091-ap-03-it-01",
+            "apartado_id": "pod-0091-ap-03",
+            "tipo": "contacto",
+            "titulo": "Santiago Abascal",
+            "contenido": "**Líder de Vox** (nota -3/10) — Socio de gobierno en Aragón, en una relación tensa marcada por las rupturas de coaliciones PP-Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "nota--3",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0092",
+    "slug": "adrian-barbon",
+    "nombre_completo": "Adrián Barbón Rodríguez",
+    "alias": "Adrián Barbón",
+    "cargo_actual": "Presidente del Principado de Asturias",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Presidente del Principado de Asturias (PSOE) desde 2019; perfil obrero de la cuenca minera, leal a la dirección federal.",
+    "tags": [
+      "politico",
+      "psoe",
+      "presidente-autonomico",
+      "asturias"
+    ],
+    "fuente_principal": "https://www.asturias.es",
+    "apartados": [
+      {
+        "id": "pod-0092-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0092-ap-00-it-00",
+            "apartado_id": "pod-0092-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Adrián Barbón Rodríguez (Laviana, 1978) es presidente del Principado de Asturias desde 2019 y líder de la FSA-PSOE. Procedente de la cuenca minera, encarna un socialismo asturiano de raíz obrera y se ha consolidado como uno de los barones del PSOE, leal a la dirección federal de Pedro Sánchez. Es conocido por su cercanía y por gobernar habitualmente en minoría o en coalición con la izquierda. Hombre de partido y de fuerte arraigo en la cuenca minera, ha hecho de la defensa de la sanidad pública, la industria y las infraestructuras de Asturias sus prioridades, con un estilo cercano y una activa presencia pública.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0092-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0092-ap-01-it-00",
+            "apartado_id": "pod-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "De la cuenca minera a la política",
+            "contenido": "Nacido en la cuenca del Nalón, militó desde joven en las Juventudes Socialistas y fue alcalde de su localidad, Laviana, forjando un perfil de político de proximidad.",
+            "fecha": "2007-06-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0092-ap-01-it-01",
+            "apartado_id": "pod-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de la FSA-PSOE",
+            "contenido": "En 2017 ganó las primarias de la Federación Socialista Asturiana, renovando el liderazgo del PSOE asturiano.",
+            "fecha": "2017-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0092-ap-01-it-02",
+            "apartado_id": "pod-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Asturias",
+            "contenido": "Encabezó la candidatura socialista en 2019 y fue investido presidente del Principado, en una comunidad con retos de despoblación, industria y transición energética de las comarcas mineras.",
+            "fecha": "2019-07-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0092-ap-01-it-03",
+            "apartado_id": "pod-0092-ap-01",
+            "tipo": "evento",
+            "titulo": "Reelección y agenda industrial",
+            "contenido": "Revalidó el cargo en 2023, centrando su gestión en la defensa de la industria asturiana (acero, energía), la transición justa y la sanidad pública.",
+            "fecha": "2023-07-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0092-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0092-ap-02-it-00",
+            "apartado_id": "pod-0092-ap-02",
+            "tipo": "dato",
+            "titulo": "Socialismo industrial y lealtad federal",
+            "contenido": "Defiende la industria y la transición justa de las comarcas mineras y mantiene una lealtad clara a la dirección federal de Pedro Sánchez, dentro del ala más clásica del PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "asturias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0092-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0092-ap-03-it-00",
+            "apartado_id": "pod-0092-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +7/10) — Barón leal a la dirección federal del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0093",
+    "slug": "marga-prohens",
+    "nombre_completo": "Margalida Prohens Rigo",
+    "alias": "Marga Prohens",
+    "cargo_actual": "Presidenta del Govern de las Islas Baleares",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidenta del Govern de las Islas Baleares (PP) desde 2023; gobierna en solitario con apoyo de Vox.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "baleares"
+    ],
+    "fuente_principal": "https://www.caib.es",
+    "apartados": [
+      {
+        "id": "pod-0093-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0093-ap-00-it-00",
+            "apartado_id": "pod-0093-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Margalida «Marga» Prohens Rigo (Campos, Mallorca, 1982) es presidenta del Govern de las Islas Baleares desde 2023 y líder del PP balear. Joven dirigente, recuperó el Govern para el centroderecha tras la etapa de Francina Armengol, gobernando en solitario con el apoyo parlamentario de Vox. Representa el relevo generacional del Partido Popular en las islas. Una de las presidentas autonómicas más jóvenes, afronta los grandes desafíos del archipiélago —la presión turística, la emergencia de vivienda y la gestión del agua— y reivindica un trato fiscal acorde con el hecho insular para unas islas que reciben millones de visitantes al año.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0093-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0093-ap-01-it-00",
+            "apartado_id": "pod-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "De Nuevas Generaciones al Parlament",
+            "contenido": "Filóloga de formación, hizo carrera en el PP balear desde Nuevas Generaciones, llegando a portavoz parlamentaria y a diputada en el Congreso.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0093-ap-01-it-01",
+            "apartado_id": "pod-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Liderazgo del PP balear",
+            "contenido": "Asumió el liderazgo del PP de Baleares, reconstruyendo el partido tras los años de gobiernos de izquierdas de Francina Armengol.",
+            "fecha": "2021-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0093-ap-01-it-02",
+            "apartado_id": "pod-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta del Govern",
+            "contenido": "Ganó las elecciones de 2023 y fue investida presidenta del Govern balear, gobernando en solitario el PP con el apoyo externo de Vox.",
+            "fecha": "2023-07-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0093-ap-01-it-03",
+            "apartado_id": "pod-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Turismo y vivienda",
+            "contenido": "Su gestión afronta los grandes retos de las islas: la masificación turística, el acceso a la vivienda, el agua y el equilibrio entre desarrollo y sostenibilidad.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0093-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0093-ap-02-it-00",
+            "apartado_id": "pod-0093-ap-02",
+            "tipo": "dato",
+            "titulo": "Centroderecha insular",
+            "contenido": "Defiende un modelo económico ligado al turismo, con medidas sobre vivienda y saturación, y reivindica la financiación y el hecho insular ante el Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "baleares"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0093-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0093-ap-03-it-00",
+            "apartado_id": "pod-0093-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineada con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0093-ap-03-it-01",
+            "apartado_id": "pod-0093-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -5/10) — Confrontación por financiación, vivienda e inmigración.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--5",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0094",
+    "slug": "fernando-clavijo",
+    "nombre_completo": "Fernando Clavijo Batlle",
+    "alias": "Fernando Clavijo",
+    "cargo_actual": "Presidente de Canarias",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidente de Canarias (Coalición Canaria) desde 2023, ya lo fue 2015-2019; gobierna con el PP.",
+    "tags": [
+      "politico",
+      "coalicion-canaria",
+      "presidente-autonomico",
+      "canarias"
+    ],
+    "fuente_principal": "https://www.gobiernodecanarias.org",
+    "apartados": [
+      {
+        "id": "pod-0094-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0094-ap-00-it-00",
+            "apartado_id": "pod-0094-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Fernando Clavijo Batlle (San Cristóbal de La Laguna, 1971) es presidente de Canarias desde 2023 y líder de Coalición Canaria (CC). Ya había presidido el archipiélago entre 2015 y 2019. Nacionalista canario de perfil pragmático, gobierna en coalición con el PP y ejerce de bisagra capaz de pactar con los grandes partidos estatales en defensa de los intereses insulares. Economista y exalcalde de La Laguna, conoce bien el doble juego de la política canaria: pacta con el PP en las islas y, a la vez, negocia con el Gobierno central de Sánchez asuntos como la inmigración, el REF y la financiación del archipiélago.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0094-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0094-ap-01-it-00",
+            "apartado_id": "pod-0094-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcalde de La Laguna",
+            "contenido": "Economista, fue alcalde de San Cristóbal de La Laguna, una de las principales ciudades de Tenerife, antes de dar el salto a la política autonómica.",
+            "fecha": "2008-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0094-ap-01-it-01",
+            "apartado_id": "pod-0094-ap-01",
+            "tipo": "evento",
+            "titulo": "Primera presidencia de Canarias",
+            "contenido": "Presidió el Gobierno de Canarias entre 2015 y 2019 al frente de Coalición Canaria, en una etapa de pactos cambiantes.",
+            "fecha": "2015-07-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0094-ap-01-it-02",
+            "apartado_id": "pod-0094-ap-01",
+            "tipo": "evento",
+            "titulo": "Senador y líder de CC",
+            "contenido": "Tras perder la presidencia fue senador y consolidó su liderazgo en Coalición Canaria, manteniendo el peso del nacionalismo canario.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0094-ap-01-it-03",
+            "apartado_id": "pod-0094-ap-01",
+            "tipo": "evento",
+            "titulo": "Regreso a la presidencia",
+            "contenido": "Volvió a la presidencia de Canarias en 2023 en coalición con el PP, con la inmigración (la crisis de los cayucos y los menores no acompañados) y la financiación como grandes asuntos de su mandato.",
+            "fecha": "2023-07-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0094-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0094-ap-02-it-00",
+            "apartado_id": "pod-0094-ap-02",
+            "tipo": "dato",
+            "titulo": "Nacionalismo canario pragmático",
+            "contenido": "Defiende los intereses del archipiélago (REF, insularidad, inmigración) negociando con quien gobierne en Madrid, en una posición de bisagra entre los grandes bloques.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "coalicion-canaria",
+              "canarias"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0094-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0094-ap-03-it-00",
+            "apartado_id": "pod-0094-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +3/10) — Relación pragmática: pactos puntuales en Madrid (p. ej. en inmigración y financiación) pese a gobernar con el PP en Canarias.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+3",
+              "pragmatico"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0094-ap-03-it-01",
+            "apartado_id": "pod-0094-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +5/10) — Socio de gobierno del PP en el archipiélago canario.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+5",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0095",
+    "slug": "maria-jose-saenz-de-buruaga",
+    "nombre_completo": "María José Sáenz de Buruaga Gómez",
+    "alias": "María José Sáenz de Buruaga",
+    "cargo_actual": "Presidenta de Cantabria",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidenta de Cantabria (PP) desde 2023; puso fin a la larga etapa de Revilla (PRC).",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "cantabria"
+    ],
+    "fuente_principal": "https://www.cantabria.es",
+    "apartados": [
+      {
+        "id": "pod-0095-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0095-ap-00-it-00",
+            "apartado_id": "pod-0095-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María José Sáenz de Buruaga Gómez (Santander, 1971) es presidenta de Cantabria desde 2023 y líder del PP cántabro. Puso fin a la larga etapa de Miguel Ángel Revilla (PRC) al frente de la comunidad, logrando una mayoría que permitió al PP gobernar en solitario. Representa el regreso del centroderecha al poder en Cantabria. Jurista y veterana dirigente del PP cántabro, gobierna una comunidad pequeña pero estratégica del Cantábrico, donde ha hecho de la sanidad, la reactivación industrial y la reclamación de infraestructuras ferroviarias y de comunicaciones al Estado los ejes de su mandato.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0095-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0095-ap-01-it-00",
+            "apartado_id": "pod-0095-ap-01",
+            "tipo": "evento",
+            "titulo": "Jurista y política",
+            "contenido": "Licenciada en Derecho, desarrolló su carrera en el PP de Cantabria, ocupando consejerías en anteriores gobiernos autonómicos y la portavocía parlamentaria.",
+            "fecha": "2003-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0095-ap-01-it-01",
+            "apartado_id": "pod-0095-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de la oposición",
+            "contenido": "Asumió el liderazgo del PP cántabro y ejerció de jefa de la oposición frente a los gobiernos de Miguel Ángel Revilla.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0095-ap-01-it-02",
+            "apartado_id": "pod-0095-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta de Cantabria",
+            "contenido": "Ganó las elecciones de 2023, desbancando al PRC de Revilla, y fue investida presidenta de Cantabria gobernando en solitario el PP.",
+            "fecha": "2023-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0095-ap-01-it-03",
+            "apartado_id": "pod-0095-ap-01",
+            "tipo": "evento",
+            "titulo": "Gestión autonómica",
+            "contenido": "Su mandato se centra en la sanidad, las infraestructuras (el tren, las comunicaciones) y el desarrollo industrial de una comunidad pequeña pero estratégica del norte.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0095-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0095-ap-02-it-00",
+            "apartado_id": "pod-0095-ap-02",
+            "tipo": "dato",
+            "titulo": "Centroderecha y reivindicación de inversiones",
+            "contenido": "Defiende una gestión de centroderecha y reclama inversiones e infraestructuras del Estado (especialmente ferroviarias) para Cantabria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "cantabria"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0095-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0095-ap-03-it-00",
+            "apartado_id": "pod-0095-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineada con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0095-ap-03-it-01",
+            "apartado_id": "pod-0095-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -5/10) — Confrontación por las inversiones e infraestructuras pendientes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--5",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0096",
+    "slug": "emiliano-garcia-page",
+    "nombre_completo": "Emiliano García-Page Sánchez",
+    "alias": "Emiliano García-Page",
+    "cargo_actual": "Presidente de Castilla-La Mancha",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Presidente de Castilla-La Mancha (PSOE) desde 2015, con mayoría absoluta; el barón socialista más crítico con Sánchez.",
+    "tags": [
+      "politico",
+      "psoe",
+      "presidente-autonomico",
+      "castilla-la-mancha"
+    ],
+    "fuente_principal": "https://www.castillalamancha.es",
+    "apartados": [
+      {
+        "id": "pod-0096-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0096-ap-00-it-00",
+            "apartado_id": "pod-0096-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Emiliano García-Page Sánchez (Toledo, 1968) es presidente de Castilla-La Mancha desde 2015 y uno de los barones más influyentes y críticos del PSOE. Reelegido en 2023 con mayoría absoluta, encarna el ala socialista más díscola con Pedro Sánchez: rechaza abiertamente los pactos con el independentismo y la amnistía, lo que lo convierte en una voz interna incómoda para Moncloa. Con tres mandatos a sus espaldas y una sólida implantación territorial, defiende un perfil moderado y «de Estado» y reivindica el agua, la financiación y el peso de la España interior frente a la del litoral.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0096-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0096-ap-01-it-00",
+            "apartado_id": "pod-0096-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcalde de Toledo",
+            "contenido": "Abogado y veterano dirigente socialista, fue alcalde de Toledo durante una década, ciudad de la que es figura emblemática.",
+            "fecha": "2007-06-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0096-ap-01-it-01",
+            "apartado_id": "pod-0096-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Castilla-La Mancha",
+            "contenido": "Recuperó la Junta de Comunidades para el PSOE en 2015, desbancando a María Dolores de Cospedal (PP), y gobernó primero en pactos con Podemos.",
+            "fecha": "2015-07-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0096-ap-01-it-02",
+            "apartado_id": "pod-0096-ap-01",
+            "tipo": "evento",
+            "titulo": "Mayoría absoluta",
+            "contenido": "En 2019 y, sobre todo, en 2023, revalidó el cargo con mayoría absoluta, consolidando un fuerte liderazgo personal en la región a contracorriente de la tendencia general.",
+            "fecha": "2023-06-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0096-ap-01-it-03",
+            "apartado_id": "pod-0096-ap-01",
+            "tipo": "evento",
+            "titulo": "El barón crítico",
+            "contenido": "Se ha erigido en la principal voz crítica interna del PSOE contra los pactos de Sánchez con ERC, Junts y EH Bildu y contra la ley de amnistía, marcando distancias públicas con la dirección federal.",
+            "fecha": "2023-11-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0096-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0096-ap-02-it-00",
+            "apartado_id": "pod-0096-ap-02",
+            "tipo": "dato",
+            "titulo": "Socialismo crítico con Sánchez",
+            "contenido": "Defiende un PSOE «constitucionalista», contrario a la amnistía y a la dependencia del independentismo; reivindica el agua y los intereses de Castilla-La Mancha frente a otros territorios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "castilla-la-mancha"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0096-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0096-ap-03-it-00",
+            "apartado_id": "pod-0096-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota -4/10) — Lealtad orgánica pero enfrentamiento público y permanente por los pactos con el independentismo y la amnistía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota--4",
+              "tension-interna"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0097",
+    "slug": "alfonso-fernandez-manueco",
+    "nombre_completo": "Alfonso Fernández Mañueco",
+    "alias": "Alfonso Fernández Mañueco",
+    "cargo_actual": "Presidente de la Junta de Castilla y León",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente de Castilla y León (PP) desde 2019; formó el primer gobierno PP-Vox de España, roto en 2024.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "castilla-y-leon"
+    ],
+    "fuente_principal": "https://www.jcyl.es",
+    "apartados": [
+      {
+        "id": "pod-0097-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0097-ap-00-it-00",
+            "apartado_id": "pod-0097-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Alfonso Fernández Mañueco (Salamanca, 1965) es presidente de la Junta de Castilla y León desde 2019 y líder del PP regional. Abogado y exalcalde de Salamanca, en 2022 adelantó elecciones y formó el primer gobierno autonómico de coalición entre el PP y Vox en España, que se rompió en 2024, pasando a gobernar en minoría. Político veterano y de perfil discreto, gobierna la comunidad más extensa de España, marcada por la dispersión y el envejecimiento; ha hecho de la sanidad rural, la agricultura, la ganadería y la lucha contra la despoblación los ejes de su gestión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0097-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0097-ap-01-it-00",
+            "apartado_id": "pod-0097-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcalde de Salamanca",
+            "contenido": "Abogado, desarrolló una larga carrera en el PP de Castilla y León, siendo alcalde de Salamanca y ocupando consejerías en la Junta.",
+            "fecha": "2011-06-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0097-ap-01-it-01",
+            "apartado_id": "pod-0097-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Junta",
+            "contenido": "Tras las elecciones de 2019 fue investido presidente de Castilla y León en coalición con Ciudadanos.",
+            "fecha": "2019-07-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0097-ap-01-it-02",
+            "apartado_id": "pod-0097-ap-01",
+            "tipo": "evento",
+            "titulo": "El primer gobierno PP-Vox",
+            "contenido": "En 2022 adelantó las elecciones y, tras ganarlas, formó el primer ejecutivo autonómico de coalición PP-Vox de España, un experimento muy observado a nivel nacional.",
+            "fecha": "2022-04-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0097-ap-01-it-03",
+            "apartado_id": "pod-0097-ap-01",
+            "tipo": "evento",
+            "titulo": "Ruptura y minoría",
+            "contenido": "En 2024, la salida de Vox del Gobierno —en el marco de la crisis nacional de las coaliciones— lo dejó gobernando en minoría, centrado en la despoblación, la sanidad rural y la agricultura.",
+            "fecha": "2024-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0097-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0097-ap-02-it-00",
+            "apartado_id": "pod-0097-ap-02",
+            "tipo": "dato",
+            "titulo": "Gestión del medio rural",
+            "contenido": "Defiende los intereses del mundo rural y agrario, la lucha contra la despoblación de la «España vaciada» y una gestión de centroderecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "castilla-y-leon"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0097-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0097-ap-03-it-00",
+            "apartado_id": "pod-0097-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineado con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0097-ap-03-it-01",
+            "apartado_id": "pod-0097-ap-03",
+            "tipo": "contacto",
+            "titulo": "Santiago Abascal",
+            "contenido": "**Líder de Vox** (nota -3/10) — Exsocio de coalición; la ruptura de 2024 enfrió la relación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "nota--3",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0098",
+    "slug": "salvador-illa",
+    "nombre_completo": "Salvador Illa Roca",
+    "alias": "Salvador Illa",
+    "cargo_actual": "Presidente de la Generalitat de Cataluña",
+    "partido": "PSC",
+    "foto_url": null,
+    "bio_corta": "Presidente de la Generalitat de Cataluña (PSC) desde agosto de 2024; exministro de Sanidad de la pandemia.",
+    "tags": [
+      "politico",
+      "psc",
+      "presidente-autonomico",
+      "cataluna"
+    ],
+    "fuente_principal": "https://www.gencat.cat",
+    "apartados": [
+      {
+        "id": "pod-0098-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0098-ap-00-it-00",
+            "apartado_id": "pod-0098-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Salvador Illa Roca (La Roca del Vallès, 1966) es presidente de la Generalitat de Cataluña desde agosto de 2024 y líder del PSC. Exministro de Sanidad durante la pandemia, ganó las elecciones catalanas de 2024 y puso fin a más de una década de presidentes independentistas, abriendo una etapa de «normalización» tras el procés, con el apoyo parlamentario de ERC y los comunes. De perfil sereno y negociador, ha apostado por la estabilidad, la gestión y la reconciliación tras una década de conflicto, reivindicando inversiones, una financiación singular y la recuperación del peso económico e institucional de Cataluña.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0098-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0098-ap-01-it-00",
+            "apartado_id": "pod-0098-ap-01",
+            "tipo": "evento",
+            "titulo": "Del municipalismo al PSC",
+            "contenido": "Filósofo de formación, desarrolló una larga carrera en el PSC desde el municipalismo (fue alcalde de La Roca del Vallès) y la gestión orgánica del partido.",
+            "fecha": "1995-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0098-ap-01-it-01",
+            "apartado_id": "pod-0098-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro de Sanidad",
+            "contenido": "Fue ministro de Sanidad del Gobierno de Pedro Sánchez durante la pandemia de COVID-19 (2020-2021), el rostro institucional de la gestión de la crisis sanitaria.",
+            "fecha": "2020-01-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0098-ap-01-it-02",
+            "apartado_id": "pod-0098-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de la oposición catalana",
+            "contenido": "Tras ganar en escaños las elecciones de 2021 sin poder gobernar, lideró la oposición en el Parlament y reconstruyó el PSC como alternativa al bloque independentista.",
+            "fecha": "2021-02-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0098-ap-01-it-03",
+            "apartado_id": "pod-0098-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Generalitat",
+            "contenido": "Ganó las elecciones de 2024 y fue investido presidente en agosto, el primer socialista al frente de la Generalitat desde Montilla, con un discurso de reencuentro y de gestión tras los años del procés.",
+            "fecha": "2024-08-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0098-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0098-ap-02-it-00",
+            "apartado_id": "pod-0098-ap-02",
+            "tipo": "dato",
+            "titulo": "Normalización y catalanismo no soberanista",
+            "contenido": "Defiende un catalanismo no independentista, la reconciliación tras el procés y la financiación singular de Cataluña, en estrecha relación con el Gobierno de Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psc",
+              "cataluna"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0098-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0098-ap-03-it-00",
+            "apartado_id": "pod-0098-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +8/10) — Aliado estratégico clave; su investidura y la del propio Sánchez se sostienen en la misma arquitectura de pactos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+8",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0099",
+    "slug": "maria-guardiola",
+    "nombre_completo": "María Guardiola Martín",
+    "alias": "María Guardiola",
+    "cargo_actual": "Presidenta de la Junta de Extremadura",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidenta de la Junta de Extremadura (PP) desde 2023; reinvestida en abril de 2026 con Vox tras las anticipadas de diciembre de 2025.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "extremadura"
+    ],
+    "fuente_principal": "https://www.juntaex.es",
+    "apartados": [
+      {
+        "id": "pod-0099-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0099-ap-00-it-00",
+            "apartado_id": "pod-0099-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María Guardiola Martín (Cáceres, 1980) es presidenta de la Junta de Extremadura y líder del PP extremeño. Llegó al poder en 2023 desalojando al PSOE de Guillermo Fernández Vara y, tras un primer mandato en minoría, convocó elecciones anticipadas en diciembre de 2025, que ganó, siendo reinvestida en abril de 2026 en coalición con Vox. Representa el cambio político en una región históricamente socialista. De carácter directo, protagonizó en 2023 un sonado pulso público sobre si pactar o no con Vox, antes de acabar gobernando con su apoyo; ha hecho del agua, la agricultura, las infraestructuras y la convergencia económica de Extremadura sus prioridades.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0099-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0099-ap-01-it-00",
+            "apartado_id": "pod-0099-ap-01",
+            "tipo": "evento",
+            "titulo": "Irrupción en el PP extremeño",
+            "contenido": "Procedente del ámbito de la gestión, irrumpió en la política autonómica liderando el PP de Extremadura y dándole un perfil renovado.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0099-ap-01-it-01",
+            "apartado_id": "pod-0099-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta por el cambio",
+            "contenido": "En las elecciones de 2023 logró desbancar al PSOE tras décadas de hegemonía socialista, accediendo a la presidencia de la Junta de Extremadura.",
+            "fecha": "2023-07-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0099-ap-01-it-02",
+            "apartado_id": "pod-0099-ap-01",
+            "tipo": "evento",
+            "titulo": "Elecciones anticipadas de 2025",
+            "contenido": "Ante la dificultad para aprobar los presupuestos, convocó elecciones anticipadas el 21 de diciembre de 2025, en las que el PP mejoró sus resultados (29 escaños).",
+            "fecha": "2025-12-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0099-ap-01-it-03",
+            "apartado_id": "pod-0099-ap-01",
+            "tipo": "evento",
+            "titulo": "Reinvestidura con Vox",
+            "contenido": "Fue reinvestida presidenta en abril de 2026 gracias a un acuerdo de gobierno con Vox, consolidando el giro al centroderecha de Extremadura.",
+            "fecha": "2026-04-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0099-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0099-ap-02-it-00",
+            "apartado_id": "pod-0099-ap-02",
+            "tipo": "dato",
+            "titulo": "Cambio y desarrollo de Extremadura",
+            "contenido": "Defiende el desarrollo económico, la agricultura, el agua y las infraestructuras de Extremadura —una de las regiones de menor renta— desde una óptica de centroderecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "extremadura"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0099-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0099-ap-03-it-00",
+            "apartado_id": "pod-0099-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineada con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0099-ap-03-it-01",
+            "apartado_id": "pod-0099-ap-03",
+            "tipo": "contacto",
+            "titulo": "Santiago Abascal",
+            "contenido": "**Líder de Vox** (nota +4/10) — Socio de gobierno tras la reinvestidura de 2026.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "nota-+4",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0100",
+    "slug": "alfonso-rueda",
+    "nombre_completo": "Alfonso Rueda Valenzuela",
+    "alias": "Alfonso Rueda",
+    "cargo_actual": "Presidente de la Xunta de Galicia",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente de la Xunta de Galicia (PP) desde 2022; revalidó la mayoría absoluta en 2024. Sucesor de Feijóo.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "galicia"
+    ],
+    "fuente_principal": "https://www.xunta.gal",
+    "apartados": [
+      {
+        "id": "pod-0100-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0100-ap-00-it-00",
+            "apartado_id": "pod-0100-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Alfonso Rueda Valenzuela (Pontevedra, 1968) es presidente de la Xunta de Galicia desde 2022 y líder del PPdeG. Sucedió a Alberto Núñez Feijóo cuando este dio el salto a la política nacional, y en febrero de 2024 revalidó la mayoría absoluta del PP en Galicia, demostrando la solidez del feudo gallego del partido. Representa la continuidad del «feijoísmo» en clave de gestión. De perfil discreto y gestor, ha sabido mantener la hegemonía absoluta del PP en su feudo histórico, defendiendo la industria gallega (automoción, naval, textil), el sector primario (pesca, lácteo) y el autogobierno de la comunidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0100-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0100-ap-01-it-00",
+            "apartado_id": "pod-0100-ap-01",
+            "tipo": "evento",
+            "titulo": "La carrera en la Xunta",
+            "contenido": "Abogado y funcionario, desarrolló su carrera en el PP gallego ocupando consejerías clave y la vicepresidencia de la Xunta durante los gobiernos de Feijóo.",
+            "fecha": "2009-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0100-ap-01-it-01",
+            "apartado_id": "pod-0100-ap-01",
+            "tipo": "evento",
+            "titulo": "Mano derecha de Feijóo",
+            "contenido": "Como vicepresidente y secretario general del PPdeG, fue el hombre de confianza de Alberto Núñez Feijóo en la gestión del Gobierno gallego.",
+            "fecha": "2012-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0100-ap-01-it-02",
+            "apartado_id": "pod-0100-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Xunta",
+            "contenido": "En 2022 sucedió a Feijóo al frente de la Xunta cuando este asumió el liderazgo nacional del PP, garantizando la continuidad del proyecto.",
+            "fecha": "2022-05-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0100-ap-01-it-03",
+            "apartado_id": "pod-0100-ap-01",
+            "tipo": "evento",
+            "titulo": "Mayoría absoluta propia",
+            "contenido": "En febrero de 2024 revalidó la mayoría absoluta del PP en Galicia con perfil propio, confirmando a la comunidad como el gran bastión histórico del partido.",
+            "fecha": "2024-02-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0100-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0100-ap-02-it-00",
+            "apartado_id": "pod-0100-ap-02",
+            "tipo": "dato",
+            "titulo": "Galleguismo de gestión",
+            "contenido": "Defiende el autogobierno gallego, la industria (automoción, naval, energía), el sector primario y una gestión de centroderecha continuista respecto a la etapa de Feijóo.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "galicia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0100-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0100-ap-03-it-00",
+            "apartado_id": "pod-0100-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +9/10) — Mentor político directo: Rueda fue su número dos y su sucesor en la Xunta.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+9",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0100-ap-03-it-01",
+            "apartado_id": "pod-0100-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -5/10) — Confrontación por inversiones, industria y financiación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--5",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0101",
+    "slug": "gonzalo-capellan",
+    "nombre_completo": "Gonzalo Capellán de Miguel",
+    "alias": "Gonzalo Capellán",
+    "cargo_actual": "Presidente de La Rioja",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente de La Rioja (PP) desde 2023; catedrático de Historia. Gobierna con apoyo de Vox.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "la-rioja"
+    ],
+    "fuente_principal": "https://www.larioja.org",
+    "apartados": [
+      {
+        "id": "pod-0101-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0101-ap-00-it-00",
+            "apartado_id": "pod-0101-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Gonzalo Capellán de Miguel es presidente de La Rioja desde 2023 y líder del PP riojano. Historiador y catedrático universitario, recuperó el Gobierno de la pequeña comunidad para el centroderecha tras la etapa socialista de Concha Andreu, gobernando con el apoyo de Vox. Representa un perfil técnico y académico al frente de la autonomía. Catedrático de Historia Contemporánea, aporta un bagaje intelectual poco habitual entre los presidentes autonómicos; gobierna una de las comunidades menos pobladas de España y centra su gestión en el vino de Rioja, la agricultura, la sanidad y la reclamación de infraestructuras y financiación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0101-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0101-ap-01-it-00",
+            "apartado_id": "pod-0101-ap-01",
+            "tipo": "evento",
+            "titulo": "Académico e historiador",
+            "contenido": "Catedrático de Historia Contemporánea, combinó la carrera universitaria con la gestión cultural y educativa antes de dar el salto a la primera línea política.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0101-ap-01-it-01",
+            "apartado_id": "pod-0101-ap-01",
+            "tipo": "evento",
+            "titulo": "Alto cargo y gestión",
+            "contenido": "Ocupó responsabilidades en el ámbito de la educación y la cultura, vinculándose al proyecto del PP en distintas administraciones.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0101-ap-01-it-02",
+            "apartado_id": "pod-0101-ap-01",
+            "tipo": "evento",
+            "titulo": "Candidato del PP riojano",
+            "contenido": "Lideró la candidatura del PP de La Rioja en 2023 frente al Gobierno socialista de Concha Andreu.",
+            "fecha": "2023-05-28",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0101-ap-01-it-03",
+            "apartado_id": "pod-0101-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de La Rioja",
+            "contenido": "Fue investido presidente de La Rioja en 2023, con el apoyo de Vox, centrando su gestión en el vino, la agricultura, la sanidad y las infraestructuras de la comunidad.",
+            "fecha": "2023-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0101-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0101-ap-02-it-00",
+            "apartado_id": "pod-0101-ap-02",
+            "tipo": "dato",
+            "titulo": "Gestión de una comunidad pequeña",
+            "contenido": "Defiende los intereses de La Rioja (vino, agua, financiación) y una gestión de centroderecha en una de las comunidades menos pobladas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "la-rioja"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0101-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0101-ap-03-it-00",
+            "apartado_id": "pod-0101-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineado con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0101-ap-03-it-01",
+            "apartado_id": "pod-0101-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -5/10) — Confrontación por financiación e inversiones.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--5",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0102",
+    "slug": "isabel-diaz-ayuso",
+    "nombre_completo": "Isabel Díaz Ayuso",
+    "alias": "Isabel Díaz Ayuso",
+    "cargo_actual": "Presidenta de la Comunidad de Madrid",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidenta de la Comunidad de Madrid (PP) desde 2019; la dirigente más mediática del PP, en confrontación frontal con Sánchez.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "madrid"
+    ],
+    "fuente_principal": "https://www.comunidad.madrid",
+    "apartados": [
+      {
+        "id": "pod-0102-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0102-ap-00-it-00",
+            "apartado_id": "pod-0102-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Isabel Díaz Ayuso (Madrid, 1978) es presidenta de la Comunidad de Madrid desde 2019 y la dirigente más influyente y mediática del PP tras Feijóo. Reelegida en 2021 y 2023 con resultados arrolladores (rozando la mayoría absoluta), encarna un liberalismo de confrontación frontal con el Gobierno de Sánchez. Su figura, de enorme proyección nacional, genera tanto fervor en su electorado como rechazo en la izquierda. Convertida en la gran estrella mediática del PP, ha hecho de Madrid un laboratorio de bajadas de impuestos y de su discurso de «libertad» una marca política con eco nacional, en permanente choque con el Gobierno y con peso propio dentro de su partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0102-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0102-ap-01-it-00",
+            "apartado_id": "pod-0102-ap-01",
+            "tipo": "evento",
+            "titulo": "De la comunicación al partido",
+            "contenido": "Periodista de formación, desarrolló su carrera en la comunicación del PP de Madrid, con un perfil discreto hasta su salto a la primera línea.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0102-ap-01-it-01",
+            "apartado_id": "pod-0102-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta sorpresa",
+            "contenido": "En 2019 fue la candidata del PP en Madrid y, pese a un resultado ajustado, logró la presidencia con el apoyo de Ciudadanos y Vox, iniciando un giro liberal.",
+            "fecha": "2019-08-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0102-ap-01-it-02",
+            "apartado_id": "pod-0102-ap-01",
+            "tipo": "evento",
+            "titulo": "El fenómeno electoral",
+            "contenido": "Su gestión de la pandemia, marcada por la defensa de la hostelería y el lema «libertad», la catapultó: en 2021 arrasó y en 2023 rozó la mayoría absoluta, convirtiéndose en un fenómeno electoral.",
+            "fecha": "2021-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0102-ap-01-it-03",
+            "apartado_id": "pod-0102-ap-01",
+            "tipo": "evento",
+            "titulo": "Pulso permanente con Moncloa",
+            "contenido": "Ha hecho de la confrontación con el Gobierno de Pedro Sánchez su seña de identidad —fiscalidad, sanidad, vivienda, inmigración—, con un peso e influencia que trascienden Madrid y tensionan a veces a la propia dirección del PP.",
+            "fecha": "2023-05-28",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0102-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0102-ap-02-it-00",
+            "apartado_id": "pod-0102-ap-02",
+            "tipo": "dato",
+            "titulo": "Liberalismo de confrontación",
+            "contenido": "Defiende bajadas de impuestos, la sanidad y educación concertadas y un discurso de «libertad» frente al intervencionismo; la confrontación con Sánchez y el «sanchismo» es el eje de su proyección nacional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "madrid"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0102-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0102-ap-03-it-00",
+            "apartado_id": "pod-0102-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -9/10) — Adversaria política frontal; la confrontación con el «sanchismo» es el centro de su estrategia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--9",
+              "confrontacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0102-ap-03-it-01",
+            "apartado_id": "pod-0102-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +3/10) — Relación compleja: misma sigla pero con tensiones de liderazgo, peso y estrategia dentro del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+3",
+              "tension-interna"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0103",
+    "slug": "fernando-lopez-miras",
+    "nombre_completo": "Fernando López Miras",
+    "alias": "Fernando López Miras",
+    "cargo_actual": "Presidente de la Región de Murcia",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente de la Región de Murcia (PP) desde 2017; bandera del trasvase Tajo-Segura. Gobierna con Vox.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "murcia"
+    ],
+    "fuente_principal": "https://www.carm.es",
+    "apartados": [
+      {
+        "id": "pod-0103-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0103-ap-00-it-00",
+            "apartado_id": "pod-0103-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Fernando López Miras (Lorca, 1983) es presidente de la Región de Murcia desde 2017 y líder del PP murciano. Uno de los presidentes autonómicos más jóvenes, ha resistido sucesivas convulsiones políticas (mociones de censura, pactos) y revalidó el cargo en 2023, gobernando con Vox. Representa un bastión del centroderecha en el sureste peninsular. Pese a su juventud, es ya uno de los presidentes autonómicos con más años en el cargo; ha hecho de la defensa del trasvase Tajo-Segura, la agricultura de regadío y los intereses hídricos de Murcia el centro de su acción política, en choque permanente con la política del agua del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0103-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0103-ap-01-it-00",
+            "apartado_id": "pod-0103-ap-01",
+            "tipo": "evento",
+            "titulo": "Ascenso rápido en el PP",
+            "contenido": "Licenciado en Derecho, tuvo un ascenso meteórico en el PP de Murcia, llegando a la presidencia regional muy joven, en 2017, tras la salida de su predecesor.",
+            "fecha": "2017-04-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0103-ap-01-it-01",
+            "apartado_id": "pod-0103-ap-01",
+            "tipo": "evento",
+            "titulo": "Resistir las crisis",
+            "contenido": "Sorteó intentos de moción de censura y la inestabilidad de los pactos durante la legislatura, manteniéndose al frente de la Comunidad.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0103-ap-01-it-02",
+            "apartado_id": "pod-0103-ap-01",
+            "tipo": "evento",
+            "titulo": "Revalidación en 2023",
+            "contenido": "Ganó las elecciones de 2023 y fue investido con el apoyo de Vox, con quien formó gobierno de coalición en la Región.",
+            "fecha": "2023-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0103-ap-01-it-03",
+            "apartado_id": "pod-0103-ap-01",
+            "tipo": "evento",
+            "titulo": "Agua y agricultura",
+            "contenido": "Su gestión gira en torno a la defensa del trasvase Tajo-Segura y los intereses agrícolas e hídricos de Murcia, en permanente conflicto con el Gobierno central por la política del agua.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0103-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0103-ap-02-it-00",
+            "apartado_id": "pod-0103-ap-02",
+            "tipo": "dato",
+            "titulo": "Defensa del agua y el trasvase",
+            "contenido": "Hace de la defensa del trasvase Tajo-Segura y de la agricultura del sureste su bandera, en confrontación directa con el Gobierno de Sánchez por la política hídrica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "murcia"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0103-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0103-ap-03-it-00",
+            "apartado_id": "pod-0103-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineado con la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0103-ap-03-it-01",
+            "apartado_id": "pod-0103-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -6/10) — Conflicto frontal por el trasvase Tajo-Segura y la política del agua.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--6",
+              "tension"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0104",
+    "slug": "maria-chivite",
+    "nombre_completo": "María Chivite Navascués",
+    "alias": "María Chivite",
+    "cargo_actual": "Presidenta de la Comunidad Foral de Navarra",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Presidenta de Navarra (PSN-PSOE) desde 2019; gobierna con apoyos de la izquierda y de EH Bildu.",
+    "tags": [
+      "politico",
+      "psoe",
+      "presidente-autonomico",
+      "navarra"
+    ],
+    "fuente_principal": "https://www.navarra.es",
+    "apartados": [
+      {
+        "id": "pod-0104-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0104-ap-00-it-00",
+            "apartado_id": "pod-0104-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María Chivite Navascués (Cintruénigo, 1978) es presidenta de la Comunidad Foral de Navarra desde 2019 y líder del PSN-PSOE. Gobierna una comunidad de gran complejidad política, con apoyos de la izquierda y la abstención o el respaldo del nacionalismo vasco (EH Bildu), lo que ha sido objeto de fuerte controversia con la derecha. Es una barona leal a la dirección federal del PSOE. Primera mujer al frente de Navarra, gobierna una comunidad foral de gran complejidad, donde defiende el régimen y el Convenio Económico propios, una agenda social y unos pactos plurales que la derecha le reprocha con dureza por incluir los apoyos de EH Bildu.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0104-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0104-ap-01-it-00",
+            "apartado_id": "pod-0104-ap-01",
+            "tipo": "evento",
+            "titulo": "Carrera en el socialismo navarro",
+            "contenido": "Trabajadora social de formación, desarrolló su carrera en el PSN siendo parlamentaria foral y senadora, hasta liderar el socialismo navarro.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0104-ap-01-it-01",
+            "apartado_id": "pod-0104-ap-01",
+            "tipo": "evento",
+            "titulo": "Primera presidenta de Navarra",
+            "contenido": "En 2019 fue investida presidenta de Navarra, la primera mujer en el cargo, con el apoyo de la izquierda y la abstención de EH Bildu, en un pacto muy contestado por la derecha.",
+            "fecha": "2019-08-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0104-ap-01-it-02",
+            "apartado_id": "pod-0104-ap-01",
+            "tipo": "evento",
+            "titulo": "Reelección en 2023",
+            "contenido": "Revalidó la presidencia en 2023, de nuevo con una mayoría plural de izquierdas y nacionalista, consolidando el giro político de la comunidad foral.",
+            "fecha": "2023-08-17",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0104-ap-01-it-03",
+            "apartado_id": "pod-0104-ap-01",
+            "tipo": "evento",
+            "titulo": "Gestión foral",
+            "contenido": "Defiende el régimen foral, el Convenio Económico y el autogobierno de Navarra, con una agenda social y de servicios públicos.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0104-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0104-ap-02-it-00",
+            "apartado_id": "pod-0104-ap-02",
+            "tipo": "dato",
+            "titulo": "Socialismo foral y pactos plurales",
+            "contenido": "Defiende el autogobierno foral y una agenda social, sostenida en pactos con la izquierda y los apoyos del nacionalismo vasco, lo que la enfrenta a la derecha navarra.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "navarra"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0104-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0104-ap-03-it-00",
+            "apartado_id": "pod-0104-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +7/10) — Barona leal a la dirección federal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0105",
+    "slug": "imanol-pradales",
+    "nombre_completo": "Imanol Pradales Gil",
+    "alias": "Imanol Pradales",
+    "cargo_actual": "Lehendakari (presidente del Gobierno Vasco)",
+    "partido": "PNV",
+    "foto_url": null,
+    "bio_corta": "Lehendakari (PNV) desde 2024; relevó a Urkullu y gobierna en coalición con el PSE-EE.",
+    "tags": [
+      "politico",
+      "pnv",
+      "presidente-autonomico",
+      "pais-vasco"
+    ],
+    "fuente_principal": "https://www.euskadi.eus",
+    "apartados": [
+      {
+        "id": "pod-0105-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0105-ap-00-it-00",
+            "apartado_id": "pod-0105-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Imanol Pradales Gil (Santurtzi, 1975) es lehendakari —presidente del Gobierno Vasco— desde 2024 y dirigente del PNV. Sociólogo y exdiputado foral de Bizkaia, relevó a Iñigo Urkullu tras las elecciones vascas de 2024, manteniendo al PNV en la lehendakaritza en coalición con el PSE-EE, en un contexto de fuerte competencia con EH Bildu por la hegemonía nacionalista. Sociólogo y gestor foral, encarna el relevo generacional del PNV tras la larga etapa de Urkullu; defiende la actualización del autogobierno y un nuevo estatus para Euskadi, mientras compite voto a voto con EH Bildu por liderar el nacionalismo vasco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0105-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0105-ap-01-it-00",
+            "apartado_id": "pod-0105-ap-01",
+            "tipo": "evento",
+            "titulo": "Sociólogo y gestor foral",
+            "contenido": "Doctor en Sociología y profesor universitario, desarrolló su carrera en la Diputación Foral de Bizkaia, donde fue diputado de áreas como infraestructuras y desarrollo económico.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0105-ap-01-it-01",
+            "apartado_id": "pod-0105-ap-01",
+            "tipo": "evento",
+            "titulo": "Relevo generacional del PNV",
+            "contenido": "Fue designado candidato del PNV a lehendakari en sustitución de la larga etapa de Iñigo Urkullu, encarnando el relevo generacional del partido.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0105-ap-01-it-02",
+            "apartado_id": "pod-0105-ap-01",
+            "tipo": "evento",
+            "titulo": "Lehendakari",
+            "contenido": "Tras las elecciones vascas de abril de 2024, fue investido lehendakari, manteniendo la coalición de gobierno entre el PNV y los socialistas del PSE-EE.",
+            "fecha": "2024-06-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0105-ap-01-it-03",
+            "apartado_id": "pod-0105-ap-01",
+            "tipo": "evento",
+            "titulo": "Pugna con EH Bildu",
+            "contenido": "Su mandato se desarrolla en una competencia muy estrecha con EH Bildu, que igualó al PNV en escaños, en torno al autogobierno, el estatus y la gestión de los servicios públicos vascos.",
+            "fecha": "2024-06-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0105-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0105-ap-02-it-00",
+            "apartado_id": "pod-0105-ap-02",
+            "tipo": "dato",
+            "titulo": "Nacionalismo vasco de gestión",
+            "contenido": "Defiende el autogobierno y la actualización del estatus de Euskadi y una gestión moderada, en pugna por la hegemonía nacionalista con EH Bildu y en relación pragmática con el Gobierno de Sánchez, al que el PNV apoya en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "pais-vasco"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0105-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0105-ap-03-it-00",
+            "apartado_id": "pod-0105-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +6/10) — El PNV es socio de investidura y apoyo parlamentario del Gobierno en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+6",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
+  },
+  {
+    "id": "pod-0106",
+    "slug": "juan-francisco-perez-llorca",
+    "nombre_completo": "Juan Francisco Pérez Llorca",
+    "alias": "Pérez Llorca",
+    "cargo_actual": "Presidente de la Generalitat Valenciana",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Presidente de la Generalitat Valenciana (PP) desde diciembre de 2025; sucedió a Mazón tras su dimisión por la DANA.",
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-autonomico",
+      "comunidad-valenciana"
+    ],
+    "fuente_principal": "https://www.gva.es",
+    "apartados": [
+      {
+        "id": "pod-0106-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0106-ap-00-it-00",
+            "apartado_id": "pod-0106-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Juan Francisco Pérez Llorca (Finestrat, Alicante) es presidente de la Generalitat Valenciana desde diciembre de 2025 y dirigente del PP en la comunidad. Hasta entonces síndic (portavoz) del grupo popular en Les Corts y exalcalde de Finestrat, fue elegido para suceder a Carlos Mazón, que dimitió por su gestión de la catastrófica DANA de 2024. Fue investido con el apoyo de Vox. Político de la provincia de Alicante y negociador del grupo popular, llegó a la presidencia en circunstancias excepcionales con la misión de pilotar la reconstrucción de las comarcas arrasadas por las inundaciones y devolver la estabilidad política a la Comunitat.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0106-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0106-ap-01-it-00",
+            "apartado_id": "pod-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcalde de Finestrat",
+            "contenido": "Desarrolló su carrera política en el PP de la provincia de Alicante, siendo alcalde de Finestrat y cargo orgánico del partido en la Comunidad Valenciana.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0106-ap-01-it-01",
+            "apartado_id": "pod-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Síndic del PP en Les Corts",
+            "contenido": "Como portavoz parlamentario del PP en Les Corts Valencianes, se convirtió en una pieza clave de la gestión política del grupo y de las relaciones con Vox.",
+            "fecha": "2023-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0106-ap-01-it-02",
+            "apartado_id": "pod-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "La sucesión de Mazón",
+            "contenido": "Tras la dimisión de Carlos Mazón en noviembre de 2025 —un año después de la DANA que causó más de dos centenares de muertos y por cuya gestión fue duramente cuestionado—, el PP lo eligió como candidato a la Generalitat.",
+            "fecha": "2025-11-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0106-ap-01-it-03",
+            "apartado_id": "pod-0106-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Generalitat",
+            "contenido": "Fue investido president de la Generalitat Valenciana en diciembre de 2025 con el apoyo de Vox, con el reto de gestionar la reconstrucción tras la DANA y recomponer la situación política de la Comunidad.",
+            "fecha": "2025-12-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0106-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0106-ap-02-it-00",
+            "apartado_id": "pod-0106-ap-02",
+            "tipo": "dato",
+            "titulo": "Reconstrucción tras la DANA",
+            "contenido": "Su prioridad declarada es la reconstrucción de las zonas devastadas por la DANA y la recuperación de la estabilidad política, desde una gestión de centroderecha apoyada en Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "comunidad-valenciana"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0106-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0106-ap-03-it-00",
+            "apartado_id": "pod-0106-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineado con la dirección nacional, que pilotó la sucesión de Mazón.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0106-ap-03-it-01",
+            "apartado_id": "pod-0106-ap-03",
+            "tipo": "contacto",
+            "titulo": "Santiago Abascal",
+            "contenido": "**Líder de Vox** (nota +4/10) — Su investidura dependió del apoyo de Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "nota-+4",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T12:16:22.210024Z",
+    "updated_at": "2026-05-29T12:16:22.210024Z"
   }
 ]
 
