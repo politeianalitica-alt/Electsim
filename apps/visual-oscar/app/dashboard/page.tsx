@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { useApi } from '@/lib/useApi'
+import dynamic from 'next/dynamic'
+import { useApiQuery } from '@/lib/api/use-api-query'
+import { apiClient } from '@/lib/api/client'
 import BrainBriefing from '@/components/BrainBriefing'
 import BriefingExports from '@/components/BriefingExports'
 import CountUp from '@/components/CountUp'
@@ -14,12 +16,16 @@ import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/comp
 import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
-import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
-import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
-import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
-import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
-import { ComtradeSpainOverview } from '@/components/trade/ComtradeSpainOverview'
 import type { DashboardHome } from '../api/dashboard/home/route'
+
+// Bloques pesados (mercados, macro, geopolítica, energía, comercio) cargados de
+// forma diferida (code-split + ssr:false) para aligerar el JS inicial del dashboard.
+const _ph = () => <div aria-hidden style={{ minHeight: 120 }} />
+const MarketSnapshot = dynamic(() => import('@/components/markets/MarketSnapshot').then(m => m.MarketSnapshot), { ssr: false, loading: _ph })
+const NasdaqMacroSnapshot = dynamic(() => import('@/components/macro/NasdaqMacroSnapshot').then(m => m.NasdaqMacroSnapshot), { ssr: false, loading: _ph })
+const AcledSpainContext = dynamic(() => import('@/components/geopolitics/AcledSpainContext').then(m => m.AcledSpainContext), { ssr: false, loading: _ph })
+const EmberSpainElectricity = dynamic(() => import('@/components/energy/EmberSpainElectricity').then(m => m.EmberSpainElectricity), { ssr: false, loading: _ph })
+const ComtradeSpainOverview = dynamic(() => import('@/components/trade/ComtradeSpainOverview').then(m => m.ComtradeSpainOverview), { ssr: false, loading: _ph })
 
 // ── News feed types (backend Ollama-analyzed, sin HTML escapado) ─────────────
 
@@ -178,23 +184,30 @@ export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
 
-  const { data, source, updatedAt, loading, refresh } = useApi<DashboardHome>(
- '/api/dashboard/home',
-    { refreshInterval: 60_000 }
+  // React Query (caché compartida + dedupe). El provider está en app/layout.tsx.
+  const homeQ = useApiQuery<DashboardHome>(
+    ['dashboard', 'home'],
+    () => apiClient.get<DashboardHome>('/api/dashboard/home'),
+    { refetchInterval: 60_000 },
+  )
+  const data = homeQ.data
+  const source = homeQ.meta?.source ?? null
+  const updatedAt = homeQ.meta?.ts ?? null
+  const loading = homeQ.isLoading
+  const refresh = homeQ.refetch
+
+  // /api/news/feed devuelve artículos ya analizados (ai_summary limpio, ai_relevance…)
+  const { data: newsRaw, isLoading: trendsLoading } = useApiQuery<{ articles?: NewsFeedArticle[]; count?: number }>(
+    ['news', 'feed', 'dashboard'],
+    () => apiClient.get('/api/news/feed?limit=12&min_relevance=0.5'),
+    { refetchInterval: 120_000 },
   )
 
-  // Antes usaba /api/trends (Google News RSS sin sanear, llegaba HTML escapado
-  // como <ol><li><a href=...). Ahora apuntamos a /api/news/feed que devuelve
-  // artículos ya analizados por Ollama (ai_summary limpio, ai_relevance, etc).
-  const { data: newsRaw, loading: trendsLoading } = useApi<{ articles?: NewsFeedArticle[]; count?: number }>(
- '/api/news/feed?limit=12&min_relevance=0.5',
-    { refreshInterval: 120_000 }
-  )
-
-  // Alertas con shape rico para mostrar con la misma visual que /alertas
-  const { data: signalsData } = useApi<{ signals?: AlertaItem[] }>(
- '/api/intelligence/signals?legacy=1',
-    { refreshInterval: 30_000 }
+  // Alertas con shape rico (misma visual que /alertas)
+  const { data: signalsData } = useApiQuery<{ signals?: AlertaItem[] }>(
+    ['intelligence', 'signals', 'legacy'],
+    () => apiClient.get('/api/intelligence/signals?legacy=1'),
+    { refetchInterval: 30_000 },
   )
   const richAlerts: AlertaItem[] = (signalsData?.signals ?? [])
     .slice()
