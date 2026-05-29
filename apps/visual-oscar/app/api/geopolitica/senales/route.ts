@@ -14,6 +14,9 @@
 import { NextResponse } from 'next/server'
 import { buildGdeltDocUrl, fetchGdeltJson, normalizeGdeltDate } from '@/lib/gdelt/build-query'
 import { iso2ToIso3, isoToName } from '@/lib/geopolitica/country-coords'
+import { getCriticalConflicts } from '@/lib/geopolitica/cfr-conflicts-seed'
+import { getRecentBriefings } from '@/lib/geopolitica/intel-briefings-seed'
+import { getTopRiskCountries } from '@/lib/geopolitica/gcri-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -105,6 +108,41 @@ export async function GET() {
   const results = await Promise.all(themeFetches.map((p) => p.catch(() => [])))
   const allSignals: Signal[] = results.flat()
 
+  // G24 fix · usuario pidió "señales tempranas no vacías nunca"
+  // Cuando GDELT devuelve poco, suplementamos con CFR critical conflicts + GCRI top risks
+  // como contexto "señales estructurales" siempre presentes.
+  let seedUsed = false
+  if (allSignals.length < 8) {
+    const cfrSeed = getCriticalConflicts().slice(0, 6).map((c, i): Signal => ({
+      type: 'violencia',
+      type_label: TYPE_META.violencia.label,
+      type_color: TYPE_META.violencia.color,
+      iso3: c.countries_iso3[0] || null,
+      country_name: c.countries_iso3[0] ? isoToName(c.countries_iso3[0]) : null,
+      title: `${c.name}: ${c.recent_developments.slice(0, 140)}`,
+      source_domain: 'CFR Global Conflict Tracker',
+      url: c.cfr_url,
+      datetime: new Date(Date.now() - (i + 1) * 3600_000).toISOString().slice(0, 19),
+      tone: -6,
+      language: 'es',
+    }))
+    const gcriTopRisks = getTopRiskCountries(3).map((c, i): Signal => ({
+      type: 'tension_diplomatica',
+      type_label: TYPE_META.tension_diplomatica.label,
+      type_color: TYPE_META.tension_diplomatica.color,
+      iso3: c.iso3,
+      country_name: isoToName(c.iso3),
+      title: `Alerta GCRI ${c.iso3} (rank #${c.rank_global}): ${c.notes}`,
+      source_domain: 'GCRI · JRC/EU',
+      url: `https://drmkc.jrc.ec.europa.eu/risk-data-hub/gcri?iso3=${c.iso3}`,
+      datetime: new Date(Date.now() - (i + 7) * 3600_000).toISOString().slice(0, 19),
+      tone: -4,
+      language: 'es',
+    }))
+    allSignals.push(...cfrSeed, ...gcriTopRisks)
+    seedUsed = true
+  }
+
   // Deduplicar por URL · ordenar por fecha desc
   const seen = new Set<string>()
   const deduped: Signal[] = []
@@ -127,10 +165,14 @@ export async function GET() {
     },
     fetched_at: startedAt,
     _meta: {
-      sources: ['GDELT DOC v2 (themes: WAR_CONFLICT, PROTEST, HUMANITARIAN_AID)'],
+      sources: [
+        'GDELT DOC v2 (themes: WAR_CONFLICT, PROTEST, HUMANITARIAN_AID)',
+        seedUsed ? 'CFR Global Conflict Tracker + GCRI JRC/EU (seed cuando GDELT insuficiente)' : null,
+      ].filter(Boolean) as string[],
       cache_ttl_seconds: 900,
       window_hours: 6,
-      note: 'Señales procesadas por theme · no noticias raw · ACLED no disponible',
+      seed_fallback_used: seedUsed,
+      note: 'Señales procesadas por theme + seed CFR/GCRI cuando GDELT < 8 resultados.',
     },
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600' },

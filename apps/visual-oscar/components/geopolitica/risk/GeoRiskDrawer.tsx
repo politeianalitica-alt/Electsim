@@ -498,6 +498,33 @@ function SubRegimen({ c }: { c: Country }) {
   const polyarchy = c.raw.polyarchy
   const trend = c.raw.polyarchy_trend
   const isEpisode = trend === 'regresion' || trend === 'regresion_severa'
+  // G24 · fetch FreedomHouse + V-Dem detallado live
+  const [fh, setFh] = useState<{
+    political_rights: number; civil_liberties: number; total: number
+    status: 'Free' | 'Partly Free' | 'Not Free'; change_vs_prev: number; year: number
+  } | null>(null)
+  const [vdem, setVdem] = useState<{
+    v2x_polyarchy: number; v2x_libdem: number; v2x_partipdem: number
+    v2x_delibdem: number; v2x_egaldem: number; v2x_regime: 0 | 1 | 2 | 3; year: number
+  } | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    fetch(`/api/geopolitica/intel-fusion?iso3=${c.iso3}`)
+      .then((r) => r.json())
+      .then((j) => {
+        if (!alive) return
+        setFh(j.freedom_house ?? null)
+        setVdem(j.vdem_detailed ?? null)
+      })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [c.iso3])
+
+  const REGIME_LABEL = ['Autocracia cerrada', 'Autocracia electoral', 'Democracia electoral', 'Democracia liberal']
+  const REGIME_COLOR = ['#7f1d1d', '#dc2626', '#f59e0b', '#16a34a']
+  const FH_COLOR = { 'Free': '#16a34a', 'Partly Free': '#f59e0b', 'Not Free': '#dc2626' }
+
   return (
     <div>
       {isEpisode && (
@@ -528,28 +555,33 @@ function SubRegimen({ c }: { c: Country }) {
         <p style={{ fontSize: 11, color: '#94a3b8', fontStyle: 'italic' }}>País no en cobertura V-Dem (80 países top).</p>
       )}
 
-      {/* G23 · "desarrolla los elementos de democracia" · 6 componentes V-Dem
-          derivados heurísticamente del polyarchy base (cuando no hay datos
-          subcomponentes oficiales). Aproxima con perturbación regionalizada
-          que refleja diferenciación típica entre categorías. */}
-      {polyarchy !== null && (
+      {/* G24 · V-Dem detallado OFICIAL desde seed (xmarquez/democracyData) */}
+      {vdem && (
         <>
           <h4 style={{ margin: '14px 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-            Componentes V-Dem · 6 ejes liberal democracy
+            V-Dem · 5 índices oficiales {vdem.year}
           </h4>
+          <div style={{
+            padding: '8px 10px', marginBottom: 10, borderRadius: 6,
+            background: `${REGIME_COLOR[vdem.v2x_regime]}10`,
+            borderLeft: `3px solid ${REGIME_COLOR[vdem.v2x_regime]}`,
+          }}>
+            <strong style={{ color: REGIME_COLOR[vdem.v2x_regime], fontSize: 11 }}>
+              Regime: {REGIME_LABEL[vdem.v2x_regime]}
+            </strong>
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
             {[
-              { label: 'Libertad de expresión', value: polyarchy * 0.95 + (polyarchy > 0.6 ? 0.04 : -0.05) },
-              { label: 'Independencia judicial', value: polyarchy * 0.92 + (polyarchy > 0.7 ? 0.05 : -0.03) },
-              { label: 'Sociedad civil', value: polyarchy * 0.97 + (polyarchy > 0.6 ? 0.02 : -0.04) },
-              { label: 'Checks & balances', value: polyarchy * 0.93 + (polyarchy > 0.7 ? 0.04 : -0.06) },
-              { label: 'Calidad elecciones', value: polyarchy * 0.96 + (polyarchy > 0.5 ? 0.02 : -0.02) },
-              { label: 'Libertad de asociación', value: polyarchy * 0.98 + (polyarchy > 0.6 ? 0.01 : -0.03) },
+              { label: 'Electoral Democracy (Polyarchy)', value: vdem.v2x_polyarchy },
+              { label: 'Liberal Democracy', value: vdem.v2x_libdem },
+              { label: 'Participatory Democracy', value: vdem.v2x_partipdem },
+              { label: 'Deliberative Democracy', value: vdem.v2x_delibdem },
+              { label: 'Egalitarian Democracy', value: vdem.v2x_egaldem },
             ].map((comp) => {
-              const v = Math.max(0, Math.min(1, comp.value))
+              const v = comp.value
               return (
                 <div key={comp.label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
-                  <span style={{ minWidth: 150, color: '#475569' }}>{comp.label}</span>
+                  <span style={{ minWidth: 180, color: '#475569' }}>{comp.label}</span>
                   <div style={{ flex: 1, height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
                     <div style={{ width: `${v * 100}%`, height: '100%', background: v > 0.7 ? '#16a34a' : v > 0.4 ? '#f59e0b' : '#dc2626' }} />
                   </div>
@@ -559,9 +591,49 @@ function SubRegimen({ c }: { c: Country }) {
             })}
           </div>
           <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>
-            Componentes derivados del polyarchy base · datos exactos subcomponentes vía v-dem.net Country Graph.
+            V-Dem Liberal Democracy Index v15 oficial · 7 high-level indicators · datos {vdem.year}.
           </p>
         </>
+      )}
+
+      {/* G24 · Freedom House Freedom in the World 2024 */}
+      {fh && (
+        <div style={{
+          marginTop: 14, padding: '10px 12px', borderRadius: 8,
+          background: `${FH_COLOR[fh.status]}15`,
+          borderLeft: `3px solid ${FH_COLOR[fh.status]}`,
+        }}>
+          <h4 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Freedom in the World {fh.year} · Freedom House
+          </h4>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6 }}>
+            <span style={{ fontSize: 26, fontWeight: 700, fontFamily: 'ui-monospace, monospace', color: FH_COLOR[fh.status] }}>
+              {fh.total}/100
+            </span>
+            <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: 10, fontWeight: 700, background: FH_COLOR[fh.status], color: '#fff', textTransform: 'uppercase' }}>
+              {fh.status}
+            </span>
+            {fh.change_vs_prev !== 0 && (
+              <span style={{ fontSize: 10, color: fh.change_vs_prev > 0 ? '#16a34a' : '#dc2626', fontWeight: 600 }}>
+                {fh.change_vs_prev > 0 ? '+' : ''}{fh.change_vs_prev} vs prev
+              </span>
+            )}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+            <div>
+              <p style={{ margin: 0, fontSize: 9, color: '#475569', textTransform: 'uppercase', fontWeight: 600 }}>Political Rights</p>
+              <p style={{ margin: '2px 0 0', fontSize: 16, fontFamily: 'ui-monospace, monospace', fontWeight: 700, color: '#0f172a' }}>
+                {fh.political_rights}/40
+              </p>
+            </div>
+            <div>
+              <p style={{ margin: 0, fontSize: 9, color: '#475569', textTransform: 'uppercase', fontWeight: 600 }}>Civil Liberties</p>
+              <p style={{ margin: '2px 0 0', fontSize: 16, fontFamily: 'ui-monospace, monospace', fontWeight: 700, color: '#0f172a' }}>
+                {fh.civil_liberties}/60
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       <div style={{ marginTop: 14, display: 'flex', gap: 8, flexWrap: 'wrap' }}>

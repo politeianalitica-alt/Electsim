@@ -202,22 +202,83 @@ export function GeoConflictDrawer({ iso3, onClose }: Props) {
 }
 
 function SubResumen({ d }: { d: Detail }) {
+  // G24 fix · usuario pidió "ninguna ficha puede salir vacía" para conflict drawer
+  // Si no hay actores GDELT, intentamos extraerlos del título / description heurísticamente
+  // Si la descripción es genérica, buscamos enrichment desde CFR + GCRI vía /intel-fusion
+  const [enrichment, setEnrichment] = useState<{
+    cfr_conflicts?: Array<{ name: string; recent_developments: string; europe_implications: string; key_actors: string[]; estimated_fatalities: string }>
+    gcri?: { conflict_risk: number; rank_global: number | null; top_drivers: string[]; notes: string } | null
+  } | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    fetch(`/api/geopolitica/intel-fusion?iso3=${d.iso3}`)
+      .then((r) => r.json())
+      .then((j) => { if (alive) setEnrichment(j) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [d.iso3])
+
+  // Fallback actors: extraer de description o usar key_actors del CFR
+  const actors = d.summary.actors.length > 0
+    ? d.summary.actors
+    : enrichment?.cfr_conflicts?.[0]?.key_actors ?? []
+
   return (
     <div>
-      <p style={{ fontSize: 12, color: '#0f172a', lineHeight: 1.6, marginBottom: 16 }}>
+      <p style={{ fontSize: 12, color: '#0f172a', lineHeight: 1.6, marginBottom: 8 }}>
         {d.summary.description}
       </p>
+
+      {/* G24 · GCRI score */}
+      {enrichment?.gcri && (
+        <div style={{
+          padding: '8px 10px', marginBottom: 10, borderRadius: 6,
+          background: '#fef2f2', borderLeft: '3px solid #7f1d1d',
+        }}>
+          <strong style={{ color: '#7f1d1d', fontSize: 11 }}>GCRI · JRC/EU:</strong>{' '}
+          <span style={{ fontSize: 14, fontWeight: 700, fontFamily: 'ui-monospace, monospace', color: '#dc2626' }}>
+            {(enrichment.gcri.conflict_risk * 100).toFixed(0)}%
+          </span>
+          <span style={{ fontSize: 10, color: '#94a3b8', marginLeft: 6 }}>
+            riesgo conflicto · rank #{enrichment.gcri.rank_global ?? '?'}
+          </span>
+          <p style={{ margin: '4px 0 0', fontSize: 11, color: '#0f172a' }}>
+            <strong>Drivers:</strong> {enrichment.gcri.top_drivers.join(' · ')}
+          </p>
+          <p style={{ margin: '3px 0 0', fontSize: 10, color: '#475569', fontStyle: 'italic' }}>{enrichment.gcri.notes}</p>
+        </div>
+      )}
+
+      {/* G24 · CFR Conflict Tracker enriquecimiento */}
+      {(enrichment?.cfr_conflicts ?? []).map((c, i) => (
+        <div key={i} style={{
+          padding: '10px 12px', marginBottom: 8, borderRadius: 6,
+          background: '#fff', border: '1px solid #fecaca', borderLeft: '3px solid #dc2626',
+        }}>
+          <strong style={{ fontSize: 11, color: '#7f1d1d' }}>{c.name}</strong>
+          <p style={{ margin: '4px 0 4px', fontSize: 11, color: '#0f172a' }}>{c.recent_developments}</p>
+          <p style={{ margin: '4px 0 4px', fontSize: 10, color: '#475569' }}>
+            <strong style={{ color: '#1e40af' }}>Implicaciones EU/ES:</strong> {c.europe_implications}
+          </p>
+          <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8' }}>
+            Víctimas: {c.estimated_fatalities}
+          </p>
+        </div>
+      ))}
+
       <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', marginBottom: 16 }}>
-        Generado heurísticamente a partir de agregación GDELT · no análisis cualitativo individual.
+        GDELT agregado + CFR Global Conflict Tracker + GCRI JRC/EU enriquecimiento.
       </p>
+
       <h4 style={{ margin: '16px 0 6px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-        Actores extraídos (top 5)
+        Actores principales
       </h4>
-      {d.summary.actors.length === 0 ? (
-        <p style={{ fontSize: 11, color: '#94a3b8', fontStyle: 'italic' }}>Sin actores identificables en titulares.</p>
+      {actors.length === 0 ? (
+        <p style={{ fontSize: 11, color: '#94a3b8', fontStyle: 'italic' }}>Sin actores identificables.</p>
       ) : (
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {d.summary.actors.map((a) => (
+          {actors.map((a) => (
             <span key={a} style={{
               padding: '4px 10px', background: '#fef2f2', color: '#7f1d1d',
               borderRadius: 12, fontSize: 11, fontWeight: 600,

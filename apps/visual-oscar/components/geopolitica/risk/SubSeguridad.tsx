@@ -32,6 +32,42 @@ interface StructuralSec {
   organized_crime_notes: string
   primary_security_threat: string
 }
+interface UcdpData {
+  ok: boolean
+  events_count?: number
+  fatalities_total?: number
+  fatalities_high?: number
+  conflicts_active?: number
+  types_breakdown?: Record<string, number>
+  recent_events?: Array<{
+    conflict_name: string; side_a: string; side_b: string
+    date_start: string; best_est: number; type_of_violence: number
+  }>
+  source?: string
+}
+
+interface AcledData {
+  ok: boolean
+  events_count?: number
+  fatalities_total?: number
+  by_type?: Record<string, number>
+  top_admin1?: Array<{ name: string; events: number; fatalities: number }>
+  recent_events?: Array<{
+    event_date: string; event_type: string; actor1: string; actor2?: string | null
+    admin1: string; location: string; fatalities: number; notes: string
+  }>
+  has_credentials?: boolean
+  source?: string
+}
+
+interface GcriData {
+  iso3: string; conflict_risk: number; rank_global: number | null
+  category: 'low' | 'moderate' | 'high' | 'severe'
+  politico_score: number; seguridad_score: number; economico_score: number
+  social_score: number; geografico_score: number
+  top_drivers: string[]; notes: string
+}
+
 interface SegResp {
   ok: boolean
   iso3: string
@@ -43,6 +79,12 @@ interface SegResp {
   top_domains: Domain[]
   recent_events: Event[]
   structural?: StructuralSec | null
+  /** G24 · UCDP REST API */
+  ucdp?: UcdpData | null
+  /** G24 · ACLED REST API (requires env keys) */
+  acled?: AcledData | null
+  /** G24 · GCRI seed JRC/EU */
+  gcri?: GcriData | null
 }
 
 const FRAGILITY_COLOR: Record<StructuralSec['fragility_category'], string> = {
@@ -72,9 +114,102 @@ export function SubSeguridad({ iso3 }: { iso3: string }) {
   if (!data?.ok) return <p style={{ fontSize: 11, color: '#94a3b8' }}>Sin datos GDELT para seguridad.</p>
 
   const sec = data.structural
+  const ucdp = data.ucdp
+  const acled = data.acled
+  const gcri = data.gcri
+  const GCRI_COLOR = { severe: '#7f1d1d', high: '#dc2626', moderate: '#f59e0b', low: '#16a34a' } as const
 
   return (
     <div>
+      {/* G24 · GCRI (JRC/EU) score */}
+      {gcri && (
+        <div style={{
+          padding: '10px 12px', marginBottom: 10, borderRadius: 8,
+          background: `${GCRI_COLOR[gcri.category]}10`,
+          borderLeft: `3px solid ${GCRI_COLOR[gcri.category]}`,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+            <strong style={{ color: GCRI_COLOR[gcri.category], fontSize: 12 }}>GCRI · JRC/EU</strong>
+            <span style={{ fontSize: 18, fontWeight: 700, fontFamily: 'ui-monospace, monospace', color: GCRI_COLOR[gcri.category] }}>
+              {(gcri.conflict_risk * 100).toFixed(0)}%
+            </span>
+            <span style={{ fontSize: 9, color: '#94a3b8' }}>riesgo conflicto 1-4y · rank #{gcri.rank_global ?? '?'} · {gcri.category}</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 4, marginBottom: 4 }}>
+            <Mini label="Político" value={gcri.politico_score} />
+            <Mini label="Seguridad" value={gcri.seguridad_score} />
+            <Mini label="Economía" value={gcri.economico_score} />
+            <Mini label="Social" value={gcri.social_score} />
+            <Mini label="Geográfico" value={gcri.geografico_score} />
+          </div>
+          <p style={{ margin: 0, fontSize: 10, color: '#475569' }}>
+            <strong>Drivers:</strong> {gcri.top_drivers.join(' · ')}
+          </p>
+          <p style={{ margin: '3px 0 0', fontSize: 10, color: '#0f172a', fontStyle: 'italic' }}>{gcri.notes}</p>
+        </div>
+      )}
+
+      {/* G24 · UCDP live API */}
+      {ucdp?.ok && ucdp.events_count !== undefined && ucdp.events_count > 0 && (
+        <div style={{ padding: '10px 12px', marginBottom: 10, borderRadius: 8, background: '#fef2f2', borderLeft: '3px solid #7f1d1d' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+            <strong style={{ color: '#7f1d1d', fontSize: 12 }}>UCDP · Uppsala</strong>
+            <span style={{ fontSize: 9, color: '#94a3b8' }}>{ucdp.source}</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 4 }}>
+            <Kpi label="Eventos 365d" value={String(ucdp.events_count)} accent="#dc2626" />
+            <Kpi label="Fatalidades" value={String(ucdp.fatalities_total ?? 0)} accent="#7f1d1d" />
+            <Kpi label="Conflictos" value={String(ucdp.conflicts_active ?? 0)} accent="#dc2626" />
+          </div>
+          {ucdp.recent_events && ucdp.recent_events.length > 0 && (
+            <div style={{ marginTop: 6 }}>
+              <p style={{ margin: '0 0 4px', fontSize: 10, color: '#475569', fontWeight: 600 }}>Eventos recientes UCDP:</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {ucdp.recent_events.slice(0, 5).map((e, i) => (
+                  <div key={i} style={{ fontSize: 10, padding: '3px 6px', background: '#fff', borderRadius: 3 }}>
+                    <strong>{e.side_a}</strong> vs <strong>{e.side_b}</strong>
+                    <span style={{ color: '#94a3b8', marginLeft: 6 }}>{e.date_start}</span>
+                    <span style={{ marginLeft: 'auto', float: 'right', color: '#7f1d1d', fontWeight: 700 }}>{e.best_est} fatalidades</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* G24 · ACLED live API */}
+      {acled?.ok && acled.events_count !== undefined && acled.events_count > 0 && (
+        <div style={{ padding: '10px 12px', marginBottom: 10, borderRadius: 8, background: '#fffbeb', borderLeft: '3px solid #92400e' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+            <strong style={{ color: '#92400e', fontSize: 12 }}>ACLED Realtime</strong>
+            <span style={{ fontSize: 9, color: '#94a3b8' }}>{acled.source}</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, marginBottom: 6 }}>
+            <Kpi label="Eventos 365d" value={String(acled.events_count)} accent="#dc2626" />
+            <Kpi label="Fatalidades" value={String(acled.fatalities_total ?? 0)} accent="#7f1d1d" />
+          </div>
+          {acled.top_admin1 && acled.top_admin1.length > 0 && (
+            <div>
+              <p style={{ margin: '0 0 3px', fontSize: 10, color: '#475569', fontWeight: 600 }}>Subnacional (admin1) más afectado:</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {acled.top_admin1.slice(0, 6).map((a, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, padding: '3px 6px', background: '#fff', borderRadius: 3 }}>
+                    <span><strong>{a.name}</strong></span>
+                    <span style={{ color: '#475569' }}>{a.events} eventos · <strong style={{ color: '#7f1d1d' }}>{a.fatalities}</strong> fatal.</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      {acled && !acled.has_credentials && (
+        <p style={{ margin: '0 0 10px', fontSize: 10, color: '#94a3b8', fontStyle: 'italic', padding: '6px 8px', background: '#f1f5f9', borderRadius: 4 }}>
+          ACLED Realtime requiere ACLED_API_KEY + ACLED_EMAIL en Vercel env (registro gratuito: acleddata.com/api).
+        </p>
+      )}
+
       {/* G23 · Indicadores estructurales seguridad (GPI/UNODC/GTD/CPI/FfP/RSF) */}
       {sec && (
         <>
@@ -193,6 +328,16 @@ function Kpi({ label, value, accent }: { label: string; value: string; accent: s
     <div style={{ padding: '8px 10px', background: '#fff', borderRadius: 6, borderLeft: `3px solid ${accent}`, border: '1px solid #f1f5f9' }}>
       <p style={{ margin: 0, fontSize: 9, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.3, fontWeight: 600 }}>{label}</p>
       <p style={{ margin: '2px 0 0', fontSize: 14, fontWeight: 700, color: accent, fontFamily: 'ui-monospace, monospace' }}>{value}</p>
+    </div>
+  )
+}
+
+function Mini({ label, value }: { label: string; value: number }) {
+  const color = value > 70 ? '#dc2626' : value > 40 ? '#f59e0b' : '#16a34a'
+  return (
+    <div style={{ padding: '4px 6px', background: '#fff', borderRadius: 3, textAlign: 'center' }}>
+      <p style={{ margin: 0, fontSize: 8, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.3 }}>{label}</p>
+      <p style={{ margin: '1px 0 0', fontSize: 12, fontWeight: 700, fontFamily: 'ui-monospace, monospace', color }}>{value}</p>
     </div>
   )
 }
