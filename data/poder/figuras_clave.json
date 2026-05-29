@@ -1713,7 +1713,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español."
+            "contenido": "Juan Roig Alfonso (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Convirtió un pequeño negocio familiar de ultramarinos en el líder absoluto del supermercado español, con un modelo de gestión —y un discurso del «esfuerzo»— que lo ha hecho referente y a la vez figura controvertida del empresariado. Reinvierte buena parte de su fortuna en el emprendimiento y el deporte, y su mujer, Hortensia Herrero, destaca como gran mecenas del arte."
           }
         ]
       },
@@ -1724,18 +1724,26 @@
           {
             "tipo": "evento",
             "titulo": "De la tienda familiar a Mercadona",
-            "contenido": "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.",
+            "contenido": "Hijo de una familia de tenderos valencianos, transformó el pequeño negocio de ultramarinos en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España, con más de 1.600 supermercados.",
             "fecha": "1981-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "El modelo Mercadona",
-            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector."
+            "titulo": "El «modelo Mercadona»",
+            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), «siempre precios bajos», fuerte inversión en logística e integración con proveedores (los «interproveedores»), estudiado y copiado en todo el sector mundial.",
+            "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Marina de Empresas y mecenazgo",
-            "contenido": "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte."
+            "titulo": "Marina de Empresas y emprendimiento",
+            "contenido": "Reinvierte parte de su fortuna en el emprendimiento a través de Marina de Empresas, la aceleradora Lanzadera y la escuela de negocios EDEM, con el objetivo declarado de fomentar la cultura del esfuerzo y la empresa.",
+            "fecha": "2013-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Patrón y mecenas valenciano",
+            "contenido": "Es propietario del Valencia Basket y un activo patrón de iniciativas en la Comunidad Valenciana; junto a su esposa, Hortensia Herrero, forma uno de los grandes binomios empresariales y filantrópicos de España.",
+            "fecha": "2018-01-01"
           }
         ]
       },

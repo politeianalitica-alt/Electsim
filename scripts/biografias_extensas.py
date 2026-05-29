@@ -225,11 +225,12 @@ BIOS: dict[str, dict] = {
         ],
     },
     "juan-roig": {
-        "perfil": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español.",
+        "perfil": "Juan Roig Alfonso (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Convirtió un pequeño negocio familiar de ultramarinos en el líder absoluto del supermercado español, con un modelo de gestión —y un discurso del «esfuerzo»— que lo ha hecho referente y a la vez figura controvertida del empresariado. Reinvierte buena parte de su fortuna en el emprendimiento y el deporte, y su mujer, Hortensia Herrero, destaca como gran mecenas del arte.",
         "trayectoria": [
-            ("De la tienda familiar a Mercadona", "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.", "1981-01-01"),
-            ("El modelo Mercadona", "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector.", ""),
-            ("Marina de Empresas y mecenazgo", "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte.", ""),
+            ("De la tienda familiar a Mercadona", "Hijo de una familia de tenderos valencianos, transformó el pequeño negocio de ultramarinos en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España, con más de 1.600 supermercados.", "1981-01-01"),
+            ("El «modelo Mercadona»", "Impuso un modelo de marca propia (Hacendado, Deliplus), «siempre precios bajos», fuerte inversión en logística e integración con proveedores (los «interproveedores»), estudiado y copiado en todo el sector mundial.", "2000-01-01"),
+            ("Marina de Empresas y emprendimiento", "Reinvierte parte de su fortuna en el emprendimiento a través de Marina de Empresas, la aceleradora Lanzadera y la escuela de negocios EDEM, con el objetivo declarado de fomentar la cultura del esfuerzo y la empresa.", "2013-01-01"),
+            ("Patrón y mecenas valenciano", "Es propietario del Valencia Basket y un activo patrón de iniciativas en la Comunidad Valenciana; junto a su esposa, Hortensia Herrero, forma uno de los grandes binomios empresariales y filantrópicos de España.", "2018-01-01"),
         ],
     },
     "luis-arguello": {
@@ -278,18 +279,21 @@ BIOS: dict[str, dict] = {
 
     # ── 3er lote · más poder a nivel Sánchez ────────────────────────────────
     "pablo-iglesias-turrion": {
-        "perfil": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo en 2014. Profesor de Ciencia Política, hoy dirige el medio Canal Red y mantiene una influencia notable en el espacio de la izquierda alternativa.",
+        "perfil": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo español en 2014. Profesor de Ciencia Política y tertuliano, capitalizó el malestar del 15-M para irrumpir en la política y forzar el primer Gobierno de coalición de la democracia. Tras dejar la primera línea en 2021, dirige el medio Canal Red y mantiene una influencia notable —y polémica— en el espacio de la izquierda alternativa, en tensión con Sumar.",
         "trayectoria": [
-            ("Del 15-M a Podemos", "Politólogo y tertuliano (La Tuerka), capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y luego en las generales, rompiendo el bipartidismo.", "2014-01-16"),
-            ("Vicepresidente del Gobierno", "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras las elecciones madrileñas.", "2020-01-13"),
-            ("Canal Red y la batalla mediática", "Apartado de la primera línea, fundó Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y con el espacio de Sumar.", "2021-05-04"),
+            ("Del 15-M a Podemos", "Politólogo y rostro de tertulias como 'La Tuerka', capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y las generales, rompiendo el bipartidismo PSOE-PP.", "2014-01-16"),
+            ("El «asalto a los cielos»", "Lideró el crecimiento meteórico de Podemos, que llegó a disputar a la izquierda la hegemonía del PSOE, con un discurso anti-casta y de regeneración, antes de estabilizarse como tercera o cuarta fuerza.", "2015-12-20"),
+            ("Vicepresidente del Gobierno", "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras presentarse a las elecciones madrileñas.", "2020-01-13"),
+            ("Canal Red y la batalla mediática", "Apartado de los cargos, fundó el medio digital Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y marcando distancias críticas con el proyecto de Sumar de Yolanda Díaz.", "2021-05-04"),
         ],
     },
     "josep-borrell": {
-        "perfil": "Josep Borrell (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero y economista, fue ministro, presidente del Parlamento Europeo y Alto Representante de la UE para Asuntos Exteriores, el cargo diplomático más alto de Europa.",
+        "perfil": "Josep Borrell Fontelles (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero aeronáutico y economista, fue ministro con Felipe González, presidente del Parlamento Europeo y, sobre todo, Alto Representante de la UE para Asuntos Exteriores y vicepresidente de la Comisión (2019-2024), el cargo diplomático más alto de Europa, desde el que pilotó la respuesta europea a la guerra de Ucrania y a Oriente Próximo. Catalán y firme defensor del constitucionalismo, ha sido una voz incómoda frente al independentismo.",
         "trayectoria": [
-            ("Ministro y presidente del Parlamento Europeo", "Ministro de Obras Públicas con Felipe González, ganó las primarias del PSOE en 1998 y presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.", "2004-07-20"),
-            ("Ministro de Exteriores y Alto Representante", "Volvió a la primera línea como ministro de Exteriores con Sánchez (2018) y, desde 2019, fue Alto Representante de la UE y vicepresidente de la Comisión, pilotando la respuesta europea a la guerra de Ucrania y a Oriente Próximo.", "2019-12-01"),
+            ("Ministro con Felipe González", "Ingeniero y economista, fue secretario de Estado y ministro de Obras Públicas, Transportes y Medio Ambiente en los gobiernos de Felipe González.", "1991-01-01"),
+            ("Primarias del PSOE y Parlamento Europeo", "Ganó por sorpresa las primarias del PSOE en 1998 frente al aparato del partido, aunque no llegó a ser candidato; años después presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.", "2004-07-20"),
+            ("Ministro de Exteriores y el procés", "Volvió a la primera línea como ministro de Exteriores con Pedro Sánchez en 2018, ejerciendo de azote internacional del independentismo catalán durante los años más duros del procés.", "2018-06-07"),
+            ("Alto Representante de la UE", "Entre 2019 y 2024 fue Alto Representante de la Unión para Asuntos Exteriores y vicepresidente de la Comisión Europea, liderando la diplomacia comunitaria ante la guerra de Ucrania, Oriente Próximo y la relación con China y Estados Unidos.", "2019-12-01"),
         ],
     },
     "nadia-calvino": {
@@ -357,11 +361,12 @@ BIOS: dict[str, dict] = {
         ],
     },
     "alfonso-guerra": {
-        "perfil": "Alfonso Guerra (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y hoy es una de las voces críticas más duras con el rumbo del PSOE de Sánchez.",
+        "perfil": "Alfonso Guerra González (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición democrática. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y su número dos, célebre por su afilada oratoria y su control de la maquinaria socialista. Retirado de los cargos pero no de la política, se ha convertido en una de las voces críticas más duras con el rumbo del PSOE de Pedro Sánchez, especialmente con los pactos con el independentismo y la ley de amnistía.",
         "trayectoria": [
-            ("El arquitecto del PSOE", "Hombre de confianza de Felipe González desde Suresnes, diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo.", "1974-01-01"),
-            ("Vicepresidente del Gobierno", "Fue vicepresidente del Gobierno (1982-1991), pieza clave de la modernización de España, hasta que el caso de su hermano Juan precipitó su salida del Ejecutivo.", "1982-12-03"),
-            ("Voz crítica", "Retirado de la primera línea, preside la Fundación Pablo Iglesias y se ha convertido en uno de los críticos más severos con los pactos del Gobierno con el independentismo y la amnistía.", "2023-01-01"),
+            ("El arquitecto del PSOE", "Hombre de confianza de Felipe González desde el Congreso de Suresnes (1974), diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo y en uno de los artífices de la Transición.", "1974-10-13"),
+            ("Vicepresidente del Gobierno", "Fue vicepresidente del Gobierno entre 1982 y 1991, pieza clave de la modernización de España y de la mayoría socialista, con un peso decisivo en el partido y en el Ejecutivo.", "1982-12-03"),
+            ("La salida y el «caso Juan Guerra»", "El escándalo en torno a su hermano Juan, que usaba un despacho oficial para negocios privados, precipitó su salida del Gobierno en 1991, aunque él no resultó condenado.", "1991-01-12"),
+            ("Voz crítica del veteranismo socialista", "Retirado de la primera línea, ha presidido fundaciones del partido y se ha erigido en uno de los críticos más severos con los pactos del Gobierno de Sánchez con el independentismo y con la ley de amnistía.", "2023-01-01"),
         ],
     },
     "ursula-von-der-leyen": {
@@ -386,10 +391,12 @@ BIOS: dict[str, dict] = {
         ],
     },
     "carlos-slim": {
-        "perfil": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de las telecomunicaciones y una de las mayores fortunas del mundo. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, lo que lo convierte en uno de los mayores propietarios extranjeros de empresas españolas.",
+        "perfil": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de origen libanés, una de las mayores fortunas del mundo y el inversor extranjero con mayor peso en la empresa española. Construyó un colosal conglomerado en torno a las telecomunicaciones (América Móvil) que durante años lo situó como el hombre más rico del planeta. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, además de haber mantenido participaciones en otras grandes cotizadas, lo que lo convierte en una pieza relevante del capitalismo español.",
         "trayectoria": [
-            ("El imperio América Móvil", "Inversor de origen libanés, construyó un conglomerado en torno a América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.", "1990-01-01"),
-            ("Desembarco en España", "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.", "2014-12-01"),
+            ("El imperio América Móvil", "Inversor con olfato para las empresas en dificultades, construyó un conglomerado en torno a la mexicana Telmex y América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.", "1990-01-01"),
+            ("Diversificación global", "Su grupo Carso diversificó en construcción, minería, banca, comercio e infraestructuras, con inversiones en medios (llegó a ser primer accionista de The New York Times) y en empresas de medio mundo.", "2000-01-01"),
+            ("Desembarco en España", "Tras la crisis financiera, aprovechó los precios deprimidos para tomar el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y entró en otras cotizadas españolas.", "2014-12-01"),
+            ("Inversor de referencia", "Mantiene una posición de inversor extranjero de primer orden en España a través de FCC y Realia, con intereses en infraestructuras, agua, residuos e inmobiliario, atento a nuevas oportunidades en el mercado español.", "2020-01-01"),
         ],
     },
     "jose-creuheras": {

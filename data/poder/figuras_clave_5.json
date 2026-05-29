@@ -846,7 +846,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de las telecomunicaciones y una de las mayores fortunas del mundo. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, lo que lo convierte en uno de los mayores propietarios extranjeros de empresas españolas."
+            "contenido": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de origen libanés, una de las mayores fortunas del mundo y el inversor extranjero con mayor peso en la empresa española. Construyó un colosal conglomerado en torno a las telecomunicaciones (América Móvil) que durante años lo situó como el hombre más rico del planeta. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, además de haber mantenido participaciones en otras grandes cotizadas, lo que lo convierte en una pieza relevante del capitalismo español."
           }
         ]
       },
@@ -857,14 +857,26 @@
           {
             "tipo": "evento",
             "titulo": "El imperio América Móvil",
-            "contenido": "Inversor de origen libanés, construyó un conglomerado en torno a América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.",
+            "contenido": "Inversor con olfato para las empresas en dificultades, construyó un conglomerado en torno a la mexicana Telmex y América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.",
             "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
+            "titulo": "Diversificación global",
+            "contenido": "Su grupo Carso diversificó en construcción, minería, banca, comercio e infraestructuras, con inversiones en medios (llegó a ser primer accionista de The New York Times) y en empresas de medio mundo.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
             "titulo": "Desembarco en España",
-            "contenido": "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.",
+            "contenido": "Tras la crisis financiera, aprovechó los precios deprimidos para tomar el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y entró en otras cotizadas españolas.",
             "fecha": "2014-12-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inversor de referencia",
+            "contenido": "Mantiene una posición de inversor extranjero de primer orden en España a través de FCC y Realia, con intereses en infraestructuras, agua, residuos e inmobiliario, atento a nuevas oportunidades en el mercado español.",
+            "fecha": "2020-01-01"
           }
         ]
       },

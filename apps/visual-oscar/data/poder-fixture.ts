@@ -244,8 +244,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0002",
@@ -482,8 +482,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0003",
@@ -697,8 +697,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0004",
@@ -922,8 +922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0005",
@@ -1107,8 +1107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0006",
@@ -1275,8 +1275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0007",
@@ -1468,8 +1468,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0008",
@@ -1649,8 +1649,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0009",
@@ -1833,8 +1833,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0010",
@@ -2055,8 +2055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0011",
@@ -2279,8 +2279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0012",
@@ -2406,8 +2406,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0013",
@@ -2630,8 +2630,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0014",
@@ -2824,8 +2824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0015",
@@ -2857,7 +2857,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0015-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español.",
+            "contenido": "Juan Roig Alfonso (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Convirtió un pequeño negocio familiar de ultramarinos en el líder absoluto del supermercado español, con un modelo de gestión —y un discurso del «esfuerzo»— que lo ha hecho referente y a la vez figura controvertida del empresariado. Reinvierte buena parte de su fortuna en el emprendimiento y el deporte, y su mujer, Hortensia Herrero, destaca como gran mecenas del arte.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2878,7 +2878,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0015-ap-01",
             "tipo": "evento",
             "titulo": "De la tienda familiar a Mercadona",
-            "contenido": "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.",
+            "contenido": "Hijo de una familia de tenderos valencianos, transformó el pequeño negocio de ultramarinos en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España, con más de 1.600 supermercados.",
             "fecha": "1981-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2889,9 +2889,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0015-ap-01-it-01",
             "apartado_id": "pod-0015-ap-01",
             "tipo": "evento",
-            "titulo": "El modelo Mercadona",
-            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector.",
-            "fecha": null,
+            "titulo": "El «modelo Mercadona»",
+            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), «siempre precios bajos», fuerte inversión en logística e integración con proveedores (los «interproveedores»), estudiado y copiado en todo el sector mundial.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -2901,13 +2901,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0015-ap-01-it-02",
             "apartado_id": "pod-0015-ap-01",
             "tipo": "evento",
-            "titulo": "Marina de Empresas y mecenazgo",
-            "contenido": "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte.",
-            "fecha": null,
+            "titulo": "Marina de Empresas y emprendimiento",
+            "contenido": "Reinvierte parte de su fortuna en el emprendimiento a través de Marina de Empresas, la aceleradora Lanzadera y la escuela de negocios EDEM, con el objetivo declarado de fomentar la cultura del esfuerzo y la empresa.",
+            "fecha": "2013-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0015-ap-01-it-03",
+            "apartado_id": "pod-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Patrón y mecenas valenciano",
+            "contenido": "Es propietario del Valencia Basket y un activo patrón de iniciativas en la Comunidad Valenciana; junto a su esposa, Hortensia Herrero, forma uno de los grandes binomios empresariales y filantrópicos de España.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -3013,8 +3025,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0016",
@@ -3191,8 +3203,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0017",
@@ -3364,8 +3376,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0018",
@@ -3563,8 +3575,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0019",
@@ -3760,8 +3772,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0020",
@@ -3920,8 +3932,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0021",
@@ -4102,8 +4114,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0022",
@@ -4364,8 +4376,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0023",
@@ -4535,8 +4547,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0024",
@@ -4750,8 +4762,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0025",
@@ -4934,8 +4946,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0026",
@@ -5111,8 +5123,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0027",
@@ -5384,8 +5396,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0028",
@@ -5596,8 +5608,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0029",
@@ -5835,8 +5847,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0030",
@@ -6047,8 +6059,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0031",
@@ -6079,7 +6091,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0031-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo en 2014. Profesor de Ciencia Política, hoy dirige el medio Canal Red y mantiene una influencia notable en el espacio de la izquierda alternativa.",
+            "contenido": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo español en 2014. Profesor de Ciencia Política y tertuliano, capitalizó el malestar del 15-M para irrumpir en la política y forzar el primer Gobierno de coalición de la democracia. Tras dejar la primera línea en 2021, dirige el medio Canal Red y mantiene una influencia notable —y polémica— en el espacio de la izquierda alternativa, en tensión con Sumar.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6100,7 +6112,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0031-ap-01",
             "tipo": "evento",
             "titulo": "Del 15-M a Podemos",
-            "contenido": "Politólogo y tertuliano (La Tuerka), capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y luego en las generales, rompiendo el bipartidismo.",
+            "contenido": "Politólogo y rostro de tertulias como 'La Tuerka', capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y las generales, rompiendo el bipartidismo PSOE-PP.",
             "fecha": "2014-01-16",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6111,9 +6123,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0031-ap-01-it-01",
             "apartado_id": "pod-0031-ap-01",
             "tipo": "evento",
-            "titulo": "Vicepresidente del Gobierno",
-            "contenido": "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras las elecciones madrileñas.",
-            "fecha": "2020-01-13",
+            "titulo": "El «asalto a los cielos»",
+            "contenido": "Lideró el crecimiento meteórico de Podemos, que llegó a disputar a la izquierda la hegemonía del PSOE, con un discurso anti-casta y de regeneración, antes de estabilizarse como tercera o cuarta fuerza.",
+            "fecha": "2015-12-20",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -6123,13 +6135,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0031-ap-01-it-02",
             "apartado_id": "pod-0031-ap-01",
             "tipo": "evento",
-            "titulo": "Canal Red y la batalla mediática",
-            "contenido": "Apartado de la primera línea, fundó Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y con el espacio de Sumar.",
-            "fecha": "2021-05-04",
+            "titulo": "Vicepresidente del Gobierno",
+            "contenido": "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras presentarse a las elecciones madrileñas.",
+            "fecha": "2020-01-13",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0031-ap-01-it-03",
+            "apartado_id": "pod-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Canal Red y la batalla mediática",
+            "contenido": "Apartado de los cargos, fundó el medio digital Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y marcando distancias críticas con el proyecto de Sumar de Yolanda Díaz.",
+            "fecha": "2021-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -6228,8 +6252,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0032",
@@ -6260,7 +6284,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0032-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Josep Borrell (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero y economista, fue ministro, presidente del Parlamento Europeo y Alto Representante de la UE para Asuntos Exteriores, el cargo diplomático más alto de Europa.",
+            "contenido": "Josep Borrell Fontelles (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero aeronáutico y economista, fue ministro con Felipe González, presidente del Parlamento Europeo y, sobre todo, Alto Representante de la UE para Asuntos Exteriores y vicepresidente de la Comisión (2019-2024), el cargo diplomático más alto de Europa, desde el que pilotó la respuesta europea a la guerra de Ucrania y a Oriente Próximo. Catalán y firme defensor del constitucionalismo, ha sido una voz incómoda frente al independentismo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6280,9 +6304,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0032-ap-01-it-00",
             "apartado_id": "pod-0032-ap-01",
             "tipo": "evento",
-            "titulo": "Ministro y presidente del Parlamento Europeo",
-            "contenido": "Ministro de Obras Públicas con Felipe González, ganó las primarias del PSOE en 1998 y presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.",
-            "fecha": "2004-07-20",
+            "titulo": "Ministro con Felipe González",
+            "contenido": "Ingeniero y economista, fue secretario de Estado y ministro de Obras Públicas, Transportes y Medio Ambiente en los gobiernos de Felipe González.",
+            "fecha": "1991-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -6292,13 +6316,37 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0032-ap-01-it-01",
             "apartado_id": "pod-0032-ap-01",
             "tipo": "evento",
-            "titulo": "Ministro de Exteriores y Alto Representante",
-            "contenido": "Volvió a la primera línea como ministro de Exteriores con Sánchez (2018) y, desde 2019, fue Alto Representante de la UE y vicepresidente de la Comisión, pilotando la respuesta europea a la guerra de Ucrania y a Oriente Próximo.",
-            "fecha": "2019-12-01",
+            "titulo": "Primarias del PSOE y Parlamento Europeo",
+            "contenido": "Ganó por sorpresa las primarias del PSOE en 1998 frente al aparato del partido, aunque no llegó a ser candidato; años después presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.",
+            "fecha": "2004-07-20",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0032-ap-01-it-02",
+            "apartado_id": "pod-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro de Exteriores y el procés",
+            "contenido": "Volvió a la primera línea como ministro de Exteriores con Pedro Sánchez en 2018, ejerciendo de azote internacional del independentismo catalán durante los años más duros del procés.",
+            "fecha": "2018-06-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0032-ap-01-it-03",
+            "apartado_id": "pod-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Alto Representante de la UE",
+            "contenido": "Entre 2019 y 2024 fue Alto Representante de la Unión para Asuntos Exteriores y vicepresidente de la Comisión Europea, liderando la diplomacia comunitaria ante la guerra de Ucrania, Oriente Próximo y la relación con China y Estados Unidos.",
+            "fecha": "2019-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -6365,8 +6413,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0033",
@@ -6530,8 +6578,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0034",
@@ -6650,8 +6698,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0035",
@@ -6777,8 +6825,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0036",
@@ -6938,8 +6986,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0037",
@@ -7148,8 +7196,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0038",
@@ -7356,8 +7404,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0039",
@@ -7529,8 +7577,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0040",
@@ -7686,8 +7734,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0041",
@@ -7857,8 +7905,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0042",
@@ -8014,8 +8062,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0043",
@@ -8154,8 +8202,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0044",
@@ -8361,8 +8409,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0045",
@@ -8392,7 +8440,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0045-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Alfonso Guerra (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y hoy es una de las voces críticas más duras con el rumbo del PSOE de Sánchez.",
+            "contenido": "Alfonso Guerra González (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición democrática. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y su número dos, célebre por su afilada oratoria y su control de la maquinaria socialista. Retirado de los cargos pero no de la política, se ha convertido en una de las voces críticas más duras con el rumbo del PSOE de Pedro Sánchez, especialmente con los pactos con el independentismo y la ley de amnistía.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8487,8 +8535,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0045-ap-03",
             "tipo": "evento",
             "titulo": "El arquitecto del PSOE",
-            "contenido": "Hombre de confianza de Felipe González desde Suresnes, diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo.",
-            "fecha": "1974-01-01",
+            "contenido": "Hombre de confianza de Felipe González desde el Congreso de Suresnes (1974), diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo y en uno de los artífices de la Transición.",
+            "fecha": "1974-10-13",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -8499,7 +8547,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0045-ap-03",
             "tipo": "evento",
             "titulo": "Vicepresidente del Gobierno",
-            "contenido": "Fue vicepresidente del Gobierno (1982-1991), pieza clave de la modernización de España, hasta que el caso de su hermano Juan precipitó su salida del Ejecutivo.",
+            "contenido": "Fue vicepresidente del Gobierno entre 1982 y 1991, pieza clave de la modernización de España y de la mayoría socialista, con un peso decisivo en el partido y en el Ejecutivo.",
             "fecha": "1982-12-03",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8510,19 +8558,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0045-ap-03-it-02",
             "apartado_id": "pod-0045-ap-03",
             "tipo": "evento",
-            "titulo": "Voz crítica",
-            "contenido": "Retirado de la primera línea, preside la Fundación Pablo Iglesias y se ha convertido en uno de los críticos más severos con los pactos del Gobierno con el independentismo y la amnistía.",
-            "fecha": "2023-01-01",
+            "titulo": "La salida y el «caso Juan Guerra»",
+            "contenido": "El escándalo en torno a su hermano Juan, que usaba un despacho oficial para negocios privados, precipitó su salida del Gobierno en 1991, aunque él no resultó condenado.",
+            "fecha": "1991-01-12",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0045-ap-03-it-03",
+            "apartado_id": "pod-0045-ap-03",
+            "tipo": "evento",
+            "titulo": "Voz crítica del veteranismo socialista",
+            "contenido": "Retirado de la primera línea, ha presidido fundaciones del partido y se ha erigido en uno de los críticos más severos con los pactos del Gobierno de Sánchez con el independentismo y con la ley de amnistía.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0046",
@@ -8682,8 +8742,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0047",
@@ -8815,8 +8875,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0048",
@@ -8915,8 +8975,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0049",
@@ -9048,8 +9108,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0050",
@@ -9135,8 +9195,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0051",
@@ -9222,8 +9282,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0052",
@@ -9390,8 +9450,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0053",
@@ -9534,8 +9594,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0054",
@@ -9679,8 +9739,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0055",
@@ -9824,8 +9884,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0056",
@@ -9956,8 +10016,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0057",
@@ -10137,8 +10197,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0058",
@@ -10307,8 +10367,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0059",
@@ -10477,8 +10537,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0060",
@@ -10658,8 +10718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0061",
@@ -10866,8 +10926,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0062",
@@ -11051,8 +11111,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0063",
@@ -11236,8 +11296,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0064",
@@ -11421,8 +11481,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0065",
@@ -11521,8 +11581,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0066",
@@ -11621,8 +11681,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0067",
@@ -11718,8 +11778,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0068",
@@ -11806,8 +11866,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0069",
@@ -11965,8 +12025,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0070",
@@ -12079,8 +12139,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0071",
@@ -12236,8 +12296,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0072",
@@ -12393,8 +12453,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0073",
@@ -12562,8 +12622,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0074",
@@ -12720,8 +12780,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0075",
@@ -12891,8 +12951,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0076",
@@ -13047,8 +13107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0077",
@@ -13216,8 +13276,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0078",
@@ -13250,7 +13310,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0078-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de las telecomunicaciones y una de las mayores fortunas del mundo. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, lo que lo convierte en uno de los mayores propietarios extranjeros de empresas españolas.",
+            "contenido": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de origen libanés, una de las mayores fortunas del mundo y el inversor extranjero con mayor peso en la empresa española. Construyó un colosal conglomerado en torno a las telecomunicaciones (América Móvil) que durante años lo situó como el hombre más rico del planeta. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, además de haber mantenido participaciones en otras grandes cotizadas, lo que lo convierte en una pieza relevante del capitalismo español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13271,7 +13331,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0078-ap-01",
             "tipo": "evento",
             "titulo": "El imperio América Móvil",
-            "contenido": "Inversor de origen libanés, construyó un conglomerado en torno a América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.",
+            "contenido": "Inversor con olfato para las empresas en dificultades, construyó un conglomerado en torno a la mexicana Telmex y América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.",
             "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13282,13 +13342,37 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0078-ap-01-it-01",
             "apartado_id": "pod-0078-ap-01",
             "tipo": "evento",
-            "titulo": "Desembarco en España",
-            "contenido": "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.",
-            "fecha": "2014-12-01",
+            "titulo": "Diversificación global",
+            "contenido": "Su grupo Carso diversificó en construcción, minería, banca, comercio e infraestructuras, con inversiones en medios (llegó a ser primer accionista de The New York Times) y en empresas de medio mundo.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0078-ap-01-it-02",
+            "apartado_id": "pod-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Desembarco en España",
+            "contenido": "Tras la crisis financiera, aprovechó los precios deprimidos para tomar el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y entró en otras cotizadas españolas.",
+            "fecha": "2014-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0078-ap-01-it-03",
+            "apartado_id": "pod-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Inversor de referencia",
+            "contenido": "Mantiene una posición de inversor extranjero de primer orden en España a través de FCC y Realia, con intereses en infraestructuras, agua, residuos e inmobiliario, atento a nuevas oportunidades en el mercado español.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -13338,8 +13422,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0079",
@@ -13521,8 +13605,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0080",
@@ -13707,8 +13791,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0081",
@@ -13864,8 +13948,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0082",
@@ -14021,8 +14105,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0083",
@@ -14154,8 +14238,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0084",
@@ -14325,8 +14409,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0085",
@@ -14401,8 +14485,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0086",
@@ -14533,8 +14617,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0087",
@@ -14677,8 +14761,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0088",
@@ -14798,8 +14882,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0089",
@@ -14930,8 +15014,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0090",
@@ -15043,8 +15127,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0091",
@@ -15207,8 +15291,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0092",
@@ -15355,8 +15439,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0093",
@@ -15519,8 +15603,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0094",
@@ -15683,8 +15767,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0095",
@@ -15847,8 +15931,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0096",
@@ -15995,8 +16079,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0097",
@@ -16159,8 +16243,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0098",
@@ -16307,8 +16391,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0099",
@@ -16471,8 +16555,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0100",
@@ -16635,8 +16719,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0101",
@@ -16799,8 +16883,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0102",
@@ -16963,8 +17047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0103",
@@ -17127,8 +17211,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0104",
@@ -17275,8 +17359,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0105",
@@ -17423,8 +17507,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0106",
@@ -17587,8 +17671,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0107",
@@ -17751,8 +17835,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0108",
@@ -17915,8 +17999,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0109",
@@ -18079,8 +18163,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0110",
@@ -18243,8 +18327,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0111",
@@ -18407,8 +18491,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0112",
@@ -18571,8 +18655,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0113",
@@ -18735,8 +18819,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0114",
@@ -18899,8 +18983,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0115",
@@ -19047,8 +19131,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0116",
@@ -19195,8 +19279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0117",
@@ -19359,8 +19443,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0118",
@@ -19507,8 +19591,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0119",
@@ -19671,8 +19755,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0120",
@@ -19835,8 +19919,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0121",
@@ -19999,8 +20083,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0122",
@@ -20163,8 +20247,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0123",
@@ -20327,8 +20411,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0124",
@@ -20491,8 +20575,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0125",
@@ -20655,8 +20739,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0126",
@@ -20819,8 +20903,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0127",
@@ -20983,8 +21067,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0128",
@@ -21147,8 +21231,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0129",
@@ -21311,8 +21395,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0130",
@@ -21475,8 +21559,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0131",
@@ -21639,8 +21723,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0132",
@@ -21803,8 +21887,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0133",
@@ -21967,8 +22051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0134",
@@ -22131,8 +22215,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0135",
@@ -22295,8 +22379,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0136",
@@ -22443,8 +22527,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0137",
@@ -22591,8 +22675,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0138",
@@ -22739,8 +22823,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0139",
@@ -22903,8 +22987,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   },
   {
     "id": "pod-0140",
@@ -23067,8 +23151,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T13:03:16.727833Z",
-    "updated_at": "2026-05-29T13:03:16.727833Z"
+    "created_at": "2026-05-29T15:00:09.215855Z",
+    "updated_at": "2026-05-29T15:00:09.215855Z"
   }
 ]
 

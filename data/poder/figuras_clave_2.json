@@ -583,7 +583,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo en 2014. Profesor de Ciencia Política, hoy dirige el medio Canal Red y mantiene una influencia notable en el espacio de la izquierda alternativa."
+            "contenido": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo español en 2014. Profesor de Ciencia Política y tertuliano, capitalizó el malestar del 15-M para irrumpir en la política y forzar el primer Gobierno de coalición de la democracia. Tras dejar la primera línea en 2021, dirige el medio Canal Red y mantiene una influencia notable —y polémica— en el espacio de la izquierda alternativa, en tensión con Sumar."
           }
         ]
       },
@@ -594,19 +594,25 @@
           {
             "tipo": "evento",
             "titulo": "Del 15-M a Podemos",
-            "contenido": "Politólogo y tertuliano (La Tuerka), capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y luego en las generales, rompiendo el bipartidismo.",
+            "contenido": "Politólogo y rostro de tertulias como 'La Tuerka', capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y las generales, rompiendo el bipartidismo PSOE-PP.",
             "fecha": "2014-01-16"
           },
           {
             "tipo": "evento",
+            "titulo": "El «asalto a los cielos»",
+            "contenido": "Lideró el crecimiento meteórico de Podemos, que llegó a disputar a la izquierda la hegemonía del PSOE, con un discurso anti-casta y de regeneración, antes de estabilizarse como tercera o cuarta fuerza.",
+            "fecha": "2015-12-20"
+          },
+          {
+            "tipo": "evento",
             "titulo": "Vicepresidente del Gobierno",
-            "contenido": "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras las elecciones madrileñas.",
+            "contenido": "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras presentarse a las elecciones madrileñas.",
             "fecha": "2020-01-13"
           },
           {
             "tipo": "evento",
             "titulo": "Canal Red y la batalla mediática",
-            "contenido": "Apartado de la primera línea, fundó Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y con el espacio de Sumar.",
+            "contenido": "Apartado de los cargos, fundó el medio digital Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y marcando distancias críticas con el proyecto de Sumar de Yolanda Díaz.",
             "fecha": "2021-05-04"
           }
         ]
@@ -694,7 +700,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Josep Borrell (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero y economista, fue ministro, presidente del Parlamento Europeo y Alto Representante de la UE para Asuntos Exteriores, el cargo diplomático más alto de Europa."
+            "contenido": "Josep Borrell Fontelles (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero aeronáutico y economista, fue ministro con Felipe González, presidente del Parlamento Europeo y, sobre todo, Alto Representante de la UE para Asuntos Exteriores y vicepresidente de la Comisión (2019-2024), el cargo diplomático más alto de Europa, desde el que pilotó la respuesta europea a la guerra de Ucrania y a Oriente Próximo. Catalán y firme defensor del constitucionalismo, ha sido una voz incómoda frente al independentismo."
           }
         ]
       },
@@ -704,14 +710,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Ministro y presidente del Parlamento Europeo",
-            "contenido": "Ministro de Obras Públicas con Felipe González, ganó las primarias del PSOE en 1998 y presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.",
+            "titulo": "Ministro con Felipe González",
+            "contenido": "Ingeniero y economista, fue secretario de Estado y ministro de Obras Públicas, Transportes y Medio Ambiente en los gobiernos de Felipe González.",
+            "fecha": "1991-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primarias del PSOE y Parlamento Europeo",
+            "contenido": "Ganó por sorpresa las primarias del PSOE en 1998 frente al aparato del partido, aunque no llegó a ser candidato; años después presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.",
             "fecha": "2004-07-20"
           },
           {
             "tipo": "evento",
-            "titulo": "Ministro de Exteriores y Alto Representante",
-            "contenido": "Volvió a la primera línea como ministro de Exteriores con Sánchez (2018) y, desde 2019, fue Alto Representante de la UE y vicepresidente de la Comisión, pilotando la respuesta europea a la guerra de Ucrania y a Oriente Próximo.",
+            "titulo": "Ministro de Exteriores y el procés",
+            "contenido": "Volvió a la primera línea como ministro de Exteriores con Pedro Sánchez en 2018, ejerciendo de azote internacional del independentismo catalán durante los años más duros del procés.",
+            "fecha": "2018-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alto Representante de la UE",
+            "contenido": "Entre 2019 y 2024 fue Alto Representante de la Unión para Asuntos Exteriores y vicepresidente de la Comisión Europea, liderando la diplomacia comunitaria ante la guerra de Ucrania, Oriente Próximo y la relación con China y Estados Unidos.",
             "fecha": "2019-12-01"
           }
         ]
@@ -1973,7 +1991,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Alfonso Guerra (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y hoy es una de las voces críticas más duras con el rumbo del PSOE de Sánchez."
+            "contenido": "Alfonso Guerra González (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición democrática. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y su número dos, célebre por su afilada oratoria y su control de la maquinaria socialista. Retirado de los cargos pero no de la política, se ha convertido en una de las voces críticas más duras con el rumbo del PSOE de Pedro Sánchez, especialmente con los pactos con el independentismo y la ley de amnistía."
           }
         ]
       },
@@ -2026,19 +2044,25 @@
           {
             "tipo": "evento",
             "titulo": "El arquitecto del PSOE",
-            "contenido": "Hombre de confianza de Felipe González desde Suresnes, diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo.",
-            "fecha": "1974-01-01"
+            "contenido": "Hombre de confianza de Felipe González desde el Congreso de Suresnes (1974), diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo y en uno de los artífices de la Transición.",
+            "fecha": "1974-10-13"
           },
           {
             "tipo": "evento",
             "titulo": "Vicepresidente del Gobierno",
-            "contenido": "Fue vicepresidente del Gobierno (1982-1991), pieza clave de la modernización de España, hasta que el caso de su hermano Juan precipitó su salida del Ejecutivo.",
+            "contenido": "Fue vicepresidente del Gobierno entre 1982 y 1991, pieza clave de la modernización de España y de la mayoría socialista, con un peso decisivo en el partido y en el Ejecutivo.",
             "fecha": "1982-12-03"
           },
           {
             "tipo": "evento",
-            "titulo": "Voz crítica",
-            "contenido": "Retirado de la primera línea, preside la Fundación Pablo Iglesias y se ha convertido en uno de los críticos más severos con los pactos del Gobierno con el independentismo y la amnistía.",
+            "titulo": "La salida y el «caso Juan Guerra»",
+            "contenido": "El escándalo en torno a su hermano Juan, que usaba un despacho oficial para negocios privados, precipitó su salida del Gobierno en 1991, aunque él no resultó condenado.",
+            "fecha": "1991-01-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz crítica del veteranismo socialista",
+            "contenido": "Retirado de la primera línea, ha presidido fundaciones del partido y se ha erigido en uno de los críticos más severos con los pactos del Gobierno de Sánchez con el independentismo y con la ley de amnistía.",
             "fecha": "2023-01-01"
           }
         ]
