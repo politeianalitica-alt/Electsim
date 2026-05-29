@@ -6,12 +6,25 @@
  */
 import { useEffect, useState } from 'react'
 
+interface Cobertura {
+  appri_in_force: boolean
+  adt_in_force: boolean
+  ico_available: boolean
+  ico_max_eur_m: number | null
+  cesce_rating: string
+  cesce_open: boolean
+  cesce_short_term: string
+  cesce_medium_long_term: string
+  notes: string
+}
+
 interface FDIPosition {
   iso3: string; name_es: string
   fdi_stock_eur_bn: number
   share_total_pct: number
   vdem_polyarchy: number | null
   risk_high: boolean
+  cobertura?: Cobertura | null
 }
 interface Response {
   ok: boolean
@@ -19,7 +32,11 @@ interface Response {
   top_positions: FDIPosition[]
 }
 
-export function InversionPanel() {
+interface Props {
+  onCountryClick?: (iso3: string) => void
+}
+
+export function InversionPanel({ onCountryClick }: Props = {}) {
   const [data, setData] = useState<Response | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -61,31 +78,81 @@ export function InversionPanel() {
       </div>
 
       <h4 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-        Top 15 posiciones FDI
+        Top 15 posiciones FDI + cobertura formal por posición
       </h4>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         {data.top_positions.map((p) => (
-          <div key={p.iso3} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 6px', background: p.risk_high ? '#fef2f2' : 'transparent', borderRadius: 4 }}>
-            <span style={{ width: 130, fontSize: 10, color: '#0f172a', fontWeight: 600 }}>
-              {p.name_es} {p.risk_high && <span style={{ color: '#dc2626' }}>⚠</span>}
-            </span>
-            <div style={{ flex: 1, height: 12, background: '#f1f5f9', borderRadius: 2, overflow: 'hidden' }}>
-              <div style={{ width: `${(p.fdi_stock_eur_bn / maxFdi) * 100}%`, height: '100%', background: p.risk_high ? '#dc2626' : '#7c3aed' }} />
+          <div key={p.iso3}
+            onClick={() => onCountryClick?.(p.iso3)}
+            style={{
+              padding: '6px 8px',
+              background: p.risk_high ? '#fef2f2' : '#fff',
+              borderRadius: 5,
+              border: '1px solid #f1f5f9',
+              cursor: onCountryClick ? 'pointer' : 'default',
+            }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ width: 130, fontSize: 11, color: '#0f172a', fontWeight: 600 }}>
+                {p.name_es} {p.risk_high && <span style={{ color: '#dc2626' }}>!</span>}
+              </span>
+              <div style={{ flex: 1, height: 10, background: '#f1f5f9', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ width: `${(p.fdi_stock_eur_bn / maxFdi) * 100}%`, height: '100%', background: p.risk_high ? '#dc2626' : '#7c3aed' }} />
+              </div>
+              <span style={{ width: 90, fontSize: 10, fontFamily: 'ui-monospace, monospace', textAlign: 'right', color: '#0f172a' }}>
+                €{p.fdi_stock_eur_bn}bn ({p.share_total_pct}%)
+              </span>
+              {p.vdem_polyarchy !== null && (
+                <span style={{ width: 40, fontSize: 9, color: '#94a3b8', textAlign: 'right' }}>V-Dem {p.vdem_polyarchy.toFixed(2)}</span>
+              )}
             </div>
-            <span style={{ width: 100, fontSize: 10, fontFamily: 'ui-monospace, monospace', textAlign: 'right', color: '#0f172a' }}>
-              €{p.fdi_stock_eur_bn}bn ({p.share_total_pct}%)
-            </span>
-            {p.vdem_polyarchy !== null && (
-              <span style={{ width: 40, fontSize: 9, color: '#94a3b8', textAlign: 'right' }}>V-Dem {p.vdem_polyarchy.toFixed(2)}</span>
+            {/* G24 · Cobertura formal en linea (APPRI/ADT/ICO/CESCE) */}
+            {p.cobertura && (
+              <div style={{ display: 'flex', gap: 4, marginTop: 4, fontSize: 9, flexWrap: 'wrap' }}>
+                <Pill label={p.cobertura.appri_in_force ? 'APPRI vigor' : 'APPRI no'} on={p.cobertura.appri_in_force} />
+                <Pill label={p.cobertura.adt_in_force ? 'ADT vigor' : 'ADT no'} on={p.cobertura.adt_in_force} />
+                <Pill
+                  label={p.cobertura.ico_available ? `ICO €${p.cobertura.ico_max_eur_m ?? '?'}M` : 'ICO cerrada'}
+                  on={p.cobertura.ico_available}
+                />
+                <Pill
+                  label={`CESCE ${p.cobertura.cesce_rating} · ${p.cobertura.cesce_short_term}/${p.cobertura.cesce_medium_long_term}`}
+                  on={p.cobertura.cesce_open}
+                />
+                {p.cobertura.notes && (
+                  <span style={{ color: '#94a3b8', fontStyle: 'italic', fontSize: 9 }}>
+                    {p.cobertura.notes.slice(0, 80)}{p.cobertura.notes.length > 80 ? '…' : ''}
+                  </span>
+                )}
+              </div>
+            )}
+            {!p.cobertura && (
+              <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>
+                Cobertura formal pendiente para este país (top 30 ES seed).
+              </p>
             )}
           </div>
         ))}
       </div>
 
-      <div style={{ marginTop: 14, padding: '8px 10px', background: '#fef3c7', borderRadius: 6, fontSize: 10, color: '#92400e' }}>
-        <strong>Próximamente</strong> · Cobertura formal por posición (APPRI + ADT + ICO + CESCE) pendiente de integrar.
-      </div>
+      <p style={{ margin: '10px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>
+        Cobertura formal: APPRI (Bilateral Investment Treaty) + ADT (Acuerdo Doble Tributación) +
+        ICO Línea Internacional + CESCE rating OCDE riesgo país. Datos exteriores.gob.es + cesce.es.
+        Click en cualquier posición para abrir ficha país.
+      </p>
     </section>
+  )
+}
+
+function Pill({ label, on }: { label: string; on: boolean }) {
+  return (
+    <span style={{
+      padding: '1px 6px',
+      background: on ? '#dcfce7' : '#fef2f2',
+      color: on ? '#15803d' : '#7f1d1d',
+      borderRadius: 3,
+      fontSize: 9,
+      fontWeight: 600,
+    }}>{label}</span>
   )
 }
 

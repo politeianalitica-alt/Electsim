@@ -744,7 +744,6 @@ export default function GeopoliticaPage() {
             <div style={{ marginBottom: 14 }}>
               <GeoRiskHeatmap onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
             </div>
-            <GeoRiskDrawer iso3={riskDrawerIso} onClose={() => setRiskDrawerIso(null)} />
           </div>
         )}
 
@@ -1077,7 +1076,7 @@ export default function GeopoliticaPage() {
               gap: 14, marginBottom: 14,
             }}>
               <ComercioPanel />
-              <InversionPanel />
+              <InversionPanel onCountryClick={(iso3) => setRiskDrawerIso(iso3)} />
             </div>
 
             {/* G20 item 20 · NUEVA feature mayor: Activos españoles en riesgo
@@ -1122,6 +1121,11 @@ export default function GeopoliticaPage() {
         )}
 
       </main>
+
+      {/* G24 · GeoRiskDrawer renderizado a nivel page · funciona desde
+          cualquier tab (Risk/Militar/Diplomatic/Spain Investment/Activos),
+          permitiendo click en mapa sanciones (Tab 5) y InversionPanel (Tab 6). */}
+      <GeoRiskDrawer iso3={riskDrawerIso} onClose={() => setRiskDrawerIso(null)} />
 
       {/* Modal DAFO global (compartido por Teatro Global y Presencia Española) */}
       {dafoOpen && (
