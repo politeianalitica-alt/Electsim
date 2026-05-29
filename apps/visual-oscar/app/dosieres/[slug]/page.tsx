@@ -8,15 +8,9 @@ import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton from '@/components/Skeleton'
 import { findDossier } from '@/lib/dosieres-link'
-// Fixtures locales para los seeds IBEX 35 + Diputaciones (no están en
-// el backend; se mergean en cliente · misma estética que el resto).
-import { getDossierBySlug } from '@/data/dosieres-fixture'
-import { getCONGBySlug } from '@/data/congreso-fixture'
-import { getSENBySlug } from '@/data/senado-fixture'
-import { getMEDBySlug } from '@/data/medios-fixture'
-import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
-import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
-import { PODER_FIXTURE } from '@/data/poder-fixture'
+// Los fixtures (dosieres/congreso/senado/medios/IBEX/Diputaciones/Poder) ya NO
+// se importan en cliente: el slug se resuelve server-side en
+// /api/dosieres/[slug] (ver route.ts). Eso saca ~14 MB del bundle del navegador.
 // Overlay de relaciones políticas estructurales (Fase B). Aplica a los
 // ~2.500 dossieres del fixture sin apartado redes propio.
 import REDES_OVERLAY from '@/data/redes-overlay.json'
@@ -109,21 +103,9 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
     ? (data as DossierCompleto)
     : null
 
-  // Fallback en cliente: los seeds IBEX 35 y Diputaciones no están en
-  // el backend. Si la API no devuelve nada y el slug existe en algún
-  // fixture local, lo usamos con la misma estética que el resto.
-  const localDossier = !apiDossier
-    ? (IBEX35_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
-      ?? (DIPUTACIONES_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
-      ?? (PODER_FIXTURE.find(d => d.slug === params.slug) as DossierCompleto | undefined)
-      ?? (getCONGBySlug(params.slug) as DossierCompleto | null)
-      ?? (getSENBySlug(params.slug) as DossierCompleto | null)
-      ?? (getMEDBySlug(params.slug) as DossierCompleto | null)
-      ?? (getDossierBySlug(params.slug) as DossierCompleto | null)
-      ?? null
-    : null
-
-  const dossierBase: DossierCompleto | null = apiDossier ?? localDossier
+  // Los seeds (IBEX 35, Diputaciones, Poder) y el resto de fichas se sirven
+  // server-side desde /api/dosieres/[slug]. El cliente ya no importa fixtures.
+  const dossierBase: DossierCompleto | null = apiDossier
 
   // Merge overlay de relaciones políticas estructurales (Fase B).
   // Si el dossier NO trae apartado `redes` propio, miramos el overlay
@@ -178,8 +160,7 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
     }
   }, [dossierBase])
 
-  // Mientras la API responde, si tenemos local, ya pintamos (sin parpadeo)
-  if (loading && !localDossier) return <LoadingState/>
+  if (loading) return <LoadingState/>
   if (!dossier) return <NotFoundState slug={params.slug}/>
 
   const partidoColor = dossier.partido ? (PARTIDO_COLOR[dossier.partido] ?? '#6e6e73') : '#6e6e73'
