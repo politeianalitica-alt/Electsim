@@ -1012,7 +1012,7 @@
       "prensa"
     ],
     "confidence": 0.82,
-    "completeness": 0.65,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1021,7 +1021,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Logroño, 1952. Periodista. Una de las figuras más influyentes y longevas del periodismo español."
+            "contenido": "Pedro J. Ramírez (Logroño, 1952) es director de El Español y una leyenda del periodismo de investigación español. Fundador de El Mundo, ha protagonizado las grandes batallas mediáticas de la democracia, con un estilo combativo y una relación tensa con el poder de turno."
           }
         ]
       },
@@ -1031,14 +1031,20 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Diario 16 y El Mundo",
-            "contenido": "Director de Diario 16 (caso GAL) y fundador-director de El Mundo (1989-2014).",
+            "titulo": "Diario 16 y los GAL",
+            "contenido": "Dirigió Diario 16 con apenas 28 años; desde allí destapó la trama de los GAL, la guerra sucia contra ETA, que marcó el final de la era socialista.",
+            "fecha": "1980-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundación y dirección de El Mundo",
+            "contenido": "En 1989 fundó El Mundo, que convirtió en el segundo diario de España y en una máquina de investigación (Roldán, Filesa, Gürtel, Bárcenas). Dirigió el periódico durante 25 años.",
             "fecha": "1989-10-23"
           },
           {
             "tipo": "evento",
             "titulo": "El Español",
-            "contenido": "Funda El Español en 2015 tras su salida de El Mundo.",
+            "contenido": "Tras su salida de El Mundo en 2014, fundó en 2015 el digital El Español mediante crowdfunding, consolidándolo como uno de los nativos digitales líderes y de referencia del centro-derecha.",
             "fecha": "2015-10-07"
           }
         ]
@@ -1098,7 +1104,7 @@
       "conservador"
     ],
     "confidence": 0.8,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1107,7 +1113,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1957. Comunicador veterano. Herrera en COPE lidera la audiencia matinal radiofónica en España."
+            "contenido": "Carlos Herrera (Almería, 1957) es el comunicador estrella de la COPE y líder de audiencia de la radio de la mañana. Su programa es parada obligada de la actualidad política y un altavoz del centro-derecha, con una influencia notable en el debate público."
           }
         ]
       },
@@ -1170,6 +1176,24 @@
               "radio",
               "audiencia"
             ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De RNE a Onda Cero",
+            "contenido": "Locutor de larga trayectoria, pasó por Radio Nacional y Onda Cero, donde consolidó las mañanas con uno de los magacines de mayor audiencia de la radio española.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "'Herrera en COPE'",
+            "contenido": "En 2015 fichó por la COPE, la cadena de la Conferencia Episcopal, donde dirige y presenta el programa matinal líder, con entrevistas a primeras figuras políticas y una línea crítica con el Gobierno de Sánchez.",
+            "fecha": "2015-09-01"
           }
         ]
       }

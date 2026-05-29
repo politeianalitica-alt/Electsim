@@ -156,6 +156,125 @@ BIOS: dict[str, dict] = {
             ("Estabilidad de precios y del euro", "Su mandato es la estabilidad de precios, pero equilibra el control de la inflación con la cohesión del euro y la estabilidad financiera. Sus decisiones tienen un impacto directo y cotidiano sobre la economía de las familias y las empresas españolas.", ["inflacion", "tipos", "euro"]),
         ],
     },
+
+    # ── 2º lote · medios y poder no-electo a nivel Sánchez ──────────────────
+    "antonio-garcia-ferreras": {
+        "perfil": "Antonio García Ferreras (Lupiana, Guadalajara, 1966) es director y presentador de 'Al Rojo Vivo' (laSexta) y uno de los periodistas más influyentes y polémicos de la televisión española. Desde su programa fija buena parte de la agenda política diaria del espacio progresista.",
+        "trayectoria": [
+            ("Del deporte a la dirección de informativos", "Empezó en radio y prensa deportiva y dirigió los informativos de la Cadena SER y de Telemadrid. Su salto a la dirección de la recién nacida laSexta (2006) lo situó en el centro del nuevo audiovisual privado.", "2006-03-27"),
+            ("'Al Rojo Vivo' y la maquinaria de tertulia", "Desde 2011 dirige y presenta 'Al Rojo Vivo', el magacín de actualidad de laSexta que ha popularizado el formato de tertulia política intensiva. Su capacidad para marcar agenda y elegir contertulios lo convierte en un actor de poder, no solo en un periodista.", "2011-01-10"),
+            ("Vínculo con Atresmedia y el espacio progresista", "Como rostro estrella del grupo Atresmedia (Planeta), su línea editorial, crítica con la derecha, pesa en la imagen del grupo y en la conversación pública de la izquierda.", ""),
+        ],
+        "controversias": [
+            ("Los audios con Villarejo", "La difusión de audios de conversaciones con el excomisario Villarejo (caso de un bulo sobre una presunta cuenta de Podemos) abrió un debate sobre los límites del periodismo y sus fuentes. Ferreras lo enmarcó como una práctica de contraste; rige la presunción de inocencia sobre cualquier extremo no acreditado judicialmente.", ["fuentes", "presuncion-inocencia"]),
+        ],
+    },
+    "ana-rosa-quintana": {
+        "perfil": "Ana Rosa Quintana (Madrid, 1956) es la presentadora más influyente de Mediaset España y una de las grandes figuras de la televisión. Su magacín matinal lidera la franja desde hace dos décadas y condiciona la agenda mediática del centro-derecha.",
+        "trayectoria": [
+            ("De la prensa del corazón a la mañana", "Formada en periodismo, saltó a la fama en programas de corazón y sucesos. En 2005 estrenó 'El Programa de Ana Rosa' en Telecinco, que se convirtió en el magacín matinal de referencia.", "2005-01-10"),
+            ("Productora propia y poder de mercado", "A través de su productora (Unicorn Content) controla la producción de sus propios formatos y de otros de la cadena, lo que le da un poder inusual sobre la parrilla de Mediaset.", ""),
+            ("Vespertina y peso editorial", "Tras una etapa en las tardes, su criterio y su tono marcan la línea de buena parte del entretenimiento informativo de Mediaset, con un encuadre crítico hacia el Gobierno.", "2023-09-01"),
+        ],
+    },
+    "pedro-jose-ramirez": {
+        "perfil": "Pedro J. Ramírez (Logroño, 1952) es director de El Español y una leyenda del periodismo de investigación español. Fundador de El Mundo, ha protagonizado las grandes batallas mediáticas de la democracia, con un estilo combativo y una relación tensa con el poder de turno.",
+        "trayectoria": [
+            ("Diario 16 y los GAL", "Dirigió Diario 16 con apenas 28 años; desde allí destapó la trama de los GAL, la guerra sucia contra ETA, que marcó el final de la era socialista.", "1980-01-01"),
+            ("Fundación y dirección de El Mundo", "En 1989 fundó El Mundo, que convirtió en el segundo diario de España y en una máquina de investigación (Roldán, Filesa, Gürtel, Bárcenas). Dirigió el periódico durante 25 años.", "1989-10-23"),
+            ("El Español", "Tras su salida de El Mundo en 2014, fundó en 2015 el digital El Español mediante crowdfunding, consolidándolo como uno de los nativos digitales líderes y de referencia del centro-derecha.", "2015-10-07"),
+        ],
+    },
+    "carlos-herrera": {
+        "perfil": "Carlos Herrera (Almería, 1957) es el comunicador estrella de la COPE y líder de audiencia de la radio de la mañana. Su programa es parada obligada de la actualidad política y un altavoz del centro-derecha, con una influencia notable en el debate público.",
+        "trayectoria": [
+            ("De RNE a Onda Cero", "Locutor de larga trayectoria, pasó por Radio Nacional y Onda Cero, donde consolidó las mañanas con uno de los magacines de mayor audiencia de la radio española.", "1990-01-01"),
+            ("'Herrera en COPE'", "En 2015 fichó por la COPE, la cadena de la Conferencia Episcopal, donde dirige y presenta el programa matinal líder, con entrevistas a primeras figuras políticas y una línea crítica con el Gobierno de Sánchez.", "2015-09-01"),
+        ],
+    },
+    "pepa-bueno": {
+        "perfil": "Pepa Bueno (Badajoz, 1964) es directora de El País, el diario de referencia de la izquierda española y buque insignia del grupo PRISA. Periodista de larga trayectoria en televisión y radio, dirige la redacción más influyente del país en un momento de pugna por la propiedad del grupo.",
+        "trayectoria": [
+            ("Televisión: el Telediario", "Se hizo conocida presentando los informativos de TVE, incluido el Telediario, durante años, con un estilo riguroso e institucional.", "2004-09-01"),
+            ("Radio: Hoy por Hoy", "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, referencia informativa de la radio, antes de dar el salto a la prensa escrita.", "2012-09-03"),
+            ("Dirección de El País", "En 2023 asumió la dirección de El País, primera mujer al frente del diario, en plena reordenación accionarial del grupo PRISA (Amber Capital, bancos, socios con intereses políticos).", "2023-04-19"),
+        ],
+    },
+    "vicente-valles": {
+        "perfil": "Vicente Vallés (Madrid, 1963) es director y presentador de 'Antena 3 Noticias 2', el informativo de máxima audiencia de la televisión española. Con un estilo analítico y entrevistas incisivas, es uno de los periodistas con mayor credibilidad del panorama.",
+        "trayectoria": [
+            ("De CNN+ a Telecinco", "Trabajó en CNN+ y dirigió informativos en Telecinco y Cuatro antes de recalar en Atresmedia, donde se consolidó como referente de la información política.", "2000-01-01"),
+            ("Antena 3 Noticias y los editoriales", "Desde 2017 dirige y presenta el informativo de la noche de Antena 3, líder de audiencia, célebre por sus editoriales de cierre. Es además autor de varios ensayos de éxito sobre geopolítica y desinformación.", "2017-09-04"),
+        ],
+    },
+    "ignacio-escolar": {
+        "perfil": "Ignacio Escolar (Burgos, 1975) es fundador y director de elDiario.es, uno de los digitales más influyentes de la izquierda española, pionero del modelo de financiación por socios. Periodista de investigación, su medio ha destapado casos de gran impacto político.",
+        "trayectoria": [
+            ("Público y el blescolar.net", "Fue primer director del diario Público (2007) y uno de los blogueros políticos pioneros en España, con gran influencia en la conversación digital de la izquierda.", "2007-09-26"),
+            ("Fundación de elDiario.es", "En 2012 fundó elDiario.es sobre un modelo mixto de publicidad y socios pagadores que lo blindó frente a presiones. Lo ha convertido en referente del periodismo de investigación progresista.", "2012-09-18"),
+        ],
+    },
+    "eduardo-inda": {
+        "perfil": "Eduardo Inda (Pamplona, 1966) es fundador y director de OKDiario, uno de los digitales más combativos contra el Gobierno de coalición. Tertuliano omnipresente en televisión, encarna el periodismo de trinchera del bloque de la derecha.",
+        "trayectoria": [
+            ("El Mundo y Marca", "Hizo carrera en El Mundo, donde fue subdirector, y dirigió el diario deportivo Marca, antes de emprender su propio proyecto digital.", "2000-01-01"),
+            ("Fundación de OKDiario", "En 2015 fundó OKDiario, con una línea editorial muy agresiva con el Gobierno y su entorno y una intensa actividad en tertulias. Su periodismo de investigación ha sido objeto de polémicas y desmentidos.", "2015-09-15"),
+        ],
+        "controversias": [
+            ("Informaciones cuestionadas", "Varias de sus exclusivas han sido posteriormente cuestionadas o desmentidas, y ha protagonizado litigios por algunas de ellas. Rige la presunción de inocencia salvo resolución judicial firme.", ["litigios", "presuncion-inocencia"]),
+        ],
+    },
+    "juan-roig": {
+        "perfil": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español.",
+        "trayectoria": [
+            ("De la tienda familiar a Mercadona", "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.", "1981-01-01"),
+            ("El modelo Mercadona", "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector.", ""),
+            ("Marina de Empresas y mecenazgo", "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte.", ""),
+        ],
+    },
+    "luis-arguello": {
+        "perfil": "Luis Argüello (Meneses de Campos, Palencia, 1953) es arzobispo de Valladolid y presidente de la Conferencia Episcopal Española desde 2024, la máxima autoridad de la Iglesia católica en España. Canonista de formación, representa a los obispos ante el Estado y la sociedad.",
+        "trayectoria": [
+            ("Sacerdote y obispo", "Ordenado sacerdote y luego obispo auxiliar de Valladolid, combinó la labor pastoral con la formación en Derecho Canónico, especializándose en las relaciones Iglesia-Estado.", "2016-01-01"),
+            ("Secretario y portavoz de la CEE", "Fue secretario general y portavoz de la Conferencia Episcopal, voz visible de los obispos en debates como la eutanasia, el aborto o la educación.", "2018-03-01"),
+            ("Presidente de la Conferencia Episcopal", "En 2024 fue elegido presidente de la CEE, asumiendo la interlocución con el Gobierno en asuntos sensibles como los abusos, las inmatriculaciones y la financiación.", "2024-03-06"),
+        ],
+    },
+    "unai-sordo": {
+        "perfil": "Unai Sordo (Barakaldo, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España, desde 2017. Es uno de los dos vértices sindicales del diálogo social y un actor central en la negociación de salarios, pensiones y reforma laboral.",
+        "trayectoria": [
+            ("Del metal vasco a la cúpula", "Trabajador del sector industrial vasco, ascendió en la estructura de CCOO de Euskadi hasta dirigir el sindicato en el País Vasco.", "2009-01-01"),
+            ("Secretario general de CCOO", "En 2017 fue elegido secretario general confederal. Ha pilotado la firma de la reforma laboral de 2021, las subidas del SMI y el acuerdo de pensiones, en coordinación con UGT.", "2017-06-30"),
+        ],
+    },
+    "pepe-alvarez": {
+        "perfil": "Pepe Álvarez (Degaña, Asturias, 1956) es secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto a CCOO, lidera el bloque sindical en el diálogo social y la negociación colectiva de ámbito estatal.",
+        "trayectoria": [
+            ("De UGT Catalunya a Madrid", "Dirigió UGT de Cataluña durante casi dos décadas, donde se forjó como negociador, antes de dar el salto a la secretaría general confederal.", "1990-01-01"),
+            ("Secretario general de UGT", "Desde 2016 dirige la UGT. Ha firmado los grandes acuerdos del diálogo social de la etapa (reforma laboral, SMI, pensiones) y defiende la reducción de jornada y el blindaje del poder adquisitivo.", "2016-03-11"),
+        ],
+    },
+    "sandra-ortega-mera": {
+        "perfil": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y una de las grandes fortunas del país. Hija del fundador de Inditex, Amancio Ortega, y de Rosalía Mera, heredó la participación de su madre y gestiona su patrimonio e iniciativas filantrópicas con un perfil discreto.",
+        "trayectoria": [
+            ("Heredera de Rosalía Mera", "Tras el fallecimiento de su madre, cofundadora de Inditex, en 2013, heredó su participación accionarial, convirtiéndose en una de las mayores accionistas del grupo textil.", "2013-08-15"),
+            ("Rosp Corunna y filantropía", "Gestiona su fortuna a través de la sociedad Rosp Corunna y dedica una parte relevante a la filantropía, especialmente a la discapacidad (Fundación Pa de Mel) y la salud, siguiendo la estela de su madre.", ""),
+        ],
+    },
+    "juan-carlos-escotet": {
+        "perfil": "Juan Carlos Escotet (Caracas, 1959) es presidente de Abanca, el gran banco gallego, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, es una de las figuras de mayor poder económico del noroeste peninsular.",
+        "trayectoria": [
+            ("Banesco en Venezuela", "Construyó en Venezuela uno de los mayores grupos bancarios privados del país (Banesco), antes de expandirse internacionalmente ante la crisis venezolana.", "1992-01-01"),
+            ("Compra de Novagalicia y nacimiento de Abanca", "En 2013 adquirió la antigua Novagalicia Banco (rescatada con dinero público) y la refundó como Abanca, que ha crecido con sucesivas compras hasta convertirse en un banco de relevancia nacional.", "2014-06-25"),
+        ],
+    },
+    "begona-gomez": {
+        "perfil": "Begoña Gómez (Bilbao, 1975) es directora de cátedra en la Universidad Complutense y esposa del presidente del Gobierno, Pedro Sánchez. Su actividad profesional ha pasado a un primer plano público al verse investigada en un procedimiento judicial.",
+        "trayectoria": [
+            ("Trayectoria profesional", "Consultora y directiva en el ámbito de la captación de fondos y la responsabilidad social, dirigió un máster y una cátedra extraordinaria sobre transformación social competitiva en la Universidad Complutense.", "2020-01-01"),
+            ("Procedimiento judicial abierto", "Desde 2024 está siendo investigada por un juzgado de Madrid en una causa sobre presuntos tráfico de influencias y otros delitos en torno a su actividad. La causa sigue su curso y rige plenamente la presunción de inocencia mientras no haya sentencia firme.", "2024-04-23"),
+        ],
+    },
 }
 
 

@@ -52,9 +52,11 @@ export function useApi<T = unknown>(path: string, opts: Options<T> = {}): State<
   const [latencyMs, setLatencyMs] = useState<number | null>(null)
   const aliveRef = useRef(true)
 
-  const fetcher = useCallback(async () => {
+  // silent=true en los refrescos automáticos (intervalo/foco): NO tocan `loading`,
+  // así la UI mantiene los datos visibles y no parpadea cada pocos segundos.
+  const fetcher = useCallback(async (silent = false) => {
     try {
-      setLoading(true)
+      if (!silent) setLoading(true)
       const res = await fetch(path, {
         cache: 'no-store',
         headers: { Accept: 'application/json', ...(headers ?? {}) },
@@ -85,8 +87,8 @@ export function useApi<T = unknown>(path: string, opts: Options<T> = {}): State<
     aliveRef.current = true
     fetcher()
     let interval: ReturnType<typeof setInterval> | undefined
-    if (refreshInterval > 0) interval = setInterval(fetcher, refreshInterval)
-    function onFocus() { fetcher() }
+    if (refreshInterval > 0) interval = setInterval(() => fetcher(true), refreshInterval)
+    function onFocus() { fetcher(true) }
     if (refreshOnFocus && typeof window !== 'undefined') {
       window.addEventListener('focus', onFocus)
     }
@@ -108,6 +110,6 @@ export function useApi<T = unknown>(path: string, opts: Options<T> = {}): State<
     warnings,
     latencyMs,
     isLive: source === 'backend' || source === 'live',
-    refresh: fetcher,
+    refresh: () => { fetcher() },
   }
 }

@@ -60,7 +60,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0001-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Albuquerque (Badajoz), 1964. Periodista. Una de las voces más influyentes del periodismo español, con peso en la conversación política diaria.",
+            "contenido": "Pepa Bueno (Badajoz, 1964) es directora de El País, el diario de referencia de la izquierda española y buque insignia del grupo PRISA. Periodista de larga trayectoria en televisión y radio, dirige la redacción más influyente del país en un momento de pugna por la propiedad del grupo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -80,8 +80,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0001-ap-01-it-00",
             "apartado_id": "pod-0001-ap-01",
             "tipo": "evento",
-            "titulo": "TVE · Los Desayunos",
-            "contenido": "Dirigió y presentó Los Desayunos de TVE (entrevista política matinal) hasta 2009.",
+            "titulo": "Televisión: el Telediario",
+            "contenido": "Se hizo conocida presentando los informativos de TVE, incluido el Telediario, durante años, con un estilo riguroso e institucional.",
             "fecha": "2004-09-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -92,9 +92,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0001-ap-01-it-01",
             "apartado_id": "pod-0001-ap-01",
             "tipo": "evento",
-            "titulo": "Cadena SER",
-            "contenido": "Codirigió Hoy por Hoy y dirigió Hora 25. Voz central de la SER durante una década.",
-            "fecha": "2010-09-01",
+            "titulo": "Radio: Hoy por Hoy",
+            "contenido": "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, referencia informativa de la radio, antes de dar el salto a la prensa escrita.",
+            "fecha": "2012-09-03",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -104,9 +104,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0001-ap-01-it-02",
             "apartado_id": "pod-0001-ap-01",
             "tipo": "evento",
-            "titulo": "Directora de El País",
-            "contenido": "Asume la dirección de El País en 2021, sustituyendo a Soledad Gallego-Díaz.",
-            "fecha": "2021-12-01",
+            "titulo": "Dirección de El País",
+            "contenido": "En 2023 asumió la dirección de El País, primera mujer al frente del diario, en plena reordenación accionarial del grupo PRISA (Amber Capital, bancos, socios con intereses políticos).",
+            "fecha": "2023-04-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -232,8 +232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0002",
@@ -264,7 +264,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0002-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1966. Periodista. Una de las figuras más influyentes de la televisión política española por la audiencia y agenda de Al Rojo Vivo.",
+            "contenido": "Antonio García Ferreras (Lupiana, Guadalajara, 1966) es director y presentador de 'Al Rojo Vivo' (laSexta) y uno de los periodistas más influyentes y polémicos de la televisión española. Desde su programa fija buena parte de la agenda política diaria del espacio progresista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -284,9 +284,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0002-ap-01-it-00",
             "apartado_id": "pod-0002-ap-01",
             "tipo": "evento",
-            "titulo": "Cadena SER / CNN+",
-            "contenido": "Director de informativos de la SER y luego de CNN+.",
-            "fecha": "2000-01-01",
+            "titulo": "Del deporte a la dirección de informativos",
+            "contenido": "Empezó en radio y prensa deportiva y dirigió los informativos de la Cadena SER y de Telemadrid. Su salto a la dirección de la recién nacida laSexta (2006) lo situó en el centro del nuevo audiovisual privado.",
+            "fecha": "2006-03-27",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -296,13 +296,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0002-ap-01-it-01",
             "apartado_id": "pod-0002-ap-01",
             "tipo": "evento",
-            "titulo": "La Sexta",
-            "contenido": "Pieza clave del proyecto La Sexta desde 2006; Al Rojo Vivo desde 2011.",
-            "fecha": "2011-01-01",
+            "titulo": "'Al Rojo Vivo' y la maquinaria de tertulia",
+            "contenido": "Desde 2011 dirige y presenta 'Al Rojo Vivo', el magacín de actualidad de laSexta que ha popularizado el formato de tertulia política intensiva. Su capacidad para marcar agenda y elegir contertulios lo convierte en un actor de poder, no solo en un periodista.",
+            "fecha": "2011-01-10",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0002-ap-01-it-02",
+            "apartado_id": "pod-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Vínculo con Atresmedia y el espacio progresista",
+            "contenido": "Como rostro estrella del grupo Atresmedia (Planeta), su línea editorial, crítica con la derecha, pesa en la imagen del grupo y en la conversación pública de la izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -406,6 +418,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "villarejo"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0002-ap-04-it-01",
+            "apartado_id": "pod-0002-ap-04",
+            "tipo": "controversia",
+            "titulo": "Los audios con Villarejo",
+            "contenido": "La difusión de audios de conversaciones con el excomisario Villarejo (caso de un bulo sobre una presunta cuenta de Podemos) abrió un debate sobre los límites del periodismo y sus fuentes. Ferreras lo enmarcó como una práctica de contraste; rige la presunción de inocencia sobre cualquier extremo no acreditado judicialmente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "fuentes",
+              "presuncion-inocencia"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -431,8 +458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0003",
@@ -463,7 +490,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0003-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Burgos, 1975. Periodista digital pionero. Hijo del también periodista Arsenio Escolar.",
+            "contenido": "Ignacio Escolar (Burgos, 1975) es fundador y director de elDiario.es, uno de los digitales más influyentes de la izquierda española, pionero del modelo de financiación por socios. Periodista de investigación, su medio ha destapado casos de gran impacto político.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -483,8 +510,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0003-ap-01-it-00",
             "apartado_id": "pod-0003-ap-01",
             "tipo": "evento",
-            "titulo": "Público",
-            "contenido": "Director fundador del diario Público (2007-2009).",
+            "titulo": "Público y el blescolar.net",
+            "contenido": "Fue primer director del diario Público (2007) y uno de los blogueros políticos pioneros en España, con gran influencia en la conversación digital de la izquierda.",
             "fecha": "2007-09-26",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -495,8 +522,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0003-ap-01-it-01",
             "apartado_id": "pod-0003-ap-01",
             "tipo": "evento",
-            "titulo": "elDiario.es",
-            "contenido": "Funda elDiario.es en 2012, modelo de socios/suscriptores. Referente del periodismo de izquierda.",
+            "titulo": "Fundación de elDiario.es",
+            "contenido": "En 2012 fundó elDiario.es sobre un modelo mixto de publicidad y socios pagadores que lo blindó frente a presiones. Lo ha convertido en referente del periodismo de investigación progresista.",
             "fecha": "2012-09-18",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -607,8 +634,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0004",
@@ -639,7 +666,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0004-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Pamplona, 1966. Periodista. Línea editorial conservadora y muy combativa con el Gobierno de Sánchez.",
+            "contenido": "Eduardo Inda (Pamplona, 1966) es fundador y director de OKDiario, uno de los digitales más combativos contra el Gobierno de coalición. Tertuliano omnipresente en televisión, encarna el periodismo de trinchera del bloque de la derecha.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -659,9 +686,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0004-ap-01-it-00",
             "apartado_id": "pod-0004-ap-01",
             "tipo": "evento",
-            "titulo": "El Mundo",
-            "contenido": "Subdirector de El Mundo en la etapa de Pedro J. Ramírez.",
-            "fecha": "2006-01-01",
+            "titulo": "El Mundo y Marca",
+            "contenido": "Hizo carrera en El Mundo, donde fue subdirector, y dirigió el diario deportivo Marca, antes de emprender su propio proyecto digital.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -671,8 +698,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0004-ap-01-it-01",
             "apartado_id": "pod-0004-ap-01",
             "tipo": "evento",
-            "titulo": "OKDiario",
-            "contenido": "Funda OKDiario en 2015.",
+            "titulo": "Fundación de OKDiario",
+            "contenido": "En 2015 fundó OKDiario, con una línea editorial muy agresiva con el Gobierno y su entorno y una intensa actividad en tertulias. Su periodismo de investigación ha sido objeto de polémicas y desmentidos.",
             "fecha": "2015-09-15",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -758,10 +785,34 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0004-ap-04",
+        "tipo": "controversias",
+        "titulo": null,
+        "resumen": null,
+        "orden": 5,
+        "items": [
+          {
+            "id": "pod-0004-ap-04-it-00",
+            "apartado_id": "pod-0004-ap-04",
+            "tipo": "controversia",
+            "titulo": "Informaciones cuestionadas",
+            "contenido": "Varias de sus exclusivas han sido posteriormente cuestionadas o desmentidas, y ha protagonizado litigios por algunas de ellas. Rige la presunción de inocencia salvo resolución judicial firme.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "litigios",
+              "presuncion-inocencia"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0005",
@@ -899,8 +950,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0006",
@@ -931,7 +982,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0006-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1956. Periodista y empresaria audiovisual (productora Unicorn Content).",
+            "contenido": "Ana Rosa Quintana (Madrid, 1956) es la presentadora más influyente de Mediaset España y una de las grandes figuras de la televisión. Su magacín matinal lidera la franja desde hace dos décadas y condiciona la agenda mediática del centro-derecha.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -951,8 +1002,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0006-ap-01-it-00",
             "apartado_id": "pod-0006-ap-01",
             "tipo": "evento",
-            "titulo": "El Programa de Ana Rosa",
-            "contenido": "Matinal de Telecinco desde 2005, líder de audiencia durante casi dos décadas.",
+            "titulo": "De la prensa del corazón a la mañana",
+            "contenido": "Formada en periodismo, saltó a la fama en programas de corazón y sucesos. En 2005 estrenó 'El Programa de Ana Rosa' en Telecinco, que se convirtió en el magacín matinal de referencia.",
             "fecha": "2005-01-10",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -963,13 +1014,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0006-ap-01-it-01",
             "apartado_id": "pod-0006-ap-01",
             "tipo": "evento",
-            "titulo": "TardeAR",
-            "contenido": "Salto a la franja de tarde con TardeAR (2023).",
-            "fecha": "2023-09-11",
+            "titulo": "Productora propia y poder de mercado",
+            "contenido": "A través de su productora (Unicorn Content) controla la producción de sus propios formatos y de otros de la cadena, lo que le da un poder inusual sobre la parrilla de Mediaset.",
+            "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0006-ap-01-it-02",
+            "apartado_id": "pod-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Vespertina y peso editorial",
+            "contenido": "Tras una etapa en las tardes, su criterio y su tono marcan la línea de buena parte del entretenimiento informativo de Mediaset, con un encuadre crítico hacia el Gobierno.",
+            "fecha": "2023-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -1043,8 +1106,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0007",
@@ -1176,8 +1239,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0008",
@@ -1208,7 +1271,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0008-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1963. Periodista. Casado con la también periodista Ángeles Blanco (Mediaset).",
+            "contenido": "Vicente Vallés (Madrid, 1963) es director y presentador de 'Antena 3 Noticias 2', el informativo de máxima audiencia de la televisión española. Con un estilo analítico y entrevistas incisivas, es uno de los periodistas con mayor credibilidad del panorama.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1298,10 +1361,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0008-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0008-ap-04-it-00",
+            "apartado_id": "pod-0008-ap-04",
+            "tipo": "evento",
+            "titulo": "De CNN+ a Telecinco",
+            "contenido": "Trabajó en CNN+ y dirigió informativos en Telecinco y Cuatro antes de recalar en Atresmedia, donde se consolidó como referente de la información política.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0008-ap-04-it-01",
+            "apartado_id": "pod-0008-ap-04",
+            "tipo": "evento",
+            "titulo": "Antena 3 Noticias y los editoriales",
+            "contenido": "Desde 2017 dirige y presenta el informativo de la noche de Antena 3, líder de audiencia, célebre por sus editoriales de cierre. Es además autor de varios ensayos de éxito sobre geopolítica y desinformación.",
+            "fecha": "2017-09-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0009",
@@ -1448,8 +1544,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0010",
@@ -1658,8 +1754,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0011",
@@ -1870,8 +1966,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0012",
@@ -1997,8 +2093,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0013",
@@ -2221,8 +2317,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0014",
@@ -2379,8 +2475,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0015",
@@ -2412,7 +2508,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0015-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Valencia, 1949. Hijo de uno de los fundadores de Mercadona. Convirtió la empresa familiar en líder de la distribución española. Mercadona NO cotiza (capital familiar).",
+            "contenido": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2432,8 +2528,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0015-ap-01-it-00",
             "apartado_id": "pod-0015-ap-01",
             "tipo": "evento",
-            "titulo": "Liderazgo de Mercadona",
-            "contenido": "Asume el control en 1981 y despliega el modelo 'Siempre Precios Bajos'. Hoy >1.600 tiendas y ~100.000 trabajadores.",
+            "titulo": "De la tienda familiar a Mercadona",
+            "contenido": "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.",
             "fecha": "1981-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2444,13 +2540,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0015-ap-01-it-01",
             "apartado_id": "pod-0015-ap-01",
             "tipo": "evento",
-            "titulo": "Marina de Empresas",
-            "contenido": "Funda en Valencia el ecosistema emprendedor Lanzadera + EDEM + Angels.",
-            "fecha": "2013-01-01",
+            "titulo": "El modelo Mercadona",
+            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector.",
+            "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0015-ap-01-it-02",
+            "apartado_id": "pod-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Marina de Empresas y mecenazgo",
+            "contenido": "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -2556,8 +2664,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0016",
@@ -2589,7 +2697,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0016-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en A Coruña, 1968. Heredó la fortuna de su madre Rosalía Mera (fallecida en 2013). Gestiona Rosp Corunna, vehículo con participaciones en sanidad, tecnología e inmobiliario.",
+            "contenido": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y una de las grandes fortunas del país. Hija del fundador de Inditex, Amancio Ortega, y de Rosalía Mera, heredó la participación de su madre y gestiona su patrimonio e iniciativas filantrópicas con un perfil discreto.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2675,10 +2783,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0016-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0016-ap-03-it-00",
+            "apartado_id": "pod-0016-ap-03",
+            "tipo": "evento",
+            "titulo": "Heredera de Rosalía Mera",
+            "contenido": "Tras el fallecimiento de su madre, cofundadora de Inditex, en 2013, heredó su participación accionarial, convirtiéndose en una de las mayores accionistas del grupo textil.",
+            "fecha": "2013-08-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0016-ap-03-it-01",
+            "apartado_id": "pod-0016-ap-03",
+            "tipo": "evento",
+            "titulo": "Rosp Corunna y filantropía",
+            "contenido": "Gestiona su fortuna a través de la sociedad Rosp Corunna y dedica una parte relevante a la filantropía, especialmente a la discapacidad (Fundación Pa de Mel) y la salud, siguiendo la estela de su madre.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0017",
@@ -2709,7 +2850,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0017-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Venezuela, 1959, de origen gallego. Fundador del grupo Banesco. Compró Novagalicia en 2014 y la convirtió en Abanca.",
+            "contenido": "Juan Carlos Escotet (Caracas, 1959) es presidente de Abanca, el gran banco gallego, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, es una de las figuras de mayor poder económico del noroeste peninsular.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2802,20 +2943,32 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0017-ap-03-it-00",
             "apartado_id": "pod-0017-ap-03",
-            "tipo": "dato",
-            "titulo": "De Venezuela a Galicia",
-            "contenido": "Banquero de origen venezolano (Banesco), compró la antigua Novagalicia/Banco Etcheverría en la reestructuración de las cajas gallegas y la transformó en Abanca, hoy uno de los grandes bancos regionales con vocación expansiva.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Banesco en Venezuela",
+            "contenido": "Construyó en Venezuela uno de los mayores grupos bancarios privados del país (Banesco), antes de expandirse internacionalmente ante la crisis venezolana.",
+            "fecha": "1992-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0017-ap-03-it-01",
+            "apartado_id": "pod-0017-ap-03",
+            "tipo": "evento",
+            "titulo": "Compra de Novagalicia y nacimiento de Abanca",
+            "contenido": "En 2013 adquirió la antigua Novagalicia Banco (rescatada con dinero público) y la refundó como Abanca, que ha crecido con sucesivas compras hasta convertirse en un banco de relevancia nacional.",
+            "fecha": "2014-06-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0018",
@@ -2845,7 +2998,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0018-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barakaldo (Bizkaia), 1972. Sindicalista de carrera. Secretario general de CCOO desde 2017.",
+            "contenido": "Unai Sordo (Barakaldo, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España, desde 2017. Es uno de los dos vértices sindicales del diálogo social y un actor central en la negociación de salarios, pensiones y reforma laboral.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2954,10 +3107,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0018-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0018-ap-04-it-00",
+            "apartado_id": "pod-0018-ap-04",
+            "tipo": "evento",
+            "titulo": "Del metal vasco a la cúpula",
+            "contenido": "Trabajador del sector industrial vasco, ascendió en la estructura de CCOO de Euskadi hasta dirigir el sindicato en el País Vasco.",
+            "fecha": "2009-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0018-ap-04-it-01",
+            "apartado_id": "pod-0018-ap-04",
+            "tipo": "evento",
+            "titulo": "Secretario general de CCOO",
+            "contenido": "En 2017 fue elegido secretario general confederal. Ha pilotado la firma de la reforma laboral de 2021, las subidas del SMI y el acuerdo de pensiones, en coordinación con UGT.",
+            "fecha": "2017-06-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0019",
@@ -2987,7 +3173,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0019-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en León, 1956, criado en Cataluña. Sindicalista histórico. Secretario general de UGT desde 2016.",
+            "contenido": "Pepe Álvarez (Degaña, Asturias, 1956) es secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto a CCOO, lidera el bloque sindical en el diálogo social y la negociación colectiva de ámbito estatal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3094,10 +3280,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0019-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0019-ap-04-it-00",
+            "apartado_id": "pod-0019-ap-04",
+            "tipo": "evento",
+            "titulo": "De UGT Catalunya a Madrid",
+            "contenido": "Dirigió UGT de Cataluña durante casi dos décadas, donde se forjó como negociador, antes de dar el salto a la secretaría general confederal.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0019-ap-04-it-01",
+            "apartado_id": "pod-0019-ap-04",
+            "tipo": "evento",
+            "titulo": "Secretario general de UGT",
+            "contenido": "Desde 2016 dirige la UGT. Ha firmado los grandes acuerdos del diálogo social de la etapa (reforma laboral, SMI, pensiones) y defiende la reducción de jornada y el blindaje del poder adquisitivo.",
+            "fecha": "2016-03-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0020",
@@ -3232,8 +3451,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0021",
@@ -3263,7 +3482,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0021-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Meneses de Campos (Palencia), 1953. Abogado antes que sacerdote. Arzobispo de Valladolid. Presidente de la CEE desde marzo 2024.",
+            "contenido": "Luis Argüello (Meneses de Campos, Palencia, 1953) es arzobispo de Valladolid y presidente de la Conferencia Episcopal Española desde 2024, la máxima autoridad de la Iglesia católica en España. Canonista de formación, representa a los obispos ante el Estado y la sociedad.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3355,10 +3574,55 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0021-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0021-ap-04-it-00",
+            "apartado_id": "pod-0021-ap-04",
+            "tipo": "evento",
+            "titulo": "Sacerdote y obispo",
+            "contenido": "Ordenado sacerdote y luego obispo auxiliar de Valladolid, combinó la labor pastoral con la formación en Derecho Canónico, especializándose en las relaciones Iglesia-Estado.",
+            "fecha": "2016-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0021-ap-04-it-01",
+            "apartado_id": "pod-0021-ap-04",
+            "tipo": "evento",
+            "titulo": "Secretario y portavoz de la CEE",
+            "contenido": "Fue secretario general y portavoz de la Conferencia Episcopal, voz visible de los obispos en debates como la eutanasia, el aborto o la educación.",
+            "fecha": "2018-03-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0021-ap-04-it-02",
+            "apartado_id": "pod-0021-ap-04",
+            "tipo": "evento",
+            "titulo": "Presidente de la Conferencia Episcopal",
+            "contenido": "En 2024 fue elegido presidente de la CEE, asumiendo la interlocución con el Gobierno en asuntos sensibles como los abusos, las inmatriculaciones y la financiación.",
+            "fecha": "2024-03-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0022",
@@ -3619,8 +3883,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0023",
@@ -3754,8 +4018,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0024",
@@ -3969,8 +4233,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0025",
@@ -4000,7 +4264,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0025-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Esposa de Pedro Sánchez. Trayectoria en dirección de fundaciones, marketing y en una cátedra extraordinaria en la Universidad Complutense.",
+            "contenido": "Begoña Gómez (Bilbao, 1975) es directora de cátedra en la Universidad Complutense y esposa del presidente del Gobierno, Pedro Sánchez. Su actividad profesional ha pasado a un primer plano público al verse investigada en un procedimiento judicial.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4094,10 +4358,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0025-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0025-ap-04-it-00",
+            "apartado_id": "pod-0025-ap-04",
+            "tipo": "evento",
+            "titulo": "Trayectoria profesional",
+            "contenido": "Consultora y directiva en el ámbito de la captación de fondos y la responsabilidad social, dirigió un máster y una cátedra extraordinaria sobre transformación social competitiva en la Universidad Complutense.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0025-ap-04-it-01",
+            "apartado_id": "pod-0025-ap-04",
+            "tipo": "evento",
+            "titulo": "Procedimiento judicial abierto",
+            "contenido": "Desde 2024 está siendo investigada por un juzgado de Madrid en una causa sobre presuntos tráfico de influencias y otros delitos en torno a su actividad. La causa sigue su curso y rige plenamente la presunción de inocencia mientras no haya sentencia firme.",
+            "fecha": "2024-04-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0026",
@@ -4216,8 +4513,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0027",
@@ -4489,8 +4786,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0028",
@@ -4701,8 +4998,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0029",
@@ -4940,8 +5237,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0030",
@@ -5152,8 +5449,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0031",
@@ -5321,8 +5618,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0032",
@@ -5458,8 +5755,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0033",
@@ -5611,8 +5908,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0034",
@@ -5731,8 +6028,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0035",
@@ -5858,8 +6155,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0036",
@@ -5890,7 +6187,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0036-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Logroño, 1952. Periodista. Una de las figuras más influyentes y longevas del periodismo español.",
+            "contenido": "Pedro J. Ramírez (Logroño, 1952) es director de El Español y una leyenda del periodismo de investigación español. Fundador de El Mundo, ha protagonizado las grandes batallas mediáticas de la democracia, con un estilo combativo y una relación tensa con el poder de turno.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5910,9 +6207,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0036-ap-01-it-00",
             "apartado_id": "pod-0036-ap-01",
             "tipo": "evento",
-            "titulo": "Diario 16 y El Mundo",
-            "contenido": "Director de Diario 16 (caso GAL) y fundador-director de El Mundo (1989-2014).",
-            "fecha": "1989-10-23",
+            "titulo": "Diario 16 y los GAL",
+            "contenido": "Dirigió Diario 16 con apenas 28 años; desde allí destapó la trama de los GAL, la guerra sucia contra ETA, que marcó el final de la era socialista.",
+            "fecha": "1980-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -5922,13 +6219,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0036-ap-01-it-01",
             "apartado_id": "pod-0036-ap-01",
             "tipo": "evento",
-            "titulo": "El Español",
-            "contenido": "Funda El Español en 2015 tras su salida de El Mundo.",
-            "fecha": "2015-10-07",
+            "titulo": "Fundación y dirección de El Mundo",
+            "contenido": "En 1989 fundó El Mundo, que convirtió en el segundo diario de España y en una máquina de investigación (Roldán, Filesa, Gürtel, Bárcenas). Dirigió el periódico durante 25 años.",
+            "fecha": "1989-10-23",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0036-ap-01-it-02",
+            "apartado_id": "pod-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "El Español",
+            "contenido": "Tras su salida de El Mundo en 2014, fundó en 2015 el digital El Español mediante crowdfunding, consolidándolo como uno de los nativos digitales líderes y de referencia del centro-derecha.",
+            "fecha": "2015-10-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -5995,8 +6304,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0037",
@@ -6028,7 +6337,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0037-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1957. Comunicador veterano. Herrera en COPE lidera la audiencia matinal radiofónica en España.",
+            "contenido": "Carlos Herrera (Almería, 1957) es el comunicador estrella de la COPE y líder de audiencia de la radio de la mañana. Su programa es parada obligada de la actualidad política y un altavoz del centro-derecha, con una influencia notable en el debate público.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6146,10 +6455,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0037-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0037-ap-04-it-00",
+            "apartado_id": "pod-0037-ap-04",
+            "tipo": "evento",
+            "titulo": "De RNE a Onda Cero",
+            "contenido": "Locutor de larga trayectoria, pasó por Radio Nacional y Onda Cero, donde consolidó las mañanas con uno de los magacines de mayor audiencia de la radio española.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0037-ap-04-it-01",
+            "apartado_id": "pod-0037-ap-04",
+            "tipo": "evento",
+            "titulo": "'Herrera en COPE'",
+            "contenido": "En 2015 fichó por la COPE, la cadena de la Conferencia Episcopal, donde dirige y presenta el programa matinal líder, con entrevistas a primeras figuras políticas y una línea crítica con el Gobierno de Sánchez.",
+            "fecha": "2015-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0038",
@@ -6299,8 +6641,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0039",
@@ -6436,8 +6778,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0040",
@@ -6557,8 +6899,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0041",
@@ -6692,8 +7034,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0042",
@@ -6813,8 +7155,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0043",
@@ -6953,8 +7295,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0044",
@@ -7088,8 +7430,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0045",
@@ -7203,8 +7545,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0046",
@@ -7352,8 +7694,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0047",
@@ -7485,8 +7827,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0048",
@@ -7585,8 +7927,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0049",
@@ -7718,8 +8060,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0050",
@@ -7805,8 +8147,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0051",
@@ -7892,8 +8234,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0052",
@@ -8024,8 +8366,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0053",
@@ -8132,8 +8474,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0054",
@@ -8241,8 +8583,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0055",
@@ -8350,8 +8692,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0056",
@@ -8446,8 +8788,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0057",
@@ -8570,8 +8912,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0058",
@@ -8683,8 +9025,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0059",
@@ -8796,8 +9138,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0060",
@@ -8920,8 +9262,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0061",
@@ -9077,8 +9419,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0062",
@@ -9190,8 +9532,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0063",
@@ -9324,8 +9666,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0064",
@@ -9458,8 +9800,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0065",
@@ -9558,8 +9900,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0066",
@@ -9658,8 +10000,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0067",
@@ -9755,8 +10097,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0068",
@@ -9843,8 +10185,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0069",
@@ -10002,8 +10344,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0070",
@@ -10116,8 +10458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0071",
@@ -10237,8 +10579,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0072",
@@ -10370,8 +10712,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0073",
@@ -10503,8 +10845,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0074",
@@ -10625,8 +10967,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0075",
@@ -10760,8 +11102,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0076",
@@ -10880,8 +11222,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0077",
@@ -10992,8 +11334,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0078",
@@ -11102,8 +11444,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0079",
@@ -11228,8 +11570,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0080",
@@ -11414,8 +11756,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0081",
@@ -11514,8 +11856,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0082",
@@ -11614,8 +11956,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0083",
@@ -11711,8 +12053,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0084",
@@ -11810,8 +12152,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0085",
@@ -11886,8 +12228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0086",
@@ -11961,8 +12303,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0087",
@@ -12048,8 +12390,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0088",
@@ -12112,8 +12454,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0089",
@@ -12187,8 +12529,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   },
   {
     "id": "pod-0090",
@@ -12300,8 +12642,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T21:34:43.262467Z",
-    "updated_at": "2026-05-28T21:34:43.262467Z"
+    "created_at": "2026-05-29T09:19:06.537248Z",
+    "updated_at": "2026-05-29T09:19:06.537248Z"
   }
 ]
 
