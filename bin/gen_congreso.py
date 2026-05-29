@@ -30,6 +30,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "congreso" / "diputados.json"
 PATRIMONIO_TOP = REPO / "bin" / "patrimonio_top.json"  # opcional · cifras curadas
+DECL_MAP = REPO / "bin" / "declaraciones_congreso.json"  # enlaces directos a PDF (fetch_declaraciones_congreso.py)
 
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
@@ -107,6 +108,12 @@ def main() -> int:
     if PATRIMONIO_TOP.exists():
         patr_top = {norm_key(k): v for k, v in json.loads(PATRIMONIO_TOP.read_text("utf-8")).items()}
 
+    # enlaces directos a las declaraciones (PDF docbienes/docacteco), por nombre normalizado
+    decl_map = {}
+    if DECL_MAP.exists():
+        decl_map = json.loads(DECL_MAP.read_text("utf-8"))
+        print(f"  enlaces de declaraciones cargados: {len(decl_map)}")
+
     dossiers = []
     for d in activos:
         nombre_raw = d.get("NOMBRE", "")
@@ -163,17 +170,41 @@ def main() -> int:
                          "contenido": patr.get("texto", ""), "fecha": patr.get("fecha", fecha_decl),
                          "fuente_url": patr.get("fuente"), "fuente_titulo": patr.get("fuente_titulo", "Fuente"),
                          "tags": ["patrimonio", "cifras"]})
-        evid.append({
-            "tipo": "documento", "titulo": "Declaración de bienes y rentas (oficial)",
-            "contenido": (f"Declaración de bienes y rentas presentada ante el Congreso en la XV Legislatura"
-                          f"{f' · última actualización registrada: {fecha_decl}' if fecha_decl else ''}. "
-                          "Los importes (inmuebles, depósitos, valores, deudas y rentas) los publica el Congreso "
-                          "en el Boletín Oficial de las Cortes Generales; consúltense en la fuente oficial."),
-            "fecha": fecha_decl,
-            "fuente_url": f"{BASE}/es/busqueda-de-diputados",
-            "fuente_titulo": "Congreso · Declaraciones de bienes y rentas (BOCG)",
-            "tags": ["patrimonio", "declaracion-bienes", "fuente-oficial"],
-        })
+        decl = decl_map.get(norm_key(full)) or {}
+        decl_url = decl.get("bienes_url")
+        decl_fecha = decl.get("bienes_fecha") or fecha_decl
+        if decl_url:
+            evid.append({
+                "tipo": "documento", "titulo": "Declaración de bienes y rentas (PDF oficial)",
+                "contenido": (f"Declaración de bienes y rentas presentada ante el Congreso (XV Legislatura)"
+                              f"{f', última versión registrada el {decl_fecha}' if decl_fecha else ''}. "
+                              "Enlace directo al PDF oficial publicado por el Congreso de los Diputados."),
+                "fecha": decl_fecha,
+                "fuente_url": decl_url,
+                "fuente_titulo": "Congreso · Declaración de bienes y rentas (PDF oficial)",
+                "tags": ["patrimonio", "declaracion-bienes", "fuente-oficial", "pdf-directo"],
+            })
+            if decl.get("acteco_url"):
+                evid.append({
+                    "tipo": "documento", "titulo": "Declaración de actividades e intereses (PDF oficial)",
+                    "contenido": "Declaración de actividades y bienes patrimoniales (intereses económicos) registrada en el Congreso. Enlace directo al PDF oficial.",
+                    "fecha": decl_fecha,
+                    "fuente_url": decl["acteco_url"],
+                    "fuente_titulo": "Congreso · Declaración de actividades (PDF oficial)",
+                    "tags": ["intereses", "declaracion-actividades", "fuente-oficial", "pdf-directo"],
+                })
+        else:
+            evid.append({
+                "tipo": "documento", "titulo": "Declaración de bienes y rentas (oficial)",
+                "contenido": (f"Declaración de bienes y rentas presentada ante el Congreso en la XV Legislatura"
+                              f"{f' · última actualización registrada: {fecha_decl}' if fecha_decl else ''}. "
+                              "Los importes (inmuebles, depósitos, valores, deudas y rentas) los publica el Congreso "
+                              "en el Boletín Oficial de las Cortes Generales; consúltense en la fuente oficial."),
+                "fecha": fecha_decl,
+                "fuente_url": f"{BASE}/es/busqueda-de-diputados",
+                "fuente_titulo": "Congreso · Declaraciones de bienes y rentas (BOCG)",
+                "tags": ["patrimonio", "declaracion-bienes", "fuente-oficial"],
+            })
         fundaciones = [r for r in rows if r.get("TIPO") == "FUNDACIONES"]
         if fundaciones:
             txt = " · ".join((r.get("DESCRIPCION") or r.get("EMPLEADOR") or "").strip()

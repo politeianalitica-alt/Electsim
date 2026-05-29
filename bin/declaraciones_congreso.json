@@ -1,0 +1,2858 @@
+{
+  "hectorpalenciarubio": {
+    "nombre": "Héctor Palencia Rubio",
+    "cod": 1,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000002/000002_000_e_0000007_20230731.pdf",
+    "bienes_fecha": "31/07/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000002/000002_001_e_0000008_20230731.pdf"
+  },
+  "tomascabezoncasas": {
+    "nombre": "Tomás Cabezón Casas",
+    "cod": 2,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000001/000001_000_e_0000005_20230731.pdf",
+    "bienes_fecha": "31/07/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000001/000001_001_e_0000006_20230731.pdf"
+  },
+  "marialuisadelmoralleal": {
+    "nombre": "María Luisa Del Moral Leal",
+    "cod": 3,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000004/000004_000_e_0000015_20230801.pdf",
+    "bienes_fecha": "01/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000004/000004_001_e_0000016_20230801.pdf"
+  },
+  "franciscojosealcarazmartos": {
+    "nombre": "Francisco José Alcaraz Martos",
+    "cod": 4,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000003/000003_000_e_0000012_20230801.pdf",
+    "bienes_fecha": "01/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000003/000003_001_e_0000013_20230801.pdf"
+  },
+  "mariadelasnievesramirezmoreno": {
+    "nombre": "María de las Nieves Ramírez Moreno",
+    "cod": 5,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000005/000005_001_e_0002977_20231023.pdf",
+    "bienes_fecha": "23/10/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000005/000005_002_e_0002976_20231023.pdf"
+  },
+  "susanasumelzojordan": {
+    "nombre": "Susana Sumelzo Jordán",
+    "cod": 6,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000006/000006_002_e_0008097_20240111.pdf",
+    "bienes_fecha": "11/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000006/000006_002_e_0002906_20231020.pdf"
+  },
+  "agustincondebajen": {
+    "nombre": "Agustín Conde Bajén",
+    "cod": 7,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000007/000007_000_e_0000031_20230801.pdf",
+    "bienes_fecha": "01/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000007/000007_001_e_0000032_20230801.pdf"
+  },
+  "isabelmariaperezortiz": {
+    "nombre": "Isabel María Pérez Ortiz",
+    "cod": 8,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000008/000008_000_e_0000034_20230801.pdf",
+    "bienes_fecha": "01/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000009/000009_001_e_0000035_20230801.pdf"
+  },
+  "juanbravobaena": {
+    "nombre": "Juan Bravo Baena",
+    "cod": 9,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000339/000339_000_e_0001412_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000008/000008_001_e_0000033_20230801.pdf"
+  },
+  "luiscarlossahuquillogarcia": {
+    "nombre": "Luis Carlos Sahuquillo García",
+    "cod": 10,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000009/000009_001_e_0004273_20231116.pdf",
+    "bienes_fecha": "16/11/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000010/000010_001_e_0000039_20230801.pdf"
+  },
+  "luisalfonsoreydelasheras": {
+    "nombre": "Luis Alfonso Rey de las Heras",
+    "cod": 11,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000010/000010_001_e_0038180_20240916.pdf",
+    "bienes_fecha": "16/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000011/000011_001_e_0000043_20230801.pdf"
+  },
+  "carlosrojasgarcia": {
+    "nombre": "Carlos Rojas García",
+    "cod": 12,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000014/000014_000_e_0001375_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000014/000014_001_e_0000060_20230802.pdf"
+  },
+  "anamariapastorjulian": {
+    "nombre": "Ana María Pastor Julián",
+    "cod": 13,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000011/000011_002_e_0029475_20240612.pdf",
+    "bienes_fecha": "12/06/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000012/000012_001_e_0000051_20230802.pdf"
+  },
+  "pedrofernandezhernandez": {
+    "nombre": "Pedro Fernández Hernández",
+    "cod": 14,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000012/000012_000_e_0000053_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000013/000013_001_e_0000057_20230802.pdf"
+  },
+  "mariacarmencastillaalvarez": {
+    "nombre": "María Carmen Castilla Álvarez",
+    "cod": 15,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000013/000013_000_e_0000059_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000015/000015_001_e_0000061_20230802.pdf"
+  },
+  "danielperezosma": {
+    "nombre": "Daniel Pérez Osma",
+    "cod": 16,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000016/000016_000_e_0000074_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000018/000018_001_e_0000081_20230802.pdf"
+  },
+  "danielsenderosoraa": {
+    "nombre": "Daniel Senderos Oraá",
+    "cod": 17,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000017/000017_000_e_0000076_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000016/000016_001_e_0000077_20230802.pdf"
+  },
+  "juancarlosjerezantequera": {
+    "nombre": "Juan Carlos Jerez Antequera",
+    "cod": 18,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000022/000022_000_e_0000093_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000022/000022_001_e_0000097_20230802.pdf"
+  },
+  "mariamercepereaiconillas": {
+    "nombre": "María Mercè Perea i Conillas",
+    "cod": 19,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000015/000015_000_e_0000073_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000019/000019_001_e_0000082_20230802.pdf"
+  },
+  "soniaguerralopez": {
+    "nombre": "Sonia Guerra López",
+    "cod": 20,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000018/000018_002_e_0050332_20241129.pdf",
+    "bienes_fecha": "29/11/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000017/000017_002_e_0002805_20231018.pdf"
+  },
+  "franciscoarandavargas": {
+    "nombre": "Francisco Aranda Vargas",
+    "cod": 21,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000020/000020_000_e_0000087_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000021/000021_001_e_0000088_20230802.pdf"
+  },
+  "teresallorenscarbonell": {
+    "nombre": "Teresa Llorens Carbonell",
+    "cod": 22,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000023/000023_002_e_0039121_20240923.pdf",
+    "bienes_fecha": "23/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000024/000024_001_e_0000101_20230802.pdf"
+  },
+  "ferranverdejovicente": {
+    "nombre": "Ferran Verdejo Vicente",
+    "cod": 23,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000021/000021_000_e_0000092_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000023/000023_002_e_0002801_20231018.pdf"
+  },
+  "davidserradapariente": {
+    "nombre": "David Serrada Pariente",
+    "cod": 24,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000019/000019_001_e_0063713_20250402.pdf",
+    "bienes_fecha": "02/04/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000020/000020_002_e_0001450_20230817.pdf"
+  },
+  "manuelgarciafelix": {
+    "nombre": "Manuel García Félix",
+    "cod": 25,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000026/000026_000_e_0000120_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000027/000027_001_e_0000118_20230802.pdf"
+  },
+  "migueltelladofilgueira": {
+    "nombre": "Miguel Tellado Filgueira",
+    "cod": 26,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000338/000338_001_e_0078322_20250909.pdf",
+    "bienes_fecha": "09/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000310/000310_001_e_0001315_20230816.pdf"
+  },
+  "alvaroperezlopez": {
+    "nombre": "Álvaro Pérez López",
+    "cod": 27,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000025/000025_000_e_0000116_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000026/000026_001_e_0000115_20230802.pdf"
+  },
+  "estermunozdelaiglesia": {
+    "nombre": "Ester Muñoz de la Iglesia",
+    "cod": 28,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000333/000333_001_e_0091694_20251203.pdf",
+    "bienes_fecha": "03/12/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000337/000337_001_e_0001398_20230816.pdf"
+  },
+  "antidiofagundezcampo": {
+    "nombre": "Antidio Fagúndez Campo",
+    "cod": 29,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000024/000024_000_e_0000108_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000025/000025_001_e_0000112_20230802.pdf"
+  },
+  "silviafrancogonzalez": {
+    "nombre": "Silvia Franco González",
+    "cod": 30,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000029/000029_001_e_0076441_20250722.pdf",
+    "bienes_fecha": "22/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000028/000028_001_e_0000132_20230802.pdf"
+  },
+  "andreafernandezbeneitez": {
+    "nombre": "Andrea Fernández Benéitez",
+    "cod": 31,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000160/000160_000_e_0000684_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000158/000158_002_e_0002802_20231018.pdf"
+  },
+  "celsoluisdelgadoarce": {
+    "nombre": "Celso Luis Delgado Arce",
+    "cod": 32,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000031/000031_000_e_0000148_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000031/000031_001_e_0000143_20230802.pdf"
+  },
+  "noemisantanaperera": {
+    "nombre": "Noemí Santana Perera",
+    "cod": 33,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000030/000030_000_e_0000147_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000033/000033_001_e_0000158_20230802.pdf"
+  },
+  "elviravelascomorillo": {
+    "nombre": "Elvira Velasco Morillo",
+    "cod": 34,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000032/000032_000_e_0000150_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000034/000034_001_e_0000160_20230802.pdf"
+  },
+  "josezaragozaalonso": {
+    "nombre": "José Zaragoza Alonso",
+    "cod": 35,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000027/000027_000_e_0000128_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000030/000030_001_e_0000140_20230802.pdf"
+  },
+  "pedroluishuguettous": {
+    "nombre": "Pedro Luis Huguet Tous",
+    "cod": 36,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000034/000034_002_e_0028967_20240606.pdf",
+    "bienes_fecha": "06/06/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000035/000035_001_e_0000162_20230802.pdf"
+  },
+  "antoniohernandovera": {
+    "nombre": "Antonio Hernando Vera",
+    "cod": 37,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000028/000028_002_e_0006048_20231211.pdf",
+    "bienes_fecha": "11/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000029/000029_001_e_0000137_20230802.pdf"
+  },
+  "cristinavalidogarcia": {
+    "nombre": "Cristina Valido García",
+    "cod": 38,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000033/000033_001_e_0086940_20251029.pdf",
+    "bienes_fecha": "29/10/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000032/000032_001_e_0000156_20230802.pdf"
+  },
+  "mariaaracelipobladorpacheco": {
+    "nombre": "María Araceli Poblador Pacheco",
+    "cod": 39,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000039/000039_000_e_0000177_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000041/000041_001_e_0000183_20230802.pdf"
+  },
+  "juanfranciscoserranomartinez": {
+    "nombre": "Juan Francisco Serrano Martínez",
+    "cod": 40,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000237/000237_000_e_0001001_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000237/000237_001_e_0001002_20230810.pdf"
+  },
+  "beatrizjimenezlinuesa": {
+    "nombre": "Beatriz Jiménez Linuesa",
+    "cod": 41,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000035/000035_000_e_0000166_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000037/000037_001_e_0000172_20230802.pdf"
+  },
+  "irenegarridovalenzuela": {
+    "nombre": "Irene Garrido Valenzuela",
+    "cod": 42,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000041/000041_000_e_0000184_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000042/000042_001_e_0000185_20230802.pdf"
+  },
+  "bellaveranodominguez": {
+    "nombre": "Bella Verano Domínguez",
+    "cod": 43,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000335/000335_000_e_0001399_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000338/000338_001_e_0001400_20230816.pdf"
+  },
+  "mariacuestarodriguez": {
+    "nombre": "María Cuesta Rodríguez",
+    "cod": 44,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000044/000044_000_e_0000190_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000045/000045_001_e_0000193_20230802.pdf"
+  },
+  "pabloperezcoronado": {
+    "nombre": "Pablo Pérez Coronado",
+    "cod": 45,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000037/000037_000_e_0000170_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000039/000039_001_e_0000178_20230802.pdf"
+  },
+  "oscarramajoprada": {
+    "nombre": "Óscar Ramajo Prada",
+    "cod": 46,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000036/000036_000_e_0000169_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000036/000036_001_e_0000168_20230802.pdf"
+  },
+  "cristinatenientesanchez": {
+    "nombre": "Cristina Teniente Sánchez",
+    "cod": 47,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000043/000043_000_e_0000189_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000044/000044_001_e_0000191_20230802.pdf"
+  },
+  "macarenalorenteanaya": {
+    "nombre": "Macarena Lorente Anaya",
+    "cod": 48,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000042/000042_000_e_0000186_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000043/000043_001_e_0000187_20230802.pdf"
+  },
+  "maribelgarcialopez": {
+    "nombre": "Maribel García López",
+    "cod": 49,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000038/000038_000_e_0000175_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000038/000038_001_e_0000176_20230802.pdf"
+  },
+  "rauldiazmarin": {
+    "nombre": "Raúl Díaz Marín",
+    "cod": 50,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000040/000040_001_e_0073129_20250617.pdf",
+    "bienes_fecha": "17/06/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000040/000040_001_e_0000182_20230802.pdf"
+  },
+  "patriciarodriguezcalleja": {
+    "nombre": "Patricia Rodríguez Calleja",
+    "cod": 51,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000045/000045_000_e_0000194_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000046/000046_001_e_0000196_20230802.pdf"
+  },
+  "juanjoseaizcorbetorra": {
+    "nombre": "Juan José Aizcorbe Torra",
+    "cod": 52,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000046/000046_000_e_0000200_20230802.pdf",
+    "bienes_fecha": "02/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000047/000047_001_e_0000202_20230802.pdf"
+  },
+  "josemariasanchezgarcia": {
+    "nombre": "José María Sánchez García",
+    "cod": 53,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000094/000094_000_e_0000393_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000048/000048_001_e_0000203_20230802.pdf"
+  },
+  "artemirallolombarte": {
+    "nombre": "Artemi Rallo Lombarte",
+    "cod": 54,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000051/000051_000_e_0000225_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000053/000053_001_e_0000231_20230803.pdf"
+  },
+  "carlosjavierflorianocorrales": {
+    "nombre": "Carlos Javier Floriano Corrales",
+    "cod": 55,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000054/000054_000_e_0000235_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000056/000056_001_e_0000237_20230803.pdf"
+  },
+  "luisplanaspuchades": {
+    "nombre": "Luis Planas Puchades",
+    "cod": 56,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000049/000049_002_e_0006674_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000050/000050_001_e_0000215_20230803.pdf"
+  },
+  "santoscerdanleon": {
+    "nombre": "Santos Cerdán León",
+    "cod": 57,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000047/000047_002_e_0073705_20250620.pdf",
+    "bienes_fecha": "20/06/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000051/000051_001_e_0000223_20230803.pdf"
+  },
+  "susanarosmartinez": {
+    "nombre": "Susana Ros Martínez",
+    "cod": 58,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000048/000048_000_e_0000212_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000049/000049_001_e_0000211_20230803.pdf"
+  },
+  "antonioromanjasanada": {
+    "nombre": "Antonio Román Jasanada",
+    "cod": 59,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000053/000053_000_e_0000233_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000054/000054_001_e_0000234_20230803.pdf"
+  },
+  "marialourdesramirezmartin": {
+    "nombre": "María Lourdes Ramírez Martín",
+    "cod": 60,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000055/000055_000_e_0000238_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000057/000057_001_e_0000239_20230803.pdf"
+  },
+  "pablosaezalonsomunumer": {
+    "nombre": "Pablo Sáez Alonso-Muñumer",
+    "cod": 61,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000050/000050_000_e_0000224_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000052/000052_002_e_0001731_20230915.pdf"
+  },
+  "andreumartinmartinez": {
+    "nombre": "Andreu Martín Martínez",
+    "cod": 62,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000052/000052_000_e_0000232_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000055/000055_001_e_0000236_20230803.pdf"
+  },
+  "marialuzmartinezseijo": {
+    "nombre": "María Luz Martínez Seijo",
+    "cod": 63,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000056/000056_000_e_0000241_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000058/000058_001_e_0000245_20230803.pdf"
+  },
+  "joseluisacevesgalindo": {
+    "nombre": "José Luis Aceves Galindo",
+    "cod": 64,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000057/000057_000_e_0000248_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000059/000059_001_e_0000252_20230803.pdf"
+  },
+  "carmenfunezdegregorio": {
+    "nombre": "Carmen Fúnez de Gregorio",
+    "cod": 65,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000058/000058_000_e_0000258_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000061/000061_001_e_0000256_20230803.pdf"
+  },
+  "estebangonzalezpons": {
+    "nombre": "Esteban González Pons",
+    "cod": 66,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000346/000346_002_e_0076052_20250716.pdf",
+    "bienes_fecha": "16/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000345/000345_001_e_0001526_20230829.pdf"
+  },
+  "belenhoyojulia": {
+    "nombre": "Belén Hoyo Juliá",
+    "cod": 67,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000059/000059_000_e_0000263_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000060/000060_002_e_0004236_20231116.pdf"
+  },
+  "juancarlosruizboix": {
+    "nombre": "Juan Carlos Ruiz Boix",
+    "cod": 68,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000060/000060_000_e_0000269_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000062/000062_001_e_0000267_20230803.pdf"
+  },
+  "sofiaacedoreyes": {
+    "nombre": "Sofía Acedo Reyes",
+    "cod": 69,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000066/000066_000_e_0000297_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000068/000068_001_e_0000296_20230803.pdf"
+  },
+  "joseramirezdelrio": {
+    "nombre": "José Ramírez del Río",
+    "cod": 70,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000061/000061_000_e_0000271_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000063/000063_001_e_0000274_20230803.pdf"
+  },
+  "mariaisabelprietoserrano": {
+    "nombre": "María Isabel Prieto Serrano",
+    "cod": 71,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000064/000064_000_e_0000289_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000066/000066_001_e_0000291_20230803.pdf"
+  },
+  "mariacarmensanchezdiaz": {
+    "nombre": "María Carmen Sánchez Díaz",
+    "cod": 72,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000072/000072_000_e_0000321_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000074/000074_001_e_0000322_20230803.pdf"
+  },
+  "angellopezmaraver": {
+    "nombre": "Ángel López Maraver",
+    "cod": 73,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000062/000062_000_e_0000276_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000065/000065_002_e_0001806_20230919.pdf"
+  },
+  "pedroignaciogallardobarrena": {
+    "nombre": "Pedro Ignacio Gallardo Barrena",
+    "cod": 74,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000084/000084_000_e_0000360_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000088/000088_001_e_0000377_20230803.pdf"
+  },
+  "anacobocarmona": {
+    "nombre": "Ana Cobo Carmona",
+    "cod": 75,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000063/000063_000_e_0000278_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000064/000064_001_e_0000279_20230803.pdf"
+  },
+  "mariadelmarvazquezjimenez": {
+    "nombre": "María del Mar Vázquez Jiménez",
+    "cod": 76,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000083/000083_000_e_0000357_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000071/000071_001_e_0000306_20230803.pdf"
+  },
+  "jordisalvadoriduch": {
+    "nombre": "Jordi Salvador i Duch",
+    "cod": 77,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000073/000073_000_e_0000324_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000075/000075_001_e_0000325_20230803.pdf"
+  },
+  "juanantoniovaleromorales": {
+    "nombre": "Juan Antonio Valero Morales",
+    "cod": 78,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000075/000075_000_e_0000331_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000082/000082_001_e_0000354_20230803.pdf"
+  },
+  "amadormarquesates": {
+    "nombre": "Amador Marqués Atés",
+    "cod": 79,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000068/000068_000_e_0000303_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000072/000072_001_e_0000315_20230803.pdf"
+  },
+  "montseminguezgarcia": {
+    "nombre": "Montse Mínguez García",
+    "cod": 80,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000067/000067_000_e_0000300_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000070/000070_001_e_0000301_20230803.pdf"
+  },
+  "inesplazagarcia": {
+    "nombre": "Inés Plaza García",
+    "cod": 81,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000065/000065_000_e_0000293_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000067/000067_002_e_0001410_20230816.pdf"
+  },
+  "mariamercedesfernandezgonzalez": {
+    "nombre": "María Mercedes Fernández González",
+    "cod": 82,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000076/000076_001_e_0068635_20250514.pdf",
+    "bienes_fecha": "14/05/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000078/000078_001_e_0000337_20230803.pdf"
+  },
+  "raquelsanchezjimenez": {
+    "nombre": "Raquel Sánchez Jiménez",
+    "cod": 83,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000069/000069_002_e_0008469_20240117.pdf",
+    "bienes_fecha": "17/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000069/000069_001_e_0000299_20230803.pdf"
+  },
+  "cristobalgarremurcia": {
+    "nombre": "Cristóbal Garre Murcia",
+    "cod": 84,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000090/000090_000_e_0000383_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000094/000094_001_e_0000390_20230803.pdf"
+  },
+  "mariocortescarballo": {
+    "nombre": "Mario Cortés Carballo",
+    "cod": 85,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000077/000077_001_e_0103185_20260226.pdf",
+    "bienes_fecha": "26/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000079/000079_001_e_0000341_20230803.pdf"
+  },
+  "esthergilderebolenolastortres": {
+    "nombre": "Esther Gil de Reboleño Lastortres",
+    "cod": 86,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000080/000080_000_e_0000350_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000084/000084_001_e_0000365_20230803.pdf"
+  },
+  "landermartinezhierro": {
+    "nombre": "Lander Martínez Hierro",
+    "cod": 87,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000086/000086_000_e_0000363_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000085/000085_001_e_0000366_20230803.pdf"
+  },
+  "isabelgemaperezrecuerda": {
+    "nombre": "Isabel Gema Pérez Recuerda",
+    "cod": 88,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000070/000070_001_e_0075628_20250710.pdf",
+    "bienes_fecha": "10/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000073/000073_001_e_0000317_20230803.pdf"
+  },
+  "ricardotarnoblanco": {
+    "nombre": "Ricardo Tarno Blanco",
+    "cod": 89,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000071/000071_001_e_0102207_20260224.pdf",
+    "bienes_fecha": "24/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000305/000305_001_e_0001292_20230816.pdf"
+  },
+  "oscarpuentesantiago": {
+    "nombre": "Óscar Puente Santiago",
+    "cod": 90,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000074/000074_001_e_0075932_20250715.pdf",
+    "bienes_fecha": "15/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000076/000076_001_e_0000329_20230803.pdf"
+  },
+  "luisasanzmartinez": {
+    "nombre": "Luisa Sanz Martínez",
+    "cod": 91,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000085/000085_000_e_0000361_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000077/000077_001_e_0000332_20230803.pdf"
+  },
+  "txemaguijarrogarcia": {
+    "nombre": "Txema Guijarro García",
+    "cod": 92,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000093/000093_000_e_0000391_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000093/000093_001_e_0000389_20230803.pdf"
+  },
+  "alvaromoralesalvarez": {
+    "nombre": "Álvaro Morales Álvarez",
+    "cod": 93,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000078/000078_000_e_0000343_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000083/000083_002_e_0002800_20231018.pdf"
+  },
+  "arnauramirezcarner": {
+    "nombre": "Arnau Ramírez Carner",
+    "cod": 94,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000088/000088_001_e_0003436_20231030.pdf",
+    "bienes_fecha": "30/10/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000089/000089_001_e_0000380_20230803.pdf"
+  },
+  "estherpenacamarero": {
+    "nombre": "Esther Peña Camarero",
+    "cod": 95,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000079/000079_000_e_0000347_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000080/000080_001_e_0000348_20230803.pdf"
+  },
+  "manuelarribasmaroto": {
+    "nombre": "Manuel Arribas Maroto",
+    "cod": 96,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000082/000082_000_e_0000356_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000086/000086_001_e_0000371_20230803.pdf"
+  },
+  "isabelrodriguezgarcia": {
+    "nombre": "Isabel Rodríguez García",
+    "cod": 97,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000081/000081_002_e_0006792_20231221.pdf",
+    "bienes_fecha": "21/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000081/000081_001_e_0000351_20230803.pdf"
+  },
+  "gonzaloredondocardenas": {
+    "nombre": "Gonzalo Redondo Cárdenas",
+    "cod": 98,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000089/000089_001_e_0034619_20240724.pdf",
+    "bienes_fecha": "24/07/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000090/000090_001_e_0000382_20230803.pdf"
+  },
+  "javiermerinomartinez": {
+    "nombre": "Javier Merino Martínez",
+    "cod": 99,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000092/000092_000_e_0000387_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000092/000092_001_e_0000388_20230803.pdf"
+  },
+  "cesarjoaquinramosesteban": {
+    "nombre": "César Joaquín Ramos Esteban",
+    "cod": 100,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000087/000087_001_e_0084823_20251010.pdf",
+    "bienes_fecha": "10/10/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000087/000087_002_e_0001411_20230816.pdf"
+  },
+  "santirodriguezserra": {
+    "nombre": "Santi Rodríguez Serra",
+    "cod": 101,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000091/000091_000_e_0000385_20230803.pdf",
+    "bienes_fecha": "03/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000091/000091_001_e_0000386_20230803.pdf"
+  },
+  "antoniomartinezgomez": {
+    "nombre": "Antonio Martínez Gómez",
+    "cod": 102,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000096/000096_000_e_0000414_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000095/000095_001_e_0000405_20230804.pdf"
+  },
+  "trinidadcarmenargotacastro": {
+    "nombre": "Trinidad Carmen Argota Castro",
+    "cod": 103,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000095/000095_000_e_0000406_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000096/000096_001_e_0000407_20230804.pdf"
+  },
+  "davidgarciagomis": {
+    "nombre": "David García Gomis",
+    "cod": 104,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000097/000097_000_e_0000416_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000098/000098_001_e_0000417_20230804.pdf"
+  },
+  "adrianamaldonadolopez": {
+    "nombre": "Adriana Maldonado López",
+    "cod": 105,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000098/000098_000_e_0000419_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000097/000097_001_e_0000410_20230804.pdf"
+  },
+  "carmenandresanon": {
+    "nombre": "Carmen Andrés Añón",
+    "cod": 106,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000099/000099_000_e_0000422_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000099/000099_001_e_0000421_20230804.pdf"
+  },
+  "felixdelascuevascortes": {
+    "nombre": "Félix De las Cuevas Cortés",
+    "cod": 107,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000101/000101_000_e_0000429_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000103/000103_001_e_0000441_20230804.pdf"
+  },
+  "albertofabrapart": {
+    "nombre": "Alberto Fabra Part",
+    "cod": 108,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000100/000100_000_e_0000424_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000100/000100_001_e_0000425_20230804.pdf"
+  },
+  "oscarclavelllopez": {
+    "nombre": "Óscar Clavell López",
+    "cod": 109,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000103/000103_001_e_0096608_20260202.pdf",
+    "bienes_fecha": "02/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000102/000102_001_e_0000435_20230804.pdf"
+  },
+  "marclamuaestanol": {
+    "nombre": "Marc Lamuà Estañol",
+    "cod": 110,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000102/000102_000_e_0000432_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000101/000101_001_e_0000433_20230804.pdf"
+  },
+  "blancacercasmena": {
+    "nombre": "Blanca Cercas Mena",
+    "cod": 111,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000106/000106_000_e_0000451_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000107/000107_001_e_0000455_20230804.pdf"
+  },
+  "rafaelaromeropozo": {
+    "nombre": "Rafaela Romero Pozo",
+    "cod": 112,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000107/000107_000_e_0000454_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000108/000108_001_e_0000458_20230804.pdf"
+  },
+  "marialuisagarciagurrutxaga": {
+    "nombre": "María Luisa García Gurrutxaga",
+    "cod": 113,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000292/000292_000_e_0001216_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000105/000105_001_e_0000450_20230804.pdf"
+  },
+  "mariaguijarroceballos": {
+    "nombre": "María Guijarro Ceballos",
+    "cod": 114,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000104/000104_002_e_0075704_20250711.pdf",
+    "bienes_fecha": "11/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000106/000106_001_e_0000452_20230804.pdf"
+  },
+  "javierjosefolchblanc": {
+    "nombre": "Javier José Folch Blanc",
+    "cod": 115,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000108/000108_000_e_0000460_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000109/000109_001_e_0000461_20230804.pdf"
+  },
+  "elisagarridojimenez": {
+    "nombre": "Elisa Garrido Jiménez",
+    "cod": 116,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000105/000105_000_e_0000448_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000104/000104_001_e_0000449_20230804.pdf"
+  },
+  "ignaciogillazaro": {
+    "nombre": "Ignacio Gil Lázaro",
+    "cod": 117,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000110/000110_000_e_0000467_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000111/000111_001_e_0000468_20230804.pdf"
+  },
+  "joseantoniobermudezdecastrofernandez": {
+    "nombre": "José Antonio Bermúdez de Castro Fernández",
+    "cod": 118,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000109/000109_001_e_0051369_20241211.pdf",
+    "bienes_fecha": "11/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000110/000110_001_e_0000465_20230804.pdf"
+  },
+  "violantetomasolivares": {
+    "nombre": "Violante Tomás Olivares",
+    "cod": 119,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000111/000111_001_e_0079969_20250916.pdf",
+    "bienes_fecha": "16/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000112/000112_001_e_0000474_20230804.pdf"
+  },
+  "patxilopezalvarez": {
+    "nombre": "Patxi López Álvarez",
+    "cod": 120,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000344/000344_000_e_0001454_20230817.pdf",
+    "bienes_fecha": "17/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000344/000344_001_e_0001455_20230817.pdf"
+  },
+  "jacobogonzalezrobattoperote": {
+    "nombre": "Jacobo González-Robatto Perote",
+    "cod": 121,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000112/000112_000_e_0000476_20230804.pdf",
+    "bienes_fecha": "04/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000113/000113_001_e_0000477_20230804.pdf"
+  },
+  "rafaelcofinofernandez": {
+    "nombre": "Rafael Cofiño Fernández",
+    "cod": 122,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000114/000114_000_e_0001215_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000115/000115_001_e_0000491_20230807.pdf"
+  },
+  "sergiocarlosmatoscastro": {
+    "nombre": "Sergio Carlos Matos Castro",
+    "cod": 123,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000113/000113_002_e_0051253_20241211.pdf",
+    "bienes_fecha": "11/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000114/000114_001_e_0000488_20230807.pdf"
+  },
+  "emiliojesusdelvallerodriguez": {
+    "nombre": "Emilio Jesús Del Valle Rodríguez",
+    "cod": 124,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000115/000115_000_e_0000495_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000116/000116_002_e_0001783_20230919.pdf"
+  },
+  "enriquefernandosantiagoromero": {
+    "nombre": "Enrique Fernando Santiago Romero",
+    "cod": 125,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000116/000116_000_e_0000506_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000117/000117_001_e_0000507_20230807.pdf"
+  },
+  "franciscojosesalazarrodriguez": {
+    "nombre": "Francisco José Salazar Rodríguez",
+    "cod": 126,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000118/000118_002_e_0005044_20231129.pdf",
+    "bienes_fecha": "29/11/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000119/000119_001_e_0000514_20230807.pdf"
+  },
+  "joseluisabalosmeco": {
+    "nombre": "José Luis Ábalos Meco",
+    "cod": 127,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000117/000117_000_e_0000509_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000118/000118_001_e_0000508_20230807.pdf"
+  },
+  "joseantoniorodriguezsalas": {
+    "nombre": "José Antonio Rodríguez Salas",
+    "cod": 128,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000120/000120_000_e_0000518_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000122/000122_001_e_0000522_20230807.pdf"
+  },
+  "modestoposemesura": {
+    "nombre": "Modesto Pose Mesura",
+    "cod": 129,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000121/000121_000_e_0000519_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000121/000121_001_e_0000520_20230807.pdf"
+  },
+  "herminiorufinosanchoiniguez": {
+    "nombre": "Herminio Rufino Sancho Íñiguez",
+    "cod": 130,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000122/000122_001_e_0076755_20250728.pdf",
+    "bienes_fecha": "28/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000123/000123_001_e_0000523_20230807.pdf"
+  },
+  "juandiegorequenaruiz": {
+    "nombre": "Juan Diego Requena Ruiz",
+    "cod": 131,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000119/000119_000_e_0000516_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000120/000120_001_e_0000517_20230807.pdf"
+  },
+  "joanmesquidamayans": {
+    "nombre": "Joan Mesquida Mayans",
+    "cod": 132,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000127/000127_000_e_0000547_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000131/000131_001_e_0000556_20230807.pdf"
+  },
+  "adasantanaaguilera": {
+    "nombre": "Ada Santana Aguilera",
+    "cod": 133,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000125/000125_000_e_0000543_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000125/000125_002_e_0002803_20231018.pdf"
+  },
+  "aliciaalvarezgonzalez": {
+    "nombre": "Alicia Álvarez González",
+    "cod": 134,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000124/000124_000_e_0000540_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000124/000124_001_e_0000534_20230807.pdf"
+  },
+  "davidregadesfernandez": {
+    "nombre": "David Regades Fernández",
+    "cod": 135,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000123/000123_002_e_0020440_20240411.pdf",
+    "bienes_fecha": "11/04/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000126/000126_001_e_0000538_20230807.pdf"
+  },
+  "cristinaagueragago": {
+    "nombre": "Cristina Agüera Gago",
+    "cod": 136,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000132/000132_001_e_0082176_20250925.pdf",
+    "bienes_fecha": "25/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000133/000133_001_e_0000563_20230807.pdf"
+  },
+  "isabeliniestaegido": {
+    "nombre": "Isabel Iniesta Egido",
+    "cod": 137,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000131/000131_000_e_0000559_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000130/000130_001_e_0000555_20230807.pdf"
+  },
+  "emiliosaezcruz": {
+    "nombre": "Emilio Sáez Cruz",
+    "cod": 138,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000129/000129_000_e_0000557_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000128/000128_001_e_0000546_20230807.pdf"
+  },
+  "mariaadriotaracido": {
+    "nombre": "María Adrio Taracido",
+    "cod": 139,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000128/000128_000_e_0000550_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000129/000129_001_e_0000551_20230807.pdf"
+  },
+  "alfonsorodriguezgomezdecelis": {
+    "nombre": "Alfonso Rodríguez Gómez de Celis",
+    "cod": 140,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000126/000126_000_e_0000544_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000127/000127_002_e_0003209_20231025.pdf"
+  },
+  "javiernoriegagomez": {
+    "nombre": "Javier Noriega Gómez",
+    "cod": 141,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000130/000130_000_e_0000558_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000132/000132_001_e_0000560_20230807.pdf"
+  },
+  "lucandredioufdioh": {
+    "nombre": "Luc Andre Diouf Dioh",
+    "cod": 142,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000348/000348_000_e_0001661_20230911.pdf",
+    "bienes_fecha": "11/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000347/000347_001_e_0001730_20230915.pdf"
+  },
+  "beatrizalvarezfanjul": {
+    "nombre": "Beatriz Álvarez Fanjul",
+    "cod": 143,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000133/000133_000_e_0000569_20230807.pdf",
+    "bienes_fecha": "07/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000134/000134_001_e_0000568_20230807.pdf"
+  },
+  "joseramongomezbesteiro": {
+    "nombre": "José Ramón Gómez Besteiro",
+    "cod": 144,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000135/000135_002_e_0014528_20240301.pdf",
+    "bienes_fecha": "01/03/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000135/000135_002_e_0002907_20231020.pdf"
+  },
+  "isabelmariaborregocortes": {
+    "nombre": "Isabel María Borrego Cortés",
+    "cod": 145,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000136/000136_001_e_0107159_20260319.pdf",
+    "bienes_fecha": "19/03/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000137/000137_001_e_0000588_20230808.pdf"
+  },
+  "margaritamartinrodriguez": {
+    "nombre": "Margarita Martín Rodríguez",
+    "cod": 146,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000137/000137_000_e_0000589_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000138/000138_001_e_0000590_20230808.pdf"
+  },
+  "miquelicetaillorens": {
+    "nombre": "Miquel Iceta i Llorens",
+    "cod": 147,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000134/000134_002_e_0006389_20231215.pdf",
+    "bienes_fecha": "15/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000136/000136_001_e_0000581_20230808.pdf"
+  },
+  "sergiosayaslopez": {
+    "nombre": "Sergio Sayas López",
+    "cod": 148,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000138/000138_001_e_0054066_20250121.pdf",
+    "bienes_fecha": "21/01/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000139/000139_001_e_0000594_20230808.pdf"
+  },
+  "albertocatalanhigueras": {
+    "nombre": "Alberto Catalán Higueras",
+    "cod": 149,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000139/000139_001_e_0078927_20250909.pdf",
+    "bienes_fecha": "09/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000140/000140_001_e_0000596_20230808.pdf"
+  },
+  "pedrosamuelmartingarcia": {
+    "nombre": "Pedro Samuel Martín García",
+    "cod": 150,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000142/000142_001_e_0072406_20250611.pdf",
+    "bienes_fecha": "11/06/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000143/000143_001_e_0000612_20230808.pdf"
+  },
+  "mariajesusmoroalmaraz": {
+    "nombre": "María Jesús Moro Almaraz",
+    "cod": 151,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000140/000140_000_e_0000600_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000141/000141_001_e_0000603_20230808.pdf"
+  },
+  "carlosalbertosanchezojeda": {
+    "nombre": "Carlos Alberto Sánchez Ojeda",
+    "cod": 152,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000144/000144_000_e_0000628_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000147/000147_001_e_0000629_20230808.pdf"
+  },
+  "adrianalastrafernandez": {
+    "nombre": "Adriana Lastra Fernández",
+    "cod": 153,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000141/000141_002_e_0075658_20250710.pdf",
+    "bienes_fecha": "10/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000142/000142_001_e_0000611_20230808.pdf"
+  },
+  "rafaelacrespinrubio": {
+    "nombre": "Rafaela Crespín Rubio",
+    "cod": 154,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000149/000149_000_e_0000645_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000144/000144_001_e_0000616_20230808.pdf"
+  },
+  "lauramarialimagarcia": {
+    "nombre": "Laura María Lima García",
+    "cod": 155,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000145/000145_000_e_0000631_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000148/000148_001_e_0000630_20230808.pdf"
+  },
+  "juanantoniorojasmanrique": {
+    "nombre": "Juan Antonio Rojas Manrique",
+    "cod": 156,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000148/000148_000_e_0000641_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000150/000150_001_e_0000642_20230808.pdf"
+  },
+  "engraciariveraarias": {
+    "nombre": "Engracia Rivera Arias",
+    "cod": 157,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000151/000151_000_e_0000650_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000146/000146_001_e_0000626_20230808.pdf"
+  },
+  "milagrostolonjaime": {
+    "nombre": "Milagros Tolón Jaime",
+    "cod": 158,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000143/000143_002_e_0007166_20231227.pdf",
+    "bienes_fecha": "27/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000145/000145_001_e_0000620_20230808.pdf"
+  },
+  "carlosfloresjuberias": {
+    "nombre": "Carlos Flores Juberías",
+    "cod": 159,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000162/000162_000_e_0000691_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000163/000163_002_e_0001460_20230818.pdf"
+  },
+  "cristinaabadesmartinez": {
+    "nombre": "Cristina Abades Martínez",
+    "cod": 160,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000150/000150_000_e_0000648_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000151/000151_001_e_0000649_20230808.pdf"
+  },
+  "jaimeeduardodeolanovela": {
+    "nombre": "Jaime Eduardo de Olano Vela",
+    "cod": 161,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000147/000147_000_e_0000640_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000149/000149_001_e_0000639_20230808.pdf"
+  },
+  "javiercelayabrey": {
+    "nombre": "Javier Celaya Brey",
+    "cod": 162,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000153/000153_000_e_0000664_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000156/000156_001_e_0000670_20230808.pdf"
+  },
+  "silverioarguellesgarcia": {
+    "nombre": "Silverio Argüelles García",
+    "cod": 163,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000146/000146_001_e_0002403_20231010.pdf",
+    "bienes_fecha": "10/10/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000152/000152_001_e_0000651_20230808.pdf"
+  },
+  "aguedamicomico": {
+    "nombre": "Àgueda Micó Micó",
+    "cod": 164,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000158/000158_000_e_0000678_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000162/000162_001_e_0000687_20230808.pdf"
+  },
+  "albertoibanezmezquita": {
+    "nombre": "Alberto Ibáñez Mezquita",
+    "cod": 165,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000161/000161_000_e_0000685_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000159/000159_001_e_0000679_20230808.pdf"
+  },
+  "nahuelgonzalezlopez": {
+    "nombre": "Nahuel González López",
+    "cod": 166,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000156/000156_000_e_0000671_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000161/000161_001_e_0000683_20230808.pdf"
+  },
+  "marialuisafanecalopez": {
+    "nombre": "María Luisa Faneca López",
+    "cod": 167,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000155/000155_000_e_0000668_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000155/000155_002_e_0002804_20231018.pdf"
+  },
+  "gabrielcruzsantana": {
+    "nombre": "Gabriel Cruz Santana",
+    "cod": 168,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000154/000154_001_e_0084376_20251008.pdf",
+    "bienes_fecha": "08/10/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000154/000154_001_e_0000666_20230808.pdf"
+  },
+  "martinavelardegomez": {
+    "nombre": "Martina Velarde Gómez",
+    "cod": 169,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000152/000152_000_e_0000655_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000153/000153_001_e_0000654_20230808.pdf"
+  },
+  "patriciablanqueralcaraz": {
+    "nombre": "Patricia Blanquer Alcaraz",
+    "cod": 170,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000157/000157_000_e_0000675_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000157/000157_001_e_0000674_20230808.pdf"
+  },
+  "vallemelladosierra": {
+    "nombre": "Valle Mellado Sierra",
+    "cod": 171,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000159/000159_001_e_0052664_20241223.pdf",
+    "bienes_fecha": "23/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000160/000160_002_e_0002866_20231019.pdf"
+  },
+  "agustinparragallego": {
+    "nombre": "Agustín Parra Gallego",
+    "cod": 172,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000164/000164_000_e_0000702_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000166/000166_001_e_0000700_20230808.pdf"
+  },
+  "nachomartinblanco": {
+    "nombre": "Nacho Martín Blanco",
+    "cod": 173,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000166/000166_000_e_0000705_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000165/000165_001_e_0000699_20230808.pdf"
+  },
+  "llanosdelunatobarra": {
+    "nombre": "Llanos De Luna Tobarra",
+    "cod": 174,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000165/000165_000_e_0000704_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000167/000167_001_e_0000706_20230808.pdf"
+  },
+  "rafaelbenignobelmontegomez": {
+    "nombre": "Rafael Benigno Belmonte Gómez",
+    "cod": 175,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000167/000167_001_e_0099093_20260211.pdf",
+    "bienes_fecha": "11/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000168/000168_001_e_0000710_20230808.pdf"
+  },
+  "albertorojoblas": {
+    "nombre": "Alberto Rojo Blas",
+    "cod": 176,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000163/000163_000_e_0000697_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000164/000164_001_e_0000698_20230808.pdf"
+  },
+  "maribelsancheztorregrosa": {
+    "nombre": "Maribel Sánchez Torregrosa",
+    "cod": 177,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000169/000169_000_e_0000713_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000169/000169_001_e_0000714_20230808.pdf"
+  },
+  "begonanasarreoliva": {
+    "nombre": "Begoña Nasarre Oliva",
+    "cod": 178,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000168/000168_000_e_0000712_20230808.pdf",
+    "bienes_fecha": "08/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000170/000170_001_e_0000715_20230808.pdf"
+  },
+  "pablovazquezvega": {
+    "nombre": "Pablo Vázquez Vega",
+    "cod": 179,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000170/000170_002_e_0010820_20240207.pdf",
+    "bienes_fecha": "07/02/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000171/000171_001_e_0000724_20230808.pdf"
+  },
+  "angelibanezhernando": {
+    "nombre": "Ángel Ibáñez Hernando",
+    "cod": 180,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000171/000171_001_e_0037702_20240911.pdf",
+    "bienes_fecha": "11/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000172/000172_001_e_0000729_20230808.pdf"
+  },
+  "miguelangelquintanillanavarro": {
+    "nombre": "Miguel Ángel Quintanilla Navarro",
+    "cod": 181,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000172/000172_001_e_0060447_20250312.pdf",
+    "bienes_fecha": "12/03/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000173/000173_002_e_0001474_20230818.pdf"
+  },
+  "joaquinmartinezsalmeron": {
+    "nombre": "Joaquín Martínez Salmerón",
+    "cod": 182,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000180/000180_000_e_0000769_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000174/000174_001_e_0000738_20230809.pdf"
+  },
+  "mariapilaraliaaguado": {
+    "nombre": "María Pilar Alía Aguado",
+    "cod": 183,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000174/000174_000_e_0000747_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000175/000175_001_e_0000748_20230809.pdf"
+  },
+  "josemanuelvelascoretamosa": {
+    "nombre": "José Manuel Velasco Retamosa",
+    "cod": 184,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000175/000175_000_e_0000749_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000177/000177_001_e_0000753_20230809.pdf"
+  },
+  "francinaarmengolsocias": {
+    "nombre": "Francina Armengol Socias",
+    "cod": 185,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000179/000179_001_e_0099092_20260211.pdf",
+    "bienes_fecha": "11/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000181/000181_001_e_0000766_20230809.pdf"
+  },
+  "milenaherreragarcia": {
+    "nombre": "Milena Herrera García",
+    "cod": 186,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000173/000173_000_e_0000742_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000176/000176_001_e_0000752_20230809.pdf"
+  },
+  "mariadolorescorujoberriel": {
+    "nombre": "María Dolores Corujo Berriel",
+    "cod": 187,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000178/000178_000_e_0000759_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000179/000179_001_e_0000758_20230809.pdf"
+  },
+  "josevicentemariboso": {
+    "nombre": "José Vicente Marí Bosó",
+    "cod": 188,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000176/000176_000_e_0000751_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000180/000180_001_e_0000763_20230809.pdf"
+  },
+  "pedrosanchezperezcastejon": {
+    "nombre": "Pedro Sánchez Pérez-Castejón",
+    "cod": 189,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000177/000177_000_e_0000756_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000178/000178_001_e_0000757_20230809.pdf"
+  },
+  "pepemercadalbaquero": {
+    "nombre": "Pepe Mercadal Baquero",
+    "cod": 190,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000183/000183_000_e_0000786_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000184/000184_001_e_0000787_20230809.pdf"
+  },
+  "isauralealfernandez": {
+    "nombre": "Isaura Leal Fernández",
+    "cod": 191,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000181/000181_000_e_0000774_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000182/000182_001_e_0000768_20230809.pdf"
+  },
+  "vicencvidalmatas": {
+    "nombre": "Vicenç Vidal Matas",
+    "cod": 192,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000206/000206_000_e_0000873_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000206/000206_001_e_0000872_20230809.pdf"
+  },
+  "josemariafigaredoalvarezsala": {
+    "nombre": "José María Figaredo Álvarez-Sala",
+    "cod": 193,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000186/000186_001_e_0002205_20231005.pdf",
+    "bienes_fecha": "05/10/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000350/000350_001_e_0002232_20231005.pdf"
+  },
+  "ignaciohocesiniguez": {
+    "nombre": "Ignacio Hoces Íñiguez",
+    "cod": 194,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000185/000185_000_e_0000793_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000346/000346_002_e_0001918_20230926.pdf"
+  },
+  "robertogarciamoris": {
+    "nombre": "Roberto García Morís",
+    "cod": 195,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000182/000182_001_e_0057279_20250220.pdf",
+    "bienes_fecha": "20/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000183/000183_001_e_0000777_20230809.pdf"
+  },
+  "anabelenvazquezblanco": {
+    "nombre": "Ana Belén Vázquez Blanco",
+    "cod": 196,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000184/000184_000_e_0000788_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000186/000186_001_e_0000797_20230809.pdf"
+  },
+  "rosaquintanacarballo": {
+    "nombre": "Rosa Quintana Carballo",
+    "cod": 197,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000187/000187_000_e_0000799_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000185/000185_001_e_0000795_20230809.pdf"
+  },
+  "tristanamariamoralejagomez": {
+    "nombre": "Tristana María Moraleja Gómez",
+    "cod": 198,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000188/000188_000_e_0000802_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000187/000187_001_e_0000804_20230809.pdf"
+  },
+  "pedropuyfraga": {
+    "nombre": "Pedro Puy Fraga",
+    "cod": 199,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000192/000192_001_e_0076590_20250723.pdf",
+    "bienes_fecha": "23/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000191/000191_002_e_0076591_20250723.pdf"
+  },
+  "martagonzalezvazquez": {
+    "nombre": "Marta González Vázquez",
+    "cod": 200,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000189/000189_000_e_0000806_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000188/000188_001_e_0000809_20230809.pdf"
+  },
+  "jorgepueyosanz": {
+    "nombre": "Jorge Pueyo Sanz",
+    "cod": 201,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000327/000327_000_e_0001373_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000192/000192_001_e_0000821_20230809.pdf"
+  },
+  "rafaelantoniohernandofraile": {
+    "nombre": "Rafael Antonio Hernando Fraile",
+    "cod": 202,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000221/000221_000_e_0000937_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000193/000193_001_e_0000823_20230809.pdf"
+  },
+  "lourdesmendezmonasterio": {
+    "nombre": "Lourdes Méndez Monasterio",
+    "cod": 203,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000191/000191_000_e_0000814_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000189/000189_001_e_0000815_20230809.pdf"
+  },
+  "mariasandramoneodiez": {
+    "nombre": "María Sandra Moneo Díez",
+    "cod": 204,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000190/000190_000_e_0000813_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000190/000190_001_e_0000818_20230809.pdf"
+  },
+  "javierdeandresguerra": {
+    "nombre": "Javier De Andrés Guerra",
+    "cod": 205,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000194/000194_002_e_0017892_20240320.pdf",
+    "bienes_fecha": "20/03/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000194/000194_001_e_0000825_20230809.pdf"
+  },
+  "miguelangelsastreuya": {
+    "nombre": "Miguel Ángel Sastre Uyá",
+    "cod": 206,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000196/000196_000_e_0000837_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000195/000195_001_e_0000835_20230809.pdf"
+  },
+  "jorgecamposasensi": {
+    "nombre": "Jorge Campos Asensi",
+    "cod": 207,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000195/000195_000_e_0000836_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000197/000197_001_e_0000843_20230809.pdf"
+  },
+  "enriquebeldaperezpedrero": {
+    "nombre": "Enrique Belda Pérez-Pedrero",
+    "cod": 208,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000193/000193_000_e_0000833_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000196/000196_001_e_0000840_20230809.pdf"
+  },
+  "eliasbendodobenasayag": {
+    "nombre": "Elías Bendodo Benasayag",
+    "cod": 209,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000197/000197_000_e_0000842_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000198/000198_001_e_0000844_20230809.pdf"
+  },
+  "juliaparraaparicio": {
+    "nombre": "Julia Parra Aparicio",
+    "cod": 210,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000200/000200_000_e_0000856_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000203/000203_001_e_0000865_20230809.pdf"
+  },
+  "joaquinmelgarejomoreno": {
+    "nombre": "Joaquín Melgarejo Moreno",
+    "cod": 211,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000198/000198_000_e_0000849_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000199/000199_001_e_0000850_20230809.pdf"
+  },
+  "sandrapascualrocamora": {
+    "nombre": "Sandra Pascual Rocamora",
+    "cod": 212,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000202/000202_001_e_0054646_20250129.pdf",
+    "bienes_fecha": "29/01/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000200/000200_002_e_0001581_20230904.pdf"
+  },
+  "anamartinezlabella": {
+    "nombre": "Ana Martínez Labella",
+    "cod": 213,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000201/000201_000_e_0000858_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000201/000201_001_e_0000862_20230809.pdf"
+  },
+  "tomasfernandezrios": {
+    "nombre": "Tomás Fernández Ríos",
+    "cod": 214,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000199/000199_000_e_0000855_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000349/000349_001_e_0001857_20230921.pdf"
+  },
+  "carmennavarrolacoba": {
+    "nombre": "Carmen Navarro Lacoba",
+    "cod": 215,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000205/000205_000_e_0000869_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000205/000205_001_e_0000870_20230809.pdf"
+  },
+  "macarenamontesinosdemiguel": {
+    "nombre": "Macarena Montesinos de Miguel",
+    "cod": 216,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000203/000203_001_e_0049137_20241120.pdf",
+    "bienes_fecha": "20/11/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000202/000202_001_e_0000863_20230809.pdf"
+  },
+  "cesarsanchezperez": {
+    "nombre": "César Sánchez Pérez",
+    "cod": 217,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000204/000204_000_e_0000866_20230809.pdf",
+    "bienes_fecha": "09/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000204/000204_001_e_0000868_20230809.pdf"
+  },
+  "carmenmartinezramirez": {
+    "nombre": "Carmen Martínez Ramírez",
+    "cod": 218,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000207/000207_000_e_0000877_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000209/000209_001_e_0000891_20230810.pdf"
+  },
+  "vicentmanuelsarriamorell": {
+    "nombre": "Vicent Manuel Sarrià Morell",
+    "cod": 219,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000209/000209_000_e_0000880_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000207/000207_001_e_0000881_20230810.pdf"
+  },
+  "martatrenzanorubio": {
+    "nombre": "Marta Trenzano Rubio",
+    "cod": 220,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000208/000208_000_e_0000878_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000208/000208_001_e_0000890_20230810.pdf"
+  },
+  "inesgranollerscunillera": {
+    "nombre": "Inés Granollers Cunillera",
+    "cod": 221,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000214/000214_000_e_0000909_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000213/000213_001_e_0000907_20230810.pdf"
+  },
+  "francescmarcalvarovidal": {
+    "nombre": "Francesc-Marc Álvaro Vidal",
+    "cod": 222,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000211/000211_000_e_0000900_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000211/000211_001_e_0000901_20230810.pdf"
+  },
+  "pilarvallugerabalana": {
+    "nombre": "Pilar Vallugera Balañà",
+    "cod": 223,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000212/000212_000_e_0000903_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000212/000212_001_e_0000904_20230810.pdf"
+  },
+  "teresajordairoura": {
+    "nombre": "Teresa Jordà i Roura",
+    "cod": 224,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000216/000216_000_e_0000913_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000215/000215_001_e_0000914_20230810.pdf"
+  },
+  "carlosmartinurriza": {
+    "nombre": "Carlos Martín Urriza",
+    "cod": 225,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000220/000220_000_e_0000936_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000222/000222_001_e_0000947_20230810.pdf"
+  },
+  "begonagarciabernal": {
+    "nombre": "Begoña García Bernal",
+    "cod": 226,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000210/000210_002_e_0008461_20240117.pdf",
+    "bienes_fecha": "17/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000210/000210_001_e_0000893_20230810.pdf"
+  },
+  "luisalbertomaringonzalez": {
+    "nombre": "Luis Alberto Marín González",
+    "cod": 227,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000213/000213_000_e_0000905_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000217/000217_001_e_0000920_20230810.pdf"
+  },
+  "juanantoniogonzalezgracia": {
+    "nombre": "Juan Antonio González Gracia",
+    "cod": 228,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000217/000217_000_e_0000915_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000216/000216_001_e_0000919_20230810.pdf"
+  },
+  "rafaelsimancassimancas": {
+    "nombre": "Rafael Simancas Simancas",
+    "cod": 229,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000215/000215_000_e_0000911_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000214/000214_001_e_0000912_20230810.pdf"
+  },
+  "franciscolucasayala": {
+    "nombre": "Francisco Lucas Ayala",
+    "cod": 230,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000225/000225_002_e_0086612_20251024.pdf",
+    "bienes_fecha": "24/10/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000223/000223_001_e_0000949_20230810.pdf"
+  },
+  "caridadrivesarcayna": {
+    "nombre": "Caridad Rives Arcayna",
+    "cod": 231,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000226/000226_000_e_0000965_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000221/000221_001_e_0000946_20230810.pdf"
+  },
+  "sergiogutierrezprieto": {
+    "nombre": "Sergio Gutiérrez Prieto",
+    "cod": 232,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000222/000222_000_e_0000938_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000219/000219_001_e_0000939_20230810.pdf"
+  },
+  "margaritaroblesfernandez": {
+    "nombre": "Margarita Robles Fernández",
+    "cod": 233,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000218/000218_002_e_0006796_20231221.pdf",
+    "bienes_fecha": "21/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000218/000218_001_e_0000926_20230810.pdf"
+  },
+  "mariadelasmercedescantalapiedraalvarez": {
+    "nombre": "María de las Mercedes Cantalapiedra Álvarez",
+    "cod": 234,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000264/000264_000_e_0001107_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000226/000226_001_e_0000967_20230810.pdf"
+  },
+  "jimenadelgadotaramonahernandez": {
+    "nombre": "Jimena Delgado-Taramona Hernández",
+    "cod": 235,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000229/000229_000_e_0000973_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000229/000229_001_e_0000980_20230810.pdf"
+  },
+  "pedromunozabrines": {
+    "nombre": "Pedro Muñoz Abrines",
+    "cod": 236,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000219/000219_000_e_0000935_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000224/000224_001_e_0000951_20230810.pdf"
+  },
+  "carmencalvopoyato": {
+    "nombre": "Carmen Calvo Poyato",
+    "cod": 237,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000223/000223_002_e_0018143_20240321.pdf",
+    "bienes_fecha": "21/03/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000225/000225_001_e_0000952_20230810.pdf"
+  },
+  "nestorregocandamil": {
+    "nombre": "Néstor Rego Candamil",
+    "cod": 238,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000224/000224_000_e_0000944_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000220/000220_001_e_0000945_20230810.pdf"
+  },
+  "isidregavinivalls": {
+    "nombre": "Isidre Gavin i Valls",
+    "cod": 239,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000240/000240_000_e_0001007_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000241/000241_001_e_0001012_20230810.pdf"
+  },
+  "eduardpujolbonell": {
+    "nombre": "Eduard Pujol Bonell",
+    "cod": 240,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000234/000234_000_e_0000995_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000234/000234_001_e_0000993_20230810.pdf"
+  },
+  "miriamnoguerasicamero": {
+    "nombre": "Míriam Nogueras i Camero",
+    "cod": 241,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000228/000228_000_e_0000971_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000227/000227_001_e_0000977_20230810.pdf"
+  },
+  "josepmariacerverapinart": {
+    "nombre": "Josep Maria Cervera Pinart",
+    "cod": 242,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000227/000227_000_e_0000968_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000230/000230_001_e_0000981_20230810.pdf"
+  },
+  "pilarcalvogomez": {
+    "nombre": "Pilar Calvo Gómez",
+    "cod": 243,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000231/000231_000_e_0000989_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000231/000231_001_e_0000982_20230810.pdf"
+  },
+  "josepmariacrusetdomenech": {
+    "nombre": "Josep Maria Cruset Domènech",
+    "cod": 244,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000232/000232_000_e_0000990_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000228/000228_001_e_0000978_20230810.pdf"
+  },
+  "martamadrenasimir": {
+    "nombre": "Marta Madrenas i Mir",
+    "cod": 245,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000238/000238_000_e_0001005_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000238/000238_001_e_0001009_20230810.pdf"
+  },
+  "esperanzareynalreillo": {
+    "nombre": "Esperanza Reynal Reillo",
+    "cod": 246,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000235/000235_001_e_0008540_20240118.pdf",
+    "bienes_fecha": "18/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000235/000235_001_e_0000996_20230810.pdf"
+  },
+  "carlosgilsantiago": {
+    "nombre": "Carlos Gil Santiago",
+    "cod": 247,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000239/000239_001_e_0004230_20231115.pdf",
+    "bienes_fecha": "15/11/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000239/000239_001_e_0001010_20230810.pdf"
+  },
+  "fernandoderosatorner": {
+    "nombre": "Fernando De Rosa Torner",
+    "cod": 248,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000230/000230_000_e_0000979_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000232/000232_001_e_0000988_20230810.pdf"
+  },
+  "blancaarmariogonzalez": {
+    "nombre": "Blanca Armario González",
+    "cod": 249,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000241/000241_001_e_0051258_20241211.pdf",
+    "bienes_fecha": "11/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000242/000242_001_e_0001015_20230810.pdf"
+  },
+  "pedronavarrolopez": {
+    "nombre": "Pedro Navarro López",
+    "cod": 250,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000233/000233_000_e_0000991_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000233/000233_002_e_0001797_20230919.pdf"
+  },
+  "mariadelmargonzalezbella": {
+    "nombre": "María del Mar González Bella",
+    "cod": 251,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000243/000243_002_e_0051601_20241212.pdf",
+    "bienes_fecha": "12/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000240/000240_001_e_0001011_20230810.pdf"
+  },
+  "javieralfonsocendon": {
+    "nombre": "Javier Alfonso Cendón",
+    "cod": 252,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000236/000236_000_e_0000999_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000236/000236_001_e_0001000_20230810.pdf"
+  },
+  "felixbolanosgarcia": {
+    "nombre": "Félix Bolaños García",
+    "cod": 253,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000242/000242_000_e_0001017_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000243/000243_001_e_0001018_20230810.pdf"
+  },
+  "almaalfonsosilvestre": {
+    "nombre": "Alma Alfonso Silvestre",
+    "cod": 254,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000245/000245_000_e_0001027_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000245/000245_001_e_0001030_20230810.pdf"
+  },
+  "guillermomariscalanaya": {
+    "nombre": "Guillermo Mariscal Anaya",
+    "cod": 255,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000244/000244_001_e_0052800_20241227.pdf",
+    "bienes_fecha": "27/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000244/000244_001_e_0001024_20230810.pdf"
+  },
+  "andresalbertorodriguezalmeida": {
+    "nombre": "Andrés Alberto Rodríguez Almeida",
+    "cod": 256,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000246/000246_000_e_0001029_20230810.pdf",
+    "bienes_fecha": "10/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000246/000246_002_e_0002165_20231004.pdf"
+  },
+  "obduliataboadelaalvarez": {
+    "nombre": "Obdulia Taboadela Álvarez",
+    "cod": 257,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000247/000247_001_e_0063789_20250403.pdf",
+    "bienes_fecha": "03/04/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000247/000247_001_e_0001035_20230811.pdf"
+  },
+  "borjasemperpascual": {
+    "nombre": "Borja Sémper Pascual",
+    "cod": 258,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000347/000347_000_e_0001598_20230906.pdf",
+    "bienes_fecha": "06/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000250/000250_001_e_0001052_20230811.pdf"
+  },
+  "carlosaragonesmendiguchia": {
+    "nombre": "Carlos Aragonés Mendiguchía",
+    "cod": 259,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000250/000250_000_e_0001053_20230811.pdf",
+    "bienes_fecha": "11/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000252/000252_001_e_0001057_20230811.pdf"
+  },
+  "bartolomemadridolmo": {
+    "nombre": "Bartolomé Madrid Olmo",
+    "cod": 260,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000252/000252_000_e_0001058_20230811.pdf",
+    "bienes_fecha": "11/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000253/000253_001_e_0001059_20230811.pdf"
+  },
+  "oscarlopezagueda": {
+    "nombre": "Óscar López Águeda",
+    "cod": 261,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000249/000249_002_e_0006390_20231215.pdf",
+    "bienes_fecha": "15/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000249/000249_001_e_0001048_20230811.pdf"
+  },
+  "ionebelarraurteaga": {
+    "nombre": "Ione Belarra Urteaga",
+    "cod": 262,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000248/000248_000_e_0001042_20230811.pdf",
+    "bienes_fecha": "11/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000248/000248_001_e_0001044_20230811.pdf"
+  },
+  "manuelmariscalzabala": {
+    "nombre": "Manuel Mariscal Zabala",
+    "cod": 263,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000251/000251_000_e_0001054_20230811.pdf",
+    "bienes_fecha": "11/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000251/000251_002_e_0001798_20230919.pdf"
+  },
+  "ignaciolopezcano": {
+    "nombre": "Ignacio López Cano",
+    "cod": 264,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000253/000253_001_e_0077236_20250805.pdf",
+    "bienes_fecha": "05/08/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000254/000254_002_e_0001733_20230915.pdf"
+  },
+  "asierantonagomez": {
+    "nombre": "Asier Antona Gómez",
+    "cod": 265,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000255/000255_002_e_0037693_20240911.pdf",
+    "bienes_fecha": "11/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000256/000256_001_e_0001069_20230811.pdf"
+  },
+  "carlosgarciaadanero": {
+    "nombre": "Carlos García Adanero",
+    "cod": 266,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000254/000254_000_e_0001067_20230811.pdf",
+    "bienes_fecha": "11/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000255/000255_001_e_0001066_20230811.pdf"
+  },
+  "martaloisgonzalez": {
+    "nombre": "Marta Lois González",
+    "cod": 267,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000256/000256_002_e_0015692_20240307.pdf",
+    "bienes_fecha": "07/03/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000257/000257_001_e_0001077_20230814.pdf"
+  },
+  "franciscosierracaballero": {
+    "nombre": "Francisco Sierra Caballero",
+    "cod": 268,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000260/000260_000_e_0001090_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000261/000261_001_e_0001093_20230814.pdf"
+  },
+  "felixalonsocantorne": {
+    "nombre": "Fèlix Alonso Cantorné",
+    "cod": 269,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000257/000257_000_e_0001081_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000259/000259_001_e_0001084_20230814.pdf"
+  },
+  "jaimemigueldelossantosgonzalez": {
+    "nombre": "Jaime Miguel De los Santos González",
+    "cod": 270,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000258/000258_000_e_0001085_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000258/000258_001_e_0001082_20230814.pdf"
+  },
+  "cristinanarbonaruiz": {
+    "nombre": "Cristina Narbona Ruiz",
+    "cod": 271,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000259/000259_000_e_0001087_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000260/000260_001_e_0001089_20230814.pdf"
+  },
+  "lidiaguinartmoreno": {
+    "nombre": "Lídia Guinart Moreno",
+    "cod": 272,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000262/000262_000_e_0001098_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000263/000263_001_e_0001099_20230814.pdf"
+  },
+  "lazaroazorinsalar": {
+    "nombre": "Lázaro Azorín Salar",
+    "cod": 273,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000261/000261_001_e_0002978_20231023.pdf",
+    "bienes_fecha": "23/10/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000262/000262_001_e_0001094_20230814.pdf"
+  },
+  "mariapilaralegriacontinente": {
+    "nombre": "María Pilar Alegría Continente",
+    "cod": 274,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000263/000263_002_e_0006794_20231221.pdf",
+    "bienes_fecha": "21/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000264/000264_001_e_0001106_20230814.pdf"
+  },
+  "josemanuelalbaresbueno": {
+    "nombre": "José Manuel Albares Bueno",
+    "cod": 275,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000265/000265_002_e_0006676_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000265/000265_001_e_0001113_20230814.pdf"
+  },
+  "raquelclementemunoz": {
+    "nombre": "Raquel Clemente Muñoz",
+    "cod": 276,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000270/000270_000_e_0001130_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000267/000267_001_e_0001119_20230814.pdf"
+  },
+  "josealbertoherrerobono": {
+    "nombre": "José Alberto Herrero Bono",
+    "cod": 277,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000269/000269_000_e_0001126_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000269/000269_001_e_0001122_20230814.pdf"
+  },
+  "dianamorantripoll": {
+    "nombre": "Diana Morant Ripoll",
+    "cod": 278,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000267/000267_002_e_0006671_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000268/000268_001_e_0001120_20230814.pdf"
+  },
+  "mercedesgonzalezfernandez": {
+    "nombre": "Mercedes González Fernández",
+    "cod": 279,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000266/000266_002_e_0062751_20250325.pdf",
+    "bienes_fecha": "25/03/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000266/000266_001_e_0001116_20230814.pdf"
+  },
+  "joseminonesconde": {
+    "nombre": "José Miñones Conde",
+    "cod": 280,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000268/000268_002_e_0020390_20240410.pdf",
+    "bienes_fecha": "10/04/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000270/000270_001_e_0001124_20230814.pdf"
+  },
+  "mariadelmarsanchezsierra": {
+    "nombre": "María del Mar Sánchez Sierra",
+    "cod": 281,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000272/000272_000_e_0001148_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000273/000273_001_e_0001152_20230814.pdf"
+  },
+  "eduardocarazohermoso": {
+    "nombre": "Eduardo Carazo Hermoso",
+    "cod": 282,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000273/000273_000_e_0001155_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000274/000274_001_e_0001156_20230814.pdf"
+  },
+  "mariadelacabezaruizsolas": {
+    "nombre": "María de la Cabeza Ruiz Solás",
+    "cod": 283,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000274/000274_000_e_0001162_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000279/000279_001_e_0001168_20230814.pdf"
+  },
+  "rociodemeermendez": {
+    "nombre": "Rocío De Meer Méndez",
+    "cod": 284,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000278/000278_000_e_0001171_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000272/000272_001_e_0001145_20230814.pdf"
+  },
+  "martamariariveradelacruz": {
+    "nombre": "Marta María Rivera de la Cruz",
+    "cod": 285,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000276/000276_002_e_0016299_20240313.pdf",
+    "bienes_fecha": "13/03/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000277/000277_001_e_0001161_20230814.pdf"
+  },
+  "fernandograndemarlaskagomez": {
+    "nombre": "Fernando Grande-Marlaska Gómez",
+    "cod": 286,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000271/000271_002_e_0006388_20231215.pdf",
+    "bienes_fecha": "15/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000271/000271_001_e_0001140_20230814.pdf"
+  },
+  "oskarmatutegarciadejalon": {
+    "nombre": "Oskar Matute García de Jalón",
+    "cod": 287,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000282/000282_000_e_0001187_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000275/000275_001_e_0001157_20230814.pdf"
+  },
+  "isabelpozuetafernandez": {
+    "nombre": "Isabel Pozueta Fernández",
+    "cod": 288,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000283/000283_000_e_0001188_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000276/000276_001_e_0001160_20230814.pdf"
+  },
+  "inakiruizdepinedoundiano": {
+    "nombre": "Iñaki Ruiz de Pinedo Undiano",
+    "cod": 289,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000275/000275_002_e_0057283_20250220.pdf",
+    "bienes_fecha": "20/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000278/000278_001_e_0001164_20230814.pdf"
+  },
+  "joninarritugarcia": {
+    "nombre": "Jon Iñarritu García",
+    "cod": 290,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000280/000280_000_e_0001180_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000283/000283_001_e_0001179_20230814.pdf"
+  },
+  "marijefullaondolacruz": {
+    "nombre": "Marije Fullaondo la Cruz",
+    "cod": 291,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000284/000284_000_e_0001190_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000282/000282_001_e_0001178_20230814.pdf"
+  },
+  "javiersanchezserna": {
+    "nombre": "Javier Sánchez Serna",
+    "cod": 292,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000279/000279_000_e_0001174_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000281/000281_001_e_0001177_20230814.pdf"
+  },
+  "patriciaruedaperello": {
+    "nombre": "Patricia Rueda Perelló",
+    "cod": 293,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000277/000277_001_e_0046638_20241030.pdf",
+    "bienes_fecha": "30/10/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000280/000280_001_e_0001175_20230814.pdf"
+  },
+  "ricardochamorrodelmo": {
+    "nombre": "Ricardo Chamorro Delmo",
+    "cod": 294,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000287/000287_000_e_0001201_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000288/000288_001_e_0001202_20230814.pdf"
+  },
+  "carlatoscanodebalbin": {
+    "nombre": "Carla Toscano de Balbín",
+    "cod": 295,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000289/000289_002_e_0010336_20240202.pdf",
+    "bienes_fecha": "02/02/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000287/000287_002_e_0002059_20230929.pdf"
+  },
+  "alejandrosolermur": {
+    "nombre": "Alejandro Soler Mur",
+    "cod": 296,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000281/000281_000_e_0001182_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000284/000284_001_e_0001183_20230814.pdf"
+  },
+  "luismariabeamontemesa": {
+    "nombre": "Luis María Beamonte Mesa",
+    "cod": 297,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000291/000291_001_e_0048419_20241113.pdf",
+    "bienes_fecha": "13/11/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000290/000290_001_e_0001211_20230814.pdf"
+  },
+  "alfonsocarlosmaciasgata": {
+    "nombre": "Alfonso Carlos Macías Gata",
+    "cod": 298,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000285/000285_000_e_0001194_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000285/000285_001_e_0001195_20230814.pdf"
+  },
+  "antoniocavacasillasrodriguez": {
+    "nombre": "Antonio Cavacasillas Rodríguez",
+    "cod": 299,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000288/000288_000_e_0001205_20230814.pdf",
+    "bienes_fecha": "14/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000289/000289_001_e_0001204_20230814.pdf"
+  },
+  "mertxeaizpuruaarzallus": {
+    "nombre": "Mertxe Aizpurua Arzallus",
+    "cod": 300,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000286/000286_001_e_0001422_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000286/000286_001_e_0001197_20230814.pdf"
+  },
+  "inigoerrejongalvan": {
+    "nombre": "Íñigo Errejón Galván",
+    "cod": 301,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000290/000290_002_e_0075656_20250710.pdf",
+    "bienes_fecha": "10/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000291/000291_001_e_0001213_20230814.pdf"
+  },
+  "hectorgomezhernandez": {
+    "nombre": "Héctor Gómez Hernández",
+    "cod": 302,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000293/000293_002_e_0007013_20231222.pdf",
+    "bienes_fecha": "22/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000292/000292_001_e_0001224_20230816.pdf"
+  },
+  "maribelvaqueromontero": {
+    "nombre": "Maribel Vaquero Montero",
+    "cod": 303,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000297/000297_001_e_0074574_20250626.pdf",
+    "bienes_fecha": "26/06/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000296/000296_001_e_0001248_20230816.pdf"
+  },
+  "aitorestebanbravo": {
+    "nombre": "Aitor Esteban Bravo",
+    "cod": 304,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000294/000294_002_e_0063490_20250401.pdf",
+    "bienes_fecha": "01/04/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000293/000293_001_e_0001243_20230816.pdf"
+  },
+  "josebaandoniagirretxeaurresti": {
+    "nombre": "Joseba Andoni Agirretxea Urresti",
+    "cod": 305,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000296/000296_000_e_0001239_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000295/000295_001_e_0001247_20230816.pdf"
+  },
+  "mikellegardauriarte": {
+    "nombre": "Mikel Legarda Uriarte",
+    "cod": 306,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000345/000345_000_e_0001476_20230818.pdf",
+    "bienes_fecha": "18/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000299/000299_001_e_0001254_20230816.pdf"
+  },
+  "mariadelosreyesromerovilches": {
+    "nombre": "María de los Reyes Romero Vilches",
+    "cod": 307,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000295/000295_000_e_0001238_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000312/000312_001_e_0001317_20230816.pdf"
+  },
+  "joseignacioromanicantera": {
+    "nombre": "José Ignacio Romaní Cantera",
+    "cod": 308,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000302/000302_000_e_0001267_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000315/000315_001_e_0001324_20230816.pdf"
+  },
+  "idoiasagastizabalunzetabarrenetxea": {
+    "nombre": "Idoia Sagastizabal Unzetabarrenetxea",
+    "cod": 309,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000298/000298_000_e_0001246_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000294/000294_001_e_0001245_20230816.pdf"
+  },
+  "veronicamartinezbarbero": {
+    "nombre": "Verónica Martínez Barbero",
+    "cod": 310,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000303/000303_000_e_0001269_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000311/000311_001_e_0001316_20230816.pdf"
+  },
+  "agustinsantosmaraver": {
+    "nombre": "Agustín Santos Maraver",
+    "cod": 311,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000304/000304_000_e_0001270_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000302/000302_001_e_0001279_20230816.pdf"
+  },
+  "gabrielrufianromero": {
+    "nombre": "Gabriel Rufián Romero",
+    "cod": 312,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000299/000299_001_e_0096087_20260128.pdf",
+    "bienes_fecha": "28/01/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000297/000297_001_e_0001250_20230816.pdf"
+  },
+  "montserratbassacoll": {
+    "nombre": "Montserrat Bassa Coll",
+    "cod": 313,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000300/000300_002_e_0077406_20250825.pdf",
+    "bienes_fecha": "25/08/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000298/000298_001_e_0001253_20230816.pdf"
+  },
+  "concepciongamarraruizclavijo": {
+    "nombre": "Concepción Gamarra Ruiz-Clavijo",
+    "cod": 314,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000301/000301_000_e_0001257_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000300/000300_002_e_0001712_20230914.pdf"
+  },
+  "cayetanaalvarezdetoledoperaltaramos": {
+    "nombre": "Cayetana Álvarez de Toledo Peralta-Ramos",
+    "cod": 315,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000311/000311_000_e_0001306_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000307/000307_001_e_0001303_20230816.pdf"
+  },
+  "albertoasartacuevas": {
+    "nombre": "Alberto Asarta Cuevas",
+    "cod": 316,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000349/000349_000_e_0001697_20230914.pdf",
+    "bienes_fecha": "14/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000352/000352_001_e_0004225_20231115.pdf"
+  },
+  "santiagoabascalconde": {
+    "nombre": "Santiago Abascal Conde",
+    "cod": 317,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000316/000316_001_e_0001872_20230921.pdf",
+    "bienes_fecha": "21/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000316/000316_002_e_0001805_20230919.pdf"
+  },
+  "joaquinrobleslopez": {
+    "nombre": "Joaquín Robles López",
+    "cod": 318,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000305/000305_000_e_0001271_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000313/000313_001_e_0001318_20230816.pdf"
+  },
+  "mariasoledadcruzguzmangarcia": {
+    "nombre": "María Soledad Cruz-Guzmán García",
+    "cod": 319,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000306/000306_000_e_0001289_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000306/000306_001_e_0001298_20230816.pdf"
+  },
+  "milagrosmarcosortega": {
+    "nombre": "Milagros Marcos Ortega",
+    "cod": 320,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000310/000310_000_e_0001296_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000301/000301_001_e_0001272_20230816.pdf"
+  },
+  "noeliacoboperez": {
+    "nombre": "Noelia Cobo Pérez",
+    "cod": 321,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000315/000315_000_e_0001321_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000314/000314_001_e_0001320_20230816.pdf"
+  },
+  "lilithverstryngerevuelta": {
+    "nombre": "Lilith Verstrynge Revuelta",
+    "cod": 322,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000312/000312_002_e_0075734_20250711.pdf",
+    "bienes_fecha": "11/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000319/000319_001_e_0001340_20230816.pdf"
+  },
+  "miguelangelpaniaguanunez": {
+    "nombre": "Miguel Ángel Paniagua Núñez",
+    "cod": 323,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000308/000308_000_e_0001293_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000304/000304_002_e_0001929_20230926.pdf"
+  },
+  "manuelcobovega": {
+    "nombre": "Manuel Cobo Vega",
+    "cod": 324,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000314/000314_000_e_0001314_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000309/000309_001_e_0001308_20230816.pdf"
+  },
+  "franciscojavierortegasmithmolina": {
+    "nombre": "Francisco Javier Ortega Smith-Molina",
+    "cod": 325,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000309/000309_001_e_0050658_20241204.pdf",
+    "bienes_fecha": "04/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000308/000308_002_e_0001803_20230919.pdf"
+  },
+  "meritxellbatetlamana": {
+    "nombre": "Meritxell Batet Lamaña",
+    "cod": 326,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000307/000307_002_e_0002046_20230929.pdf",
+    "bienes_fecha": "29/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000303/000303_001_e_0001282_20230816.pdf"
+  },
+  "ainavidalsaez": {
+    "nombre": "Aina Vidal Sáez",
+    "cod": 327,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000313/000313_000_e_0001313_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000318/000318_001_e_0001339_20230816.pdf"
+  },
+  "gerardopisarelloprados": {
+    "nombre": "Gerardo Pisarello Prados",
+    "cod": 328,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000318/000318_000_e_0001338_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000320/000320_001_e_0001341_20230816.pdf"
+  },
+  "eloibadiacasas": {
+    "nombre": "Eloi Badia Casas",
+    "cod": 329,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000322/000322_000_e_0001352_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000323/000323_001_e_0001351_20230816.pdf"
+  },
+  "galapinferrando": {
+    "nombre": "Gala Pin Ferrando",
+    "cod": 330,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000326/000326_002_e_0056351_20250213.pdf",
+    "bienes_fecha": "13/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000328/000328_002_e_0010609_20240206.pdf"
+  },
+  "carinamejiassanchez": {
+    "nombre": "Carina Mejías Sánchez",
+    "cod": 331,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000351/000351_000_e_0001785_20230919.pdf",
+    "bienes_fecha": "19/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000321/000321_001_e_0001342_20230816.pdf"
+  },
+  "juliaboadadanes": {
+    "nombre": "Júlia Boada Danés",
+    "cod": 332,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000325/000325_001_e_0001689_20230913.pdf",
+    "bienes_fecha": "13/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000325/000325_001_e_0001355_20230816.pdf"
+  },
+  "sandrafernandezherranz": {
+    "nombre": "Sandra Fernández Herranz",
+    "cod": 333,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000320/000320_002_e_0076779_20250728.pdf",
+    "bienes_fecha": "28/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000326/000326_001_e_0001356_20230816.pdf"
+  },
+  "anaisabelaloslopez": {
+    "nombre": "Ana Isabel Alós López",
+    "cod": 334,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000319/000319_000_e_0001347_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000324/000324_001_e_0001354_20230816.pdf"
+  },
+  "teresariberarodriguez": {
+    "nombre": "Teresa Ribera Rodríguez",
+    "cod": 335,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000343/000343_002_e_0008533_20240118.pdf",
+    "bienes_fecha": "18/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000343/000343_002_e_0001764_20230918.pdf"
+  },
+  "pedrocasareshontanon": {
+    "nombre": "Pedro Casares Hontañón",
+    "cod": 336,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000323/000323_002_e_0079231_20250912.pdf",
+    "bienes_fecha": "12/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000327/000327_002_e_0002865_20231019.pdf"
+  },
+  "mariajesusmonterocuadrado": {
+    "nombre": "María Jesús Montero Cuadrado",
+    "cod": 337,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000317/000317_000_e_0001333_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000317/000317_001_e_0001335_20230816.pdf"
+  },
+  "teslemandalaubbi": {
+    "nombre": "Teslem Andala Ubbi",
+    "cod": 338,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000329/000329_000_e_0001380_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000329/000329_001_e_0001372_20230816.pdf"
+  },
+  "juanluispedrenomolina": {
+    "nombre": "Juan Luis Pedreño Molina",
+    "cod": 339,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000328/000328_000_e_0001376_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000331/000331_001_e_0001382_20230816.pdf"
+  },
+  "estherllamazaresdomingo": {
+    "nombre": "Esther Llamazares Domingo",
+    "cod": 340,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000321/000321_000_e_0001350_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000322/000322_001_e_0001349_20230816.pdf"
+  },
+  "mariaeugeniacarballedoberlanga": {
+    "nombre": "María Eugenia Carballedo Berlanga",
+    "cod": 341,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000331/000331_000_e_0001386_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000333/000333_001_e_0001384_20230816.pdf"
+  },
+  "yolandadiazperez": {
+    "nombre": "Yolanda Díaz Pérez",
+    "cod": 342,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000324/000324_000_e_0001361_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000330/000330_001_e_0001377_20230816.pdf"
+  },
+  "noelianunezgonzalez": {
+    "nombre": "Noelia Núñez González",
+    "cod": 343,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000330/000330_002_e_0077123_20250801.pdf",
+    "bienes_fecha": "01/08/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000332/000332_001_e_0001383_20230816.pdf"
+  },
+  "mariajoserodriguezdemillanparro": {
+    "nombre": "María José Rodríguez de Millán Parro",
+    "cod": 344,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000337/000337_000_e_0001408_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000336/000336_002_e_0001804_20230919.pdf"
+  },
+  "carloshernandezquero": {
+    "nombre": "Carlos Hernández Quero",
+    "cod": 345,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000336/000336_000_e_0001402_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000339/000339_001_e_0001403_20230816.pdf"
+  },
+  "albertonunezfeijoo": {
+    "nombre": "Alberto Núñez Feijóo",
+    "cod": 346,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000332/000332_000_e_0001389_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000334/000334_001_e_0001390_20230816.pdf"
+  },
+  "martavarelapazos": {
+    "nombre": "Marta Varela Pazos",
+    "cod": 347,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000334/000334_000_e_0001397_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000335/000335_001_e_0001393_20230816.pdf"
+  },
+  "auroranacarinobrabojimenez": {
+    "nombre": "Aurora Nacarino-Brabo Jiménez",
+    "cod": 348,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000341/000341_000_e_0001417_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000340/000340_001_e_0001413_20230816.pdf"
+  },
+  "franciscojosecondelopez": {
+    "nombre": "Francisco José Conde López",
+    "cod": 349,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000340/000340_000_e_0001415_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000341/000341_001_e_0001418_20230816.pdf"
+  },
+  "pablohispaniglesiasdeussel": {
+    "nombre": "Pablo Hispán Iglesias de Ussel",
+    "cod": 350,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000342/000342_000_e_0001420_20230816.pdf",
+    "bienes_fecha": "16/08/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000342/000342_001_e_0001421_20230816.pdf"
+  },
+  "mirianguardiolasalmeron": {
+    "nombre": "Mirian Guardiola Salmerón",
+    "cod": 351,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000352/000352_000_e_0002620_20231017.pdf",
+    "bienes_fecha": "17/10/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000351/000351_001_e_0002621_20231017.pdf"
+  },
+  "ignasiconesacoma": {
+    "nombre": "Ignasi Conesa Coma",
+    "cod": 352,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000350/000350_000_e_0001781_20230919.pdf",
+    "bienes_fecha": "19/09/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000348/000348_001_e_0001782_20230919.pdf"
+  },
+  "joselosadafernandez": {
+    "nombre": "José Losada Fernández",
+    "cod": 353,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000353/000353_001_e_0054218_20250122.pdf",
+    "bienes_fecha": "22/01/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000353/000353_001_e_0004932_20231128.pdf"
+  },
+  "juanantoniolorenzocazorla": {
+    "nombre": "Juan Antonio Lorenzo Cazorla",
+    "cod": 354,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000354/000354_001_e_0115059_20260519.pdf",
+    "bienes_fecha": "19/05/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000354/000354_001_e_0004934_20231128.pdf"
+  },
+  "javierrodriguezpalacios": {
+    "nombre": "Javier Rodríguez Palacios",
+    "cod": 355,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000355/000355_000_e_0005732_20231205.pdf",
+    "bienes_fecha": "05/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000355/000355_001_e_0005733_20231205.pdf"
+  },
+  "hanajalloulmuro": {
+    "nombre": "Hana Jalloul Muro",
+    "cod": 356,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000366/000366_002_e_0031368_20240621.pdf",
+    "bienes_fecha": "21/06/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000366/000366_001_e_0006668_20231220.pdf"
+  },
+  "victorgutierrezsantiago": {
+    "nombre": "Víctor Gutiérrez Santiago",
+    "cod": 357,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000359/000359_000_e_0006621_20231219.pdf",
+    "bienes_fecha": "19/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000359/000359_001_e_0006622_20231219.pdf"
+  },
+  "albasoldevillanovials": {
+    "nombre": "Alba Soldevilla Novials",
+    "cod": 358,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000365/000365_000_e_0006665_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000365/000365_001_e_0006666_20231220.pdf"
+  },
+  "estherrodriguezsuarez": {
+    "nombre": "Esther Rodríguez Suárez",
+    "cod": 359,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000362/000362_000_e_0006659_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000362/000362_001_e_0006660_20231220.pdf"
+  },
+  "zaidacanteradecastro": {
+    "nombre": "Zaida Cantera de Castro",
+    "cod": 360,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000367/000367_002_e_0075702_20250711.pdf",
+    "bienes_fecha": "11/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000367/000367_001_e_0006670_20231220.pdf"
+  },
+  "misabelmorenofernandez": {
+    "nombre": "Mª Isabel Moreno Fernández",
+    "cod": 361,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000363/000363_000_e_0006661_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000363/000363_001_e_0006662_20231220.pdf"
+  },
+  "victorjavierruizdediego": {
+    "nombre": "Víctor Javier Ruiz de Diego",
+    "cod": 362,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000358/000358_001_e_0041818_20240925.pdf",
+    "bienes_fecha": "25/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000358/000358_001_e_0006620_20231219.pdf"
+  },
+  "albertomayoraldelamo": {
+    "nombre": "Alberto Mayoral de Lamo",
+    "cod": 363,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000361/000361_001_e_0088688_20251112.pdf",
+    "bienes_fecha": "12/11/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000361/000361_001_e_0006626_20231219.pdf"
+  },
+  "victorcaminominana": {
+    "nombre": "Víctor Camino Miñana",
+    "cod": 364,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000360/000360_000_e_0006623_20231219.pdf",
+    "bienes_fecha": "19/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000360/000360_001_e_0006624_20231219.pdf"
+  },
+  "cristinalopezzamora": {
+    "nombre": "Cristina López Zamora",
+    "cod": 365,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000364/000364_000_e_0006663_20231220.pdf",
+    "bienes_fecha": "20/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000364/000364_001_e_0006664_20231220.pdf"
+  },
+  "jesusmayoralperez": {
+    "nombre": "Jesús Mayoral Pérez",
+    "cod": 366,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000356/000356_000_e_0006531_20231219.pdf",
+    "bienes_fecha": "19/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000357/000357_001_e_0006618_20231219.pdf"
+  },
+  "emiliaalmodovarsanchez": {
+    "nombre": "Emilia Almodóvar Sánchez",
+    "cod": 367,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000357/000357_000_e_0006617_20231219.pdf",
+    "bienes_fecha": "19/12/2023",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000356/000356_001_e_0006534_20231219.pdf"
+  },
+  "mariatorrestejada": {
+    "nombre": "María Torres Tejada",
+    "cod": 368,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000370/000370_000_e_0008500_20240118.pdf",
+    "bienes_fecha": "18/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000370/000370_001_e_0008501_20240118.pdf"
+  },
+  "josepparearegall": {
+    "nombre": "Josep Paré Aregall",
+    "cod": 369,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000368/000368_000_e_0007832_20240109.pdf",
+    "bienes_fecha": "09/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000368/000368_001_e_0007734_20240109.pdf"
+  },
+  "martagraciablanco": {
+    "nombre": "Marta Gracia Blanco",
+    "cod": 370,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000369/000369_000_e_0008387_20240116.pdf",
+    "bienes_fecha": "16/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000369/000369_001_e_0008386_20240116.pdf"
+  },
+  "rocioaguirregildebiedma": {
+    "nombre": "Rocío Aguirre Gil de Biedma",
+    "cod": 371,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000371/000371_000_e_0008921_20240123.pdf",
+    "bienes_fecha": "23/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000371/000371_001_e_0008922_20240123.pdf"
+  },
+  "candelalopeztagliafico": {
+    "nombre": "Candela López Tagliafico",
+    "cod": 372,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000372/000372_000_e_0009914_20240130.pdf",
+    "bienes_fecha": "30/01/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000372/000372_001_e_0009913_20240130.pdf"
+  },
+  "joseenriquenunezguijarro": {
+    "nombre": "José Enrique Núñez Guijarro",
+    "cod": 373,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000373/000373_001_e_0089577_20251119.pdf",
+    "bienes_fecha": "19/11/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000374/000374_001_e_0010135_20240131.pdf"
+  },
+  "edurneuriartebengoechea": {
+    "nombre": "Edurne Uriarte Bengoechea",
+    "cod": 374,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000375/000375_000_e_0010821_20240207.pdf",
+    "bienes_fecha": "07/02/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000373/000373_001_e_0010134_20240131.pdf"
+  },
+  "manuellagopenas": {
+    "nombre": "Manuel Lago Peñas",
+    "cod": 375,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000374/000374_000_e_0010624_20240206.pdf",
+    "bienes_fecha": "06/02/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000375/000375_001_e_0010625_20240206.pdf"
+  },
+  "olvidodelarosabaena": {
+    "nombre": "Olvido De la Rosa Baena",
+    "cod": 376,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000376/000376_001_e_0053187_20241230.pdf",
+    "bienes_fecha": "30/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000376/000376_001_e_0012167_20240220.pdf"
+  },
+  "patriciaoterorodriguez": {
+    "nombre": "Patricia Otero Rodríguez",
+    "cod": 377,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000377/000377_000_e_0016001_20240312.pdf",
+    "bienes_fecha": "12/03/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000377/000377_001_e_0016002_20240312.pdf"
+  },
+  "carmelobarriobaroja": {
+    "nombre": "Carmelo Barrio Baroja",
+    "cod": 378,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000379/000379_000_e_0020418_20240410.pdf",
+    "bienes_fecha": "10/04/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000379/000379_001_e_0020417_20240410.pdf"
+  },
+  "paulafernandezpena": {
+    "nombre": "Paula Fernández Pena",
+    "cod": 379,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000378/000378_000_e_0020011_20240409.pdf",
+    "bienes_fecha": "09/04/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000378/000378_001_e_0020085_20240409.pdf"
+  },
+  "mariamontserratgarciachavarria": {
+    "nombre": "María Montserrat García Chavarría",
+    "cod": 380,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000380/000380_000_e_0022508_20240423.pdf",
+    "bienes_fecha": "23/04/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000380/000380_001_e_0022509_20240423.pdf"
+  },
+  "guillermohitatellez": {
+    "nombre": "Guillermo Hita Téllez",
+    "cod": 381,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000381/000381_000_e_0029253_20240611.pdf",
+    "bienes_fecha": "11/06/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000381/000381_001_e_0029254_20240611.pdf"
+  },
+  "juanandresbayonrolo": {
+    "nombre": "Juan Andrés Bayón Rolo",
+    "cod": 382,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000383/000383_001_e_0076475_20250722.pdf",
+    "bienes_fecha": "22/07/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000383/000383_001_e_0031699_20240625.pdf"
+  },
+  "mariaelisavedrinaconesa": {
+    "nombre": "María Elisa Vedrina Conesa",
+    "cod": 383,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000382/000382_000_e_0030900_20240618.pdf",
+    "bienes_fecha": "18/06/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000382/000382_001_e_0030089_20240613.pdf"
+  },
+  "mariasainzmartin": {
+    "nombre": "María Sainz Martín",
+    "cod": 384,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000384/000384_001_e_0099341_20260213.pdf",
+    "bienes_fecha": "13/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000384/000384_001_e_0031942_20240626.pdf"
+  },
+  "cristinamorenoborras": {
+    "nombre": "Cristina Moreno Borrás",
+    "cod": 385,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000385/000385_000_e_0033920_20240711.pdf",
+    "bienes_fecha": "11/07/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000385/000385_001_e_0033919_20240711.pdf"
+  },
+  "mercedesoterogarcia": {
+    "nombre": "Mercedes Otero García",
+    "cod": 386,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000386/000386_000_e_0034512_20240722.pdf",
+    "bienes_fecha": "22/07/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000386/000386_001_e_0034506_20240722.pdf"
+  },
+  "oriolalmironruiz": {
+    "nombre": "Oriol Almirón Ruiz",
+    "cod": 387,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000388/000388_000_e_0038092_20240916.pdf",
+    "bienes_fecha": "16/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000388/000388_001_e_0038093_20240916.pdf"
+  },
+  "andreacanelomatito": {
+    "nombre": "Andrea Canelo Matito",
+    "cod": 388,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000387/000387_000_e_0037563_20240910.pdf",
+    "bienes_fecha": "10/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000387/000387_001_e_0037564_20240910.pdf"
+  },
+  "joseppagesimasso": {
+    "nombre": "Josep Pagès i Massó",
+    "cod": 389,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000392/000392_000_e_0051602_20241212.pdf",
+    "bienes_fecha": "12/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000396/000396_001_e_0058395_20250226.pdf"
+  },
+  "vicentemontavezaguillaume": {
+    "nombre": "Vicente Montávez Aguillaume",
+    "cod": 390,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000389/000389_000_e_0038930_20240919.pdf",
+    "bienes_fecha": "19/09/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000389/000389_001_e_0038931_20240919.pdf"
+  },
+  "ainhoamolinaleon": {
+    "nombre": "Ainhoa Molina León",
+    "cod": 391,
+    "bienes_url": "",
+    "bienes_fecha": "",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000395/000395_001_e_0058391_20250226.pdf"
+  },
+  "etnaestremsfayos": {
+    "nombre": "Etna Estrems Fayos",
+    "cod": 392,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000395/000395_000_e_0056607_20250214.pdf",
+    "bienes_fecha": "14/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000393/000393_001_e_0056608_20250214.pdf"
+  },
+  "aldarecasmartin": {
+    "nombre": "Alda Recas Martín",
+    "cod": 393,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000390/000390_001_e_0058459_20250227.pdf",
+    "bienes_fecha": "27/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000390/000390_001_e_0047083_20241105.pdf"
+  },
+  "jonayquinterohernandez": {
+    "nombre": "Jonay Quintero Hernández",
+    "cod": 394,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000391/000391_000_e_0051010_20241210.pdf",
+    "bienes_fecha": "10/12/2024",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000391/000391_001_e_0051011_20241210.pdf"
+  },
+  "raulcuevaslarrosa": {
+    "nombre": "Raúl Cuevas Larrosa",
+    "cod": 395,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000393/000393_001_e_0110831_20260415.pdf",
+    "bienes_fecha": "15/04/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000394/000394_002_e_0059820_20250306.pdf"
+  },
+  "luisantoniogomezpina": {
+    "nombre": "Luis Antonio Gómez Piña",
+    "cod": 396,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000394/000394_000_e_0056886_20250218.pdf",
+    "bienes_fecha": "18/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000392/000392_001_e_0056364_20250213.pdf"
+  },
+  "vivianeogouicorbi": {
+    "nombre": "Viviane Ogou i Corbi",
+    "cod": 397,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000396/000396_000_e_0057138_20250219.pdf",
+    "bienes_fecha": "19/02/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000397/000397_001_e_0060441_20250312.pdf"
+  },
+  "mikeloterogabirondo": {
+    "nombre": "Mikel Otero Gabirondo",
+    "cod": 398,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000398/000398_000_e_0069775_20250527.pdf",
+    "bienes_fecha": "27/05/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000399/000399_001_e_0069466_20250522.pdf"
+  },
+  "nerearenterialasanta": {
+    "nombre": "Nerea Renteria Lasanta",
+    "cod": 399,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000397/000397_000_e_0067526_20250508.pdf",
+    "bienes_fecha": "08/05/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000398/000398_001_e_0067525_20250508.pdf"
+  },
+  "gabrielblancoarrue": {
+    "nombre": "Gabriel Blanco Arrúe",
+    "cod": 400,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000399/000399_000_e_0072247_20250611.pdf",
+    "bienes_fecha": "11/06/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000400/000400_001_e_0072248_20250611.pdf"
+  },
+  "ivancachoisla": {
+    "nombre": "Iván Cacho Isla",
+    "cod": 401,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000400/000400_000_e_0073474_20250619.pdf",
+    "bienes_fecha": "19/06/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000401/000401_001_e_0073475_20250619.pdf"
+  },
+  "carlossimarrovicens": {
+    "nombre": "Carlos Simarro Vicens",
+    "cod": 402,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000404/000404_000_e_0092588_20251211.pdf",
+    "bienes_fecha": "11/12/2025",
+    "acteco_url": ""
+  },
+  "pabloantunanocolina": {
+    "nombre": "Pablo Antuñano Colina",
+    "cod": 403,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000401/000401_000_e_0077117_20250801.pdf",
+    "bienes_fecha": "01/08/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000402/000402_001_e_0077118_20250801.pdf"
+  },
+  "mariaelvirarodriguezherrer": {
+    "nombre": "María Elvira Rodríguez Herrer",
+    "cod": 404,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000403/000403_000_e_0079968_20250916.pdf",
+    "bienes_fecha": "16/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000404/000404_002_e_0084150_20251007.pdf"
+  },
+  "irenejodarperez": {
+    "nombre": "Irene Jódar Pérez",
+    "cod": 405,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000402/000402_000_e_0078912_20250909.pdf",
+    "bienes_fecha": "09/09/2025",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000403/000403_001_e_0078913_20250909.pdf"
+  },
+  "evaristaznarteruel": {
+    "nombre": "Evarist Aznar Teruel",
+    "cod": 406,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000405/000405_000_e_0096089_20260128.pdf",
+    "bienes_fecha": "28/01/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000405/000405_001_e_0095178_20260115.pdf"
+  },
+  "anagonzalezherdaro": {
+    "nombre": "Ana González Herdaro",
+    "cod": 407,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000406/000406_000_e_0097697_20260205.pdf",
+    "bienes_fecha": "05/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000406/000406_001_e_0097698_20260205.pdf"
+  },
+  "lauravergararoman": {
+    "nombre": "Laura Vergara Román",
+    "cod": 408,
+    "bienes_url": "https://www.congreso.es/docbienes/leg15/000407/000407_000_e_0101047_20260220.pdf",
+    "bienes_fecha": "20/02/2026",
+    "acteco_url": "https://www.congreso.es/docacteco/leg15/000407/000407_001_e_0101048_20260220.pdf"
+  }
+}
