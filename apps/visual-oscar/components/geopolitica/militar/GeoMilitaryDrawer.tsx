@@ -13,7 +13,7 @@
  */
 import { useEffect, useState, type ReactNode } from 'react'
 
-type SubTab = 'presupuesto' | 'capacidades' | 'transferencias' | 'alianzas' | 'industria'
+type SubTab = 'presupuesto' | 'capacidades' | 'transferencias' | 'alianzas' | 'industria' | 'exterior'
 
 interface ArmsTransferEntry {
   tiv_5y_usd_m: number
@@ -21,6 +21,25 @@ interface ArmsTransferEntry {
   change_pct: number | null
   top_partners: Array<{ iso3: string; share_pct: number }>
   dominant_categories: string[]
+}
+
+interface WeaponSystem {
+  system: string
+  category: string
+  units: number | null
+  partner_iso3: string
+  tiv_usd_m: number
+  year: number
+}
+
+interface MissionAbroad {
+  name: string
+  type: 'NATO' | 'UN' | 'EU' | 'bilateral' | 'multilateral_ad_hoc'
+  host_iso3: string
+  personnel: number
+  since_year: number
+  active: boolean
+  mandate: string
 }
 
 interface DefenseCompany {
@@ -41,11 +60,25 @@ interface MilitaryDetail {
   presupuesto: {
     sipri: { milex_usd_bn: number; milex_pct_gdp: number; change_vs_2022_pct: number | null; world_rank: number | null } | null
     nato_target_2pct: { is_member: boolean; meets_target: boolean; delta_pct: number | null } | null
-    breakdown: { available: boolean; pending: boolean; note: string }
+    breakdown: {
+      available: boolean
+      pending: boolean
+      note?: string
+      total_usd_bn?: number
+      fiscal_year?: number
+      personnel_pct?: number
+      operations_maintenance_pct?: number
+      procurement_pct?: number
+      rd_pct?: number
+      infrastructure_pct?: number
+      other_pct?: number
+      notes?: string
+      source?: string
+    }
   }
   capacidades: any
   capacidades_pending: boolean
-  /** G22 fix · SIPRI Arms Transfers data */
+  /** G22 fix · SIPRI Arms Transfers data + G23 · sistemas específicos */
   transferencias: {
     available: boolean
     pending: boolean
@@ -56,6 +89,8 @@ interface MilitaryDetail {
     world_rank_importer?: number | null
     notes?: string
     source?: string
+    systems_exported?: WeaponSystem[]
+    systems_imported?: WeaponSystem[]
   }
   alianzas: {
     memberships: Array<{ id: string; name: string; short_name: string; category: string; color: string; founded_year: number; status: 'member' | 'affiliate'; members_count: number; affiliates_count: number; description: string }>
@@ -72,6 +107,16 @@ interface MilitaryDetail {
     notes?: string
     source?: string
   }
+  /** G23 · presencia militar exterior */
+  militar_exterior?: {
+    available: boolean
+    pending?: boolean
+    note?: string
+    total_personnel_abroad?: number
+    permanent_bases_abroad?: number
+    missions?: MissionAbroad[]
+    source?: string
+  }
 }
 
 interface Props {
@@ -85,6 +130,7 @@ const SUB_TABS: Array<{ id: SubTab; label: string }> = [
   { id: 'transferencias', label: 'Transferencias' },
   { id: 'alianzas', label: 'Alianzas' },
   { id: 'industria', label: 'Industria defensa' },
+  { id: 'exterior', label: 'Misiones exterior' },
 ]
 
 export function GeoMilitaryDrawer({ iso3, onClose }: Props) {
@@ -169,6 +215,7 @@ export function GeoMilitaryDrawer({ iso3, onClose }: Props) {
           {!loading && data && sub === 'transferencias' && <SubTransferencias d={data} />}
           {!loading && data && sub === 'alianzas' && <SubAlianzas d={data} />}
           {!loading && data && sub === 'industria' && <SubIndustria d={data} />}
+          {!loading && data && sub === 'exterior' && <SubExterior d={data} />}
         </div>
       </aside>
     </>
@@ -215,7 +262,51 @@ function SubPresupuesto({ d }: { d: MilitaryDetail }) {
         </div>
       )}
 
-      <PendingBlock data={p.breakdown} title="Desglose presupuestario" small />
+      {/* G23 · Desglose presupuestario real */}
+      {p.breakdown.available && p.breakdown.total_usd_bn !== undefined ? (
+        <div style={{ marginTop: 14, padding: '12px 14px', background: '#fff', border: '1px solid #f1f5f9', borderRadius: 8 }}>
+          <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Desglose presupuestario {p.breakdown.fiscal_year} · ${p.breakdown.total_usd_bn}bn
+          </h5>
+          <div style={{ display: 'flex', height: 24, borderRadius: 4, overflow: 'hidden', marginBottom: 8 }}>
+            <div title={`Personal ${p.breakdown.personnel_pct}%`} style={{ width: `${p.breakdown.personnel_pct}%`, background: '#dc2626' }} />
+            <div title={`O&M ${p.breakdown.operations_maintenance_pct}%`} style={{ width: `${p.breakdown.operations_maintenance_pct}%`, background: '#f59e0b' }} />
+            <div title={`Adquisiciones ${p.breakdown.procurement_pct}%`} style={{ width: `${p.breakdown.procurement_pct}%`, background: '#0891b2' }} />
+            <div title={`I+D ${p.breakdown.rd_pct}%`} style={{ width: `${p.breakdown.rd_pct}%`, background: '#7c3aed' }} />
+            <div title={`Infraestructura ${p.breakdown.infrastructure_pct}%`} style={{ width: `${p.breakdown.infrastructure_pct}%`, background: '#94a3b8' }} />
+            <div title={`Otros ${p.breakdown.other_pct}%`} style={{ width: `${p.breakdown.other_pct}%`, background: '#cbd5e1' }} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, fontSize: 10, color: '#475569' }}>
+            <BudgetRow color="#dc2626" label="Personal" pct={p.breakdown.personnel_pct} />
+            <BudgetRow color="#f59e0b" label="Operaciones y mant." pct={p.breakdown.operations_maintenance_pct} />
+            <BudgetRow color="#0891b2" label="Adquisiciones" pct={p.breakdown.procurement_pct} />
+            <BudgetRow color="#7c3aed" label="I+D defensa" pct={p.breakdown.rd_pct} />
+            <BudgetRow color="#94a3b8" label="Infraestructura" pct={p.breakdown.infrastructure_pct} />
+            <BudgetRow color="#cbd5e1" label="Otros" pct={p.breakdown.other_pct} />
+          </div>
+          {p.breakdown.notes && (
+            <p style={{ margin: '8px 0 0', fontSize: 10, color: '#475569', fontStyle: 'italic', lineHeight: 1.4 }}>
+              {p.breakdown.notes}
+            </p>
+          )}
+          {p.breakdown.source && (
+            <p style={{ margin: '6px 0 0', fontSize: 9, color: '#94a3b8' }}>{p.breakdown.source}</p>
+          )}
+        </div>
+      ) : (
+        <PendingBlock data={p.breakdown} title="Desglose presupuestario" small />
+      )}
+    </div>
+  )
+}
+
+function BudgetRow({ color, label, pct }: { color: string; label: string; pct: number | undefined }) {
+  if (pct === undefined) return null
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      <span style={{ display: 'inline-block', width: 8, height: 8, background: color, borderRadius: 2 }} />
+      <span style={{ color: '#475569' }}>{label}</span>
+      <strong style={{ fontFamily: 'ui-monospace, monospace', color: '#0f172a' }}>{pct}%</strong>
     </div>
   )
 }
@@ -333,7 +424,7 @@ function SubTransferencias({ d }: { d: MilitaryDetail }) {
       {t.exports && (
         <div style={{ marginBottom: 14, padding: '12px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8 }}>
           <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#15803d', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-            ⬆ Exportaciones armas
+            Exportaciones armas (este país vende)
           </h5>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 8 }}>
             <Chip label="TIV 5y (USD m)" value={`$${(t.exports.tiv_5y_usd_m / 1000).toFixed(1)}bn`} accent="#15803d" />
@@ -365,7 +456,7 @@ function SubTransferencias({ d }: { d: MilitaryDetail }) {
       {t.imports && (
         <div style={{ marginBottom: 14, padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8 }}>
           <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#7f1d1d', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-            ⬇ Importaciones armas
+            Importaciones armas (este país compra)
           </h5>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 8 }}>
             <Chip label="TIV 5y (USD m)" value={`$${(t.imports.tiv_5y_usd_m / 1000).toFixed(1)}bn`} accent="#7f1d1d" />
@@ -393,9 +484,111 @@ function SubTransferencias({ d }: { d: MilitaryDetail }) {
         </div>
       )}
 
+      {/* G23 · Sistemas específicos exportados */}
+      {(t.systems_exported ?? []).length > 0 && (
+        <div style={{ marginBottom: 14, padding: '12px 14px', background: '#fff', border: '1px solid #f1f5f9', borderRadius: 8 }}>
+          <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Sistemas específicos exportados (programas top 5)
+          </h5>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {(t.systems_exported ?? []).map((s, i) => (
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 6, padding: '6px 8px', background: '#f8fafc', borderRadius: 4, fontSize: 11 }}>
+                <div>
+                  <strong style={{ color: '#0f172a' }}>{s.system}</strong>
+                  <span style={{ color: '#94a3b8', marginLeft: 6, fontSize: 9 }}>→ {s.partner_iso3}</span>
+                </div>
+                {s.units !== null && <span style={{ fontFamily: 'ui-monospace, monospace', color: '#475569', fontSize: 10 }}>{s.units} ud</span>}
+                <span style={{ fontFamily: 'ui-monospace, monospace', color: '#15803d', fontWeight: 700, fontSize: 10 }}>${(s.tiv_usd_m / 1000).toFixed(1)}bn</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* G23 · Sistemas específicos importados */}
+      {(t.systems_imported ?? []).length > 0 && (
+        <div style={{ marginBottom: 14, padding: '12px 14px', background: '#fff', border: '1px solid #f1f5f9', borderRadius: 8 }}>
+          <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Sistemas específicos importados (programas top 5)
+          </h5>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {(t.systems_imported ?? []).map((s, i) => (
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 6, padding: '6px 8px', background: '#f8fafc', borderRadius: 4, fontSize: 11 }}>
+                <div>
+                  <strong style={{ color: '#0f172a' }}>{s.system}</strong>
+                  <span style={{ color: '#94a3b8', marginLeft: 6, fontSize: 9 }}>← {s.partner_iso3}</span>
+                </div>
+                {s.units !== null && <span style={{ fontFamily: 'ui-monospace, monospace', color: '#475569', fontSize: 10 }}>{s.units} ud</span>}
+                <span style={{ fontFamily: 'ui-monospace, monospace', color: '#7f1d1d', fontWeight: 700, fontSize: 10 }}>${(s.tiv_usd_m / 1000).toFixed(1)}bn</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {t.source && (
         <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '8px 0 0' }}>{t.source}</p>
       )}
+    </div>
+  )
+}
+
+// G23 · Sub-tab Exterior · misiones + bases
+function SubExterior({ d }: { d: MilitaryDetail }) {
+  const m = d.militar_exterior
+  if (!m?.available || !m.missions) {
+    return (
+      <div style={{ padding: '12px 14px', background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+        <strong>Misiones exterior · Próximamente</strong>
+        <p style={{ margin: '4px 0 0' }}>{m?.note ?? 'Seed disponible solo para top 10 países'}</p>
+      </div>
+    )
+  }
+  const TYPE_COLOR: Record<MissionAbroad['type'], string> = {
+    NATO: '#1e40af', UN: '#0891b2', EU: '#f59e0b', bilateral: '#7c3aed', multilateral_ad_hoc: '#475569',
+  }
+  const TYPE_LABEL: Record<MissionAbroad['type'], string> = {
+    NATO: 'NATO', UN: 'ONU', EU: 'UE', bilateral: 'BILATERAL', multilateral_ad_hoc: 'MULTI ad hoc',
+  }
+  return (
+    <div>
+      <header style={{ marginBottom: 12 }}>
+        <h4 style={{ margin: 0, fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+          Presencia militar exterior 2024
+        </h4>
+        <p style={{ margin: '4px 0 0', fontSize: 10, color: '#64748b' }}>{m.source}</p>
+      </header>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+        <Chip label="Efectivos desplegados" value={fmtNum(m.total_personnel_abroad ?? 0)} accent="#dc2626" />
+        <Chip label="Bases permanentes" value={String(m.permanent_bases_abroad ?? 0)} accent="#7c3aed" />
+      </div>
+      <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a' }}>
+        Operaciones por país ({m.missions.filter((x) => x.active).length} activas · {m.missions.filter((x) => !x.active).length} históricas)
+      </h5>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {m.missions.map((mission, i) => (
+          <div key={i} style={{
+            padding: '10px 12px', background: '#fff', borderRadius: 6,
+            borderLeft: `3px solid ${mission.active ? TYPE_COLOR[mission.type] : '#cbd5e1'}`,
+            border: '1px solid #f1f5f9', opacity: mission.active ? 1 : 0.6,
+          }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', marginBottom: 4 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>{mission.name}</span>
+              <span style={{ padding: '1px 6px', background: TYPE_COLOR[mission.type] + '20', color: TYPE_COLOR[mission.type], borderRadius: 3, fontSize: 9, fontWeight: 700, letterSpacing: 0.3 }}>
+                {TYPE_LABEL[mission.type]}
+              </span>
+              <span style={{ marginLeft: 'auto', fontSize: 9, color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>
+                {mission.host_iso3} · desde {mission.since_year}
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 4, fontSize: 10, color: '#475569' }}>
+              <span><strong style={{ fontFamily: 'ui-monospace, monospace', color: mission.active ? '#0f172a' : '#94a3b8' }}>{fmtNum(mission.personnel)}</strong> efectivos</span>
+              {!mission.active && <span style={{ padding: '1px 5px', background: '#f1f5f9', color: '#475569', borderRadius: 3, fontSize: 9 }}>HISTÓRICA</span>}
+            </div>
+            <p style={{ margin: 0, fontSize: 10, color: '#475569', lineHeight: 1.3 }}>{mission.mandate}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -36,12 +36,12 @@ interface DiplomaticSignal {
 }
 
 const TYPE_META: Record<SignalType, { label: string; emoji: string; color: string }> = {
-  acercamiento: { label: 'Acercamiento bilateral', emoji: '🤝', color: '#16a34a' },
-  deterioro: { label: 'Deterioro bilateral', emoji: '⚔', color: '#dc2626' },
-  cambio_gobierno: { label: 'Cambio gobierno relevante', emoji: '🏛', color: '#7c3aed' },
-  crisis_diplomatica: { label: 'Crisis diplomática', emoji: '⚡', color: '#ea580c' },
-  sancion_nueva: { label: 'Nueva sanción', emoji: '🔒', color: '#7f1d1d' },
-  votacion_onu: { label: 'Votación ONU inminente', emoji: '🗳', color: '#0891b2' },
+  acercamiento: { label: 'Acercamiento bilateral', emoji: '', color: '#16a34a' },
+  deterioro: { label: 'Deterioro bilateral', emoji: '', color: '#dc2626' },
+  cambio_gobierno: { label: 'Cambio gobierno relevante', emoji: '', color: '#7c3aed' },
+  crisis_diplomatica: { label: 'Crisis diplomática', emoji: '', color: '#ea580c' },
+  sancion_nueva: { label: 'Nueva sanción', emoji: '', color: '#7f1d1d' },
+  votacion_onu: { label: 'Votación ONU inminente', emoji: '', color: '#0891b2' },
 }
 
 async function fetchByThemeOrQuery(opts: { theme?: string; query: string; type: SignalType }): Promise<DiplomaticSignal[]> {

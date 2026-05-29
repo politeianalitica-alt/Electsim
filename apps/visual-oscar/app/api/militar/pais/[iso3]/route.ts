@@ -17,6 +17,8 @@ import { getIissCapability, getCapabilityScore } from '@/lib/geopolitica/iiss-ca
 import { getAlliancesForCountry } from '@/lib/geopolitica/alliances'
 import { getArmsTransfers } from '@/lib/geopolitica/sipri-arms-transfers'
 import { getDefenseIndustry } from '@/lib/geopolitica/defense-industry-seed'
+import { getCountrySystems } from '@/lib/geopolitica/military-systems-seed'
+import { getCountryMilitaryAbroad } from '@/lib/geopolitica/military-missions-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -37,6 +39,9 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   // G22 fix · datos curados SIPRI Arms Transfers + Defense Industry
   const armsTransfers = getArmsTransfers(iso3)
   const defenseIndustry = getDefenseIndustry(iso3)
+  // G23 fix · sistemas armas específicos + presencia militar exterior
+  const systems = getCountrySystems(iso3)
+  const militaryAbroad = getCountryMilitaryAbroad(iso3)
 
   // Posicion OTAN 2% PIB (si miembro)
   const isNato = alliances.some((a) => a.alliance.id === 'nato' && a.status === 'member')
@@ -58,8 +63,29 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
         meets_target: meets2pct,
         delta_pct: sipri ? Math.round((sipri.milex_pct_gdp - 2.0) * 100) / 100 : null,
       } : null,
-      breakdown: { available: false, pending: true, note: 'Desglose presupuesto NATO + IISS funding mix pendiente · datos disponibles solo para top 32' },
+      breakdown: militaryAbroad ? {
+        available: true,
+        pending: false,
+        total_usd_bn: militaryAbroad.budget_breakdown.total_usd_bn,
+        fiscal_year: militaryAbroad.budget_breakdown.fiscal_year,
+        personnel_pct: militaryAbroad.budget_breakdown.personnel_pct,
+        operations_maintenance_pct: militaryAbroad.budget_breakdown.operations_maintenance_pct,
+        procurement_pct: militaryAbroad.budget_breakdown.procurement_pct,
+        rd_pct: militaryAbroad.budget_breakdown.rd_pct,
+        infrastructure_pct: militaryAbroad.budget_breakdown.infrastructure_pct,
+        other_pct: militaryAbroad.budget_breakdown.other_pct,
+        notes: militaryAbroad.budget_breakdown.notes,
+        source: 'NATO Defence Expenditures + IISS Military Balance 2024',
+      } : { available: false, pending: true, note: 'Desglose presupuesto NATO + IISS pendiente · top 10 países cubiertos' },
     },
+    // G23 · presencia militar exterior (misiones + bases)
+    militar_exterior: militaryAbroad ? {
+      available: true,
+      total_personnel_abroad: militaryAbroad.total_personnel_abroad,
+      permanent_bases_abroad: militaryAbroad.permanent_bases_abroad,
+      missions: militaryAbroad.missions,
+      source: 'NATO operations + UN DPKO + acuerdos bilaterales',
+    } : { available: false, pending: true, note: 'Presencia militar exterior · top 10 países cubiertos en seed' },
     capacidades: iiss ? {
       ...iiss,
       capability_score: capScore,
@@ -73,6 +99,9 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
       world_rank_exporter: armsTransfers.world_rank_exporter,
       world_rank_importer: armsTransfers.world_rank_importer,
       notes: armsTransfers.notes,
+      // G23 · sistemas específicos exportados/importados (qué arma concretamente)
+      systems_exported: systems?.top_exports ?? [],
+      systems_imported: systems?.top_imports ?? [],
       source: 'SIPRI Arms Transfers Database 2024 · ventana 2019-2023 (TIV millones USD)',
     } : {
       available: false,

@@ -52,11 +52,15 @@ interface ProfileLite {
   }
 }
 
-function buildPrompt(iso3: string, profile: ProfileLite | null): string {
-  if (!profile?.ok && !profile?.country_name) {
-    return `Genera briefing geopolítico ejecutivo (200-300 palabras) en español sobre ${iso3}. Incluye: situación actual, riesgos top 3, implicaciones España.`
+function buildPrompt(iso3: string, profile: ProfileLite | null, coordName: string): string {
+  // G23 fix · usar SIEMPRE nombre completo del país (no iso3) para evitar ambigüedades.
+  // Bug previo: ISO3 "CAN" → LLM interpretaba como "Comunidad Andina de Naciones"
+  // en lugar de Canadá. Idem CHN/CHE/etc. ambiguos.
+  const fullName = coordName || profile?.country_name || iso3
+  if (!profile?.country_name) {
+    return `Genera briefing geopolítico ejecutivo (200-300 palabras) en español sobre el país ${fullName} (código ISO3 ${iso3}). Atención: NO confundir el código ISO3 con ningún acrónimo organizacional. Incluye: situación actual, riesgos top 3, implicaciones España.`
   }
-  const name = profile?.country_name ?? iso3
+  const name = fullName
   const layers = profile?.layers ?? {}
   const lines: string[] = []
   lines.push(`Datos del país ${name} (ISO3 ${iso3}):`)
@@ -130,7 +134,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
     /* sin profile · prompt genérico */
   }
 
-  const prompt = buildPrompt(iso3, profile)
+  const prompt = buildPrompt(iso3, profile, coord.name_es)
   try {
     const cascade = await withCascade(async (client) => {
       return await client.generateText({

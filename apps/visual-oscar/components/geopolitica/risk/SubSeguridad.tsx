@@ -15,6 +15,23 @@ interface WeeklyPoint { week_start: string; events: number; avg_tone: number }
 interface Actor { name: string; mentions: number }
 interface Domain { domain: string; count: number }
 interface Event { title: string; domain: string; url: string; datetime: string; tone: number | null }
+interface StructuralSec {
+  gpi_score: number | null
+  gpi_rank: number | null
+  homicide_per_100k: number | null
+  terror_attacks_2023: number | null
+  terror_fatalities_2023: number | null
+  cpi_score: number | null
+  cpi_rank: number | null
+  fragility_score: number | null
+  fragility_category: 'sustainable' | 'stable' | 'warning' | 'alert' | 'critical'
+  press_freedom_score: number | null
+  press_freedom_rank: number | null
+  active_border_tensions: boolean
+  border_tension_notes: string
+  organized_crime_notes: string
+  primary_security_threat: string
+}
 interface SegResp {
   ok: boolean
   iso3: string
@@ -25,6 +42,15 @@ interface SegResp {
   top_actors: Actor[]
   top_domains: Domain[]
   recent_events: Event[]
+  structural?: StructuralSec | null
+}
+
+const FRAGILITY_COLOR: Record<StructuralSec['fragility_category'], string> = {
+  sustainable: '#16a34a',
+  stable: '#0891b2',
+  warning: '#f59e0b',
+  alert: '#dc2626',
+  critical: '#7f1d1d',
 }
 
 export function SubSeguridad({ iso3 }: { iso3: string }) {
@@ -45,12 +71,73 @@ export function SubSeguridad({ iso3 }: { iso3: string }) {
   if (loading) return <p style={{ fontSize: 11, color: '#94a3b8' }}>Cargando seguridad GDELT…</p>
   if (!data?.ok) return <p style={{ fontSize: 11, color: '#94a3b8' }}>Sin datos GDELT para seguridad.</p>
 
+  const sec = data.structural
+
   return (
     <div>
-      <p style={{ margin: '0 0 10px', fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>
-        ACLED no disponible · datos GDELT WAR_CONFLICT + PROTEST themes · sin coordenadas subnacionales.
-      </p>
+      {/* G23 · Indicadores estructurales seguridad (GPI/UNODC/GTD/CPI/FfP/RSF) */}
+      {sec && (
+        <>
+          <h4 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Indicadores estructurales 2024 · triangulación 6 fuentes
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 6, marginBottom: 10 }}>
+            {sec.gpi_score !== null && (
+              <Kpi
+                label={`Global Peace Index #${sec.gpi_rank ?? '?'}`}
+                value={sec.gpi_score.toFixed(2)}
+                accent={sec.gpi_score < 1.8 ? '#16a34a' : sec.gpi_score < 2.5 ? '#f59e0b' : '#dc2626'}
+              />
+            )}
+            {sec.homicide_per_100k !== null && (
+              <Kpi
+                label="Homicidios/100k"
+                value={sec.homicide_per_100k.toFixed(1)}
+                accent={sec.homicide_per_100k < 5 ? '#16a34a' : sec.homicide_per_100k < 15 ? '#f59e0b' : '#dc2626'}
+              />
+            )}
+            {sec.terror_attacks_2023 !== null && (
+              <Kpi
+                label="Atentados 2023"
+                value={`${sec.terror_attacks_2023}${sec.terror_fatalities_2023 ? ` · ${sec.terror_fatalities_2023}†` : ''}`}
+                accent={sec.terror_attacks_2023 < 5 ? '#16a34a' : sec.terror_attacks_2023 < 50 ? '#f59e0b' : '#dc2626'}
+              />
+            )}
+            {sec.cpi_score !== null && (
+              <Kpi
+                label={`CPI #${sec.cpi_rank ?? '?'}`}
+                value={`${sec.cpi_score}/100`}
+                accent={sec.cpi_score > 60 ? '#16a34a' : sec.cpi_score > 40 ? '#f59e0b' : '#dc2626'}
+              />
+            )}
+            {sec.fragility_score !== null && (
+              <Kpi
+                label={`Fragilidad (${sec.fragility_category})`}
+                value={`${sec.fragility_score.toFixed(0)}/120`}
+                accent={FRAGILITY_COLOR[sec.fragility_category]}
+              />
+            )}
+            {sec.press_freedom_score !== null && (
+              <Kpi
+                label={`Libertad prensa #${sec.press_freedom_rank ?? '?'}`}
+                value={sec.press_freedom_score.toFixed(0)}
+                accent={sec.press_freedom_score > 70 ? '#16a34a' : sec.press_freedom_score > 40 ? '#f59e0b' : '#dc2626'}
+              />
+            )}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
+            <Note label="Amenaza primaria" text={sec.primary_security_threat} accent="#7f1d1d" />
+            {sec.active_border_tensions && (
+              <Note label="Tensiones fronterizas" text={sec.border_tension_notes} accent="#dc2626" />
+            )}
+            <Note label="Crimen organizado" text={sec.organized_crime_notes} accent="#7c3aed" />
+          </div>
+        </>
+      )}
 
+      <h4 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+        Eventos GDELT 90 días
+      </h4>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 12 }}>
         <Kpi label="War events 90d" value={String(data.summary.total_war_events_90d)} accent="#dc2626" />
         <Kpi label="Protest events 90d" value={String(data.summary.total_protests_90d)} accent="#f59e0b" />
@@ -105,7 +192,16 @@ function Kpi({ label, value, accent }: { label: string; value: string; accent: s
   return (
     <div style={{ padding: '8px 10px', background: '#fff', borderRadius: 6, borderLeft: `3px solid ${accent}`, border: '1px solid #f1f5f9' }}>
       <p style={{ margin: 0, fontSize: 9, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.3, fontWeight: 600 }}>{label}</p>
-      <p style={{ margin: '2px 0 0', fontSize: 18, fontWeight: 700, color: accent, fontFamily: 'ui-monospace, monospace' }}>{value}</p>
+      <p style={{ margin: '2px 0 0', fontSize: 14, fontWeight: 700, color: accent, fontFamily: 'ui-monospace, monospace' }}>{value}</p>
+    </div>
+  )
+}
+
+function Note({ label, text, accent }: { label: string; text: string; accent: string }) {
+  return (
+    <div style={{ padding: '6px 10px', background: '#fafbfc', borderRadius: 5, borderLeft: `3px solid ${accent}`, fontSize: 11, color: '#475569' }}>
+      <strong style={{ color: accent, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.3 }}>{label}</strong>
+      <p style={{ margin: '2px 0 0', fontSize: 11, color: '#0f172a' }}>{text}</p>
     </div>
   )
 }

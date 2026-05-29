@@ -172,7 +172,7 @@ function PendingBlocks({ data }: { data: EspResp }) {
           borderLeft: '3px solid #0891b2', border: '1px solid #f1f5f9',
         }}>
           <h5 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-            🌐 Comercio bilateral 2024 · DataComex
+            Comercio bilateral 2024 · DataComex
           </h5>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
             {data.trade.exports_2024_eur_bn !== null && data.trade.exports_2024_eur_bn !== undefined && (
@@ -205,7 +205,7 @@ function PendingBlocks({ data }: { data: EspResp }) {
           borderLeft: '3px solid #7c3aed', border: '1px solid #f1f5f9',
         }}>
           <h5 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-            🏛 Presencia institucional España
+            Presencia institucional España
           </h5>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
             {data.aod_iati.embassy && (
@@ -251,7 +251,7 @@ function PendingBlocks({ data }: { data: EspResp }) {
           borderLeft: '3px solid #f59e0b', border: '1px solid #f1f5f9',
         }}>
           <h5 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
-            💼 Inversión Exterior Directa (IED) España
+            Inversión Exterior Directa (IED) España
           </h5>
           <div style={{ display: 'flex', gap: 12, alignItems: 'baseline' }}>
             <span style={{ fontSize: 22, fontWeight: 700, fontFamily: 'ui-monospace, monospace', color: '#0f172a' }}>

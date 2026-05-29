@@ -15,6 +15,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
 import { buildGdeltDocUrl, fetchGdeltJson, normalizeGdeltDate } from '@/lib/gdelt/build-query'
+import { getSecurityIndicators } from '@/lib/geopolitica/security-indicators-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -145,6 +146,10 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   const totalProtests90d = protestNormalized.length
   const avgTone = warNormalized.reduce((s, a) => s + (a.tone ?? 0), 0) / Math.max(1, warNormalized.filter((a) => a.tone !== null).length)
 
+  // G23 fix · enriquecimiento con security indicators seed (GPI/UNODC/GTD/CPI/FfP/RSF)
+  // Reemplaza ACLED ausente con triangulación de 7 fuentes públicas curadas.
+  const securitySeed = getSecurityIndicators(iso3)
+
   return NextResponse.json({
     ok: true,
     iso3,
@@ -159,10 +164,15 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
     top_actors: actors,
     top_domains: topDomains,
     recent_events: recentEvents,
+    // G23 · indicadores estructurales seguridad (sin ACLED)
+    structural: securitySeed,
     fetched_at: startedAt,
     _meta: {
-      sources: ['GDELT DOC v2 themes: WAR_CONFLICT + PROTEST · 90d'],
-      note: 'ACLED sustituido por GDELT events · sin coordenadas subnacionales (GDELT DOC API agrega a país)',
+      sources: [
+        'GDELT DOC v2 themes: WAR_CONFLICT + PROTEST · 90d',
+        securitySeed ? 'GPI 2024 (Vision of Humanity) + UNODC homicide + GTD (END) + CPI (Transparency) + FfP State Fragility + RSF Press Freedom' : null,
+      ].filter(Boolean) as string[],
+      note: 'ACLED sustituido por GDELT events + 6 fuentes triangulación estructural curadas.',
       cache_ttl_seconds: 1800,
     },
   }, {

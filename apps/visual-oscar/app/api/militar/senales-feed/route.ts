@@ -39,10 +39,10 @@ interface MilitarySignal {
 }
 
 const TYPE_META: Record<SignalType, { label: string; emoji: string; color: string }> = {
-  narrativa_ejercicio: { label: 'Ejercicio militar conjunto', emoji: '🪖', color: '#0891b2' },
-  cambio_gobierno_aliado: { label: 'Cambio de gobierno', emoji: '🗳', color: '#7c3aed' },
-  spike_armamento: { label: 'Spike armamento', emoji: '💰', color: '#f59e0b' },
-  tension_diplomatica: { label: 'Tensión diplomática', emoji: '⚡', color: '#dc2626' },
+  narrativa_ejercicio: { label: 'Ejercicio militar conjunto', emoji: '', color: '#0891b2' },
+  cambio_gobierno_aliado: { label: 'Cambio de gobierno', emoji: '', color: '#7c3aed' },
+  spike_armamento: { label: 'Spike armamento', emoji: '', color: '#f59e0b' },
+  tension_diplomatica: { label: 'Tensión diplomática', emoji: '', color: '#dc2626' },
 }
 
 async function fetchSignalsForTheme(theme: string, type: SignalType): Promise<MilitarySignal[]> {
