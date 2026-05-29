@@ -208,6 +208,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Principado de Asturias · ficha oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "fuente_url": "https://transparencia.asturias.es/-/gobierno/equipo-gobierno/adrian-barbon-presidente",
+            "fuente_titulo": "Portal de Transparencia · Principado de Asturias",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1485,6 +1504,25 @@
               "psoe",
               "nota-+7",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Gobierno de Navarra · ficha oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace a la ficha oficial donde se publica la declaración.",
+            "fuente_url": "https://gobiernoabierto.navarra.es/es/gobernanza/rendicion-de-cuentas/miembros-de-gobierno-de-navarra/maria-chivite-navascues",
+            "fuente_titulo": "Gobierno Abierto de Navarra",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]

@@ -34,5 +34,17 @@
     "titulo": "Declaración de bienes e intereses (CARM · ficha oficial)",
     "fuente": "Portal de Transparencia · Región de Murcia",
     "tipo": "pagina"
+  },
+  "maria-chivite": {
+    "url": "https://gobiernoabierto.navarra.es/es/gobernanza/rendicion-de-cuentas/miembros-de-gobierno-de-navarra/maria-chivite-navascues",
+    "titulo": "Declaración de bienes y actividades (Gobierno de Navarra · ficha oficial)",
+    "fuente": "Gobierno Abierto de Navarra",
+    "tipo": "pagina"
+  },
+  "adrian-barbon": {
+    "url": "https://transparencia.asturias.es/-/gobierno/equipo-gobierno/adrian-barbon-presidente",
+    "titulo": "Declaración de bienes y actividades (Principado de Asturias · ficha oficial)",
+    "fuente": "Portal de Transparencia · Principado de Asturias",
+    "tipo": "pagina"
   }
 }
