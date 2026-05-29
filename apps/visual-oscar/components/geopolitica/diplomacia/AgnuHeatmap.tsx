@@ -9,6 +9,7 @@
 import { useState } from 'react'
 import { AGNU_RESOLUTIONS, AGNU_VOTES, type Vote } from '@/lib/geopolitica/agnu-voting'
 import { isoToName } from '@/lib/geopolitica/country-coords'
+import { getRecentSanctions } from '@/lib/geopolitica/sanctions-detail-seed'
 
 function voteColor(v: Vote): string {
   if (v === 1) return '#16a34a'
@@ -40,12 +41,14 @@ export function AgnuHeatmap() {
 
   // Ordenar países por alignment occidental descendente
   const countries = Object.keys(AGNU_VOTES).sort((a, b) => {
-    const sumA = Object.values(AGNU_VOTES[a]).filter((v): v is 1 | -1 | 0 => v !== null).reduce((s, v) => s + v, 0)
-    const sumB = Object.values(AGNU_VOTES[b]).filter((v): v is 1 | -1 | 0 => v !== null).reduce((s, v) => s + v, 0)
+    const sumA = Object.values(AGNU_VOTES[a]).filter((v): v is 1 | -1 | 0 => v !== null).reduce((s: number, v: number) => s + v, 0)
+    const sumB = Object.values(AGNU_VOTES[b]).filter((v): v is 1 | -1 | 0 => v !== null).reduce((s: number, v: number) => s + v, 0)
     return sumB - sumA
   })
 
   const topics = Array.from(new Set(AGNU_RESOLUTIONS.map((r) => r.topic)))
+
+  const recentSanctions = getRecentSanctions(8)
 
   return (
     <section style={{
@@ -58,8 +61,8 @@ export function AgnuHeatmap() {
         </h3>
         <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
           Verde = a favor línea occidental · Rojo = en contra · Gris = abstención · Vacío = ausente.
-          Países ordenados por alineamiento descendente. <strong>Click en el título de cualquier
-          resolución para ver qué se votaba.</strong>
+          Países ordenados por alineamiento descendente. <strong>Hover sobre cualquier cuadrado para ver detalle.
+          Click en el título de cualquier resolución para ampliar.</strong>
         </p>
         <div style={{ display: 'flex', gap: 4, marginTop: 8, flexWrap: 'wrap' }}>
           <button onClick={() => setFilterTopic(null)} style={chipStyle(filterTopic === null)}>Todas</button>
@@ -69,66 +72,123 @@ export function AgnuHeatmap() {
         </div>
       </header>
 
-      <div style={{ overflowX: 'auto', position: 'relative' }}>
-        <table style={{ borderCollapse: 'collapse', fontSize: 9 }}>
-          <thead>
-            <tr>
-              <th style={{ padding: '4px 8px', textAlign: 'left', borderBottom: '2px solid #f1f5f9', position: 'sticky', left: 0, background: '#fff', zIndex: 2 }}>País</th>
-              {resolutions.map((r) => (
-                <th
-                  key={r.id}
-                  onClick={() => setSelectedResId(selectedResId === r.id ? null : r.id)}
-                  style={{
-                    padding: '4px 4px', writingMode: 'vertical-rl', textOrientation: 'mixed',
-                    fontWeight: 600, borderBottom: '2px solid #f1f5f9',
-                    minHeight: 60, height: 80, whiteSpace: 'nowrap',
-                    color: selectedResId === r.id ? '#0891b2' : '#64748b',
-                    cursor: 'pointer',
-                    background: selectedResId === r.id ? '#f0f9ff' : 'transparent',
-                  }}
-                  title={`${r.title_es} · click para detalle`}
-                >
-                  {r.title_es.slice(0, 40)}{r.title_es.length > 40 ? '…' : ''}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {countries.map((iso3) => (
-              <tr key={iso3}>
-                <td style={{ padding: '2px 8px', fontWeight: 600, color: '#0f172a', borderBottom: '1px solid #f8fafc', position: 'sticky', left: 0, background: '#fff', zIndex: 1, fontSize: 10 }}>
-                  {isoToName(iso3)} <span style={{ color: '#94a3b8', fontSize: 8 }}>{iso3}</span>
-                </td>
-                {resolutions.map((r) => {
-                  const vote = AGNU_VOTES[iso3][r.id]
-                  return (
-                    <td key={r.id} style={{ padding: 0, borderBottom: '1px solid #f8fafc' }}>
-                      <div
-                        onMouseEnter={() => setHover({ iso3, resId: r.id, vote })}
-                        onMouseLeave={() => setHover(null)}
-                        style={{
-                          width: 18, height: 16, background: voteColor(vote),
-                          margin: '1px auto', borderRadius: 2, cursor: 'help',
-                        }}
-                      />
-                    </td>
-                  )
-                })}
+      {/* G23 · layout 2 columnas · heatmap izq, panel sanctions+resolution detail derecha */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 380px)', gap: 16 }}>
+        {/* Columna izquierda · heatmap */}
+        <div style={{ overflowX: 'auto', position: 'relative' }}>
+          <table style={{ borderCollapse: 'collapse', fontSize: 9 }}>
+            <thead>
+              <tr>
+                <th style={{ padding: '4px 8px', textAlign: 'left', borderBottom: '2px solid #f1f5f9', position: 'sticky', left: 0, background: '#fff', zIndex: 2 }}>País</th>
+                {resolutions.map((r) => (
+                  <th
+                    key={r.id}
+                    onClick={() => setSelectedResId(selectedResId === r.id ? null : r.id)}
+                    style={{
+                      padding: '4px 4px', writingMode: 'vertical-rl', textOrientation: 'mixed',
+                      fontWeight: 600, borderBottom: '2px solid #f1f5f9',
+                      minHeight: 60, height: 80, whiteSpace: 'nowrap',
+                      color: selectedResId === r.id ? '#0891b2' : '#64748b',
+                      cursor: 'pointer',
+                      background: selectedResId === r.id ? '#f0f9ff' : 'transparent',
+                    }}
+                    title={`${r.id} · ${r.date} · ${r.title_es}\n\n${r.summary_es ?? ''}`}
+                  >
+                    {r.title_es.slice(0, 40)}{r.title_es.length > 40 ? '…' : ''}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {hover && (
-        <div style={{
-          marginTop: 8, padding: '6px 10px', background: '#0f172a', color: '#fff',
-          borderRadius: 6, fontSize: 11, display: 'inline-block',
-        }}>
-          <strong>{isoToName(hover.iso3)}</strong> · <span style={{ color: voteColor(hover.vote) }}>{voteLabel(hover.vote)}</span>
-          {' '} · {AGNU_RESOLUTIONS.find((r) => r.id === hover.resId)?.title_es}
+            </thead>
+            <tbody>
+              {countries.map((iso3) => (
+                <tr key={iso3}>
+                  <td style={{ padding: '2px 8px', fontWeight: 600, color: '#0f172a', borderBottom: '1px solid #f8fafc', position: 'sticky', left: 0, background: '#fff', zIndex: 1, fontSize: 10 }}>
+                    {isoToName(iso3)} <span style={{ color: '#94a3b8', fontSize: 8 }}>{iso3}</span>
+                  </td>
+                  {resolutions.map((r) => {
+                    const vote = AGNU_VOTES[iso3][r.id]
+                    // G23 · tooltip nativo HTML title con detalle completo
+                    const resTitle = AGNU_RESOLUTIONS.find((x) => x.id === r.id)?.title_es ?? ''
+                    return (
+                      <td key={r.id} style={{ padding: 0, borderBottom: '1px solid #f8fafc' }}>
+                        <div
+                          onMouseEnter={() => setHover({ iso3, resId: r.id, vote })}
+                          onMouseLeave={() => setHover(null)}
+                          title={`${isoToName(iso3)} (${iso3})\nResolución: ${resTitle}\nFecha: ${r.date}\nVoto: ${voteLabel(vote)}`}
+                          style={{
+                            width: 18, height: 16, background: voteColor(vote),
+                            margin: '1px auto', borderRadius: 2, cursor: 'help',
+                          }}
+                        />
+                      </td>
+                    )
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+
+        {/* Columna derecha · panel info siempre presente */}
+        <aside style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Hover detail */}
+          {hover ? (
+            <div style={{
+              padding: '10px 12px', background: '#0f172a', color: '#fff',
+              borderRadius: 8, fontSize: 11,
+            }}>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 700 }}>{isoToName(hover.iso3)}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 10, color: '#cbd5e1' }}>
+                <span style={{ color: voteColor(hover.vote), fontWeight: 700 }}>{voteLabel(hover.vote)}</span>
+                {' · '}
+                {AGNU_RESOLUTIONS.find((r) => r.id === hover.resId)?.title_es}
+              </p>
+              <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8' }}>
+                {AGNU_RESOLUTIONS.find((r) => r.id === hover.resId)?.date} · {hover.resId}
+              </p>
+            </div>
+          ) : (
+            <div style={{
+              padding: '10px 12px', background: '#f8fafc', color: '#64748b',
+              borderRadius: 8, fontSize: 11, border: '1px dashed #cbd5e1',
+            }}>
+              Hover sobre un cuadrado del heatmap para ver detalle de la votación.
+            </div>
+          )}
+
+          {/* G23 · sanciones recientes detalladas (sustituye espacio en blanco a la derecha) */}
+          <div style={{ padding: '12px 14px', background: '#fff', border: '1px solid #f1f5f9', borderRadius: 8 }}>
+            <h4 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+              Sanciones recientes · top 8
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {recentSanctions.map((s, i) => (
+                <div key={i} style={{
+                  padding: '8px 10px', background: '#fef2f2', borderRadius: 5,
+                  borderLeft: '3px solid #dc2626',
+                }}>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', marginBottom: 3 }}>
+                    <strong style={{ fontSize: 11, color: '#0f172a' }}>{s.target_name}</strong>
+                    <span style={{ fontSize: 9, color: '#94a3b8' }}>{s.target_iso3}</span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 10, color: '#475569' }}>
+                    <strong style={{ color: '#7f1d1d' }}>{s.target_role}</strong>
+                  </p>
+                  <p style={{ margin: '3px 0 0', fontSize: 10, color: '#475569', lineHeight: 1.3 }}>
+                    <span style={{ color: '#94a3b8', fontWeight: 600 }}>{s.imposed_by}:</span> {s.reason}
+                  </p>
+                  <p style={{ margin: '3px 0 0', fontSize: 9, color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>
+                    {s.designated} · {s.program}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p style={{ margin: '6px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>
+              Datos OpenSanctions (clone repo) · OFAC SDN + UE FSF + UNSC + UK OFSI + CPI.
+            </p>
+          </div>
+        </aside>
+      </div>
 
       <div style={{ display: 'flex', gap: 12, marginTop: 10, fontSize: 9, color: '#475569' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, background: '#16a34a', borderRadius: 2 }} />A favor</span>

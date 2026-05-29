@@ -10,6 +10,7 @@
  */
 import { useState } from 'react'
 import { isoToName } from '@/lib/geopolitica/country-coords'
+import { getRecentSanctions } from '@/lib/geopolitica/sanctions-detail-seed'
 
 interface Entity {
   id: string
@@ -146,9 +147,39 @@ export function SanctionsSearch() {
       )}
 
       {!data && (
-        <p style={{ fontSize: 10, color: '#94a3b8', fontStyle: 'italic' }}>
-          Escribe ≥2 caracteres y pulsa Buscar o Enter. Ejemplos: "Putin", "Rosneft", "IRISL", "Khamenei".
-        </p>
+        <>
+          <p style={{ fontSize: 10, color: '#94a3b8', fontStyle: 'italic', marginBottom: 10 }}>
+            Escribe ≥2 caracteres y pulsa Buscar o Enter. Ejemplos: "Putin", "Rosneft", "IRISL", "Khamenei".
+          </p>
+          {/* G23 · "Igual que debajo de screening de sanciones" - panel sanciones recientes */}
+          <div style={{ background: '#fafbfc', borderRadius: 8, padding: '10px 12px', border: '1px solid #f1f5f9' }}>
+            <h4 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+              Sanciones recientes top 8 · ejemplos navegables
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 6 }}>
+              {getRecentSanctions(8).map((s, i) => (
+                <div key={i} style={{
+                  padding: '8px 10px', background: '#fff', borderRadius: 6,
+                  borderLeft: '3px solid #dc2626', border: '1px solid #fecaca',
+                  cursor: 'pointer',
+                }}
+                  onClick={() => { setQ(s.target_name.split(' ')[0]); }}
+                  title="Click para pre-rellenar búsqueda"
+                >
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
+                    <strong style={{ fontSize: 11, color: '#0f172a' }}>{s.target_name}</strong>
+                    <span style={{ fontSize: 9, color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>{s.target_iso3}</span>
+                  </div>
+                  <p style={{ margin: '2px 0 0', fontSize: 10, color: '#7f1d1d', fontWeight: 600 }}>{s.target_role}</p>
+                  <p style={{ margin: '3px 0 0', fontSize: 10, color: '#475569' }}>
+                    <span style={{ color: '#94a3b8' }}>{s.imposed_by} · {s.designated}:</span>
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 10, color: '#0f172a', lineHeight: 1.3 }}>{s.reason}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
       )}
     </section>
   )
